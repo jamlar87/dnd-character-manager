@@ -1,0 +1,1611 @@
+{
+  "races": [],
+  "spells": [
+    {
+      "name": "Mucus Spray",
+      "level": 1,
+      "school": "evocation (ooze)",
+      "casting_time": "1 standard action",
+      "range": "15 ft.",
+      "components": "V, S, M (a bit of phlegm)",
+      "duration": "instant (daze 1 round)",
+      "description": "The caster sprays a fine mist of poisonous mucus. The mucus is acidic and has psychedelic properties. The mucus does 1d4 hp acid damage per caster level. In addition, a failed save leaves the targets dazed for one round.",
+      "higher_levels": "",
+      "classes": [
+        "Sorcerer",
+        "Wizard",
+        "Witch"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "KW"
+    },
+    {
+      "name": "Oozy Transparency",
+      "level": 1,
+      "school": "transmutation (ooze)",
+      "casting_time": "1 standard action",
+      "range": "touch",
+      "components": "S, M (a cube of clear jelly)",
+      "duration": "1 min./level",
+      "description": "This spell renders the flesh, clothing, and gear of a creature transparent, inflicting a -8 to Perception checks to locate this creature. The penalty increases to -10 if the creature remains perfectly still.",
+      "higher_levels": "",
+      "classes": [
+        "Bard",
+        "Sorcerer",
+        "Wizard",
+        "Witch"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "KW"
+    },
+    {
+      "name": "Ooze Shape I",
+      "level": 4,
+      "school": "transmutation",
+      "casting_time": "1 standard action",
+      "range": "personal",
+      "components": "V, S, M (a bit of slime from the ooze you wish to become)",
+      "duration": "1 min./level",
+      "description": "When you cast this spell, you assume the form of any Small or Medium creature of the ooze type. If the form you assume has any of the following abilities, you gain them: split (caster gains DR 10 vs. slashing or piercing weapons), transparent, and acid. If the creature has climb or swim, you gain that movement type at 10 ft. per round. You don't gain full immunity to mind-affecting effects, but you do gain a +2 resistance bonus on all saving throws against such effects. You gain blindsight and are immune to flanking and sneak attack.",
+      "higher_levels": "",
+      "classes": [
+        "Alchemist",
+        "Druid",
+        "Sorcerer",
+        "Wizard",
+        "Witch"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "KW"
+    },
+    {
+      "name": "Ooze Touch",
+      "level": 5,
+      "school": "transmutation",
+      "casting_time": "1 standard action",
+      "range": "Creature Touched",
+      "components": "S, M, V (a piece of dried skin in the shape of a lash)",
+      "duration": "instant",
+      "description": "This spell transforms the caster's limb into a slimy pseudopod and grants an immediate touch attack. The caster chooses the color and effect of the pseudopod at the time of casting. The pseudopod does 1d6+1 hp acid damage",
+      "higher_levels": "",
+      "classes": [
+        "Druid",
+        "Sorcerer",
+        "Wizard",
+        "Witch"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "KW"
+    },
+    {
+      "name": "Jellied Resilience",
+      "level": 2,
+      "school": "transmutation",
+      "casting_time": "1 standard action",
+      "range": "touch",
+      "components": "V, S, M (a cube of clear jelly)",
+      "duration": "1 min./level",
+      "description": "The spell's subject becomes a sentient jelly, though it retains its original shape (humanoid or otherwise). This transmutation does not hinder the target in any way. The target becomes immune to critical hits and sneak attacks and gains DR 5 vs. slashing and piercing weapons. If the caster has a caster level of 10 or greater, the DR increases to 10 vs. slashing and piercing weapons.",
+      "higher_levels": "",
+      "classes": [
+        "Bard",
+        "Druid",
+        "Witch",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "KW"
+    },
+    {
+      "name": "Slime Form",
+      "level": 2,
+      "school": "transmutation",
+      "casting_time": "1 standard action",
+      "range": "touch",
+      "components": "S, M (a pinch of slime mold spores)",
+      "duration": "2 min./level",
+      "description": "The subject and all of its gear collapse into a pool of greenish liquid. The creature gains +5 AC and material armor becomes worthless, though size, Dexterity, deflection, and armor bonuses from forces still apply. While in slime form, the creature becomes immune to sneak attacks and critical hits, but it cannot attack or cast spells with verbal, somatic, material, or focus components, and it also loses any supernatural abilities. The creature can squeeze through any opening larger than 1 inch and gains a +20 to Climb rolls for the spell's duration. The subject's movement drops to 10 ft. per round until the spell ends.",
+      "higher_levels": "",
+      "classes": [
+        "Druid",
+        "Sorcerer",
+        "Wizard",
+        "Witch"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "KW"
+    },
+    {
+      "name": "Ooze Touch, Lesser",
+      "level": 3,
+      "school": "transmutation",
+      "casting_time": "1 standard action",
+      "range": "touch",
+      "components": "V, S, M (a piece of dried skin in the shape of a lash)",
+      "duration": "instantaneous",
+      "description": "This spell transforms one of the caster's or target's limbs into a slimy pseudopod. If the limb is the caster's, this spell allows an immediate touch attack. The caster chooses the color and effect of the pseudopod at the time of casting, but the range of the attack always remains 5 ft. more than the target's normal attack range. The pseudopod does 1d4+1 acid damage per caster level and has another effect that lasts for one round, unless otherwise noted. All saves use the caster's DC. Derro slavers often make use of potions of ooze touch, lesser to capture dangerous underdark creatures.",
+      "higher_levels": "",
+      "classes": [
+        "Druid",
+        "Sorcerer",
+        "Wizard",
+        "Witch"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "KW"
+    },
+    {
+      "name": "Flesh to Ooze",
+      "level": 6,
+      "school": "transmutation",
+      "casting_time": "1 standard action",
+      "range": "close (25 ft. + 5 ft./2 levels)",
+      "components": "V, S, M (alchemical reagents worth 100 gp)",
+      "duration": "permanent",
+      "description": "This spell functions like baleful polymorph, except the target becomes an ooze of its size. A creature of 3 HD or less becomes a gray ooze, 4–9 HD becomes a gelatinous cube or ochre jelly, and 10+ HD becomes a black pudding. Alternatively, instead of a creature you may target a quantity of inert flesh (such as that created by the stone to flesh spell) of sufficient mass, which becomes an ooze of your choice.\nIf the spell succeeds, the subject must also make a Will save. If this second save fails, the creature loses its extraordinary, supernatural, and spell-like abilities, loses its ability to cast spells (if it had the ability), and gains the alignment, special abilities, and Intelligence, Wisdom, an Charisma scores of its new form in place of its own. It still retains its class and level (or HD), as well as all benefits deriving therefrom (such as base attack bonus, base save bonuses, and hit points). It retains any class features (other than spellcasting) that aren’t extraordinary, supernatural, and spell-like abilities. Because a target’s gear does not transform with it, any items fall under or within the ooze’s body, which may mean the items are destroyed. If the ooze has the split ability, splitting the ooze creates one ooze that retains the creature’s original identity (for the purpose of memories or restoring the creature) and one normal mindless ooze of that type.",
+      "higher_levels": "",
+      "classes": [
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "KW"
+    },
+    {
+      "name": "Ooze Shape II",
+      "level": 6,
+      "school": "transmutation",
+      "casting_time": "1 standard action",
+      "range": "personal",
+      "components": "V, S, M (a piece of the ooze you wish to replicate)",
+      "duration": "1 min./level",
+      "description": "This spell functions as ooze shape I and also allows you to assume the form of a Tiny or Large creature with the ooze type. If the form you assume has any of the following abilities, you gain the ability: acid, paralysis, transparent, engulf, corrosion, split, and suction. If the creature has climb or swim, you gain that movement at the creature’s movement rate (max 30 ft.). You don’t gain full immunity to mind-affecting effects, but you do gain a +4 resistance bonus on all saving throws against such effects. You also gain blindsight and are not vulnerable to flanking or sneak attack.\nSplit divides the caster into two similar jellies or oozes, each with half of the character’s hit points. One contains the caster’s intelligence. The other is mindless, though it does not attack other creatures with the ooze type. When the spell ends, any other oozes created in this way disappear, and the remaining hit points return to the caster. A caster who takes the form of a Tiny ooze gains a +4 size bonus to Dexterity and a -2 penalty to Strength. A caster who takes the form of a Large ooze gains a +4 size bonus to Strength and a -2 penalty to Dexterity.",
+      "higher_levels": "",
+      "classes": [
+        "Alchemist",
+        "Druid",
+        "Sorcerer",
+        "Wizard",
+        "Witch"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "KW"
+    }
+  ],
+  "magic_items": [
+    {
+      "name": "Fisher's Filament Arrow",
+      "type": "Ammunition (arrow)",
+      "rarity": "non-magical (masterwork)",
+      "requires_attunement": false,
+      "description": "When this masterwork arrow is released, a thin filament of sticky silk trails behind the projectile; before the arrow is fired, the thread must be anchored with a thin metallic wire and hook, which are part of the device. The filament generally has a maximum length of 100 ft. Arrows with longer filaments exist, but they are more expensive and more difficult to fashion (50 gp more per 50 ft. of filament added; +2 DC check modifier for each 50 ft. added).",
+      "source": "Arrows of the Arbonesse"
+    },
+    {
+      "name": "Fog Arrow",
+      "type": "Ammunition (arrow)",
+      "rarity": "faint conjuration; CL 6th",
+      "requires_attunement": false,
+      "description": "When this +1 arrow hits, it releases a bank of magical billowing fog from the point of impact in the direction designated by the archer prior to launch, duplicating the effects of a fog cloud spell.",
+      "source": "Arrows of the Arbonesse"
+    },
+    {
+      "name": "Obscuring Mist Arrow",
+      "type": "Ammunition (arrow)",
+      "rarity": "faint abjuration; CL 5th",
+      "requires_attunement": false,
+      "description": "This +1 arrow breaks on impact, releasing a magical cloud of misty vapor that spreads in a 20-ft. radius around the point of impact, with a height of 20 ft. The arrow duplicates the effects of an obscuring mist spell.",
+      "source": "Arrows of the Arbonesse"
+    },
+    {
+      "name": "Razor's Filament Arrow",
+      "type": "Ammunition (arrow)",
+      "rarity": "non-magical (masterwork)",
+      "requires_attunement": false,
+      "description": "When this masterwork arrow is released, a thin metallic wire trails behind the projectile. The thread must be anchored before the arrow is fired (a section of the thin metallic wire equipped with a hook emerges from the arrow for this very purpose). Anyone walking through the cutting wire suffers 1d6+1 hp damage; those running through the wire suffer 2d6+2 hp damage, but the metallic thread generally snaps after the first victim (90% chance). A razor's filament is AC 15 (touch 13) has 1 hit point, and has DR 10/slashing. Such threads can be detected with a DC 20 Perception check.",
+      "source": "Arrows of the Arbonesse"
+    },
+    {
+      "name": "Silent Night Arrow",
+      "type": "Ammunition (arrow)",
+      "rarity": "non-magical (masterwork)",
+      "requires_attunement": false,
+      "description": "Thanks to its unique design, this black masterwork arrow doesn't emit the slightest sound while in flight, thus making the archer quite hard to pinpoint (+2 circumstance bonus to Stealth checks).",
+      "source": "Arrows of the Arbonesse"
+    },
+    {
+      "name": "Web Arrows",
+      "type": "Ammunition (arrow)",
+      "rarity": "faint conjuration; CL 6th",
+      "requires_attunement": false,
+      "description": "These +1 arrows always come in pairs and must be fired simultaneously to deploy the web spell linking them together, with each arrow representing an anchor point as required by the spell.",
+      "source": "Arrows of the Arbonesse"
+    },
+    {
+      "name": "Cloak of the Rat",
+      "type": "Wondrous item",
+      "rarity": "moderate transmutation",
+      "requires_attunement": false,
+      "description": "This gray garment bestows a +5 competence bonus on Perception checks. Once per day, the wearer can contort his body to shimmy through small spaces (if not wearing metal armor) normally accessible only by creatures one category smaller than himself (as per alter self) or to escape bonds. Also, once per day, the wearer may transform himself and his carried or worn possessions into a dire rat (as per beast shape I).",
+      "source": "d20 Monkey p.44"
+    },
+    {
+      "name": "+1 Chains of Silence",
+      "type": "Weapon",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A +1 magical chain weapon used by LazMorta. Wielded as four chains in melee (+18 x4, 2d4+4/20/x2).",
+      "source": "Kobold Quarterly 20 p.43"
+    },
+    {
+      "name": "Acid Arrow",
+      "type": "Ammunition (arrow)",
+      "rarity": "varies",
+      "requires_attunement": false,
+      "description": "This arrow is constructed of pale, unearthly wood with a heavy arrowhead of polished black laced with green veins. The arrowhead is a highly corrosive acid bound in solid form by sifting shadows. On the mortal plane, these shadows gently wisp off of it like thin smoke. On a successful ranged attack, the head shatters (arrows are unrecoverable) and spreads over the target, doing 1d6 damage to the creature and reducing the AC bonus of any armor and shields by 1d4+1 (shields suffer this reduction first). Mundane armor or shields reduced to 0 AC bonus are destroyed. Magical armor or shields reduced to 0 armor bonus continue to provide their magical enhancement bonus to AC and can be repaired normally.",
+      "source": "Kobold Quarterly Winter 2012 p.50"
+    },
+    {
+      "name": "Mist Arrow",
+      "type": "Ammunition (arrow)",
+      "rarity": "varies",
+      "requires_attunement": false,
+      "description": "This arrow's grey-wooden shaft is shot through with black swirls, and its silver-trimmed arrowhead has broad blades. The arrow inflicts damage normally but is most often shot near a target. When the arrow hits, it fills the target square and six squares in every direction with fog for 12 rounds. All creatures with one square or more of fog between them and an attacker have concealment, even from creatures with darkvision.",
+      "source": "Kobold Quarterly Winter 2012 p.50"
+    },
+    {
+      "name": "Tracking Arrow",
+      "type": "Ammunition (arrow)",
+      "rarity": "varies",
+      "requires_attunement": false,
+      "description": "A black-shafted arrow with a greenish sheen, this missile's arrowhead has tiny barbs that break off in the victim. The arrow inflicts normal damage and 1 bleed damage. The shadowy coating on its razor-sharp blades prevents magical healing less than cure serious wounds from stopping the bleed damage. Blood lost from these wounds is very obvious to the shadow fey, and the fey and their hounds gain a +6 circumstance bonus to track anyone suffering this bleed damage.",
+      "source": "Kobold Quarterly Winter 2012 p.50"
+    },
+    {
+      "name": "Gut of the Gutted",
+      "type": "Wondrous item (bowstring)",
+      "rarity": "varies",
+      "requires_attunement": false,
+      "description": "This enchanted bowstring is made from the guts of previous prey and braided with umbral gossamer. When using this item against a creature of the same race as the string (human, kobold, goblin, etc.), the attacker suffers no penalties from lighting or concealment and the target gains no benefit from any cover except total cover. Attacks using this item still require line of effect, and the attacker must still roll a normal attack.",
+      "source": "Kobold Quarterly Winter 2012 p.50"
+    },
+    {
+      "name": "Twilight Hunting Spear",
+      "type": "Weapon (spear)",
+      "rarity": "varies",
+      "requires_attunement": false,
+      "description": "Use boar spear stats from the Advanced Player's Guide. Whenever this weapon strikes a target in an area of dim light or less illumination, it does so as a ranged touch attack instead of a standard ranged melee attack.",
+      "source": "Kobold Quarterly Winter 2012 p.50"
+    },
+    {
+      "name": "Tickle Net",
+      "type": "Wondrous item",
+      "rarity": "varies",
+      "requires_attunement": false,
+      "description": "Attacker must make a ranged touch attack unless the net is part of a trap. If the attack hits, or when the trap is triggered, the net's target must make a DC 24 Reflex save or gain the entangled condition and suffer 2d4 damage from the very fine tendrils the net sends into the target's flesh, binding the net to its victim. These also inflict 1 hp damage per round and cause 2d4 damage when removed. Removing a net requires a DC 23 Escape Artist check or external help. The net sends tendrils into only one creature at a time and cannot entangle (but may still damage) creatures larger than Medium size.",
+      "source": "Kobold Quarterly Winter 2012 p.50"
+    },
+    {
+      "name": "Blessed Binding",
+      "type": "Wondrous item (rope)",
+      "rarity": "varies",
+      "requires_attunement": false,
+      "description": "This rope is braided from umbral gossamer and used to restrain prisoners. The rope reverses a victim's emotional and pain responses, turning terror to joy and pain to pleasure. A bound character must pass a DC 24 Will save when first bound and conscious or be affected as by a charm person spell toward his captors. The victim receives a new save every 24 hours, suffering a cumulative -1 penalty for every 10 damage he suffered during that time. If the character fails three consecutive Will saves, he becomes a willing servant of the fey. Remove curse removes this condition.",
+      "source": "Kobold Quarterly Winter 2012 p.50"
+    },
+    {
+      "name": "Ancient Turtle's Shell (4E)",
+      "type": "Primal Boon",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "The turtle lends you a portion of its impenetrable shell to protect you from harm.\nPrice: 3,400 gp\nPrimal Boon\nProperty: If an enemy pushes, pulls, or slides you, you may reduce the forced movement by 1.\nPower (Daily): Immediate Interrupt. Trigger: An enemy hits you. Effect: You gain a +4 bonus to all defenses against the triggering attack. Special: If you have an animal or spirit companion, you may also use this power to protect your companion.",
+      "source": "Kobold Quarterly Winter 2012 p.64"
+    },
+    {
+      "name": "Ancient Turtle's Shell (Pathfinder RPG)",
+      "type": "Primal Boon",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "Aura faint abjuration; CL 5th\nSlot —; Price 9,000; Weight —\nDESCRIPTION\nThe boon grants a +1 enhancement bonus to natural armor. Once per day, when the recipient of the boon is hit by an attack, she can activate the Ancient Turtle’s Shell to give herself a +4 AC bonus against that attack. If the recipient has an animal companion, she can instead grant the bonus to her companion.",
+      "source": "Kobold Quarterly Winter 2012 p.64"
+    },
+    {
+      "name": "Ancient Turtle's Shell",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Once per day, when the recipient of the boon is hit by an attack, she can activate the Ancient Turtle's Shell to give herself a +4 AC bonus against that attack. If the recipient has an animal companion, she can instead grant the bonus to her companion.",
+      "source": "Kobold Quarterly 20 p.65"
+    },
+    {
+      "name": "Maiden's Laughter (4E)",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "Level 3+ Uncommon. You giggle, and it soon infects another, causing him to double over in laughter. Level 3 680 gp Level 8 3,400 gp. Primal Boon. Property: You gain a +2 item bonus to Athletics checks to swim, and on a successful check, you swim your speed (rather than half your speed). Level 8: +4 bonus to Athletics checks. Power (Daily): Minor Action. Attack: Intelligence +3, Wisdom +3, or Charisma +3 vs. Will. Hit: The target is dazed (save ends).",
+      "source": "Kobold Quarterly 20 p.65"
+    },
+    {
+      "name": "Maiden's Laughter (Pathfinder RPG)",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Aura weak enchantment; CL 1st. Slot —; Price 1,200; Weight —. DESCRIPTION: The recipient of the boon gains a +2 competence bonus to Swim checks, and on a successful check, she can move her full speed (as a full-round action) or half her speed (as a move action). Once per day the character can use hideous laughter (Will save negates, DC is 11 + Charisma modifier).",
+      "source": "Kobold Quarterly 20 p.65"
+    },
+    {
+      "name": "Lurker's Eyes (4E)",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "Level 8 Uncommon. Even though you cannot see through the pitch darkness, you know your blows strike true. Level 8 3,400 gp. Primal Boon. Property: You do not suffer a penalty to attack rolls as a result of dim light or darkness (other effects of dim light and darkness still apply). Power (Daily): Minor Action. Effect: Area burst 2 within 10. You conjure a zone of darkness that fills the area of the burst and lasts until the end of your next turn. Sustain Minor: The zone persists, and you can move it five squares.",
+      "source": "Kobold Quarterly 20 p.65"
+    },
+    {
+      "name": "Lurker's Eyes (Pathfinder RPG)",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Aura faint evocation; CL 5th. Slot —; Price 8,000; Weight —. DESCRIPTION: When attacking, the recipient treats creatures in low light as though they do not have concealment, and he treats creatures in darkness as though they have only concealment (instead of total concealment). Once per day, he can cast deeper darkness.",
+      "source": "Kobold Quarterly 20 p.65"
+    },
+    {
+      "name": "Grandfathers' Wisdom",
+      "type": "Wondrous item (necklace)",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "As you don the necklace of teeth, you hear the whispers of the ancients offering advice.\n\nLevel 3 680 gp Level 8 3,400 gp\n\nPrimal Boon\nProperty: Treat the Grandpas' necklace of teeth as a +1 Amulet of Protection.\nLevel 8: +2 Amulet of Protection.\nPower (Daily): Use during an extended rest. Effect: Chose one skill. You gain a +1 item bonus to the skill of your choice until your next extended rest.\nLevel 8: +2 bonus.\nPower (Daily): Free action. Trigger: You fail a skill check. Effect: You may reroll that skill check.",
+      "source": "Kobold Quarterly Winter 2012 p.66"
+    },
+    {
+      "name": "Stag's Bound",
+      "type": "Wondrous item (boon)",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "Your legs suddenly fill with life, and you bound across the battlefield.\n\nLevel 3 680 gp Level 8 3,400 gp\n\nPrimal Boon\nProperty: You gain a +1 item bonus to Nature checks\nLevel 8: +2 item bonus.\nPower (Daily): Minor. Effect: You shift a number of squares equal to your speed +1.\nLevel 8: Your speed +2.",
+      "source": "Kobold Quarterly Winter 2012 p.66"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Acid Splash Arrow",
+      "type": "Ammunition",
+      "subtype": "Arrow",
+      "damage": "",
+      "properties": [],
+      "cost": "100 gp",
+      "weight": 0.1,
+      "source": "KW"
+    },
+    {
+      "name": "Acid Splash Arrow, Non-Magical",
+      "type": "Ammunition",
+      "subtype": "Arrow",
+      "damage": "",
+      "properties": [],
+      "cost": "20 gp",
+      "weight": 0.1,
+      "source": "KW"
+    },
+    {
+      "name": "Acid Splash Arrow, Advanced",
+      "type": "Ammunition",
+      "subtype": "Arrow",
+      "damage": "",
+      "properties": [],
+      "cost": "380 gp",
+      "weight": 0.1,
+      "source": "KW"
+    },
+    {
+      "name": "Fisher's Filament Arrow",
+      "type": "Ammunition",
+      "subtype": "Arrow",
+      "damage": "",
+      "properties": [],
+      "cost": "175 gp",
+      "weight": 0.1,
+      "source": "KW"
+    },
+    {
+      "name": "Fog Arrow",
+      "type": "Ammunition",
+      "subtype": "Arrow",
+      "damage": "",
+      "properties": [],
+      "cost": "350 gp",
+      "weight": 0.1,
+      "source": "KW"
+    },
+    {
+      "name": "Obscuring Mist Arrow",
+      "type": "Ammunition",
+      "subtype": "Arrow",
+      "damage": "",
+      "properties": [],
+      "cost": "125 gp",
+      "weight": 0.1,
+      "source": "KW"
+    },
+    {
+      "name": "Razor's Filament Arrow",
+      "type": "Ammunition",
+      "subtype": "Arrow",
+      "damage": "",
+      "properties": [],
+      "cost": "45 gp",
+      "weight": 0.1,
+      "source": "KW"
+    },
+    {
+      "name": "Silent Night Arrow",
+      "type": "Ammunition",
+      "subtype": "Arrow",
+      "damage": "",
+      "properties": [],
+      "cost": "70 gp",
+      "weight": 0.1,
+      "source": "KW"
+    },
+    {
+      "name": "Web Arrow",
+      "type": "Ammunition",
+      "subtype": "Arrow",
+      "damage": "",
+      "properties": [],
+      "cost": "475 gp",
+      "weight": 0.1,
+      "source": "KW"
+    }
+  ],
+  "monsters": [
+    {
+      "name": "Tiny Black Pudding",
+      "size": "Tiny",
+      "type": "ooze",
+      "alignment": "N",
+      "armor_class": 12,
+      "ac_type": "+2 size",
+      "hit_points": "7 (1d8+3)",
+      "speed": "20 ft., climb 20 ft.",
+      "ability_scores": {
+        "strength": 6,
+        "dexterity": 11,
+        "constitution": 16,
+        "intelligence": 0,
+        "wisdom": 1,
+        "charisma": 1
+      },
+      "saving_throws": {},
+      "skills": {
+        "Climb": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "blindsight 60 ft., passive Perception -5",
+      "languages": [],
+      "challenge_rating": "1/3",
+      "xp": 135,
+      "features": [
+        {
+          "name": "Acid (Ex)",
+          "description": "A Tiny black pudding secretes a digestive acid that dissolves organic material and metal quickly but does not affect stone. Each time a creature suffers damage from a Tiny black pudding's acid, its clothing and armor take the same amount of damage from the acid. A DC 13 Reflex save prevents damage to clothing and armor. A metal or wooden weapon that strikes a Tiny black pudding takes 1d4 acid damage unless the weapon's wielder succeeds on a DC 13 Reflex save. If a Tiny black pudding remains in contact with a wooden or metal object for 1 full round, it inflicts 13 hp acid damage (no save) to the object. The save DCs are Constitution-based."
+        },
+        {
+          "name": "Corrosion (Ex)",
+          "description": "An opponent constricted by a Tiny black pudding suffers a -4 penalty on Reflex saves made to resist acid damage applying to clothing and armor."
+        },
+        {
+          "name": "Suction (Ex)",
+          "description": "The Tiny black pudding can create powerful suction against any surface as it climbs, allowing it to cling to inverted surfaces with ease. A Tiny black pudding can establish or release suction as a swift action, and, as long as it is using suction, it moves at half speed. This Tiny black pudding's CMD score gets a +10 circumstance bonus to resist bull rush, awesome blows, and other attacks and effects that attempt to physically move it from its location."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Slam",
+          "description": "Melee slam +0 (1d3-2 + 1d4 acid plus grab)"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Kobold Quarterly 20 p.22"
+    },
+    {
+      "name": "Gelatinous Cube Familiar",
+      "size": "Tiny",
+      "type": "ooze",
+      "alignment": "N",
+      "armor_class": 12,
+      "ac_type": "+2 size",
+      "hit_points": "7 (1d8+3)",
+      "speed": "15 ft.",
+      "ability_scores": {
+        "strength": 6,
+        "dexterity": 11,
+        "constitution": 16,
+        "intelligence": 0,
+        "wisdom": 1,
+        "charisma": 1
+      },
+      "saving_throws": {
+        "fort": 3,
+        "ref": 0,
+        "will": -5
+      },
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [
+        "electricity"
+      ],
+      "condition_immunities": [],
+      "senses": "blindsight 60 ft., passive Perception -5",
+      "languages": [],
+      "challenge_rating": "1/3",
+      "xp": 135,
+      "features": [
+        {
+          "name": "Acid (Ex)",
+          "description": "A gelatinous cube's acid does not harm metal or stone."
+        },
+        {
+          "name": "Engulf (Ex)",
+          "description": "Although it moves slowly, a gelatinous cube can simply engulf Tiny or smaller creatures in its path as a standard action. It cannot make a slam attack during a round in which it engulfs. The gelatinous cube must move over the opponents, and it affects as many as it can cover. Opponents can make attacks of opportunity against the cube, but if they do they do not gain a saving throw. Those who do not attempt attacks of opportunity can attempt a DC 10 Reflex save to avoid being engulfed—on a success, they are pushed back or aside (opponent's choice) as the cube moves forward. Engulfed creatures are subject to the cube's paralysis and acid, gain the pinned condition, are in danger of suffocating, and are trapped within its body until they are no longer pinned. The save DC is Strength-based."
+        },
+        {
+          "name": "Paralysis (Ex)",
+          "description": "A gelatinous cube secretes an anesthetizing slime. A target hit by the cube's melee or engulf attack must succeed on a DC 13 Fortitude save or be paralyzed for 1d4 rounds. The cube can automatically engulf a paralyzed opponent of size Tiny or smaller. The save DC is Constitution-based."
+        },
+        {
+          "name": "Transparent (Ex)",
+          "description": "Due to its lack of coloration, a gelatinous cube is difficult to discern. A DC 15 Perception check is required to notice a motionless Tiny gelatinous cube. Any creature that fails to notice a Tiny gelatinous cube and walks into it suffers damage as if stuck by the cube's slam attack and is immediately subject to paralysis."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Slam",
+          "description": "Melee slam +0 (1d3-2 + 1d4 acid)"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Kobold Quarterly 20 p.22"
+    },
+    {
+      "name": "Gray Ooze Familiar",
+      "size": "Tiny",
+      "type": "ooze",
+      "alignment": "N",
+      "armor_class": 11,
+      "ac_type": "-1 Dex, +2 size",
+      "hit_points": "8 (1d8+4)",
+      "speed": "10 ft., climb 10 ft.",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 9,
+        "constitution": 18,
+        "intelligence": 0,
+        "wisdom": 1,
+        "charisma": 1
+      },
+      "saving_throws": {
+        "fort": 4,
+        "ref": -1,
+        "will": -5
+      },
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [
+        "cold",
+        "fire"
+      ],
+      "condition_immunities": [],
+      "senses": "blindsight 60 ft., passive Perception -5",
+      "languages": [],
+      "challenge_rating": "1/3",
+      "xp": 135,
+      "features": [
+        {
+          "name": "Acid (Ex)",
+          "description": "The digestive acid that covers a Tiny gray ooze dissolves metals and organic material but not stone. Each slam or constrict attack deals 1d4 additional hp acid damage. Armor or clothing worn by a creature grappled by a Tiny gray ooze take the same amount of acid damage unless the wearer succeeds on a DC 13 Reflex saving throw. A metal or wooden weapon that strikes a Tiny gray ooze takes 1d4 acid damage unless the weapon's wielder succeeds on a DC 13 Reflex save. The Tiny gray ooze inflicts 8 hp acid damage per round to wooden or metal objects, but the ooze must remain in contact with the material for 1 full round to deal this damage. The save DCs are Constitution-based."
+        },
+        {
+          "name": "Transparent (Ex)",
+          "description": "Due to its lack of vivid coloration, a gray ooze is difficult to discern from its surroundings in most environments. A DC 15 Perception check is required to notice the Tiny gray ooze. Any creature that fails to notice the Tiny gray ooze and walks into it suffers damage as if stuck by the ooze's slam attack and is immediately subject to a grab attempt (applicable by size) by the ooze."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Slam",
+          "description": "Melee slam +1 (1d3-1 plus 1d4 acid and grab)"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Kobold Quarterly 20 p.23"
+    },
+    {
+      "name": "Ochre Jelly Familiar",
+      "size": "Tiny",
+      "type": "ooze",
+      "alignment": "N",
+      "armor_class": 12,
+      "ac_type": "0 Dex, +2 size",
+      "hit_points": "5 (1d8+1)",
+      "speed": "10 ft., climb 10 ft.",
+      "ability_scores": {
+        "strength": 6,
+        "dexterity": 11,
+        "constitution": 12,
+        "intelligence": 0,
+        "wisdom": 1,
+        "charisma": 1
+      },
+      "saving_throws": {
+        "fort": 1,
+        "ref": 0,
+        "will": -5
+      },
+      "skills": {
+        "Climb": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "electricity",
+        "mind-affecting effects",
+        "slashing",
+        "piercing"
+      ],
+      "condition_immunities": [],
+      "senses": "blindsight 60 ft., passive Perception -5",
+      "languages": [],
+      "challenge_rating": "1/3",
+      "xp": 135,
+      "features": [
+        {
+          "name": "Acid (Ex)",
+          "description": "A Tiny ochre jelly secretes a digestive acid that dissolves only flesh (not bone) when it strikes a foe. Creatures not made of flesh (including most constructs and oozes, skeletal undead, plants, and incorporeal creatures) are immune to the ochre jelly's acid damage."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Slam",
+          "description": "Melee slam +0 (1d3-2 + 1d4 acid and grab)"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Kobold Quarterly 20 p.23"
+    },
+    {
+      "name": "Talunian Honor Mount",
+      "size": "Large",
+      "type": "magical beast (celestial)",
+      "alignment": "Chaotic Good",
+      "armor_class": 18,
+      "ac_type": "mithral chain shirt barding, Dex, natural armor, size",
+      "hit_points": "34 (4d10+12)",
+      "speed": "60 ft., fly 120 ft. (average)",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 15,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 13,
+        "charisma": 13
+      },
+      "saving_throws": {
+        "Fort": 7,
+        "Ref": 6,
+        "Will": 4
+      },
+      "skills": {
+        "Fly": 5,
+        "Perception": 11,
+        "Sense Motive": 7
+      },
+      "damage_resistances": [
+        "acid 5",
+        "cold 5",
+        "electricity 5"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., detect evil, detect good, low-light vision, scent; Perception +11",
+      "languages": [
+        "Celestial (cannot speak)"
+      ],
+      "challenge_rating": "3",
+      "xp": 800,
+      "features": [
+        {
+          "name": "Smite Evil",
+          "description": "smite evil 1/day (+1 to hit/+4 to damage)",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Spell-Like Abilities",
+          "description": "Spell-Like Abilities (CL 4th) Constant—detect evil (60-ft. radius), detect good (60-ft. radius)"
+        },
+        {
+          "name": "Tactics",
+          "description": "Talunian honor mounts serve their riders faithfully and intelligently, pulling them back to their allies if they fall in battle. If their rider is slain or the mount is otherwise turned loose, it flies 60 feet above the battle, uses flyby attacks on evil-aligned creatures, and maintains a constant distance from its opponents."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee bite +7 (1d3+4)"
+        },
+        {
+          "name": "Hooves",
+          "description": "2 hooves +2 (1d6+2)"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Kobold Quarterly 20 p.27"
+    },
+    {
+      "name": "Kaliskaria",
+      "size": "Small",
+      "type": "outsider (fire)",
+      "alignment": "N",
+      "armor_class": 21,
+      "ac_type": "+4 Dex, +1 dodge, +5 natural, +1 size",
+      "hit_points": "25 (3d10+9)",
+      "speed": "30 ft., fly 40 ft. (average)",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 19,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 15,
+        "charisma": 18
+      },
+      "saving_throws": {
+        "fort": 4,
+        "ref": 7,
+        "will": 5
+      },
+      "skills": {
+        "Appraise": 6,
+        "Bluff": 10,
+        "Fly": 12,
+        "Perception": 8,
+        "Stealth": 14
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "fire"
+      ],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft.; Perception +6",
+      "languages": [
+        "Common",
+        "Ignan"
+      ],
+      "challenge_rating": "4",
+      "xp": 1200,
+      "features": [
+        {
+          "name": "Fast Healing",
+          "description": "fast healing 2 (while touching fire)"
+        },
+        {
+          "name": "Damage Reduction",
+          "description": "DR 5/magic"
+        },
+        {
+          "name": "Weaknesses",
+          "description": "vulnerability to cold"
+        },
+        {
+          "name": "Breath Weapon (Su)",
+          "description": "The fire mephit can release a fiery breath weapon every four rounds as a standard action. The DC is Constitution-based and includes a +1 racial bonus."
+        },
+        {
+          "name": "Spell-Like Abilities (CL 6th)",
+          "description": "1/hour—scorching ray\n1/day—heat metal (DC 16), summon (level 2, 1 fire mephit 25%)"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Melee",
+          "description": "small +1 scythe +8 (1d6+4) or 2 claws +6 (1d3+3)"
+        },
+        {
+          "name": "Special Attacks",
+          "description": "breath weapon (15-ft. cone, 1d8 fire, DC 15 half, every 4 rounds)"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Kobold Quarterly 20 p.28"
+    },
+    {
+      "name": "Endrian's Shade",
+      "size": "Medium",
+      "type": "undead (augmented humanoid, extraplanar, incorporeal, outsider)",
+      "alignment": "LG",
+      "armor_class": 18,
+      "ac_type": "+1 Dex, +1 dodge, +6 deflection",
+      "hit_points": "62 (5d10+35)",
+      "speed": "fly 30 ft. (perfect)",
+      "ability_scores": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "saving_throws": {
+        "fort": 16,
+        "ref": 7,
+        "will": 12
+      },
+      "skills": {
+        "Perception": 9
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "disease",
+        "undead traits"
+      ],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., detect evil; Perception +9",
+      "languages": [],
+      "challenge_rating": "6",
+      "xp": 2400,
+      "features": [
+        {
+          "name": "Aura",
+          "description": "good (5 ft.), courage (10 ft.)"
+        },
+        {
+          "name": "Defensive Abilities",
+          "description": "channel resistance +4, incorporeal, rejuvenation, divine grace +6"
+        },
+        {
+          "name": "Spell-Like Abilities (CL 5th)",
+          "description": "At-will—detect evil"
+        },
+        {
+          "name": "Spells Prepared (CL 2nd concentration +8)",
+          "description": "1st—lesser restoration, protection from evil"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Melee",
+          "description": "corrupting touch +5 (6d6, Fort. DC 18 half (violates paladin's code))"
+        },
+        {
+          "name": "Special Attacks",
+          "description": "malevolence (as magic jar CL 10, DC 18), smite evil 2/day (+6 to hit/+5 to damage, +6 deflection bonus to AC)"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Kobold Quarterly 20 p.30"
+    },
+    {
+      "name": "Deucalion",
+      "size": "Medium",
+      "type": "outsider (angel, extraplanar, good)",
+      "alignment": "NG",
+      "armor_class": 17,
+      "ac_type": "touch 12, flat-footed 15 (+4 armor, +2 Dex, +1 natural) (+4 deflection vs. evil)",
+      "hit_points": "45 (6d10+12)",
+      "speed": "30 ft.; fly 40 ft. (clumsy)",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 14,
+        "constitution": 14,
+        "intelligence": 18,
+        "wisdom": 18,
+        "charisma": 10
+      },
+      "saving_throws": {
+        "fort": 7,
+        "ref": 4,
+        "will": 9
+      },
+      "skills": {
+        "Bluff": 9,
+        "Fly": -2,
+        "Knowledge (arcana)": 13,
+        "Knowledge (geography)": 13,
+        "Knowledge (nature)": 13,
+        "Knowledge (religion)": 13,
+        "Knowledge (planes)": 13,
+        "Linguistics": 13,
+        "Perception": 13,
+        "Sense Motive": 13
+      },
+      "damage_resistances": [
+        "electricity 10",
+        "fire 10"
+      ],
+      "damage_immunities": [
+        "acid",
+        "cold",
+        "petrification"
+      ],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., detect evil, detect magic, low-light vision; Perception +13",
+      "languages": [
+        "Abyssal",
+        "Aklo",
+        "Aquan",
+        "Auran",
+        "Celestial",
+        "Common",
+        "Draconic",
+        "Ignan",
+        "Infernal",
+        "Sylvan",
+        "Terran",
+        "truespeech"
+      ],
+      "challenge_rating": "5",
+      "xp": 1600,
+      "features": [
+        {
+          "name": "Aura protective",
+          "description": "20 ft.; as +4 saves, as magic circle vs. evil and lesser globe of invulnerability, CL 6"
+        },
+        {
+          "name": "DR",
+          "description": "5/cold iron or evil"
+        },
+        {
+          "name": "Spell-Like Abilities",
+          "description": "CL 4; +6 concentration. Constant—detect evil, detect magic. At-Will—stabilize. 3/day—augury, locate object. 1/day—divination, plane shift. 1/week—find the path"
+        },
+        {
+          "name": "TACTICS",
+          "description": "Deucalion stays close to his allies, maximizing the effect of his protective aura and using stabilize on any who fall. If losing a battle, Deucalion will plane shift away and quickly return to his summoner with the help of his divinations."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Melee staff",
+          "description": "+8/+3 1d6+3"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Kobold Quarterly 20 p.31-32"
+    },
+    {
+      "name": "Changeling Moth Chrysalis",
+      "size": "Small",
+      "type": "vermin",
+      "alignment": "N",
+      "armor_class": 15,
+      "ac_type": "touch 7, flat-footed 15 (+8 natural, -4 Dex, +1 size)",
+      "hit_points": "42 (5d8+20)",
+      "speed": "0 ft.",
+      "ability_scores": {
+        "strength": 2,
+        "dexterity": 2,
+        "constitution": 18,
+        "intelligence": 0,
+        "wisdom": 16,
+        "charisma": 10
+      },
+      "saving_throws": {
+        "fort": 8,
+        "ref": -3,
+        "will": 4
+      },
+      "skills": {
+        "Perception": 12
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "mind-affecting effects"
+      ],
+      "senses": "blindsense 60 ft.; Perception +13",
+      "languages": [],
+      "challenge_rating": "4",
+      "xp": 1200,
+      "features": [
+        {
+          "name": "Spell-like Abilities",
+          "description": "CL 5th: 3/day—mass charm monster (DC 16)"
+        },
+        {
+          "name": "ECOLOGY",
+          "description": "Environment temperate forest; Organization solitary, clutch (3-6), infestation (10-100); Treasure incidental"
+        },
+        {
+          "name": "Changeling moths",
+          "description": "Changeling moths are largely harmless in their adult and larval stages (aside from the caterpillars being voracious crop pests). In their pupal stage, however, they are extremely dangerous parasites, which, like cuckoos, use other species to raise their young. A changeling moth chrysalis is 2 ft. to 4 ft. long (depending on its stage of metamorphosis) and weighs 30 to 80 pounds. Although non-intelligent, a changeling moth chrysalis can use its mass charm monster spell-like ability to make affected creatures treat the chrysalis as a baby of the creatures' own kind. Humanoids and other creatures that care for their young will adopt the chrysalis and give it shelter, sometimes neglecting any real children in the process. PCs are entitled to a DC 16 Will saving throw to avoid this effect. Worse, the chrysalis feeds voraciously as it grows, grasping with its proboscis at any food put near it. Individual chrysalises can't do much damage, but a plague of these vermin can reduce an entire village to"
+        }
+      ],
+      "actions": [],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Kobold Quarterly 20 p.34"
+    },
+    {
+      "name": "Naked Mole Rat, Dire",
+      "size": "Small",
+      "type": "animal",
+      "alignment": "N",
+      "armor_class": 13,
+      "ac_type": "+1 Dex, +1 natural, +1 size",
+      "hit_points": "4 (1d8)",
+      "speed": "30 ft., burrow 5 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 12,
+        "constitution": 10,
+        "intelligence": 1,
+        "wisdom": 12,
+        "charisma": 10
+      },
+      "saving_throws": {
+        "fortitude": 3,
+        "reflex": 3,
+        "will": 1
+      },
+      "skills": {
+        "Perception": 9,
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "blindsight 60 ft., scent, tremorsense 60 ft.; Perception +9",
+      "languages": [],
+      "challenge_rating": "1/3",
+      "xp": 135,
+      "features": [
+        {
+          "name": "Ferocity",
+          "description": "Defensive Abilities ferocity"
+        },
+        {
+          "name": "Vulnerability to Cold",
+          "description": "Weakness vulnerability to cold"
+        },
+        {
+          "name": "Hive Tactics",
+          "description": "Hive Tactics (Ex) If two or more mole rats flank an enemy, on a successful bite attack, any of them may initiate a grapple as if they had the grab ability, ignoring the usual size restrictions. If successful, all mole rats flanking the target are considered part of the grapple and may make CMB checks to deal damage as a standard action. If the target breaks the grapple against one flanking mole rat, it breaks the grapple against all of them."
+        },
+        {
+          "name": "Hive Organization",
+          "description": "Hive Organization (Ex) Mole rats identify one another by scent and rapidly swarm when intruders invade their warrens. However, if the queen of a mole rat warren is slain, all the remaining mole rats become passive in 1d6 rounds. They defend themselves if attacked, but they otherwise flee for 1d12 days, by which point one of the females will have established dominance, becoming the new queen."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee bite +1 (1d4 plus grab if opponent is flanked)"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Kobold Quarterly 20 p.35"
+    },
+    {
+      "name": "Cephalic Parasite",
+      "size": "Medium",
+      "type": "aberration",
+      "alignment": "Chaotic Evil",
+      "armor_class": 15,
+      "ac_type": "+1 Dex, +4 armor",
+      "hit_points": "30 (4d8+12)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 13,
+        "constitution": 16,
+        "intelligence": 14,
+        "wisdom": 12,
+        "charisma": 12
+      },
+      "saving_throws": {
+        "fortitude": 4,
+        "reflex": 2,
+        "will": 5
+      },
+      "skills": {
+        "Escape Artist": 7,
+        "Intimidate": 10,
+        "Knowledge (dungeoneering)": 10,
+        "Perception": 10,
+        "Stealth": 8
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., low-light vision; Perception +10",
+      "languages": [
+        "Aklo",
+        "Common",
+        "Undercommon"
+      ],
+      "challenge_rating": "3",
+      "xp": 800,
+      "features": [
+        {
+          "name": "Aura frightful presence",
+          "description": "Aura frightful presence (DC 13, 60 ft.)"
+        },
+        {
+          "name": "Inject Spawn (Ex)",
+          "description": "The cephalic parasite's host develops a sharp, snaky, abdominal ovipositor that can strike at creatures in the same square. Humanoid or monstrous humanoid targets struck by the ovipositor must make a DC 14 Fort save. Failure indicates the parasite has injected one of its young into the victim, afflicting it with a cephalic parasite infestation."
+        },
+        {
+          "name": "Cephalic Parasite Infestation (Ex)",
+          "description": "Disease—ovipositor; save Fort DC 14, onset 1 day, frequency 1/day for 1d12 days, effect 1d3 Cha damage and second head growth, cure two consecutive saves. If the victim reaches 0 Cha or 1d12 days elapse without the victim succeeding on two Fort saves, the second head assumes control of the body from the victim's neck down."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Melee",
+          "description": "1 slam +4 (1d8+1), 1 ovipositor +4 (1d4+2 plus inject spawn)"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Winter 2012 p.36"
+    },
+    {
+      "name": "Pishtaco",
+      "size": "Medium",
+      "type": "undead",
+      "alignment": "Chaotic Evil",
+      "armor_class": 20,
+      "ac_type": "+2 deflection, +4 natural, +1 shield, +3 Dex",
+      "hit_points": "76 (9d8+36)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 16,
+        "constitution": 0,
+        "intelligence": 14,
+        "wisdom": 12,
+        "charisma": 18
+      },
+      "saving_throws": {
+        "fortitude": 7,
+        "reflex": 6,
+        "will": 7
+      },
+      "skills": {},
+      "damage_resistances": [
+        "cold 10"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "undead traits"
+      ],
+      "senses": "darkvision 60 ft.; Perception +10",
+      "languages": [],
+      "challenge_rating": "6",
+      "xp": 2400,
+      "features": [
+        {
+          "name": "Defensive Abilities",
+          "description": "channel resistance +2; DR 5/slashing and magic; evasion (Ex), Immune undead traits; Resist cold 10"
+        },
+        {
+          "name": "Sneak Attack",
+          "description": "sneak attack (+5d6)"
+        },
+        {
+          "name": "Spell-like Abilities",
+          "description": "Spell-like Abilities (CL 9th) 3/day—disguise self, sleep (DC 15) 1/day—deep slumber (DC 17), obscuring mist, suggestion (DC 16)"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Melee",
+          "description": "two +1 short swords +8/+8 (1d6+1/19-20)"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Winter 2012 p.36"
+    },
+    {
+      "name": "LazMorta",
+      "size": "Medium",
+      "type": "outsider (evil, extraplanar, lawful)",
+      "alignment": "Lawful Evil",
+      "armor_class": 23,
+      "ac_type": "+4 armor, +5 Dex, +4 natural; touch 15, flat-footed 19",
+      "hit_points": "121 (8d10+6d6+56)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 21,
+        "constitution": 18,
+        "intelligence": 13,
+        "wisdom": 12,
+        "charisma": 10
+      },
+      "saving_throws": {
+        "Fort": 14,
+        "Ref": 13,
+        "Will": 8
+      },
+      "skills": {
+        "Acrobatics": 14,
+        "Climb": 14,
+        "Craft (blacksmith)": 11,
+        "Escape Artist": 14,
+        "Heal": 2,
+        "Intimidate": 12,
+        "Perception": 14,
+        "Sense Motive": 5,
+        "Spellcraft": 10,
+        "Stealth": 11,
+        "Survival": 2
+      },
+      "damage_resistances": [
+        "DR 5/good or silver"
+      ],
+      "damage_immunities": [
+        "cold"
+      ],
+      "condition_immunities": [],
+      "senses": "darkvision (60 feet); Perception +14",
+      "languages": [
+        "Common",
+        "Draconic",
+        "Dwarven",
+        "Infernal"
+      ],
+      "challenge_rating": "9",
+      "xp": 6400,
+      "features": [
+        {
+          "name": "Regeneration",
+          "description": "Regeneration 2 (good weapons and spells, silver weapons)"
+        },
+        {
+          "name": "Spell Resistance",
+          "description": "SR 17"
+        },
+        {
+          "name": "Arcane School Spell-Like Abilities",
+          "description": "(CL 6th; Concentration +11) 3/day—blinding ray"
+        },
+        {
+          "name": "Illusionist Spells Prepared",
+          "description": "(CL 6th, 16 melee touch, 16 ranged touch; Concentration +11): 3rd—dispel magic, haste, major image; 2nd—alarm, mirror image (DC 15), invisibility x2; 1st—color spray (DC 14), hypnotism (DC 14), magic missile, silent image (DC 14), ventriloquism (DC 14); 0—(at will) daze (DC 13), detect magic, ghost sound (DC 13), disrupt undead"
+        },
+        {
+          "name": "Opposition Schools",
+          "description": "Divination, Necromancy"
+        },
+        {
+          "name": "Blinding Ray (Sp)",
+          "description": "This is a 30-ft. ranged touch attack usable up to 3 times per day that blinds/dazzles for 1 round.",
+          "uses": 3,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Chain Armor (Ex)",
+          "description": "The chains that adorn a kyton grant it a +4 armor bonus but are not treated as armor for the purpose of arcane spell failure, armor check penalties, maximum Dexterity, weight, or proficiency."
+        },
+        {
+          "name": "Dancing Chains (Su)",
+          "description": "A kyton can control up to four chains within 20 ft. as a standard action, making the chains dance or move as it wishes. In addition, a kyton can increase these chains' length by up to 15 ft. and cause them to sprout razor-edged barbs. These chains attack as effectively as the kyton itself. If a chain is in another creature's possession, the creature can attempt a DC 15 Will save to (text truncated)."
+        },
+        {
+          "name": "Extended Illusions (+2r) (Su)",
+          "description": "Extended Illusions (+2r) (Su)"
+        },
+        {
+          "name": "Unnerving Gaze (DC 15) (Su)",
+          "description": "Unnerving Gaze (DC 15) (Su)"
+        },
+        {
+          "name": "Arcane Bond",
+          "description": "arcane bond (familiar rat, \"Xorx\")"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Melee Attack",
+          "description": "+1 chains of silence x4 (kyton) +18 x4 (2d4+4/20/x2)"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Kobold Quarterly 20 p.43"
+    }
+  ],
+  "npcs": [],
+  "feats": [
+    {
+      "name": "Ooze Familiar",
+      "prerequisite": "5th level, ooze magic specialization",
+      "description": "Wizards specializing in the ooze school can take an ooze familiar. These Tiny oozes have many of the special features associated with larger oozes of their type. Their combat abilities can be a sharp surprise to those who assault the ooze wizard in close combat.\nThis Tiny ooze has hit points and other statistics as noted below. It has most of the powers of a larger ooze, and its saves equal to 10 + the caster level of its master. Due to the unnatural connection between wizard and ooze, the ooze grows more intelligent over time, eventually able to speak with its master. It loses the mindless trait, but its alien nature gives it a +4 bonus to resist any mind-affecting spell or effect. As a Tiny creature, it must be in an opponent’s square to strike. An ooze familiar suffers no penalties to attack anyone grappling its mage.",
+      "source": "Kobold Quarterly Winter 2012 p.20"
+    },
+    {
+      "name": "A Lifetime of Memories",
+      "prerequisite": "Middle age or older",
+      "description": "You gain a +4 competence bonus to all Knowledge skills, and you can make such checks untrained.",
+      "source": "Kobold Quarterly 20 p.47"
+    },
+    {
+      "name": "Battle Scars",
+      "prerequisite": "Middle age or older",
+      "description": "You gain DR 1/–. This stacks with other DR/– you possess.",
+      "source": "Kobold Quarterly 20 p.47"
+    },
+    {
+      "name": "Constancy of Age",
+      "prerequisite": "Middle age or older",
+      "description": "Whenever you roll a 1 or a 20 on a d20, treat the result as an 11.",
+      "source": "Kobold Quarterly 20 p.47"
+    },
+    {
+      "name": "Fit as a Fiddle",
+      "prerequisite": "Middle age or older",
+      "description": "Choose one physical ability score: Strength, Constitution, or Dexterity. You suffer no further age-related penalties to this characteristic. If you choose this feat when you enter middle age, you never take age-related penalties to this ability score. You cannot alter this choice once it is made. Spells or effects imposing penalties due to aging still apply. Special: You can gain this feat multiple times. Its effects do not stack. Each time you take the feat, it applies to a new physical characteristic.",
+      "source": "Kobold Quarterly 20 p.47"
+    },
+    {
+      "name": "Honed Skill",
+      "prerequisite": "Middle age or older",
+      "description": "Choose one class skill. Your ranks in that skill can exceed your character level +3.",
+      "source": "Kobold Quarterly 20 p.47"
+    },
+    {
+      "name": "Love of Life",
+      "prerequisite": "Middle age or older",
+      "description": "You may use your Charisma modifier instead of your Constitution modifier when calculating bonus hit points gained at each new level. This applies only to Hit Dice gained when you are middle age or older.",
+      "source": "Kobold Quarterly 20 p.47"
+    },
+    {
+      "name": "Of Equal Temper",
+      "prerequisite": "Middle age or older",
+      "description": "Whenever you use a teamwork feat to grant an ally a bonus on a check or d20 roll, increase the bonus by +2. Special: This is a combat feat and can be selected as a fighter bonus feat.",
+      "source": "Kobold Quarterly 20 p.47"
+    },
+    {
+      "name": "Ornery",
+      "prerequisite": "Middle age or older",
+      "description": "You gain a +2 bonus on checks to resist attempts to Intimidate you. When an opponent fails to Intimidate you, he becomes shaken for 1d4+1 rounds.",
+      "source": "Kobold Quarterly 20 p.47"
+    },
+    {
+      "name": "Still Got It",
+      "prerequisite": "Middle age or older",
+      "description": "Choose one physical ability score: Strength, Constitution, or Dexterity. For a number of rounds per day equal to your character level, you lose all age-related penalties to this characteristic. These rounds need not be consecutive. Special: You can gain this feat multiple times. Its effects do not stack. Each time you take the feat, it applies to a new physical characteristic.",
+      "source": "Kobold Quarterly 20 p.47"
+    },
+    {
+      "name": "Venerable",
+      "prerequisite": "Middle age or older",
+      "description": "You gain a +2 bonus on Bluff, Diplomacy, and Intimidate checks against intelligent creatures at least one age category younger than you. For each age category younger than you, the bonus increases by an additional +2.",
+      "source": "Kobold Quarterly 20 p.47"
+    },
+    {
+      "name": "Withered",
+      "prerequisite": "Old age or older",
+      "description": "You are invisible, as the spell, to unintelligent undead. Intelligent undead gain a Will save (DC 10+ 1/2 your character level + Charisma modifier) to negate this effect.",
+      "source": "Kobold Quarterly 20 p.47"
+    },
+    {
+      "name": "Etiquette",
+      "prerequisite": "",
+      "description": "Accustomed to the critical eye of court, you are versed in the social customs of various nations, including proper forms of address, the polite technique of agreeably disagreeing, the etiquette of introducing new people to court, and so forth. In your presence, even the most tactless half-orc may be treated with respect and gain the ear of kings.\nBenefit: When you succeed a Diplomacy check, you reduce the DC of all subsequent Diplomacy checks with the same NPC by 2 for your allies until the end of the encounter. In addition, the first time you succeed at a Diplomacy check in a skill challenge, you gain an extra success.",
+      "source": "Kobold Quarterly 20 p.61"
+    },
+    {
+      "name": "Friends in Low Places",
+      "prerequisite": "",
+      "description": "You have associations you'd prefer your party didn't know about – marginal \"friends\" connected to the pulse of the city and the underworld.\nBenefit: Streetwise checks never take you longer than 5 minutes. In addition, when in a familiar settlement, you can call in a favor with a Streetwise check once per day; the GM sets the check's DC according to the nature of the favor. If successful, you gain aid in the form of maps and guard routes, secret doors, a hidden flophouse, legal aid, forged permits, and so forth.",
+      "source": "Kobold Quarterly 20 p.61"
+    },
+    {
+      "name": "Insult Dueling",
+      "prerequisite": "",
+      "description": "Few traditions are as venerable among bards as the duel of wits. Whether it be trading barbs with a haughty noble over drawn swords, or viciously taunting an evil mastermind, you've wield your mockery like a finely edged blade.\nBenefit: After defeating an intelligent enemy with whom you've been insult dueling, you may make a demand of the NPC as a condition of peaceful surrender, and the enemy agrees to follow your terms as long as it abides with his nature. Possible demands may include acting as your temporary guide, giving you the password or other information, surrendering his treasure, providing a false alibi, or anything else the GM deems appropriate.",
+      "source": "Kobold Quarterly 20 p.61"
+    },
+    {
+      "name": "Master of Disguise",
+      "prerequisite": "",
+      "description": "Jilted lovers, angry lords, vicious debtors, and tenacious guardsmen– all good reasons to learn the art of disguise! You have several alternate identities complete with clothes, contacts, and documentation.\nBenefit: You have a number of alternate identities equal to your Charisma modifier, and you gain a +5 bonus to Bluff checks to pose as an alternate identity. Depending on the nature of your alternate identity, you might have diplomatic immunity, access to military intelligence, privileges of nobility, or some other benefit while \"in disguise.\"",
+      "source": "Kobold Quarterly 20 p.61"
+    },
+    {
+      "name": "Polyglot",
+      "prerequisite": "",
+      "description": "You have an intuitive understanding of the cadence and meaning of the spoken word, and you have a seemingly supernatural ability to bridge language barriers.\nBenefit: You always understand the gist of a foreign speaker's conversation (\"the keep is under attack\"), though not the fine details (\"fire giants are smashing in its gates\"). In addition, you may learn two extra languages of your choice.",
+      "source": "Kobold Quarterly 20 p.61"
+    },
+    {
+      "name": "Seduction",
+      "prerequisite": "",
+      "description": "There are charming bards, and then there is you, a master of seduction with all the right moves. You bed nobles, commoners, villains, and heroes, with ease. Sometimes you do so just for the pleasure, but other times, you have alternative motives.\nBenefit: You can make a Bluff check versus a DC equal to their Insight check (modified by the circumstances) to seduce members of a favorable sex. If you succeed, choose one of these advantages:\n• Learn the target: Treat your Bluff check result as a monster knowledge check against the NPC. With the GM's permission, you gather blackmail material.\n• Intimacy: You gain intimate contact with the NPC, keeping him or her occupied for several hours. Attacking your partner after your rendezvous may provide you the upper hand, as the target is likely surprised, unarmed, prone, or even helpless, at the GM's discretion. This betrayal is likely an evil act.\n• Sway: Convince the NPC to take an action to gain your favor, though this action must be something morally acceptable to the character.",
+      "source": "Kobold Quarterly 20 p.61"
+    },
+    {
+      "name": "Student of Human Nature",
+      "prerequisite": "",
+      "description": "By observing the subtleties of body language and conversation, you can ascertain even deeply hidden conspiracies in a matter of minutes. The slightest glance or change in attitude provides enough fodder for you to read gathered company like an open book.\nBenefit: Gain +2 on Insight checks. You can make an Insight check without the bonus (GM determines the DC) to study the palette of interactions between all NPCs present. If your check succeeds, you learn the rough nature of relationships between those present, notice any innuendo or conversational undercurrents, and get a read on recent developments or changes in goals or allegiance.",
+      "source": "Kobold Quarterly 20 p.61"
+    }
+  ],
+  "backgrounds": [],
+  "subclasses": [
+    {
+      "name": "Ooze School",
+      "class": "Wizard",
+      "description": "Associated School: Transmutation. Replacement Powers: The following powers replace the physical enhancement, telekinetic fist, and change shape abilities of the transmutation school.",
+      "features": [
+        {
+          "name": "Mucus Spray",
+          "level": 1,
+          "description": "Starting at 1st level, you can unleash a cone-shaped burst of acidic mucus within a 15-ft. range. This spray deals 1d6 hp acid damage for every two sorcerer levels you possess. You can use this ability a number of times per day equal to 3 plus your Charisma modifier.",
+          "uses": 3,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Gray Ooze Nature",
+          "level": 3,
+          "description": "At 3rd level, you gain resist cold or resist fire 5 and a +2 bonus on saving throws made against mind-affecting effects (charms, compulsions, phantasms, patterns, and morale effects). At 9th level, your chosen resistance increases to 10 and your bonus on mind-affecting saving throws increases to +4. In addition, oozes do not attack you unless you move into contact with them."
+        },
+        {
+          "name": "Ooze Form",
+          "level": 9,
+          "description": "At 9th level, you can change your shape for a number of rounds equal to your wizard level. These rounds need not be consecutive. This ability otherwise functions like ooze shape I. You can also move through and among all creatures with the ooze subtype without suffering any harm. At 12th level, ooze form functions like ooze shape II.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Ooze Mind",
+          "level": 15,
+          "description": "At 15th level, you are considered mindless with regard to all spells and abilities. You cannot be targeted by scrying spells or your thoughts cannot be read."
+        },
+        {
+          "name": "Split",
+          "level": 20,
+          "description": "At 20th level, you gain the split ability of an ochre jelly. Only the original has your identity, the rest are mindless. You gain resistance 10 to all energy types."
+        }
+      ],
+      "source": "Derro Ooze Magic"
+    },
+    {
+      "name": "Ooze Bloodline",
+      "class": "Sorcerer",
+      "description": "As a result of horrible experimentation or the unholy union of slithering tracker and humanoid, your bloodline contains the foul ichor of the ooze. This foulness gives you horrific powers.",
+      "features": [
+        {
+          "name": "Class Skill",
+          "level": 1,
+          "description": "Knowledge (dungeoneering)"
+        },
+        {
+          "name": "Bonus Spells",
+          "level": 1,
+          "description": "oozy transparency (3rd), slime form (5th), lesser ooze touch (7th), ooze form I (9th), greater ooze touch (11th), ooze form 2 (13th), greater polymorph (15th), ooze form III (17th), shapechange (19th)."
+        },
+        {
+          "name": "Bonus Feats",
+          "level": 1,
+          "description": "Combat Casting, Improved Disarm, Improved Grapple, Improved Initiative, Improved Unarmed Strike, Iron Will, Silent Spell, Skill Focus (Knowledge [forbidden])."
+        },
+        {
+          "name": "Bloodline Arcana",
+          "level": 1,
+          "description": "When you cast a spell of the Ooze subschool, increase the damage by 1 per damage die or the duration by 25% (minimum 1 round). This duration bonus does not stack."
+        },
+        {
+          "name": "Mucus Spray (Sp)",
+          "level": 1,
+          "description": "Starting at 1st level, you can unleash a cone-shaped burst of acidic mucus within a 15-ft. range. This spray deals 1d6 hp acid damage for every two sorcerer levels you possess. You can use this ability a number of times per day equal to 3 plus your Charisma modifier.",
+          "uses": 3,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Gray Ooze Nature (Ex)",
+          "level": 3,
+          "description": "At 3rd level, you gain resist cold or resist fire 5 and a +2 bonus on saving throws made against mind-affecting effects (charms, compulsions, phantasms, patterns, and morale effects). At 9th level, your chosen resistance increases to 10 and your bonus on mind-affecting saving throws increases to +4. In addition, oozes do not attack you unless you move into contact with them."
+        },
+        {
+          "name": "Ooze Form (Sp)",
+          "level": 9,
+          "description": "At 9th level, you can change your shape for a number of rounds equal to your wizard level. These rounds need not be consecutive. This ability otherwise functions like ooze shape I. You can also move through and among all creatures with the ooze subtype without suffering any harm. At 12th level, ooze form functions like ooze shape II."
+        },
+        {
+          "name": "Ooze Mind (Ex)",
+          "level": 15,
+          "description": "At 15th level, you are considered mindless with regard to all spells and abilities. You cannot be targeted by scrying spells or your thoughts cannot be read."
+        },
+        {
+          "name": "Split (Su)",
+          "level": 20,
+          "description": "At 20th level, you gain the split ability of an ochre jelly. Only the original has your identity, the rest are mindless. You gain resistance 10 to all energy types."
+        }
+      ],
+      "source": "Kobold Quarterly 20 p.17"
+    }
+  ],
+  "traps": [
+    {
+      "name": "Camouflaged Pit Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "location",
+      "detection": {
+        "dc": 25,
+        "skill": "Perception",
+        "detail": "Perception DC 25"
+      },
+      "disarm": {
+        "dc": 20,
+        "method": "Disable Device",
+        "detail": "Disable Device DC 20"
+      },
+      "effect": "30-ft. deep pit (3d6 falling damage); DC 20 Reflex avoids; multiple targets (all target in a 10-ft.-square area)",
+      "save_dc": 20,
+      "save_ability": "Dexterity",
+      "damage": "3d6",
+      "damage_type": "falling",
+      "area": "10-ft.-square area",
+      "description": "A camouflaged pit trap that opens beneath targets, causing them to fall 30 feet.",
+      "source": "Kobold Quarterly 20 p.42"
+    },
+    {
+      "name": "Poisoned Dart Trap",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "Touch",
+      "detection": {
+        "dc": 20,
+        "skill": "Perception",
+        "detail": "Perception DC 20"
+      },
+      "disarm": {
+        "dc": 20,
+        "method": "Disable Device",
+        "detail": "Disable Device DC 20"
+      },
+      "effect": "Atk +10 ranged (1d3 plus greenblood oil)",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "1d3 plus greenblood oil",
+      "damage_type": "piercing",
+      "area": "single target",
+      "description": "A trap that fires a poisoned dart when touched.",
+      "source": "Kobold Quarterly 20 p.42"
+    }
+  ],
+  "_chapters_completed": [
+    "The Ruins of Arbonesse"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 1,
+  "_book_slug": "KW",
+  "_book_title": "KQ20 Winter2012",
+  "_completed": true,
+  "_timestamp": 1790289209.3754427
+}

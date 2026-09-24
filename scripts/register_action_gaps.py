@@ -45,6 +45,29 @@ def clean_key(key: str) -> str:
     return re.sub(r"\s*\([^)]*\)\s*$", "", key).strip()
 
 
+CAST_ACTION = re.compile(r"\b1?\s*(?:standard\s+)?action\b", re.I)
+CAST_BONUS = re.compile(r"\bbonus action\b", re.I)
+CAST_REACT = re.compile(r"\breaction\b", re.I)
+
+
+def spell_times() -> dict[str, str]:
+    """key -> a spell's casting_time, which is explicit evidence about its action cost."""
+    out: dict[str, str] = {}
+    path = MERGED / "spells.json"
+    try:
+        data = json.loads(path.read_text())
+    except Exception:
+        return out
+    for entry in (data if isinstance(data, list) else []):
+        if not isinstance(entry, dict):
+            continue
+        name = str(entry.get("name") or "").strip().lower()
+        cast = re.sub(r"\s+", " ", str(entry.get("casting_time") or "")).strip()
+        if name and cast:
+            out.setdefault(name, cast)
+    return out
+
+
 def descriptions() -> dict[str, str]:
     """key -> the feature's own description, from the merged data."""
     found: dict[str, str] = {}
@@ -71,7 +94,16 @@ def descriptions() -> dict[str, str]:
     return found
 
 
-def infer(text: str) -> str:
+def infer(text: str, cast: str = "") -> str:
+    """The action type, from the feature's own words.
+
+    A spell's casting_time is explicit, so it outranks prose. The MPG spell "Mucus Spray" is
+    "1 standard action", and that is how its subclass twin "Mucus Spray (Sp)" is typed too — the
+    feature text never says. Precedence: casting time, prose cues, then Special.
+    """
+    for pattern, kind in ((CAST_BONUS, "Bonus Action"), (CAST_REACT, "Reaction"), (CAST_ACTION, "Action")):
+        if pattern.search(cast):
+            return kind
     if BONUS.search(text):
         return "Bonus Action"
     if REACTION.search(text):
@@ -96,18 +128,24 @@ def main() -> int:
         return 0
 
     desc = descriptions()
+    casts = spell_times()
     lines: list[str] = []
     skipped: list[str] = []
+    seen: set[str] = set()
     for key in missing:
         bare = clean_key(key)
-        if bare in FEATURE_ACTION_TYPES:
+        # "Mucus Spray (Sp)" and "Mucus Spray" strip to one key: register it once, or data.py gets a
+        # duplicate dict key (the second silently shadows the first).
+        if bare in FEATURE_ACTION_TYPES or bare in seen:
             continue
+        seen.add(bare)
         text = desc.get(key) or desc.get(bare) or ""
-        if not text:
+        cast = casts.get(bare) or casts.get(key) or ""
+        if not text and not cast:
             skipped.append(key)          # no description anywhere: needs a human, do not guess
             continue
-        kind = infer(text)
-        tip = text[:110].rstrip()
+        kind = infer(text, cast)
+        tip = (text or f"Casting time: {cast}")[:110].rstrip()
         if len(text) > 110:
             tip = tip[: tip.rfind(" ")] + "…"
         tip = tip.replace('"', "'")

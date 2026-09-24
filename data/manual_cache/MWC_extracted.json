@@ -1,0 +1,1218 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Penbregol",
+      "type": "Weapon (bow)",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "Penbregol is a Woodland Bow (see page 159 of the Player's Guide) with the Superior Keen enchanted quality (see the Loremaster's Guide, page 138). The magical bow is irreplaceable and is traditionally held by the captain of the Elvenking's guard. Any mortal who chooses to keep the bow is regarded with Mistrust by any Elves, who recognise it on sight.",
+      "source": "Mirkwood Campaign p.18"
+    },
+    {
+      "name": "The Roadwarden's Staff",
+      "type": "Staff",
+      "rarity": "unique",
+      "requires_attunement": false,
+      "description": "The magnificent staff of the roadwarden is a walking stick of Dwarf-make, with a shaft of polished wood topped with a pearl as great as a small dove's egg. Its maker engraved runes of power and protection on the wooden shaft. A hidden compartment inside the staff once contained maps of the Old Forest road, but Bofri does not know if they are still intact.\n\nThe staff might be worth up to 20 gold pieces, maybe much more if sold to Dwarves. It also has three special benefits:\n• The bearer of the staff has a +1 modifier to Embarkation and Arrival rolls (in addition to any other modifiers).\n• Certain doors, supply caches and vaults associated with the Old Dwarf Road only open for the bearer of the staff.\n• A Dwarf who bears the staff and is acknowledged as the Warden of the Road has Advantage on all audiences with other Dwarves.",
+      "source": "Mirkwood Campaign p.30"
+    },
+    {
+      "name": "Great War-horn of the Hunter",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Fashioned of old from the horn of one of the great kine of Araw by a Gondorian hero by the name of Vorondil, it was given to a prince of Rhovanion as a gift (Vorondil wore its mate on a baldric, and the horn is today an heirloom of his family, the House of the Stewards of Gondor). The Great War-horn of the Hunter may be blown as an action in combat. All allies of the war-leader may then use their reaction to recover hit points equal to 7 (2d6) plus the war-leader's Proficiency Bonus. Once the Great War-horn has been sounded, the war-leader must take a short rest before using it again.",
+      "source": "Mirkwood Campaign p.66"
+    },
+    {
+      "name": "The Torc of Fram",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A treasure of the ancestors of Rohan, this torc of gold with garnets was looted from the ruins of a town in the Vales of Gundabad where that folk dwelt for a time. The torc gives anyone who wears it the Lordly Distinctive Quality.",
+      "source": "Mirkwood Campaign p.104"
+    },
+    {
+      "name": "The Cup of Kinship",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Another treasure from the Vales of Anduin, it is said that those who drink from this golden cup are forever bound together in true friendship. If everyone in the Company drinks from the cup, then the first time in an Adventuring phase that any hero gains Inspiration, everyone in the Company gains Inspiration. This bond can be renewed once every year.",
+      "source": "Mirkwood Campaign p.104"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Weighted Net",
+      "type": "Weapon",
+      "subtype": "ranged",
+      "damage": "",
+      "properties": [
+        "range 10/20 ft",
+        "Restrained on hit",
+        "DC 15 Strength check to escape",
+        "AC 10",
+        "20 hit points",
+        "vulnerability to fire damage",
+        "immunity to bludgeoning, poison and psychic damage"
+      ],
+      "cost": "",
+      "weight": 0,
+      "source": "MWC"
+    }
+  ],
+  "monsters": [
+    {
+      "name": "Servant of Tyrant's Hill",
+      "size": "Medium",
+      "type": "human",
+      "alignment": "",
+      "armor_class": 15,
+      "ac_type": "Mail Shirt, Shield",
+      "hit_points": "19 (3d8+6)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 10,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 11,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 1,
+        "Perception": 2,
+        "Survival": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 12",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Ambush",
+          "description": "During his first turn, the Servant has Advantage on attack rolls against any creature that hasn't taken a turn."
+        },
+        {
+          "name": "Craven",
+          "description": "If the Servant starts his turn with 9 or less hit points, he must make a DC 10 Wisdom saving throw. On a failure, he becomes Frightened and must use his Dash or Disengage action to move away from any enemies. If movement is impossible, he will take the Dodge action instead."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Broadsword",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft, one target. Hit: 5 (1d8+1) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Mirkwood Campaign p.12"
+    },
+    {
+      "name": "Savage Hound",
+      "size": "Small",
+      "type": "Beast",
+      "alignment": "",
+      "armor_class": 10,
+      "ac_type": "",
+      "hit_points": "6 (1d6+3)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 10,
+        "constitution": 17,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 14",
+      "languages": [],
+      "challenge_rating": "1/8",
+      "xp": 25,
+      "features": [
+        {
+          "name": "Hunter",
+          "description": "The Savage Hound doubles its Proficiency Bonus for all Wisdom (Perception) checks (included above)."
+        },
+        {
+          "name": "Pack Tactics",
+          "description": "The hound has Advantage on an attack roll against a creature if at least one of the its allies is within 5 feet of the creature and that ally isn't Incapacitated."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Mirkwood Campaign p.13"
+    },
+    {
+      "name": "Stone-Troll Chief",
+      "size": "Large",
+      "type": "Giant (Troll-kind)",
+      "alignment": "",
+      "armor_class": 17,
+      "ac_type": "Troll-chain",
+      "hit_points": "115 (10d10+60)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 10,
+        "constitution": 22,
+        "intelligence": 8,
+        "wisdom": 7,
+        "charisma": 9
+      },
+      "saving_throws": {
+        "Dexterity": 3
+      },
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 8",
+      "languages": [
+        "Orcish",
+        "Westron"
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Sunlight Curse",
+          "description": "Stone-trolls become Petrified and turn into stone if they are touched by the bright light of the sun. If exposed to sunlight, the Stone-troll chief must make a DC 10 Dexterity saving throw at the beginning of its turn in order to find enough cover to avoid being turned to stone. On a failure, the Stone-troll becomes Petrified."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Clobbering Sweep (1/day)",
+          "description": "The Stone-troll Chief can use his great size to strike multiple foes at once. He can make a melee attack against any number of targets within 5 feet, with a separate attack roll for each target. Targets must also make a DC 13 Dexterity check or be knocked Prone."
+        },
+        {
+          "name": "Multiattack",
+          "description": "The Stone-troll chief makes three attacks: two with his troll-club and one slam."
+        },
+        {
+          "name": "Troll-club",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 13 (2d8+4) bludgeoning damage."
+        },
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 15 (2d10+4) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Mirkwood Campaign p.70"
+    },
+    {
+      "name": "Raegenhere",
+      "size": "Medium",
+      "type": "Undead (incarnated Wood-wight)",
+      "alignment": "",
+      "armor_class": 15,
+      "ac_type": "Scale hauberk",
+      "hit_points": "105 (14d8+42)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 15,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 15
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 5,
+        "Perception": 4,
+        "Traditions": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 14",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Fear of Fire",
+          "description": "If a torch or other flame comes within 10 feet of him, Raegenhere suffers Disadvantage on his attack rolls."
+        },
+        {
+          "name": "Savage Assault",
+          "description": "When Raegenhere rolls a natural 18 or 19, he may, as a bonus action, make a single additional melee attack against the same opponent."
+        },
+        {
+          "name": "Thing of Terror (1/day)",
+          "description": "Raegenhere is an evil spirit wearing a living man like a suit of armour. He briefly shows his true form and each hero must make a DC 15 Wisdom saving throw or be Frightened of him until the end of his next turn.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Raegenhere can make two attacks; one with his axe and one with his claws."
+        },
+        {
+          "name": "Great Axe",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 9 (1d12+3) slashing damage."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 6 (1d6+3) slashing damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Fell Spirit (Recharge 5-6)",
+          "description": "When Raegenhere would be reduced to 0 hit points, he may use his reaction to add 10 (3d6) temporary hit points.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Mirkwood Campaign p.96"
+    },
+    {
+      "name": "The Forest Dragon",
+      "size": "Huge",
+      "type": "Dragon (Full-grown Long-worm)",
+      "alignment": "",
+      "armor_class": 19,
+      "ac_type": "Natural Armour",
+      "hit_points": "207 (18d12+90)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 24,
+        "dexterity": 22,
+        "constitution": 20,
+        "intelligence": 14,
+        "wisdom": 16,
+        "charisma": 16
+      },
+      "saving_throws": {
+        "Strength": 11,
+        "Dexterity": 10,
+        "Constitution": 9
+      },
+      "skills": {
+        "Athletics": 11,
+        "Stealth": 10,
+        "Survival": 10
+      },
+      "damage_resistances": [
+        "non-magical bludgeoning and slashing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [
+        "Unknown (no one in this Age of the world has heard her speak)"
+      ],
+      "challenge_rating": "12",
+      "xp": 8400,
+      "features": [
+        {
+          "name": "Deadly Tail-grip",
+          "description": "The Forest Dragon has one Legendary action each turn, which she can use to cause 13 (1d12+7) bludgeoning damage to a Grappled foe."
+        },
+        {
+          "name": "Mirkwood Dweller",
+          "description": "If the Forest Dragon is within 5 feet of a Mirkwood scenery feature, she may use her bonus action to gain half-cover from it, even if the feature would not normally provide it.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Thing of Terror",
+          "description": "The Forest Dragon can use her bonus action to rear up and display her full strength. Each hero within 60 feet must make a DC 19 Wisdom saving throw or be Frightened of her until the end of her next turn.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Tough Hide",
+          "description": "The Forest Dragon is resistant to non-magical bludgeoning and slashing damage."
+        },
+        {
+          "name": "Weak Spot",
+          "description": "If the Forest Dragon uses a special ability that uses an action (Crushing Tail-grip or Multiattack), any heroes that are within range may use their reaction to make a single attack. For this attack only, she is considered vulnerable to all piercing, slashing and bludgeoning damage."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Forest Dragon makes two Bite attacks."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +11 to hit, reach 5 ft, one target. Hit: 20 (3d8+7) piercing damage."
+        },
+        {
+          "name": "Crushing Tail-grip",
+          "description": "Melee Weapon Attack: +11 to hit, reach 5 ft, one target. Hit: 13 (1d12+7) bludgeoning damage. The target becomes Grappled (escape DC 21). The dragon can spend its action to cause 13 (1d12+7) bludgeoning damage to the Grappled foe."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Mirkwood Campaign p.102"
+    },
+    {
+      "name": "Valdis, The Great Vampire",
+      "size": "Large",
+      "type": "fiend",
+      "alignment": "",
+      "armor_class": 17,
+      "ac_type": "Natural Armour",
+      "hit_points": "119 (14d10+42)",
+      "speed": "20 ft, fly 60 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 19,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 15,
+        "charisma": 15
+      },
+      "saving_throws": {
+        "dexterity": 7,
+        "constitution": 6,
+        "wisdom": 5
+      },
+      "skills": {
+        "Deception": 5,
+        "Perception": 5,
+        "Stealth": 7
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "blindsight 60 ft, passive Perception 15",
+      "languages": [
+        "Westron",
+        "Orcish",
+        "Silvan"
+      ],
+      "challenge_rating": "8",
+      "xp": 3900,
+      "features": [
+        {
+          "name": "Echolocation",
+          "description": "Valdis cannot use her blindsight while Deafened."
+        },
+        {
+          "name": "Enthrall",
+          "description": "As a bonus action, Valdis (in her illusionary form) can force a creature within 60 ft to make a DC 15 Wisdom saving throw or become Charmed by her. A Miserable Charmed creature gains the Thrall ability, see The Thrall Curse, opposite page. The Charmed effect lasts until Valdis leaves the area, attacks the Charmed creature, or the creature takes a short rest."
+        },
+        {
+          "name": "Keen Hearing",
+          "description": "Valdis has Advantage on Wisdom (Perception) checks that rely on hearing."
+        },
+        {
+          "name": "Fell Speed",
+          "description": "Valdis may take a bonus action to Disengage from one opponent and engage another without provoking an opportunity attack. The new opponent must be within her regular movement rate."
+        },
+        {
+          "name": "Hard Eyed",
+          "description": "Valdis has killed before, and will do so again. She scores a critical hit on any 18, 19 or 20 on an attack roll."
+        },
+        {
+          "name": "Hate Sunlight",
+          "description": "Valdis despises the cleansing light of the Sun. If she is exposed to direct bright sunlight, she takes 3 (1d6) psychic damage each round."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Valdis makes three attacks: Biting once and making two Claw attacks."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) piercing damage and the target must make a DC 15 Wisdom saving throw or gain 1 Shadow point as the vampire feeds on their blood."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 9 (2d4+4) slashing damage."
+        },
+        {
+          "name": "Bewilder",
+          "description": "Valdis can briefly assume the appearance of a beautiful woman. In this form, she can only use her Enthrall ability."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Snake-like Speed (Recharge 5-6)",
+          "description": "Valdis is adept at avoiding injury and can use her reaction to halve the attack damage on an attack that she is aware of."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Mirkwood Campaign p.109-110"
+    },
+    {
+      "name": "Girion",
+      "size": "Medium",
+      "type": "human",
+      "alignment": "",
+      "armor_class": 20,
+      "ac_type": "Scale Hauberk and Great Shield",
+      "hit_points": "78 (12d8+24)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 15,
+        "constitution": 15,
+        "intelligence": 11,
+        "wisdom": 8,
+        "charisma": 19
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 1,
+        "Survival": 1,
+        "Traditions": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Leadership",
+          "description": "As a bonus action, Girion can command a nearby Warrior to take his turn immediately after Girion's turn."
+        },
+        {
+          "name": "Savage Assault",
+          "description": "When Girion rolls a natural 18 or 19 he may use his bonus action to make a single additional melee attack against the same opponent."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Girion makes three melee attacks."
+        },
+        {
+          "name": "Longsword",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage or 8 (1d10+3) piercing damage if used with both hands."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Mirkwood Campaign p.114"
+    },
+    {
+      "name": "The Lieutenant of Dol Guldur as Dark Undead",
+      "size": "Medium",
+      "type": "Undead",
+      "alignment": "",
+      "armor_class": 17,
+      "ac_type": "Black Easterling Armour",
+      "hit_points": "136 (16d8+64)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 10,
+        "constitution": 19,
+        "intelligence": 10,
+        "wisdom": 11,
+        "charisma": 18
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 8,
+        "Perception": 4
+      },
+      "damage_resistances": [
+        "non-magical bludgeoning",
+        "piercing and slashing",
+        "cold",
+        "psychic"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "Blinded",
+        "Deafened",
+        "Frightened",
+        "Paralysed",
+        "Petrified",
+        "Stunned"
+      ],
+      "senses": "Truesight 30 ft (otherwise blind), passive Perception 14",
+      "languages": [
+        "Easterling",
+        "Black Speech",
+        "Orcish",
+        "Westron"
+      ],
+      "challenge_rating": "12",
+      "xp": 8400,
+      "features": [
+        {
+          "name": "Deadly Voice",
+          "description": "The Ringwraiths scream at their enemies with long-drawn wails that rise to a deafeningly high piercing note. The Lieutenant can use his bonus action to make a Frightened creature become Stunned until the end of his next turn."
+        },
+        {
+          "name": "Fear of Fire",
+          "description": "If a torch or other flame comes within 10 feet of him, the Ringwraith suffers Disadvantage on his attack rolls."
+        },
+        {
+          "name": "Gathering Shadows",
+          "description": "If the Lieutenant of Dol Guldur is accompanied by either The Messenger of Mordor or The Ghost of the Forest, then the DC for saving throws against his abilities are raised by 1. If both accompany him, the DC is raised by 2."
+        },
+        {
+          "name": "Legendary",
+          "description": "The Lieutenant can take one Legendary action each turn to use either his Black Breath, Claw or Thing of Terror abilities."
+        },
+        {
+          "name": "Savage Assault",
+          "description": "When the Lieutenant rolls a natural 18 or 19, he may, as a bonus action, make a single additional melee attack against the same opponent."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Lieutenant makes one attack with his Black Sword and one with his Claw."
+        },
+        {
+          "name": "Black Sword of Mordor",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft, one target. Hit: 8 (1d8+4) magical slashing damage. The Lieutenant can use his bonus action to add 5 (1d6+2) necrotic damage."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) slashing damage."
+        },
+        {
+          "name": "Black Breath",
+          "description": "(see entry for The Lieutenant of Dol Guldur, Unclad and Invisible)"
+        },
+        {
+          "name": "Shadow of Fear",
+          "description": "(see entry for The Lieutenant of Dol Guldur, Unclad and Invisible)"
+        },
+        {
+          "name": "Thing of Terror",
+          "description": "(see entry for The Lieutenant of Dol Guldur, Unclad and Invisible)"
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Dwimmerlaik",
+          "description": "If a hero strikes the Ringwraith with a critical hit, he may use his reaction to invoke this ability. The hero must make a DC 16 Strength saving throw. On a failure, the hero’s weapon shatters, and the hero receives the damage instead of the Ringwraith. Legendary weapons might not be destroyed, but are lost as a cold pain shoots through the hero’s body and she drops the weapon."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Mirkwood Campaign p.128"
+    },
+    {
+      "name": "The Lieutenant of Dol Guldur, Unclad and Invisible",
+      "size": "Medium",
+      "type": "Undead",
+      "alignment": "",
+      "armor_class": 10,
+      "ac_type": "",
+      "hit_points": "136 (16d8+64)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 10,
+        "constitution": 19,
+        "intelligence": 10,
+        "wisdom": 11,
+        "charisma": 18
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 8,
+        "Perception": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "non-magical bludgeoning",
+        "non-magical piercing",
+        "non-magical slashing",
+        "cold",
+        "psychic"
+      ],
+      "condition_immunities": [
+        "Blinded",
+        "Deafened",
+        "Frightened",
+        "Paralysed",
+        "Petrified",
+        "Stunned"
+      ],
+      "senses": "Truesight 30 ft (otherwise blind), passive Perception 14",
+      "languages": [
+        "Easterling",
+        "Black Speech",
+        "Orcish",
+        "Westron"
+      ],
+      "challenge_rating": "12",
+      "xp": 8400,
+      "features": [
+        {
+          "name": "Gathering Shadows",
+          "description": "If the Lieutenant of Dol Guldur is accompanied by either The Messenger of Mordor or The Ghost of the Forest, then the DC for saving throws against his abilities are raised by 1. If both accompany him, the DC is raised by 2."
+        },
+        {
+          "name": "Legendary",
+          "description": "The Lieutenant can take one Legendary action each turn to use either his Black Breath or Thing of Terror abilities."
+        },
+        {
+          "name": "Thing of Shadow",
+          "description": "The Ringwraith is Invisible."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Black Breath",
+          "description": "The Ringwraith can use its action to target a creature within 10 feet. That creature must make a DC 16 Constitution saving throw. On a failure, the creature gains 1 Shadow point and becomes Unconscious. They may be revived as an action, but are Miserable until they take a long rest. On a success, the creature gains 1 Shadow point but remains awake. If a Ringwraith targets an Unconscious creature then they are subject to The Black Shadow (see page 127)."
+        },
+        {
+          "name": "Shadow of Fear",
+          "description": "The Ringwraith can direct its terrible will upon any Frightened mortal (Dwarf, Hobbit or Man) such that the victim becomes an agent for the Enemy. The Ringwraith may use its action to force the target to make a DC 16 Wisdom saving throw. On a failure, see The Shadow of Fear (page 128)."
+        },
+        {
+          "name": "Thing of Terror",
+          "description": "The Ringwraith can use his action to cause any number of targets within 60 feet of him to make a DC 16 Wisdom saving throw. Those that fail are Frightened until the end of the Ringwraith's next turn."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Mirkwood Campaign p.129"
+    },
+    {
+      "name": "The Ghost of the Forest as Dark Undead",
+      "size": "Medium",
+      "type": "Undead",
+      "alignment": "",
+      "armor_class": 15,
+      "ac_type": "",
+      "hit_points": "91 (14d8+28)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 20,
+        "constitution": 15,
+        "intelligence": 10,
+        "wisdom": 11,
+        "charisma": 16
+      },
+      "saving_throws": {},
+      "skills": {
+        "Investigation": 4,
+        "Perception": 4
+      },
+      "damage_resistances": [
+        "non-magical bludgeoning",
+        "non-magical piercing",
+        "non-magical slashing",
+        "cold",
+        "psychic"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "Blinded",
+        "Deafened",
+        "Frightened",
+        "Paralysed",
+        "Petrified",
+        "Stunned"
+      ],
+      "senses": "Truesight 30 ft (otherwise blind), passive Perception 14",
+      "languages": [
+        "Black Speech",
+        "Orcish",
+        "Westron"
+      ],
+      "challenge_rating": "8",
+      "xp": 3900,
+      "features": [
+        {
+          "name": "Deadly Voice",
+          "description": "The Ringwraiths scream at their enemies with long-drawn wails that rise to a deafeningly high piercing note. The Ghost can use his bonus action to make a Frightened creature become Stunned until the end of his next turn."
+        },
+        {
+          "name": "Fear of Fire",
+          "description": "If a torch or other flame comes within 10 feet of him, the Ringwraith suffers Disadvantage on his attack rolls."
+        },
+        {
+          "name": "Fell Speed",
+          "description": "The Ghost may take a bonus action to Disengage from one opponent and engage another without provoking an opportunity attack. The new opponent must be within his movement range."
+        },
+        {
+          "name": "Gathering Shadows",
+          "description": "If the Ghost is accompanied by either The Messenger of Mordor or The Lieutenant of Dol Guldur, then the DC for saving throws against his abilities are raised by 1. If both accompany him, the DC is raised by 2."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Ghost makes one attack with his longsword and one with his claw."
+        },
+        {
+          "name": "Longsword",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage or 8 (1d10+3) slashing damage if wielded with both hands."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 6 (1d6+3) slashing damage."
+        },
+        {
+          "name": "Black Breath",
+          "description": "(see entry for The Ghost of the Forest, Unclad and Invisible)"
+        },
+        {
+          "name": "Shadow of Fear",
+          "description": "(see entry for The Ghost of the Forest, Unclad and Invisible)"
+        },
+        {
+          "name": "Thing of Terror",
+          "description": "(see entry for The Ghost of the Forest, Unclad and Invisible)"
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Dwimmerlaik",
+          "description": "If a hero strikes the Ringwraith with a critical hit, he may use his reaction to invoke this ability. The hero must make a DC 14 Strength saving throw. On a failure, the hero's weapon shatters, and the hero receives the damage instead of the Ringwraith. Legendary weapons might not be destroyed, but are lost as a cold pain shoots through the hero's body and she drops the weapon."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Mirkwood Campaign p.131"
+    },
+    {
+      "name": "The Ghost of the Forest, Unclad and Invisible",
+      "size": "Medium",
+      "type": "Undead",
+      "alignment": "",
+      "armor_class": 15,
+      "ac_type": "",
+      "hit_points": "91 (14d8+28)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 20,
+        "constitution": 15,
+        "intelligence": 10,
+        "wisdom": 11,
+        "charisma": 16
+      },
+      "saving_throws": {},
+      "skills": {
+        "Investigation": 4,
+        "Perception": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "non-magical bludgeoning",
+        "non-magical piercing",
+        "non-magical slashing",
+        "cold",
+        "psychic"
+      ],
+      "condition_immunities": [
+        "Blinded",
+        "Deafened",
+        "Frightened",
+        "Paralysed",
+        "Petrified",
+        "Stunned"
+      ],
+      "senses": "Truesight 30 ft (otherwise blind), passive Perception 14",
+      "languages": [
+        "Black Speech",
+        "Orcish",
+        "Westron"
+      ],
+      "challenge_rating": "8",
+      "xp": 3900,
+      "features": [
+        {
+          "name": "Gathering Shadows",
+          "description": "If the Ghost is accompanied by either The Messenger of Mordor or The Lieutenant of Dol Guldur, then the DC for saving throws against his abilities are raised by 1. If both accompany him, the DC is raised by 2."
+        },
+        {
+          "name": "Thing of Shadow",
+          "description": "The Ringwraith is Invisible."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Black Breath",
+          "description": "The Ringwraith can use its action to target a creature within 10 feet. That creature must make a DC 14 Constitution saving throw. On a failure, the creature gains 1 Shadow point and becomes Unconscious. They may be revived as an action, but are Miserable until they take a long rest. On a success, the creature gains 1 Shadow point but remains awake. If a ringwraith targets an Unconscious creature then they are subject to The Black Shadow (see page 127)."
+        },
+        {
+          "name": "Shadow of Fear",
+          "description": "The Ghost can direct its terrible will upon any Frightened mortal (Dwarf, Hobbit or Man) such that the victim becomes an agent for the Enemy. The Ringwraith may use its action to force the target to make a DC 14 Wisdom saving throw. On a failure, see The Shadow of Fear (page 128)."
+        },
+        {
+          "name": "Thing of Terror (1/day)",
+          "description": "The Ringwraith can use his action to cause any number of targets within 60 feet of him to make a DC 14 Wisdom saving throw. Those that fail are Frightened until the end of the Ringwraith's next turn.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Mirkwood Campaign p.131"
+    },
+    {
+      "name": "The Messenger of Mordor as Dark Undead",
+      "size": "Medium",
+      "type": "Undead",
+      "alignment": "",
+      "armor_class": 15,
+      "ac_type": "Scale hauberk",
+      "hit_points": "105 (14d8+42)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 12,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 17
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 6,
+        "Persuasion": 6,
+        "Riddle": 3,
+        "Traditions": 3
+      },
+      "damage_resistances": [
+        "non-magical bludgeoning",
+        "piercing",
+        "slashing",
+        "cold",
+        "psychic"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "Blinded",
+        "Deafened",
+        "Frightened",
+        "Paralysed",
+        "Petrified",
+        "Stunned"
+      ],
+      "senses": "Truesight 30 ft (otherwise blind), passive Perception 11",
+      "languages": [
+        "Adûnaic",
+        "Sindarin",
+        "Black Speech",
+        "Orcish",
+        "Westron"
+      ],
+      "challenge_rating": "8",
+      "xp": 3900,
+      "features": [
+        {
+          "name": "Deadly Voice",
+          "description": "The Ringwraiths scream at their enemies with long-drawn wails that rise to a deafeningly high piercing note. The Messenger can use his bonus action to make a Frightened creature become Stunned until the end of this next turn."
+        },
+        {
+          "name": "Fear of Fire",
+          "description": "If a torch or other flame comes within 10 feet of him, the Messenger suffers Disadvantage on his attack rolls."
+        },
+        {
+          "name": "Gathering Shadows",
+          "description": "If the Messenger is accompanied by either The Ghost of the Forest or The Lieutenant of Dol Guldur, then the DC for saving throws against his abilities are raised by 1. If both accompany him, the DC is raised by 2."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Longsword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 5 (1d8+1) slashing damage or 6 (1d10+1) slashing damage if wielded with both hands."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 4 (1d6+1) slashing damage."
+        },
+        {
+          "name": "Bewilder",
+          "description": "The Messenger can briefly exert his will to dominate others. All creatures within 30 feet of the Messenger must make a DC 14 Wisdom saving throw or be Stunned for 1d4+1 rounds. As long as the effect lasts, the Messenger may then make a melee attack against a Stunned creature as a bonus action. The Messenger can only use this ability once per long rest."
+        },
+        {
+          "name": "Black Breath",
+          "description": "(see entry for The Messenger of Mordor, Unclad and Invisible)"
+        },
+        {
+          "name": "Shadow of Fear",
+          "description": "(see entry for The Messenger of Mordor, Unclad and Invisible)"
+        },
+        {
+          "name": "Thing of Terror",
+          "description": "(see entry for The Messenger of Mordor, Unclad and Invisible)"
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Dwimmerlaik",
+          "description": "If a hero strikes the Ringwraith with a critical hit, he may use his reaction to invoke this ability. The hero must make a DC 14 Strength saving throw. On a failure, the hero's weapon shatters, and the hero receives the damage instead of the Ringwraith. Legendary weapons might not be destroyed, but are lost as a cold pain shoots through the hero's body and she drops the weapon."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Mirkwood Campaign p.132"
+    },
+    {
+      "name": "The Messenger of Mordor, Unclad and Invisible",
+      "size": "Medium",
+      "type": "Undead",
+      "alignment": "",
+      "armor_class": 11,
+      "ac_type": "",
+      "hit_points": "105 (14d8+42)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 12,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 17
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 5,
+        "Persuasion": 5,
+        "Riddle": 3,
+        "Traditions": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "non-magical bludgeoning",
+        "piercing",
+        "slashing",
+        "cold",
+        "psychic"
+      ],
+      "condition_immunities": [
+        "Blinded",
+        "Deafened",
+        "Frightened",
+        "Paralysed",
+        "Petrified",
+        "Stunned"
+      ],
+      "senses": "Truesight 30 ft (otherwise blind), passive Perception 11",
+      "languages": [
+        "Adûnaic",
+        "Sindarin",
+        "Black Speech",
+        "Orcish",
+        "Westron"
+      ],
+      "challenge_rating": "8",
+      "xp": 3900,
+      "features": [
+        {
+          "name": "Gathering Shadows",
+          "description": "If the Messenger is accompanied by either The Ghost of the Forest or The Lieutenant of Dol Guldur, then the DC for saving throws against his abilities are raised by 1. If both accompany him, the DC is raised by 2."
+        },
+        {
+          "name": "Thing of Shadow",
+          "description": "The Ringwraith is Invisible."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Black Breath",
+          "description": "The Ringwraith can use its action to target a creature within 10 feet. That creature must make a DC 14 Constitution saving throw. On a failure, the creature gains 1 Shadow point and becomes Unconscious (they may be revived by an action, but are Miserable until they take a long rest). On a success, the creature gains 1 Shadow point but remains awake. If a Ringwraith targets an Unconscious creature then they are subject to The Black Shadow (see page 127)."
+        },
+        {
+          "name": "Shadow of Fear",
+          "description": "The Ringwraith can direct its terrible will upon any Frightened mortal (Dwarf, Hobbit or Man) such that the victim becomes an agent for the Enemy. The Ringwraith may use its action to force the target to make a DC 14 Wisdom saving throw. On a failure, see The Shadow of Fear (page 128)."
+        },
+        {
+          "name": "Thing of Terror",
+          "description": "The Ringwraith can use his action to cause any number of targets within 60 feet of him to make a DC 14 Wisdom saving throw. Those that fail are Frightened until the end of the Ringwraith's next turn."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Mirkwood Campaign p.132"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Craven",
+      "race": "",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Craven",
+          "description": "If the Servant starts his turn with 9 or less hit points, he must make a DC 10 Wisdom saving throw. On a failure, he becomes Frightened and must use his Dash or Disengage action to move away from any enemies. If movement is impossible, he will take the Dodge action instead."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Broadsword",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft, one target. Hit: 5 (1d8+1) slashing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A servant with the Craven trait.",
+      "role": "",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Mirkwood Campaign p.13"
+    },
+    {
+      "name": "Ruithel",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [
+        "Penbregol"
+      ],
+      "spellcasting": null,
+      "description": "One of the hunters who sets out at the same time as the companions is an Elf-maiden named Ruithel, famed as a huntress and a tracker. She wields one of the treasures of the Woodland Realm, the bow Penbregol, strung with mithril by the Dwarf-smith Gamil Zirak in the depths of time. Ruithel was recently promoted to command the guards who watch the Elf-path and the borders of the Realm, and is eager to prove herself worthy of the office and the bow that comes with it.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Mirkwood Campaign p.18"
+    },
+    {
+      "name": "Hunald, Spellbound Assassin",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 16,
+      "hit_points": "52 (8d8+16)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 19,
+        "constitution": 15,
+        "intelligence": 14,
+        "wisdom": 11,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 2
+      },
+      "features": [
+        {
+          "name": "Ambush",
+          "description": "During his first turn, Hunald has Advantage on attack rolls against any creature that hasn't taken a turn."
+        },
+        {
+          "name": "Ensorcelled",
+          "description": "Hunald has been dominated by the will of the Nazgûl, and no words will cause him to stray from his mission (reflected in Condition Immunities, above)."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Hunald makes three attacks with either his broadsword or great bow."
+        },
+        {
+          "name": "Broadsword",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 8 (1d8+4) slashing damage."
+        },
+        {
+          "name": "Great Bow",
+          "description": "Ranged Weapon Attack: +6 to hit, range 150/600 ft, one target. Hit: 8 (1d8+4) piercing damage. If Hunald uses one of his arrows from Angmar, it does an additional 7 (2d6) necrotic damage."
+        }
+      ],
+      "equipment": [
+        "Leather Corslet",
+        "broadsword",
+        "great bow",
+        "arrows from Angmar"
+      ],
+      "spellcasting": null,
+      "description": "Hunald is a Woodman who disappeared in Mirkwood in 2954 while searching for treasure. He is a master bowman, and carries a quiver holding three arrows whose heads were forged in Angmar. He has been dominated by the will of the Nazgûl.",
+      "role": "Assassin",
+      "is_enemy": true,
+      "xp_reward": 1100,
+      "source": "Mirkwood Campaign p.47"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [
+    {
+      "name": "Changeling",
+      "skill_proficiencies": [],
+      "tool_proficiencies": [],
+      "languages": [],
+      "equipment": [],
+      "feature": {
+        "name": "Child of the Woodland Realm",
+        "description": "Your were raised by the First-born and will likely never be close to your own kin. If you select a Cultural Heirloom as an Open Virtue, you may only select from the Elves of Mirkwood list on page 159 of the Adventures in Middle-earth Player's Guide. You cannot use the Barding heirlooms. When selecting Cultural Virtues you use the Barding list on page 101 of the Player's Guide."
+      },
+      "description": "You wandered into the enchanted land of the Elves as a young child, and grew up under their care and tutelage. They delighted in your mortal innocence and wonder, and taught you the ways of the Elves. Now, you have returned to the mortal realm, but you remember with fondness the teachings of your foster-parents. You are a child of the twilight, halfway between the starry night of the Elves and the harsh day of the Edain.",
+      "source": "MWC"
+    }
+  ],
+  "subclasses": [],
+  "traps": [],
+  "_chapters_completed": [
+    "The Nazgûl of Dol Guldur",
+    "Shadows in the Forest",
+    "The Last Good Years: 2947-2950",
+    "The Return of the Shadow: 2951-2960",
+    "Index",
+    "The Darkening of Mirkwood: 2975-2977",
+    "The Mirkwood Campaign",
+    "The Year of the Plague: 2967-2974",
+    "The Gathering Gloom: 2961-2966"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 9,
+  "_book_slug": "MWC",
+  "_book_title": "mirkwoodcampaign",
+  "_completed": true,
+  "_timestamp": 1790289070.6382241
+}

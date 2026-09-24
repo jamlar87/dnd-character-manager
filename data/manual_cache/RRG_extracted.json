@@ -1,21 +1,3623 @@
 {
-  "races": [],
+  "races": [
+    {
+      "name": "Woodmen of Mountain Hall",
+      "source": "Rhovanion Region Guide p.49",
+      "asi": {
+        "strength": 1,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 30,
+      "darkvision": 0,
+      "languages": [
+        "Vale of Anduin tongue"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Strength score increases by 1, and you may increase two additional ability scores by 1."
+        },
+        {
+          "name": "Adventuring Age",
+          "description": "16-30. Those of Firienseld don't usually venture far from the Burg until their 16th year and rarely continue past their fortieth year, when the desire to return to the mountains of their youth becomes strong."
+        },
+        {
+          "name": "Size",
+          "description": "Most Woodmen are between 5 and 6 feet tall. Your size is Medium."
+        },
+        {
+          "name": "Speed",
+          "description": "Your base walking speed is 30 feet."
+        },
+        {
+          "name": "Mountainfolk",
+          "description": "You have proficiency in the Survival skill."
+        },
+        {
+          "name": "Virtue",
+          "description": "You gain one Woodmen of Mountain Hall Cultural Virtue (see below) of your choice."
+        },
+        {
+          "name": "Languages",
+          "description": "You speak the Vale of Anduin tongue, an archaic version of Westron, closely related to Dalish."
+        }
+      ],
+      "subraces": [],
+      "description": "The folk of Firienseld are close kin with those who live under the eaves of Mirkwood and share both their physical appearance and naming conventions. Most Woodmen are between 5 and 6 feet tall.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Strength score increases by 1, and two additional ability scores increase by 1."
+        },
+        "Adventuring Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor only; no mechanical effect."
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Medium."
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Mountainfolk": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [
+            "Survival"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Virtue": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Grants one Woodmen of Mountain Hall Cultural Virtue of choice (effects depend on chosen virtue)."
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Speaks the Vale of Anduin tongue (archaic Westron, related to Dalish)."
+        }
+      }
+    },
+    {
+      "name": "Wild Hobbit",
+      "source": "Rhovanion Region Guide p.59-60",
+      "asi": {
+        "strength": 0,
+        "dexterity": 2,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 25,
+      "darkvision": 0,
+      "languages": [
+        "Vale of Anduin tongue"
+      ],
+      "size": "Small",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Dexterity score increases by 2 and you may increase any two other ability scores by 1."
+        },
+        {
+          "name": "Adventuring Age",
+          "description": "25-60. Wild Hobbits value family above all else and have a deep and abiding distrust of outsiders. Those who venture out are either young and taking desperate chances or have had some calamity foisted upon them. Around their fiftieth year, even the most ambitious Wild Hobbits think seriously of finding a hidden refuge and attending to their family's needs."
+        },
+        {
+          "name": "Size",
+          "description": "Like their civilised kin, Wild Hobbits are Small."
+        },
+        {
+          "name": "Speed",
+          "description": "Your base walking speed is 25 feet."
+        },
+        {
+          "name": "Untroubled by Shadows",
+          "description": "When in a blighted area, you must make a DC 5 Wisdom saving throw to avoid Shadow instead of the regular DC 15."
+        },
+        {
+          "name": "Hobbit Nimbleness",
+          "description": "You can move through the space of any creature who is at least one size larger than yours."
+        },
+        {
+          "name": "Clever Beyond Compare",
+          "description": "You have proficiency in either the Investigation or the Riddle skill."
+        },
+        {
+          "name": "Hobbit Elusiveness",
+          "description": "You have proficiency in the Stealth skill."
+        },
+        {
+          "name": "Languages",
+          "description": "You speak the Vale of Anduin tongue, an archaic version of Westron that is also spoken by Beornings and Woodmen."
+        }
+      ],
+      "subraces": [],
+      "description": "Wild Hobbits are small, sharp-eyed folk with untrusting eyes and rarely plump bodies, save for elders who have earned admiration among their kin. They carry simple tools of survival, most often fishing tackle and hand tools, and move about the watercourses of the Vales of Anduin on little boats of reeds.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Dexterity +2; any two other ability scores +1 each."
+        },
+        "Adventuring Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor only; no mechanical effect."
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Small."
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 25,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Untroubled by Shadows": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "In blighted areas, DC to avoid Shadow is 5 instead of 15."
+        },
+        "Hobbit Nimbleness": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can move through the space of any creature at least one size larger."
+        },
+        "Clever Beyond Compare": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [
+            "Investigation",
+            "Riddle"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Choose one of the listed skill proficiencies."
+        },
+        "Hobbit Elusiveness": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [
+            "Stealth"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Speaks the Vale of Anduin tongue."
+        }
+      }
+    }
+  ],
   "spells": [],
-  "magic_items": [],
-  "equipment": [],
-  "monsters": [],
-  "npcs": [],
+  "magic_items": [
+    {
+      "name": "Thranduil's Ring",
+      "type": "Ring",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "At times, Thranduil wears a ring of silver set with a glittering white gemstone upon his finger. Any who look upon this ring can tell that it is magical. The ring was forged by Celebrimbor of Hollin during the Second Age of the World. Sauron knows that Thranduil has a magic ring, perhaps even a Ring of Power. The Enemy knows that three rings were forged for the Elven-Kings. One ring he guesses Gil-galad bore to war, and that ring is most likely hidden with Elrond Half-elven. Another ring might be in Lórien, with Galadriel and Celeborn. The third ring, though... where is that hiding? His spies tell him that Cirdan the Shipwright has no ring of power. Could the third ring be close at hand in Mirkwood? In truth, Thranduil's rings is but one of the lesser rings. Many such magic rings were made in Eregion before the forging of the rings of power. Compared to the Three or the One, it is a petty thing — but it occupies Sauron's mind, and makes him wary of the Woodland Realm, and that is a magic beyond price.",
+      "source": "Rhovanion Region Guide p.85"
+    },
+    {
+      "name": "The Crown of the Elvenking",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Although Thranduil delights in silver and white gems above all other treasures, and despite the fact that his treasury overflows with beautiful things, the Elvenking wears a simple crown of leaves. This crown symbolises his bond with the Wood-elves. A new crown is made at the turning of each season. in spring, he wears oak-leaves and laurels, in summer flowers. In the autumn, he wears berries and red leaves, and in winter a crown of frosted thorns and ivy.",
+      "source": "Rhovanion Region Guide p.85"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Ramhorn",
+      "type": "Wondrous item",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "",
+      "weight": 0,
+      "source": "RRG"
+    }
+  ],
+  "monsters": [
+    {
+      "name": "Viglund",
+      "size": "Medium",
+      "type": "human (Evil Men)",
+      "alignment": "",
+      "armor_class": 20,
+      "ac_type": "Scale Hauberk, Great Shield",
+      "hit_points": "102 (12d8+48)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 15,
+        "constitution": 19,
+        "intelligence": 12,
+        "wisdom": 11,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 5,
+        "Perception": 3,
+        "Shadow-lore": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Fell Speed",
+          "description": "Viglund may take a bonus action to Disengage from one opponent and engage another without provoking an opportunity attack. The new opponent must be within his regular movement rate."
+        },
+        {
+          "name": "Hatred (Beornings) (Recharge 5-6)",
+          "description": "Viglund hates Beornings so much that he can use his bonus action to gain Advantage on attacks against them this round.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Hideous Toughness (Recharge after a short or long rest)",
+          "description": "Viglund can endure enormous damage. By spending his action taunting his enemies, he gains a pool of 10 (3d6) temporary hit points that last till the end of the fight if not removed by combat damage.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "No Quarter",
+          "description": "When Viglund reduces an enemy to 0 hit points that enemy is considered to already have failed one death save."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Viglund makes three attacks with his axe."
+        },
+        {
+          "name": "Axe",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 8 (1d8+4) slashing damage or 9 (1d10+4) slashing damage if used with both hands."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Commanding Voice",
+          "description": "Viglund can inspire his allies with his booming voice and kingly mien. He may use his reaction to utter a command or shout a warning whenever a non-hostile creature, that he can see within 30 feet, is about to make an attack roll or a saving throw. The target can add a d6 Command Die to its next roll, provided it can hear and understand the message. A creature can benefit from only one Command Die at a time, and creatures that possess Commanding Voice cannot benefit from this effect."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.31"
+    },
+    {
+      "name": "Viglar",
+      "size": "Medium",
+      "type": "human (Evil Men)",
+      "alignment": "",
+      "armor_class": 17,
+      "ac_type": "Corslet of Mail, Shield",
+      "hit_points": "60 (8d8+24)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 15,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 8,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "Performance": 3,
+        "Persuasion": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 9",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Horrible Strength",
+          "description": "If Viglar makes a successful melee attack, he may use his bonus action to cause 3 additional damage of the same type as the original type."
+        },
+        {
+          "name": "Reckless",
+          "description": "Viglar may choose to gain Advantage on all attacks he makes in a round, but all attacks on him gain Advantage until the start of his next turn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Viglar makes two attacks with his axe."
+        },
+        {
+          "name": "Axe",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage or 8 (1d10+3) slashing damage if used with both hands."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.32"
+    },
+    {
+      "name": "Saviga the Goblin",
+      "size": "Small",
+      "type": "humanoid (Orc-kind)",
+      "alignment": "",
+      "armor_class": 14,
+      "ac_type": "Orcish Leathers, Shield",
+      "hit_points": "10 (3d6)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 12,
+        "constitution": 11,
+        "intelligence": 12,
+        "wisdom": 10,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "Deception": 3,
+        "Persuasion": 3,
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 10",
+      "languages": [
+        "Orkish",
+        "Westron"
+      ],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Distraction Attack",
+          "description": "Saviga is wily and can take his bonus action to feint, kick burning ash, or otherwise distract an opponent with whom he is engaged in melee. The opponent must make a DC 11 Wisdom saving throw or Saviga's attacks have Advantage against the opponent until the end of his next turn."
+        },
+        {
+          "name": "Nimble Escape",
+          "description": "Saviga can take the Disengage or Hide action as a bonus action on each of his turns."
+        },
+        {
+          "name": "Sunlight Sensitivity",
+          "description": "While in sunlight, Saviga has Disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Saviga makes two attacks with his spear."
+        },
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +3 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 4 (1d6+1) piercing damage or 5 (1d8+1) piercing damage if used with two hands to make a melee attack."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Parry",
+          "description": "Saviga adds 2 to his AC against one melee attack that would hit him. To do so, the goblin must see the attacker and be wielding a melee weapon."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.32"
+    },
+    {
+      "name": "Thunar",
+      "size": "Medium",
+      "type": "human (Evil Men)",
+      "alignment": "",
+      "armor_class": 17,
+      "ac_type": "Leather Corslet, Shield",
+      "hit_points": "45 (6d8+18)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 17,
+        "constitution": 17,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 4,
+        "Survival": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 10",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Savage Assault",
+          "description": "If Thunar rolls a natural 18 or 19 on a melee attack roll, he may use his bonus action to make an additional melee attack against the same opponent."
+        },
+        {
+          "name": "Stalker",
+          "description": "If Thunar spends at least one minute observing his opponents before attacking, he gains Advantage on all his attacks for the first 1d3 rounds of combat."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Axe",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 6 (1d8+2) slashing damage or 7 (1d10+2) slashing damage if used with both hands."
+        },
+        {
+          "name": "Short Bow",
+          "description": "Ranged Weapon Attack: +5 to hit, range 80/320 ft, one target. Hit: 6 (1d6+3) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.33"
+    },
+    {
+      "name": "Aestid",
+      "size": "Medium",
+      "type": "human",
+      "alignment": "",
+      "armor_class": 15,
+      "ac_type": "Leather Corslet",
+      "hit_points": "38 (7d8+7)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 16,
+        "constitution": 13,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {
+        "Stealth": 5,
+        "Survival": 3,
+        "Traditions": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Region-lore (East Upper Vales)",
+          "description": "If Aestid is with the Company for a journey that begins or ends in the East Upper Vales, the Guide rolls 1d8+4 for the Embarkation Roll."
+        },
+        {
+          "name": "Sneaking (Recharge 6)",
+          "description": "Aestid inflicts 7 (2d6) extra damage to a target she hits with her great axe if her ally is within 5 feet of the target.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Great Axe",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft, one target. Hit: 7 (1d12+1) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.33"
+    },
+    {
+      "name": "Beorn the Skinchanger (in bear shape)",
+      "size": "Large",
+      "type": "Beast (Shapechanger)",
+      "alignment": "",
+      "armor_class": 16,
+      "ac_type": "natural armour",
+      "hit_points": "114 (12d10+48)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 22,
+        "dexterity": 12,
+        "constitution": 19,
+        "intelligence": 10,
+        "wisdom": 15,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 5,
+        "Perception": 6
+      },
+      "damage_resistances": [
+        "non-magical bludgeoning, piercing and slashing",
+        "cold",
+        "poison",
+        "thunder"
+      ],
+      "damage_immunities": [
+        "psychic"
+      ],
+      "condition_immunities": [],
+      "senses": "passive Perception 16",
+      "languages": [],
+      "challenge_rating": "12",
+      "xp": 8400,
+      "features": [
+        {
+          "name": "Hatred (All Evil Things)",
+          "description": "Beorn hates the Shadow and all its servants. He can use his bonus action to gain Advantage on attacks against them this round.",
+          "uses": 1,
+          "recharge": "5-6"
+        },
+        {
+          "name": "Horrible Strength",
+          "description": "If Beorn makes a successful melee attack, he may use his bonus action to cause 6 additional damage of the same type to the target."
+        },
+        {
+          "name": "Raging",
+          "description": "Once Beorn has taken damage in a combat, he may use his bonus action to make an additional claw attack against a target he has successfully hit."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Beorn makes one bite attack and two claw attacks."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +10 to hit, reach 5 ft, one target. Hit: 13 (2d6+6) slashing damage. Miss: the target must make a DC 17 Wisdom saving throw or be Frightened until the end of Beorn’s next turn."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +10 to hit, reach 5 ft, one target. Hit: 17 (2d10+6) slashing damage and the target must make a DC 17 Strength or Dexterity saving throw to avoid being knocked Prone."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Hallowed Servant",
+          "description": "When Beorn would be reduced to 0 hit points by a damage source, he may use his reaction to add 21 (6d6) temporary hit points."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "The Enchantment of Beorn p.43"
+    },
+    {
+      "name": "Turin the Tinker",
+      "size": "Medium",
+      "type": "Human",
+      "alignment": "",
+      "armor_class": 11,
+      "ac_type": "",
+      "hit_points": "9 (2d8)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 12,
+        "constitution": 11,
+        "intelligence": 16,
+        "wisdom": 10,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "History": 5,
+        "Persuasion": 3,
+        "Riddle": 5,
+        "Traditions": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 10",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Beset by Fate",
+          "description": "If the Company journeys with Turin, treat any results of ‘1 (or less)’ on the Journey Events Table as ‘12 (or more)’."
+        },
+        {
+          "name": "Region-lore (East Middle Vales)",
+          "description": "If Turin is with the Company for a journey that begins or ends in the East Middle Vales, the Guide rolls 1d8+4 for the Embarkation Roll."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Staff",
+          "description": "Melee Weapon Attack: +2 to hit, reach 5 ft, one target. Hit: 3 (1d6) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "The Lands of the River p.43"
+    },
+    {
+      "name": "River-maiden",
+      "size": "Medium",
+      "type": "Nature Spirit",
+      "alignment": "",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "52 (8d8+16)",
+      "speed": "30 ft, swim 60 ft",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 17,
+        "constitution": 14,
+        "intelligence": 11,
+        "wisdom": 12,
+        "charisma": 20
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 3,
+        "Stealth": 5,
+        "Perception": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [
+        "Silvan",
+        "Westron"
+      ],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "A River-maiden can breathe air or water ."
+        },
+        {
+          "name": "Silver Trout-form",
+          "description": "The River-maiden can transform into a silver trout in order to escape her enemies. As a trout, she can use her bonus action to Dash each turn."
+        },
+        {
+          "name": "Speak with Birds and Fish",
+          "description": "The River-maiden can communication with the creatures of the forest. Goodly beasts might carry messages for her or warn her of danger."
+        }
+      ],
+      "actions": [
+        {
+          "name": "River-charm",
+          "description": "The River-maiden targets one creature within 30 ft of her. That creature must make a DC 15 Wisdom saving throw or become Charmed by the maiden. A Charmed creature is not controlled by the maiden, but will take actions to aid the maiden in any way possible. The condition lasts until the creature takes a long rest or an ally of the maiden attacks the Charmed creature."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.101"
+    },
+    {
+      "name": "Ancient Basilisk",
+      "size": "Medium",
+      "type": "monstrosity",
+      "alignment": "",
+      "armor_class": 15,
+      "ac_type": "natural armour",
+      "hit_points": "60 (8d8+24)",
+      "speed": "20 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 8,
+        "constitution": 16,
+        "intelligence": 3,
+        "wisdom": 8,
+        "charisma": 7
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "non-magical bludgeoning",
+        "slashing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "Poisoned"
+      ],
+      "senses": "passive Perception 9",
+      "languages": [],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Hatred (Elves)",
+          "description": "The basilisk hates Elves and will attack them first. It can spend its bonus action to have Advantage on all attacks against them this round.",
+          "uses": 1,
+          "recharge": "5-6"
+        },
+        {
+          "name": "Tough Hide",
+          "description": "The basilisk is resistant to non-magical bludgeoning and slashing damage."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Putrescent Bite",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 9 (2d6+2) piercing damage and the target must make a DC 13 Constitution saving throw or become Poisoned until they take a short rest."
+        },
+        {
+          "name": "Venomous Breath",
+          "description": "The basilisk can breathe out a cloud of poison in a 20 foot sphere. Each affected target must make a DC 13 Constitution saving throw. On a success, the target becomes Poisoned until it takes a short rest. On a failure, the target becomes Paralysed until it takes a short rest. Paralysed creatures must make another DC 13 Constitution saving throw at the end of their next turn. On a failure, the creature becomes Petrified until treated.",
+          "uses": 1,
+          "recharge": "5-6"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.124"
+    },
+    {
+      "name": "Gallows-weed",
+      "size": "Medium",
+      "type": "Plant",
+      "alignment": "",
+      "armor_class": 15,
+      "ac_type": "",
+      "hit_points": "16 (3d8+3)",
+      "speed": "0 ft",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 20,
+        "constitution": 12,
+        "intelligence": 3,
+        "wisdom": 10,
+        "charisma": 3
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "Bludgeoning",
+        "Piercing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "Blinded",
+        "Deafened",
+        "Frightened"
+      ],
+      "senses": "tremorsense 30 ft, passive Perception 10",
+      "languages": [],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Camouflage",
+          "description": "Gallows-weed has Advantage on all Dexterity (Stealth) checks in wooded terrain."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Grasping Vines",
+          "description": "Melee Weapon Attack: +7 to hit, reach 10 ft, one target. Hit: If the Gallows-weed is not already grappling a creature, the target becomes Grappled (Escape DC 13). Until the grapple ends, the target is Restrained. The Gallows-weed can spend its action to do 7 (1d4+5) bludgeoning damage to a creature that it already has Grappled."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.125"
+    },
+    {
+      "name": "Grim Hawk",
+      "size": "Medium",
+      "type": "Beast",
+      "alignment": "",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "11 (2d8+2)",
+      "speed": "20 ft, fly 40 ft",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 17,
+        "constitution": 13,
+        "intelligence": 3,
+        "wisdom": 14,
+        "charisma": 3
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 14",
+      "languages": [],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Pack Tactics",
+          "description": "The grim hawk has Advantage on an attack roll against a creature if at least one of its allies is within 5 feet of the creature and that ally isn’t Incapacitated."
+        },
+        {
+          "name": "Savage Assault",
+          "description": "When a grim hawk rolls a natural 18 or 19 it may use its bonus action to make a single additional melee attack against the same opponent."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The grim hawk makes one attack with its beak and one attack with its claw."
+        },
+        {
+          "name": "Beak",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 6 (1d6+3) piercing damage."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +2 to hit, reach 5 ft, one target. Hit: 2 (1d4) slashing damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Snake-like Speed",
+          "description": "The grim hawk is adept at avoiding injury and can use its reaction to halve the attack damage on an attack that it is aware of.",
+          "uses": 1,
+          "recharge": "5-6"
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.125"
+    },
+    {
+      "name": "Hill-man Warrior",
+      "size": "Medium",
+      "type": "Human",
+      "alignment": "",
+      "armor_class": 12,
+      "ac_type": "Hide Armour",
+      "hit_points": "22 (4d8+4)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 10,
+        "constitution": 12,
+        "intelligence": 10,
+        "wisdom": 13,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 4,
+        "Intimidation": 4,
+        "Perception": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [
+        "Orkish",
+        "Westron"
+      ],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Fear of Fire",
+          "description": "Hill-men are fearful of fire. If a torch or other flame comes within 10 feet of them, the warrior suffers Disadvantage on attack rolls."
+        },
+        {
+          "name": "Strike Fear",
+          "description": "As an action, the warrior may cause his eyes to flicker red with rage and he howls bestially to chill the hearts of his enemies. Each opponent within 30 ft of the warrior must make a DC 14 Wisdom saving throw or become Frightened until the end of the warrior’s next turn.",
+          "uses": 1,
+          "recharge": "5-6"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 5 (1d6+2) piercing damage or 6 (1d8+2) piercing damage if used with two hands to make a melee attack."
+        },
+        {
+          "name": "Short Sword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.126"
+    },
+    {
+      "name": "Spirit-warg",
+      "size": "Medium",
+      "type": "apparition",
+      "alignment": "",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "16 (3d8+3)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 17,
+        "constitution": 12,
+        "intelligence": 10,
+        "wisdom": 13,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 4,
+        "Intimidation": 4,
+        "Perception": 3
+      },
+      "damage_resistances": [
+        "bludgeoning, piercing and slashing from non-magical attacks"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Fear of Fire",
+          "description": "Spirit-wargs are fearful of fire. If a torch or other flame comes within 10 feet of them, the warg suffers Disadvantage on attack rolls."
+        },
+        {
+          "name": "Great Leap",
+          "description": "The spirit-warg is capable of jumping huge distances. It may make a special Dash action to go twice its normal movement in a single jump. Any opponents in melee combat with the spirit-warg when it uses Great Leap get opportunity attacks as normal."
+        },
+        {
+          "name": "Pack Tactics",
+          "description": "The spirit-warg has Advantage on an attack roll against a creature if at least one of its allies is within 5 feet of the creature and that ally isn’t Incapacitated."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 6 (1d6+3) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.127"
+    },
+    {
+      "name": "Gorgol, Son of Bolg",
+      "size": "Medium",
+      "type": "humanoid (Orc-kind)",
+      "alignment": "",
+      "armor_class": 14,
+      "ac_type": "Hide Armour",
+      "hit_points": "67 (9d8+27)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 14,
+        "constitution": 16,
+        "intelligence": 14,
+        "wisdom": 13,
+        "charisma": 14
+      },
+      "saving_throws": {
+        "Strength": 5,
+        "Constitution": 5,
+        "Wisdom": 3
+      },
+      "skills": {
+        "Intimidation": 4,
+        "Perception": 3,
+        "Riddle": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [
+        "Orkish",
+        "Westron"
+      ],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "Dread Heirloom (1/Day)",
+          "description": "Gorgol can spend his action to raise up The Scimitar of Azog in challenge. All Orc-kind in the battle gain Advantage until the end of their next turn.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Hatred (Dwarves) (Recharge 5-6)",
+          "description": "Gorgol hates Dwarves and will attack them first. He can spend his bonus action to have Advantage on all attacks against them this round.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Hideous Toughness (Recharge after a short or long rest)",
+          "description": "Gorgol can endure enormous damage. By spending an action brandishing the Scimitar of Azog, he gains a pool of 10 (3d6) temporary hit points that last till the end of the fight if not removed by combat damage.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Horrible Strength",
+          "description": "If Gorgol makes a successful melee attack, he may use his bonus action to cause 3 additional damage of the same type to the target."
+        }
+      ],
+      "actions": [
+        {
+          "name": "The Scimitar of Azog",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 12 (2d6+5) magical slashing damage. Two-handed."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Parry",
+          "description": "Gorgol adds 2 to his AC against one melee attack that would hit him. To do so, Gorgol must see the attacker and be wielding a melee weapon."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.127"
+    },
+    {
+      "name": "Maghaz, Orc-Captain",
+      "size": "Medium",
+      "type": "humanoid (Orc-kind)",
+      "alignment": "",
+      "armor_class": 16,
+      "ac_type": "Orc Mail",
+      "hit_points": "60 (8d8+24)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 14,
+        "constitution": 16,
+        "intelligence": 15,
+        "wisdom": 13,
+        "charisma": 12
+      },
+      "saving_throws": {
+        "Constitution": 5,
+        "Wisdom": 3
+      },
+      "skills": {
+        "Intimidation": 3,
+        "Perception": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [
+        "Orkish",
+        "Black Speech",
+        "Westron"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Bodyguards",
+          "description": "Maghaz is always surrounded by lesser orcs whose duty it is to protect their leader. At least one other orc in his retinue gains the Thrall (Maghaz) special reaction ability (see page 137)."
+        },
+        {
+          "name": "Bulky Armour",
+          "description": "Maghaz has Disadvantage on Dexterity checks."
+        },
+        {
+          "name": "Coward",
+          "description": "When injured, Maghaz suffers Disadvantage on all combat rolls."
+        },
+        {
+          "name": "Hate Sunlight",
+          "description": "Maghaz despises the cleansing light of the Sun. If he is exposed to direct bright sunlight, he takes 3 (1d6) psychic damage each round."
+        },
+        {
+          "name": "Leadership",
+          "description": "As a bonus action, Maghaz can command a nearby orc other than himself. That orc takes its turn immediately after Maghaz."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bent Sword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) slashing damage."
+        },
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 5 (1d6+2) piercing damage or 6 (1d8+2) piercing damage if used with two hands to make a melee attack."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.128"
+    },
+    {
+      "name": "Nagrhaw, Chief of the Wargs",
+      "size": "Large",
+      "type": "monstrosity (Warg-kind)",
+      "alignment": "",
+      "armor_class": 16,
+      "ac_type": "natural armour",
+      "hit_points": "85 (9d10+36)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 20,
+        "constitution": 18,
+        "intelligence": 15,
+        "wisdom": 13,
+        "charisma": 10
+      },
+      "saving_throws": {
+        "Dexterity": 8,
+        "Wisdom": 4
+      },
+      "skills": {
+        "Perception": 4,
+        "Stealth": 8
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 14",
+      "languages": [
+        "Wargspeech",
+        "Westron"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Fear of Fire",
+          "description": "Nagrhaw is fearful of fire. If a torch or other flame comes within 10 feet of it, the wolf suffers Disadvantage on his attack rolls. In addition, Nagrhaw is not able to use his Pack Tactics ability."
+        },
+        {
+          "name": "Hard Eyed",
+          "description": "Nagrhaw is a killer without remorse. He scores a critical hit on a 18, 19 or 20 on his attack rolls."
+        },
+        {
+          "name": "Pack Tactics",
+          "description": "The Wolf Leader has Advantage on an attack roll against a creature if at least one of the Wolf Leader’s allies is within 5 feet of the creature and the ally isn’t incapacitated."
+        },
+        {
+          "name": "Savage Attack",
+          "description": "When Nagrhaw scores a critical hit, he does an additional 5 (1d10) damage. This die is not doubled by the critical hit."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Nagrhaw makes two attacks: one bite and one claw attack."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 10 (2d6+3) piercing damage. If the target is a creature, it must make a DC 13 Strength saving throw or be knocked Prone."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft, one target. Hit: 11 (1d12+5) piercing damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Commanding Voice",
+          "description": "Nagrhaw promises pain and torment to his allies who do not follow his will. He may use his reaction when a non-hostile creature, that he can see within 30 feet, is about to make an attack roll or a saving throw. The target can add a d6 Command Die to that roll, provided it can hear and understand the message. A creature can benefit from only one Command Die at a time, and creatures that possess Commanding Voice cannot benefit from this effect."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.129"
+    },
+    {
+      "name": "The Greatest Goblin",
+      "size": "Medium",
+      "type": "humanoid (orc-kind)",
+      "alignment": "",
+      "armor_class": 18,
+      "ac_type": "Orcish Leathers, Huge Hide Shield",
+      "hit_points": "44 (8d8+8)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 12,
+        "constitution": 13,
+        "intelligence": 10,
+        "wisdom": 8,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "History": 2,
+        "Intimidation": 1
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 9",
+      "languages": [
+        "Orkish",
+        "Westron"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Bulky Armour",
+          "description": "The Greatest Goblin has Disadvantage on Dexterity checks."
+        },
+        {
+          "name": "Craven",
+          "description": "If the Greatest Goblin starts his turn with 21 or less hit points, he must make a DC 10 Wisdom saving throw. On a failure, he is Frightened and must use his Dash or Disengage action to move away from any enemies. If movement is impossible, he will take the Dodge action instead."
+        },
+        {
+          "name": "Foul Liquor",
+          "description": "The Greatest Goblin carries a flask of disgusting yet invigorating brew. As a bonus action he may take a swig, regaining 3 (1d6) hit points."
+        },
+        {
+          "name": "Gimlet Eyed",
+          "description": "The Greatest Goblin inflicts +2 damage on all damage rolls made at night or underground (see below)."
+        },
+        {
+          "name": "Hatred (Beornings)",
+          "description": "The Greatest Goblin loathes Beornings. He can use his bonus action to gain Advantage on attacks against them this round.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Greatest Goblin makes two attacks with his hooked axe."
+        },
+        {
+          "name": "Hooked Axe",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 8 (2d4+3) magical slashing damage or 10 (2d4+5) slashing damage at night or underground."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Disarming Parry",
+          "description": "The Greatest Goblin can use his reaction to add +2 to his AC against one attack that he is aware of as long as he wields a melee weapon. If he uses his hooked axe then the attacker must make a DC 12 Strength check or become disarmed as the curved weapon snatches the weapon out of their hands."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.130"
+    },
+    {
+      "name": "Fat Sarquin",
+      "size": "Huge",
+      "type": "monstrosity",
+      "alignment": "",
+      "armor_class": 15,
+      "ac_type": "natural armour",
+      "hit_points": "189 (14d12+98)",
+      "speed": "20 ft, climb 20 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 18,
+        "constitution": 24,
+        "intelligence": 14,
+        "wisdom": 13,
+        "charisma": 8
+      },
+      "saving_throws": {
+        "Constitution": 11,
+        "Wisdom": 5
+      },
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 11",
+      "languages": [
+        "Orkish",
+        "Westron"
+      ],
+      "challenge_rating": "11",
+      "xp": 7200,
+      "features": [
+        {
+          "name": "Countless Children (Lair Action)",
+          "description": "Sarqin's spawn are never far away. She may use a lair action to summon 3 (1d6) Attercops, who arrive at the end of her next turn."
+        },
+        {
+          "name": "Fear Aura",
+          "description": "Any creature hostile to Sarqin that starts its turn within 30 feet of her must make a DC 15 Wisdom saving throw, unless she is Incapacitated. On a failed save, the creature is Frightened until the start of its next turn. If a creature's saving throw is successful, the creature is immune to any Great Spider's Fear Aura for the next 24 hours."
+        },
+        {
+          "name": "Legendary",
+          "description": "Sarqin can take one legendary action each turn. She may use her Beak, Eightfold Gaze or Web as a legendary action."
+        },
+        {
+          "name": "Spider Climb",
+          "description": "Sarqin can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+        },
+        {
+          "name": "Web Sense",
+          "description": "While Sarqin is in contact with a web, she knows the exact location of any other creature in contact with the same web."
+        },
+        {
+          "name": "Web Walker",
+          "description": "Sarqin ignores movement restrictions caused by webbing."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Beak",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft, one target. Hit: 11 (2d6+4) piercing damage. The target must make a DC 16 Constitution saving throw or become Paralysed. A target make repeat the saving throw on their turn, ending the effect on a success."
+        },
+        {
+          "name": "Eightfold Gaze",
+          "description": "Sarqin can take an action to select a target within 20 feet and force that creature to make a DC 16 Wisdom saving throw. On a failed save, the creature gains the Paralysed condition for 1d4 rounds. She may then use any of her attacks as a bonus action against the Paralysed target. If the creature passes the saving throw it is immune to this ability for 24 hours."
+        },
+        {
+          "name": "Web",
+          "description": "Ranged Weapon Attack: +8 to hit, range 30/60 ft, one Large or smaller creature. Hit: The creature is Restrained by webbing. As an action, the Restrained creature can make a DC 13 Strength check, escaping from the webbing on a success. The effect also ends if the webbing is destroyed. The webbing has AC 10, 15 hit points, vulnerability to fire damage and immunity to bludgeoning, poison and psychic damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.131"
+    },
+    {
+      "name": "Savage Tauler",
+      "size": "Huge",
+      "type": "monstrosity",
+      "alignment": "",
+      "armor_class": 17,
+      "ac_type": "natural armour",
+      "hit_points": "137 (11d12+66)",
+      "speed": "40 ft, climb 40 ft",
+      "ability_scores": {
+        "strength": 20,
+        "dexterity": 18,
+        "constitution": 22,
+        "intelligence": 14,
+        "wisdom": 13,
+        "charisma": 8
+      },
+      "saving_throws": {
+        "Dexterity": 8,
+        "Constitution": 10
+      },
+      "skills": {
+        "Perception": 5,
+        "Stealth": 8
+      },
+      "damage_resistances": [
+        "non-magical bludgeoning",
+        "non-magical piercing",
+        "non-magical slashing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 15",
+      "languages": [
+        "Orkish",
+        "Westron"
+      ],
+      "challenge_rating": "9",
+      "xp": 5000,
+      "features": [
+        {
+          "name": "Camouflage",
+          "description": "Tauler has Advantage on all Stealth checks in wooded terrain."
+        },
+        {
+          "name": "Spider Climb",
+          "description": "Tauler can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Beak",
+          "description": "Melee Weapon Attack: +9 to hit, reach 5 ft, one target. Hit: 12 (2d6+5) piercing damage. The target must make a DC 16 Constitution saving throw or be Paralysed until they complete a short rest. A target make repeat the saving throw on their turn, ending the effect on a success."
+        },
+        {
+          "name": "Stomp",
+          "description": "Melee Weapon Attack: +9 to hit, reach 10 ft, one target. Hit: 26 (6d6+5) bludgeoning damage. The target must make a DC 16 Strength saving throw or be thrown 20 feet and knocked Prone."
+        },
+        {
+          "name": "Terrorise",
+          "description": "Tauler targets up to three intelligent creatures he can see within 40 feet. Those targets must succeed on a DC 16 Wisdom saving throw or become Frightened until the end of his next turn."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.132"
+    },
+    {
+      "name": "Tyulqin, the Weaver",
+      "size": "Huge",
+      "type": "Monstrosity",
+      "alignment": "",
+      "armor_class": 19,
+      "ac_type": "natural armour",
+      "hit_points": "161 (14d12+70)",
+      "speed": "40 ft, climb 40 ft",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 25,
+        "constitution": 21,
+        "intelligence": 18,
+        "wisdom": 20,
+        "charisma": 16
+      },
+      "saving_throws": {
+        "Dexterity": 8,
+        "Constitution": 9,
+        "Wisdom": 9
+      },
+      "skills": {
+        "Perception": 9,
+        "Shadow-lore": 8
+      },
+      "damage_resistances": [
+        "non-magical bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "blindsight 30 ft, darkvision 60 ft, passive Perception 19",
+      "languages": [
+        "Orkish",
+        "Westron",
+        "Sindarin",
+        "Silvan"
+      ],
+      "challenge_rating": "13",
+      "xp": 10000,
+      "features": [
+        {
+          "name": "Legendary",
+          "description": "Sarqin can take two legendary actions each turn. She may use her Beak, Ensnare, or Mesmerise abilities as legendary actions."
+        },
+        {
+          "name": "Many Poisons",
+          "description": "Tyulqin can use her bonus action to inject a poison when she successfully attacks with her beak. She may choose from the following effects:\n• Crazed: The victim is temporarily affected by their next Shadow Weakness Flaw until they take a long rest.\n• Despair: The victim is Miserable until they take a short rest.\n• Distraught: The victim is Blinded and Deafened until they take a short rest.\n• Weakened: The victim gains 2 (1d4) levels of Exhaustion.\n• Sleep: The victim must make a DC 17 Constitution saving throw or become Unconscious."
+        },
+        {
+          "name": "Spider Climb",
+          "description": "Tyulqin can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+        },
+        {
+          "name": "Web Sense",
+          "description": "While Tyulqin is in contact with a web, she knows the exact location of any other creature in contact with the same web."
+        },
+        {
+          "name": "Web Walker",
+          "description": "Tyulqin ignores movement restrictions caused by webbing."
+        },
+        {
+          "name": "Webs of Illusion (1/day, Lair Action)",
+          "description": "Tyulqin can enchant her webs to provide a vision that will deceive even Elven eyes. If she chooses to use this ability it must be on in the first round. Each target must make a DC 17 Wisdom saving throw or be Surprised.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Woven from Darkness (1/day, Lair Action)",
+          "description": "Tyulqin can enchant her webs to absorb light itself, plunging everything within 30 ft around her into utter darkness. Non-magical light cannot penetrate the darkness, and creatures with darkvision cannot see into it. Magical light from any source can dispel the effect.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Beak",
+          "description": "Melee Weapon Attack: +11 to hit, reach 5 ft, one target. Hit: 14 (2d6+7) piercing damage."
+        },
+        {
+          "name": "Ensnare",
+          "description": "Ranged Weapon Attack: +11 to hit, reach 10 ft, one target. Hit: The target has been caught by Tyulqin's web-line and is Restrained (escape DC 17) by her web."
+        },
+        {
+          "name": "Mesmerise",
+          "description": "Tyulqin may use her action and target one creature, who must make a DC 17 Wisdom saving throw. On a failed save, the target becomes Charmed until Tyulqin leaves the area or attacks the Charmed creature."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.133"
+    },
+    {
+      "name": "Forest Goblin",
+      "size": "Small",
+      "type": "Humanoid (Orc-kind)",
+      "alignment": "",
+      "armor_class": 14,
+      "ac_type": "Orcish Leathers",
+      "hit_points": "13 (3d6+3)",
+      "speed": "30 ft, climb 20 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 17,
+        "constitution": 13,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 4,
+        "Perception": 3,
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [
+        "Orkish"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Camouflage",
+          "description": "Forest Goblins have Advantage on all Stealth checks in wooded terrain."
+        },
+        {
+          "name": "Hate Sunlight",
+          "description": "Forest Goblins despise the Sun. If it is exposed to direct bright sunlight, the goblin takes 3 (1d6) psychic damage each round."
+        },
+        {
+          "name": "Horrible Strength",
+          "description": "If a Forest Goblin makes a successful melee attack, it may use its bonus action to cause 2 additional damage of the same type to the target."
+        },
+        {
+          "name": "Mirkwood Dweller (Recharge 5-6)",
+          "description": "If there are any Mirkwood scenery features within 5 ft of the Forest Goblin it may use its bonus action to gain half cover. even if that scenery feature would not normally provide it.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Jagged Knife",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 5 (1d4+3) piercing damage."
+        },
+        {
+          "name": "Stone Spear",
+          "description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 5 (1d6+2) piercing damage or 6 (1d8+2) piercing damage if used with two hands to make a melee attack. If the Forest Goblin scores a critical hit, the stone head is destroyed in the process of doing the extra damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.134"
+    },
+    {
+      "name": "Hunter Spider",
+      "size": "Medium",
+      "type": "Monstrosity",
+      "alignment": "",
+      "armor_class": 14,
+      "ac_type": "natural armour",
+      "hit_points": "39 (6d8+12)",
+      "speed": "40 ft, climb 40 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 17,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 13,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 13",
+      "languages": [],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Camouflage",
+          "description": "Hunter Spiders have Advantage on all Stealth checks in wooded terrain."
+        },
+        {
+          "name": "Great Leap",
+          "description": "Hunter Spiders are capable of jumping huge distances. It may make a special Dash action to go twice its normal movement in a single jump. Any opponents in melee combat with the spider when it uses this ability get opportunity attacks as normal."
+        },
+        {
+          "name": "Spider Climb",
+          "description": "Hunter Spiders can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Beak",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 7 (2d4+2) piercing damage. The target must make a DC 13 Constitution saving throw or be Poisoned until they complete a short rest. A target may repeat the saving throw on their turn, ending the effect on a success."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.135"
+    },
+    {
+      "name": "Marsh-dweller",
+      "size": "Medium",
+      "type": "humanoid",
+      "alignment": "",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "15 (2d8+6)",
+      "speed": "20 ft",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 15,
+        "constitution": 17,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 7
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [
+        "Bludgeoning from non-magical weapons"
+      ],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 10",
+      "languages": [],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "The Marsh-dweller does not need to breathe underwater."
+        },
+        {
+          "name": "Foul Reek",
+          "description": "The Marsh-dweller exudes such a horrid stink that, as a bonus action, it can force an opponent engaged in melee combat with it to make a DC 12 Constitution saving throw or acquire the Poisoned condition until the end of its next turn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 6 (1d8+2) slashing damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Biter",
+          "description": "When attacked, the Marsh-dweller can use its reaction to make a single bite melee attack against its attacker. Melee Weapon Attack: +1 to hit, reach 5 ft, one target. Hit: 5 (2d4) slashing damage."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.136"
+    },
+    {
+      "name": "Wild Man Warrior",
+      "size": "Medium",
+      "type": "human",
+      "alignment": "",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "19 (3d8+6)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 17,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 13,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 5,
+        "Perception": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Hatred (Elves)",
+          "description": "Wild Men hate and fear Elves and will attack them first. The warrior can spend his bonus action to have Advantage on all attacks against them this round.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Mirkwood Dweller",
+          "description": "If there are any Mirkwood scenery features within 5 ft of the warrior he may use his bonus action to gain half cover. even if that scenery feature would not normally provide it.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Short Bow",
+          "description": "Ranged Weapon Attack: +5 to hit, range 80/320 ft, one target. Hit: 6 (1d6+3) piercing damage."
+        },
+        {
+          "name": "Stone Spear",
+          "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 6 (1d6+3) piercing damage or 7 (1d8+3) piercing damage if used with two hands to make a melee attack. If the warrior scores a critical hit, the stone head is destroyed in the process of doing the extra damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Thrall (Spiders)",
+          "description": "Wild Men are often the slaves of the Great Spiders. You may designate one spider as the warrior’s master. If the master is within the warrior’s movement speed, the warrior can use his reaction to become the target of an attack that would have hit his master. If the master is slain, the warrior flees the battlefield."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.137"
+    },
+    {
+      "name": "Wood-wight",
+      "size": "Medium",
+      "type": "undead",
+      "alignment": "",
+      "armor_class": 16,
+      "ac_type": "Wraith-like",
+      "hit_points": "45 (10d8)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 17,
+        "constitution": 11,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {
+        "Stealth": 4
+      },
+      "damage_resistances": [
+        "Non-magical bludgeoning, piercing and slashing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 11",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "Denizen of the Dark",
+          "description": "The Wood-wight is particularly adept at using the environment and shadows to its benefit. When it takes the Hide action, it makes a Dexterity (Stealth) check and any foes must make an opposed Wisdom (Perception) check to track its movements."
+        },
+        {
+          "name": "Stealthy",
+          "description": "The Wood-wight may use its bonus action each round to Hide."
+        },
+        {
+          "name": "Wraith-like",
+          "description": "The wight is a creature of shadow, sticks and bones animated by undying hatred. It has resistance to all non-magical weapon damage (see above)."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Horror of the Wood",
+          "description": "If encountered in Mirkwood, the Wood-wight can use its action to stir the evil forest to action. Tree limbs quiver and creak, leaves rustle with no wind, all manner of scurrying and slimy things scramble about, and the heroes feel the malevolence of the ancient wood. Each creature within 30 feet of the wight must make a DC 15 Wisdom saving throw. Those that fail are Frightened until the end of the Wood-wight’s next turn."
+        },
+        {
+          "name": "Multiattack",
+          "description": "The Wood-wight makes three attacks with its strangling claws."
+        },
+        {
+          "name": "Strangling Claws",
+          "description": "Melee Attack: +5 to hit, reach 5 ft, one target. Hit: 6 (1d6+3) magical slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rhovanion Region Guide p.138"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Amfossa the Trapper",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 14,
+      "hit_points": "44 (8d8+8)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 14,
+        "constitution": 12,
+        "intelligence": 13,
+        "wisdom": 16,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "History": 3,
+        "Lore": 3,
+        "Perception": 5
+      },
+      "features": [
+        {
+          "name": "Commanding",
+          "description": "Amfosa's allies gain Advantage on attack rolls against enemies who are engaged with Amfosa."
+        },
+        {
+          "name": "Hawk's Eye (4-6)",
+          "description": "Amfosa may use her bonus action to negate Disadvantage due to being at long range for this turn only.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Short Bow",
+          "description": "Ranged Weapon Attack: +4 to hit, range 80/320 ft, one target. Hit: 5 (1d6+2) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A few hardy trappers live along the Greylin River, hunting the beavers and stoats for their fur, which they trade with the Beornings. Amfossa is the leader and spokeswoman for these trappers. She is a tall, powerfully-built woman with eyes that seem blue or green or brown depending on the light.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 200,
+      "source": "Rhovanion Region Guide p.15"
+    },
+    {
+      "name": "Hwalda, Hill-man Guide",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 13,
+      "hit_points": "19 (3d8+6)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 12,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 9
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Shadow-lore": 2,
+        "Survival": 3
+      },
+      "features": [
+        {
+          "name": "Far Traveller",
+          "description": "If the Company is travelling with Hwalda, she may be assigned a journey role."
+        },
+        {
+          "name": "Spirit-warg Dreams",
+          "description": "If Hwalda can sleep undisturbed on a journey, she has Advantage on the first check that she is required to make for a Journey Event each day."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Dwarf-forged Short Sword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Hwalda is one of the wild folk of the Vales of Gundabad. She is actually of mixed blood, born of a Northman hunter and a Hill-man mother. She is capable of leaving her body as a spirit-warg, but unlike most of her kin she has travelled beyond the natural boundaries of the two rivers and has no love for the Goblins and the wild wolves of the vales, as they killed her father when she was young.",
+      "role": "Guide",
+      "is_enemy": false,
+      "xp_reward": 100,
+      "source": "Rhovanion Region Guide p.16"
+    },
+    {
+      "name": "Farmann, the March-warden",
+      "race": "Northman",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Warning",
+          "description": "maybe there’s a storm coming, or a stream to be crossed safely at a certain location, or a den of particularly nasty critters to avoid. Whatever the nature of the danger, the warning is true, and never fails to prove helpful. The next check due to a Journey Event is made with Advantage."
+        },
+        {
+          "name": "Duty",
+          "description": "he has a wife and daughter living in the northern Dalelands, and that he should return to them — but again, he is too tired."
+        },
+        {
+          "name": "Disappearance",
+          "description": "By daybreak, the old man and his horse disappear without a trace."
+        }
+      ],
+      "actions": [],
+      "equipment": [
+        "shield",
+        "sword",
+        "tall spear",
+        "stout mountain horse with a snow-white mane"
+      ],
+      "spellcasting": null,
+      "description": "Many wanderers who have journeyed across the grey road tell tales of a solitary figure, a rider who makes his appearance when a company of travellers faces particularly dangerous odds. The rider is usually seen at a distance, on a hilltop or just at the edge of vision at night. He points in right direction when a group seems to have lost their way, or to warn companies of impending danger, such as approaching wild wolves or other threats. The figure is described as a Northman warrior carrying shield, sword and a tall spear, riding a stout mountain horse with a snow-white mane. He is often referred to as Farmann, the March-warden. A few witnesses, maybe the more imaginative ones, depict him as an old man, ancient beyond the reckoning of years, but with a keen, piercing gaze. Some attribute to him the pale, cold fires that may be spied at night blazing on the hilltops dotting the landscape around the east gap.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Rhovanion Region Guide p.22"
+    },
+    {
+      "name": "Frár the Beardless",
+      "race": "Dwarf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 16,
+      "hit_points": "60 (8d8+24)",
+      "speed": "25 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 10,
+        "constitution": 16,
+        "intelligence": 13,
+        "wisdom": 16,
+        "charisma": 12
+      },
+      "saving_throws": {},
+      "skills": {
+        "History": 3,
+        "Shadow-lore": 3,
+        "Perception": 5,
+        "Survival": 5
+      },
+      "features": [
+        {
+          "name": "Region-lore (Grey Mountain Narrows)",
+          "description": "If Frár is with the Company for a journey that begins or ends in the Narrows, the Guide rolls 1d8+4 for the Embarkation Roll."
+        },
+        {
+          "name": "Old Hatred",
+          "description": "When Frár fights Orc-kind, he rolls his damage die twice and selects the higher result. If you choose to use the average damage add +2."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Warhammer",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 6 (1d8+2) bludgeoning damage."
+        }
+      ],
+      "equipment": [
+        "Ring-mail",
+        "Shield",
+        "Warhammer"
+      ],
+      "spellcasting": null,
+      "description": "Frár the Beardless is a Dwarf of the Grey Mountains, chief of the folk of the Greydelve. He wears a tooth from Scatha the Worm on a golden chain around his neck. He hates the Elves, who twice caught him trespassing in the Woodland Realm.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 450,
+      "source": "Rhovanion Region Guide p.22-23"
+    },
+    {
+      "name": "Tholin the Trader",
+      "race": "Dwarf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 14,
+      "hit_points": "39 (6d8+12)",
+      "speed": "25 ft",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 10,
+        "constitution": 14,
+        "intelligence": 16,
+        "wisdom": 15,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {
+        "Lore": 5,
+        "Perception": 4,
+        "Survival": 4,
+        "Traditions": 5
+      },
+      "features": [
+        {
+          "name": "Blackthorn Walking Staff",
+          "description": "If Tholin is the Guide for a journey, he rolls 1d4+4 for his Arrival Roll. Additionally, any attack he makes with his staff counts as magical."
+        },
+        {
+          "name": "Far Traveller",
+          "description": "If the Company is travelling with Tholin, he may be assigned a journey role."
+        },
+        {
+          "name": "Walking Songs",
+          "description": "If the companions travel with Tholin, once upon the journey they can make a DC 10 Charisma (Performance) check. If successful, the hero gains Inspiration."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Staff",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) magical bludgeoning damage."
+        }
+      ],
+      "equipment": [
+        "Ring-mail",
+        "Blackthorn walking-staff"
+      ],
+      "spellcasting": null,
+      "description": "Tholin the Trader is an old Dwarf, merry and kindly by the gruff standards of his folk, who has travelled between the Blue Mountains and the Iron Hills for many lifetimes of Men. He is a canny Guide and has many friends both west and east of the Mountains, including Gandalf.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 200,
+      "source": "Rhovanion Region Guide p.23"
+    },
+    {
+      "name": "Cruac the Outlaw",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Evil",
+      "armor_class": 15,
+      "hit_points": "58 (9d8+18)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 15,
+        "constitution": 14,
+        "intelligence": 14,
+        "wisdom": 11,
+        "charisma": 16
+      },
+      "saving_throws": {},
+      "skills": {
+        "Deception": 5,
+        "Investigation": 4,
+        "Riddle": 4,
+        "Traditions": 4
+      },
+      "features": [
+        {
+          "name": "Ambush",
+          "description": "During his first turn, Cruac has Advantage on attack rolls against any creature that hasn't taken a turn."
+        },
+        {
+          "name": "Coward",
+          "description": "When injured, Cruac suffers Disadvantage on all combat rolls."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Short Bow",
+          "description": "Ranged Weapon Attack: +4 to hit, range 80/320 ft, one target. Hit: 5 (1d6+2) piercing damage."
+        },
+        {
+          "name": "Terrorise",
+          "description": "Cruac targets up to three intelligent creatures he can see within 30 feet. If there are more outlaws present than targets of this ability, then those targets must succeed on a DC 13 Wisdom saving throw or become Frightened until the end of his next turn."
+        }
+      ],
+      "equipment": [
+        "Hide Armour",
+        "Shield",
+        "Short Bow"
+      ],
+      "spellcasting": null,
+      "description": "Cruac does not look like a fearsome outlaw. He is a slight, meek-mannered fellow who stands no more than five feet high, with a scraggly beard and a growing bald spot. He won his place at the head of his company through his cleverness and bravery, not through strength. He is an accomplished liar; he sometimes befriends travellers and lures them into ambushes, or visits the Beorning settlements to learn if they are hunting him. Cruac lets his loyal men do the fighting for him — as far as he's concerned, battles are won in the mind long before they are fought by force of arms.",
+      "role": "Outlaw leader",
+      "is_enemy": true,
+      "xp_reward": 700,
+      "source": "Rhovanion Region Guide p.26"
+    },
+    {
+      "name": "Black Tom",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 14,
+      "hit_points": "45 (6d8+18)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 11,
+        "constitution": 17,
+        "intelligence": 12,
+        "wisdom": 15,
+        "charisma": 12
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 3,
+        "Performance": 3,
+        "Survival": 4
+      },
+      "features": [
+        {
+          "name": "Berserk",
+          "description": "After the first round of combat, Tom may make a single melee weapon attack as a bonus action on each of his turns."
+        },
+        {
+          "name": "Call the Dogs",
+          "description": "Once per short or long rest, Tom may whistle for his dogs, calling 1d4 Mastiffs to aid him. They arrive at the end of his next turn.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Axe",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 6 (1d8+2) slashing damage or 7 (1d10+2) slashing damage if used with both hands."
+        }
+      ],
+      "equipment": [
+        "Hide Armour",
+        "Shield",
+        "Axe"
+      ],
+      "spellcasting": null,
+      "description": "The house of Black Tom is a fortified farmstead in the east of the Sceadudene, with many outbuildings and enclosures for livestock. Tom is the head of a large household, and his word carries great weight among the cottars. The proud folk of this land have no lords or chieftains or kings, but they listen when Tom speaks.",
+      "role": "Head of a large household",
+      "is_enemy": false,
+      "xp_reward": 200,
+      "source": "Rhovanion Region Guide p.26"
+    },
+    {
+      "name": "Tom",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Call the Dogs",
+          "description": "Once per short or long rest, Tom may whistle for his dogs, calling 1d4 Mastiffs to aid him. They arrive at the end of his next turn.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Axe",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 6 (1d8+2) slashing damage or 7 (1d10+2) slashing damage if used with both hands."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Tom may make a single melee weapon attack as a bonus action on each of his turns.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Rhovanion Region Guide p.27"
+    },
+    {
+      "name": "Saviga",
+      "race": "Goblin",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +3 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 4 (1d6+1) piercing damage or 5 (1d8+1) piercing damage if used with two hands to make a melee attack."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "In truth, Saviga also gives secret counsel to Viglar, suggesting targets for raids, playing one warrior off against each other, and tempting Viglar into the worship of the Enemy. Should Viglar become chieftain, then Saviga will continue to whisper poison into his ear. Saviga is not usually allowed to bear arms, but should his life be threatened, he would try to get hold of a spear, a weapon he wields to great effect.",
+      "role": "Advisor",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Rhovanion Region Guide p.33"
+    },
+    {
+      "name": "Osred",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 15,
+      "hit_points": "49 (9d8+9)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 13,
+        "constitution": 13,
+        "intelligence": 10,
+        "wisdom": 15,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "Animal Handling": 6,
+        "Persuasion": 3,
+        "Traditions": 2
+      },
+      "features": [
+        {
+          "name": "Rider",
+          "description": "Osred is often found astride his palfrey (riding horse)."
+        },
+        {
+          "name": "Born to the Saddle",
+          "description": "Osred has Advantage on all Wisdom (Animal Handling) checks."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Glinting Spear",
+          "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 6 (1d6+3) piercing damage or 7 (1d8+3) piercing damage if used with two hands to make a melee attack. If Osred successfully hits on the first round of combat add +2 to his damage."
+        }
+      ],
+      "equipment": [
+        "Leather Corslet",
+        "Shield"
+      ],
+      "spellcasting": null,
+      "description": "Osred was a famous warrior in his youth, and while his beard is now grey and his pate bald as the Carrock, he still has the respect and love of his followers. He commands a company of mounted warriors who patrol the roads from the Old Ford to the base of the High Pass, and is responsible for protecting travellers and collecting tolls.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 200,
+      "source": "Rhovanion Region Guide p.38"
+    },
+    {
+      "name": "Ennalda the Spear-Maiden",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 14,
+      "hit_points": "37 (5d8+15)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 10,
+        "constitution": 16,
+        "intelligence": 16,
+        "wisdom": 12,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Shadow-lore": 5
+      },
+      "features": [
+        {
+          "name": "Warrior's Charge",
+          "description": "Ennalda gains Advantage on her attack for the first round of combat."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 5 (1d6+2) piercing damage or 6 (1d8+2) piercing damage if used with two hands to make a melee attack."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Evil men murdered Ennalda's mother when she was young. Her father was a sell-sword, a wandering freebooter — sometimes a mercenary, sometimes a treasure-hunter, sometimes an outlaw — who taught her to fight at a young age. He left her in Beorn's house as a fosterling and went to seek his fortune in Dale, but never returned. She has spent the last four years living under Beorn's roof. Ennalda has grown into a fierce slayer, whose long spear is as swift and lethal as a thunderbolt. She has devoted herself to protecting Beorn and his homestead, and is always the first to defend her foster-father in battle or in debate. Her temper is almost as fearsome as her weapon. She is one of Beorn's spear-thanes, and he sends her as his emissary to far-flung homesteads. Ennalda deeply mistrusts adventurers. She grew up with mercenaries and wanderers, and knows they are dangerous, untrustworthy sorts. If any adventurers visit Beorn's stead, then she keeps a close eye on them in case they make mischief.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 200,
+      "source": "Rhovanion Region Guide p.44"
+    },
+    {
+      "name": "Beranald, Doorwarden of Mountain Hall",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 15,
+      "hit_points": "26 (4d8+8)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 10,
+        "constitution": 15,
+        "intelligence": 13,
+        "wisdom": 15,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 4,
+        "Persuasion": 4,
+        "Traditions": 3
+      },
+      "features": [
+        {
+          "name": "Call for Aid",
+          "description": "Beranald may use his action to blow his horn and summon aid. 1d4 Warriors (page 71 of the Loremaster’s Guide) arrive in 1d6+1 rounds."
+        },
+        {
+          "name": "Raise the Alarm",
+          "description": "Beranald begins combat with 5 temporary hit points. These hit points are lost as soon as he attacks or calls for aid."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Broadsword",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft, one target. Hit: 5 (1d8+1) slashing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Beranald is the Doorwarden of Mountain Hall, the first line of defense. He is as unyielding as stone.",
+      "role": "Doorwarden",
+      "is_enemy": false,
+      "xp_reward": 200,
+      "source": "Rhovanion Region Guide p.51"
+    },
+    {
+      "name": "Hartfast, son of Hartmut",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 16,
+      "hit_points": "75 (10d8+30)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 10,
+        "constitution": 16,
+        "intelligence": 11,
+        "wisdom": 15,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {
+        "Insight": 5,
+        "Intimidation": 3,
+        "Perception": 5
+      },
+      "features": [
+        {
+          "name": "Aggressive",
+          "description": "As a bonus action, Hartfast can move up to his speed toward a foe that he can see."
+        },
+        {
+          "name": "Hard Eyed",
+          "description": "Hartfast has won many battles in defence of his hall. He scores critical hits on a 18, 19 or 20 on an attack roll."
+        },
+        {
+          "name": "Warrior’s Charge",
+          "description": "Hartfast gains Advantage on all attacks made in the first round of combat."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Hartfast makes two attacks with his great axe."
+        },
+        {
+          "name": "Great Axe",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 10 (1d12+4) slashing damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Commanding Voice",
+          "description": "Hartfast can inspire his allies with his imposing presence and authoritative voice. He can use his reaction to utter a command or shout a warning whenever a non-hostile creature, that he can see within 30 feet, is about to make an attack roll or a saving throw. The target can add a d6 Command Die to its next roll, provided it can hear and understand the message. A creature can benefit from only one Command Die at a time, and creatures that possess Commanding Voice cannot benefit from this effect."
+        },
+        {
+          "name": "Parry",
+          "description": "Hartfast adds +3 to his AC against one melee attack that would hit him. To do so, he must see the attacker and be wielding a melee weapon."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Hartfast is the chieftain of Mountain Hall, a proud warrior of more than fifty years, very tall even by Northmen standards, yet still able to wield an axe with purpose. He is a very practical man, almost as obstinate as a Dwarf, with no time to waste on foolish things like ‘adventures’.",
+      "role": "Chieftain",
+      "is_enemy": false,
+      "xp_reward": 1800,
+      "source": "Rhovanion Region Guide p.51"
+    },
+    {
+      "name": "Ash",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 18,
+      "hit_points": "45 (7d8+14)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 18,
+        "constitution": 15,
+        "intelligence": 12,
+        "wisdom": 15,
+        "charisma": 17
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 4,
+        "Performance": 5,
+        "Shadow-lore": 3
+      },
+      "features": [
+        {
+          "name": "Hard Eyed",
+          "description": "Ash has won many battles and is an accomplished warrior. She scores critical hits on a 18, 19 or 20 on an attack roll."
+        },
+        {
+          "name": "Song of Lament",
+          "description": "Ash may use her action to sing an otherworldly dirge. Though few can understand the words, the music calls to mind terrible tragedies and great suffering. Anyone who hears the song must make a DC 13 Wisdom saving throw or gain 1 point of Shadow."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Broadsword",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 8 (1d8+4) slashing damage"
+        }
+      ],
+      "equipment": [
+        "Leather Corslet",
+        "Shield"
+      ],
+      "spellcasting": null,
+      "description": "The Elf-woman named Ash is the leader of the free slaves. She is not an Elf of Mirkwood, and does not speak of her past. She endured centuries of torment in the pits of Dol Guldur — she was captured by the Enemy uncounted years ago, long before the Watchful Peace, to wring a precious secret out of her. Now, it is in the power of the Elves to perish when faced with terrible torment, for they shall be reborn in the Undying Lands. Ash chose to remain — out of love for the wild lands, or out of pride, none can say. The Wood-elves suspect that her sufferings drove her mad. Great power is in her, but also great anger and sorrow.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 700,
+      "source": "The Lands of the River p.55"
+    },
+    {
+      "name": "Valderic",
+      "race": "Medium Human (Evil Men)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 16,
+      "hit_points": "60 (8d8+24)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 10,
+        "constitution": 16,
+        "intelligence": 12,
+        "wisdom": 15,
+        "charisma": 10
+      },
+      "saving_throws": {
+        "wisdom": 5
+      },
+      "skills": {
+        "Animal Handling": 5,
+        "Shadow-lore": 4
+      },
+      "features": [
+        {
+          "name": "Screamer",
+          "description": "In battle Valderic taunts and curses his enemies in a dark and unknown language full of malice, and all heroes who can hear him have Disadvantage on their attack rolls."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Valderic makes two attacks with his axe."
+        },
+        {
+          "name": "Axe",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 8 (1d8+4) slashing damage or 9 (1d10+4) slashing damage if wielded with two hands."
+        }
+      ],
+      "equipment": [
+        "Scale Hauberk",
+        "Shield"
+      ],
+      "spellcasting": null,
+      "description": "Valderic is a wagon-captain of the Erringmen. His Easterling heritage is strong — he is shorter than the average Northman, sallow of skin, and heavily built. The Woodmen mock him, calling him halfling, half-man. They are careful not to say this to his face, for Valderic is quick to laugh, but quicker to anger. He has long felt attracted by the Shadow, and since the fall of Dol Guldur he has twice dared to enter the fortress to look for relics and treasures. Some whisper that Valderic has been able to learn sorcery, and that he can now command the spirits of the dead. Certainly, his chariot is decorated with the skulls of his fallen foes, and strange lights can be seen at night glowing within his wagon.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 1800,
+      "source": "The Lands of the River p.55"
+    },
+    {
+      "name": "Iwmud the Goatherd",
+      "race": "",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Old Iwmud has tended the Woodman herds of the Vales for many years. The Northmen of Mirkwood see anyone who lives in the open as eccentric, and Iwmud is certainly that. He talks to the trees and the goats, and sings in his own strange language to himself as he watches the herds. He also has a number of curious friends, foreigners from distant lands who stay at his shack for a few nights before carrying on north or south. It is even said that Eagles can often be seen circling over Iwmud’s home, although who can say if they are watching him or guarding him? Iwmud is certainly more than he seems; he could be a secret agent of Gandalf — or a spy for the Enemy.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Rhovanion Region Guide p.56"
+    },
+    {
+      "name": "Mansbane",
+      "race": "",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "The creature known as Mansbane is probably a troll of some sort, perhaps a Hill-troll that grew strong and fell in the pits of Dol Guldur. No-one has ever seen it and lived, but the devastation left in its wake is plain to see. The beast appears, ravages a settlement or a camp, killing everyone present, then vanishes into the night. Despite its apparent size, the best trackers have been unable to follow its trail, as though the beast took to the air after its atrocities. Mansbane’s attacks have increased since Dol Guldur’s fall; Radagast wonders if the monster was in the thrall of the Necromancer, and now that its master is gone, the beast is free to ravage and despoil. It has never been encountered in the forest, but has attacked the Woodmen from the Nether Vales to the Forest Gate. Mansbane might possess several powerful abilities, such as In the Sack with You!, Seize Victim and Thick Hide.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Rhovanion Region Guide p.56"
+    },
+    {
+      "name": "Arciryas, Servant of Saruman",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 11,
+      "hit_points": "33 (6d8+6)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 13,
+        "constitution": 12,
+        "intelligence": 17,
+        "wisdom": 12,
+        "charisma": 15
+      },
+      "saving_throws": {},
+      "skills": {
+        "History": 5,
+        "Medicine": 5,
+        "Shadow-lore": 7
+      },
+      "features": [
+        {
+          "name": "Cunning Speech",
+          "description": "If Arciryas has a chance to speak, then any intelligent foes within earshot must make a DC 13 Wisdom saving throw or suffer Disadvantage when attacking him."
+        },
+        {
+          "name": "Master Healer",
+          "description": "If Arciryas spends time with a hero, he can either heal 13 (3d8) points of damage, or remove one condition from the following list: Frightened, Paralysed, Stunned or Unconscious.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Poisoned Knife",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft, one target. Hit: 3 (1d4+1) poison damage and the target loses 2 (1d4) additional poison damage from blood loss at the end of each its following turns, unless it spends an action to staunch the wound."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Arciryas is a man of Gondor. He was once a Master Healer in Minas Tirith, and learned the arts of herbalism and chirugery in the Houses of Healing. His curiosity led him to consult old, musty scrolls in the archives, scrolls that spoke of the atrocities and evil spells worked by the Enemy. Arciryas saw many warriors of Gondor who were wounded by Orc-poison and other devices, and believed he could heal them if only he learned their secrets. When his research could go no further, he went to the Tower of Orthanc and consulted with Saruman the White, who had himself long studied the arts of the Enemy. Arciryas never returned to Gondor. Today, he lives in the Gladden Fields. He is a student of herb-lore, and says that the medicinal properties of the many plants that grow in the marshes must be catalogued. He is devoted to his work, spending long days wandering the wilderness,",
+      "role": "Servant of Saruman",
+      "is_enemy": false,
+      "xp_reward": 200,
+      "source": "Rhovanion Region Guide p.60"
+    },
+    {
+      "name": "Byrgol",
+      "race": "Hobbit",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 16,
+      "hit_points": "39 (8d6+16)",
+      "speed": "25 ft",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 18,
+        "constitution": 15,
+        "intelligence": 17,
+        "wisdom": 15,
+        "charisma": 12
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 4,
+        "Riddle": 5,
+        "Stealth": 6
+      },
+      "features": [
+        {
+          "name": "Art of Disappearing",
+          "description": "Byrgol can Hide with perfect success. He is considered to have rolled a 20 on any Stealth checks."
+        },
+        {
+          "name": "Region-lore (Gladden Fields)",
+          "description": "If Byrgol is with the Company for a journey that begins or ends in the Gladden Field, the Guide rolls 1d8+4 for the Embarkation Roll."
+        },
+        {
+          "name": "Stealthy",
+          "description": "Byrgol can use his bonus action to Hide."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Byrgol makes two attacks with his short sword."
+        },
+        {
+          "name": "Short Sword",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 7 (1d6+4) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Byrgol is a brave Hobbit. He found a sword in a wrecked boat — it’s really more of a long knife — and stole it. He’s proved surprisingly successful in battle — a well-placed stab from below has emptied the guts of more than a few Orcs.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 700,
+      "source": "Rhovanion Region Guide p.61"
+    },
+    {
+      "name": "Arnulf the Leofring",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 14,
+      "hit_points": "31 (7d8)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 12,
+        "constitution": 10,
+        "intelligence": 14,
+        "wisdom": 12,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {
+        "Investigation": 4,
+        "Shadow-lore": 4,
+        "Stealth": 3
+      },
+      "features": [
+        {
+          "name": "Ambush",
+          "description": "During his first turn, Arnulf has Advantage on attack rolls against any creature that hasn't taken a turn. If he scores a melee critical hit on a target in this turn, that target is knocked Prone."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Great Spear",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 9 (1d12+3) piercing damage"
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Arnulf knows the ruins better than any other Leofring, and has discovered a network of Dwarf tunnels under the city. These tunnels are mostly clogged with earth and fallen debris, but he has excavated some of the ones around his home and uses them to sneak around the ruins. Motivation: To make Orc-kind pay for their evil. Expectations: +1 if there is Dwarf in the Company; -2 if the heroes make light of his suffering",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 450,
+      "source": "Rhovanion Region Guide p.63"
+    },
+    {
+      "name": "Haldir of Lórien",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 17,
+      "hit_points": "85 (10d8+40)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 20,
+        "constitution": 18,
+        "intelligence": 14,
+        "wisdom": 15,
+        "charisma": 12
+      },
+      "saving_throws": {
+        "Dexterity": 8,
+        "Wisdom": 5
+      },
+      "skills": {
+        "Investigation": 5,
+        "Perception": 5,
+        "Stealth": 8,
+        "Traditions": 5
+      },
+      "features": [
+        {
+          "name": "Elven Cloak",
+          "description": "Haldir has Advantage on any Dexterity (Stealth) checks to hide. While hidden, any Wisdom (Perception) checks to find him are made with Disadvantage."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Great Bow of the Golden Wood",
+          "description": "Ranged Weapon Attack: +8 to hit, range 150/600 ft, one target. Hit: 9 (1d8+5) piercing damage. Haldir may use his bonus action to grant himself Advantage on his attack roll. If Haldir rolls a 18, 19 or 20 he has scored a critical hit."
+        },
+        {
+          "name": "Dagger",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft, one target. Hit: 7 (1d4+5) piercing damage"
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "The Elves of Lórien dwell deep in the Golden Wood, and have little traffic with outsiders. There are still a few of them who leave the forest to gather news and watch for enemies. Haldir is one of these. He is one of the few Elves who speaks the Common Tongue fluently. Sometimes, he visits the camps of the Leofrings or the River-folk with his brothers Rúmil and Orophin, for there are some among them who welcome Elves. These are not Elf-friends, but simply good-hearted people willing to bring the Elves news from the outside world. Motivation: To keep the Golden Wood safe and its borders secure. Expectations: +1 if there is an Elf in the Company; -2 if there is a Dwarf or the heroes speak ill of his masters",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 2300,
+      "source": "Rhovanion Region Guide p.64"
+    },
+    {
+      "name": "Gárhild the Fox",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 14,
+      "hit_points": "38 (7d8+7)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 18,
+        "constitution": 12,
+        "intelligence": 14,
+        "wisdom": 16,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Investigation": 4,
+        "Shadow-lore": 4,
+        "Stealth": 6,
+        "Traditions": 5
+      },
+      "features": [
+        {
+          "name": "Fox-cloak (1/day)",
+          "description": "Gárhild may take the shape of a fox. In this form she has 4 (1d6+1) hit points and can use her action to make a bite attack (+6 to hit, reach 5 ft, 1 piercing damage). If slain in this form, she does not transform back.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Warrior’s Charge",
+          "description": "Gárhild gains Advantage on all attacks made in the first round of combat."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Gárhild makes two attacks with her broadsword."
+        },
+        {
+          "name": "Broadsword",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 8 (1d8+4) slashing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Gárhild the Fox is a Medium Human with fox-like abilities.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 700,
+      "source": "Rhovanion Region Guide p.68"
+    },
+    {
+      "name": "Thranduil, King of the Woodland Realm",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 18,
+      "hit_points": "112 (15d8+45)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 20,
+        "constitution": 16,
+        "intelligence": 19,
+        "wisdom": 17,
+        "charisma": 15
+      },
+      "saving_throws": {
+        "dexterity": 9,
+        "wisdom": 7
+      },
+      "skills": {
+        "History": 8,
+        "Lore": 8,
+        "Perception": 7
+      },
+      "features": [
+        {
+          "name": "Elven-mail",
+          "description": "The Elf-king's corslet was made in another age of the world and is so supple that he adds his full Dexterity modifier to his AC. Furthermore, he adds +2 to his AC for any attacks from a servant of the Enemy."
+        },
+        {
+          "name": "Legendary",
+          "description": "Thranduil may take two legendary actions each turn. Each legendary action allows him to either use his Parry ability without using his reaction, attack with his Bitter Spear or attack with his Woodland Bow."
+        },
+        {
+          "name": "Stargazer",
+          "description": "Thranduil's ancient wisdom and insight aids him when dealing with impatient mortals. Wisdom (Insight) checks to discern the Elvenking's thoughts have Disadvantage."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Thranduil can make three attacks with either his Bitter Spear or Woodland Bow."
+        },
+        {
+          "name": "Bitter Spear",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 6 (1d8+2) piercing damage. On a critical hit, the Elf-Lord deals an additional 7 (2d6) damage."
+        },
+        {
+          "name": "Woodland Bow",
+          "description": "Ranged Weapon Attack: +10 to hit, range 80/320, one target. Hit: 9 (1d6+6) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Thranduil rules over a people under threat. His subjects may dance and feast in the forest, forgetting the Shadow that hangs over them, but Thranduil cannot allow himself to forget. He knows first-hand the suffering and sorrow inflicted by the Enemy, as he went to war with Gil-galad and his father, and saw many Elves and Men die in battle. Together with the secret havens of Rivendell and Lórien and the western realm of Lindon, his is one of the last Elvish kingdoms left in Middle-earth. He is a stern, imperious king, unforgiving to his enemies, but kind and wise and fatherly to his people. He is a brave general, and strong. The Woodland Realm would be terribly weakened should he be wounded or slain, for it is the Elvenking's magic that keeps its paths clear and the Shadow at bay.",
+      "role": "King",
+      "is_enemy": false,
+      "xp_reward": 5000,
+      "source": "Rhovanion Region Guide p.85"
+    },
+    {
+      "name": "Bofri, son of Bofur",
+      "race": "Dwarf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 14,
+      "hit_points": "26 (4d8+8)",
+      "speed": "25 ft",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 10,
+        "constitution": 14,
+        "intelligence": 15,
+        "wisdom": 12,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {
+        "History": 4,
+        "Perception": 3,
+        "Survival": 3
+      },
+      "features": [
+        {
+          "name": "Map-maker",
+          "description": "If Bofri journeys through lands he has already surveyed, any roll of 3 on the standard Journey Event table becomes a result of 6 instead as he steers the group away from trouble and toward beauty."
+        },
+        {
+          "name": "Student of War",
+          "description": "Bofri can use his bonus action to gain Advantage on all attacks directed against a single target as he studies their strengths and weaknesses on the battlefield.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Staff",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) bludgeoning damage."
+        }
+      ],
+      "equipment": [
+        "Ring-mail"
+      ],
+      "spellcasting": null,
+      "description": "This young Dwarf was sent by King Dáin to the Woodmen of Mirkwood with a royal command. Bofri's mission is to examine the state of the Old Forest Road and determine if it could be re-opened. Bofri is brave and clever, and eager to see the world. He plans to live among the Woodmen for a few years, learning the ways of the wood before exploring the Road and discovering which of the old keeps and fortifications survive.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 200,
+      "source": "Rhovanion Region Guide p.93"
+    },
+    {
+      "name": "Ingomer Axebreaker",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 18,
+      "hit_points": "78 (12d8+24)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 10,
+        "constitution": 15,
+        "intelligence": 12,
+        "wisdom": 16,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 6,
+        "Riddle": 4,
+        "Survival": 6,
+        "Traditions": 4
+      },
+      "features": [
+        {
+          "name": "Broken Blades",
+          "description": "Ingomer may invoke this ability as a bonus action. He automatically scores a critical hit with all attacks this round. Afterwards, his weapon is destroyed.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Leadership",
+          "description": "As a bonus action, Ingomer can command a nearby Warrior to act. That Warrior takes his turn immediately after Ingomer."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Ingomer makes three attacks with his axe."
+        },
+        {
+          "name": "Axe",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage or 8 (1d10+3) slashing damage if wielded with both hands."
+        }
+      ],
+      "equipment": [
+        "Heavy mail",
+        "Shield",
+        "Axe"
+      ],
+      "spellcasting": null,
+      "description": "Ingomer Axebreaker of Woodland Hall is an old warrior, in his sixtieth summer, but he is still canny and brave. Few among the Woodmen are as respected as he is, and none have as much support among all four Houses of the people.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 1800,
+      "source": "Rhovanion Region Guide p.103"
+    },
+    {
+      "name": "Ingomer",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Leadership",
+          "description": "As a bonus action, Ingomer can command a nearby Warrior to act. That Warrior takes his turn immediately after Ingomer."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Ingomer makes three attacks with his axe."
+        },
+        {
+          "name": "Axe",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage or 8 (1d10+3) slashing damage if wielded with both hands."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Ingomer is a warrior leader among the Woodmen.",
+      "role": "Warrior leader",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Rhovanion Region Guide p.104"
+    },
+    {
+      "name": "Gwina",
+      "race": "Human",
+      "class_name": "Merchant",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 17,
+      "hit_points": "16 (3d8+3)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 14,
+        "constitution": 12,
+        "intelligence": 15,
+        "wisdom": 13,
+        "charisma": 16
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 3,
+        "Persuasion": 5,
+        "Riddle": 4,
+        "Survival": 3,
+        "Traditions": 4
+      },
+      "features": [
+        {
+          "name": "Far Traveller",
+          "description": "If the Company is travelling with Gwina, she may be assigned a journey role."
+        },
+        {
+          "name": "Guided by the Stars",
+          "description": "At the beginning of a journey if Gwina is allowed to spend time considering the night sky she gains Advantage on her first Journey Event check."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Scimitar",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) slashing damage."
+        }
+      ],
+      "equipment": [
+        "Brazen scale hauberk",
+        "Scimitar"
+      ],
+      "spellcasting": null,
+      "description": "Gwina is a trader and merchant from the land of Dorwinion. Her brightly painted boat is a common sight on the River Running as she hauls cargoes of wine up from the warm lands of the east. Unlike the other traders, who go straight to Esgaroth and consider the eastern Woodmen to be bandits and thieves, Gwina sometimes lingers in this region to trade with the settlements along the forest edge, and she sometimes winters in the north, making camp in Mirkwood.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 200,
+      "source": "Rhovanion Region Guide p.111"
+    },
+    {
+      "name": "Valdis",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 16,
+      "hit_points": "52 (8d8+16)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 12,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 15,
+        "charisma": 15
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 4,
+        "Riddle": 2,
+        "Survival": 4
+      },
+      "features": [
+        {
+          "name": "Commanding",
+          "description": "Allies of Valdis gain Advantage on attack rolls against enemies engaged with her."
+        },
+        {
+          "name": "Hard Eyed",
+          "description": "Valdis has killed before, and will do so again. She scores a critical hit on any 18, 19 or 20 on an attack roll."
+        },
+        {
+          "name": "Hideous Toughness",
+          "description": "Valdis can draw on her rage at being denied her birthright. She gains 10 (3d6) temporary hit points that last until the end of the fight if not removed by combat damage.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Valdis makes two attacks with her Broadsword."
+        },
+        {
+          "name": "Broadsword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage."
+        }
+      ],
+      "equipment": [
+        "Ring-mail",
+        "Shield",
+        "Broadsword"
+      ],
+      "spellcasting": null,
+      "description": "The line of Girion has fallen low indeed, for one of its daughters to be a murderous outlaw. Valdis is a direct descendant of the old kings of Dale; her great-grandfather was a young boy who was spirited out of the wreck of Dale when the Dragon came. Valdis grew up in Lake-town as a penniless beggar with dreams of lost glory. Her one companion was a strange mad raven of the mountain called Eyebiter. The raven has a taste for human flesh, especially the carrion of the battlefield. In 2940, young Valdis stabbed a man in a tavern in Lake-town and fled into the wilderness. She is clever and charismatic, and dreams of returning to Dale as queen. She blames Bard for 'stealing' her throne, and believes that if she had been in Dale in 2941, she would have been the one to bring the Dragon down. Bard took her place in the prophecies, or so she claims.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 700,
+      "source": "Rhovanion Region Guide p.112"
+    },
+    {
+      "name": "Ceawin the Generous",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 16,
+      "hit_points": "42 (5d8+20)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 12,
+        "constitution": 18,
+        "intelligence": 12,
+        "wisdom": 13,
+        "charisma": 15
+      },
+      "saving_throws": {},
+      "skills": {
+        "Insight": 3,
+        "Persuasion": 4,
+        "Traditions": 3
+      },
+      "features": [
+        {
+          "name": "Call for Aid",
+          "description": "Ceawin always has retainers ready to hand. He may use his action to summon 1d4 Warriors, who arrive in 1d6+1 rounds."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Great Spear",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 8 (1d12+2) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Ceawin is close friends with the Woodmen of Woodmen-town and Rhosgobel, and intends to unite his people with them. After the fashion of the Woodmen, he has built his hall under the shadow of the trees of the Narrows, and intends to wed the daughter of an elder of Woodmen-town.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 450,
+      "source": "Rhovanion Region Guide p.115"
+    },
+    {
+      "name": "Mogdred",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 18,
+      "hit_points": "85 (9d8+45)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 13,
+        "constitution": 20,
+        "intelligence": 12,
+        "wisdom": 13,
+        "charisma": 14
+      },
+      "saving_throws": {
+        "constitution": 7,
+        "wisdom": 3
+      },
+      "skills": {
+        "Intimidation": 4,
+        "Perception": 3,
+        "Shadow-lore": 3
+      },
+      "features": [
+        {
+          "name": "Bulky Armour",
+          "description": "Mogdred has Disadvantage on all Dexterity checks."
+        },
+        {
+          "name": "Excessive Strength of Arms",
+          "description": "Mogdred can deliver a blow so powerful, or so penetratingly painful, that any opponent struck must make a DC 12 Dexterity save or fall Prone.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Fell Speed",
+          "description": "Mogdred may take a bonus action to Disengage from one opponent and engage another without provoking an opportunity attack. The new opponent must be within his regular movement rate."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Night-bringer",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 10 (1d10+5) magical slashing damage or 11 (1d12+5) slashing damage if wielded with two hands. The target must also make a DC 15 Constitution saving throw or suffer 7 (2d6) necrotic damage as well."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "forsaken, left to command a fortress deserted of its defenders. From a high place, he spied the Wise approaching and fear overcame him. Angry at the Necromancer's betrayal, Mogdred fled Dol Guldur with a retinue of trusted followers. Today, he inhabits the tower upon Amon Bauglir, the Tyrant's Hill, and has gathered many warriors and fell beasts to his side, with the intent of creating his own kingdom in the wood. The fate of Mogdred and his kingdom is a chief concern of The Mirkwood Campaign. Motivation: I trust no one, but an alliance is the only way to keep my followers safe. I have not decided if the Woodmen or Dol Guldur will be the better ally. Expectations: +1 if the heroes acknowledge Mogdred as a lord worthy of respect; -2 if they question him about his past or despise all servants of the Enemy as beyond redemption.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 1100,
+      "source": "p.119"
+    },
+    {
+      "name": "Zimraphel, Sorceress of Mirkwood",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 13,
+      "hit_points": "90 (12d8+36)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 17,
+        "constitution": 15,
+        "intelligence": 19,
+        "wisdom": 14,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "History": 6,
+        "Lore": 6,
+        "Perception": 4,
+        "Shadow-lore": 6
+      },
+      "features": [
+        {
+          "name": "Bewilder",
+          "description": "The Sorceress can briefly drop the glamour that is her mortal appearance, confusing all around her. All creatures within 30 feet of her must make a DC 15 Wisdom saving throw or be Stunned for 1d4+1 rounds. As long as the effect lasts, the Sorceress may make a melee attack against a Stunned creature as a bonus action. She can only use this ability once per long rest.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Iron Will",
+          "description": "The Sorceress has no use for those who do not serve her ambitions. If the heroes have accrued any negative modifiers in an audience with her, the Final Audience check is made with Disadvantage."
+        },
+        {
+          "name": "Lordly Presence",
+          "description": "Mortals that approach the Sorceress must make a DC 10 Wisdom saving throw or become Charmed by her aura. Elves are immune to this effect. A hero remains Charmed until the Sorceress leaves the area, she attacks the Charmed creature, or another hero succeeds in a skill check to oppose her will."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Gulrist",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 8 (1d10+3) magical slashing damage or 9 (1d12+3) slashing damage if wielded with two hands. The target must also make a DC 15 Constitution saving throw or suffer 7 (2d6) necrotic damage as well."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Her true name is Zimraphel and she is of the line of the Black Númenóreans from Umbar. While her kin fell into sloth and decadence, she studied the stars and the mystic arts, hoping to find a way to cheat death. Word reached her in the distant south of a powerful Necromancer in Mirkwood, and she sailed up the Anduin in a black boat to pledge her service to him. It amused Sauron to teach her sorcery, and she hoped that he would give her a Ring of Power. Now that the Necromancer is gone, she fled the wrath of the Wizards and took refuge in the Demon's Tower, in the far south-east of Mirkwood. So far, she has ignored all the entreaties of the Nazgûl to return to Dol Guldur, and plots instead to steal one of their Rings.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 1800,
+      "source": "p.119"
+    }
+  ],
   "feats": [],
   "backgrounds": [],
   "subclasses": [],
-  "traps": [],
-  "_chapters_completed": [
-    "Introduction"
+  "traps": [
+    {
+      "name": "The Enchanted Stream",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Falling into or drinking from the Enchanted Stream",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "Those who fall into or drink from the Enchanted Stream risk falling under the water's enchantment.",
+      "save_dc": 15,
+      "save_ability": "Wisdom",
+      "damage": "",
+      "damage_type": "",
+      "area": "",
+      "description": "The Enchanted Stream flows out of the Mountains of Mirkwood and crosses the Elf-path. Those who fall into or drink from it risk falling under the water's enchantment.",
+      "source": "Rhovanion Region Guide p.81"
+    },
+    {
+      "name": "Dead Moat",
+      "type": "hazard",
+      "danger": "dangerous",
+      "trigger": "Any living creature that steps in the mud of the Dead Moat",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The dead of Dol Guldur lie in the bog, and any living creature that steps in the mud is dragged down by dead hands and drowned."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "There are safe paths through the Dead Moat, trails that wind between the mass graves left by carrion-eating creatures, but no living man knows them."
+      },
+      "effect": "Each round, heroes must make a DC 15 Dexterity saving throw to avoid being Grappled. A Grappled hero (Escape DC 15) is drug below the water and is subject to suffocation.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "",
+      "damage_type": "",
+      "area": "The Dead Moat surrounds the Hill of Sorcery on all sides.",
+      "description": "A foul morass of stagnant pools, concealed pits and poisonous fumes, where the dead drag the living down to drown.",
+      "source": "Rhovanion Region Guide p.121"
+    },
+    {
+      "name": "Inner Courtyard Statues",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Passing between the statues in the Inner Courtyard",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "Six statues raised among twelve dead mallorn trees, each depicting a strange bird-headed figure seated on a hideous throne. Their jewelled eyes glitter as they watch for intruders."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "Passing between these statues is extremely difficult, requiring a DC 15 Wisdom saving throw. This DC rises to 25 if Dol Guldur is occupied and its master commands the statues to wakefulness. If the saving throw fails, whoever dwells in the fortress is made aware of the intrusion, and the companion cannot find the willpower to press on unless the hero spends Inspiration, in which case they may try again. Should the second attempt fail, the hero gains a permanent Shadow point and suffers immediately from the effects of a Bout of Madness.",
+      "save_dc": 15,
+      "save_ability": "Wisdom",
+      "damage": "",
+      "damage_type": "",
+      "area": "Inner Courtyard",
+      "description": "Six bird-headed statues that watch for intruders and can alert the fortress's master.",
+      "source": "Rhovanion Region Guide p.122"
+    },
+    {
+      "name": "Stairs of Woe",
+      "type": "magical",
+      "danger": "deadly",
+      "trigger": "Climbing the stairs to the Hall of the Necromancer",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "Every step is wound around with spells of terror; for every step, the visitor endures a lifetime of pain and suffering."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "Those who climb the stairs must make six DC 15 Constitution saving throws and six DC 15 Wisdom saving throws. A failed Constitution saving throw",
+      "save_dc": 15,
+      "save_ability": "Constitution and Wisdom",
+      "damage": "",
+      "damage_type": "",
+      "area": "Stairs of Woe",
+      "description": "These stairs lead to the Hall of the Necromancer and are wound with spells of terror.",
+      "source": "Rhovanion Region Guide p.122"
+    }
   ],
-  "_current_chapter": "The Lands of the River",
+  "_chapters_completed": [
+    "Introduction",
+    "The Greatest of the forests",
+    "New Adversaries",
+    "Index",
+    "The Lands of the River"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
   "_total_chapters": 5,
   "_book_slug": "RRG",
   "_book_title": "rhovanionregionguide",
-  "_completed": false,
-  "_timestamp": 1790288494.3820865
+  "_completed": true,
+  "_timestamp": 1790288711.3223085
 }

@@ -6008,5 +6008,99 @@
     ],
     "source": "(Adventures in Middle-earth Player's Guide, p.95)",
     "_source_manual": "AIPG"
+  },
+  {
+    "name": "Ooze School",
+    "class": "Wizard",
+    "description": "Associated School: Transmutation. Replacement Powers: The following powers replace the physical enhancement, telekinetic fist, and change shape abilities of the transmutation school.",
+    "features": [
+      {
+        "name": "Mucus Spray",
+        "level": 1,
+        "description": "Starting at 1st level, you can unleash a cone-shaped burst of acidic mucus within a 15-ft. range. This spray deals 1d6 hp acid damage for every two sorcerer levels you possess. You can use this ability a number of times per day equal to 3 plus your Charisma modifier.",
+        "uses": 3,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Gray Ooze Nature",
+        "level": 3,
+        "description": "At 3rd level, you gain resist cold or resist fire 5 and a +2 bonus on saving throws made against mind-affecting effects (charms, compulsions, phantasms, patterns, and morale effects). At 9th level, your chosen resistance increases to 10 and your bonus on mind-affecting saving throws increases to +4. In addition, oozes do not attack you unless you move into contact with them."
+      },
+      {
+        "name": "Ooze Form",
+        "level": 9,
+        "description": "At 9th level, you can change your shape for a number of rounds equal to your wizard level. These rounds need not be consecutive. This ability otherwise functions like ooze shape I. You can also move through and among all creatures with the ooze subtype without suffering any harm. At 12th level, ooze form functions like ooze shape II.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Ooze Mind",
+        "level": 15,
+        "description": "At 15th level, you are considered mindless with regard to all spells and abilities. You cannot be targeted by scrying spells or your thoughts cannot be read."
+      },
+      {
+        "name": "Split",
+        "level": 20,
+        "description": "At 20th level, you gain the split ability of an ochre jelly. Only the original has your identity, the rest are mindless. You gain resistance 10 to all energy types."
+      }
+    ],
+    "source": "(Kobold Quarterly 20)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Ooze Bloodline",
+    "class": "Sorcerer",
+    "description": "As a result of horrible experimentation or the unholy union of slithering tracker and humanoid, your bloodline contains the foul ichor of the ooze. This foulness gives you horrific powers.",
+    "features": [
+      {
+        "name": "Class Skill",
+        "level": 1,
+        "description": "Knowledge (dungeoneering)"
+      },
+      {
+        "name": "Bonus Spells",
+        "level": 1,
+        "description": "oozy transparency (3rd), slime form (5th), lesser ooze touch (7th), ooze form I (9th), greater ooze touch (11th), ooze form 2 (13th), greater polymorph (15th), ooze form III (17th), shapechange (19th)."
+      },
+      {
+        "name": "Bonus Feats",
+        "level": 1,
+        "description": "Combat Casting, Improved Disarm, Improved Grapple, Improved Initiative, Improved Unarmed Strike, Iron Will, Silent Spell, Skill Focus (Knowledge [forbidden])."
+      },
+      {
+        "name": "Bloodline Arcana",
+        "level": 1,
+        "description": "When you cast a spell of the Ooze subschool, increase the damage by 1 per damage die or the duration by 25% (minimum 1 round). This duration bonus does not stack."
+      },
+      {
+        "name": "Mucus Spray (Sp)",
+        "level": 1,
+        "description": "Starting at 1st level, you can unleash a cone-shaped burst of acidic mucus within a 15-ft. range. This spray deals 1d6 hp acid damage for every two sorcerer levels you possess. You can use this ability a number of times per day equal to 3 plus your Charisma modifier.",
+        "uses": 3,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Gray Ooze Nature (Ex)",
+        "level": 3,
+        "description": "At 3rd level, you gain resist cold or resist fire 5 and a +2 bonus on saving throws made against mind-affecting effects (charms, compulsions, phantasms, patterns, and morale effects). At 9th level, your chosen resistance increases to 10 and your bonus on mind-affecting saving throws increases to +4. In addition, oozes do not attack you unless you move into contact with them."
+      },
+      {
+        "name": "Ooze Form (Sp)",
+        "level": 9,
+        "description": "At 9th level, you can change your shape for a number of rounds equal to your wizard level. These rounds need not be consecutive. This ability otherwise functions like ooze shape I. You can also move through and among all creatures with the ooze subtype without suffering any harm. At 12th level, ooze form functions like ooze shape II."
+      },
+      {
+        "name": "Ooze Mind (Ex)",
+        "level": 15,
+        "description": "At 15th level, you are considered mindless with regard to all spells and abilities. You cannot be targeted by scrying spells or your thoughts cannot be read."
+      },
+      {
+        "name": "Split (Su)",
+        "level": 20,
+        "description": "At 20th level, you gain the split ability of an ochre jelly. Only the original has your identity, the rest are mindless. You gain resistance 10 to all energy types."
+      }
+    ],
+    "source": "(Kobold Quarterly 20, p.17)",
+    "_source_manual": "KW"
   }
 ]

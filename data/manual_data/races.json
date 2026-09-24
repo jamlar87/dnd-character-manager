@@ -14586,5 +14586,350 @@
       }
     },
     "_source_manual": "RVR"
+  },
+  {
+    "name": "Woodmen of Mountain Hall",
+    "source": "(Rhovanion Region Guide, p.49)",
+    "asi": {
+      "strength": 1,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Vale of Anduin tongue"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Strength score increases by 1, and you may increase two additional ability scores by 1."
+      },
+      {
+        "name": "Adventuring Age",
+        "description": "16-30. Those of Firienseld don't usually venture far from the Burg until their 16th year and rarely continue past their fortieth year, when the desire to return to the mountains of their youth becomes strong."
+      },
+      {
+        "name": "Size",
+        "description": "Most Woodmen are between 5 and 6 feet tall. Your size is Medium."
+      },
+      {
+        "name": "Speed",
+        "description": "Your base walking speed is 30 feet."
+      },
+      {
+        "name": "Mountainfolk",
+        "description": "You have proficiency in the Survival skill."
+      },
+      {
+        "name": "Virtue",
+        "description": "You gain one Woodmen of Mountain Hall Cultural Virtue (see below) of your choice."
+      },
+      {
+        "name": "Languages",
+        "description": "You speak the Vale of Anduin tongue, an archaic version of Westron, closely related to Dalish."
+      }
+    ],
+    "subraces": [],
+    "description": "The folk of Firienseld are close kin with those who live under the eaves of Mirkwood and share both their physical appearance and naming conventions. Most Woodmen are between 5 and 6 feet tall.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Strength score increases by 1, and two additional ability scores increase by 1."
+      },
+      "Adventuring Age": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Flavor only; no mechanical effect."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Medium."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 30,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Mountainfolk": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Survival"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Virtue": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Grants one Woodmen of Mountain Hall Cultural Virtue of choice (effects depend on chosen virtue)."
+      },
+      "Languages": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Speaks the Vale of Anduin tongue (archaic Westron, related to Dalish)."
+      }
+    },
+    "_source_manual": "RRG"
+  },
+  {
+    "name": "Wild Hobbit",
+    "source": "(Rhovanion Region Guide, p.59)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 2,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 25,
+    "darkvision": 0,
+    "languages": [
+      "Vale of Anduin tongue"
+    ],
+    "size": "Small",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Dexterity score increases by 2 and you may increase any two other ability scores by 1."
+      },
+      {
+        "name": "Adventuring Age",
+        "description": "25-60. Wild Hobbits value family above all else and have a deep and abiding distrust of outsiders. Those who venture out are either young and taking desperate chances or have had some calamity foisted upon them. Around their fiftieth year, even the most ambitious Wild Hobbits think seriously of finding a hidden refuge and attending to their family's needs."
+      },
+      {
+        "name": "Size",
+        "description": "Like their civilised kin, Wild Hobbits are Small."
+      },
+      {
+        "name": "Speed",
+        "description": "Your base walking speed is 25 feet."
+      },
+      {
+        "name": "Untroubled by Shadows",
+        "description": "When in a blighted area, you must make a DC 5 Wisdom saving throw to avoid Shadow instead of the regular DC 15."
+      },
+      {
+        "name": "Hobbit Nimbleness",
+        "description": "You can move through the space of any creature who is at least one size larger than yours."
+      },
+      {
+        "name": "Clever Beyond Compare",
+        "description": "You have proficiency in either the Investigation or the Riddle skill."
+      },
+      {
+        "name": "Hobbit Elusiveness",
+        "description": "You have proficiency in the Stealth skill."
+      },
+      {
+        "name": "Languages",
+        "description": "You speak the Vale of Anduin tongue, an archaic version of Westron that is also spoken by Beornings and Woodmen."
+      }
+    ],
+    "subraces": [],
+    "description": "Wild Hobbits are small, sharp-eyed folk with untrusting eyes and rarely plump bodies, save for elders who have earned admiration among their kin. They carry simple tools of survival, most often fishing tackle and hand tools, and move about the watercourses of the Vales of Anduin on little boats of reeds.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Dexterity +2; any two other ability scores +1 each."
+      },
+      "Adventuring Age": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Flavor only; no mechanical effect."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Small."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 25,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Untroubled by Shadows": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "In blighted areas, DC to avoid Shadow is 5 instead of 15."
+      },
+      "Hobbit Nimbleness": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can move through the space of any creature at least one size larger."
+      },
+      "Clever Beyond Compare": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Investigation",
+          "Riddle"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Choose one of the listed skill proficiencies."
+      },
+      "Hobbit Elusiveness": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Stealth"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Languages": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Speaks the Vale of Anduin tongue."
+      }
+    },
+    "_source_manual": "RRG"
   }
 ]

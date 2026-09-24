@@ -1,0 +1,1228 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [],
+  "equipment": [],
+  "monsters": [
+    {
+      "name": "The Thing in the Well",
+      "size": "Medium",
+      "type": "aberration (nameless thing)",
+      "alignment": "",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "55 (10d8+10)",
+      "speed": "0 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 14,
+        "constitution": 13,
+        "intelligence": 6,
+        "wisdom": 10,
+        "charisma": 9
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 2,
+        "Stealth": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "Blinded",
+        "Prone"
+      ],
+      "senses": "darkvision 60 ft, passive Perception 12",
+      "languages": [],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Many Tentacles",
+          "description": "Many Tentacles (Recharge 6). The Thing in the Well may use its action to make a tentacle attack on all creatures within 20 feet of it.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Tentacle",
+          "description": "Tentacle. Melee Attack: +4 to hit, reach 20 ft. Hit: 6 (1d8+2) bludgeoning damage. If the target was attempting to climb out of the well, it must make a DC 13 Strength or be knocked back into back into the well. If the target is outside the well, it must make a DC 13 Dexterity saving throw or be pulled into the well."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Don't Leave the Path p.19"
+    },
+    {
+      "name": "Night-Wight",
+      "size": "Medium",
+      "type": "undead",
+      "alignment": "",
+      "armor_class": 14,
+      "ac_type": "Wraith-like",
+      "hit_points": "45 (6d8+18)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 15,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 13,
+        "charisma": 15
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Stealth": 4
+      },
+      "damage_resistances": [
+        "Non-magical bludgeoning, piercing and slashing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 13",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Craven",
+          "description": "If the Night Wight starts its turn with 22 or less hit points, it must make a DC 10 Wisdom saving throw. On a failure, it is Frightened and must use its Dash or Disengage action to move away from any enemies. If movement is impossible, it will take the Dodge action."
+        },
+        {
+          "name": "Fear of Fire",
+          "description": "The Night Wight is fearful of fire. If a torch or other flame comes within 10 feet of it, the Wight suffers Disadvantage on its attack rolls."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Wicked Spear",
+          "description": "Melee or Ranged Weapon Attack: +3 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 6 (1d6+3) magical piercing damage or 7 (1d8+3) magical piercing damage if used with two hands to make a melee attack."
+        },
+        {
+          "name": "Strangling Claw",
+          "description": "Melee Attack: +3 to hit, reach 5 ft, one target. Hit: 4 (1d6+1) magical slashing damage."
+        },
+        {
+          "name": "Spells of Despair",
+          "description": "As an action, the Wight can force one target within 30 feet to make a Wisdom saving throw with the DC equal to 10 plus the target’s Shadow score. If the target fails the saving throw they become Frightened of the Wight until the end of its next turn."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Wilderland Adventures p.27"
+    },
+    {
+      "name": "Valter the Bloody",
+      "size": "Medium",
+      "type": "human",
+      "alignment": "",
+      "armor_class": 16,
+      "ac_type": "corselet of mail, shield",
+      "hit_points": "65 (10d8+20)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 12,
+        "constitution": 14,
+        "intelligence": 13,
+        "wisdom": 12,
+        "charisma": 15
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 4,
+        "Survival": 3,
+        "Traditions": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 11",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Craven",
+          "description": "If Valter starts his turn with 32 or less hit points, he must make a DC 10 Wisdom saving throw. On a failure, he becomes Frightened and must use his Dash or Disengage action to move away from any enemies. If movement is impossible, he will take the Dodge action instead."
+        },
+        {
+          "name": "Survivor",
+          "description": "If Valter is outnumbered, he always uses the Dodge action. When an opponent misses him, he may use his reaction to make a single melee attack."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Valter makes two attacks with his longsword."
+        },
+        {
+          "name": "Longsword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage or 8 (1d10+3) slashing damage if used with two hands to make a melee attack."
+        },
+        {
+          "name": "Disarming Strike",
+          "description": "Valter can aim to strike blows to knock whatever his opponent is holding out of its hand. On a successful roll to hit, his opponent must make a DC 12 Dexterity saving throw or drop whatever they are holding. The attack does no other damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Commanding Voice",
+          "description": "Valter can shout inspiring words to his allies. He may use his reaction to utter a command or shout a warning when a non-hostile creature, that he can see within 30 feet of it, is about to make an attack roll or a saving throw. The target can add a d6 Command Die to that roll, provided it can hear and understand the message. A creature can benefit from only one Command Die at a time, and creatures that possess Commanding Voice cannot benefit from this effect."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Wilderland Adventures p.50"
+    },
+    {
+      "name": "Outlaw Archers",
+      "size": "Medium",
+      "type": "human",
+      "alignment": "",
+      "armor_class": 12,
+      "ac_type": "leather jerkin",
+      "hit_points": "18 (4d8)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 13,
+        "constitution": 11,
+        "intelligence": 11,
+        "wisdom": 12,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Survival": 3,
+        "Perception": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [],
+      "actions": [
+        {
+          "name": "Short Bow",
+          "description": "Ranged Weapon Attack: +3 to hit, range 80/320 ft, one target. Hit: 4 (1d6+1) piercing damage."
+        },
+        {
+          "name": "Knife",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft, one target. Hit: 3 (1d6+1) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Wilderland Adventures p.51"
+    },
+    {
+      "name": "Outlaw Warriors",
+      "size": "Medium",
+      "type": "human",
+      "alignment": "",
+      "armor_class": 14,
+      "ac_type": "hide, shield",
+      "hit_points": "32 (5d8+10)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 10,
+        "constitution": 15,
+        "intelligence": 11,
+        "wisdom": 11,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Survival": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "No Quarter",
+          "description": "When an enemy is reduced to 0 hit points that enemy is considered to already have failed one death save."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Hand-Axe",
+          "description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 5 (1d6+2) slashing damage."
+        },
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 5 (1d6+2) piercing damage or 6 (1d8+2) piercing damage if used with two hands to make a melee attack."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Wilderland Adventures p.51"
+    },
+    {
+      "name": "Undead Warrior",
+      "size": "Medium",
+      "type": "undead",
+      "alignment": "",
+      "armor_class": 9,
+      "ac_type": "",
+      "hit_points": "27 (5d8+5)",
+      "speed": "20 ft",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 8,
+        "constitution": 12,
+        "intelligence": 3,
+        "wisdom": 7,
+        "charisma": 3
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "Charmed",
+        "Exhaustion",
+        "Poisoned"
+      ],
+      "senses": "passive Perception 9",
+      "languages": [
+        "None"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Fell Spirit",
+          "description": "Fell Spirit (Recharge 5-6). When the Undead Warrior would be reduced to 0 hit points, it may use its reaction to add 7 (2d6) temporary hit points.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bony Claws",
+          "description": "Bony Claws. Melee Weapon Attack: +3 to hit, reach 5 ft, one target. Hit: 8 (2d6+1) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Wilderland Adventures p.71"
+    },
+    {
+      "name": "Easterling Warriors",
+      "size": "Medium",
+      "type": "human",
+      "alignment": "",
+      "armor_class": 14,
+      "ac_type": "corslet of mail",
+      "hit_points": "22 (4d8+4)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 13,
+        "constitution": 12,
+        "intelligence": 11,
+        "wisdom": 12,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Survival": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [
+        "Westron",
+        "Easterling"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [],
+      "actions": [
+        {
+          "name": "Great Axe",
+          "description": "Great Axe: Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 8 (1d12+2) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Wilderland Adventures p.72"
+    },
+    {
+      "name": "Ghor the Despoiler",
+      "size": "Medium",
+      "type": "humanoid (Orc-kind)",
+      "alignment": "",
+      "armor_class": 15,
+      "ac_type": "cobbled-together Orc armour",
+      "hit_points": "93 (11d8+44)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 12,
+        "constitution": 18,
+        "intelligence": 11,
+        "wisdom": 11,
+        "charisma": 16
+      },
+      "saving_throws": {
+        "str": 7,
+        "con": 7,
+        "wis": 3
+      },
+      "skills": {
+        "Intimidation": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 10",
+      "languages": [
+        "Orkish",
+        "Black Speech",
+        "Westron"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Leadership",
+          "description": "As a bonus action, Ghor can command a single orc within 30 ft orc other than himself. That orc takes its turn immediately after Ghor."
+        },
+        {
+          "name": "Horrible Strength",
+          "description": "If Ghor makes a successful melee attack, he may use his bonus action to cause 4 additional damage of the same type as the original type."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Ghor makes two axe attacks."
+        },
+        {
+          "name": "Heavy Orc-axe",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 11 (2d6+4) slashing damage."
+        },
+        {
+          "name": "Battle Cry (1/day)",
+          "description": "Each orc within 30 feet other than Ghor gains Advantage on attack rolls until the start of the war chief's next turn. Ghor may then make one attack as a bonus action."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Wilderland Adventures p.92"
+    },
+    {
+      "name": "The Gibbet King",
+      "size": "Medium",
+      "type": "undead",
+      "alignment": "",
+      "armor_class": 13,
+      "ac_type": "Iron Cage",
+      "hit_points": "67 (9d8+27)",
+      "speed": "0 ft",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 10,
+        "constitution": 16,
+        "intelligence": 17,
+        "wisdom": 18,
+        "charisma": 16
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "cold",
+        "lightning",
+        "poison",
+        "psychic",
+        "bludgeoning, piercing, and slashing from non-magical attacks"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "Charmed",
+        "Exhaustion",
+        "Grappled",
+        "Paralyzed",
+        "Petrified",
+        "Poisoned",
+        "Prone",
+        "Restrained"
+      ],
+      "senses": "passive Perception 14",
+      "languages": [
+        "Westron",
+        "Black Speech"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [],
+      "actions": [
+        {
+          "name": "Dreadful Spells (Recharge 5-6)",
+          "description": "One nearby foe must make a DC 15 Wisdom saving throw. If the character fails, he gains 1 Shadow point and becomes Paralysed for a number of rounds equal to his current Shadow Point total. A character can spend Inspiration to break this spell."
+        },
+        {
+          "name": "Visions of Torment",
+          "description": "As an action, the Gibbet King can force one target within 60 feet to make a DC 15 Wisdom saving throw or take psychic damage equal to 2 plus their total Shadow score."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Feast on Suffering",
+          "description": "Whenever a foe suffers a critical hit or is reduced to 0 hit points, the Gibbet King regains 7 (2d6) hit points."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Wilderland Adventures p.123"
+    },
+    {
+      "name": "Snow-Troll",
+      "size": "Large",
+      "type": "Giant (Troll-kind)",
+      "alignment": "",
+      "armor_class": 16,
+      "ac_type": "natural armour",
+      "hit_points": "84 (8d10+40)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 12,
+        "constitution": 20,
+        "intelligence": 7,
+        "wisdom": 9,
+        "charisma": 7
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 2,
+        "Stealth": 4,
+        "Survival": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 12",
+      "languages": [
+        "Orkish"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Camouflage",
+          "description": "Snow-trolls have Advantage on all Stealth checks in snowy terrain."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Snow-troll makes three attacks: one bite and two with its claws."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 9 (2d4+4) slashing damage."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 11 (2d6+4) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Wilderland Adventures p.133"
+    },
+    {
+      "name": "Raenar",
+      "size": "Huge",
+      "type": "dragon (Venerable Cold-drake)",
+      "alignment": "",
+      "armor_class": 21,
+      "ac_type": "natural armour",
+      "hit_points": "241 (21d12+105)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 24,
+        "dexterity": 18,
+        "constitution": 20,
+        "intelligence": 14,
+        "wisdom": 13,
+        "charisma": 18
+      },
+      "saving_throws": {
+        "con": 10,
+        "int": 7,
+        "wis": 6
+      },
+      "skills": {
+        "History": 7,
+        "Intimidation": 9,
+        "Perception": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 16",
+      "languages": [
+        "Westron",
+        "Black Speech",
+        "Sindarin"
+      ],
+      "challenge_rating": "14",
+      "xp": 11500,
+      "features": [
+        {
+          "name": "Resistance (1/day)",
+          "description": "If the dragon fails a saving throw, it can choose to succeed instead.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Weak Spot",
+          "description": "Raenar's belly is vulnerable. If a foe strikes from below, that attacker gains Advantage on attacks against the dragon."
+        },
+        {
+          "name": "Horrible Strength",
+          "description": "If Raenar makes a successful melee attack, he may use his bonus action to cause 7 additional damage of the same type."
+        },
+        {
+          "name": "Weak Spot",
+          "description": "If Raenar uses a special ability that uses an action (Mesmerise, Multiattack, Poison Blast), any heroes that are within reach may use their reaction to make a single melee attack. For this attack only, Raenar is considered vulnerable to Piercing, Slashing and Bludgeoning damage."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Raenar makes two attacks biting once and then either rending or using his tail attack."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +12 to hit, reach 5 ft, one target. Hit: 20 (3d8+7) piercing damage."
+        },
+        {
+          "name": "Rend",
+          "description": "Melee Weapon Attack: +12 to hit, reach 5 ft, one target. Hit: 17 (3d6+7) slashing damage."
+        },
+        {
+          "name": "Tail-Lash",
+          "description": "Melee Weapon Attack: +12 to hit, reach 10 ft, one target. Hit: 14 (3d4+7) bludgeoning damage and the target is knocked Prone."
+        },
+        {
+          "name": "Mesmerise",
+          "description": "Raenar may use his action and target one creature, who must make a DC 18 Wisdom saving throw. On a failed save, the target becomes Charmed until Raenar leaves the area or attacks the Charmed creature."
+        },
+        {
+          "name": "Poison Blast (Recharge 5-6)",
+          "description": "As an action, Raenar exhales poisonous bile in a 40 ft cone. Each creature in that area must make a DC 18 Dexterity saving throw, taking 30 (4d4+20) poison damage and becoming Poisoned for 2d4 rounds on a failed saving throw. A successful saving throw reduces the damage by half, and the target is Poisoned for only 1d4 rounds",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Draconic Resistance (Recharge 6)",
+          "description": "Dragons are notoriously tough and free-willed. Raenar may activate this ability as a reaction to failing a saving throw. He automatically succeeds at the saving throw instead.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Wilderland Adventures p.137"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Dinodas Brandybuck",
+      "race": "Hobbit",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Poor Dindy is exhausted and terrified by his ordeal, and even the news that his brother sent the company to find him brings him little relief. He is polite, in the way that only a desperate, terrified Hobbit can be. It is clear that Dindy will be of little use in the coming battle, so Iwgar has ordered him to keep the fire in the middle of the ringfort blazing.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Wilderland Adventures p.28"
+    },
+    {
+      "name": "Iwgar Longleg",
+      "race": "Beorning",
+      "class_name": "Warrior",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "The caravan leader and guide, Iwgar is a Beorning who travelled west. He is cursed with a great wanderlust, and has even gone to see the Sea. He wears a cockle-shell in his hat. He led the caravan over the mountains, and is the best warrior and guide in the party. Unfortunately, a poisoned Goblin-arrow caught him in the flank last night, and he is clearly suffering from it. Unless a hero is able to prepare a poison antidote (either a DC 20 Wisdom (Medicine) check or an appropriate ability), Igwar cannot fight. If he can, treat him as a Warrior (Loremaster’s Guide, page 71)",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Wilderland Adventures p.28"
+    },
+    {
+      "name": "Faron, the Trapper",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 14,
+      "hit_points": "52 (8d8+16)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 16,
+        "constitution": 15,
+        "intelligence": 13,
+        "wisdom": 12,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Stealth": 5,
+        "Survival": 3
+      },
+      "features": [
+        {
+          "name": "Stalker",
+          "description": "If Faron spends at least one minute observing his opponents before attacking, he gains Advantage on all his attacks for the first 1d3 rounds of combat."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Faron makes two melee attacks."
+        },
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 5 (1d6+2) piercing damage or 6 (1d8+2) piercing damage if used with two hands to make a melee attack."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Faron was exiled from his home when he began to hunt two-legged prey...",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 700,
+      "source": "Wilderland Adventures p.53"
+    },
+    {
+      "name": "Oderic",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 14,
+      "hit_points": "52 (8d8+16)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 15,
+        "constitution": 15,
+        "intelligence": 11,
+        "wisdom": 8,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 1,
+        "Survival": 1
+      },
+      "features": [
+        {
+          "name": "Reckless",
+          "description": "Oderic may choose to gain Advantage on all attacks he makes in a round, but all attacks on him gain Advantage until the start of his next turn."
+        },
+        {
+          "name": "Savage Assault",
+          "description": "When Oderic rolls a natural 18 or 19 he may use his bonus action to make a single additional melee attack against the same opponent."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Oderic makes two melee attacks."
+        },
+        {
+          "name": "Longsword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage or 8 (1d10+2) piercing damage if used with both hands."
+        }
+      ],
+      "equipment": [
+        "Leather corselet",
+        "Longsword"
+      ],
+      "spellcasting": null,
+      "description": "It can be a great misfortune to be born a hero when your own folk fail to recognise your true worth.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 700,
+      "source": "Wilderland Adventures p.54"
+    },
+    {
+      "name": "Aldor",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "The place has been run by Aldor since he started brewing ale for his neighbours many years before; today he is an old greybeard who has lived in the town all his life. He greets the companions as he hurries around the crowded alehouse. Aldor is a storehouse of tales, rumours and stories about Wilderland, both truthful and 'enriched' by his vivid imagination. He is an old man, the count of his years writ in wrinkles on his face.",
+      "role": "Innkeeper",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Unknown p.69"
+    },
+    {
+      "name": "Geb",
+      "race": "Woodman",
+      "class_name": "Rogue",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Also in the alehouse is a wandering minstrel and trickster called Geb, a Woodman. He is a rogue and a charmer, and is drawn to any comely women among the company; failing that, he identifies the richest-looking companion and starts trying to wheedle money out of them.",
+      "role": "Minstrel",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Unknown p.69"
+    },
+    {
+      "name": "Haleth",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "One of the older children from the crowd outside keeps following the company wherever they go. This child of eleven years is named Haleth, and he dreams of being a warrior. He attaches himself to the most heroic-looking of the player characters.",
+      "role": "Child",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Unknown p.69"
+    },
+    {
+      "name": "Rodwen",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "If the company seek out Elves (perhaps in the hope of finding a past version of Irimë), then they encounter Rodwen, an Elf from Mirkwood. She travelled west from the forest to visit the market as an emissary of King Thranduil. Unusually for her kind, she enjoys the company of mortals, and finds them entertaining.",
+      "role": "Emissary",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Unknown p.69"
+    },
+    {
+      "name": "Hartfast son of Hartmut",
+      "race": "Human (Woodman)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Motivation",
+          "description": "To protect his people and his position"
+        },
+        {
+          "name": "Expectations",
+          "description": "+2: To be shown the respect I deserve. To be treated as a Woodman, despite living far from Mirkwood\n+1: To be given gifts by supplicants. If the name of Radagast is invoked\n-1: If Hartfast suspects the player characters will stir up evil with their actions"
+        },
+        {
+          "name": "Playing Hartfast",
+          "description": "Stand and look down on the players. Demand respect. Have no patience. Use silence as a weapon. Don't talk unless you have something to say, and let foolish statements hang in the air."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Hartfast looks like the Misty Mountains; craggy features, absurdly tall, and a wild shock of white hair. Golden amulets are braided into his grey beard. He has seen more than fifty winters here in the mountains, but he is yet unbowed. He does lean on a stout walking stave more than he used to, but he can still swing an axe or draw a bow with the best of his grandsons. He is a proud man, and has little time for outsiders – not even the other Woodman tribes are truly welcome here. It is a long way across the River to Woodland Hall, and Hartfast considers them distant cousins at best. Behind his back, the other Woodmen call him the 'tallest dwarf' for his stubborn pride and standoffishness.",
+      "role": "Chieftain of Mountain Hall",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Wilderland Adventures p.84-85"
+    },
+    {
+      "name": "Magric the Trapper",
+      "race": "Human (Woodman)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Spy of the Enemy",
+          "description": "Secretly, though, Magric is a servant of the enemy. He was caught by Orc patrols in the marshes of the Gladden Fields and brought in chains to the Dwimmerhorn. There, he was threatened with torture, and he bought his freedom by agreeing to act as the enemy's spy. He justifies this betrayal to himself by claiming that he had no choice, and that he did what he had to do to survive."
+        },
+        {
+          "name": "Skilled Guide",
+          "description": "He is an exceptionally skilled guide, and knows many travel songs to make the miles go quicker."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Tall, handsome and well-spoken for one of the Woodmen, it is said there is Elvish blood in Magric's family. He lives alone, hunting and trapping in the vales of the Gladden River. He comes to Mountain Hall each month or so to trade. He talks easily, laughs easily, and has an interest in all the doings of the wider world. Over the campfire, he is always curious about the homelands and the cultures of the people he travels with.",
+      "role": "Guide / Secret Spy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Wilderland Adventures p.87"
+    },
+    {
+      "name": "Gerold the Beorning",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 15,
+      "hit_points": "90 (12d8+36)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 15,
+        "constitution": 16,
+        "intelligence": 11,
+        "wisdom": 12,
+        "charisma": 15
+      },
+      "saving_throws": {
+        "strength": 7,
+        "dexterity": 5,
+        "wisdom": 4
+      },
+      "skills": {
+        "Athletics": 7,
+        "Intimidation": 5
+      },
+      "features": [
+        {
+          "name": "Horrible Strength",
+          "description": "If Gerold makes a successful melee attack, he may use his bonus action to cause 4 additional damage of the same type as the original type."
+        },
+        {
+          "name": "Skin Coat",
+          "description": "Gerold has resistance to non-magical piercing damage (see above)."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Gerold makes three axe attacks."
+        },
+        {
+          "name": "Great Axe",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 10 (1d12+4) slashing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Gerold the Beorning, a wild mercenary.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 1800,
+      "source": "Wilderland Adventures p.107"
+    },
+    {
+      "name": "Elstan, First Captain of Dale",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 18,
+      "hit_points": "65 (10d8 + 20)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 11,
+        "constitution": 14,
+        "intelligence": 11,
+        "wisdom": 11,
+        "charisma": 15
+      },
+      "saving_throws": {
+        "constitution": 4,
+        "wisdom": 2
+      },
+      "skills": {},
+      "features": [],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Elstan makes two longsword attacks."
+        },
+        {
+          "name": "Longsword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage or 8 (1d10+3) slashing damage if used with both hands."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Elstan, First Captain of Dale.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 1100,
+      "source": "Wilderland Adventures p.107"
+    },
+    {
+      "name": "Elstan Followers",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 16,
+      "hit_points": "16 (3d8+3)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 12,
+        "constitution": 12,
+        "intelligence": 11,
+        "wisdom": 11,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Battle Brothers",
+          "description": "If three or more followers are fighting the same enemy, and that enemy has no allies engaged with the followers, the followers have Advantage on their attacks."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Longsword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 6 (1d8+2) slashing damage or 7 (1d10+2) slashing damage if used with both hands."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Followers of Elstan.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 100,
+      "source": "Wilderland Adventures p.107"
+    },
+    {
+      "name": "Erik, son of Erland",
+      "race": "Human (Northman)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Master of Celduin",
+          "description": "Erik is the current Master of Celduin, as was his father Erland before him, and his grandfather Egil before that. While the holder of the office of Master is chosen by the villagers, it has been in Erik's family for many generations."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A crotchety, half-blind old man named Erik, son of Erland. He is led by two young maidens of about twelve years of age, Erik's twin granddaughters Eydis and Erna.",
+      "role": "Neutral",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Wilderland Adventures p.116"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "Falling Stone Block",
+      "type": "mechanical",
+      "danger": "deadly",
+      "trigger": "If the wheel is allowed to spin freely, the block falls.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The company can use this trap in their fight if they spot it, or learned of its existence by consulting the dwarven records."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "A huge wheel next to the entrance corridor controls the raising and lowering of the block."
+      },
+      "effect": "The block falls and crushes anyone or anything beneath it.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "Directly over the entrance of the Great Hall",
+      "description": "A huge block of stone suspended by chains over the entrance, designed to block the entrance should the main gates ever be breached.",
+      "source": "Wilderland Adventures p.139"
+    },
+    {
+      "name": "The Howl of the Mountain",
+      "type": "mechanical",
+      "danger": "deadly",
+      "trigger": "The wind blows from the North, and the companions close all the doors except the south, north and north-east doors. The Howl begins to build, taking six rounds of combat for the noise to reach a dangerous intensity.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "Not specified in the source text."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not specified in the source text."
+      },
+      "effect": "After six rounds, anyone in the Chamber of Winds takes 2d8 thunder damage each round. Any character who suffers more than 20 points of damage in this fashion is permanently deafened.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "2d8",
+      "damage_type": "thunder",
+      "area": "Chamber of Winds",
+      "description": "A deadly resonance created by the Dwarves' construction, causing the watchtower to emit a thunderous dirge that can crush skulls and crack walls.",
+      "source": "Wilderland Adventures p.140"
+    },
+    {
+      "name": "Stone Block Trap",
+      "type": "mechanical",
+      "danger": "deadly",
+      "trigger": "The company must move their enemies under the block and then drop it by unlocking the wheel with a successful DC 15 Strength (Athletics) check, or by cutting the chain with a weapon attack and spending Inspiration.",
+      "detection": {
+        "dc": 0,
+        "skill": "Perception",
+        "detail": "Any character looking around the hall will notice the block of stone hanging from the ceiling, and the control wheel can easily be found by a character who goes looking for it. Alternatively, if the company read the dwarven records at Erebor, they may know about this trap."
+      },
+      "disarm": {
+        "dc": 15,
+        "method": "Strength (Athletics)",
+        "detail": "A successful DC 15 Strength (Athletics) check unlocks the wheel. Alternatively, a character can cut the chain with a weapon attack and spending Inspiration."
+      },
+      "effect": "Anyone under the block is crushed to death when it falls.",
+      "save_dc": 14,
+      "save_ability": "Dexterity",
+      "damage": "",
+      "damage_type": "",
+      "area": "Under the block",
+      "description": "A stone block hanging from the ceiling that can be dropped on enemies.",
+      "source": "Wilderland Adventures p.140"
+    }
+  ],
+  "_chapters_completed": [
+    "Introduction",
+    "Of Leaves & Stewed Hobbit",
+    "The Crossings of Celduin",
+    "A Darkness in the Marshes",
+    "Appendix",
+    "Those Who Tarry No Longer",
+    "The Watch on the Heath",
+    "Index",
+    "Don’t Leave the Path",
+    "Kinstrife & Dark Tidings"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 10,
+  "_book_slug": "WLA",
+  "_book_title": "wilderlandadventures",
+  "_completed": true,
+  "_timestamp": 1790288901.0650089
+}

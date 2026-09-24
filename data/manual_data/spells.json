@@ -5210,5 +5210,194 @@
     "concentration": false,
     "source": "(Margreve Player's Guide)",
     "_source_manual": "MPG"
+  },
+  {
+    "name": "Mucus Spray",
+    "level": 1,
+    "school": "evocation (ooze)",
+    "casting_time": "1 standard action",
+    "range": "15 ft.",
+    "components": "V, S, M (a bit of phlegm)",
+    "duration": "instant (daze 1 round)",
+    "description": "The caster sprays a fine mist of poisonous mucus. The mucus is acidic and has psychedelic properties. The mucus does 1d4 hp acid damage per caster level. In addition, a failed save leaves the targets dazed for one round.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Wizard",
+      "Witch"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "(Kobold Quarterly 20)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Oozy Transparency",
+    "level": 1,
+    "school": "transmutation (ooze)",
+    "casting_time": "1 standard action",
+    "range": "touch",
+    "components": "S, M (a cube of clear jelly)",
+    "duration": "1 min./level",
+    "description": "This spell renders the flesh, clothing, and gear of a creature transparent, inflicting a -8 to Perception checks to locate this creature. The penalty increases to -10 if the creature remains perfectly still.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Wizard",
+      "Witch"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "(Kobold Quarterly 20)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Ooze Shape I",
+    "level": 4,
+    "school": "transmutation",
+    "casting_time": "1 standard action",
+    "range": "personal",
+    "components": "V, S, M (a bit of slime from the ooze you wish to become)",
+    "duration": "1 min./level",
+    "description": "When you cast this spell, you assume the form of any Small or Medium creature of the ooze type. If the form you assume has any of the following abilities, you gain them: split (caster gains DR 10 vs. slashing or piercing weapons), transparent, and acid. If the creature has climb or swim, you gain that movement type at 10 ft. per round. You don't gain full immunity to mind-affecting effects, but you do gain a +2 resistance bonus on all saving throws against such effects. You gain blindsight and are immune to flanking and sneak attack.",
+    "higher_levels": "",
+    "classes": [
+      "Alchemist",
+      "Druid",
+      "Sorcerer",
+      "Wizard",
+      "Witch"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "(Kobold Quarterly 20)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Ooze Touch",
+    "level": 5,
+    "school": "transmutation",
+    "casting_time": "1 standard action",
+    "range": "Creature Touched",
+    "components": "S, M, V (a piece of dried skin in the shape of a lash)",
+    "duration": "instant",
+    "description": "This spell transforms the caster's limb into a slimy pseudopod and grants an immediate touch attack. The caster chooses the color and effect of the pseudopod at the time of casting. The pseudopod does 1d6+1 hp acid damage",
+    "higher_levels": "",
+    "classes": [
+      "Druid",
+      "Sorcerer",
+      "Wizard",
+      "Witch"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "(Kobold Quarterly 20)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Jellied Resilience",
+    "level": 2,
+    "school": "transmutation",
+    "casting_time": "1 standard action",
+    "range": "touch",
+    "components": "V, S, M (a cube of clear jelly)",
+    "duration": "1 min./level",
+    "description": "The spell's subject becomes a sentient jelly, though it retains its original shape (humanoid or otherwise). This transmutation does not hinder the target in any way. The target becomes immune to critical hits and sneak attacks and gains DR 5 vs. slashing and piercing weapons. If the caster has a caster level of 10 or greater, the DR increases to 10 vs. slashing and piercing weapons.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Druid",
+      "Witch",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "(Kobold Quarterly 20)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Slime Form",
+    "level": 2,
+    "school": "transmutation",
+    "casting_time": "1 standard action",
+    "range": "touch",
+    "components": "S, M (a pinch of slime mold spores)",
+    "duration": "2 min./level",
+    "description": "The subject and all of its gear collapse into a pool of greenish liquid. The creature gains +5 AC and material armor becomes worthless, though size, Dexterity, deflection, and armor bonuses from forces still apply. While in slime form, the creature becomes immune to sneak attacks and critical hits, but it cannot attack or cast spells with verbal, somatic, material, or focus components, and it also loses any supernatural abilities. The creature can squeeze through any opening larger than 1 inch and gains a +20 to Climb rolls for the spell's duration. The subject's movement drops to 10 ft. per round until the spell ends.",
+    "higher_levels": "",
+    "classes": [
+      "Druid",
+      "Sorcerer",
+      "Wizard",
+      "Witch"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "(Kobold Quarterly 20)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Ooze Touch, Lesser",
+    "level": 3,
+    "school": "transmutation",
+    "casting_time": "1 standard action",
+    "range": "touch",
+    "components": "V, S, M (a piece of dried skin in the shape of a lash)",
+    "duration": "instantaneous",
+    "description": "This spell transforms one of the caster's or target's limbs into a slimy pseudopod. If the limb is the caster's, this spell allows an immediate touch attack. The caster chooses the color and effect of the pseudopod at the time of casting, but the range of the attack always remains 5 ft. more than the target's normal attack range. The pseudopod does 1d4+1 acid damage per caster level and has another effect that lasts for one round, unless otherwise noted. All saves use the caster's DC. Derro slavers often make use of potions of ooze touch, lesser to capture dangerous underdark creatures.",
+    "higher_levels": "",
+    "classes": [
+      "Druid",
+      "Sorcerer",
+      "Wizard",
+      "Witch"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "(Kobold Quarterly 20)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Flesh to Ooze",
+    "level": 6,
+    "school": "transmutation",
+    "casting_time": "1 standard action",
+    "range": "close (25 ft. + 5 ft./2 levels)",
+    "components": "V, S, M (alchemical reagents worth 100 gp)",
+    "duration": "permanent",
+    "description": "This spell functions like baleful polymorph, except the target becomes an ooze of its size. A creature of 3 HD or less becomes a gray ooze, 4–9 HD becomes a gelatinous cube or ochre jelly, and 10+ HD becomes a black pudding. Alternatively, instead of a creature you may target a quantity of inert flesh (such as that created by the stone to flesh spell) of sufficient mass, which becomes an ooze of your choice.\nIf the spell succeeds, the subject must also make a Will save. If this second save fails, the creature loses its extraordinary, supernatural, and spell-like abilities, loses its ability to cast spells (if it had the ability), and gains the alignment, special abilities, and Intelligence, Wisdom, an Charisma scores of its new form in place of its own. It still retains its class and level (or HD), as well as all benefits deriving therefrom (such as base attack bonus, base save bonuses, and hit points). It retains any class features (other than spellcasting) that aren’t extraordinary, supernatural, and spell-like abilities. Because a target’s gear does not transform with it, any items fall under or within the ooze’s body, which may mean the items are destroyed. If the ooze has the split ability, splitting the ooze creates one ooze that retains the creature’s original identity (for the purpose of memories or restoring the creature) and one normal mindless ooze of that type.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "(Kobold Quarterly 20)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Ooze Shape II",
+    "level": 6,
+    "school": "transmutation",
+    "casting_time": "1 standard action",
+    "range": "personal",
+    "components": "V, S, M (a piece of the ooze you wish to replicate)",
+    "duration": "1 min./level",
+    "description": "This spell functions as ooze shape I and also allows you to assume the form of a Tiny or Large creature with the ooze type. If the form you assume has any of the following abilities, you gain the ability: acid, paralysis, transparent, engulf, corrosion, split, and suction. If the creature has climb or swim, you gain that movement at the creature’s movement rate (max 30 ft.). You don’t gain full immunity to mind-affecting effects, but you do gain a +4 resistance bonus on all saving throws against such effects. You also gain blindsight and are not vulnerable to flanking or sneak attack.\nSplit divides the caster into two similar jellies or oozes, each with half of the character’s hit points. One contains the caster’s intelligence. The other is mindless, though it does not attack other creatures with the ooze type. When the spell ends, any other oozes created in this way disappear, and the remaining hit points return to the caster. A caster who takes the form of a Tiny ooze gains a +4 size bonus to Dexterity and a -2 penalty to Strength. A caster who takes the form of a Large ooze gains a +4 size bonus to Strength and a -2 penalty to Dexterity.",
+    "higher_levels": "",
+    "classes": [
+      "Alchemist",
+      "Druid",
+      "Sorcerer",
+      "Wizard",
+      "Witch"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "(Kobold Quarterly 20)",
+    "_source_manual": "KW"
   }
 ]

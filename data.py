@@ -491,6 +491,36 @@ FEATURE_ACTION_TYPES = {
     "touch of sorrow":                 ("Special", "On a hit, infuse the target with sorrow (WIS save or paralyzed)"),
     "unseen assailant":                ("Bonus Action", "Become invisible to one target within 60 ft"),
     "unyielding":                      ("Bonus Action", "Gain temporary hit points"),
+    # ── auto-registered by scripts/register_action_gaps.py ──────────────────
+    "an end worthy of song":          ("Action", "At 15th level, your stirring words help your allies stand against any challenge, even if it is to be their…"),
+    "anticipate":                     ("Special", "At 11th level, your knowledge and experience almost give you a sixth sense when it comes to anticipating…"),
+    "bandolier of knives":            ("Bonus Action", "As a bonus action, Uathach can hurl a cluster of small blades at any opponent within 10 feet. The target…"),
+    "bewilder":                       ("Bonus Action", "The Sorceress can briefly drop the glamour that is her mortal appearance, confusing all around her. All…"),
+    "break resolve":                  ("Action", "At 11th level, your steely gaze causes lesser foes to falter before you. As an action, you may attempt to…"),
+    "broken blades":                  ("Bonus Action", "Ingomer may invoke this ability as a bonus action. He automatically scores a critical hit with all attacks…"),
+    "call the dogs":                  ("Special", "Once per short or long rest, the farmer may whistle for his dogs, calling 1d4 Mastiffs to aid him. They…"),
+    "cruel stroke":                   ("Bonus Action", "If Anna's attack has just hit, she may spend her bonus action to turn her attack into a critical hit."),
+    "defender of that which he loves":  ("Bonus Action", "If Tad is fighting in defense of Bree, he can use his bonus action to gain 10 temporary hit points."),
+    "discourse":                      ("Special", "Also starting at 3rd level, through carefully chosen words and the force of your personality, you have an…"),
+    "excessive strength of arms":     ("Special", "Mogdred can deliver a blow so powerful, or so penetratingly painful, that any opponent struck must make a DC…"),
+    "fox-cloak":                      ("Action", "Gárhild may take the shape of a fox. In this form she has 4 (1d6+1) hit points and can use her action to…"),
+    "hatred":                         ("Bonus Action", "Elrohir remembers the terrible fate that Orc-kind inflicted upon his mother. He will use his bonus action to…"),
+    "hawk's eye":                     ("Bonus Action", "The Royal Archer may use this ability as a bonus action. She does not suffer Disadvantage on attack rolls…"),
+    "hideous toughness":              ("Special", "Valdis can draw on her rage at being denied her birthright. She gains 10 (3d6) temporary hit points that…"),
+    "hunter’s blessing":              ("Special", "Regain a Hit Die (up to your maximum) when you bring down (kill or incapacitate) a creature you’ve been…"),
+    "master healer":                  ("Special", "If Arciryas spends time with a hero, he can either heal 13 (3d8) points of damage, or remove one condition…"),
+    "rumour of the earth":            ("Special", "Also starting at 3rd level, when you stretch yourself upon the ground with your ear pressed against the turf…"),
+    "shield-strike":                  ("Bonus Action", "If Tad has just struck with his club, he can use his bonus action to slam his shield into his target. The…"),
+    "splintered spears & shattered shields":  ("Special", "Starting at 14th level, you may choose to channel all of your fury into a single, devastating, blow. You can…"),
+    "unyielding guard":               ("Action", "Starting at 15th level, your skill at protecting yourself and others reaches its zenith. You can use your…"),
+    "volley":                         ("Action", "You can use your action to make a ranged attack against any number of creatures within 10 feet of a point…"),
+    "warden's gift":                  ("Bonus Action", "You can inspire others through stirring words, through music or by your presence alone. To do so, use a…"),
+    "warg-hunter":                    ("Bonus Action", "Herbert can spend his bonus action to gain Advantage on attack rolls versus wolves this round."),
+    "wicked cunning":                 ("Bonus Action", "Heddwyn can use his bonus action to activate this ability. For the remainder of the combat, he adds +2 to…"),
+
+    "mucus spray":                    ("Action", "Starting at 1st level, you can unleash a cone-shaped burst of acidic mucus within a 15-ft. range. This spray…"),
+    "ooze form":                      ("Special", "At 9th level, you can change your shape for a number of rounds equal to your wizard level. These rounds need…"),
+
 }
 
 # ── Always-on combat rider callout cards ─────────────────────────────

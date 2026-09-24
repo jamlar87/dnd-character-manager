@@ -6498,5 +6498,205 @@
     "description": "An old Dwarf-trap in the Great Hall that can be used to pin the Dragon.",
     "source": "(Erebor Adventures, p.95)",
     "_source_manual": "EREA"
+  },
+  {
+    "name": "The Enchanted Stream",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Falling into or drinking from the Enchanted Stream",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Those who fall into or drink from the Enchanted Stream risk falling under the water's enchantment.",
+    "save_dc": 15,
+    "save_ability": "Wisdom",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "The Enchanted Stream flows out of the Mountains of Mirkwood and crosses the Elf-path. Those who fall into or drink from it risk falling under the water's enchantment.",
+    "source": "(Rhovanion Region Guide, p.81)",
+    "_source_manual": "RRG"
+  },
+  {
+    "name": "Dead Moat",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "Any living creature that steps in the mud of the Dead Moat",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The dead of Dol Guldur lie in the bog, and any living creature that steps in the mud is dragged down by dead hands and drowned."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "There are safe paths through the Dead Moat, trails that wind between the mass graves left by carrion-eating creatures, but no living man knows them."
+    },
+    "effect": "Each round, heroes must make a DC 15 Dexterity saving throw to avoid being Grappled. A Grappled hero (Escape DC 15) is drug below the water and is subject to suffocation.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "",
+    "damage_type": "",
+    "area": "The Dead Moat surrounds the Hill of Sorcery on all sides.",
+    "description": "A foul morass of stagnant pools, concealed pits and poisonous fumes, where the dead drag the living down to drown.",
+    "source": "(Rhovanion Region Guide, p.121)",
+    "_source_manual": "RRG"
+  },
+  {
+    "name": "Inner Courtyard Statues",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Passing between the statues in the Inner Courtyard",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Six statues raised among twelve dead mallorn trees, each depicting a strange bird-headed figure seated on a hideous throne. Their jewelled eyes glitter as they watch for intruders."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Passing between these statues is extremely difficult, requiring a DC 15 Wisdom saving throw. This DC rises to 25 if Dol Guldur is occupied and its master commands the statues to wakefulness. If the saving throw fails, whoever dwells in the fortress is made aware of the intrusion, and the companion cannot find the willpower to press on unless the hero spends Inspiration, in which case they may try again. Should the second attempt fail, the hero gains a permanent Shadow point and suffers immediately from the effects of a Bout of Madness.",
+    "save_dc": 15,
+    "save_ability": "Wisdom",
+    "damage": "",
+    "damage_type": "",
+    "area": "Inner Courtyard",
+    "description": "Six bird-headed statues that watch for intruders and can alert the fortress's master.",
+    "source": "(Rhovanion Region Guide, p.122)",
+    "_source_manual": "RRG"
+  },
+  {
+    "name": "Stairs of Woe",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Climbing the stairs to the Hall of the Necromancer",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Every step is wound around with spells of terror; for every step, the visitor endures a lifetime of pain and suffering."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Those who climb the stairs must make six DC 15 Constitution saving throws and six DC 15 Wisdom saving throws. A failed Constitution saving throw",
+    "save_dc": 15,
+    "save_ability": "Constitution and Wisdom",
+    "damage": "",
+    "damage_type": "",
+    "area": "Stairs of Woe",
+    "description": "These stairs lead to the Hall of the Necromancer and are wound with spells of terror.",
+    "source": "(Rhovanion Region Guide, p.122)",
+    "_source_manual": "RRG"
+  },
+  {
+    "name": "The Howl of the Mountain",
+    "type": "mechanical",
+    "danger": "deadly",
+    "trigger": "The wind blows from the North, and the companions close all the doors except the south, north and north-east doors. The Howl begins to build, taking six rounds of combat for the noise to reach a dangerous intensity.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Not specified in the source text."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not specified in the source text."
+    },
+    "effect": "After six rounds, anyone in the Chamber of Winds takes 2d8 thunder damage each round. Any character who suffers more than 20 points of damage in this fashion is permanently deafened.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "2d8",
+    "damage_type": "thunder",
+    "area": "Chamber of Winds",
+    "description": "A deadly resonance created by the Dwarves' construction, causing the watchtower to emit a thunderous dirge that can crush skulls and crack walls.",
+    "source": "(Wilderland Adventures, p.140)",
+    "_source_manual": "WLA"
+  },
+  {
+    "name": "Stone Block Trap",
+    "type": "mechanical",
+    "danger": "deadly",
+    "trigger": "The company must move their enemies under the block and then drop it by unlocking the wheel with a successful DC 15 Strength (Athletics) check, or by cutting the chain with a weapon attack and spending Inspiration.",
+    "detection": {
+      "dc": 0,
+      "skill": "Perception",
+      "detail": "Any character looking around the hall will notice the block of stone hanging from the ceiling, and the control wheel can easily be found by a character who goes looking for it. Alternatively, if the company read the dwarven records at Erebor, they may know about this trap."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Strength (Athletics)",
+      "detail": "A successful DC 15 Strength (Athletics) check unlocks the wheel. Alternatively, a character can cut the chain with a weapon attack and spending Inspiration."
+    },
+    "effect": "Anyone under the block is crushed to death when it falls.",
+    "save_dc": 14,
+    "save_ability": "Dexterity",
+    "damage": "",
+    "damage_type": "",
+    "area": "Under the block",
+    "description": "A stone block hanging from the ceiling that can be dropped on enemies.",
+    "source": "(Wilderland Adventures, p.140)",
+    "_source_manual": "WLA"
+  },
+  {
+    "name": "Camouflaged Pit Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "location",
+    "detection": {
+      "dc": 25,
+      "skill": "Perception",
+      "detail": "Perception DC 25"
+    },
+    "disarm": {
+      "dc": 20,
+      "method": "Disable Device",
+      "detail": "Disable Device DC 20"
+    },
+    "effect": "30-ft. deep pit (3d6 falling damage); DC 20 Reflex avoids; multiple targets (all target in a 10-ft.-square area)",
+    "save_dc": 20,
+    "save_ability": "Dexterity",
+    "damage": "3d6",
+    "damage_type": "falling",
+    "area": "10-ft.-square area",
+    "description": "A camouflaged pit trap that opens beneath targets, causing them to fall 30 feet.",
+    "source": "(Kobold Quarterly 20, p.42)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Poisoned Dart Trap",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "Touch",
+    "detection": {
+      "dc": 20,
+      "skill": "Perception",
+      "detail": "Perception DC 20"
+    },
+    "disarm": {
+      "dc": 20,
+      "method": "Disable Device",
+      "detail": "Disable Device DC 20"
+    },
+    "effect": "Atk +10 ranged (1d3 plus greenblood oil)",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "1d3 plus greenblood oil",
+    "damage_type": "piercing",
+    "area": "single target",
+    "description": "A trap that fires a poisoned dart when touched.",
+    "source": "(Kobold Quarterly 20, p.42)",
+    "_source_manual": "KW"
   }
 ]

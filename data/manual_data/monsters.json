@@ -119638,5 +119638,418 @@
     "legendary_actions": [],
     "source": "(Rivendell Region Guide, p.83)",
     "_source_manual": "RVR"
+  },
+  {
+    "name": "Tyulqin, the Weaver",
+    "size": "Huge",
+    "type": "Monstrosity",
+    "alignment": "",
+    "armor_class": 19,
+    "ac_type": "natural armour",
+    "hit_points": "161 (14d12+70)",
+    "speed": "40 ft, climb 40 ft",
+    "ability_scores": {
+      "strength": 19,
+      "dexterity": 25,
+      "constitution": 21,
+      "intelligence": 18,
+      "wisdom": 20,
+      "charisma": 16
+    },
+    "saving_throws": {
+      "Dexterity": 8,
+      "Constitution": 9,
+      "Wisdom": 9
+    },
+    "skills": {
+      "Perception": 9,
+      "Shadow-lore": 8
+    },
+    "damage_resistances": [
+      "non-magical bludgeoning",
+      "piercing",
+      "slashing"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "blindsight 30 ft, darkvision 60 ft, passive Perception 19",
+    "languages": [
+      "Orkish",
+      "Westron",
+      "Sindarin",
+      "Silvan"
+    ],
+    "challenge_rating": "13",
+    "xp": 10000,
+    "features": [
+      {
+        "name": "Legendary",
+        "description": "Sarqin can take two legendary actions each turn. She may use her Beak, Ensnare, or Mesmerise abilities as legendary actions."
+      },
+      {
+        "name": "Many Poisons",
+        "description": "Tyulqin can use her bonus action to inject a poison when she successfully attacks with her beak. She may choose from the following effects:\n• Crazed: The victim is temporarily affected by their next Shadow Weakness Flaw until they take a long rest.\n• Despair: The victim is Miserable until they take a short rest.\n• Distraught: The victim is Blinded and Deafened until they take a short rest.\n• Weakened: The victim gains 2 (1d4) levels of Exhaustion.\n• Sleep: The victim must make a DC 17 Constitution saving throw or become Unconscious."
+      },
+      {
+        "name": "Spider Climb",
+        "description": "Tyulqin can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+      },
+      {
+        "name": "Web Sense",
+        "description": "While Tyulqin is in contact with a web, she knows the exact location of any other creature in contact with the same web."
+      },
+      {
+        "name": "Web Walker",
+        "description": "Tyulqin ignores movement restrictions caused by webbing."
+      },
+      {
+        "name": "Webs of Illusion (1/day, Lair Action)",
+        "description": "Tyulqin can enchant her webs to provide a vision that will deceive even Elven eyes. If she chooses to use this ability it must be on in the first round. Each target must make a DC 17 Wisdom saving throw or be Surprised.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Woven from Darkness (1/day, Lair Action)",
+        "description": "Tyulqin can enchant her webs to absorb light itself, plunging everything within 30 ft around her into utter darkness. Non-magical light cannot penetrate the darkness, and creatures with darkvision cannot see into it. Magical light from any source can dispel the effect.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Beak",
+        "description": "Melee Weapon Attack: +11 to hit, reach 5 ft, one target. Hit: 14 (2d6+7) piercing damage."
+      },
+      {
+        "name": "Ensnare",
+        "description": "Ranged Weapon Attack: +11 to hit, reach 10 ft, one target. Hit: The target has been caught by Tyulqin's web-line and is Restrained (escape DC 17) by her web."
+      },
+      {
+        "name": "Mesmerise",
+        "description": "Tyulqin may use her action and target one creature, who must make a DC 17 Wisdom saving throw. On a failed save, the target becomes Charmed until Tyulqin leaves the area or attacks the Charmed creature."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Rhovanion Region Guide, p.133)",
+    "_source_manual": "RRG"
+  },
+  {
+    "name": "Undead Warrior",
+    "size": "Medium",
+    "type": "undead",
+    "alignment": "",
+    "armor_class": 9,
+    "ac_type": "",
+    "hit_points": "27 (5d8+5)",
+    "speed": "20 ft",
+    "ability_scores": {
+      "strength": 13,
+      "dexterity": 8,
+      "constitution": 12,
+      "intelligence": 3,
+      "wisdom": 7,
+      "charisma": 3
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [],
+    "damage_immunities": [
+      "poison"
+    ],
+    "condition_immunities": [
+      "Charmed",
+      "Exhaustion",
+      "Poisoned"
+    ],
+    "senses": "passive Perception 9",
+    "languages": [
+      "None"
+    ],
+    "challenge_rating": "1/2",
+    "xp": 100,
+    "features": [
+      {
+        "name": "Fell Spirit",
+        "description": "Fell Spirit (Recharge 5-6). When the Undead Warrior would be reduced to 0 hit points, it may use its reaction to add 7 (2d6) temporary hit points.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Bony Claws",
+        "description": "Bony Claws. Melee Weapon Attack: +3 to hit, reach 5 ft, one target. Hit: 8 (2d6+1) slashing damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Wilderland Adventures, p.71)",
+    "_source_manual": "WLA"
+  },
+  {
+    "name": "Easterling Warriors",
+    "size": "Medium",
+    "type": "human",
+    "alignment": "",
+    "armor_class": 14,
+    "ac_type": "corslet of mail",
+    "hit_points": "22 (4d8+4)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 14,
+      "dexterity": 13,
+      "constitution": 12,
+      "intelligence": 11,
+      "wisdom": 12,
+      "charisma": 8
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 3,
+      "Survival": 3
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 13",
+    "languages": [
+      "Westron",
+      "Easterling"
+    ],
+    "challenge_rating": "1/2",
+    "xp": 100,
+    "features": [],
+    "actions": [
+      {
+        "name": "Great Axe",
+        "description": "Great Axe: Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 8 (1d12+2) slashing damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Wilderland Adventures, p.72)",
+    "_source_manual": "WLA"
+  },
+  {
+    "name": "Tiny Black Pudding",
+    "size": "Tiny",
+    "type": "ooze",
+    "alignment": "N",
+    "armor_class": 12,
+    "ac_type": "+2 size",
+    "hit_points": "7 (1d8+3)",
+    "speed": "20 ft., climb 20 ft.",
+    "ability_scores": {
+      "strength": 6,
+      "dexterity": 11,
+      "constitution": 16,
+      "intelligence": 0,
+      "wisdom": 1,
+      "charisma": 1
+    },
+    "saving_throws": {},
+    "skills": {
+      "Climb": 6
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "blindsight 60 ft., passive Perception -5",
+    "languages": [],
+    "challenge_rating": "1/3",
+    "xp": 135,
+    "features": [
+      {
+        "name": "Acid (Ex)",
+        "description": "A Tiny black pudding secretes a digestive acid that dissolves organic material and metal quickly but does not affect stone. Each time a creature suffers damage from a Tiny black pudding's acid, its clothing and armor take the same amount of damage from the acid. A DC 13 Reflex save prevents damage to clothing and armor. A metal or wooden weapon that strikes a Tiny black pudding takes 1d4 acid damage unless the weapon's wielder succeeds on a DC 13 Reflex save. If a Tiny black pudding remains in contact with a wooden or metal object for 1 full round, it inflicts 13 hp acid damage (no save) to the object. The save DCs are Constitution-based."
+      },
+      {
+        "name": "Corrosion (Ex)",
+        "description": "An opponent constricted by a Tiny black pudding suffers a -4 penalty on Reflex saves made to resist acid damage applying to clothing and armor."
+      },
+      {
+        "name": "Suction (Ex)",
+        "description": "The Tiny black pudding can create powerful suction against any surface as it climbs, allowing it to cling to inverted surfaces with ease. A Tiny black pudding can establish or release suction as a swift action, and, as long as it is using suction, it moves at half speed. This Tiny black pudding's CMD score gets a +10 circumstance bonus to resist bull rush, awesome blows, and other attacks and effects that attempt to physically move it from its location."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Slam",
+        "description": "Melee slam +0 (1d3-2 + 1d4 acid plus grab)"
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Kobold Quarterly 20, p.22)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Kaliskaria",
+    "size": "Small",
+    "type": "outsider (fire)",
+    "alignment": "N",
+    "armor_class": 21,
+    "ac_type": "+4 Dex, +1 dodge, +5 natural, +1 size",
+    "hit_points": "25 (3d10+9)",
+    "speed": "30 ft., fly 40 ft. (average)",
+    "ability_scores": {
+      "strength": 17,
+      "dexterity": 19,
+      "constitution": 16,
+      "intelligence": 10,
+      "wisdom": 15,
+      "charisma": 18
+    },
+    "saving_throws": {
+      "fort": 4,
+      "ref": 7,
+      "will": 5
+    },
+    "skills": {
+      "Appraise": 6,
+      "Bluff": 10,
+      "Fly": 12,
+      "Perception": 8,
+      "Stealth": 14
+    },
+    "damage_resistances": [],
+    "damage_immunities": [
+      "fire"
+    ],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft.; Perception +6",
+    "languages": [
+      "Common",
+      "Ignan"
+    ],
+    "challenge_rating": "4",
+    "xp": 1200,
+    "features": [
+      {
+        "name": "Fast Healing",
+        "description": "fast healing 2 (while touching fire)"
+      },
+      {
+        "name": "Damage Reduction",
+        "description": "DR 5/magic"
+      },
+      {
+        "name": "Weaknesses",
+        "description": "vulnerability to cold"
+      },
+      {
+        "name": "Breath Weapon (Su)",
+        "description": "The fire mephit can release a fiery breath weapon every four rounds as a standard action. The DC is Constitution-based and includes a +1 racial bonus."
+      },
+      {
+        "name": "Spell-Like Abilities (CL 6th)",
+        "description": "1/hour—scorching ray\n1/day—heat metal (DC 16), summon (level 2, 1 fire mephit 25%)"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Melee",
+        "description": "small +1 scythe +8 (1d6+4) or 2 claws +6 (1d3+3)"
+      },
+      {
+        "name": "Special Attacks",
+        "description": "breath weapon (15-ft. cone, 1d8 fire, DC 15 half, every 4 rounds)"
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Kobold Quarterly 20, p.28)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Deucalion",
+    "size": "Medium",
+    "type": "outsider (angel, extraplanar, good)",
+    "alignment": "NG",
+    "armor_class": 17,
+    "ac_type": "touch 12, flat-footed 15 (+4 armor, +2 Dex, +1 natural) (+4 deflection vs. evil)",
+    "hit_points": "45 (6d10+12)",
+    "speed": "30 ft.; fly 40 ft. (clumsy)",
+    "ability_scores": {
+      "strength": 14,
+      "dexterity": 14,
+      "constitution": 14,
+      "intelligence": 18,
+      "wisdom": 18,
+      "charisma": 10
+    },
+    "saving_throws": {
+      "fort": 7,
+      "ref": 4,
+      "will": 9
+    },
+    "skills": {
+      "Bluff": 9,
+      "Fly": -2,
+      "Knowledge (arcana)": 13,
+      "Knowledge (geography)": 13,
+      "Knowledge (nature)": 13,
+      "Knowledge (religion)": 13,
+      "Knowledge (planes)": 13,
+      "Linguistics": 13,
+      "Perception": 13,
+      "Sense Motive": 13
+    },
+    "damage_resistances": [
+      "electricity 10",
+      "fire 10"
+    ],
+    "damage_immunities": [
+      "acid",
+      "cold",
+      "petrification"
+    ],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., detect evil, detect magic, low-light vision; Perception +13",
+    "languages": [
+      "Abyssal",
+      "Aklo",
+      "Aquan",
+      "Auran",
+      "Celestial",
+      "Common",
+      "Draconic",
+      "Ignan",
+      "Infernal",
+      "Sylvan",
+      "Terran",
+      "truespeech"
+    ],
+    "challenge_rating": "5",
+    "xp": 1600,
+    "features": [
+      {
+        "name": "Aura protective",
+        "description": "20 ft.; as +4 saves, as magic circle vs. evil and lesser globe of invulnerability, CL 6"
+      },
+      {
+        "name": "DR",
+        "description": "5/cold iron or evil"
+      },
+      {
+        "name": "Spell-Like Abilities",
+        "description": "CL 4; +6 concentration. Constant—detect evil, detect magic. At-Will—stabilize. 3/day—augury, locate object. 1/day—divination, plane shift. 1/week—find the path"
+      },
+      {
+        "name": "TACTICS",
+        "description": "Deucalion stays close to his allies, maximizing the effect of his protective aura and using stabilize on any who fall. If losing a battle, Deucalion will plane shift away and quickly return to his summoner with the help of his divinations."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Melee staff",
+        "description": "+8/+3 1d6+3"
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Kobold Quarterly 20, p.34)",
+    "_source_manual": "KW"
   }
 ]
