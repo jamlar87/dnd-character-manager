@@ -1937,7 +1937,12 @@ async function showItemInfo(name) {
     const data = await resp.json();
     title.textContent = data.name || name;
     const typeTag = data.type ? `<span style="font-size:0.7rem;color:var(--text-muted);margin-left:0.5rem">${data.type}</span>` : '';
-    body.innerHTML = `<p style="margin:0;font-size:0.9rem;line-height:1.5;color:var(--text)">${data.description || 'No description available.'}</p>
+    // Reference art, floated right — the same detail-view pattern as the DM
+    // tools' item modal. refArtImg hides itself when no art exists yet, so an
+    // un-backfilled or character-specific item name degrades to the old text popup.
+    // The API's canonical name is preferred over the typed one: the art library is
+    // keyed by canonical name, and inventory names are free text.
+    body.innerHTML = `${refArtImg('item', data.name || name, 240)}<p style="margin:0;font-size:0.9rem;line-height:1.5;color:var(--text)">${data.description || 'No description available.'}</p>
       ${data.curse ? _curseSectionHtml(data.curse) : ''}
       <div style="margin-top:0.5rem;font-size:0.75rem;color:var(--text-muted);display:flex;justify-content:space-between;align-items:center">${typeTag}${data.source ? `${_srcBadge(data.source)}` : ''}</div>`;
   } catch(e) {
@@ -4222,7 +4227,7 @@ function renderPickerResults(items) {
   results.innerHTML = items.map(item =>
     `<div style="padding:0.25rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);overflow-wrap:break-word;word-break:break-word">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem">
-        <span style="flex:1;min-width:0;font-size:0.8rem;color:var(--text)" onclick="selectPickerItem('${item.name.replace(/'/g, "\\'")}')">${item.name}${item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${item.source}">📚 ${item.source}</span>` : ''}</span>
+        <span style="flex:1;min-width:0;display:flex;align-items:center;gap:0.45rem;font-size:0.8rem;color:var(--text)" onclick="selectPickerItem('${item.name.replace(/'/g, "\\'")}')">${charPortraitTile(null, item.name, {size: 28, src: '/api/ref-image/item/' + encodeURIComponent(item.name) + '?size=56'})}<span style="min-width:0">${item.name}${item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${item.source}">📚 ${item.source}</span>` : ''}</span></span>
         <div style="display:flex;align-items:center;gap:0.3rem;flex-shrink:0">
           <span style="font-size:0.7rem;color:var(--text-muted);white-space:nowrap">${item.type}${item.rarity ? ' · '+item.rarity : ''}</span>
           ${item.concentration ? '<span style="font-size:0.55rem;font-weight:600;color:#f59e0b;background:rgba(245,158,11,0.12);padding:0.05rem 0.25rem;border-radius:3px">⟲</span>' : ''}
