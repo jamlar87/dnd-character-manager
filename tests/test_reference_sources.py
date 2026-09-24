@@ -236,8 +236,10 @@ def test_every_exported_race_slug_opens_a_real_book():
 # opens something; the text decides whether the reader is told the truth, and openSourceRef()
 # matches on the text. So both layers are checked here: the records/data the app serves, and
 # the page maps that OVERRIDE those records.
+# No known gaps left: Warlock #1 ("Pride of the Mushroom Queen") is on the shelf as
+# WL24-Pride-of-the-Mushroom-Queen.pdf and wired into pdf_map, so "W1 p.8" resolves.
 _KNOWN_UNOPENABLE_TEXTS = {
-    "W1 p.8",  # Warlock #1 is not on the shelf (issues 2-6 and the Lairs are); spell "putrescent faerie circle"
+    # empty on purpose — add a book here only when the volume is genuinely not owned
 }
 
 

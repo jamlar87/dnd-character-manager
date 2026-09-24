@@ -33,6 +33,11 @@ REL = "DnD-Manuals/5e Kobold Press Resources"
 
 # slug -> (title as pdf_map stores it, filename)
 ADD = {
+    # W1's display name in main.py is "Pride of the Mushroom Queen" and spell_page_map points
+    # the spell "putrescent faerie circle" at "W1 p.8" — page 8 of this PDF is literally
+    # "PUTRESCENT FAERIE CIRCLE / 5th-level conjuration", so the file is the book the page map
+    # has been describing all along. It just had no pdf_map key, so the slug never existed.
+    "W1": ("WL24 Pride of the Mushroom Queen", "WL24-Pride-of-the-Mushroom-Queen.pdf"),
     "W2": ("Warlock 007", "Warlock-007.pdf"),
     "W3": ("Warlock 017 FINAL v2", "Warlock-017-FINAL-v2.pdf"),
     "W4": ("Warlock 022 Druids zkpxhg", "Warlock-022-Druids-zkpxhg.pdf"),
