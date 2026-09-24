@@ -13,7 +13,7 @@ from pathlib import Path
 
 import pytest
 
-from services.sources import clean_source_display, is_placeholder_source
+from services.sources import clean_source_display, is_placeholder_source, resolves_to_book
 
 REPO = Path(__file__).resolve().parent.parent
 MANUAL = REPO / "data" / "manual_data"
@@ -176,3 +176,40 @@ def test_suppression_list_does_not_shadow_a_live_source():
                 live.add(str(rec["source"]).lower().strip())
     shadowing = sorted(entries & live)
     assert shadowing == [], f"suppression list hides real sources: {shadowing[:5]}"
+
+
+# Books whose PDFs are genuinely not in the local library, so their badges cannot open.
+# Every other source must resolve, or the click alerts "Could not find the source book".
+KNOWN_UNRESOLVABLE = {
+    "(Monsters of the Multiverse, p.34)": "the PDF is not in the library (Tortle's reprint)",
+}
+
+
+def test_every_source_resolves_to_a_book_the_app_can_open():
+    """Mirrors static/dm_tools.js openSourceRef() matching over the app's own slug map.
+
+    This is the check that catches a source naming a book the app cannot find — the
+    Kobold Press "Warlock" zines looked up by issue name ("(Warlock 7, p.12)") while the
+    slug map knew the file only under a filename-derived slug whose curated display was
+    never registered, so 32 badges alerted instead of opening a PDF that was right there
+    in the library.
+    """
+    import main
+
+    slug_map = main._get_source_slug_map()
+    displays = {slug: str((info or {}).get("display") or (info or {}).get("title") or "")
+                for slug, info in slug_map.items()}
+    unexpected = []
+    for path in sorted(MANUAL.glob("*.json")):
+        try:
+            doc = json.loads(path.read_text())
+        except (json.JSONDecodeError, OSError):
+            continue
+        records = doc if isinstance(doc, list) else list(doc.values())
+        for rec in records:
+            if not isinstance(rec, dict):
+                continue
+            src = str(rec.get("source", "")).strip()
+            if src and not resolves_to_book(src, displays) and src not in KNOWN_UNRESOLVABLE:
+                unexpected.append(f"{path.name}: {rec.get('name')} -> {src!r}")
+    assert unexpected == [], "sources that no book resolves to: " + "; ".join(unexpected[:6])

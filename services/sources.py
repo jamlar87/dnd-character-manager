@@ -46,3 +46,40 @@ def clean_source_display(source, fallback: str = "") -> str:
     if not s or is_placeholder_source(s):
         return fallback
     return s
+
+
+def book_part(source) -> str:
+    """The book name out of a source string, the way the frontend derives it.
+
+    Mirrors static/dm_tools.js openSourceRef(): drop the page part and a trailing year,
+    then the surrounding punctuation. "(Tomb of Annihilation, p.55)" -> "Tomb of Annihilation".
+    """
+    s = re.sub(r"\s+[pP]\.?\s*\d+.*$", "", str(source or "")).strip()
+    s = re.sub(r"\s+\d{4}$", "", s).strip()
+    return s.strip("(,; ").strip()
+
+
+def _norm(s: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", str(s).lower())
+
+
+def resolves_to_book(source, slug_displays: dict[str, str]) -> bool:
+    """Would the frontend's 📚 badge find a book for `source`?
+
+    A Python mirror of openSourceRef()'s match order — slug or display equality, then
+    substring, then normalized alphanumerics — over {slug: display}. Use it to assert a
+    source will open before shipping it; a source that matches nothing leaves the badge
+    alerting "Could not find the source book".
+    """
+    s = str(source or "").strip()
+    if not s or s.startswith("SRD"):
+        return True  # openSourceRef returns early for these; no alert
+    book, bn = book_part(s), _norm(book_part(s))
+    for slug, disp in slug_displays.items():
+        if slug.lower() == book.lower() or str(disp).lower() == book.lower():
+            return True
+    for disp in slug_displays.values():
+        d = str(disp).lower()
+        if d and (d in book.lower() or book.lower() in d):
+            return True
+    return any(str(d) and (_norm(d) in bn or bn in _norm(d)) for d in slug_displays.values())
