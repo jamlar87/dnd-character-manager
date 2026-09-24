@@ -176,18 +176,22 @@ def _send_readout(text: str):
 # LLM Callers (sync, urllib — no httpx dependency)
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def _load_deepseek_key() -> str:
-    """Load DeepSeek API key from env or ~/.hermes/.env."""
-    key = os.environ.get("DEEPSEEK_API_KEY", "")
+def _load_env_key(name: str) -> str:
+    """Read a key from the environment or ~/.hermes/.env (where Hermes keeps them)."""
+    key = os.environ.get(name, "")
     if key:
         return key
-    # Fallback: parse from Hermes .env file
     env_file = Path(os.path.expanduser("~/.hermes/.env"))
     if env_file.exists():
         for line in env_file.read_text().split("\n"):
-            if line.startswith("DEEPSEEK_API_KEY="):
+            if line.startswith(name + "="):
                 return line.split("=", 1)[1].strip().strip('"').strip("'")
     return ""
+
+
+def _load_deepseek_key() -> str:
+    """Load DeepSeek API key from env or ~/.hermes/.env."""
+    return _load_env_key("DEEPSEEK_API_KEY")
 
 
 def _call_deepseek(prompt: str, model: str = "deepseek-chat") -> str | None:
@@ -220,8 +224,8 @@ def _call_deepseek(prompt: str, model: str = "deepseek-chat") -> str | None:
 
 
 def _call_gemini(prompt: str) -> str | None:
-    """Tier 2: Google Gemini 2.0 Flash."""
-    key = os.environ.get("GOOGLE_API_KEY", "")
+    """Tier 2: Google Gemini Flash. `gemini-2.0-flash` was retired (404) — 2.5-flash is current."""
+    key = _load_env_key("GOOGLE_API_KEY")
     if not key:
         return None
     try:
@@ -230,7 +234,7 @@ def _call_gemini(prompt: str) -> str | None:
             "generationConfig": {"temperature": 0.1, "maxOutputTokens": 4096}
         }).encode()
         req = urllib.request.Request(
-            f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={key}",
+            f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={key}",
             data=body,
             headers={"Content-Type": "application/json"}
         )
