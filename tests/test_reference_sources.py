@@ -178,11 +178,10 @@ def test_suppression_list_does_not_shadow_a_live_source():
     assert shadowing == [], f"suppression list hides real sources: {shadowing[:5]}"
 
 
-# Books whose PDFs are genuinely not in the local library, so their badges cannot open.
-# Every other source must resolve, or the click alerts "Could not find the source book".
-KNOWN_UNRESOLVABLE = {
-    "(Monsters of the Multiverse, p.34)": "the PDF is not in the library (Tortle's reprint)",
-}
+# Empty: every source in data/manual_data now resolves to a book the app can open. The
+# last holdout was Tortle's "(Monsters of the Multiverse, p.34)" — that PDF isn't in the
+# library, so the race is now cited to The Tortle Package p.4, the printing we do have.
+KNOWN_UNRESOLVABLE = {}
 
 
 def test_every_source_resolves_to_a_book_the_app_can_open():
@@ -213,3 +212,20 @@ def test_every_source_resolves_to_a_book_the_app_can_open():
             if src and not resolves_to_book(src, displays) and src not in KNOWN_UNRESOLVABLE:
                 unexpected.append(f"{path.name}: {rec.get('name')} -> {src!r}")
     assert unexpected == [], "sources that no book resolves to: " + "; ".join(unexpected[:6])
+
+
+def test_every_exported_race_slug_opens_a_real_book():
+    """data.py seeds RACES from races_export.json, and the loader SKIPS any race already in
+    RACES (`if name in RACES:` at the top of its race loop) — so for those 57 races the
+    export, not manual_data, decides what the app serves. Tortle proved the trap: the record
+    and the page map both said The Tortle Package while the app still badge-linked MToM, a
+    book the library does not have, because the export's copy was never updated.
+    """
+    import main
+
+    slug_map = main._get_source_slug_map()
+    export = json.loads((REPO / "data" / "exports" / "races_export.json").read_text())
+    missing = [f"{name}: {entry.get('_source_slug')!r}"
+               for name, entry in export.items()
+               if str(entry.get("_source_slug") or "").strip() not in slug_map]
+    assert missing == [], "races whose book the app cannot open: " + ", ".join(missing)
