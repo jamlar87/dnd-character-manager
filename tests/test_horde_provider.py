@@ -142,36 +142,42 @@ def test_a_job_without_an_id_is_reported(monkeypatch):
     assert "no job id" in error
 
 
-def test_the_default_provider_falls_back_to_pollinations(monkeypatch):
-    """A stalled horde queue must not hand the caller an empty portrait."""
+def test_the_default_provider_does_not_fall_back_to_the_watermarked_one(monkeypatch):
+    """A stalled horde queue must fail visibly, not silently produce watermarked art.
+
+    Pollinations stamps pollinations.ai on its output despite nologo=true. One watermarked image
+    among 5,700 records would be easy to miss, so the fallback is gone rather than merely avoided.
+    """
     monkeypatch.setattr(portraits, "PORTRAIT_PROVIDER", "horde")
+    called = {"pollinations": 0}
 
     async def _horde(prompt, **kwargs):
         return None, "Stable Horde did not finish within 600s (the free queue is slow)"
 
     async def _pollinations(prompt, **kwargs):
+        called["pollinations"] += 1
         return "data:image/webp;base64," + PNG, None
 
     monkeypatch.setattr(portraits, "fetch_horde_image", _horde)
     monkeypatch.setattr(portraits, "fetch_pollinations_image", _pollinations)
-    monkeypatch.setattr(portraits, "normalize_portrait", lambda raw, max_px: (raw, None), raising=False)
 
+    raw, error = asyncio.run(portraits.generate_portrait_image("x"))
+    assert raw is None
+    assert "did not finish within" in error, "the real reason must reach the caller"
+    assert called["pollinations"] == 0, "no watermarked fallback"
+
+
+def test_pollinations_is_still_available_when_named(monkeypatch):
+    """It is opt-in by name, not deleted — the code path must still work."""
+    monkeypatch.setattr(portraits, "PORTRAIT_PROVIDER", "pollinations")
+
+    async def _pollinations(prompt, **kwargs):
+        return "data:image/webp;base64," + PNG, None
+
+    monkeypatch.setattr(portraits, "fetch_pollinations_image", _pollinations)
     import services.images as images
     monkeypatch.setattr(images, "normalize_portrait", lambda raw, max_px: (raw, None))
 
     raw, error = asyncio.run(portraits.generate_portrait_image("x"))
     assert error is None
     assert raw.startswith("data:image/")
-
-
-def test_both_providers_failing_names_both(monkeypatch):
-    monkeypatch.setattr(portraits, "PORTRAIT_PROVIDER", "horde")
-
-    async def _fail(prompt, **kwargs):
-        return None, "provider said no"
-
-    monkeypatch.setattr(portraits, "fetch_horde_image", _fail)
-    monkeypatch.setattr(portraits, "fetch_pollinations_image", _fail)
-    raw, error = asyncio.run(portraits.generate_portrait_image("x"))
-    assert raw is None
-    assert "pollinations fallback" in error, "the second failure must not be hidden"

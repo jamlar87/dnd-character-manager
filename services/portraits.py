@@ -209,18 +209,14 @@ async def generate_portrait_image(prompt: str, max_wait: float = 90,
                                                     width=width, height=height)
     else:
         # Horde is the default, so give it a real queue window rather than a per-request timeout.
+        #
+        # There is deliberately no automatic fallback. Pollinations stamps a pollinations.ai
+        # watermark even when asked not to (nologo=true), and watermarked reference art is worse
+        # than no art — it would appear silently in the library and be hard to notice among 5,700
+        # records. Ask for it by name (PORTRAIT_PROVIDER=pollinations) if its queue is ever the
+        # smaller problem than Horde's.
         raw, error = await fetch_horde_image(prompt, max_wait=max(int(max_wait), 600),
                                              width=width, height=height)
-        if error or not raw:
-            # Falling back beats handing the caller an empty portrait. Keep both reasons: whichever
-            # provider is misbehaving should be visible in the log, not masked by the other's success.
-            first = error or "no image"
-            alt, alt_error = await fetch_pollinations_image(prompt, max_wait=max_wait,
-                                                            width=width, height=height)
-            if alt and not alt_error:
-                raw, error = alt, None
-            else:
-                error = f"{first}; pollinations fallback: {alt_error or 'no image'}"
     if error or not raw:
         return None, error or "no image returned"
     raw, err = normalize_portrait(raw, max_px=1024)
