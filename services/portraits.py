@@ -16,8 +16,23 @@ import random
 import base64
 import re
 import urllib.parse
+from pathlib import Path
 
 import httpx
+
+# ── Load .env (local config, not committed) ──────────────────────
+# The web app does this in main.py, but a batch script never imports main (that module builds the
+# entity index at import time), so a key placed in .env reached the app and not the generator. This
+# module is the one thing both halves import, so the load lives here instead. setdefault, not
+# assignment: a real environment variable must still beat the file.
+_env_path = Path(__file__).resolve().parent.parent / ".env"
+if _env_path.exists():
+    for _line in _env_path.read_text().splitlines():
+        _line = _line.strip()
+        if _line and not _line.startswith("#") and "=" in _line:
+            _k, _v = _line.split("=", 1)
+            os.environ.setdefault(_k.strip(), _v.strip().strip('"').strip("'"))
+# ─────────────────────────────────────────────────────────────────
 
 # Providers, in the order the default tries them.
 #

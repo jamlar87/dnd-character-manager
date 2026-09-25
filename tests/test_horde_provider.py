@@ -147,6 +147,21 @@ def test_the_horde_model_is_sdxl_not_sd15():
         "a family fantasy library must not default to an NSFW fine-tune"
 
 
+def test_the_generator_reads_dotenv_like_the_app_does():
+    """A key in .env must reach the batch script, not only the web app.
+
+    main.py loads .env, but scripts/generate_portraits.py never imports main (it builds the entity
+    index at import), so before this the generator only saw exported variables.
+    """
+    import inspect
+
+    from services import portraits
+
+    src = inspect.getsource(portraits)
+    assert "_env_path" in src, "the shared module must load .env for both callers"
+    assert "setdefault" in src, "a real environment variable must still win over the file"
+
+
 def test_a_rejected_submit_reports_the_status(monkeypatch):
     (data_url, error), _ = _run(monkeypatch, _Resp(429), [])
     assert data_url is None
