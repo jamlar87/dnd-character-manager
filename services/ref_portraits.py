@@ -123,8 +123,11 @@ def prompt_for(kind: str, name: str, subtitle: str = "", snippet: str = "") -> s
                   " painterly high fantasy style, dramatic lighting, detailed." + (f" {tail}" if tail else ""))
     if kind == "item":
         if cue:
-            return ("RPG item illustration of " + (name or "an item")
-                    + (f" ({detail})" if detail else "")
+            # The cue-bearing items are the vehicles and engines, and the old wording hurt them
+            # twice: "RPG item illustration" leads a diffusion model toward a small hand-held object,
+            # and interpolating the record's category produced "Carriage (Mounts and Vehicles)" — a
+            # filing label, not a description. The object itself now leads.
+            return ("Fantasy illustration of a single constructed object: " + (name or "an object")
                     + f". It is {cue}."
                       " Single object centred on a plain dark background, painterly high fantasy"
                       " style, soft rim light, detailed." + (f" {tail}" if tail else ""))

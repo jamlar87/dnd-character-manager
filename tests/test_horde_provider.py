@@ -74,6 +74,7 @@ async def _no_sleep(*_args, **_kwargs):
 
 
 def test_a_finished_job_returns_a_data_url(monkeypatch):
+    monkeypatch.delenv("STABLEHORDE_MODEL", raising=False)
     post = _Resp(202, {"id": "job-1"})          # 202 Accepted is what the live API returns
     gets = [
         _Resp(200, {"done": False, "queue_position": 12}),
@@ -87,7 +88,9 @@ def test_a_finished_job_returns_a_data_url(monkeypatch):
     assert base64.b64decode(data_url.split(",", 1)[1]) == b"pretend-webp"
     assert record["post"]["url"] == portraits.HORDE_ASYNC
     assert record["post"]["json"]["params"]["width"] == 768
-    assert record["post"]["json"]["models"] == ["stable_diffusion"]
+    # Bound to the constant, not a literal: the model was pinned here once before and the test had
+    # to be edited when the default changed, which is exactly how a stale literal goes unnoticed.
+    assert record["post"]["json"]["models"] == [portraits.HORDE_MODELS[0]]
 
 
 def test_the_anonymous_key_is_sent_when_nothing_is_configured(monkeypatch):
@@ -105,6 +108,43 @@ def test_a_registered_key_is_honoured(monkeypatch):
     gets = [_Resp(200, {"done": True, "generations": [{"img": "u"}]}), _Resp(200, content=b"x")]
     _, record = _run(monkeypatch, post, gets)
     assert record["post"]["headers"]["apikey"] == "abc123"
+
+
+def test_a_cued_item_is_not_called_an_item_and_has_no_category_leak():
+    """"RPG item illustration of Carriage (Mounts and Vehicles)" produced a soft timber mass.
+
+    Two faults in one line: "item" leads a diffusion model to a small hand-held object, and the
+    parenthesised text is the record's filing category, not a description of the thing.
+    """
+    from services.ref_portraits import prompt_for
+
+    p = prompt_for("item", "Carriage", "Mounts and Vehicles · Common")
+    assert "Mounts and Vehicles" not in p, "the category is a filing label, not a description"
+    assert "(" not in p, "no parenthetical category leaks into the prompt"
+    assert not p.startswith("RPG item"), "'item' points the model at a small object"
+    assert "built vessel of timber" in p, "the vehicle cue must still apply"
+    assert "constructed object" in p
+
+
+def test_a_plain_item_keeps_its_own_wording():
+    """Potions and rings are genuinely items — the fix must not cosmeticise every item prompt."""
+    from services.ref_portraits import prompt_for
+
+    p = prompt_for("item", "Potion of Healing", "Wondrous Items · Common")
+    assert "RPG item illustration" in p
+    assert "constructed object" not in p
+
+
+def test_the_horde_model_is_sdxl_not_sd15():
+    """SD1.5 rendered the Carriage as a soft mass; SDXL matched the good results at the same speed."""
+    import inspect
+
+    from services import portraits
+
+    src = inspect.getsource(portraits)
+    assert 'HORDE_MODELS = ("SDXL 1.0",)' in src
+    assert "NSFW" not in src.split("HORDE_MODELS = ")[1].split("\n")[0], \
+        "a family fantasy library must not default to an NSFW fine-tune"
 
 
 def test_a_rejected_submit_reports_the_status(monkeypatch):
