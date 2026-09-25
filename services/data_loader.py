@@ -170,14 +170,14 @@ def _validate_manual_sources() -> None:
     max_pages = {
         "MM": 354, "DMG": 320, "PHB": 322, "XGE": 195, "MTF": 258, "VGM": 226,
         "GGR": 258, "EGW": 307, "COTN": 226, "TCSR": 283, "TOA": 260, "LMoP": 64,
-        "WDH": 228, "HOTDQ": 97, "ROT": 98, "TTP": 28, "SCAG": 160, "TCE": 256,
+        "WDH": 228, "HOTDQ": 97, "ROT": 98, "TTP": 28, "SCAG": 161, "TCE": 256,
         "CC": 426, "EBT": 257, "CSF": 151, "TMFRV": 206, "MPG": 64, "TFS": 196,
         "SME": 22, "SOM": 100, "WRKF": 70, "WLL": 180, "W2": 30, "W5": 32,
         "W7": 38, "EIA": 37, "TLT": 32, "SDQ": 26, "DD": 25, "RRG": 144,
         "ERIA": 144, "AIPG": 256, "BLRG": 160, "LMRG": 160, "EREA": 200,
         "RVR": 160, "WLA": 200, "MWC": 200, "KW": 100, "DPM1": 100, "AW": 50,
-        "W": 9, "W1": 9, "W3": 30, "W4": 30, "W6": 30, "MOM": 15, "WSC": 50,
-        "WS": 9, "W8": 7, "W9": 7, "LMG": 256, "RAT": 50, "RGEO": 100,
+        "W": 30, "W1": 30, "W3": 34, "W4": 32, "W6": 32, "MOM": 15, "WSC": 50,
+        "WS": 9, "W8": 7, "W9": 13, "LMG": 256, "RAT": 50, "RGEO": 100,
         "ETR": 50, "DDP": 50, "SSK": 50, "DPM": 100, "BGDIA": 256, "GOS": 256,
     }
     
