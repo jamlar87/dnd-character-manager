@@ -104,6 +104,17 @@ def construct_cue(name: str, detail: str = "") -> str | None:
 
 
 def prompt_for(kind: str, name: str, subtitle: str = "", snippet: str = "") -> str:
+    """Every reference prompt, forced into the house style (fantasy-coded, blank background).
+
+    A thin wrapper rather than a clause on each return: there are four exits below, and a rule applied
+    in four places is a rule that eventually gets applied in three. The import is local because
+    services.portraits already imports this module's caller — see _base_prompt.
+    """
+    from services.portraits import house_style
+    return house_style(_base_prompt(kind, name, subtitle, snippet))
+
+
+def _base_prompt(kind: str, name: str, subtitle: str = "", snippet: str = "") -> str:
     """Prompt per kind. Same shape as the character prompts (bust/3:4 language
     comes from services.portraits) so the library looks consistent."""
     detail = " ".join((subtitle or "").split())[:120]

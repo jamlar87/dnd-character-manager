@@ -52,6 +52,95 @@ HORDE_AGENT = "dnd-character-manager:1.0:characters.jamlarnet.stream"
 #: Deliberately not an NSFW/illustrious fine-tune — this is a family fantasy reference library.
 HORDE_MODELS = ("AlbedoBase XL 3.1",)
 
+# ── House style ───────────────────────────────────────────────────────────────────────────────────
+#: Applied to EVERY prompt from every path — reference art and character art alike. Defined once here
+#: (the module both halves import) so the two builders cannot drift.
+#:
+#: The blank-background clause is not a preference, it is a bug fix. The character prompts used to end
+#: "Rich colors, detailed background bokeh", which asks for a decorated backdrop — that is how a dwarf
+#: barbarian came back as a figure in a racing suit standing in a desert. Constraining the background
+#: removes the model's freedom to invent a setting, and a set of reference portraits reads far better
+#: when the subject is the only thing in frame.
+FANTASY_STYLE = ("High fantasy illustration, painted in an oil-painting style, "
+                 "storybook fantasy art, not a photograph, not photorealistic.")
+BLANK_BG = ("Plain blank flat neutral background, empty and untextured, "
+            "no scenery, no landscape, no environment, no props, no text, no watermark, no border.")
+
+
+#: Scenery phrases that live inside the 11 curated character prompts. Each one names a SETTING, which
+#: is the same instruction that turned a dwarf barbarian into a figure in a desert — leaving them in
+#: while appending "no scenery" gives the model two opposite orders and it picks whichever it likes.
+#: They are listed exactly rather than matched by keyword so nothing well-written is stripped by
+#: accident, and test_prompt_house_style.py asserts the list stays complete.
+DEAD_SCENERY = (
+    "Snow-capped peaks and storm clouds behind.",
+    "Stone temple interior.",
+    "Mountain fortress stonework behind.",
+    "ancient library backdrop",
+    "Ancient forest bokeh behind.",
+    "Castle wall stonework behind.",
+    "Stormy sky background.",
+    "Shadowy ruins at midnight.",
+    "Stormlit cathedral behind.",
+    "Volcanic glow behind.",
+    "Radiant glow from behind.",
+)
+
+
+def house_style(prompt: str) -> str:
+    """Force any prompt into the house style: fantasy-coded, on a blank background.
+
+    Strips the old backdrop-requesting phrases first rather than appending after them — leaving
+    "detailed background bokeh" or "Snow-capped peaks behind" in place and adding "blank background"
+    gives the model two contradictory instructions, and it resolves that by picking whichever it likes.
+
+    Idempotent: the reference NPC branch delegates to npc_prompt, which applies this too, so without
+    the guard those prompts would carry the clause twice.
+    """
+    p = prompt or ""
+    if FANTASY_STYLE in p and BLANK_BG in p:
+        return p
+    for dead in (("Rich colors, detailed background bokeh.", "detailed background bokeh",
+                  "detailed background", "plain parchment background", "plain dark background",
+                  # Removing the background phrase from the item prompts left "Single object centred
+                  # on a," dangling, which reads as damage to a diffusion model.
+                  "Single object centred on a")
+                 + DEAD_SCENERY):
+        p = p.replace(dead, "")
+    return _tidy(p)
+
+
+def _tidy(p: str) -> str:
+    """Close the gaps the removals leave: ", ," and " ." read as damage to a diffusion model too."""
+    p = " ".join((p or "").split())
+    for _ in range(4):                       # a removal can expose another, e.g. ", , ,"
+        p = (p.replace(", ,", ",").replace(" ,", ",").replace(",,", ",")
+               .replace(" .", ".").replace("..", ".").replace("( ", "(")
+               .replace(". ,", ". ").replace("..", ".")
+               .replace(", on a,", ",").replace(" on a,", ",").replace("  ", " "))
+    p = p.rstrip(" .,;:")
+    return f"{p}. {FANTASY_STYLE} {BLANK_BG}"
+
+
+HORDE_MODELS = ("AlbedoBase XL 3.1",)
+
+# ── Local generation on the bazzite box (AMD RX 9060 XT, ROCm) ────────────────────────────────────
+# ComfyUI in a podman container, reachable over the LAN. No queue, no rate limit, no watermark and
+# no per-image cost — measured ~40s/image against 6-92 minutes from the crowdsourced queue, which is
+# what makes the full ~1,500-image backfill tractable at all.
+#
+# Ask for it with PORTRAIT_PROVIDER=comfy. It is deliberately not the default: it depends on another
+# machine being awake, and that machine is a gaming PC, so its GPU is not always ours to take.
+COMFY_URL = os.environ.get("COMFY_URL", "http://192.168.1.31:8188")
+COMFY_CKPT = os.environ.get("COMFY_CKPT", "Juggernaut-XL-v9.safetensors")
+#: SDXL is trained near 1024px; 832x1216 is the standard 2:3 portrait bucket and far better than
+#: 768x1024 for this family.
+COMFY_NEGATIVE = ("photo, photograph, photorealistic, realistic, 3d render, cgi, modern clothing, "
+                  "modern setting, cars, vehicles, racing suit, helmet, "
+                  "scenery, landscape, detailed background, horizon, sky, "
+                  "blurry, low quality, worst quality, jpeg artifacts, watermark, text, signature, "
+                  "deformed, disfigured, extra limbs, extra fingers, cropped, out of frame")
+
 PORTRAIT_PROVIDER = os.environ.get("PORTRAIT_PROVIDER", "horde").strip().lower()
 
 
@@ -62,10 +151,11 @@ def npc_prompt(name: str, notes: str = "", race: str = "", role: str = "") -> st
     detail = " ".join(bits)
     summary = " ".join((notes or "").split())[:300]
     tail = f" {summary}" if summary else ""
-    return ("Bust portrait, 3:4 aspect ratio. " + who
-            + (f", {detail}," if detail else ",")
-            + " upper body only, close-up composition. High fantasy oil painting,"
-              " dramatic lighting, detailed face." + tail)
+    return house_style(
+        "Bust portrait, 3:4 aspect ratio. " + who
+        + (f", {detail}," if detail else ",")
+        + " upper body only, close-up composition. High fantasy oil painting,"
+          " dramatic lighting, detailed face." + tail)
 
 
 async def fetch_openrouter_image(prompt: str, max_wait: int = 120) -> str | None:
@@ -217,6 +307,97 @@ async def fetch_horde_image(prompt: str, max_wait: int = 600,
     return None, f"Stable Horde did not finish within {int(max_wait)}s (the free queue is slow)"
 
 
+def comfy_workflow(prompt: str, width: int, height: int, steps: int = 28,
+                   cfg: float = 6.5, seed: int | None = None,
+                   ckpt: str | None = None) -> dict:
+    """The API-format SDXL txt2img graph ComfyUI's /prompt endpoint expects.
+
+    Node ids are arbitrary strings; the graph is load checkpoint -> two text encodes (positive and
+    negative) -> empty latent -> sampler -> VAE decode -> save. Kept as data rather than a saved
+    workflow JSON file so a prompt can be injected without editing anything on the other machine.
+    """
+    if seed is None:
+        seed = random.randint(1, 2_000_000_000)
+    return {
+        "4": {"class_type": "CheckpointLoaderSimple",
+              "inputs": {"ckpt_name": ckpt or COMFY_CKPT}},
+        "6": {"class_type": "CLIPTextEncode",
+              "inputs": {"text": prompt[:2000], "clip": ["4", 1]}},
+        "7": {"class_type": "CLIPTextEncode",
+              "inputs": {"text": COMFY_NEGATIVE, "clip": ["4", 1]}},
+        "5": {"class_type": "EmptyLatentImage",
+              "inputs": {"width": int(width), "height": int(height), "batch_size": 1}},
+        "3": {"class_type": "KSampler",
+              "inputs": {"seed": int(seed), "steps": int(steps), "cfg": float(cfg),
+                         "sampler_name": "dpmpp_2m", "scheduler": "karras", "denoise": 1.0,
+                         "model": ["4", 0], "positive": ["6", 0], "negative": ["7", 0],
+                         "latent_image": ["5", 0]}},
+        "8": {"class_type": "VAEDecode",
+              "inputs": {"samples": ["3", 0], "vae": ["4", 2]}},
+        "9": {"class_type": "SaveImage",
+              "inputs": {"filename_prefix": "dnd_ref", "images": ["8", 0]}},
+    }
+
+
+async def fetch_comfy_image(prompt: str, max_wait: int = 300,
+                            width: int = 832, height: int = 1216,
+                            poll_every: float = 2.0):
+    """Local generation via a ComfyUI instance on the LAN. Returns (data_url, error).
+
+    Submitting returns a prompt_id immediately; the work happens on the GPU, so this polls /history
+    and then fetches the finished file from /view. Unlike Horde there is no queue to lose a place
+    in, so the only failure modes are the machine being down or the checkpoint missing.
+    """
+    base = COMFY_URL.rstrip("/")
+    client_id = f"dnd-character-manager-{os.getpid()}"
+    try:
+        async with httpx.AsyncClient(timeout=60, follow_redirects=True) as client:
+            resp = await client.post(f"{base}/prompt",
+                                     json={"prompt": comfy_workflow(prompt, width, height),
+                                           "client_id": client_id})
+            if not 200 <= resp.status_code < 300:
+                # ComfyUI reports a bad graph as 400 with the reason in the body; surface it, because
+                # "validation failed" on its own says nothing about which node was wrong.
+                return None, (f"ComfyUI rejected the workflow (HTTP {resp.status_code}): "
+                              f"{resp.text[:300]}")
+            job = (resp.json() or {}).get("prompt_id")
+            if not job:
+                return None, "ComfyUI returned no prompt id"
+            for _ in range(max(1, int(max_wait / poll_every))):
+                await asyncio.sleep(poll_every)
+                try:
+                    hist = await client.get(f"{base}/history/{job}")
+                except Exception:
+                    continue                      # a dropped poll is not a failed job
+                if not 200 <= hist.status_code < 300:
+                    continue
+                entry = (hist.json() or {}).get(job)
+                if not entry:
+                    continue                      # still queued or running
+                status = (entry.get("status") or {})
+                if status.get("status_str") == "error":
+                    return None, f"ComfyUI failed to generate: {str(status)[:300]}"
+                images = ((entry.get("outputs") or {}).get("9") or {}).get("images") or []
+                if not images:
+                    continue
+                img = images[0]
+                got = await client.get(f"{base}/view", params={
+                    "filename": img.get("filename", ""),
+                    "subfolder": img.get("subfolder", ""),
+                    "type": img.get("type", "output"),
+                })
+                if got.status_code != 200 or not got.content:
+                    return None, "ComfyUI's image could not be downloaded"
+                ctype = (got.headers.get("content-type") or "").split(";")[0].strip()
+                if not ctype.startswith("image/"):
+                    ctype = "image/png"
+                return ("data:" + ctype + ";base64,"
+                        + base64.b64encode(got.content).decode()), None
+    except Exception as exc:
+        return None, f"ComfyUI unreachable at {base} ({type(exc).__name__})"
+    return None, f"ComfyUI did not finish within {int(max_wait)}s"
+
+
 async def generate_portrait_image(prompt: str, max_wait: float = 90,
                                   width: int = 768, height: int = 1024):
     """Ask the configured provider for one image; returns (data_url, error)."""
@@ -227,6 +408,11 @@ async def generate_portrait_image(prompt: str, max_wait: float = 90,
     elif PORTRAIT_PROVIDER == "pollinations":
         raw, error = await fetch_pollinations_image(prompt, max_wait=max_wait,
                                                     width=width, height=height)
+    elif PORTRAIT_PROVIDER == "comfy":
+        # Local GPU on the LAN. SDXL-native 2:3 portrait bucket rather than the 768x1024 the hosted
+        # providers use.
+        raw, error = await fetch_comfy_image(prompt, max_wait=max(int(max_wait), 300),
+                                             width=832, height=1216)
     else:
         # Horde is the default, so give it a real queue window rather than a per-request timeout.
         #
@@ -280,7 +466,7 @@ def portrait_prompt(race: str, class_name: str, subclass: str = "") -> str:
     }
     key = (race, class_name)
     if key in prompts:
-        return prompts[key]
+        return house_style(prompts[key])
     # Generic fallback with comprehensive race features
     race_features = {
         "Dwarf": "stout build, braided hair or beard, rugged dwarven features",
@@ -323,4 +509,7 @@ def portrait_prompt(race: str, class_name: str, subclass: str = "") -> str:
         "Yuan-ti Pureblood": "human-like with serpentine features — slit-pupil eyes, small scales, forked tongue, cold calculating gaze",
     }
     rf = race_features.get(race, "distinctive features, adventurer's bearing")
-    return f"Bust portrait, 3:4 aspect ratio. A {race.lower()} {class_name.lower()} with {rf}. Wearing appropriate {class_name.lower()} attire, upper body visible. Confident expression, high fantasy oil painting style with dramatic lighting. Rich colors, detailed background bokeh."
+    return house_style(
+        f"Bust portrait, 3:4 aspect ratio. A {race.lower()} {class_name.lower()} with {rf}. "
+        f"Wearing appropriate {class_name.lower()} attire, upper body visible. "
+        "Confident expression, high fantasy oil painting style with dramatic lighting.")
