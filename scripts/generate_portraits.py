@@ -136,6 +136,9 @@ def parse_args():
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--user", type=int, action="append", default=None,
                    help="only this user_id (repeatable). Default: every user.")
+    p.add_argument("--id", dest="ids", type=int, action="append", default=None,
+                   help="only these character/NPC ids (repeatable). With --force, redo a handful "
+                        "of rows without re-rolling every portrait that was already correct.")
     p.add_argument("--all-users", action="store_true",
                    help="explicitly allow every user (default when --user is absent)")
     p.add_argument("--limit", type=int, default=0, help="stop after N images (0 = no limit)")
@@ -185,6 +188,11 @@ def plan(con, args):
     if args.user and not args.all_users:
         where.append("user_id IN (" + ",".join("?" * len(args.user)) + ")")
         params += args.user
+    #: Target specific rows. Without this the only way to fix a handful of wrong portraits is a
+    #: full --force pass, which re-rolls every portrait that was already correct.
+    if getattr(args, "ids", None):
+        where.append("id IN (" + ",".join("?" * len(args.ids)) + ")")
+        params += args.ids
     # NEVER regenerate a portrait the user uploaded by hand. This runs with --force, which re-rolls
     # existing art, so without this guard a bulk pass would overwrite uploads unrecoverably.
     #

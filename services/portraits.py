@@ -503,6 +503,22 @@ def genderize(prompt: str, gender: str) -> str:
     return f"{prompt} The subject is {g}."
 
 
+#: A race NAME that carries a place or a faction is read literally by the model and drags that setting
+#: into the frame: "Elves of Mirkwood" came back with a misty forest behind a portrait that has to sit
+#: on a plain background beside every other one. No race_features entry can undo that — the scenery
+#: comes from the NAME, not the description — so name the creature and not the place. Add an override
+#: only when a background actually leaks; the subrace name is otherwise useful context.
+RACE_PROMPT_NAME = {
+    "Elves of Mirkwood": "elf",
+}
+
+
+def _article(noun: str) -> str:
+    """'A' or 'An'. 'A elves of mirkwood scholar' read as damage, and vowel-initial races were
+    already getting 'A aarakocra' / 'A aasimar'."""
+    return "An" if (noun or "").strip()[:1].lower() in "aeiou" else "A"
+
+
 def portrait_prompt(race: str, class_name: str, subclass: str = "") -> str:
     """Deterministic portrait prompts by class/race — all bust/upper-body framed."""
     prompts = {
@@ -562,11 +578,26 @@ def portrait_prompt(race: str, class_name: str, subclass: str = "") -> str:
         "Warforged": "constructed living armor of wood and metal, hinged jaw, glowing eyes, rune-etched plating, golem-like features",
         "Xvart": "small, bright blue skin, large bat-like ears, bulging eyes, hunched posture, sharp teeth",
         "Yuan-ti Pureblood": "human-like with serpentine features — slit-pupil eyes, small scales, forked tongue, cold calculating gaze",
+        # Subraces and templates. Without an entry these fall through to the generic
+        # "adventurer's bearing" string below, and the model then returns its default fantasy
+        # face: measured on a 20-character sweep, 7 of 16 races were uncovered and a Thri-kreen
+        # (mantis-folk) rendered as a handsome human. Nothing errors — the species is just wrong,
+        # which is only visible by looking at the art.
+        # A subrace maps to its PARENT's build (the culture differs, the anatomy does not) so a
+        # character stays recognisably an elf/dwarf rather than becoming a generic humanoid.
+        "Elves of Mirkwood": "slender build, pointed ears, sharp cheekbones, fine elven features",
+        "Hollow One": "pale ashen skin, hollow sunken eyes, faintly undead bearing, grey-streaked hair",
+        "Dragonblood": "faint draconic scales, slit-pupil eyes, subtle horn ridges along the hairline",
+        "Sublime Ravenfolk": "black feathered plumage at the neck and forearms, glossy beak-like nose, dark avian eyes",
+        "Bearfolk": "broad ursine build, furred ears and forearms, blunt muzzle, heavy brow, dark brown fur",
+        "Ratfolk": "small wiry build, grey fur, rounded rodent ears, whiskers, pointed snout",
+        "Thri-kreen": "insectoid mantis features, chitinous plates, antennae, faceted compound eyes, mandibles",
     }
     rf = race_features.get(race, "distinctive features, adventurer's bearing")
+    who = RACE_PROMPT_NAME.get(race, race.lower())
     # "Wearing appropriate X attire, upper body visible" said nothing the framing and the class name had
     # not already said, and the style tail was appended a second time by house_style(). Every wasted word
     # here is a word of the SUBJECT pushed past CLIP's 77-token window, where it is silently dropped.
     return house_style(
-        f"Bust portrait, 3:4 aspect ratio. A {race.lower()} {class_name.lower()} with {rf}. "
+        f"Bust portrait, 3:4 aspect ratio. {_article(who)} {who} {class_name.lower()} with {rf}. "
         "Confident expression.")
