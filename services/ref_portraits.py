@@ -115,6 +115,99 @@ def prompt_for(kind: str, name: str, subtitle: str = "", snippet: str = "") -> s
     return house_style(_base_prompt(kind, name, subtitle, snippet))
 
 
+# --- who the record actually is ------------------------------------------------------------------
+# Two failures this pair exists to prevent, both seen in real output:
+#
+#   1. "Khelkur the Gull" is a DWARF. The portrait came back as a white eagle in armour, because the
+#      only concrete noun the model had was the nickname. The race is stated in the subtitle and was
+#      simply never used.
+#   2. "Insight Acuere" is a tiefling who is referred to as "She" in her own description. The
+#      portrait came back male: the records carry no gender field, so nothing said otherwise.
+#
+# Both are fixed by reading what the record already says. Neither guesses: when the evidence is not
+# there, the prompt stays silent, and the model picks something plausible rather than contradicting.
+
+_SHE_PRONOUN = re.compile(r"\b(she|her|hers|herself)\b", re.I)
+_HE_PRONOUN = re.compile(r"\b(he|him|his|himself)\b", re.I)
+
+# Subtitles that are not races. "any race" is a placeholder on 17 records; the rest are filing labels.
+_NOT_A_RACE = {"any race", "varies", "custom", "unknown", "n/a", "none"}
+_RACE_MAX_WORDS = 3
+
+# "Khelkur the Gull" is a dwarf. The portrait came back as a white eagle in armour — and repeating it
+# produced a dwarf, so the prompt does not DETERMINISTICALLY mean "draw a bird": it merely permits
+# that reading, and the model takes it some of the time. A one-in-N wrong portrait is still a wrong
+# portrait, so the ambiguous noun is removed rather than out-voted.
+#
+# Deliberately only animals. Of 42 names shaped "X the <Word>", the rest are trapper, trader, crown,
+# mountain, tempest, guildpact — those describe a person's trade or standing and hurt nothing, so they
+# stay. Only these words can turn a humanoid into a beast.
+_BEAST_EPITHET = {
+    "gull", "crow", "raven", "hawk", "falcon", "eagle", "owl", "sparrow", "wren", "swan", "heron",
+    "crane", "stork", "vulture", "kite", "magpie", "jackdaw", "starling", "finch", "lark", "robin",
+    "wolf", "fox", "bear", "boar", "stag", "hart", "lion", "tiger", "panther", "lynx", "badger",
+    "otter", "hare", "rabbit", "rat", "mouse", "weasel", "marten", "hound", "hound", "bull", "ram",
+    "goat", "horse", "stallion", "mare", "snake", "serpent", "adder", "viper", "cobra", "spider",
+    "scorpion", "crab", "shark", "eel", "pike", "trout", "salmon", "tuna", "ray", "whale", "seal",
+    "moth", "beetle", "hornet", "wasp", "locust",
+}
+
+_EPITHET_RE = re.compile(r"\s+the\s+([A-Za-z'’-]+)\s*$", re.I)
+
+
+def name_for_portrait(name: str) -> str:
+    """Drop an animal nickname from a humanoid's name — 'Khelkur the Gull' -> 'Khelkur'.
+
+    Only animal epithets, and only the trailing one. A pronoun of the trade ('the Trapper') or of
+    standing ('the Crown') is kept, because its presence does not invite the model to draw the wrong
+    species. See _BEAST_EPITHET for why this is a list and not a rule: a heuristic that turns every
+    nickname into a deletion would quietly rename people.
+    """
+    text = (name or "").strip()
+    m = _EPITHET_RE.search(text)
+    if m and m.group(1).lower() in _BEAST_EPITHET:
+        return text[:m.start()].strip() or text
+    return text
+
+
+def race_from_subtitle(subtitle: str) -> str:
+    """The race from a 'Race · Class' subtitle, or '' when it cannot be read as one.
+
+    The subtitle shape is what 788 of 799 NPC records use, and the race always leads. Deliberately
+    strict about what counts: a title like 'Chapter 4 | The Jewel of Hope' must not be handed to the
+    model as a species, because a wrong race is worse than an absent one — absent leaves the
+    description to decide, wrong actively fights it.
+    """
+    first = (subtitle or "").split("·")[0].strip()
+    if not first or first.startswith("(") or "|" in first or len(first) > 20:
+        return ""
+    if first.lower() in _NOT_A_RACE:
+        return ""
+    if len(first.split()) > _RACE_MAX_WORDS:
+        return ""
+    return first
+
+
+def gender_from_text(text: str) -> str:
+    """'female' / 'male' from the prose, '' when it is not clear.
+
+    The descriptions do use pronouns — Insight Acuere's says "She has resistance to fire damage" — but
+    there is no gender field anywhere in the records.
+
+    Both pronoun sets, or neither, returns ''. This is the whole point: the model invents something
+    plausible when nothing constrains it, but it will not contradict a stated gender, so a wrong
+    guess is strictly worse than saying nothing. 293 of 799 records stay unspecified on purpose.
+    """
+    body = text or ""
+    she = len(_SHE_PRONOUN.findall(body))
+    he = len(_HE_PRONOUN.findall(body))
+    if she and not he:
+        return "female"
+    if he and not she:
+        return "male"
+    return ""
+
+
 def _base_prompt(kind: str, name: str, subtitle: str = "", snippet: str = "") -> str:
     """Prompt per kind. Same shape as the character prompts (bust/3:4 language
     comes from services.portraits) so the library looks consistent."""
@@ -146,9 +239,13 @@ def _base_prompt(kind: str, name: str, subtitle: str = "", snippet: str = "") ->
         return ("Fantasy object: " + (short_name or "an item")
                 + (f" ({detail})" if detail else "")
                 + "." + (f" {tail}" if tail else ""))
-    # npc / anything else -> the character prompt builder keeps the look consistent
+    # npc / anything else -> the character prompt builder keeps the look consistent.
+    # Gender is read from the FULL snippet, before the 15-word cap above: Insight Acuere's "She" sits
+    # past the cut, which is exactly how that portrait ended up male.
     from services.portraits import npc_prompt
-    return npc_prompt(name, notes=tail or snippet or "", race=detail)
+    return npc_prompt(name_for_portrait(name), notes=tail or snippet or "",
+                      race=race_from_subtitle(subtitle),
+                      gender=gender_from_text(snippet))
 
 
 def save(kind: str, name: str, data_url: str) -> int:

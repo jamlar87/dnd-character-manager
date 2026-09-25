@@ -223,10 +223,14 @@ def plan(con, args):
 
 
 def prompt_for(row, is_npc: bool):
-    from services import portraits
+    from services import portraits, ref_portraits
     if is_npc and not (row.get("race") or row.get("class_name")):
-        return portraits.npc_prompt(row.get("name", ""), row.get("notes") or "",
-                                    row.get("race") or "", row.get("role") or "")
+        # Gender comes from the notes for the same reason it does on the reference path: the records
+        # have no gender field, and the prose is the only place a pronoun is ever stated.
+        notes = row.get("notes") or ""
+        return portraits.npc_prompt(row.get("name", ""), notes,
+                                    row.get("race") or "", row.get("role") or "",
+                                    ref_portraits.gender_from_text(notes))
     return portraits.portrait_prompt(row.get("race") or "", row.get("class_name") or "",
                                      row.get("subclass") or "")
 

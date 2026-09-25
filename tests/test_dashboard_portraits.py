@@ -57,7 +57,10 @@ class TestDashboardCardPortrait:
         assert "data:image/png;base64" not in html, "base64 portrait inlined into the dashboard"
         assert url.split(",", 1)[1][:80] not in html
         assert re.search(rf'<img[^>]+src="/api/character/{cid}/portrait-image\?size=112"[^>]*>', html)
-        assert 'class="char-portrait"' in html
+        # Asserted as a class TOKEN, not the whole attribute: the tile also carries cp-clickable
+        # (it opens the full-size viewer), and pinning the exact attribute string made this test
+        # fail over a change that had nothing to do with the dashboard.
+        assert re.search(r'class="[^"]*\bchar-portrait\b[^"]*"', html), "portrait tile class missing"
         assert 'loading="lazy"' in html
 
     def test_character_without_portrait_gets_an_initial_placeholder(self, client, seeded_db, auth_headers):

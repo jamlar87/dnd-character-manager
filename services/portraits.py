@@ -173,15 +173,29 @@ COMFY_NEGATIVE = ("photo, photorealistic, 3d render, modern clothing, cars, raci
 PORTRAIT_PROVIDER = os.environ.get("PORTRAIT_PROVIDER", "horde").strip().lower()
 
 
-def npc_prompt(name: str, notes: str = "", race: str = "", role: str = "") -> str:
-    """Prompt for a row with no race/class (DM NPCs) — name and notes only."""
-    who = name or "a mysterious figure"
-    bits = [b for b in (race, role) if b]
+def npc_prompt(name: str, notes: str = "", race: str = "", role: str = "",
+               gender: str = "") -> str:
+    """Prompt for a row with no race/class (DM NPCs) — name and notes only.
+
+    The race LEADS the subject and is joined with "humanoid". Ordering is the whole fix here: a dwarf
+    called "Khelkur the Gull" was drawn as a white eagle in armour, because real diffusion checkpoints
+    weight the early tokens most and the nickname was the only concrete noun available. Stating the
+    species first, and saying humanoid outright, gives the model something correct to anchor on
+    before it ever reaches the name.
+
+    `gender` is passed in rather than derived here — the callers hold the description the pronoun has
+    to be read from, and one of them (the reference path) must read it before truncating. Empty is
+    valid and common: see ref_portraits.gender_from_text for why silence beats a guess.
+    """
+    who = " ".join((name or "a mysterious figure").split()[:8])
+    kind = (race or "").strip()
+    subject = (f"a {kind.lower()} humanoid, " if kind else "") + who
+    bits = [b for b in (gender, role) if b]
     detail = " ".join(bits)
     summary = " ".join((notes or "").split())[:300]
     tail = f" {summary}" if summary else ""
     return house_style(
-        "Bust portrait, 3:4 aspect ratio. " + who
+        "Bust portrait, 3:4 aspect ratio. " + subject
         + (f", {detail}," if detail else ",")
         + " upper body only, close-up composition. High fantasy oil painting,"
           " dramatic lighting, detailed face." + tail)
