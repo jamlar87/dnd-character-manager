@@ -84,20 +84,33 @@ def test_dwarf_named_gull_is_prompted_as_a_dwarf():
     prompt = ref_portraits.prompt_for(
         "npc", "Khelkur the Gull", "Dwarf · Occult Silvertongue",
         "A neutral evil, dwarf occult silvertongue who's one of the masters of the Consortium.")
-    assert "dwarf humanoid" in prompt, prompt
+    assert "dwarf" in prompt, prompt
     assert "the Gull" not in prompt, prompt
     assert "Khelkur" in prompt
 
 
-def test_species_leads_and_humanoid_is_stated():
-    """Order is the fix: early tokens carry the most weight in these checkpoints."""
-    prompt = portraits.npc_prompt("Nobody Special", race="Halfling")
-    assert "halfling humanoid" in prompt
-    assert prompt.index("halfling") < prompt.index("Nobody Special")
+def test_species_and_gender_lead_the_subject():
+    """Measured: 4/4 female this way vs 1/4 when gender trailed after the name. Early tokens carry
+    the most weight, so both must land before the name does."""
+    prompt = portraits.npc_prompt("Master Doolan Tversky", race="Gnome", gender="female")
+    assert "a female gnome, Master Doolan Tversky" in prompt, prompt
+
+
+def test_humanoid_is_not_used_as_a_stand_in_for_the_species():
+    """'a gnome humanoid' demotes the species to an adjective and the model falls back on its elven
+    default — that is how a dwarf came back slender with pointed ears."""
+    prompt = portraits.npc_prompt("Some Dwarf", race="Dwarf", gender="female")
+    assert "humanoid" not in prompt, prompt
+    assert "a female dwarf," in prompt, prompt
 
 
 def test_npc_prompt_still_accepts_the_old_signature():
-    """role= callers (the DM NPC path) must keep working."""
-    prompt = portraits.npc_prompt("Ayo Jabe", notes="", race="Human", role="ally")
-    assert "human humanoid" in prompt
-    assert "ally" in prompt
+    """role= callers (the DM NPC path) must keep working, and role stays a trailing detail."""
+    prompt = portraits.npc_prompt("Ayo Jabe", notes="", race="Human", role="blacksmith")
+    assert "a human, Ayo Jabe" in prompt
+    assert "blacksmith" in prompt
+
+
+def test_gender_omitted_leaves_the_subject_on_the_species_alone():
+    prompt = portraits.npc_prompt("Nobody Special", race="Halfling")
+    assert "a halfling, Nobody Special" in prompt, prompt

@@ -177,21 +177,28 @@ def npc_prompt(name: str, notes: str = "", race: str = "", role: str = "",
                gender: str = "") -> str:
     """Prompt for a row with no race/class (DM NPCs) — name and notes only.
 
-    The race LEADS the subject and is joined with "humanoid". Ordering is the whole fix here: a dwarf
-    called "Khelkur the Gull" was drawn as a white eagle in armour, because real diffusion checkpoints
-    weight the early tokens most and the nickname was the only concrete noun available. Stating the
-    species first, and saying humanoid outright, gives the model something correct to anchor on
-    before it ever reaches the name.
+    The subject is "a {gender} {race}, {name}": species and gender fused into one leading noun
+    phrase, placed ahead of the name.
 
-    `gender` is passed in rather than derived here — the callers hold the description the pronoun has
-    to be read from, and one of them (the reference path) must read it before truncating. Empty is
-    valid and common: see ref_portraits.gender_from_text for why silence beats a guess.
+    Measured, not guessed. For "Master Doolan Tversky" (a female gnome) over 4 runs each:
+    "a gnome humanoid, Master Doolan Tversky, female" produced 1/4 female (three bearded old men),
+    while "a female gnome, Doolan Tversky" produced 4/4. That result shows two separate causes —
+    gender trailing AFTER the name loses to a masculine honorific sitting in it, and "humanoid"
+    demotes the species to a vague adjective, so the model falls back on its default fantasy face,
+    which is elven. That is how a dwarf came back slender with pointed ears.
+
+    `gender` is passed in rather than derived here — callers hold the description the pronoun has to
+    be read from, and the reference path must read it before truncating. Empty is valid and common:
+    see ref_portraits.gender_from_text for why silence beats a guess.
+
+    `role` stays a trailing detail because the DM path passes real descriptors ("blacksmith"), while
+    the reference path passes nothing for it: "ally" says nothing about how someone looks.
     """
     who = " ".join((name or "a mysterious figure").split()[:8])
-    kind = (race or "").strip()
-    subject = (f"a {kind.lower()} humanoid, " if kind else "") + who
-    bits = [b for b in (gender, role) if b]
-    detail = " ".join(bits)
+    kind = (race or "").strip().lower()
+    lead = " ".join(b for b in (gender, kind) if b)
+    subject = f"a {lead}, {who}" if lead else who
+    detail = (role or "").strip()
     summary = " ".join((notes or "").split())[:300]
     tail = f" {summary}" if summary else ""
     return house_style(
