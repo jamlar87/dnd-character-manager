@@ -158,11 +158,18 @@ def save(kind: str, name: str, data_url: str) -> int:
 
 
 async def generate(kind: str, name: str, subtitle: str = "", snippet: str = "",
-                   max_wait: float = 120, retries: int = 2) -> tuple[Path | None, str | None]:
-    """Generate one image if it is missing. Returns (path, error)."""
+                   max_wait: float = 120, retries: int = 2,
+                   force: bool = False) -> tuple[Path | None, str | None]:
+    """Generate one image. Returns (path, error).
+
+    `force` regenerates over an existing file. Without it an existing portrait is handed straight
+    back, which is correct for the lazy path and for resuming a bulk run — but it silently defeats a
+    redo: --force selected the rows and every one returned "in 0s" carrying the old picture, logged
+    as success.
+    """
     if kind not in KINDS:
         return None, f"unknown kind '{kind}'"
-    if have(kind, name):
+    if not force and have(kind, name):
         return path_for(kind, name), None
 
     key = f"{kind}/{name}"

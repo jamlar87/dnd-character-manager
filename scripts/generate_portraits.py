@@ -106,9 +106,19 @@ async def run_reference(kinds, args):
             try:
                 path, err = await ref_portraits.generate(
                     kind, name, row.get("subtitle") or "", row.get("snippet") or "",
-                    max_wait=args.timeout, retries=args.retries)
+                    max_wait=args.timeout, retries=args.retries, force=args.force)
             except Exception as exc:               # never die mid-run
                 path, err = None, f"{type(exc).__name__}: {exc}"
+            if path and args.force and (time.time() - t0) < 1.5:
+                # A forced regenerate that returns instantly did not call the provider — the
+                # have() short-circuit is back. Reporting that as success is how 10 rows "completed"
+                # in 0s while writing nothing, so it counts as a failure.
+                print(f"  [{len(done)+1}] {kind} {name[:38]} → SUSPECT: returned in "
+                      f"{time.time()-t0:.1f}s with --force, nothing generated")
+                failed.append({"kind": kind, "name": name,
+                               "error": "force returned instantly — the have() short-circuit"})
+                await asyncio.sleep(args.delay)
+                continue
             if path:
                 kb = path.stat().st_size // 1024
                 print(f"  [{len(done)+1}] {kind} {name[:38]} → {kb} KB in {time.time()-t0:.0f}s")
