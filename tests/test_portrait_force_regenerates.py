@@ -56,5 +56,7 @@ def test_forced_prompt_is_the_construct_one(monkeypatch):
     asyncio.run(rp.generate("item", "Airship", "Vehicle", "", force=True))
     assert called
     prompt = called[0]
-    for word in ("no people", "no crew", "no creature"):
+    # The vehicle cue now says "no people and no crew" — "no creature" was dropped when the prompts
+    # were trimmed to fit CLIP's 77-token window (see test_prompt_token_budget.py).
+    for word in ("no people", "no crew"):
         assert word in prompt, "a forced redo must use the current prompt, not a stale one"

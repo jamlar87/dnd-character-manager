@@ -83,7 +83,10 @@ class TestRestartPath:
         mod = self._stub(monkeypatch, tmp_path, spawned)
         rc, out = capture(mod)
         assert rc == 0
-        assert "restarted it" in out and "4242" in out
+        # Assert the RESULT the reader needs, not one phrasing of it: an explicit statement that
+        # something was started, plus the pid to act on. The message reads "was not running —
+        # started the constructs pass (pid 4242)".
+        assert "started" in out and "4242" in out
         assert "missing {'npc': 0, 'item': 90, 'creature': 49}" in out
         # detached, so it outlives the cron run, and it runs the real generator
         assert spawned["kwargs"].get("start_new_session") is True

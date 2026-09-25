@@ -77,7 +77,9 @@ class TestPrompts:
         item = ref_portraits.prompt_for("item", "Bag of Holding", "Wondrous item")
         npc = ref_portraits.prompt_for("npc", "Ayo Jabe", "Water Genasi")
         assert "bestiary" in creature and "Aboleth" in creature
-        assert "item illustration" in item and "Bag of Holding" in item
+        # Plain items lead with "Fantasy object:" — "item illustration" was retired because "item"
+        # points a diffusion model at a small hand-held object (see the note in ref_portraits).
+        assert "Fantasy object" in item and "Bag of Holding" in item
         assert "Bust portrait" in npc, "NPCs reuse the character prompt language"
         assert len({creature, item, npc}) == 3
 
