@@ -578,7 +578,7 @@ FEATURE_ACTION_TYPES = {
     "warping implosion":              ("Action", "You can unleash your aberrant power as a space-warping anomaly. As an action, you can teleport to an…"),
     "wild surge":                     ("Special", "The magical energy roiling inside you sometimes erupts from you. When you enter your rage, roll on the Wild…"),
 
-    "silent steps":                   ("Special", "You’ve always been adept at evading notice, but now your own shadow seems to muffle the noise you make. You…"),
+    "silent steps":                   ("Action", "You’ve always been adept at evading notice, but now your own shadow seems to muffle the noise you make. You…"),
 
 }
 

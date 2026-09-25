@@ -187,9 +187,13 @@ def main() -> int:
         if not items:
             log(f"  batch failed ({[c[0] for c in chunk]}): no JSON returned")
             continue
-        for item, (name, page, _) in zip(items, chunk):
+        for idx2, (name, page, _) in enumerate(chunk):
+            # Index rather than zip: zip() silently drops the tail when the model returns fewer
+            # entries than the batch, which is how *silence* — the spell that started this whole
+            # thread — vanished from a 177-spell run without a word in the log.
+            item = items[idx2] if idx2 < len(items) else None
             if not isinstance(item, dict) or not item.get("description"):
-                log(f"  skipped {name!r}: no description in the response")
+                log(f"  skipped {name!r}: no usable response (a later run will retry it)")
                 continue
             # The page is ours, not the model's.
             item["name"] = str(item.get("name") or name).strip()
