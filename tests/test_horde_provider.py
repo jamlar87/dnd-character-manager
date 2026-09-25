@@ -74,7 +74,7 @@ async def _no_sleep(*_args, **_kwargs):
 
 
 def test_a_finished_job_returns_a_data_url(monkeypatch):
-    post = _Resp(200, {"id": "job-1"})
+    post = _Resp(202, {"id": "job-1"})          # 202 Accepted is what the live API returns
     gets = [
         _Resp(200, {"done": False, "queue_position": 12}),
         _Resp(200, {"done": False, "queue_position": 3}),
@@ -82,7 +82,7 @@ def test_a_finished_job_returns_a_data_url(monkeypatch):
         _Resp(200, content=b"pretend-webp", ctype="image/webp"),
     ]
     (data_url, error), record = _run(monkeypatch, post, gets)
-    assert error is None
+    assert error is None, "202 Accepted is a success — requiring 200 discarded every real job"
     assert data_url.startswith("data:image/webp;base64,")
     assert base64.b64decode(data_url.split(",", 1)[1]) == b"pretend-webp"
     assert record["post"]["url"] == portraits.HORDE_ASYNC

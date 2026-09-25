@@ -160,7 +160,9 @@ async def fetch_horde_image(prompt: str, max_wait: int = 600,
     try:
         async with httpx.AsyncClient(timeout=90, follow_redirects=True) as client:
             resp = await client.post(HORDE_ASYNC, json=body, headers=headers)
-            if resp.status_code != 200:
+            # 202 Accepted is the success code here — a submit queues the job rather than doing it.
+            # Requiring 200 rejected every real job while the mocked tests (which assumed 200) passed.
+            if not 200 <= resp.status_code < 300:
                 return None, f"Stable Horde rejected the job (HTTP {resp.status_code})"
             job = (resp.json() or {}).get("id")
             if not job:
@@ -171,7 +173,7 @@ async def fetch_horde_image(prompt: str, max_wait: int = 600,
                     poll = await client.get(f"{HORDE_STATUS}/{job}", headers=headers)
                 except Exception:
                     continue                      # a dropped poll is not a failed job
-                if poll.status_code != 200:
+                if not 200 <= poll.status_code < 300:
                     continue
                 state = poll.json() or {}
                 if state.get("faulted"):
