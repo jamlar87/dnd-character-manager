@@ -135,14 +135,18 @@ def test_a_plain_item_keeps_its_own_wording():
     assert "constructed object" not in p
 
 
-def test_the_horde_model_is_sdxl_not_sd15():
-    """SD1.5 rendered the Carriage as a soft mass; SDXL matched the good results at the same speed."""
+def test_the_horde_model_is_sdxl_class_not_sd15():
+    """SD1.5 rendered the Carriage as a soft mass; the pool size of the chosen model is the lever.
+
+    Kudos drive queue priority and a 0-kudos account queues last, so the model's worker count is
+    what actually governs throughput here.
+    """
     import inspect
 
     from services import portraits
 
     src = inspect.getsource(portraits)
-    assert 'HORDE_MODELS = ("SDXL 1.0",)' in src
+    assert 'HORDE_MODELS = ("AlbedoBase XL 3.1",)' in src
     assert "NSFW" not in src.split("HORDE_MODELS = ")[1].split("\n")[0], \
         "a family fantasy library must not default to an NSFW fine-tune"
 

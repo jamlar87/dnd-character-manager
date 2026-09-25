@@ -45,12 +45,12 @@ if _env_path.exists():
 HORDE_ASYNC = "https://stablehorde.net/api/v2/generate/async"
 HORDE_STATUS = "https://stablehorde.net/api/v2/generate/status"
 HORDE_AGENT = "dnd-character-manager:1.0:characters.jamlarnet.stream"
-#: SDXL rather than "stable_diffusion" (SD1.5-era): the difference is quality, not speed. Measured
-#: from /api/v2/status/models, SDXL 1.0 had 5 workers with nothing queued and AlbedoBase XL an eta of
-#: 53s, against ~56s observed for SD1.5 on the same queue. Plain SD1.5 rendered the Carriage as a
-#: soft timber mass while it handled the clockwork soldier and airship well, so consistency is the
-#: gain. Deliberately not an NSFW/illustrious fine-tune — this is a family fantasy reference library.
-HORDE_MODELS = ("SDXL 1.0",)
+#: AlbedoBase XL rather than "SDXL 1.0", for worker pool size rather than style: measured from
+#: /api/v2/status/models at the time of the switch, SDXL 1.0 had 2 workers against AlbedoBase XL 3.1's
+#: 7. Queue priority is driven by kudos, and a 0-kudos account (anonymous included) queues last, so
+#: pool size was the only lever available. Both are SDXL-class and fantasy-tuned, so the look is close.
+#: Deliberately not an NSFW/illustrious fine-tune — this is a family fantasy reference library.
+HORDE_MODELS = ("AlbedoBase XL 3.1",)
 
 PORTRAIT_PROVIDER = os.environ.get("PORTRAIT_PROVIDER", "horde").strip().lower()
 
