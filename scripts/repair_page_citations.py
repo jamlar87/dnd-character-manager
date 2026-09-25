@@ -62,20 +62,59 @@ def looks_like_name_list(text: str) -> bool:
     return len(_PHONETIC.findall(text)) >= 4
 
 
+_CLASS_LIST = re.compile(r"^\s*[A-Z][A-Z'\u2019\- ]{2,30}\s+SPELLS\s*$", re.M)
+
+
+def looks_like_class_list(text: str) -> bool:
+    """A class spell list names every spell on its page and describes none of them.
+
+    The PHB prints these before the descriptions chapter, so a spell's heading search finds the
+    sorcerer list (p.64) before the entry itself (p.235). Repairing to a list page is worse than
+    leaving a wrong page: the badge opens a page that names the spell and explains nothing.
+    """
+    return bool(_CLASS_LIST.search(text))
+
+
+# "5th-level enchantment" or "Evocation cantrip" — an entry's level line carries a school. A bare
+# "1st Level" is a section header inside the list and must not count as an entry cue.
+_ENTRY_CUE = re.compile(r"\b(?:casting time|\d(?:st|nd|rd|th)[- ]level\s+[a-z]|[a-z]+\s+can\s?trip)\b",
+                        re.I)
+
+
+def looks_like_list_context(lines: list[str], i: int) -> bool:
+    """The line matches a name, but the lines under it are a column of more names.
+
+    Only the first page of a class spell list carries a header ("SORCERER SPELLS"), so the header
+    guard catches one page in four. The structural tell is what follows: an entry continues with a
+    level line or a casting time, a list continues with another bare name.
+    """
+    following = [ln.strip() for ln in lines[i + 1: i + 5] if ln.strip()]
+    if any(_ENTRY_CUE.search(ln) for ln in following):
+        return False
+    return sum(1 for ln in following if 0 < len(ln) <= 42) >= 2
+
+
 def heading_page(pages: dict[int, str], name: str) -> int | None:
     """Page whose line *is* the name (a heading), not a page that merely mentions it."""
     words = [w for w in re.findall(r"[A-Za-z0-9'-]+", name) if len(w) > 2]
     if not words:
         return None
-    pattern = re.compile(r"[\s\-–—:,'’]*".join(re.escape(w) for w in words), re.I)
+    # The line must BE the name, not merely contain it: "BLESSING" is not the spell "Bless", and
+    # search() matched it, proposing p.110 (warlock class features) for a spell described on p.223.
+    # The cron applies this repair every 20 minutes, so a loose match here corrupts data on a timer.
+    pattern = re.compile(
+        r"[^A-Za-z]{0,3}[\s\-–—:,'’]*".join([""] + [re.escape(w) for w in words])
+        + r"[\s\-–—:,'’]*(?:\([^)]{0,20}\))?\s*[.:;!?]?\s*",
+        re.I)
     for n in sorted(pages):
-        if looks_like_name_list(pages[n]):
+        if looks_like_name_list(pages[n]) or looks_like_class_list(pages[n]):
             continue
-        for raw_line in pages[n].split("\n"):
+        lines = pages[n].split("\n")
+        for i, raw_line in enumerate(lines):
             line = raw_line.strip()
             if not line or len(line) > len(name) + 12:
                 continue
-            if pattern.search(line):
+            if pattern.fullmatch(line) and not looks_like_list_context(lines, i):
                 return n
     return None
 
@@ -101,6 +140,8 @@ def find_in_book(pages: dict[int, str], name: str) -> int | None:
         if len(text.strip()) < 800:      # front matter, contents, index: too thin to be the entry
             continue
         if looks_like_name_list(text):   # pronunciation guide / roster: names it, is not its entry
+            continue
+        if looks_like_class_list(text):  # class spell list: same, and it precedes the entry
             continue
         flat = re.sub(r"\s+", " ", text)
         if re.search(pattern, flat, re.I) and not is_toc_line(text, pattern):

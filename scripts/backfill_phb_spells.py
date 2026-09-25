@@ -35,12 +35,19 @@ MERGED = HERE / "data" / "manual_data"
 OUT = CACHE / "PHB_spells_extracted.json"
 LOG = HERE / "data" / "phb_spells_backfill.log"
 
-HEADING = re.compile(r"^([A-Z][A-Z'\u2019\- ]{2,40})\s*$")
+# Caps names carry OCR junk ("ALARM.", "PROTECTION FROM", "17lh level" nearby), so the character
+# class allows digits and punctuation. This stays safe only because a heading must sit immediately
+# above a level line: the loose version of this pattern matched 372 lines, most of them prose
+# ("a spell slot of 3rd level or higher") whose line above is lowercase.
+HEADING = re.compile(r"^[A-Z0-9][A-Z0-9'\u2019\- .,:;!?]{2,40}$")
 # Tolerant of how OCR renders a level line: "2nd-level illusion (ritual)", "2nd–level Abjuration",
-# "2nd level illusion", "CANTrip". The stricter form missed ~150 spells outright — including
-# *silence*, the spell that started this whole thread — because one character of the line was off.
-LEVEL = re.compile(r"^\s*(?:\d(?:st|nd|rd|th)\s*[-\u2013\u2014]?\s*level|can\s*trip)\b[^\n]{0,50}$",
-                   re.I)
+# "2nd level illusion", "CANTrip" — and of up to 18 characters of junk in front of it, which is how
+# the running head or page number lands ("224 3rd-level conjuration"). This stays safe only because
+# the line immediately above must be caps: without that, the loose form matches 372 lines, mostly
+# prose like "a spell slot of 3rd level or higher".
+LEVEL = re.compile(
+    r"^[^\n]{0,18}?\b(?:\d(?:st|nd|rd|th)\s*[-\u2013\u2014]?\s*level|can\s?trip)\b[^\n]{0,50}$",
+    re.I)
 PAGE = re.compile(r"---\s*PAGE\s+(\d+)")
 
 PROMPT = """Extract the spell described below into JSON. The text is OCR'd from a rulebook, so \
@@ -107,6 +114,11 @@ def spell_blocks() -> list[tuple[str, int, str]]:
         if not parts:
             continue
         name = " ".join(parts).strip().title()
+        # Running heads and page numbers get OCR-joined to the name ("224 Commune With Nature",
+        # "Part 3 I Spei.Ls Awaken"). Drop everything up to and including such a marker.
+        name = re.sub(r"^.*?\b(?:part\s*\d+|[ivx]+\s*[|i]\s*)?spei\.?\s*lls\b[^A-Za-z]*", "", name,
+                      flags=re.I).strip() or name
+        name = re.sub(r"^\d{1,3}\s+", "", name).strip()
         if len(name) < 3 or name.lower().startswith(("chapter", "appendix")):
             continue
         offset = start + sum(len(x) + 1 for x in lines[:j + 1])
