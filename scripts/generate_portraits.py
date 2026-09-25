@@ -58,16 +58,43 @@ def want(kinds, kind, default=False) -> bool:
     return "all" in kinds or kind in kinds
 
 
-async def run_reference(kinds, args):
-    """Generate shared reference art (creatures/items/NPCs) into static/ref-portraits/."""
+def select_rows(kind: str, args) -> tuple[list, list]:
+    """(rows, todo) for a reference kind — the single selection both paths use.
+
+    --dry-run must plan the same set the real run touches. It once ignored --force, --match and
+    --constructs, so the plan described different work than the run would do — worse than no plan,
+    when the run spends a shared free image quota.
+    """
     from services import ref_portraits
     from services.entity_search import iter_entities
 
+    rows = list(iter_entities(kind))
+    if getattr(args, "constructs", False):
+        if kind == "npc":
+            # NPC prompts come from the character builder (npc_prompt), so construct wording is never
+            # applied to them. Matching here would select rows the flag cannot affect — "Tinkerer
+            # Quash Dentdruggle, Gnome · Construct specialist" is a person, not a machine.
+            rows = []
+        else:
+            from services.ref_portraits import construct_cue
+            rows = [r for r in rows if construct_cue(r["name"], r.get("subtitle") or "")]
+    if getattr(args, "match", None):
+        pats = [re.compile(m, re.I) for m in args.match]
+        rows = [r for r in rows if any(p.search(r["name"]) for p in pats)]
+    # --force must be honoured, not only for characters: a family that needs redoing (the
+    # constructs) is otherwise skipped for exactly the reason it needs redoing — it already has art.
+    todo = [r for r in rows if args.force or not ref_portraits.have(kind, r["name"])]
+    return rows, todo
+
+
+async def run_reference(kinds, args):
+    """Generate shared reference art (creatures/items/NPCs) into static/ref-portraits/."""
+    from services import ref_portraits
+
     done, failed, budget = [], [], args.limit or 0
     for kind in kinds:
-        rows = list(iter_entities(kind))
-        todo = [r for r in rows if not ref_portraits.have(kind, r["name"])]
-        print(f"\n{kind}: {len(todo)} missing of {len(rows)} indexed "
+        rows, todo = select_rows(kind, args)
+        print(f"\n{kind}: {len(todo)} to generate of {len(rows)} indexed "
               f"({len(rows) - len(todo)} already have art)")
         for n, row in enumerate(todo, 1):
             await _yield_to_interactive()
@@ -108,6 +135,14 @@ def parse_args():
     p.add_argument("--retries", type=int, default=4,
                    help="extra attempts per image (default 4: the free tier "
                         "rate limits hard and each retry waits 60s+)")
+    p.add_argument("--constructs", action="store_true",
+                   help="only rows the prompt builder treats as constructs. Uses construct_cue(), "
+                        "the same predicate the wording is chosen by, so the filter cannot select a "
+                        "different set than the descriptions are applied to")
+    p.add_argument("--match", action="append", default=None,
+                   help="only reference art whose name matches this regex (repeatable, "
+                        "case-insensitive). Use with --force to redo a family, e.g. "
+                        "--kind creature --match construct --force")
     p.add_argument("--force", action="store_true",
                    help="regenerate rows that already have a portrait")
     p.add_argument("--include-fixtures", action="store_true",
@@ -234,12 +269,11 @@ async def main() -> int:
         con = connect()
         ref_kinds = [k for k in REF_KINDS if want(kinds, k)]
         if args.dry_run:
-            from services.entity_search import iter_entities
             from services import ref_portraits
             for k in ref_kinds:
-                rows = list(iter_entities(k))
-                missing = [r for r in rows if not ref_portraits.have(k, r["name"])]
-                print(f"{k}: {len(missing)} of {len(rows)} need art "
+                rows, missing = select_rows(k, args)
+                note = "selected (--force re-does existing art)" if args.force else "need art"
+                print(f"{k}: {len(missing)} of {len(rows)} {note} "
                       f"(~{len(missing) * 30 // 60} min at 30s each)")
                 for r in missing[:2]:
                     print(f"   e.g. {r['name']}: "

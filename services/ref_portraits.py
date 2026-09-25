@@ -62,17 +62,72 @@ def have(kind: str, name: str) -> bool:
         return False
 
 
+#: Constructs are not animals. The bestiary wording — "full body, single creature" — is exactly why
+#: the battering ram came out fleshy and the clockwork entries came out organic; the prompt asserts
+#: the thing is alive. Each family gets its own material vocabulary, and every variant states plainly
+#: that nothing here is living. Order matters: the first match wins, so the specific cues lead.
+CONSTRUCT_CUES = (
+    (re.compile(r"\bclockwork\b|\bgearwork\b|\bmechanical\b", re.I),
+     "an intricate clockwork machine of brass and blackened steel with exposed gears, ratchets, "
+     "pistons and riveted plates, a glowing arcane core where a heart would be, "
+     "with no flesh, no skin and no organic features"),
+    (re.compile(r"\bgolem\b", re.I),
+     "a hulking constructed guardian assembled from heavy metal plates and fitted stone, with visible "
+     "seams, bolts and rivets, jointed limbs and a rune-lit core burning through the gaps, "
+     "nothing organic, no flesh, no living tissue"),
+    (re.compile(r"\bairship\b|\bflying ship\b|\bvehicle\b|\bcarriage\b|\bwagon\b|\bboat\b", re.I),
+     "a built vessel of timber, canvas and metal fittings — plating, ropes, rigging and a rigid "
+     "frame — shown as a single object, with no people, no crew and no creature present"),
+    (re.compile(r"\bbattering ram\b|\bsiege\b|\bballista\b|\btrebuchet\b|\bcatapult\b|\bmangonel\b", re.I),
+     "a siege engine of heavy timber beams, iron bands, rope and counterweight — a machine that was "
+     "built, not born, shown as a single object with no living thing present"),
+    (re.compile(r"\banimated\b|\bconstruct\b|\bautomaton\b|\bmodron\b|\bcauldronborn\b|\bdreadnought\b", re.I),
+     "an artificial construct assembled from metal, wood and stone, with visible joints, bolts and "
+     "plates and faintly glowing seams of arcane energy, no flesh and no organic features"),
+)
+
+
+def construct_cue(name: str, detail: str = "") -> str | None:
+    """The material description for a construct, or None when this is an ordinary living thing.
+
+    The name is checked against every cue. The subtitle only counts for the plain type words
+    ("Construct · CR 5"), never for the specific families: a "Battering Shield" is an ordinary
+    shield whose subtitle can mention siege equipment, and giving it a siege engine's description
+    would be the same class of mistake as the battering ram looking alive.
+    """
+    for pattern, description in CONSTRUCT_CUES:
+        if pattern.search(name or ""):
+            return description
+    if re.search(r"\bconstruct\b|\bautomaton\b|\bmodron\b", detail or "", re.I):
+        return CONSTRUCT_CUES[-1][1]
+    return None
+
+
 def prompt_for(kind: str, name: str, subtitle: str = "", snippet: str = "") -> str:
     """Prompt per kind. Same shape as the character prompts (bust/3:4 language
     comes from services.portraits) so the library looks consistent."""
     detail = " ".join((subtitle or "").split())[:120]
     tail = " ".join((snippet or "").split())[:200]
+    cue = construct_cue(name, detail)
     if kind == "creature":
+        if cue:
+            return ("Fantasy magical-construct illustration of " + (name or "a construct")
+                    + (f", {detail}." if detail else ".")
+                    + f" It is {cue}."
+                    + " Full body, single subject, centred, plain parchment background,"
+                      " painterly high fantasy style, dramatic lighting, detailed."
+                    + (f" {tail}" if tail else ""))
         return ("Fantasy bestiary illustration of " + (name or "a monster")
                 + (f", {detail}." if detail else ".")
                 + " Full body, single creature, centred, plain parchment background,"
                   " painterly high fantasy style, dramatic lighting, detailed." + (f" {tail}" if tail else ""))
     if kind == "item":
+        if cue:
+            return ("RPG item illustration of " + (name or "an item")
+                    + (f" ({detail})" if detail else "")
+                    + f". It is {cue}."
+                      " Single object centred on a plain dark background, painterly high fantasy"
+                      " style, soft rim light, detailed." + (f" {tail}" if tail else ""))
         return ("RPG item illustration of " + (name or "an item")
                 + (f" ({detail})" if detail else "")
                 + ". Single object centred on a plain dark background, painterly"
