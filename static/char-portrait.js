@@ -30,17 +30,74 @@ function charPortraitTile(charId, name, opts) {
   const direct = opts.src || '';
   if (direct) {
     return `<img src="${esc(direct)}" alt="${esc(label)}" loading="lazy" decoding="async"
-      class="${cls}" style="${style}" data-cp-fallback="${esc(initial)}"
-      onerror="charPortraitFallback(this)">`;
+      class="${cls} cp-clickable" style="${style}" data-cp-fallback="${esc(initial)}"
+      data-full="${esc(direct)}" data-label="${esc(label)}" title="Click to view full size"
+      onclick="openPortraitFull(event, this)" onerror="charPortraitFallback(this)">`;
   }
   if (!charId || opts.hasPortrait === false) {
     return `<span class="${cls} char-portrait-empty" style="${style};font-size:${Math.round(size * 0.42)}px" aria-hidden="true">${esc(initial)}</span>`;
   }
   const base = opts.kind === 'npc' ? '/api/dm/npc/' : '/api/character/';
   // Two sizes requested: the tile slot is 2x for crispness.
-  return `<img src="${base}${charId}/portrait-image?size=${size * 2}" alt="${esc(label)} portrait"
-    loading="lazy" decoding="async" class="${cls}" style="${style}"
-    data-cp-fallback="${esc(initial)}" onerror="charPortraitFallback(this)">`;
+  const tile = `${base}${charId}/portrait-image?size=${size * 2}`;
+  return `<img src="${tile}" alt="${esc(label)} portrait"
+    loading="lazy" decoding="async" class="${cls} cp-clickable" style="${style}"
+    data-cp-fallback="${esc(initial)}" data-full="${esc(tile)}" data-label="${esc(label)}"
+    title="Click to view full size" onclick="openPortraitFull(event, this)"
+    onerror="charPortraitFallback(this)">`;
+}
+
+/* Click any portrait or reference image to see it full size.
+ *
+ * Every list in the app renders through charPortraitTile/refArtImg, so wiring the click here covers
+ * monsters, items, NPCs and characters at once — previously only the character sheet's own 80px
+ * portrait was clickable (openPortraitModal in sheet.js), which is why NPCs had no way to enlarge.
+ *
+ * Tiles deliberately request a thumbnail (`?size=` small) because they sit in dense rows. The viewer
+ * swaps that parameter for a large one, so the browser pulls the full-resolution art only when asked
+ * for. The overlay is built here rather than in a template so every page gets it from layout.html,
+ * and the click stops propagation because these tiles sit inside clickable rows and pickers.
+ */
+function openPortraitFull(ev, img) {
+  if (ev && ev.stopPropagation) ev.stopPropagation();
+  if (ev && ev.preventDefault) ev.preventDefault();
+  if (!img) return;
+  const src = img.getAttribute('data-full') || img.getAttribute('src') || '';
+  if (!src) return;
+  const label = img.getAttribute('data-label') || img.getAttribute('alt') || '';
+  // Ask for a large render. Replacing the parameter keeps this working for every route
+  // (/api/ref-image/..., /api/character/.../portrait-image, /api/dm/npc/.../portrait-image) without
+  // knowing each one's shape. No parameter at all (some external URLs) just gets one appended.
+  const full = /([?&]size=)\d+/.test(src)
+    ? src.replace(/([?&]size=)\d+/, '$1' + 1024)
+    : src + (src.indexOf('?') === -1 ? '?' : '&') + 'size=1024';
+
+  let ov = document.getElementById('cp-full-overlay');
+  if (!ov) {
+    ov = document.createElement('div');
+    ov.id = 'cp-full-overlay';
+    ov.setAttribute('style', 'display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);'
+      + 'z-index:400;align-items:center;justify-content:center;flex-direction:column;gap:0.6rem;padding:1rem');
+    ov.onclick = e => { if (e.target === ov) ov.style.display = 'none'; };
+    const imgEl = document.createElement('img');
+    imgEl.id = 'cp-full-image';
+    imgEl.setAttribute('style', 'max-width:95vw;max-height:88vh;width:auto;height:auto;'
+      + 'object-fit:contain;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,0.6)');
+    imgEl.onerror = () => { imgEl.alt = 'that image could not be loaded'; };
+    const cap = document.createElement('div');
+    cap.id = 'cp-full-caption';
+    cap.setAttribute('style', 'color:#fff;font-size:0.9rem;opacity:0.85;text-align:center');
+    ov.appendChild(imgEl);
+    ov.appendChild(cap);
+    document.body.appendChild(ov);
+    // Escape closes it. Registered once, with the overlay.
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') ov.style.display = 'none';
+    });
+  }
+  document.getElementById('cp-full-image').src = full;
+  document.getElementById('cp-full-caption').textContent = label;
+  ov.style.display = 'flex';
 }
 
 /* Swap a failed portrait request for the initial tile (no portrait stored,
@@ -66,9 +123,12 @@ function charPortraitFallback(img) {
 function refArtImg(kind, name, px) {
   if (!name) return '';
   const size = px || 256;
-  return `<img src="/api/ref-image/${kind}/${encodeURIComponent(name)}?size=${size * 2}"
-    alt="${String(name)}" loading="lazy" decoding="async"
-    style="float:right;width:${size}px;max-width:40%;height:auto;border-radius:8px;margin:0 0 0.6rem 0.9rem;border:1px solid var(--border)"
+  const src = `/api/ref-image/${kind}/${encodeURIComponent(name)}?size=${size * 2}`;
+  return `<img src="${src}"
+    alt="${String(name)}" loading="lazy" decoding="async" class="cp-clickable"
+    data-full="${src}" data-label="${String(name)}" title="Click to view full size"
+    onclick="openPortraitFull(event, this)"
+    style="float:right;width:${size}px;max-width:40%;height:auto;border-radius:8px;margin:0 0 0.6rem 0.9rem;border:1px solid var(--border);cursor:zoom-in"
     onerror="this.style.display='none'">`;
 }
 

@@ -19,15 +19,22 @@
 {%- set url = '/api/dm/npc/' ~ char_id ~ '/portrait-image' if kind == 'npc' else '/api/character/' ~ char_id ~ '/portrait-image' -%}
 {%- if src_override -%}
 {# Reference art (monsters/items/NPCs): the image may not be generated yet, so
-   the letter tile is the fallback until it is. #}
+   the letter tile is the fallback until it is. Clicking opens the shared
+   full-size viewer (openPortraitFull in char-portrait.js, loaded via
+   layout.html) — these tiles were previously not clickable at all, so NPC art
+   could not be enlarged anywhere. #}
 <img src="{{ src_override }}" alt="{{ name }} portrait" loading="lazy" decoding="async"
-     class="char-portrait" style="--cp-size:{{ px }}px;--cp-size-mobile:{{ (px * 0.86)|round|int }}px"
-     data-cp-fallback="{{ (name or '?')[:1]|upper }}" onerror="charPortraitFallback(this)">
+     class="char-portrait cp-clickable" style="--cp-size:{{ px }}px;--cp-size-mobile:{{ (px * 0.86)|round|int }}px"
+     data-cp-fallback="{{ (name or '?')[:1]|upper }}" data-full="{{ src_override }}"
+     data-label="{{ name }}" title="Click to view full size"
+     onclick="openPortraitFull(event, this)" onerror="charPortraitFallback(this)">
 {%- elif has_portrait -%}
 <img src="{{ url }}?size={{ px * 2 }}" alt="{{ name }} portrait"
-     loading="lazy" decoding="async" class="char-portrait"
+     loading="lazy" decoding="async" class="char-portrait cp-clickable"
      style="--cp-size:{{ px }}px;--cp-size-mobile:{{ (px * 0.86)|round|int }}px"
-     data-cp-fallback="{{ (name or '?')[:1]|upper }}" onerror="charPortraitFallback(this)">
+     data-cp-fallback="{{ (name or '?')[:1]|upper }}" data-full="{{ url }}?size={{ px * 2 }}"
+     data-label="{{ name }}" title="Click to view full size"
+     onclick="openPortraitFull(event, this)" onerror="charPortraitFallback(this)">
 {%- else -%}
 <span class="char-portrait char-portrait-empty" style="--cp-size:{{ px }}px;--cp-size-mobile:{{ (px * 0.86)|round|int }}px;font-size:{{ (px * 0.42)|round|int }}px" aria-hidden="true">{{ (name or '?')[:1]|upper }}</span>
 {%- endif -%}

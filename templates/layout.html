@@ -90,6 +90,10 @@
     border-style: dashed; color: var(--text-muted);
     font-weight: 600; user-select: none;
   }
+  /* Portraits and reference art open in the full-size viewer (openPortraitFull in char-portrait.js).
+     Tiles are small by design, so the cursor is the only affordance that says so. */
+  .cp-clickable { cursor: zoom-in; }
+  .cp-clickable:hover { filter: brightness(1.06); }
   .char-portrait-chip {
     display: inline-flex; align-items: center; gap: 0.35rem;
     padding: 0.15rem 0.5rem 0.15rem 0.15rem;
