@@ -1,0 +1,8 @@
+{
+  "_comment": "Slug -> file mappings verified by hand against the book itself. Re-asserted by scripts/repair_manual_paths.py after every fold, because a fold re-serialises pdf_map from the ingest engine's own view and renames the title to match. Only add an entry after confirming the file's page count against the slug's cached text.",
+  "WLL": {
+    "title": "Warlock Lairs 1: Into the Wilds",
+    "filename": "Warlock_Lairs_1_Into_the_Wilds_FINAL.pdf",
+    "path": "DnD-Manuals/5e Kobold Press Resources/Warlock_Lairs_1_Into_the_Wilds_FINAL.pdf"
+  }
+}
