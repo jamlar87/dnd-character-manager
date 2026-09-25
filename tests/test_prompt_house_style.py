@@ -103,7 +103,10 @@ def test_contradictory_background_instructions_are_not_both_present():
 
 
 def test_the_blank_background_clause_names_the_things_that_go_wrong():
-    for banned in ("no scenery", "no landscape", "no props", "no watermark"):
+    # Short on purpose: this is appended to every prompt and SDXL truncates at 77 tokens. "no scenery"
+    # and "no people" are the two that matter most — the first is a blank background, the second is how
+    # a construct creature came back as a human figure. See test_prompt_token_budget.py.
+    for banned in ("no scenery", "no people", "no text"):
         assert banned in portraits.BLANK_BG.lower()
 
 

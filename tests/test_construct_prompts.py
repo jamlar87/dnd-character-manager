@@ -46,7 +46,10 @@ def test_living_things_are_not(name, subtitle):
 def test_construct_prompt_never_claims_a_creature():
     p = prompt_for("creature", "Battering Ram", "Construct · CR 5", "")
     assert "single creature" not in p, "the construct prompt must not call it a creature"
-    for word in ("siege engine", "built, not born"):
+    # The cue is kept short now: SDXL truncates at 77 tokens, and a wordy cue pushed the subject off
+    # the end of the prompt (see test_prompt_token_budget.py). "a built machine" carries the same
+    # meaning as "built, not born" in half the tokens.
+    for word in ("siege engine", "built machine"):
         assert word in p
 
 
@@ -58,7 +61,7 @@ def test_clockwork_prompt_is_mechanical():
 
 def test_vehicle_prompt_has_no_occupants():
     p = prompt_for("item", "Airship", "Vehicle", "")
-    for word in ("no people", "no crew", "no creature"):
+    for word in ("no people", "no crew"):
         assert word in p
 
 

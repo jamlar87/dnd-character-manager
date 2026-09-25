@@ -66,24 +66,25 @@ def have(kind: str, name: str) -> bool:
 #: the battering ram came out fleshy and the clockwork entries came out organic; the prompt asserts
 #: the thing is alive. Each family gets its own material vocabulary, and every variant states plainly
 #: that nothing here is living. Order matters: the first match wins, so the specific cues lead.
+#:
+#: These are kept SHORT on purpose. SDXL truncates at 77 tokens, so a wordy cue pushes the subject off
+#: the end of the prompt entirely (see FANTASY_STYLE in services/portraits.py). The material words are
+#: what matter; the connective prose is not worth a token.
 CONSTRUCT_CUES = (
     (re.compile(r"\bclockwork\b|\bgearwork\b|\bmechanical\b", re.I),
-     "an intricate clockwork machine of brass and blackened steel with exposed gears, ratchets, "
-     "pistons and riveted plates, a glowing arcane core where a heart would be, "
-     "with no flesh, no skin and no organic features"),
+     "a clockwork machine of brass and blackened steel, exposed gears, ratchets, riveted plates, "
+     "a glowing arcane core, no flesh"),
     (re.compile(r"\bgolem\b", re.I),
-     "a hulking constructed guardian assembled from heavy metal plates and fitted stone, with visible "
-     "seams, bolts and rivets, jointed limbs and a rune-lit core burning through the gaps, "
-     "nothing organic, no flesh, no living tissue"),
+     "a golem of fitted metal plates and stone, bolted seams, jointed limbs, a rune-lit core, "
+     "no flesh"),
     (re.compile(r"\bairship\b|\bflying ship\b|\bvehicle\b|\bcarriage\b|\bwagon\b|\bboat\b", re.I),
-     "a built vessel of timber, canvas and metal fittings — plating, ropes, rigging and a rigid "
-     "frame — shown as a single object, with no people, no crew and no creature present"),
+     "a built vessel of timber, canvas and metal fittings, rigging and a rigid frame, "
+     "no people and no crew"),
     (re.compile(r"\bbattering ram\b|\bsiege\b|\bballista\b|\btrebuchet\b|\bcatapult\b|\bmangonel\b", re.I),
-     "a siege engine of heavy timber beams, iron bands, rope and counterweight — a machine that was "
-     "built, not born, shown as a single object with no living thing present"),
+     "a siege engine of heavy timber beams, iron bands, rope and counterweight, a built machine, "
+     "no living thing"),
     (re.compile(r"\banimated\b|\bconstruct\b|\bautomaton\b|\bmodron\b|\bcauldronborn\b|\bdreadnought\b", re.I),
-     "an artificial construct assembled from metal, wood and stone, with visible joints, bolts and "
-     "plates and faintly glowing seams of arcane energy, no flesh and no organic features"),
+     "an artificial construct of metal, wood and stone, bolted plates, glowing seams, no flesh"),
 )
 
 
@@ -117,35 +118,34 @@ def prompt_for(kind: str, name: str, subtitle: str = "", snippet: str = "") -> s
 def _base_prompt(kind: str, name: str, subtitle: str = "", snippet: str = "") -> str:
     """Prompt per kind. Same shape as the character prompts (bust/3:4 language
     comes from services.portraits) so the library looks consistent."""
-    detail = " ".join((subtitle or "").split())[:120]
-    tail = " ".join((snippet or "").split())[:200]
+    # Caps are in words, not characters. The real limit is TOKENS (77, see
+    # tests/test_prompt_token_budget.py) and the old 120/200-char caps let a verbatim book name and
+    # snippet into the prompt, pushing the actual SUBJECT past the window where CLIP silently drops it.
+    # A record called "Clockwork Oaken Bolter of the Nine Gilded Spires of Mechanus" alone ate 10 words.
+    detail = " ".join((subtitle or "").split()[:7])
+    tail = " ".join((snippet or "").split()[:15])
+    short_name = " ".join((name or "").split()[:8])
     cue = construct_cue(name, detail)
     if kind == "creature":
         if cue:
-            return ("Fantasy magical-construct illustration of " + (name or "a construct")
+            return ("Fantasy construct: " + (short_name or "a construct")
                     + (f", {detail}." if detail else ".")
-                    + f" It is {cue}."
-                    + " Full body, single subject, centred, plain parchment background,"
-                      " painterly high fantasy style, dramatic lighting, detailed."
-                    + (f" {tail}" if tail else ""))
-        return ("Fantasy bestiary illustration of " + (name or "a monster")
+                    + f" {cue}."
+                    + " Full body, single subject." + (f" {tail}" if tail else ""))
+        return ("Fantasy bestiary: " + (short_name or "a monster")
                 + (f", {detail}." if detail else ".")
-                + " Full body, single creature, centred, plain parchment background,"
-                  " painterly high fantasy style, dramatic lighting, detailed." + (f" {tail}" if tail else ""))
+                + " Full body, single creature." + (f" {tail}" if tail else ""))
     if kind == "item":
         if cue:
             # The cue-bearing items are the vehicles and engines, and the old wording hurt them
             # twice: "RPG item illustration" leads a diffusion model toward a small hand-held object,
             # and interpolating the record's category produced "Carriage (Mounts and Vehicles)" — a
             # filing label, not a description. The object itself now leads.
-            return ("Fantasy illustration of a single constructed object: " + (name or "an object")
-                    + f". It is {cue}."
-                      " Single object centred on a plain dark background, painterly high fantasy"
-                      " style, soft rim light, detailed." + (f" {tail}" if tail else ""))
-        return ("RPG item illustration of " + (name or "an item")
+            return ("Fantasy construct: " + (short_name or "an object")
+                    + f". {cue}." + (f" {tail}" if tail else ""))
+        return ("Fantasy object: " + (short_name or "an item")
                 + (f" ({detail})" if detail else "")
-                + ". Single object centred on a plain dark background, painterly"
-                  " high fantasy style, soft rim light, detailed." + (f" {tail}" if tail else ""))
+                + "." + (f" {tail}" if tail else ""))
     # npc / anything else -> the character prompt builder keeps the look consistent
     from services.portraits import npc_prompt
     return npc_prompt(name, notes=tail or snippet or "", race=detail)

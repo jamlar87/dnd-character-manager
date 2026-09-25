@@ -193,3 +193,46 @@ def test_comfy_is_selectable_by_name_and_is_not_the_default(monkeypatch):
     importlib.reload(portraits)
     assert portraits.PORTRAIT_PROVIDER != "comfy"
     assert portraits.COMFY_URL.startswith("http")
+
+
+def test_the_checkpoint_is_an_illustration_model_not_a_photo_model():
+    """The bug that cost an evening: a photorealism checkpoint faithfully drew photographs.
+
+    "Juggernaut-XL_v9_RunDiffusionPhoto_v2" is trained for photographic subjects, and for prompts about
+    clockwork constructs it produced aerial terrain, a nude figure, a shaggy animal and a dead fish.
+    Nothing errored and every image looked confident. The name is the only signal available here, so
+    it is asserted directly.
+    """
+    name = portraits.COMFY_CKPT.lower()
+    assert "photo" not in name, f"a photo checkpoint cannot draw fantasy illustration: {name}"
+    assert "jugger" not in name, f"the photorealism checkpoint that produced the bad output: {name}"
+
+
+def test_a_turbo_checkpoint_gets_turbo_sampling_settings():
+    """Turbo/distilled SDXL wants ~6-8 steps at CFG ~2. At 28 steps and CFG 6.5 it is slow AND wrong."""
+    wf = portraits.comfy_workflow("a clockwork dragon", 832, 1216, seed=7)
+    sampler = wf["3"]["inputs"]
+    if "turbo" in portraits.COMFY_CKPT.lower():
+        assert sampler["steps"] <= 10, f"turbo model at {sampler['steps']} steps"
+        assert sampler["cfg"] <= 3.0, f"turbo model at CFG {sampler['cfg']}"
+    assert sampler["steps"] >= 4 and sampler["cfg"] > 0
+
+
+def test_the_sampler_settings_reach_the_graph_not_just_the_constants(monkeypatch):
+    """A constant nobody wires into the workflow is decoration."""
+    monkeypatch.setattr(portraits, "COMFY_STEPS", 9)
+    monkeypatch.setattr(portraits, "COMFY_CFG", 1.75)
+    monkeypatch.setattr(portraits, "COMFY_SAMPLER", "euler_a")
+    sampler = portraits.comfy_workflow("x", 64, 64, seed=1)["3"]["inputs"]
+    assert sampler["steps"] == 9 and sampler["cfg"] == 1.75 and sampler["sampler_name"] == "euler_a"
+
+
+def test_the_sfw_checkpoint_is_preferred():
+    """The photo model produced semi-nude photoreal humans twice, in a family reference library.
+
+    A checkpoint name is not a safety control, but when a safe-for-work build of the same model exists
+    there is no reason to ship the other one.
+    """
+    assert "sfw" in portraits.COMFY_CKPT.lower(), (
+        f"prefer the -SFW build of an illustration checkpoint: {portraits.COMFY_CKPT}")
+

@@ -123,7 +123,10 @@ def test_a_cued_item_is_not_called_an_item_and_has_no_category_leak():
     assert "(" not in p, "no parenthetical category leaks into the prompt"
     assert not p.startswith("RPG item"), "'item' points the model at a small object"
     assert "built vessel of timber" in p, "the vehicle cue must still apply"
-    assert "constructed object" in p
+    # Assert the RESULT, not today's phrasing: a cued vehicle must not be introduced as an "item"
+    # (which points the model at a small hand-held object), and must be introduced as a construction.
+    assert "item" not in p.lower(), "a vehicle is not an item"
+    assert "Fantasy construct" in p
 
 
 def test_a_plain_item_keeps_its_own_wording():
@@ -131,8 +134,10 @@ def test_a_plain_item_keeps_its_own_wording():
     from services.ref_portraits import prompt_for
 
     p = prompt_for("item", "Potion of Healing", "Wondrous Items · Common")
-    assert "RPG item illustration" in p
-    assert "constructed object" not in p
+    # A genuinely hand-held object keeps its own plain-object wording; the fix for vehicles must not
+    # have cosmeticised every item into a "construct".
+    assert "Fantasy object" in p
+    assert "Fantasy construct" not in p
 
 
 def test_the_horde_model_is_sdxl_class_not_sd15():

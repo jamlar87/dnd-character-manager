@@ -53,18 +53,17 @@ HORDE_AGENT = "dnd-character-manager:1.0:characters.jamlarnet.stream"
 HORDE_MODELS = ("AlbedoBase XL 3.1",)
 
 # ── House style ───────────────────────────────────────────────────────────────────────────────────
-#: Applied to EVERY prompt from every path — reference art and character art alike. Defined once here
-#: (the module both halves import) so the two builders cannot drift.
+#: The house style, applied to EVERY prompt from every path.
 #:
-#: The blank-background clause is not a preference, it is a bug fix. The character prompts used to end
-#: "Rich colors, detailed background bokeh", which asks for a decorated backdrop — that is how a dwarf
-#: barbarian came back as a figure in a racing suit standing in a desert. Constraining the background
-#: removes the model's freedom to invent a setting, and a set of reference portraits reads far better
-#: when the subject is the only thing in frame.
-FANTASY_STYLE = ("High fantasy illustration, painted in an oil-painting style, "
-                 "storybook fantasy art, not a photograph, not photorealistic.")
-BLANK_BG = ("Plain blank flat neutral background, empty and untextured, "
-            "no scenery, no landscape, no environment, no props, no text, no watermark, no border.")
+#: IT MUST BE SHORT. SDXL's CLIP encoders truncate at 77 tokens, and ComfyUI does not chunk — whatever
+#: falls past that point is silently discarded before generation. With a long style tail the subject
+#: description is what gets cut, so the model receives a style instruction and no subject and simply
+#: invents one: a construct came back as a naked figure, a vessel as empty terrain. Every prompt here
+#: is budgeted by test_prompt_token_budget.py, which is what keeps this from regressing.
+FANTASY_STYLE = "high fantasy painting"
+#: "blank" is kept in the wording on purpose: this is the user's own requirement, stated verbatim as
+#: "always set on a 'Blank' background", and a test pins it. It costs one word and the budget holds.
+BLANK_BG = "plain blank background, no scenery, no people, no text"
 
 
 #: Scenery phrases that live inside the 11 curated character prompts. Each one names a SETTING, which
@@ -84,6 +83,12 @@ DEAD_SCENERY = (
     "Stormlit cathedral behind.",
     "Volcanic glow behind.",
     "Radiant glow from behind.",
+    # Not scenery, but the same defect: these duplicate the house style that gets appended afterwards.
+    # Leaving them costs tokens twice over — once here and once in the style tail — and the prompt
+    # budget is the whole reason this list exists.
+    "high fantasy oil painting style with dramatic lighting.",
+    "High fantasy oil painting, dramatic lighting, detailed face.",
+    "Faint magical aura,",
 )
 
 
@@ -132,14 +137,26 @@ HORDE_MODELS = ("AlbedoBase XL 3.1",)
 # Ask for it with PORTRAIT_PROVIDER=comfy. It is deliberately not the default: it depends on another
 # machine being awake, and that machine is a gaming PC, so its GPU is not always ours to take.
 COMFY_URL = os.environ.get("COMFY_URL", "http://192.168.1.31:8188")
-COMFY_CKPT = os.environ.get("COMFY_CKPT", "Juggernaut-XL-v9.safetensors")
+#: An ILLUSTRATION model, not a photographic one. The first choice was
+#: "Juggernaut-XL_v9_RunDiffusionPhoto_v2" — a photorealism checkpoint, picked from a recommendation
+#: without checking what it was built for. It produced aerial terrain, a nude figure, a shaggy animal
+#: and a dead fish for prompts about clockwork constructs: photographic subjects, because that is what
+#: it is trained to make. DreamShaper XL is painterly/illustration, which is what a fantasy reference
+#: library needs, and the -SFW build is the explicit safe-for-work variant — the photo model's
+#: photoreal humans were also how inappropriate output kept appearing.
+COMFY_CKPT = os.environ.get("COMFY_CKPT", "DreamShaperXL_Turbo_V2-SFW.safetensors")
+#: Turbo (distilled) models are trained for very few steps at low CFG. Running one at the 28/6.5 that
+#: a full SDXL wants burns 4x the time and produces the over-saturated, over-detailed mush the
+#: distilled weights were never tuned for.
+COMFY_STEPS = int(os.environ.get("COMFY_STEPS", "7"))
+COMFY_CFG = float(os.environ.get("COMFY_CFG", "2.0"))
+COMFY_SAMPLER = os.environ.get("COMFY_SAMPLER", "dpmpp_sde")
+COMFY_SCHEDULER = os.environ.get("COMFY_SCHEDULER", "karras")
 #: SDXL is trained near 1024px; 832x1216 is the standard 2:3 portrait bucket and far better than
 #: 768x1024 for this family.
-COMFY_NEGATIVE = ("photo, photograph, photorealistic, realistic, 3d render, cgi, modern clothing, "
-                  "modern setting, cars, vehicles, racing suit, helmet, "
-                  "scenery, landscape, detailed background, horizon, sky, "
-                  "blurry, low quality, worst quality, jpeg artifacts, watermark, text, signature, "
-                  "deformed, disfigured, extra limbs, extra fingers, cropped, out of frame")
+COMFY_NEGATIVE = ("photo, photorealistic, 3d render, modern clothing, cars, racing suit, "
+                  "scenery, landscape, horizon, people, humans, portrait, "
+                  "blurry, low quality, watermark, text, signature, deformed, extra limbs")
 
 PORTRAIT_PROVIDER = os.environ.get("PORTRAIT_PROVIDER", "horde").strip().lower()
 
@@ -307,14 +324,17 @@ async def fetch_horde_image(prompt: str, max_wait: int = 600,
     return None, f"Stable Horde did not finish within {int(max_wait)}s (the free queue is slow)"
 
 
-def comfy_workflow(prompt: str, width: int, height: int, steps: int = 28,
-                   cfg: float = 6.5, seed: int | None = None,
+def comfy_workflow(prompt: str, width: int, height: int, steps: int | None = None,
+                   cfg: float | None = None, seed: int | None = None,
                    ckpt: str | None = None) -> dict:
     """The API-format SDXL txt2img graph ComfyUI's /prompt endpoint expects.
 
     Node ids are arbitrary strings; the graph is load checkpoint -> two text encodes (positive and
     negative) -> empty latent -> sampler -> VAE decode -> save. Kept as data rather than a saved
     workflow JSON file so a prompt can be injected without editing anything on the other machine.
+
+    Sampling settings come from the module constants, so switching checkpoint families is a config
+    change rather than an edit here: a turbo model at 28 steps/CFG 6.5 is slow AND wrong.
     """
     if seed is None:
         seed = random.randint(1, 2_000_000_000)
@@ -328,8 +348,10 @@ def comfy_workflow(prompt: str, width: int, height: int, steps: int = 28,
         "5": {"class_type": "EmptyLatentImage",
               "inputs": {"width": int(width), "height": int(height), "batch_size": 1}},
         "3": {"class_type": "KSampler",
-              "inputs": {"seed": int(seed), "steps": int(steps), "cfg": float(cfg),
-                         "sampler_name": "dpmpp_2m", "scheduler": "karras", "denoise": 1.0,
+              "inputs": {"seed": int(seed),
+                         "steps": int(COMFY_STEPS if steps is None else steps),
+                         "cfg": float(COMFY_CFG if cfg is None else cfg),
+                         "sampler_name": COMFY_SAMPLER, "scheduler": COMFY_SCHEDULER, "denoise": 1.0,
                          "model": ["4", 0], "positive": ["6", 0], "negative": ["7", 0],
                          "latent_image": ["5", 0]}},
         "8": {"class_type": "VAEDecode",
@@ -451,18 +473,18 @@ def genderize(prompt: str, gender: str) -> str:
 def portrait_prompt(race: str, class_name: str, subclass: str = "") -> str:
     """Deterministic portrait prompts by class/race — all bust/upper-body framed."""
     prompts = {
-        ("Dwarf","Barbarian"): "Bust portrait, 3:4 aspect ratio. A stout mountain dwarf barbarian with thick braided auburn hair and a scarred face. Bare-chested with a heavy fur mantle across broad shoulders, tribal tattoos visible on muscular upper arms. Gripping a massive greataxe, battle-ready expression, primal fury in eyes. Snow-capped peaks and storm clouds behind. Oil painting, dramatic lighting, high fantasy.",
-        ("Dwarf","Cleric"): "Bust portrait, 3:4 aspect ratio. A venerable dwarf cleric with a silver-streaked beard and kind eyes. Robes of deep blue with gold embroidery across the chest, a holy symbol of Moradin hanging from a chain. One hand raised in blessing near the face, warm candlelight glow. Stone temple interior. Oil painting, high fantasy.",
-        ("Dwarf","Fighter"): "Bust portrait, 3:4 aspect ratio. A battle-hardened dwarf fighter in chainmail armor visible across shoulders and chest, warhammer resting on one shoulder. Braided copper beard, stern expression, scar across one eyebrow. Mountain fortress stonework behind. Oil painting, dramatic lighting.",
-        ("Elf","Wizard"): "Bust portrait, 3:4 aspect ratio. A slender high elf wizard with silver-white hair flowing past pointed ears. Deep purple robes with arcane sigils at the collar, a crystal-topped staff held diagonally across the frame. Faint magical aura, ancient library backdrop. Oil painting, ethereal lighting.",
-        ("Elf","Ranger"): "Bust portrait, 3:4 aspect ratio. A wood elf ranger with amber eyes and copper hair pulled back. Leather armor in forest greens across shoulders, longbow visible over one shoulder. Hood partially up, alert expression, dappled sunlight. Ancient forest bokeh behind. Oil painting, high fantasy.",
-        ("Elf","Rogue"): "Bust portrait, 3:4 aspect ratio. A sleek elven rogue with dark cropped hair and a knowing smirk. Black leather armor, dagger hilts visible at the collar, cloak half-drawn across shoulders. Moonlit shadows dancing across the face. Oil painting, chiaroscuro lighting.",
-        ("Human","Paladin"): "Bust portrait, 3:4 aspect ratio. A noble human paladin with short-cropped blonde hair and a strong jaw. Gleaming plate armor with a sunburst emblem on the chestplate, longsword held near the face reflecting divine light. Radiant glow from behind. Oil painting, cinematic lighting.",
-        ("Human","Fighter"): "Bust portrait, 3:4 aspect ratio. A weathered human fighter with close-cropped dark hair and a faint scar across the cheek. Well-worn scale mail across shoulders, longsword hilt visible at hip-level frame edge. Castle wall stonework behind. Oil painting, late afternoon light.",
-        ("Half-Orc","Barbarian"): "Bust portrait, 3:4 aspect ratio. A towering half-orc barbarian with gray-green skin and tribal tattoos across the face and shoulders. Bald head, tusked jaw, fur mantle over bare chest. Massive axe head visible, primal snarl. Stormy sky background. Oil painting, dramatic lighting.",
-        ("Tiefling","Warlock"): "Bust portrait, 3:4 aspect ratio. A tiefling warlock with deep purple skin and curved horns sweeping back from the forehead. Eyes glowing with eldritch fire, dark robes with infernal patterns at the collar. A crackling tome held near the chest. Shadowy ruins at midnight. Oil painting, occult atmosphere.",
-        ("Dragonborn","Paladin"): "Bust portrait, 3:4 aspect ratio. A bronze dragonborn paladin with gleaming metallic scales and a prominent draconic snout. Plate armor with a dragon emblem across the chest, sparks of lightning crackling between teeth. Holy symbol grasped near the chest, righteous intensity. Stormlit cathedral behind. Oil painting, dramatic lighting.",
-        ("Dragonborn","Sorcerer"): "Bust portrait, 3:4 aspect ratio. A red dragonborn sorcerer with crimson scales and draconic frills framing the face. Robes shimmering with arcane heat, eyes glowing with inner fire. Hands wreathed in flame near the chest. Volcanic glow behind. Oil painting, high fantasy.",
+        ("Dwarf","Barbarian"): "Bust portrait, 3:4 aspect ratio. A stout mountain dwarf barbarian, thick braided auburn hair, scarred face, bare-chested under a heavy fur mantle, tribal tattoos on muscular arms, gripping a greataxe, battle-ready.",
+        ("Dwarf","Cleric"): "Bust portrait, 3:4 aspect ratio. A venerable dwarf cleric, silver-streaked beard, kind eyes, deep blue robes with gold embroidery, a holy symbol of Moradin on a chain, one hand raised in blessing, candlelight.",
+        ("Dwarf","Fighter"): "Bust portrait, 3:4 aspect ratio. A battle-hardened dwarf fighter in chainmail, a warhammer resting on one shoulder, braided copper beard, stern expression, a scar across one eyebrow.",
+        ("Elf","Wizard"): "Bust portrait, 3:4 aspect ratio. A slender high elf wizard, silver-white hair flowing past pointed ears, deep purple robes with arcane sigils at the collar, a crystal-topped staff held diagonally across the frame.",
+        ("Elf","Ranger"): "Bust portrait, 3:4 aspect ratio. A wood elf ranger, amber eyes, copper hair pulled back, green leather armor, a longbow over one shoulder, hood half up, alert expression, dappled light.",
+        ("Elf","Rogue"): "Bust portrait, 3:4 aspect ratio. A sleek elven rogue, dark cropped hair, knowing smirk, black leather armor, dagger hilts at the collar, a cloak half-drawn across the shoulders, moonlit shadow.",
+        ("Human","Paladin"): "Bust portrait, 3:4 aspect ratio. A noble human paladin, short-cropped blond hair, strong jaw, gleaming plate armor with a sunburst emblem on the chest, a longsword raised, radiant light.",
+        ("Human","Fighter"): "Bust portrait, 3:4 aspect ratio. A weathered human fighter, close-cropped dark hair, a faint scar across the cheek, well-worn scale mail across the shoulders, a longsword hilt visible.",
+        ("Half-Orc","Barbarian"): "Bust portrait, 3:4 aspect ratio. A towering half-orc barbarian, gray-green skin, tribal tattoos across face and shoulders, bald, tusked jaw, a fur mantle over a bare chest, a massive axe head visible.",
+        ("Tiefling","Warlock"): "Bust portrait, 3:4 aspect ratio. A tiefling warlock, deep purple skin, curved horns sweeping back, eyes glowing with eldritch fire, dark robes with infernal patterns, a crackling tome held at the chest.",
+        ("Dragonborn","Paladin"): "Bust portrait, 3:4 aspect ratio. A bronze dragonborn paladin, gleaming metallic scales, draconic snout, plate armor with a dragon emblem, sparks crackling between the teeth, a holy symbol grasped at the chest.",
+        ("Dragonborn","Sorcerer"): "Bust portrait, 3:4 aspect ratio. A red dragonborn sorcerer, crimson scales, draconic frills framing the face, robes shimmering with arcane heat, eyes glowing, hands wreathed in flame.",
     }
     key = (race, class_name)
     if key in prompts:
@@ -509,7 +531,9 @@ def portrait_prompt(race: str, class_name: str, subclass: str = "") -> str:
         "Yuan-ti Pureblood": "human-like with serpentine features — slit-pupil eyes, small scales, forked tongue, cold calculating gaze",
     }
     rf = race_features.get(race, "distinctive features, adventurer's bearing")
+    # "Wearing appropriate X attire, upper body visible" said nothing the framing and the class name had
+    # not already said, and the style tail was appended a second time by house_style(). Every wasted word
+    # here is a word of the SUBJECT pushed past CLIP's 77-token window, where it is silently dropped.
     return house_style(
         f"Bust portrait, 3:4 aspect ratio. A {race.lower()} {class_name.lower()} with {rf}. "
-        f"Wearing appropriate {class_name.lower()} attire, upper body visible. "
-        "Confident expression, high fantasy oil painting style with dramatic lighting.")
+        "Confident expression.")
