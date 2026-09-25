@@ -46,6 +46,31 @@ SLUG_DISPLAYS = {
 
 SLUG_LOOKUP = {k.upper(): v for k, v in SLUG_DISPLAYS.items()}
 
+
+def page_ranges() -> dict[str, int]:
+    """Book page counts, measured from the PDFs when they are present.
+
+    The literal below is only a fallback. It drifted from the files (SCAG 160 vs 161, W 9 vs 30)
+    and its mixed-case keys — "CotN", "ToA", "GoS" — never matched the `.upper()` lookup used
+    below, so four or five books were never range-checked at all. Measured values win.
+    """
+    out = {k.upper(): v for k, v in PDF_PAGE_RANGES.items()}
+    try:
+        import json as _json
+        import pathlib as _pathlib
+        import sys as _sys
+
+        here = _pathlib.Path(__file__).resolve().parent.parent
+        _sys.path.insert(0, str(here / "scripts"))
+        import page_fit  # noqa: PLC0415
+
+        meta = _json.loads((here / "data" / "manual_data" / "_meta.json").read_text())
+        out.update(page_fit.pdf_page_counts(meta.get("pdf_map", {})))
+    except Exception:
+        pass
+    return out
+
+
 PDF_PAGE_RANGES = {
     "MM": 354, "DMG": 320, "PHB": 322, "XGE": 195,
     "MTF": 258, "VGM": 226, "GGR": 258, "EGW": 307,
@@ -146,7 +171,7 @@ def test_page_numbers_within_range(filename):
         m = PAGE_FORMAT.match(src)
         if m:
             page = int(m.group(2))
-            max_p = PDF_PAGE_RANGES.get(slug.upper())
+            max_p = page_ranges().get(slug.upper())
             if max_p and page > max_p and (name, slug.upper()) not in KNOWN_OUT_OF_RANGE:
                 bad.append(f"{name}: page={page}, max={max_p} ({slug})")
             if page <= 0:

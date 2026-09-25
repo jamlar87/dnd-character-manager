@@ -28,6 +28,11 @@ import re
 import sys
 from collections import Counter
 
+# The page guards live with the page repair tool; sharing them keeps the two from disagreeing
+# about what counts as a spell's entry page (a class list names every spell and describes none).
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import repair_page_citations as rpc  # noqa: E402
+
 HERE = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE / "scripts"))
@@ -107,6 +112,7 @@ def main() -> int:
 
     page_fixes: list[tuple] = []
     book_fixes: list[tuple] = []
+    far_moves: list[str] = []
     ambiguous: list[str] = []
     nowhere: list[str] = []
     store: dict[str, list] = {}
@@ -142,9 +148,33 @@ def main() -> int:
                 pgs = src_pages
                 if pgs and not any(name_on_pages(pgs, name, cited, 2)):
                     real = find_in_book(pgs, name)
-                    hits = sorted(n for n, t in pgs.items() if any(k in norm(t) for k in keys))
-                    target = real or (hits[0] if hits else None)
+                    if real is None:
+                        # find_in_book rejects list, index and class-list pages on purpose. This
+                        # fallback must not undo that: "the first page containing the words" is the
+                        # class spell list for every PHB spell — Dominate Person -> p.111 (the bard
+                        # list), Nondetection -> p.208, Finger of Death -> p.210. Require a page
+                        # that is neither a list nor thin (index/contents pages are thin).
+                        for pno in sorted(pgs):
+                            blob = pgs[pno]
+                            if not any(k in norm(blob) for k in keys):
+                                continue
+                            if rpc.looks_like_class_list(blob) or rpc.looks_like_name_list(blob):
+                                continue
+                            if len(blob.strip()) < 800:
+                                continue
+                            real = pno
+                            break
+                    target = real
                     if target and target != cited:
+                        # A page repair should be a correction, not a relocation. Every PHB spell's
+                        # name appears in its class spell lists, far from the entry, and that is what
+                        # a name search finds first (Dominate Person p.241 -> p.111, the bard list).
+                        # Large moves are reported, never proposed — they need a human.
+                        if abs(target - cited) > 15:
+                            far_moves.append(
+                                f"{cat}/{name}: {slug} p.{cited} -> p.{target} "
+                                f"({abs(target - cited)} pages away — too far to trust a name match)")
+                            continue
                         page_fixes.append((cat, name, slug, cited, target, it))
                 continue
             if truncated:
@@ -167,6 +197,9 @@ def main() -> int:
     print(f"\nPAGE fixes (right book, wrong page): {len(page_fixes)}")
     for cat, name, slug, cited, target, _ in page_fixes[:show]:
         print(f"   - {cat}/{name}: {slug} p.{cited} -> p.{target}")
+    print(f"\nlarge page moves, held back (a name match alone is not enough): {len(far_moves)}")
+    for row in far_moves[:show]:
+        print(f"   - {row}")
     print(f"\nBOOK re-attributions (one book has it): {len(book_fixes)}")
     for cat, name, slug, cited, target, _ in book_fixes[:show]:
         print(f"   - {cat}/{name}: {slug} p.{cited} -> {target}")

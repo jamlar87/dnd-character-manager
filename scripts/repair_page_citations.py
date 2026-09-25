@@ -145,7 +145,18 @@ def find_in_book(pages: dict[int, str], name: str) -> int | None:
             continue
         flat = re.sub(r"\s+", " ", text)
         if re.search(pattern, flat, re.I) and not is_toc_line(text, pattern):
-            return n
+            # ...but landing on a class spell list is not the entry. Check the line the match sits
+            # on: on a list it is followed by more bare names, on an entry by a level line or a
+            # casting time. Page-level statistics cannot tell them apart (a two-column list page
+            # scores 0.49 "short lines", a real entry page 0.46).
+            lines = text.split("\n")
+            for i, raw in enumerate(lines):
+                if re.search(pattern, raw, re.I):
+                    if looks_like_list_context(lines, i):
+                        break        # the only match is inside a list — not the entry
+                    return n
+            else:
+                return n             # matched across a line break (hyphenation): accept
     return None
 
 
