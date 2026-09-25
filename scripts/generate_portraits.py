@@ -185,6 +185,18 @@ def plan(con, args):
     if args.user and not args.all_users:
         where.append("user_id IN (" + ",".join("?" * len(args.user)) + ")")
         params += args.user
+    # NEVER regenerate a portrait the user uploaded by hand. This runs with --force, which re-rolls
+    # existing art, so without this guard a bulk pass would overwrite uploads unrecoverably.
+    #
+    # There is no portrait_source column, so uploads are identified by their stored form. Verified
+    # against all 26 portraits in the live database, the two groups separate with no exceptions:
+    # a hand-uploaded image is PNG at 1.5-2.5 MB, every generated portrait is WebP at 17-33 KB.
+    # The explicit id list is a second line of defence in case a future upload arrives in another
+    # format. Getting this wrong destroys work that cannot be regenerated.
+    UPLOADED_IDS = (6, 78, 86, 87, 97, 2406)  # Goon Hardfoot, Garim, Orla Harbak, Capt. Debian, Skyla, Dent Cheesegrinder
+    where.append("NOT (COALESCE(portrait_url,'') LIKE 'data:image/png%' AND length(portrait_url) > 1000000)")
+    where.append("id NOT IN (" + ",".join("?" * len(UPLOADED_IDS)) + ")")
+    params += list(UPLOADED_IDS)
     rows = [dict(r) for r in con.execute(
         f"""SELECT id, user_id, name, race, class_name, subclass, level, portrait_url
             FROM characters WHERE {' AND '.join(where)} ORDER BY user_id, id""", params)]

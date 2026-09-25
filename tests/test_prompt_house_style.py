@@ -106,7 +106,10 @@ def test_the_blank_background_clause_names_the_things_that_go_wrong():
     # Short on purpose: this is appended to every prompt and SDXL truncates at 77 tokens. "no scenery"
     # and "no people" are the two that matter most — the first is a blank background, the second is how
     # a construct creature came back as a human figure. See test_prompt_token_budget.py.
-    for banned in ("no scenery", "no people", "no text"):
+    # Assert the RESULT the user asked for: a blank background, stated positively. The bans ("no
+    # scenery", "no people") deliberately moved OUT of the positive prompt and into COMFY_NEGATIVE —
+    # naming scenery in the positive prompt is what produced scenery (see BLANK_BG).
+    for banned in ("plain blank background", "isolated subject"):
         assert banned in portraits.BLANK_BG.lower()
 
 

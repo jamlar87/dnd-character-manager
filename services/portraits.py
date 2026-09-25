@@ -62,8 +62,15 @@ HORDE_MODELS = ("AlbedoBase XL 3.1",)
 #: is budgeted by test_prompt_token_budget.py, which is what keeps this from regressing.
 FANTASY_STYLE = "high fantasy painting"
 #: "blank" is kept in the wording on purpose: this is the user's own requirement, stated verbatim as
-#: "always set on a 'Blank' background", and a test pins it. It costs one word and the budget holds.
-BLANK_BG = "plain blank background, no scenery, no people, no text"
+#: "always set on a 'Blank' background", and a test pins it.
+#:
+#: The old wording was "plain blank background, no scenery, no people, no text" — and naming scenery in
+#: the POSITIVE prompt is how you get scenery. A siege tower came back with sky, clouds, trees and a
+#: village in it while the prompt said "no scenery" and the negative said "scenery, landscape, horizon":
+#: the word "scenery" itself pulls the model toward scenery, and no amount of negating undoes that. The
+#: bans now live only in COMFY_NEGATIVE (where negation is the mechanism), and the positive states what
+#: is wanted — an isolated subject on a blank backdrop.
+BLANK_BG = "plain blank background, isolated subject, no text"
 
 
 #: Scenery phrases that live inside the 11 curated character prompts. Each one names a SETTING, which
@@ -154,8 +161,13 @@ COMFY_SAMPLER = os.environ.get("COMFY_SAMPLER", "dpmpp_sde")
 COMFY_SCHEDULER = os.environ.get("COMFY_SCHEDULER", "karras")
 #: SDXL is trained near 1024px; 832x1216 is the standard 2:3 portrait bucket and far better than
 #: 768x1024 for this family.
+#: The negative prompt is where a ban actually works, so the scenery bans live here and NOT in the
+#: positive prompt (see BLANK_BG). Large outdoor subjects — siege engines, vehicles, airships — dragged
+#: a horizon in with them until these were added: "outdoors", "sky" and "ground" were the missing ones.
+#: Kept to ~30 words so it stays inside the 77-token window too.
 COMFY_NEGATIVE = ("photo, photorealistic, 3d render, modern clothing, cars, racing suit, "
-                  "scenery, landscape, horizon, people, humans, portrait, "
+                  "outdoors, sky, clouds, trees, grass, ground, buildings, horizon, landscape, scenery, "
+                  "people, humans, portrait, "
                   "blurry, low quality, watermark, text, signature, deformed, extra limbs")
 
 PORTRAIT_PROVIDER = os.environ.get("PORTRAIT_PROVIDER", "horde").strip().lower()
