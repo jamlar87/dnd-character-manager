@@ -33,6 +33,7 @@ import argparse
 import contextlib
 import datetime
 import os
+import re
 import signal
 import subprocess
 import sys
@@ -145,20 +146,32 @@ def last_art_activity() -> float | None:
 
 
 def last_activity() -> float | None:
-    """The newest sign of work: a rewritten portrait, or a line in the run's log.
+    """The newest evidence of *work*: a rewritten portrait, or a request to the provider.
 
-    Both are needed. Reference art files change as they are written, but the generator also does
-    *character* portraits, which live in the database and never touch static/ref-portraits — so the
-    log, where every image is printed, covers that case. More than one log path is checked because a
-    run started outside this watchdog writes wherever its launcher sent it, and judging *that* run by
-    the watchdog's own log declared a healthy three-minute-old run stalled.
+    The log's plain mtime is deliberately NOT used. It was, and it made the stall test useless: a
+    run polling a queue it will wait an hour in writes a status line every 6 seconds, so "progress 0
+    minutes ago" stayed true while nothing was produced for 67 minutes.
+
+    Requests are the right signal because they separate working-from-waiting, and because they
+    catch the failure this watchdog exists for: the run that hung on a vanished pipe made no
+    requests at all, while one queued at position 215 keeps making them.
     """
     stamps = [s for s in (last_art_activity(),) if s]
+    newest_request = None
     for path in RUN_LOGS:
         try:
-            stamps.append(path.stat().st_mtime)
+            text = path.read_text(errors="replace")
         except OSError:
             continue
+        for match in re.finditer(
+                r"^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) \[INFO\] HTTP Request", text, re.M):
+            try:
+                when = datetime.datetime.strptime(match.group(1), "%Y-%m-%d %H:%M:%S").timestamp()
+            except ValueError:
+                continue
+            newest_request = when if newest_request is None else max(newest_request, when)
+    if newest_request is not None:
+        stamps.append(newest_request)
     return max(stamps) if stamps else None
 
 

@@ -7,6 +7,7 @@ where it left off rather than reverting to the default command.
 """
 from __future__ import annotations
 
+import datetime
 import os
 import pathlib
 import sys
@@ -25,16 +26,34 @@ def test_progress_uses_the_newest_of_art_and_log(monkeypatch, tmp_path):
     art.mkdir()
     (art / "a.webp").write_bytes(b"x")
     log = tmp_path / "run.log"
-    log.write_bytes(b"x")
+    log.write_text("")
     monkeypatch.setattr(w, "ART", art)
     monkeypatch.setattr(w, "RUN_LOGS", (log,))
 
+    now = datetime.datetime.now()
     os.utime(art / "a.webp", (time.time() - 7200, time.time() - 7200))   # two hours ago
-    os.utime(log, None)                                                 # just now
-    assert w.stall_minutes() < 1, "a fresh log line is progress even when no art changed"
+    log.write_text(f"{now:%Y-%m-%d %H:%M:%S} [INFO] HTTP Request: GET https://example/status\n")
+    assert w.stall_minutes() < 1, "a fresh provider request is work even when no art changed"
 
-    os.utime(log, (time.time() - 7200, time.time() - 7200))
+    log.write_text(f"{now - datetime.timedelta(hours=2):%Y-%m-%d %H:%M:%S} [INFO] HTTP Request: GET x\n")
     assert w.stall_minutes() > 100, "neither source moving means the run is stalled"
+
+
+def test_polling_alone_does_not_count_as_progress(monkeypatch, tmp_path):
+    """The bug this replaced: the log's mtime moves every few seconds while polling an idle queue,
+    so a run that produced nothing for 67 minutes reported "last progress 0 min ago"."""
+    art = tmp_path / "art"
+    art.mkdir()
+    (art / "a.webp").write_bytes(b"x")
+    log = tmp_path / "run.log"
+    monkeypatch.setattr(w, "ART", art)
+    monkeypatch.setattr(w, "RUN_LOGS", (log,))
+
+    os.utime(art / "a.webp", (time.time() - 7200, time.time() - 7200))
+    log.write_text(f"{datetime.datetime.now() - datetime.timedelta(hours=2):%Y-%m-%d %H:%M:%S}"
+                   " [INFO] HTTP Request: GET x\n")
+    os.utime(log, None)          # the file was just touched, but it holds no recent work
+    assert w.stall_minutes() > 100, "a freshly-touched log with stale content is not progress"
 
 
 def test_no_evidence_is_not_a_stall(monkeypatch, tmp_path):
