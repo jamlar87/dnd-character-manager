@@ -49,7 +49,9 @@ async def ref_image(kind: str, name: str, request: Request, size: int = 0):
                                  "X-Ref-Image": "generating" if started else "unknown"})
 
     blob = path.read_bytes()
-    headers = {"Cache-Control": "public, max-age=604800", "X-Ref-Image": "ready"}
+    # Not 604800. Regenerating a portrait rewrites the same URL, so a week-long cache meant the app
+    # kept showing the old image long after the file changed. must-revalidate keeps it cheap.
+    headers = {"Cache-Control": "public, max-age=300, must-revalidate", "X-Ref-Image": "ready"}
     if size:
         thumb = thumbnail_bytes(blob, size)
         if thumb:

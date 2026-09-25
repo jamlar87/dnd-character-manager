@@ -455,7 +455,13 @@ async def security_middleware(request: Request, call_next):
     # Reference art is the same kind of thing as /static/: shared by every
     # user, never changes for a given entity. A cookie here means CF BYPASS.
     if request.url.path.startswith(("/static/", "/api/ref-image/")):
-        response.headers.setdefault("Cache-Control", "public, max-age=14400")
+        # Reference art is REWRITTEN IN PLACE behind a stable URL: the filename is a slug derived from
+        # the record name, so regenerating a portrait does not change its address. A long max-age
+        # therefore serves stale art to the browser and to Cloudflare for hours (measured: a second
+        # request returned cf-cache-status: HIT on a just-regenerated file, and max-age was 4 hours).
+        # Short max-age plus must-revalidate means a conditional request, so an unchanged file still
+        # answers 304 and costs almost nothing.
+        response.headers.setdefault("Cache-Control", "public, max-age=300, must-revalidate")
     elif not csrf_cookie:
         response.set_cookie("csrf_token", secrets.token_urlsafe(32), httponly=False, secure=APP_ENV in {"production", "prod"}, samesite="lax", path="/")
     response.headers.setdefault("X-Content-Type-Options", "nosniff")
