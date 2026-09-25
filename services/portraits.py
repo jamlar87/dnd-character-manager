@@ -508,15 +508,84 @@ def genderize(prompt: str, gender: str) -> str:
 #: on a plain background beside every other one. No race_features entry can undo that — the scenery
 #: comes from the NAME, not the description — so name the creature and not the place. Add an override
 #: only when a background actually leaks; the subrace name is otherwise useful context.
+#: Maps a race to the phrase used in the prompt, when the race name itself is unusable as one.
+#: An EMPTY value means the class name is the whole subject ("A fighter with ..." rather than
+#: "A custom lineage fighter with ...").
 RACE_PROMPT_NAME = {
     "Elves of Mirkwood": "elf",
+    "Dark Elf (Drow)": "drow",
+    "Custom Lineage": "",
 }
+
+#: Subrace -> the race_features entry describing the anatomy it actually has, applied only when the
+#: race has no entry of its own. The manual set carries 133 races and most are variants of a covered
+#: parent ("Dark Elf (Drow)", "Dwarves of the Iron Hills", "Fierna Tiefling"); writing a
+#: near-duplicate description for each would be worse than resolving them to what they share. It also
+#: keeps a PLACE NAME out of the prompt, for the same reason RACE_PROMPT_NAME exists — "Men of Minas
+#: Tirith" and "High Elf of Rivendell" leak their setting into a portrait that has to sit on a plain
+#: background beside every other one.
+#:
+#: First marker that matches wins, so order specific -> general. "gnome" must precede "mark of", or
+#: "Mark of Scribing (Gnome)" would resolve to Human; likewise "half-elf" before "elf".
+RACE_FAMILY = (
+    # subraces carrying a skin tone the parent does not have
+    ("gray dwarf", "Duergar"), ("grey dwarf", "Duergar"), ("duergar", "Duergar"),
+    ("svirfneblin", "Deep Gnome"), ("deep gnome", "Deep Gnome"),
+    ("drow", "Dark Elf (Drow)"),
+    # Eberron dragonmarks manifest on one specific parent, which the name does not always state.
+    # Enumerated explicitly instead of matched by "mark of": "Mark of Scribing (Gnome)" also contains
+    # the family word "gnome", so whichever marker is tested first would win and the result would
+    # depend on the order of this tuple rather than on the data.
+    ("mark of detection", "Half-Elf"), ("mark of storm", "Half-Elf"),
+    ("mark of shadow", "Elf"),
+    ("mark of scribing", "Gnome"), ("mark of warding", "Dwarf"), ("mark of healing", "Halfling"),
+    ("mark of finding", "Human"), ("mark of handling", "Human"),
+    ("mark of passage", "Human"), ("mark of sentinel", "Human"),
+    ("umbral human", "Human"),
+    ("courtfolk", "Courtfolk"),
+    ("shadowborn bearfolk", "Bearfolk"),
+    # families
+    ("half-elf", "Half-Elf"),
+    ("eladrin", "Elf"), ("shadar-kai", "Elf"), ("mirkwood", "Elf"), ("lunar elf", "Shadow Fey"),
+    ("sea elf", "Elf"), ("sun elf", "Elf"), ("wood elf", "Elf"), ("windrunner", "Elf"),
+    ("pallid elf", "Elf"), ("high elf", "Elf"), ("rivendell", "Elf"), ("elf", "Elf"),
+    ("lonely mountain", "Dwarf"), ("iron hills", "Dwarf"), ("blue mountains", "Dwarf"),
+    ("grey mountains", "Dwarf"), ("dwarf", "Dwarf"),
+    ("gnome", "Gnome"),
+    ("halfling", "Halfling"), ("hobbit", "Halfling"), ("stoor", "Halfling"),
+    ("riverfolk", "Halfling"),
+    ("genasi", "Genasi"), ("tiefling", "Tiefling"),
+    ("githyanki", "Gith"), ("githzerai", "Gith"), ("gith", "Gith"),
+    ("aasimar", "Aasimar"), ("shifter", "Shifter"), ("yuan-ti", "Yuan-ti Pureblood"),
+    ("bearfolk", "Bearfolk"), ("goblin", "Goblin"), ("changeling", "Changeling"),
+    ("human", "Human"), ("dúnedain", "Human"), ("dunedain", "Human"), ("men of", "Human"),
+    ("woodmen", "Human"), ("riders of rohan", "Human"),
+    # safety net for a dragonmark this list has not seen yet — LAST, so a family word in the name wins
+    ("mark of", "Human"),
+)
+
+
+def _resolve_race(race: str, known: dict) -> str:
+    """The race's own entry, else the family it belongs to, else the race itself — which then falls
+    through to the generic description below."""
+    if not race or race in known:
+        return race
+    lowered = race.lower()
+    for marker, key in RACE_FAMILY:
+        if marker in lowered:
+            return key
+    return race
 
 
 def _article(noun: str) -> str:
     """'A' or 'An'. 'A elves of mirkwood scholar' read as damage, and vowel-initial races were
-    already getting 'A aarakocra' / 'A aasimar'."""
-    return "An" if (noun or "").strip()[:1].lower() in "aeiou" else "A"
+    already getting 'A aarakocra' / 'A aasimar'.
+
+    Guard the empty subject: '' in 'aeiou' is True in Python, so the empty case — used when the class
+    name is the whole subject, see RACE_PROMPT_NAME — would otherwise render as "An fighter".
+    """
+    first = (noun or "").strip()[:1].lower()
+    return "An" if first and first in "aeiou" else "A"
 
 
 def portrait_prompt(race: str, class_name: str, subclass: str = "") -> str:
@@ -592,9 +661,46 @@ def portrait_prompt(race: str, class_name: str, subclass: str = "") -> str:
         "Bearfolk": "broad ursine build, furred ears and forearms, blunt muzzle, heavy brow, dark brown fur",
         "Ratfolk": "small wiry build, grey fur, rounded rodent ears, whiskers, pointed snout",
         "Thri-kreen": "insectoid mantis features, chitinous plates, antennae, faceted compound eyes, mandibles",
+        # Manual-set species and subraces with no parent to resolve to. Written from each race's own
+        # `description` in data/manual_data/races.json, NOT from the name — the name is often no
+        # guide (Quickstep is a fey, not a kind of halfling; Fallowhide is a hobbit family line).
+        # Each reads as "a <race> <class> with <features>", so a value must describe FEATURES and not
+        # restate the creature ("with tall antlered humanoid" is not a feature, "tall antlered build" is).
+        "Dark Elf (Drow)": "ebony or charcoal skin, white hair, violet or red eyes, pointed ears",
+        "Duergar": "ashen grey skin, bald, white or grey beard, deep-set dark eyes, stocky frame",
+        "Deep Gnome": "slate grey skin, hairless, large dark eyes, small wiry frame",
+        "Sable Elf": "tall willowy build, silver skin, raven or red hair, dark eyes",
+        "Alseid": "tall antlered build, bark-toned skin, mossy hair, deep forest eyes",
+        "Barding": "sturdy northman build, fair weathered features, practical braided hair",
+        "Beorning": "stocky powerful build, shaggy dark hair, bushy beard, broad weathered face",
+        "Courtfolk": "halfling stature, fine elven features, innate glamour, elegant bearing",
+        "Custom Lineage": "unusual mixed lineage, striking distinctive features",
+        "Darakhul": "gaunt undead flesh, exposed bone, fanged maw, grey necrotic skin, sunken glowing eyes",
+        "Dark Folk": "pale gaunt skin, one eye a black empty pit, featureless flesh, dark hooded robes",
+        "Erina": "bipedal hedgehog features, spiny quills, pointed snout, small round ears",
+        "Fairy": "delicate fey build, translucent insectile wings, elven features, faint luminous glow",
+        "Fallowhide": "halfling build, ruddy round face, curly hair, scholarly bearing",
+        "Harengon": "bipedal rabbit features, long ears, soft fur, twitching nose, powerful hind legs",
+        "Kapi": "simian features, tan fur, long prehensile tail, expressive monkey face",
+        "Molefolk": "small black-furred build, oversized clawed hands, tiny eyes behind thick spectacles, long pink nose",
+        "Piney": "plant-like body, bark-textured skin, wooden nails, blossoms growing from the hair",
+        "Quickstep": "delicate fey build, impossibly quick, fey-court finery, bright-eyed",
+        "Ratatosk": "squirrel-like features, sleek russet fur, small tusks, tufted ears, bushy tail",
+        "Satyr": "goatlike legs, ram horns, pointed ears, shaggy fur below the waist",
+        "Shadow Fey": "shadow-touched, alabaster or ebon skin, slender horns, luminous pale eyes",
+        "Shadow Goblin": "blue or purple skin, bright orange eyes, sharp ears, small fangs",
+        "Stygian Shade": "translucent ghostly body, hollow grieving eyes, faint spectral mist",
+        "Unbound Satarre": "tall otherworldly build, grey skin, thin angular features, faintly glowing eyes",
+        "Vanara": "simian features, light fur, monkey face, long tail, tribal waist wrap",
     }
-    rf = race_features.get(race, "distinctive features, adventurer's bearing")
-    who = RACE_PROMPT_NAME.get(race, race.lower())
+    key = _resolve_race(race, race_features)
+    rf = race_features.get(key, "distinctive features, adventurer's bearing")
+    # RACE_PROMPT_NAME holds the phrase to use when the race NAME cannot serve as one. `.get` plus an
+    # explicit None check, because "" is a legitimate value (the class name becomes the whole subject).
+    who = RACE_PROMPT_NAME.get(race)
+    if who is None:
+        who = (key if key in race_features else race) or ""
+    who = who.lower()
     # "Wearing appropriate X attire, upper body visible" said nothing the framing and the class name had
     # not already said, and the style tail was appended a second time by house_style(). Every wasted word
     # here is a word of the SUBJECT pushed past CLIP's 77-token window, where it is silently dropped.
