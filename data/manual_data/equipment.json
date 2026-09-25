@@ -1661,30 +1661,6 @@
     "description": "Meat, chunk. Food and drink worth 3 sp."
   },
   {
-    "name": "Wine - Common (pitcher)",
-    "type": "Food, Drink, and Lodging",
-    "subtype": "Drink",
-    "damage": "",
-    "properties": [],
-    "cost": "2 sp",
-    "weight": 0,
-    "source": "(Player's Handbook)",
-    "_source_manual": "PHB",
-    "description": "Wine - Common (pitcher). Food and drink worth 2 sp."
-  },
-  {
-    "name": "Wine - Fine (bottle)",
-    "type": "Food, Drink, and Lodging",
-    "subtype": "Drink",
-    "damage": "",
-    "properties": [],
-    "cost": "10 gp",
-    "weight": 0,
-    "source": "(Player's Handbook)",
-    "_source_manual": "PHB",
-    "description": "Wine - Fine (bottle). Food and drink worth 10 gp."
-  },
-  {
     "name": "Wine, Common (pitcher)",
     "type": "Food and Drink",
     "subtype": "Beverage",
@@ -1694,7 +1670,7 @@
     "weight": 0,
     "source": "(Player's Handbook)",
     "_source_manual": "PHB",
-    "description": "Wine, Common (pitcher). Food and drink worth 2 sp."
+    "description": "Wine - Common (pitcher). Food and drink worth 2 sp."
   },
   {
     "name": "Wine, Fine (bottle)",
@@ -1706,22 +1682,10 @@
     "weight": 0,
     "source": "(Player's Handbook)",
     "_source_manual": "PHB",
-    "description": "Wine, Fine (bottle). Food and drink worth 10 gp."
+    "description": "Wine - Fine (bottle). Food and drink worth 10 gp."
   },
   {
-    "name": "Coach cab - Between towns",
-    "type": "Service",
-    "subtype": "Transportation",
-    "damage": "",
-    "properties": [],
-    "cost": "2 cp per mile",
-    "weight": 0,
-    "source": "(Player's Handbook)",
-    "_source_manual": "PHB",
-    "description": "Coach cab - Between towns. A service worth 2 cp per mile."
-  },
-  {
-    "name": "Coach cab - Within a city",
+    "name": "Coach cab (within a city)",
     "type": "Service",
     "subtype": "Transportation",
     "damage": "",
@@ -1733,19 +1697,7 @@
     "description": "Coach cab - Within a city. A service worth 1 cp."
   },
   {
-    "name": "Hireling - Skilled",
-    "type": "Service",
-    "subtype": "Hireling",
-    "damage": "",
-    "properties": [],
-    "cost": "2 gp per day",
-    "weight": 0,
-    "source": "(Player's Handbook)",
-    "_source_manual": "PHB",
-    "description": "Hireling - Skilled. A service worth 2 gp per day."
-  },
-  {
-    "name": "Hireling - Untrained",
+    "name": "Hireling (Untrained)",
     "type": "Service",
     "subtype": "Hireling",
     "damage": "",
@@ -2902,7 +2854,8 @@
     "cost": "3 cp per mile",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Coach cab - Between towns. A service worth 2 cp per mile."
   },
   {
     "name": "Hireling (Skilled)",
@@ -2913,7 +2866,8 @@
     "cost": "2 gp per day",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Hireling - Skilled. A service worth 2 gp per day."
   },
   {
     "name": "Guild Insignia",

@@ -1,22 +1,7 @@
 
 === IDENTICAL (same name, same source) — always a bug: 0 ===
 
-=== SAME BOOK (same name, same slug, different page): 15 ===
-  [magic_items] gatekeeperslantern: 2 records — [("Gatekeeper's Lantern", 'AIPG:160'), ('Gatekeeper’s Lantern', 'AIPG:159')]
-  [magic_items] spearmansshield: 2 records — [("Spearman's Shield", 'AIPG:159'), ('Spearman’s Shield', 'AIPG:159')]
-  [magic_items] sunforger: 2 records — [('Sun forger', 'GGR'), ('Sunforger', 'GGR:181')]
-  [magic_items] swordoftheparuns: 2 records — [('Sword of the pa runs', 'GGR'), ('Sword of the Paruns', 'GGR:4')]
-  [equipment] coachcabbetweentowns: 2 records — [('Coach cab - Between towns', 'PHB'), ('Coach cab (between towns)', 'PHB')]
-  [equipment] hirelingskilled: 2 records — [('Hireling - Skilled', 'PHB'), ('Hireling (Skilled)', 'PHB')]
-  [equipment] winecommonpitcher: 2 records — [('Wine - Common (pitcher)', 'PHB'), ('Wine, Common (pitcher)', 'PHB')]
-  [equipment] winefinebottle: 2 records — [('Wine - Fine (bottle)', 'PHB'), ('Wine, Fine (bottle)', 'PHB')]
-  [monsters] cnaazo: 2 records — [('c’Naazo', 'TFS:182'), ("c'Naazo", 'TFS:182')]
-  [monsters] crokektoeck: 2 records — [('Crokek’toeck', 'EIA:16'), ("Crokek'toeck", 'EIA:30')]
-  [monsters] deathpactangel: 2 records — [('Death Pact Angel', 'GGR:191'), ('Deathpact Angel', 'GGR:190')]
-  [monsters] horncaller: 2 records — [('Horn Caller', 'GGR:188'), ('Horncaller', 'GGR:189')]
-  [monsters] philosophersghost: 2 records — [("Philosopher's Ghost", 'CC:297'), ('Philosopher’s Ghost', 'CC:297')]
-  [monsters] tosculijeweleddrone: 2 records — [('Tosculi, Jeweled Drone', 'CC:355'), ('Tosculi Jeweled Drone', 'CC:355')]
-  [monsters] vigthespy: 2 records — [('Vig the Spy', 'EREA:19'), ('Vig, the Spy', 'EREA:19')]
+=== SAME BOOK (same name, same slug, different page): 0 ===
 
 === NEAR NAME (case/spacing/punctuation only) — a duplicate: 5 ===
   [spells] maximiliansearthengrasp: 2 records — [("Maximilian's Earthen Grasp", 'XGE'), ('Maximilian’s Earthen Grasp', 'EEPC')]
@@ -25,16 +10,11 @@
   [magic_items] griffonsrest: 2 records — [("Griffon's Rest", 'Homebrew'), ('Griffon’s Rest', 'AW:26')]
   [npcs] hartfastsonofhartmut: 2 records — [('Hartfast, son of Hartmut', 'RRG:51'), ('Hartfast son of Hartmut', 'WLA:84')]
 
-=== SAME TEXT (identical description, different names): 16 ===
-  [spells] identical description, 2 names: [("Leomund's Tiny Hut", 'PHB'), ("Leomundo's Tiny Hut", 'PHB')]
-  [spells] identical description, 2 names: [('Protection from Poison', 'PHB:271'), ('From Poison', 'PHB:271')]
-  [spells] identical description, 2 names: [("Otiluke's Freezing Sphere", 'PHB'), ('Freezing Sphere', 'PHB:265')]
+=== SAME TEXT (identical description, different names): 11 ===
   [magic_items] identical description, 2 names: [('Trident of Warning', 'DMG:213'), ('Weapon of Warning', 'DMG:213')]
   [magic_items] identical description, 2 names: [('+1 chain mail', 'HotDQ'), ('Scroll of scorching ray', 'HotDQ')]
   [magic_items] identical description, 3 names: [('+1 arrow', 'ToA:57'), ('spell scroll of lesser restoration', 'ToA:57'), ('spell scroll of purify food and drink', 'ToA:57')]
   [magic_items] identical description, 4 names: [('Scroll of Magic Missile', 'TFS'), ('Scroll of Faerie Fire', 'TFS'), ('Scroll of Longstrider', 'TFS'), ('Scroll of Disguise Self', 'TFS')]
-  [magic_items] identical description, 2 names: [("Flask of Alchemist's Fire", 'TFS'), ("Alchemist's Fire (flask)", 'TFS')]
-  [magic_items] identical description, 2 names: [('Bell Jar of Preservation', 'WLL:67'), ('Bell Jar', 'WLL:67')]
   [magic_items] identical description, 2 names: [('Sending Stones', 'DMG:199'), ('Sending Stone', 'ToA:36')]
   [npcs] identical description, 2 names: [('Faroul', 'ToA:33'), ('Gondolo', 'ToA:33')]
   [npcs] identical description, 2 names: [('Ord Firebeard', 'ToA:48'), ('Perne Salhana', 'ToA:48')]

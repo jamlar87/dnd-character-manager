@@ -2718,22 +2718,6 @@
     "_source_manual": "PHB"
   },
   {
-    "name": "Leomundo's Tiny Hut",
-    "level": 3,
-    "school": "evocation",
-    "casting_time": "1 minute",
-    "range": "Self (10-foot-radius hemisphere)",
-    "components": "V, S, M (a small crystal bead)",
-    "duration": "8 hours",
-    "description": "A 10-foot-radius immobile dome of force springs into existence around and above you and remains stationary for the duration. The spell ends if you leave its area. Nine creatures of Medium size or smaller can fit inside the dome with you. The spell fails if its area includes a larger creature or more than nine creatures. Creatures and objects within the dome when you cast this spell can move through it freely. All other creatures and objects are barred from passing through it. Spells and other magical effects can't extend through the dome or be cast through it. The atmosphere inside the space is comfortable and dry, regardless of the weather outside. Until the spell ends, you can command the interior to become dimly lit or dark. The dome is opaque from the outside, of any color you choose, but it is transparent from the inside.",
-    "higher_levels": "",
-    "classes": [],
-    "ritual": true,
-    "concentration": false,
-    "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
-  },
-  {
     "name": "Lesser Ley Protection",
     "level": 5,
     "school": "Abjuration",
@@ -3348,7 +3332,7 @@
     "classes": [],
     "ritual": false,
     "concentration": false,
-    "source": "(Player's Handbook)",
+    "source": "(Player's Handbook, p.265)",
     "_source_manual": "PHB"
   },
   {
@@ -7968,21 +7952,6 @@
     "_source_manual": "PHB"
   },
   {
-    "name": "Freezing Sphere",
-    "level": 6,
-    "school": "evocation",
-    "casting_time": "1 action",
-    "range": "300 feet",
-    "components": "V, S, M (a small crystal sphere)",
-    "duration": "Instantaneous",
-    "concentration": false,
-    "ritual": false,
-    "description": "A frigid globe of cold energy streaks from your fingertips to a point of your choice within range, where it explodes in a 60-foot-radius sphere. Each creature within the area must make a Constitution saving throw. On a failed save, a creature takes 10d6 cold damage. On a successful save, it takes half as much damage. If the globe strikes a body of water or a liquid that is principally water (not including water-based creatures), it freezes the liquid to a depth of 6 inches over an area 30 feet square. This ice lasts for 1 minute. Creatures that were swimming on the surface of frozen water are trapped in the ice. A trapped creature can use an action to make a Strength check against your spell save DC to break free. You can refrain from firing the globe after completing the spell, if you wish. A small globe about the size of a sling stone, cool to the touch, appears in your hand. At any time, you or a creature you give the globe to can throw the globe (to a range of 40 feet) or hurl it with a sling (to the sling's normal range). It shatters on impact, with the same effect as the normal casting of the spell. You can also set the globe down without shattering it. After 1 minute, if the globe hasn't already shattered, it explodes.",
-    "higher_levels": "When you cast this spell using a spell slot of 7th level or higher, the damage increases by 1d6 for each slot level above 6th.",
-    "source": "(Player's Handbook, p.265)",
-    "_source_manual": "PHB"
-  },
-  {
     "name": "Passwall",
     "level": 5,
     "school": "transmutation",
@@ -9645,21 +9614,6 @@
     "description": "A beam of crackling energy streaks toward a creature within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 force damage. The spell creates more than one beam when you reach higher levels: two beams at 5th level, three beams at 11th level, and four beams at 17th level. You can direct the beams at the same target or at different ones. Make a separate attack roll for each beam.",
     "higher_levels": "",
     "source": "(Player's Handbook, p.238)",
-    "_source_manual": "PHB"
-  },
-  {
-    "name": "From Poison",
-    "level": 2,
-    "school": "abjuration",
-    "casting_time": "1 action",
-    "range": "Touch",
-    "components": "V, S",
-    "duration": "1 hour",
-    "concentration": false,
-    "ritual": false,
-    "description": "You touch a creature. If it is poisoned, you neutralize the poison. If more than one poison afflicts the target, you neutralize one poison that you know is present, or you neutralize one at random. For the duration, the target has advantage on saving throws against being poisoned, and it has resistance to poison damage.",
-    "higher_levels": "",
-    "source": "(Player's Handbook, p.271)",
     "_source_manual": "PHB"
   }
 ]
