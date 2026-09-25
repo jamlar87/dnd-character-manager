@@ -10,6 +10,7 @@ prompt builder and ONE provider implementation.
 """
 
 from __future__ import annotations
+import asyncio
 import os
 import random
 import base64
@@ -18,11 +19,20 @@ import urllib.parse
 
 import httpx
 
-# Pollinations needs no key, no account and no card; it is the default. The
-# OpenRouter path stays available (PORTRAIT_PROVIDER=openrouter) for when that
-# key has budget — it had a $0.30 cap that was fully spent, which is why every
-# portrait silently failed before this existed.
-PORTRAIT_PROVIDER = os.environ.get("PORTRAIT_PROVIDER", "pollinations").strip().lower()
+# Providers, in the order the default tries them.
+#
+# Stable Horde is the default: keyless, no account, no card, and — unlike Pollinations — it does not
+# answer instant 429s. A bare curl to Pollinations returned 429 in 0.4s while every request from a
+# bulk run was refused, which is what forced the move. Horde is crowdsourced, so the anonymous key
+# sits in a slow queue (measured ~3.5 min for one image) and a free registered key is much faster.
+#
+# Pollinations stays as the fallback, OpenRouter (paid, effectively spent) only when named.
+HORDE_ASYNC = "https://stablehorde.net/api/v2/generate/async"
+HORDE_STATUS = "https://stablehorde.net/api/v2/generate/status"
+HORDE_AGENT = "dnd-character-manager:1.0:characters.jamlarnet.stream"
+HORDE_MODELS = ("stable_diffusion",)
+
+PORTRAIT_PROVIDER = os.environ.get("PORTRAIT_PROVIDER", "horde").strip().lower()
 
 
 def npc_prompt(name: str, notes: str = "", race: str = "", role: str = "") -> str:
@@ -102,7 +112,7 @@ async def fetch_openrouter_image(prompt: str, max_wait: int = 120) -> str | None
         return None
 
 
-async def fetch_pollinations_image(prompt: str, max_wait: int = 90,
+async def fetch_pollinations_image(prompt: str, max_wait: float = 90,
                                   width: int = 768, height: int = 1024,
                                   referrer: str | None = None):
     """Keyless image generation. Returns (data_url, error)."""
@@ -129,6 +139,62 @@ async def fetch_pollinations_image(prompt: str, max_wait: int = 90,
     return "data:" + ctype + ";base64," + base64.b64encode(resp.content).decode(), None
 
 
+async def fetch_horde_image(prompt: str, max_wait: int = 600,
+                            width: int = 768, height: int = 1024,
+                            poll_every: float = 6.0):
+    """Keyless crowdsourced generation via Stable Horde. Returns (data_url, error).
+
+    Submit is instant; the work happens on volunteers' GPUs, so this polls. The anonymous key is
+    documented and needs no signup, but it queues behind everyone with kudos — a free registered key
+    (STABLEHORDE_API_KEY) is the intended speed-up, and nothing about the flow changes when it is set.
+    """
+    key = (os.environ.get("STABLEHORDE_API_KEY", "") or "").strip() or "0000000000"
+    headers = {"apikey": key, "Client-Agent": HORDE_AGENT}
+    body = {
+        "prompt": prompt[:1500],
+        "params": {"width": int(width), "height": int(height), "steps": 20, "n": 1},
+        "models": [os.environ.get("STABLEHORDE_MODEL", HORDE_MODELS[0])],
+        "nsfw": False,
+        "censor_nsfw": True,
+    }
+    try:
+        async with httpx.AsyncClient(timeout=90, follow_redirects=True) as client:
+            resp = await client.post(HORDE_ASYNC, json=body, headers=headers)
+            if resp.status_code != 200:
+                return None, f"Stable Horde rejected the job (HTTP {resp.status_code})"
+            job = (resp.json() or {}).get("id")
+            if not job:
+                return None, "Stable Horde returned no job id"
+            for _ in range(max(1, int(max_wait / poll_every))):
+                await asyncio.sleep(poll_every)
+                try:
+                    poll = await client.get(f"{HORDE_STATUS}/{job}", headers=headers)
+                except Exception:
+                    continue                      # a dropped poll is not a failed job
+                if poll.status_code != 200:
+                    continue
+                state = poll.json() or {}
+                if state.get("faulted"):
+                    return None, "Stable Horde could not fulfil the job"
+                generations = state.get("generations") or []
+                if not (state.get("done") and generations):
+                    continue
+                image_url = generations[0].get("img")
+                if not image_url:
+                    return None, "Stable Horde finished without an image"
+                got = await client.get(image_url)
+                if got.status_code != 200 or not got.content:
+                    return None, "Stable Horde's image could not be downloaded"
+                ctype = (got.headers.get("content-type") or "").split(";")[0].strip()
+                if not ctype.startswith("image/"):
+                    ctype = "image/webp"
+                return ("data:" + ctype + ";base64,"
+                        + base64.b64encode(got.content).decode()), None
+    except Exception as exc:
+        return None, f"Stable Horde unreachable ({type(exc).__name__})"
+    return None, f"Stable Horde did not finish within {int(max_wait)}s (the free queue is slow)"
+
+
 async def generate_portrait_image(prompt: str, max_wait: float = 90,
                                   width: int = 768, height: int = 1024):
     """Ask the configured provider for one image; returns (data_url, error)."""
@@ -136,9 +202,23 @@ async def generate_portrait_image(prompt: str, max_wait: float = 90,
     if PORTRAIT_PROVIDER == "openrouter":
         raw = await fetch_openrouter_image(prompt, max_wait=90)
         error = None if raw else "OpenRouter returned no image (check credit/limits)"
-    else:
+    elif PORTRAIT_PROVIDER == "pollinations":
         raw, error = await fetch_pollinations_image(prompt, max_wait=max_wait,
                                                     width=width, height=height)
+    else:
+        # Horde is the default, so give it a real queue window rather than a per-request timeout.
+        raw, error = await fetch_horde_image(prompt, max_wait=max(int(max_wait), 600),
+                                             width=width, height=height)
+        if error or not raw:
+            # Falling back beats handing the caller an empty portrait. Keep both reasons: whichever
+            # provider is misbehaving should be visible in the log, not masked by the other's success.
+            first = error or "no image"
+            alt, alt_error = await fetch_pollinations_image(prompt, max_wait=max_wait,
+                                                            width=width, height=height)
+            if alt and not alt_error:
+                raw, error = alt, None
+            else:
+                error = f"{first}; pollinations fallback: {alt_error or 'no image'}"
     if error or not raw:
         return None, error or "no image returned"
     raw, err = normalize_portrait(raw, max_px=1024)

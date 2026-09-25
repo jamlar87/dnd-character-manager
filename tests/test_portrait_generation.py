@@ -70,20 +70,36 @@ def fake_provider(monkeypatch):
 
 
 class TestKeylessProvider:
-    def test_pollinations_is_the_default_and_needs_no_key(self):
-        """Default provider is keyless; OpenRouter only when asked for by name."""
+    def test_the_default_provider_is_keyless_and_free(self):
+        """The default must need no key, no account and no card; paid paths stay opt-in.
+
+        Pollinations held this role until it started answering instant 429s to everything,
+        including a bare curl (0.4s, twice) while a bulk run had every request refused. Stable
+        Horde replaces it on the same terms — the anonymous key is documented and needs no signup —
+        so the invariant being protected is unchanged, only the host.
+        """
         import inspect
         import os
-        import re
 
         from services import portraits
 
         src = inspect.getsource(portraits)
-        assert 'os.environ.get("PORTRAIT_PROVIDER", "pollinations")' in src
-        assert "image.pollinations.ai" in src
+        assert 'os.environ.get("PORTRAIT_PROVIDER", "horde")' in src
+        assert "stablehorde.net/api/v2" in src
+        assert "image.pollinations.ai" in src, "pollinations is still the fallback"
         assert 'if PORTRAIT_PROVIDER == "openrouter"' in src
         if not os.environ.get("PORTRAIT_PROVIDER"):
-            assert portraits.PORTRAIT_PROVIDER == "pollinations", "the paid path must be opt-in"
+            assert portraits.PORTRAIT_PROVIDER == "horde", "the paid path must be opt-in"
+
+    def test_the_horde_default_carries_the_documented_anonymous_key(self):
+        """No signup, no account: the anonymous key is what keeps this provider free."""
+        import inspect
+
+        from services import portraits
+
+        src = inspect.getsource(portraits.fetch_horde_image)
+        assert '"0000000000"' in src
+        assert "STABLEHORDE_API_KEY" in src, "a registered key must be honoured without other changes"
 
     def test_route_aliases_the_service_instead_of_carrying_a_copy(self):
         """One builder, one provider — the batch script and the web path share them."""
