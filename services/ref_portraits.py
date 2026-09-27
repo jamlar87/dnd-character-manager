@@ -590,6 +590,7 @@ _NAME_OVERRIDES = {
     "eyes of the eagle": "Brass-framed Crystal Lenses",
     "hide armor": "Rough Hide and Fur Panels",
     "hunting trap": "Steel Jaw Spring Trap",
+    "three-dragon ante set": "Set of Playing Cards and Dice",
     "signal whistle": "Small brass whistle",
     "potion of animal friendship": "Glass Vial of Potion",
     "sling bullet": "Lead sling balls",
@@ -606,11 +607,26 @@ _NAME_OVERRIDES = {
 _PARENTHETICAL = re.compile(r"\s*\([^)]*\)\s*$")
 
 
+#: The same lever for a whole family of names: every ranged-weapon ammunition record is arrows or
+#: bolts in the rules, but its name reads "Ammunition (range 25/100), loading" and the model draws
+#: modern ammunition for it. The parenthetical is a weapon range, so it is kept and only the noun
+#: is replaced.
+_NAME_PATTERNS = (
+    (re.compile(r"\bammunition\b", re.I), "arrows"),
+)
+
+
 def prompt_name(name: str) -> str:
     """The name as it goes into the prompt: overrides first, then a trailing alias dropped."""
     key = (name or "").strip().lower()
     if key in _NAME_OVERRIDES:
         return _NAME_OVERRIDES[key]
+    for pattern, noun in _NAME_PATTERNS:
+        if pattern.search(name or ""):
+            replaced = pattern.sub(noun, name, count=1)
+            if name[:1].isupper():
+                replaced = replaced[:1].upper() + replaced[1:]
+            return _PARENTHETICAL.sub("", replaced).strip() or replaced.strip()
     return _PARENTHETICAL.sub("", name or "").strip() or (name or "")
 
 
