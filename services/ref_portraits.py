@@ -751,31 +751,34 @@ def prompt_name(name: str) -> str:
 #: is what makes the model put the horns DOWN: tieflings and dragonborn keep theirs because they have
 #: them, and everyone else is told plainly that there are none. "human form" leads the table so a
 #: werewolf's human shape wins over the wolf in its own name.
+_CREATURE_STATLINE = re.compile(
+    r"^(?:Tiny|Small|Medium|Large|Huge|Gargantuan)\s*,\s*([^,]+)", re.I)
+
 SPECIES_CUES = (
     (re.compile(r"\b(?:human|mortal|true)\s+form\b", re.I),
-     "a human", "Ordinary human skin, no fur, no snout, no claws."),
+     "a human", "Ordinary human skin and a plain human face."),
     (re.compile(r"\bhalf[- ]elf\b", re.I),
-     "a half-elf", "Smooth skin, slightly pointed ears, no horns, no tusks."),
+     "a half-elf", "Smooth skin and slightly pointed ears."),
     (re.compile(r"\bhalf[- ]orc\b", re.I),
-     "a half-orc", "Green-grey skin, small lower tusks, no horns."),
+     "a half-orc", "Green-grey skin and small lower tusks."),
     (re.compile(r"\bel(?:f|ves|ven|vish)\b", re.I),
-     "an elf", "Smooth fair skin, pointed ears, no horns, no tusks."),
+     "an elf", "Smooth fair skin and long pointed ears."),
     (re.compile(r"\bdwar(?:f|ves|ven|vish)\b", re.I),
-     "a dwarf", "Smooth skin, a long full beard, no horns."),
+     "a dwarf", "Smooth skin and a long full beard."),
     (re.compile(r"\bgnom(?:e|es|ish)\b", re.I),
-     "a gnome", "Smooth skin, a long nose, no horns."),
+     "a gnome", "Smooth skin and a long nose."),
     (re.compile(r"\bhalfling\b", re.I),
-     "a halfling", "Smooth skin, curly hair, bare feet, no horns."),
+     "a halfling", "A small rounded build, curly hair and bare feet."),
     (re.compile(r"\bgoliath\b", re.I),
-     "a goliath", "Grey stone-grey skin with dark markings, no horns."),
+     "a goliath", "Grey stone-grey skin with dark markings."),
     (re.compile(r"\btiefling\b", re.I),
      "a tiefling", "Human face, small curved brow horns, a thin tail."),
     (re.compile(r"\bdragonborn\b", re.I),
      "a dragonborn", "Scaled reptilian skin, a draconic snout, no hair."),
     (re.compile(r"\b(?:man|men|woman|women)\s+of\b", re.I),
-     "a human", "Smooth skin, no horns, no tusks."),
+     "a human", "Ordinary human skin and a plain human face."),
     (re.compile(r"\bhumans?\b(?!-)|\bhumanoid\s*\(human\)", re.I),
-     "a human", "Smooth skin, no horns, no tusks."),
+     "a human", "Ordinary human skin and a plain human face."),
 )
 
 
@@ -791,6 +794,203 @@ def species_cue(text: str) -> tuple[str, str] | None:
         if pattern.search(text or ""):
             return lead, traits
     return None
+
+
+# --- what kind of creature the record is ----------------------------------------------------------
+# The commonest bestiary failure the audit measured is wrong-kind: a humanoid drawn as a horned demon,
+# a beast drawn as a monster, an undead drawn with living skin. species_cue fires only when the record
+# names a real species ("human", "goblin") - 45 of the 278 flagged creature tiles - and the other 233
+# were left with the name and a pasted stat line, so the model free-associated. That is the item
+# shelf's failure before ITEM_CUES, one shelf over. The stat line does state the type, in a fixed shape
+# ("Medium, monstrosity, unaligned"), so the type word becomes the clause and the stat line itself is
+# dropped: words like "Medium, unaligned" describe a filing label, never a body.
+CREATURE_TYPE_CUES = (
+    (re.compile(r"\bswarm\b", re.I),
+     ("a swarm: a dense mass of many small creatures filling the frame", "swarm")),
+    (re.compile(r"\b(?:beast|animal)\b", re.I),
+     ("a natural beast: an ordinary animal of flesh and fur, scale or feather", "beast")),
+    (re.compile(r"\bmonstrosity\b", re.I),
+     # Deliberately not "claws and fangs": the flagged kruthik is chitinous and insectile, and a clause
+     # that dictates anatomy fights the record's own prose instead of steering the model off a person.
+     ("a monstrous creature of animal anatomy - chitin, scales, hide or feathers", "monster")),
+    (re.compile(r"\bundead\b", re.I),
+     ("an undead thing: dead grey flesh, bare bone and tattered grave cloth", "undead creature")),
+    (re.compile(r"\bdragon\b", re.I),
+     ("a dragon: a scaled reptilian body, a long snouted head, leathery wings, a heavy tail", "dragon")),
+    (re.compile(r"\bcelestial\b", re.I),
+     ("a celestial: a radiant winged being, luminous and unearthly, robed in light", "celestial")),
+    (re.compile(r"\bfiend\b|\bdemon\b|\bdevil\b", re.I),
+     ("a fiend: horns, leathery wings, cloven hooves, red or ash-grey skin, cruel features", "fiend")),
+    (re.compile(r"\bfey\b|\bfaerie\b", re.I),
+     ("a fey creature: delicate and elfin, pale luminous skin, pointed ears, leaves and blossoms "
+      "in its dress", "fey creature")),
+    (re.compile(r"\belemental\b", re.I),
+     ("an elemental: a body of fire, water, air or raw stone", "elemental")),
+    (re.compile(r"\booze\b|\bslime\b", re.I),
+     ("an ooze: a gelatinous shapeless mass, glistening and translucent", "ooze")),
+    (re.compile(r"\bplant\b|\bfungus\b|\bmushroom\b", re.I),
+     ("a plant creature: bark, vines, leaves and roots shaped into a body", "plant creature")),
+    (re.compile(r"\bgiant\b", re.I),
+     ("a giant: a huge heavy humanoid with thick limbs and coarse clothing", "giant")),
+    (re.compile(r"\baberration\b", re.I),
+     ("an aberration: wrong anatomy, too many eyes, tentacles, twisted asymmetry", "aberration")),
+    (re.compile(r"\bvermin\b|\binsect\b|\barachnid\b", re.I),
+     ("a vermin: a scuttling chitinous creature of many legs", "vermin")),
+    (re.compile(r"\blycanthrope\b|\bwere(?:wolf|bear|boar|rat|tiger)\b", re.I),
+     ("a lycanthrope: a hybrid of human and beast, fur over a human frame, clawed hands", "lycanthrope")),
+    (re.compile(r"\bhumanoid\b", re.I),
+     ("a humanoid of human shape: two arms, two legs, a face, ordinary proportions", "humanoid")),
+)
+
+
+#: The bans that go with each type clause. The rule measured on the item shelf holds on this one: a ban
+#: inside the POSITIVE prompt is a mention, not a ban. "Smooth skin, no horns, no tusks" in a human's
+#: traits clause came back horned on the pilot - the third time this rule has been proved - so what the
+#: creature IS now goes in the prompt and what it must NOT be goes in the negative, where negation is
+#: the mechanism.
+CREATURE_TYPE_BANS = (
+    (re.compile(r"\bswarm\b", re.I), "single large creature"),
+    (re.compile(r"\b(?:beast|animal)\b", re.I), "horns, tusks, extra eyes, human face, clothing"),
+    (re.compile(r"\bmonstrosity\b", re.I), "human face, person, armour, clothing"),
+    (re.compile(r"\bundead\b", re.I), "healthy skin, blush, living colour"),
+    (re.compile(r"\bdragon\b", re.I), "fur, feathers, human face"),
+    (re.compile(r"\bcelestial\b", re.I), "demon, devil, horns"),
+    (re.compile(r"\bfiend\b|\bdemon\b|\bdevil\b", re.I), "feathers, halo, robes of light"),
+    (re.compile(r"\bfey\b|\bfaerie\b", re.I), "armour, brute bulk"),
+    (re.compile(r"\belemental\b", re.I), "human flesh, skin"),
+    (re.compile(r"\booze\b|\bslime\b", re.I), "limbs, face, eyes"),
+    (re.compile(r"\bplant\b|\bfungus\b|\bmushroom\b", re.I), "flesh, skin, fur"),
+    (re.compile(r"\bgiant\b", re.I), "pointed ears, small stature"),
+    (re.compile(r"\baberration\b", re.I), "ordinary animal, natural beast"),
+    (re.compile(r"\bvermin\b|\binsect\b|\barachnid\b", re.I), "human face, person"),
+)
+
+#: The species bans, keyed by the same lead the species cue emits. A tiefling keeps its horns and a
+#: dragonborn its scales, so those two ban almost nothing - the point is to ban only what the record
+#: itself says is absent.
+SPECIES_BANS = {
+    "a human": "horns, tusks, fangs, claws, scales, fur, snout, wings, demon, devil",
+    "a half-elf": "horns, tusks, fur, snout, scales",
+    "a half-orc": "horns, wings, scales",
+    "an elf": "horns, tusks, fur, snout, scales",
+    "a dwarf": "horns, tusks, pointed ears, wings, scales",
+    "a gnome": "horns, tusks, wings, scales",
+    "a halfling": "horns, tusks, wings, scales",
+    "a goliath": "horns, wings, tusks, scales",
+    "a tiefling": "wings, feathers",
+    "a dragonborn": "hair, fur, beard, horns",
+}
+
+
+def creature_negative(name: str, subtitle: str = "", snippet: str = "",
+                      base: str | None = None) -> str:
+    """The negative prompt for one creature tile: the shared living bans plus this record's own.
+
+    The shared base is COMFY_NEGATIVE_LIVING (the bans minus "people, humans", because a humanoid
+    record has nothing human left to draw otherwise). On top of it go the bans for the species and the
+    type the record itself states - and only those, since a ban the record contradicts (horns on a
+    tiefling) is a wrong instruction, not a protective one.
+    """
+    from services.portraits import COMFY_NEGATIVE_LIVING
+    base = base or COMFY_NEGATIVE_LIVING
+    terms: list[str] = []
+    sp = species_cue(" ".join((name or "", subtitle or "",
+                               " ".join((snippet or "").split()[:12]))))
+    if sp and SPECIES_BANS.get(sp[0]):
+        terms += [t.strip() for t in SPECIES_BANS[sp[0]].split(",")]
+    kind = creature_kind(subtitle)
+    if kind:
+        for pattern, bans in CREATURE_TYPE_BANS:
+            if pattern.search(kind):
+                terms += [t.strip() for t in bans.split(",")]
+                break
+    low_base = base.lower()
+    seen, uniq = set(), []
+    for t in terms:
+        if not t or t.lower() in seen or t.lower() in low_base:
+            continue
+        seen.add(t.lower())
+        uniq.append(t)
+    return base + (", " + ", ".join(uniq) if uniq else "")
+
+
+def looks_like_statline(text: str) -> bool:
+    """"Medium, human, chaotic neutral" / "... AC 15." - a filing label, never a description of a body."""
+    t = (text or "").strip()
+    if not t:
+        return False
+    if _CREATURE_STATLINE.match(t) or re.search(r"\b(?:AC|HP|CR)\b\s*\d", t):
+        return True
+    return bool(re.search(r"(?:unaligned|lawful|neutral|chaotic|any alignment)\s*$", t, re.I))
+
+
+def creature_kind(subtitle: str, noun: str = "") -> str:
+    """The type word from a stat line ("Medium, humanoid (gith), neutral good") or from a noun field.
+
+    Deliberately narrow: only the fixed '<size>, <type>' shape, because a wrong type is worse than an
+    absent one - the same rule race_from_subtitle follows for NPC subtitles.
+    """
+    text = (subtitle or "").strip()
+    m = _CREATURE_STATLINE.match(text)
+    if m:
+        return m.group(1).strip().lower()
+    return (noun or "").strip().lower()
+
+
+def creature_cue(subtitle: str, noun: str = "") -> tuple[str, str] | None:
+    """(lead clause, 'single <thing>') from the record's own type, or None when the type is unusable."""
+    kind = creature_kind(subtitle, noun)
+    if not kind:
+        return None
+    # "humanoid (gith)" carries a subtype the model does know; a bare "humanoid" does not, which is why
+    # species_cue refuses it. The subtype rides along rather than being thrown away with the stat line.
+    m = re.match(r"humanoid \(([a-z' -]{2,20})\)", kind)
+    sub = m.group(1).strip() if m else ""
+    for pattern, (lead, single) in CREATURE_TYPE_CUES:
+        if pattern.search(kind):
+            if sub and single == "humanoid":
+                lead = (f"a humanoid of the {sub} kind: two arms, two legs, a face, "
+                        "ordinary proportions")
+            return lead, single
+    return None
+
+
+#: Furniture that leaks in from the source books when a description is lifted out of a two-column page.
+_CREATURE_FURNITURE = re.compile(
+    r"\b(?:creature codex|monster manual|volo'?s|mordenkainen|appendix|chapter\s+\d|"
+    r"presented below|this section|the following|see the\b)", re.I)
+
+
+def creature_tail(snippet: str, tail: str) -> str:
+    """The visual tail for a bestiary prompt: whole sentences only, no book furniture.
+
+    Two measured leaks. A description lifted from a page can begin mid-sentence ("mission, the find
+    familiar spell can summon an almiraj") and can carry the book's own headers into the prompt
+    ("CREATURE CODEX A Lumbering across the sand, these massive monsters have the head..."). Both read
+    as subject matter to the model. So: keep only sentences that start clean, drop any that name a book
+    or a section, and stop after two.
+    """
+    if not tail:
+        return ""
+    sentences = re.split(r"(?<=[.!?])\s+", tail)
+    keep = []
+    for s in sentences:
+        s = s.strip()
+        if not s or not s[:1].isupper():
+            continue
+        if _CREATURE_FURNITURE.search(s):
+            continue
+        if looks_like_statline(s):
+            # "Medium, human, chaotic neutral. AC 15." is the stat line again, in sentence form
+            continue
+        words = [w.strip(".,;:()!?\"'") for w in s.split()]
+        words = [w for w in words if w]
+        if words and sum(1 for w in words if _RULES_TOKEN.match(w)) / len(words) >= 0.34:
+            continue  # rules prose: tells the reader what the creature does, not what it looks like
+        keep.append(s)
+        if len(keep) == 2:
+            break
+    return " ".join(keep)
 
 
 def prompt_for(kind: str, name: str, subtitle: str = "", snippet: str = "") -> str:
@@ -909,17 +1109,21 @@ def _base_prompt(kind: str, name: str, subtitle: str = "", snippet: str = "") ->
     short_name = " ".join((name or "").split()[:8])
     cue = construct_cue(name, detail)
     if kind == "creature":
+        # A stat line is not a description of a body: "Medium, monstrosity, unaligned" pasted after the
+        # name was read as part of the subject. The type it states is now the clause (CREATURE_TYPE_CUES).
+        if looks_like_statline(detail):
+            detail = ""
         if cue:
             return ("Fantasy construct: " + (short_name or "a construct")
                     + (f", {detail}." if detail else ".")
                     + f" {cue}."
                     + " Full body, single subject." + (f" {tail}" if tail else ""))
-        if snippet_is_mechanics(snippet):
-            # Stat blocks are the same trap as the equipment snippets: "Medium, humanoid (human),
-            # neutral evil. AC 15. HP 78 (12d8 + 24). Speed 30 ft.. CR 5." names a size, an alignment
-            # and some dice — never a body. Fed as the tail it does not describe the creature, it just
-            # eats the 77-token window.
-            tail = ""
+        # The stat block is dropped SENTENCE BY SENTENCE rather than as a whole tail. Dropping the whole
+        # snippet threw away the one part of a bestiary record that describes a body: many of them read
+        # "Medium, monstrosity, unaligned. AC 18. HP 39 (6d8 + 12). ... A kruthik's hide is chitinous
+        # and its many legs carry it over stone." The first sentences are the filing label; the prose
+        # that follows is the anatomy.
+        tail = creature_tail(snippet, tail)
         species = species_cue(" ".join((name or "", subtitle or "",
                                         " ".join((snippet or "").split()[:12]))))
         if species:
@@ -928,12 +1132,19 @@ def _base_prompt(kind: str, name: str, subtitle: str = "", snippet: str = "") ->
             # the name and got 4/4 where a trailing "humanoid" got 0/4. It has to be here and not in
             # the tail: the tail is where the token window truncates.
             return ("Fantasy bestiary: " + lead + ", " + (short_name or "a figure")
-                    + (f", {detail}." if detail else ".")
-                    + f" Full body, single {lead.split(' ', 1)[1]}." + f" {traits}"
+                    + f". Full body, single {lead.split(' ', 1)[1]}." + f" {traits}"
                     + (f" {tail}" if tail else ""))
+        typed = creature_cue(subtitle)
+        if typed:
+            # What the stat line says the creature IS, as a visual statement - the same lever as
+            # ITEM_CUES, read from structured data instead of a name. The stat line itself never
+            # appears in the prompt: "Medium, monstrosity, unaligned" is a filing label, and pasted
+            # after the name it read as part of the subject on 233 flagged tiles.
+            lead, single = typed
+            return ("Fantasy bestiary: " + lead + ", " + (short_name or "a monster")
+                    + f". Full body, single {single}." + (f" {tail}" if tail else ""))
         return ("Fantasy bestiary: " + (short_name or "a monster")
-                + (f", {detail}." if detail else ".")
-                + " Full body, single creature." + (f" {tail}" if tail else ""))
+                + ". Full body, single creature." + (f" {tail}" if tail else ""))
     if kind == "item":
         # The item's own prompt name: aliases dropped, and the measured load-bearing names rewritten
         # (see _NAME_OVERRIDES). Only items do this — a bestiary name is not a filing label.
@@ -1028,7 +1239,12 @@ async def generate(kind: str, name: str, subtitle: str = "", snippet: str = "",
         # drivers and crowds out of a picture of a rope — and gain the family bans on top of it, because
         # for a dozen object families the model reads the positive cue's "no plate"/"not a ring" clause
         # as a mention of plate and of a ring (see ITEM_NEGATIVES).
-        negative = COMFY_NEGATIVE_LIVING if kind in ("creature", "npc") else item_negative(name)
+        if kind == "creature":
+            # The creature negative carries the bans for the species and type this record states (see
+            # creature_negative): the pilot proved that stating them in the prompt only mentions them.
+            negative = creature_negative(name, subtitle, snippet)
+        else:
+            negative = COMFY_NEGATIVE_LIVING if kind == "npc" else item_negative(name)
         last = "no attempt made"
         async with _SEM:
             for attempt in range(retries + 1):
