@@ -20,6 +20,8 @@ tier with rate limits.
 
 from __future__ import annotations
 
+import os
+
 import asyncio
 import hashlib
 import re
@@ -550,7 +552,18 @@ def _trim_tail(snippet: str, cap: int = 15) -> str:
     return cut
 
 
-def item_negative(name: str, base: str | None = None) -> str:
+#: Family bans are OFF by default. A controlled A/B at this shelf's own settings (CFG 2.0, 7 steps,
+#: turbo SDXL) showed the appended family bans LEAKING as suggestions: the padded-cloth armour whose
+#: family banned "polished steel plate" came back as polished gilded steel plate, and the trap whose
+#: family banned "spoked wheel, hub, rim, disc" came back as exactly that riveted drum with a hub. With
+#: the family bans removed, the same prompt drew quilted padded cloth and a ring frame without the drum.
+#: Two of three pairs moved the right way; the third only changed framing, so the default is off.
+#: COMFY_NEGATIVE still bans people, portraits, modern clothing, cars and the rest. Set
+#: ITEM_NEGATIVE_FAMILIES=1 (or pass families=True) to append the family bans again.
+ITEM_NEGATIVE_FAMILIES = os.environ.get("ITEM_NEGATIVE_FAMILIES", "") not in ("", "0")
+
+
+def item_negative(name: str, base: str | None = None, families: bool = False) -> str:
     """The ordinary item bans plus the wrong readings THIS object's name has actually produced.
 
     A positive cue is not always enough. "Ring Mail" carries the cue "a mail coat of thousands of
@@ -566,6 +579,8 @@ def item_negative(name: str, base: str | None = None) -> str:
     """
     from services.portraits import COMFY_NEGATIVE
     base = base or COMFY_NEGATIVE
+    if not (families or ITEM_NEGATIVE_FAMILIES):
+        return base
     for pattern, terms in ITEM_NEGATIVES:
         if pattern.search(name or ""):
             return f"{base}, {terms}"

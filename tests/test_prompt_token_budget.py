@@ -91,12 +91,14 @@ def test_the_family_negatives_stay_short_and_are_additive():
     for pattern, terms in ref_portraits.ITEM_NEGATIVES:
         words = len(terms.split())
         assert words <= 14, f"{pattern.pattern[:30]} carries {words} words of negative terms"
-    mail = ref_portraits.item_negative("Silver Ring-mail of Girion")
+    # off by default: an appended family ban LEAKS as a suggestion at low guidance (measured A/B), so
+    # the ordinary render must send the shared bans alone
+    assert ref_portraits.item_negative("Silver Ring-mail of Girion") == portraits.COMFY_NEGATIVE
+    assert ref_portraits.item_negative("Rope") == portraits.COMFY_NEGATIVE
+    # the machinery stays available behind an explicit flag, and still appends rather than replaces
+    mail = ref_portraits.item_negative("Silver Ring-mail of Girion", families=True)
     assert mail.startswith(portraits.COMFY_NEGATIVE), "the standard item bans must still be there"
     assert "plate armour" in mail and "jewellery ring" in mail, (
         "the two readings a ring-mail record measurably produced are not banned")
-    # an ordinary record is untouched: no family matched, so the prompt is the standard one
-    assert ref_portraits.item_negative("Rope") == portraits.COMFY_NEGATIVE
-    # the lamp family, which came back as an electric table lamp, names the bulb and the cord
-    lamp = ref_portraits.item_negative("Lamp")
+    lamp = ref_portraits.item_negative("Lamp", families=True)
     assert "light bulb" in lamp and "power cord" in lamp
