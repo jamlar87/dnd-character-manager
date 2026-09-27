@@ -415,6 +415,120 @@ ITEM_CUES = (
           "a folded tanned animal hide"),
 )
 
+#: Cues for the records whose NAME names nothing the shelf can draw, written after the residue pass
+#: closed 167 of 266 tiles: 50 open records still had no shape cue at all, so their prompt was the bare
+#: "Fantasy object: <name>." and the model free-filled from the noun. The evidence is the count, not a
+#: guess — `item_cue(prompt_name(name))` returning None for a record is the whole test.
+#:
+#: These are consulted BEFORE ITEM_CUES, and each pattern names one record or one rename target rather
+#: than a category, so a broad fallback cannot swallow them. Two rules learned writing them:
+#:
+#:   1. A rename can orphan a cue. "Raging Lust (Philter)" was renamed to "Raging Lust" and the word the
+#:      philter cue matched went with it, so the record fell out of the cue table entirely — keep the
+#:      load-bearing word in the replacement (test_the_rename_targets_still_reach_a_cue).
+#:   2. A cue must not be written from the name alone. Records whose source description is a stub
+#:      ("Yahcha. Standard adventuring gear worth 1 gp.") get no cue here: inventing an object for them
+#:      is a product decision, and they sit in that report category instead.
+ITEM_CUES_EXTRA = (
+    # gear and weapons whose names are filing labels
+    (re.compile(r"staff fashioned from|single branch of pale white wood", re.I),
+          "a single long straight staff of pale white wood"),
+    (re.compile(r"double[- ]bladed", re.I),
+          "a two-handed weapon with one long grip and a curved blade at each end, one object"),
+    (re.compile(r"ramhorn", re.I),
+          "a single curved ram's horn with a polished tip"),
+    (re.compile(r"^\s*ram\s*$|battering ram", re.I),
+          "a heavy wooden battering ram with an iron-shod ram's-head tip hung on chains under a timber roof"),
+    (re.compile(r"gambeson|quilted cloth", re.I),
+          "a thick quilted cloth gambeson of stitched padded panels"),
+    (re.compile(r"\btambourine\b", re.I),
+          "a round frame drum with jingling metal discs set into the rim"),
+    (re.compile(r"rain catcher", re.I),
+          "a wide funnel of stitched hide on a wooden frame draining into a collecting jar"),
+    (re.compile(r"ox cart", re.I),
+          "an empty wooden ox cart with two spoked wheels and a yoke"),
+    (re.compile(r"rowing boat", re.I),
+          "a small empty wooden rowing boat with two oars resting across it"),
+    (re.compile(r"bath tub", re.I),
+          "an empty wooden bathing tub full of steaming water with a folded towel beside it"),
+    (re.compile(r"saddled pony", re.I),
+          "a small pony wearing a saddle and bridle, standing alone, no rider"),
+    (re.compile(r"carved wooden toys", re.I),
+          "a small set of carved wooden toys: a spinning top, a puzzle box and a toy hammer"),
+    # the five living tiers, one still life each
+    (re.compile(r"bare wooden bowl", re.I),
+          "a bare wooden bowl, a wooden spoon and a coarse loaf of bread on a plain board"),
+    (re.compile(r"pewter mug", re.I),
+          "a pewter mug, a small loaf of bread and a wedge of cheese on a plain board"),
+    (re.compile(r"soldier's kit", re.I),
+          "a soldier's kit laid out: a whetstone, an oil flask and a worn leather sword belt"),
+    (re.compile(r"silver goblet and", re.I),
+          "a silver goblet and a glass decanter of wine beside a folded linen cloth"),
+    (re.compile(r"gilded goblet", re.I),
+          "a gilded goblet and a jewelled crystal decanter beside a length of silk"),
+    # clothing, ammunition, named weapons and the rest of the residue
+    (re.compile(r"fine elven clothing", re.I),
+          "a folded set of elegant elven clothing: a fine cloth tunic and leggings with leaf embroidery"),
+    (re.compile(r"birding arrow", re.I),
+          "a single fletched arrow with a small blunt birding head"),
+    (re.compile(r"blade of arahel", re.I),
+          "a long straight sword with a keen blue-grey blade and a leather-wrapped grip"),
+    (re.compile(r"dragongleam|mithral-banded spear", re.I),
+          "a spear with a slim blade banded with inlaid mithral"),
+    (re.compile(r"dragonguard|dragon-motif breastplate", re.I),
+          "a steel breastplate with a gold dragon motif worked across the chest"),
+    (re.compile(r"raging lust", re.I),
+          "a small glass vial of rosy red liquid with a wax-sealed stopper, one object"),
+    (re.compile(r"lash of shadows", re.I),
+          "a snakeskin whip whose tip splits into five small serpent heads"),
+    (re.compile(r"mind lash", re.I),
+          "a slim whip of grey-green leather with a tapered barbed tip"),
+    (re.compile(r"moodmark paint", re.I),
+          "a small stoppered clay jar of thick black paint beside a fine brush"),
+    (re.compile(r"moon through the trees|river-stone star", re.I),
+          "a six-pointed star of polished river stones bound with cord and pine resin, hanging on a thong"),
+    (re.compile(r"will of the talon|war pick", re.I),
+          "an ostentatious gold war pick set with five gems carved as dragon heads"),
+    (re.compile(r"wraithstones", re.I),
+          "a cluster of dark root-carved stones, each shaped like a small animal"),
+    (re.compile(r"painted gold masks", re.I),
+          "three small painted gold masks shaped like a bat, a monkey and a parrot"),
+    (re.compile(r"chrysoprase", re.I),
+          "a necklace of twenty-two small green chrysoprase beads on a fine chain"),
+    (re.compile(r"illusory tower", re.I),
+          "a tall transparent tower of gleaming stone with a spiral stair visible inside"),
+    (re.compile(r"ward against wild appetites|tooth ward", re.I),
+          "seventeen animal teeth threaded on a simple leather thong"),
+    (re.compile(r"dragon-bane|ancient elven sword", re.I),
+          "an ancient rune-etched legendary weapon of elven make: a long straight sword with dragon motifs"),
+    (re.compile(r"house stross insignia", re.I),
+          "a torn and faded cloth officer's patch embroidered with three black wings"),
+    (re.compile(r"banner of the house", re.I),
+          "a tall white banner of heavy cloth hanging from a wooden crossbar bearing a heraldic device"),
+    (re.compile(r"runes of protection|runed breastplate", re.I),
+          "a heavy armour breastplate inscribed with dwarven protective runes"),
+    (re.compile(r"\bmoruin\b", re.I),
+          "a graceful elven longbow of pale golden wood with a fine silver-inlaid grip"),
+    (re.compile(r"horrid fetish", re.I),
+          "a small leathery fetish shaped like a crude doll with a bloated leering face and matted hair, mounted on a thin bone"),
+    (re.compile(r"ice magic", re.I),
+          "a worn leather-bound spellbook with icy-blue runes on its cover"),
+    (re.compile(r"eye of baba yaga", re.I),
+          "a large glassy eye the size of a fist with pupils on four sides, hanging from a chain"),
+    (re.compile(r"regalia of the crawling fey|crawling fey", re.I),
+          "a slender mithral crown of interlaced leaves and spider motifs"),
+    # rename targets that reached no cue at all - the rename had dropped the word the cue matched
+    (re.compile(r"ghostly glass bird", re.I),
+          "a small translucent glass bird ornament with a faint inner glow"),
+    (re.compile(r"short stabbing blade", re.I),
+          "a short single-edged stabbing blade with a wrapped leather grip"),
+    (re.compile(r"timber battering beam", re.I),
+          "a heavy timber battering beam with iron-shod ends and two iron carrying rings"),
+    (re.compile(r"steel jaw spring trap", re.I),
+          "a steel jaw spring trap with toothed jaws, a pressure plate and a chain"),
+)
+
+
 #: The wrong readings measured on the same audit, as NEGATIVES. The positive cue says what the object
 #: is; this says what the model keeps drawing instead. Read `item_negative()` for why both are needed —
 #: the short version is that "no plate" inside the positive prompt is not a ban, it is a mention.
@@ -638,7 +752,8 @@ def item_negative(name: str, base: str | None = None, families: bool = False) ->
 
 def item_cue(name: str) -> str | None:
     """The ordinary shape of the object a gear record names, or None when the name needs no help."""
-    for pattern, description in ITEM_CUES:
+    # The record-specific cues first: they are narrower than the category patterns below.
+    for pattern, description in ITEM_CUES_EXTRA + ITEM_CUES:
         if pattern.search(name or ""):
             return description
     return None
@@ -659,6 +774,30 @@ _NAME_OVERRIDES = {
     "grandfathers' wisdom": "Necklace of Teeth",
     "spectral kestrel": "Ghostly Glass Bird",
     "spider silk boat": "Small Two-person Rowing Boat",
+    "padded": "Quilted Cloth Gambeson",
+    "tantan": "Tambourine",
+    "birding shaft": "Birding Arrow",
+    "land vehicles": "Ox Cart",
+    "water vehicles": "Rowing Boat",
+    "hot bath": "Bath Tub",
+    "pony for hire, per day": "Saddled Pony",
+    "dwarven toys": "Carved Wooden Toys",
+    "raging lust (philter)": "Philter of Raging Lust",
+    "ram": "Battering Ram",
+    "regalia of the crawling fey": "Mithral Crown of the Crawling Fey",
+    "ice magic by zadel akgrytan": "Ice Magic Spellbook",
+    "will of the talon": "Will of the Talon War Pick",
+    "ward against wild appetites": "Tooth Ward Necklace",
+    "moon through the trees": "River-stone Star Charm",
+    "dragongleam": "Mithral-banded Spear",
+    "dragonguard": "Gold Dragon-motif Breastplate",
+    "dragon-bane": "Ancient Elven Sword",
+    "runes of protection": "Runed Breastplate",
+    "standard of living: poor (per day)": "Bare Wooden Bowl and Spoon",
+    "standard of living: frugal (per day)": "Pewter Mug, Loaf and Cheese",
+    "standard of living: martial (per day)": "Soldier's Kit",
+    "standard of living: prosperous (per day)": "Silver Goblet and Linen",
+    "standard of living: rich (per day)": "Gilded Goblet and Silk",
     "yggdrasil net": "Woven Rope Net",
     "clematis-tainted weapon": "Clematis-carved Blade",
     "whelm": "Ancient Hammer",

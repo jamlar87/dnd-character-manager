@@ -184,3 +184,16 @@ class TestGeneration:
     def test_kick_returns_false_without_a_loop(self):
         assert ref_portraits.kick("item", "Abacus") is False, \
             "no event loop (CLI) — the batch script is the caller there"
+
+
+def test_no_rename_orphans_a_cue():
+    """A rename can silently drop a record out of the cue table.
+
+    "Raging Lust (Philter)" was rewritten to "Raging Lust" and the word the philter cue matched went
+    with it: item_cue() then returned None and the prompt fell back to a bare "Fantasy object: ...",
+    which is the defect the residue pass exists to remove. Every override value must still reach a cue.
+    If a rename is genuinely meant to reach none, that gets argued here rather than discovered on a render.
+    """
+    orphans = sorted({n for n in ref_portraits._NAME_OVERRIDES.values()
+                      if ref_portraits.item_cue(n) is None})
+    assert orphans == [], f"renamed to a name no cue matches, so the shape cue is gone: {orphans}"
