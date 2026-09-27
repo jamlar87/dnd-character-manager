@@ -1183,6 +1183,21 @@ def creature_cue(subtitle: str, noun: str = "") -> tuple[str, str] | None:
     return None
 
 
+#: A stat-block FIELD that arrived as a sentence rather than as a line: the ingest stored nested values as
+#: text, so a riding horse's tail read "Speed {'walk': '60 ft.'}." - a mechanics fragment with a Python dict
+#: repr in it, and exactly the kind of tail rule 3 exists to drop (mechanics text is not a description).
+_MECHANICS_SENTENCE = re.compile(
+    r"^\s*(?:speed|ac|hp|hit points?|cr|challenge|skills?|senses?|languages?|saving throws?|"
+    r"damage|actions?|traits?)\b|[{}\[\]]", re.I)
+
+#: A sentence about someone's family rather than about a body: a leaked bestiary tail read "Tall A estid is
+#: Viglund's daughter, and betrothed to one of his important followers." - a plot fact, drawn as nothing,
+#: and it survives every other filter because it starts with a capital and carries no rules tokens. A kin
+#: relation is never visual, so it goes the same way as the book furniture.
+_KIN_RELATION = re.compile(
+    r"\b(?:daughter|son|wife|husband|sister|brother|father|mother|betrothed|cousin|nephew|niece|"
+    r"widow|widower|orphan)\b", re.I)
+
 #: Furniture that leaks in from the source books when a description is lifted out of a two-column page.
 _CREATURE_FURNITURE = re.compile(
     r"\b(?:creature codex|monster manual|volo'?s|mordenkainen|appendix|chapter\s+\d|"
@@ -1210,6 +1225,11 @@ def creature_tail(snippet: str, tail: str) -> str:
             continue
         if looks_like_statline(s):
             # "Medium, human, chaotic neutral. AC 15." is the stat line again, in sentence form
+            continue
+        if _KIN_RELATION.search(s):
+            continue
+        if _MECHANICS_SENTENCE.search(s):
+            # a stat-block field in sentence form, dict repr and all
             continue
         words = [w.strip(".,;:()!?\"'") for w in s.split()]
         words = [w for w in words if w]
