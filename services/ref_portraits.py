@@ -606,6 +606,8 @@ _NAME_OVERRIDES = {
     "dwarven thrower": "Throwing Hammer",
     "eyes of the eagle": "Brass-framed Crystal Lenses",
     "hide armor": "Rough Hide and Fur Panels",
+    "hide armour": "Rough Hide and Fur Panels",
+    "fox pelt": "Cured Fur Pelt",
     "sickle": "Harvest Hook",
     "longhorn": "Long Brass War Horn",
     "dwarven half-plate armor": "Half-plate Armor",
@@ -636,6 +638,10 @@ _PARENTHETICAL = re.compile(r"\s*\([^)]*\)\s*$")
 #: modern ammunition for it. The parenthetical is a weapon range, so it is kept and only the noun
 #: is replaced.
 _NAME_PATTERNS = (
+    # "Warhammer" is a tabletop brand before it is a noun: its icon is a spiked skull-faced helmet, and a
+    # silvered warhammer came back as crescent blades with a central spike. The brand word never reaches
+    # the prompt; the weapon noun does.
+    (re.compile(r"\bwarhammer\b", re.I), "hammer"),
     (re.compile(r"\bammunition\b", re.I), "arrows"),
 )
 
@@ -645,9 +651,17 @@ def prompt_name(name: str) -> str:
     key = (name or "").strip().lower()
     if key in _NAME_OVERRIDES:
         return _NAME_OVERRIDES[key]
+    # a record like "Quarterstaff (fine)" is the same noun as "Quarterstaff": an override written for the
+    # plain noun has to reach it, or the draw keeps the parenthetical variant's own reading
+    stripped = _PARENTHETICAL.sub("", name or "").strip().lower()
+    if stripped and stripped != key and stripped in _NAME_OVERRIDES:
+        return _NAME_OVERRIDES[stripped]
     for pattern, noun in _NAME_PATTERNS:
-        if pattern.search(name or ""):
-            replaced = pattern.sub(noun, name, count=1)
+        m = pattern.search(name or "")
+        if m:
+            # keep the case of the word being replaced: "Silvered Warhammer" -> "Silvered Hammer"
+            word = noun.capitalize() if m.group(0)[:1].isupper() else noun
+            replaced = pattern.sub(word, name, count=1)
             if name[:1].isupper():
                 replaced = replaced[:1].upper() + replaced[1:]
             return _PARENTHETICAL.sub("", replaced).strip() or replaced.strip()
