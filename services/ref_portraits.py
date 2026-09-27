@@ -255,7 +255,7 @@ ITEM_CUES = (
     (re.compile(r"\bsignal whistle\b|\bwhistle\b", re.I),
           "a small brass pea whistle: a short rounded body, a mouthpiece, an air window and a ring"),
     (re.compile(r"\bpick,? miner'?s\b|\bminer'?s pick\b", re.I),
-          "a miner's hand pick: a short haft with a single pointed iron spike head"),
+          "a miner's pick: a wooden haft with one narrow iron spike head set at right angles to it"
     (re.compile(r"\bsledge\b|\bmaul\b|\bhammer\b", re.I),
           "a heavy iron hammer head on a wooden haft"),
     (re.compile(r"\bportable ram\b|\bram,? portable\b|\bbattering ram\b", re.I),
@@ -387,7 +387,7 @@ ITEM_NEGATIVES = (
     (re.compile(r"\blances?\b|\bpikes?\b|\bspears?\b|\bglaive\b|\btrident\b|\bhalberd\b", re.I),
      "sword, short blade, dagger, crossguard, club"),
     (re.compile(r"\bhunting trap\b|\btrap\b", re.I),
-     "spoked wheel, gear wheel, machine part, wooden box, chest, crate, roller"),
+     "spoked wheel, gear wheel, hub, rim, disc, wooden box, chest, crate"),
     (re.compile(r"\bvehicles?\b|\bcoach\b|\bcab\b|\bcart\b|\bwagon\b|\bsled\b|\bboat\b|\bship\b", re.I),
      "motor truck, motor car, motorboat, engine, exhaust, pneumatic tyre, smokestack, "
      "modern vehicle"),
@@ -403,7 +403,7 @@ ITEM_NEGATIVES = (
     (re.compile(r"\bwaterskins?\b|\bwineskins?\b|\bsaddlebags?\b|\bbackpacks?\b", re.I),
      "plastic bottle, screw top, suitcase, briefcase, modern luggage"),
     (re.compile(r"\bpipes?\b|\bbagpipes?\b|\bdrum\b|\blonghorn\b", re.I),
-     "metal pipework, plumbing, elbow joint, tap, valve, drum, trumpet, harp"),
+     "metal pipework, plumbing, elbow joint, tap, valve, drum, trumpet, satchel, backpack"),
     (re.compile(r"\bbridles?\b|\bbit and bridle\b|\bhalters?\b", re.I),
      "saddle, stirrup, horse, rider, person, blanket"),
     (re.compile(r"\bscrolls?\b", re.I),
