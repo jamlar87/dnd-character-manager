@@ -248,6 +248,14 @@ ITEM_CUES = (
           "a coiled rope with a running loop at one end"),
     (re.compile(r"\bpistols?\b|\bmuskets?\b", re.I),
      "a wooden-stocked flintlock hand cannon with a brass barrel and a carved grip"),
+    (re.compile(r"\bplate\b|\bhalf-plate\b|\bbreastplate\b", re.I),
+     "an empty suit of riveted steel plate armour"),
+    (re.compile(r"\bbelt of [a-z ]*giant strength\b", re.I),
+     "a broad studded leather belt with a heavy metal buckle, coiled and empty"),
+    (re.compile(r"\bthrower\b|\bwarhammer\b", re.I),
+     "a warhammer with a heavy engraved steel head and a short haft"),
+    (re.compile(r"\beyes of the eagle\b", re.I),
+     "a pair of round brass-framed crystal lenses on a slim bronze frame"),
     (re.compile(r"\bspyglass\b", re.I),
           "a brass telescope of two sliding tubes with leather binding"),
     (re.compile(r"\bspectacles\b|\beyeglasses\b", re.I),
@@ -349,6 +357,14 @@ ITEM_CUES = (
 #: is; this says what the model keeps drawing instead. Read `item_negative()` for why both are needed —
 #: the short version is that "no plate" inside the positive prompt is not a ban, it is a mention.
 ITEM_NEGATIVES = (
+    (re.compile(r"\bplate\b|\bhalf-plate\b|\bbreastplate\b", re.I),
+     "wearer, body, mannequin, face, hands, legs, person"),
+    (re.compile(r"\bbelt of [a-z ]*giant strength\b|\bbelts?\b", re.I),
+     "giant, face, head, torso, waist, hips, wearer, person"),
+    (re.compile(r"\bthrower\b|\bwarhammer\b", re.I),
+     "dwarf, person, hands, face, head, arms, wearer"),
+    (re.compile(r"\beyes of the eagle\b", re.I),
+     "eagle, bird, beak, feathers, head, animal"),
     (re.compile(r"\bring[- ]?mail\b|\bchain\s*mail\b|\bchainmail\b|\bhauberk\b|\bchain shirt\b|"
                 r"\belven chain\b|\bmithral\b|\bm(?:ail)\b", re.I),
      "plate armour, metal pauldrons, jewellery ring, gold band, gemstones, chain necklace, "
