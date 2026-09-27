@@ -215,7 +215,9 @@ ITEM_CUES = (
      "a thin slender steel needle with a small tuft at one end"),
     (re.compile(r"\bblowgun\b", re.I),
      "a long dark wooden blowpipe, a hollow tube to blow darts through"),
-    (re.compile(r"\bbagpipes?\b|\bpipes? of\b|\bhand drum\b|\blonghorn\b|\bhorn of\b|"
+    (re.compile(r"\bbagpipes?\b", re.I),
+     "a bagpipe: a leather bag under the arm with three drones and a chanter, tartan cloth"),
+    (re.compile(r"\bpipes? of\b|\bhand drum\b|\blonghorn\b|\bhorn of\b|"
                 r"\binstrument of the bards\b|\bwand of conducting\b", re.I),
      "a wooden musical instrument with binding, keys or a drum skin, made to be played"),
     (re.compile(r"\bpipe[- ]?weed\b|\bpipe\b(?!s)", re.I),
@@ -234,8 +236,10 @@ ITEM_CUES = (
      "a pair of worn leather saddlebags with buckled flaps, no horse"),
     (re.compile(r"\bbackpack\b|\bpriest'?s pack\b|\bexplorer'?s pack\b|\bdungeoneer'?s pack\b", re.I),
      "a leather pack with straps, buckles and a bedroll tied on top, no wearer"),
-    (re.compile(r"\bsaddle\b|\bbridle\b|\btack\b|\bhorseshoes?\b", re.I),
-     "a leather saddle and bridle with iron fittings, no horse, no rider"),
+    (re.compile(r"\bbridles?\b|\bbit and bridle\b|\bhalters?\b", re.I),
+     "a leather bridle with an iron bit and reins, no saddle, no horse, no rider"),
+    (re.compile(r"\bsaddles?\b|\btack\b|\bhorseshoes?\b", re.I),
+     "a leather saddle with stirrups and girth straps, no horse, no rider"),
     (re.compile(r"\bwaters?kin\b|\bwater, fresh\b", re.I),
      "a leather waterskin and a wooden cup of clear water"),
     (re.compile(r"\bnet\b", re.I),
