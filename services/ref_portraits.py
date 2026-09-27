@@ -208,7 +208,7 @@ ITEM_CUES = (
     # says, and each is here because the auditor's tile showed the model reading the name some other
     # way. The families that repeat across the shelf lead; the one-offs follow.
     (re.compile(r"\bammunition\b|\barrows?\b|\bquarrels?\b|\bbolts?\b(?!\s*case)", re.I),
-          "a bundle of short fletched shafts with small iron points"),
+          "arrows: several arrows with wooden shafts, feather fletching and iron points"),
     (re.compile(r"\bsling bullet|\bbullets?\b", re.I),
           "a handful of small round lead sling bullets"),
     (re.compile(r"\bblowgun needle|\bneedle\b", re.I),
@@ -379,7 +379,7 @@ ITEM_NEGATIVES = (
      "electric lamp, light bulb, glass bulb, screw socket, power cord, plug, wall socket, chandelier"),
     (re.compile(r"\bammunition\b|\barrows?\b|\bquarrels?\b|\bbolts?\b|\bneedles?\b|\bbullets?\b|"
                 r"\bdarts?\b|\bshaft\b", re.I),
-     "brass cartridge, bullet casing, primer, pointed bullet, jacketed bullet, gun magazine, firearm"),
+     "brass cartridge, bullet casing, primer, jacketed bullet, metal round, shell casing"),
     (re.compile(r"\bbows?\b", re.I),
      "compound bow, metal riser, sight pin, scope, firearm, crossbow"),
     (re.compile(r"\bpistols?\b|\bmuskets?\b|\brifles?\b", re.I),
@@ -574,6 +574,10 @@ def item_cue(name: str) -> str | None:
 #: the Mountain)" came back as a HEART under "a large round faceted white gemstone". The replacement
 #: uses the record's own words for what the object is - it renames nothing in the database.
 _NAME_OVERRIDES = {
+    "ammunition, +1, +2, or +3": "Arrows, +1, +2, or +3",
+    "ammunition, +1": "Arrows, +1",
+    "ammunition, +2": "Arrows, +2",
+    "ammunition, +3": "Arrows, +3",
     "silver ring-mail of girion": "Silver Mail Coat of Girion",
     "the arkenstone (heart of the mountain)": "The Arkenstone",
 }
