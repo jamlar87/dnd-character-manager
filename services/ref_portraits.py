@@ -664,7 +664,7 @@ _NAME_OVERRIDES = {
     "whisper": "Whispering Dagger",
     "cloak of the rat": "Plain Grey Hooded Cloak",
     "gold band set with diamonds": "Gold Ring Set with Diamonds",
-    "tale and tooth": "Vomerine Toad Tooth",
+    "tale and tooth": "Curved Ivory Tooth",
     "snowshoe rabbit snowboots": "White Fur Snowboots",
     "carbuncle's garnet": "Red Garnet Gem",
     "deadfall and fetch": "Two Handaxes",
