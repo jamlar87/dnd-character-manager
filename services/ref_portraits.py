@@ -946,6 +946,15 @@ def _base_prompt(kind: str, name: str, subtitle: str = "", snippet: str = "") ->
         # barding, a crowd for a service). Items only: a bestiary note may legitimately tell a story.
         if snippet_is_type_line(snippet) or snippet_is_second_person(snippet):
             tail = ""
+        # The item's OWN shape cue outranks a construct reading of its text. The record "Manual of
+        # the Lesser Golem" was rendering as the golem it is named after, on every seed, because its
+        # description mentions one and the construct branch is checked first — what the item IS (a
+        # book, a lens, a ring) is the subject; the creature in its prose never is.
+        shape = item_cue(prompt_name(name)) or item_cue(short_name)
+        if shape:
+            # The family cue is the visual statement. The snippet is left out on purpose: for these
+            # records it is the rules line, and a rules line can only fight the cue (see ITEM_CUES).
+            return ("Fantasy object: " + item_name + f". {shape}.")
         if cue:
             # The cue-bearing items are the vehicles and engines, and the old wording hurt them
             # twice: "RPG item illustration" leads a diffusion model toward a small hand-held object,
@@ -953,11 +962,6 @@ def _base_prompt(kind: str, name: str, subtitle: str = "", snippet: str = "") ->
             # filing label, not a description. The object itself now leads.
             return ("Fantasy construct: " + item_name
                     + f". {cue}." + (f" {tail}" if tail else ""))
-        shape = item_cue(short_name)
-        if shape:
-            # The family cue is the visual statement. The snippet is left out on purpose: for these
-            # records it is the rules line, and a rules line can only fight the cue (see ITEM_CUES).
-            return ("Fantasy object: " + item_name + f". {shape}.")
         if snippet_is_mechanics(snippet):
             # Rules text names dice and weights, never the shape, so the model free-fills from the
             # noun. Dropping it leaves the name and its category, which cannot mislead.
