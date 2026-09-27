@@ -220,6 +220,8 @@ ITEM_CUES = (
     (re.compile(r"\bpipes? of\b", re.I),
           "a set of reed pipes: hollow reed tubes of different lengths bound with cord, a "
           "mouthpiece at one end, the object alone in frame"),
+    (re.compile(r"\blonghorn\b|\bwar horn\b|\bhorn of\b|\bhunting horn\b", re.I),
+          "a long curved brass horn banded with metal rings, a mouthpiece at the narrow end"),
     (re.compile(r"\bhand drum\b|\blonghorn\b|\bhorn of\b|"
                 r"\binstrument of the bards\b|\bwand of conducting\b", re.I),
           "a wooden musical instrument with binding, keys or a drum skin, made to be played"),
