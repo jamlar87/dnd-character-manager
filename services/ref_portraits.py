@@ -583,6 +583,8 @@ def item_cue(name: str) -> str | None:
 #: the Mountain)" came back as a HEART under "a large round faceted white gemstone". The replacement
 #: uses the record's own words for what the object is - it renames nothing in the database.
 _NAME_OVERRIDES = {
+    "signal whistle": "Small brass whistle",
+    "sling bullet": "Lead sling balls",
     "ammunition, +1, +2, or +3": "Arrows, +1, +2, or +3",
     "ammunition, +1": "Arrows, +1",
     "ammunition, +2": "Arrows, +2",
