@@ -168,7 +168,8 @@ COMFY_SCHEDULER = os.environ.get("COMFY_SCHEDULER", "karras")
 COMFY_NEGATIVE = ("photo, photorealistic, 3d render, modern clothing, cars, racing suit, "
                   "outdoors, sky, clouds, trees, grass, ground, buildings, horizon, landscape, scenery, "
                   "people, humans, portrait, "
-                  "blurry, low quality, watermark, text, signature, deformed, extra limbs")
+                  "blurry, low quality, watermark, text, signature, deformed, extra limbs, "
+                  "parchment, paper texture, vellum, vignette")
 
 #: The same bans MINUS "people, humans", for the creature and NPC shelves.
 #:
@@ -185,7 +186,8 @@ COMFY_NEGATIVE = ("photo, photorealistic, 3d render, modern clothing, cars, raci
 COMFY_NEGATIVE_LIVING = ("photo, photorealistic, 3d render, modern clothing, cars, racing suit, "
                          "outdoors, sky, clouds, trees, grass, ground, buildings, horizon, landscape, "
                          "scenery, crowd, several figures, "
-                         "blurry, low quality, watermark, text, signature, deformed")
+                         "blurry, low quality, watermark, text, signature, deformed, "
+                         "parchment, paper texture, vellum, vignette")
 
 PORTRAIT_PROVIDER = os.environ.get("PORTRAIT_PROVIDER", "horde").strip().lower()
 
