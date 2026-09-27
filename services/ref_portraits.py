@@ -863,6 +863,12 @@ CREATURE_TYPE_BANS = (
     (re.compile(r"\bgiant\b", re.I), "pointed ears, small stature"),
     (re.compile(r"\baberration\b", re.I), "ordinary animal, natural beast"),
     (re.compile(r"\bvermin\b|\binsect\b|\barachnid\b", re.I), "human face, person"),
+    # A "humanoid (any race)" record has no species clause to carry bans, and the drift measured on the
+    # creature shelf is exactly here: the gith family (819-826) came back as blue horned demons with
+    # bare-skulled horns while the stat line said humanoid. Bans only what a humanoid record cannot be:
+    # horns, an animal head, scales - never clothing or bearing, which a humanoid may have.
+    (re.compile(r"\bhumanoid\b", re.I),
+     "horns, animal head, snout, fur, scales, wings, glowing red eyes, demon, devil"),
 )
 
 #: The species bans, keyed by the same lead the species cue emits. A tiefling keeps its horns and a
@@ -870,13 +876,13 @@ CREATURE_TYPE_BANS = (
 #: itself says is absent.
 SPECIES_BANS = {
     "a human": "horns, tusks, fangs, claws, scales, fur, snout, wings, demon, devil",
-    "a half-elf": "horns, tusks, fur, snout, scales",
-    "a half-orc": "horns, wings, scales",
-    "an elf": "horns, tusks, fur, snout, scales",
-    "a dwarf": "horns, tusks, pointed ears, wings, scales",
-    "a gnome": "horns, tusks, wings, scales",
-    "a halfling": "horns, tusks, wings, scales",
-    "a goliath": "horns, wings, tusks, scales",
+    "a half-elf": "horns, tusks, fur, snout, scales, demon, devil",
+    "a half-orc": "horns, wings, scales, demon, devil",
+    "an elf": "horns, tusks, fur, snout, scales, demon, devil",
+    "a dwarf": "horns, tusks, pointed ears, wings, scales, demon, devil",
+    "a gnome": "horns, tusks, wings, scales, demon, devil",
+    "a halfling": "horns, tusks, wings, scales, demon, devil",
+    "a goliath": "horns, wings, tusks, scales, demon, devil",
     "a tiefling": "wings, feathers",
     "a dragonborn": "hair, fur, beard, horns",
 }
