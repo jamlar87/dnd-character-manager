@@ -420,7 +420,7 @@ ITEM_NEGATIVES = (
      "modern vehicle"),
     (re.compile(r"\bpotions?\b|\bphilters?\b|\belixirs?\b|\boils?\b|\bacid\b|\bpoison\b|\bointment\b|"
                 r"\bflask\b|\bvials?\b", re.I),
-     "screw cap, ribbed cap, printed label, plastic bottle, jerrycan, syringe, skull, bones, animal, creature, deer"),
+     "screw cap, ribbed cap, printed label, plastic bottle, jerrycan, syringe, skull, bones, animal, creature"),
     (re.compile(r"\bhelms?\b|\bhelmets?\b|\bheadbands?\b|\bcaps?\b|\bturbans?\b|\bhats?\b", re.I),
      "face, head, wearer, person, portrait, eyes, nose, crown, hair"),
     (re.compile(r"\bshields?\b", re.I),
