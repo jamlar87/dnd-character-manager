@@ -340,6 +340,67 @@ ITEM_CUES = (
      "a folded tanned animal hide, no animal, no figure"),
 )
 
+#: The wrong readings measured on the same audit, as NEGATIVES. The positive cue says what the object
+#: is; this says what the model keeps drawing instead. Read `item_negative()` for why both are needed —
+#: the short version is that "no plate" inside the positive prompt is not a ban, it is a mention.
+ITEM_NEGATIVES = (
+    (re.compile(r"\bring[- ]?mail\b|\bchain\s*mail\b|\bchainmail\b|\bhauberk\b|\bchain shirt\b|"
+                r"\belven chain\b|\bmithral\b|\bm(?:ail)\b", re.I),
+     "plate armour, metal pauldrons, jewellery ring, gold band, gemstones, chain necklace, "
+     "cloth shirt"),
+    (re.compile(r"\barmou?r\b|\bbreastplate\b|\bhide\b|\bpadded\b|\bhalf-plate\b", re.I),
+     "polished steel plate, riveted plackart, metal pauldrons, wearer, body, mannequin, face"),
+    (re.compile(r"\bbell\b", re.I),
+     "cathedral bell, church bell, wheeled yoke, cart, wagon, machinery"),
+    (re.compile(r"\blamps?\b|\blanterns?\b|\btorch\b|\bcandles?\b", re.I),
+     "electric lamp, light bulb, glass bulb, screw socket, power cord, plug, wall socket, chandelier"),
+    (re.compile(r"\bammunition\b|\barrows?\b|\bquarrels?\b|\bbolts?\b|\bneedles?\b|\bbullets?\b|"
+                r"\bdarts?\b|\bshaft\b", re.I),
+     "brass cartridge, bullet casing, primer, gun magazine, firearm, rifle, pistol"),
+    (re.compile(r"\bbows?\b", re.I),
+     "compound bow, metal riser, sight pin, scope, firearm, crossbow"),
+    (re.compile(r"\bpistols?\b|\bmuskets?\b|\brifles?\b", re.I),
+     "modern handgun, revolver, cylinder, automatic pistol, assault rifle, telescopic sight"),
+    (re.compile(r"\bpick\b|\bminer'?s\b|\bpry bar\b|\bgrappling\b", re.I),
+     "gear wheel, cog, toothed wheel, machine part, engine, plumbing"),
+    (re.compile(r"\bink\b", re.I),
+     "screw cap, ribbed cap, printed label, plastic bottle, modern packaging"),
+    (re.compile(r"\bnet\b", re.I),
+     "landing net, fishing net frame, rigid hoop, long handle, butterfly net"),
+    (re.compile(r"\bmace\b|\bclub\b|\bcudgel\b|\bquarterstaff\b|\bwalking stick\b|\bwarhammer\b", re.I),
+     "sword, blade, sharpened edge, crossguard, axe, firearm"),
+    (re.compile(r"\blances?\b|\bpikes?\b|\bspears?\b|\bglaive\b|\btrident\b|\bhalberd\b", re.I),
+     "sword, short blade, dagger, crossguard, club"),
+    (re.compile(r"\bhunting trap\b|\btrap\b", re.I),
+     "spoked wheel, gear wheel, machine part, engine, cart wheel"),
+    (re.compile(r"\bvehicles?\b|\bcoach\b|\bcab\b|\bcart\b|\bwagon\b|\bsled\b|\bboat\b|\bship\b", re.I),
+     "motor truck, motor car, motorboat, engine, exhaust, pneumatic tyre, smokestack, "
+     "modern vehicle"),
+    (re.compile(r"\bpotions?\b|\bphilters?\b|\belixirs?\b|\boils?\b|\bacid\b|\bpoison\b|\bointment\b|"
+                r"\bflask\b|\bvials?\b", re.I),
+     "screw cap, ribbed cap, modern bottle, printed label, plastic bottle, jerrycan, syringe"),
+    (re.compile(r"\bhelms?\b|\bhelmets?\b|\bheadbands?\b|\bcaps?\b|\bturbans?\b|\bhats?\b", re.I),
+     "face, head, wearer, person, portrait, eyes, nose, beard"),
+    (re.compile(r"\bshields?\b", re.I),
+     "kite shield, heater shield, tower shield, heraldic charge"),
+    (re.compile(r"\bclothes\b|\bcloak\b|\brobes?\b|\braiment\b|\btraveller'?s\b|\btraveler'?s\b", re.I),
+     "zip, zipper, press stud, parka, cargo trousers, hiking boots, modern rucksack"),
+    (re.compile(r"\bwaterskins?\b|\bwineskins?\b|\bsaddlebags?\b|\bbackpacks?\b", re.I),
+     "plastic bottle, screw top, suitcase, briefcase, modern luggage"),
+    (re.compile(r"\bpipes?\b|\bbagpipes?\b|\bdrum\b|\blonghorn\b", re.I),
+     "metal pipework, plumbing, elbow joint, tap, valve, industrial pipe"),
+    (re.compile(r"\bscrolls?\b", re.I),
+     "treasure chest, jewellery, gemstone, gold ring, amulet"),
+    (re.compile(r"\brings?\b|\bbands?\b", re.I),
+     "person, woman, man, hand, finger, wearer, portrait"),
+    (re.compile(r"\bapparatus of the crab\b", re.I),
+     "giant crab, live crab, sea creature, animal, armour"),
+    (re.compile(r"\bprosthetic limb\b|\blimb\b", re.I),
+     "two hands, extra fingers, duplicate limbs, human skin"),
+    (re.compile(r"\bspies'? murmurs?\b|\bmurmur\b", re.I),
+     "war helm, skull mask, face, full helmet, horned helmet"),
+)
+
 #: Words that make a snippet a rules line: ability/stat abbreviations, dice, coin and weight units, and
 #: the weapon-property vocabulary. Deliberately narrow — "light" and "heavy" alone are ordinary English
 #: in a real description, so the units and the abbreviations carry the decision.
@@ -433,6 +494,28 @@ def _trim_tail(snippet: str, cap: int = 15) -> str:
         while cut and cut.rsplit(" ", 1)[-1].rstrip(".,;:!?\"'").lower() in _DANGLING:
             cut = cut.rsplit(" ", 1)[0]
     return cut
+
+
+def item_negative(name: str, base: str | None = None) -> str:
+    """The ordinary item bans plus the wrong readings THIS object's name has actually produced.
+
+    A positive cue is not always enough. "Ring Mail" carries the cue "a mail coat of thousands of
+    interlocking silver rings, no plate, not a finger ring" and still came back as a polished plate
+    harness; "+1 Mithral Chain Shirt" carries "a sleeveless tunic of thousands of interlocking iron
+    rings" and came back as a navy cloth shirt hung with gold chains. The model follows the noun's
+    prior and reads a "no X" clause inside the positive prompt as X. Negation is the mechanism that
+    works (see COMFY_NEGATIVE), so each family that failed this way names its wrong readings here and
+    they are appended to the standard item bans rather than replacing them.
+
+    Kept to a dozen words per entry: the negative has its own 77-token window, and a longer list
+    starts crowding out the bans that already work.
+    """
+    from services.portraits import COMFY_NEGATIVE
+    base = base or COMFY_NEGATIVE
+    for pattern, terms in ITEM_NEGATIVES:
+        if pattern.search(name or ""):
+            return f"{base}, {terms}"
+    return base
 
 
 def item_cue(name: str) -> str | None:
@@ -746,8 +829,10 @@ async def generate(kind: str, name: str, subtitle: str = "", snippet: str = "",
         # Creatures and NPCs are mostly humanoids, so the item negative prompt's "people, humans" ban
         # would delete the subject of the very record it is describing — that is what turned a fifth of
         # the flagged creature tiles into horned demons. Items keep the ban: it is what keeps riders,
-        # drivers and crowds out of a picture of a rope.
-        negative = COMFY_NEGATIVE_LIVING if kind in ("creature", "npc") else None
+        # drivers and crowds out of a picture of a rope — and gain the family bans on top of it, because
+        # for a dozen object families the model reads the positive cue's "no plate"/"not a ring" clause
+        # as a mention of plate and of a ring (see ITEM_NEGATIVES).
+        negative = COMFY_NEGATIVE_LIVING if kind in ("creature", "npc") else item_negative(name)
         last = "no attempt made"
         async with _SEM:
             for attempt in range(retries + 1):

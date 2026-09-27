@@ -84,3 +84,19 @@ def test_a_long_record_name_does_not_overflow_the_budget():
         "Clockwork Oaken Bolter of the Nine Gilded Spires of Mechanus",
         "CR 18.0 · Huge construct with a very long subtitle appended by the ingest pipeline")
     assert len(worst.split()) <= WORD_BUDGET + 12, f"worst case is {len(worst.split())} words: {worst}"
+
+
+def test_the_family_negatives_stay_short_and_are_additive():
+    """A family ban is appended to the standard item bans, never a replacement, and never a paragraph."""
+    for pattern, terms in ref_portraits.ITEM_NEGATIVES:
+        words = len(terms.split())
+        assert words <= 14, f"{pattern.pattern[:30]} carries {words} words of negative terms"
+    mail = ref_portraits.item_negative("Silver Ring-mail of Girion")
+    assert mail.startswith(portraits.COMFY_NEGATIVE), "the standard item bans must still be there"
+    assert "plate armour" in mail and "jewellery ring" in mail, (
+        "the two readings a ring-mail record measurably produced are not banned")
+    # an ordinary record is untouched: no family matched, so the prompt is the standard one
+    assert ref_portraits.item_negative("Rope") == portraits.COMFY_NEGATIVE
+    # the lamp family, which came back as an electric table lamp, names the bulb and the cord
+    lamp = ref_portraits.item_negative("Lamp")
+    assert "light bulb" in lamp and "power cord" in lamp
