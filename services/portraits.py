@@ -170,6 +170,23 @@ COMFY_NEGATIVE = ("photo, photorealistic, 3d render, modern clothing, cars, raci
                   "people, humans, portrait, "
                   "blurry, low quality, watermark, text, signature, deformed, extra limbs")
 
+#: The same bans MINUS "people, humans", for the creature and NPC shelves.
+#:
+#: Those two words are right for an object — a crowd kept appearing behind daggers, donkeys and
+#: chariots, and the item audit found riders and drivers in four tiles — but a bestiary reference is
+#: mostly humanoids, and the ban does not care that the record says "human": it removes the only
+#: subject the prompt asked for, so the model complies the other way and builds something non-human
+#: out of the nearest available parts. Measured on the creature shelf: 11 of 18 tiles in one sample of
+#: 204, and 7 of 15 in the other, were human, elf or goliath entries drawn as horned demonic figures —
+#: Aestid, Brindal, Edoric, Volothamp "Volo" Geddarm, Elrohir, Elrohir's Elf, Ixas, Cassyt, Sage,
+#: Mwaxanare, Tashlyn Yafeera, Shadar-kai Shadow Dancer, Yinra Emberwind, Sken Zabriss, Dragonfang.
+#: "portrait" also goes: the creature prompt asks for a full body, and a humanoid rendered as a
+#: headless torso is not an improvement on a face.
+COMFY_NEGATIVE_LIVING = ("photo, photorealistic, 3d render, modern clothing, cars, racing suit, "
+                         "outdoors, sky, clouds, trees, grass, ground, buildings, horizon, landscape, "
+                         "scenery, crowd, several figures, "
+                         "blurry, low quality, watermark, text, signature, deformed")
+
 PORTRAIT_PROVIDER = os.environ.get("PORTRAIT_PROVIDER", "horde").strip().lower()
 
 
@@ -359,7 +376,7 @@ async def fetch_horde_image(prompt: str, max_wait: int = 600,
 
 def comfy_workflow(prompt: str, width: int, height: int, steps: int | None = None,
                    cfg: float | None = None, seed: int | None = None,
-                   ckpt: str | None = None) -> dict:
+                   ckpt: str | None = None, negative: str | None = None) -> dict:
     """The API-format SDXL txt2img graph ComfyUI's /prompt endpoint expects.
 
     Node ids are arbitrary strings; the graph is load checkpoint -> two text encodes (positive and
@@ -377,7 +394,7 @@ def comfy_workflow(prompt: str, width: int, height: int, steps: int | None = Non
         "6": {"class_type": "CLIPTextEncode",
               "inputs": {"text": prompt[:2000], "clip": ["4", 1]}},
         "7": {"class_type": "CLIPTextEncode",
-              "inputs": {"text": COMFY_NEGATIVE, "clip": ["4", 1]}},
+              "inputs": {"text": negative or COMFY_NEGATIVE, "clip": ["4", 1]}},
         "5": {"class_type": "EmptyLatentImage",
               "inputs": {"width": int(width), "height": int(height), "batch_size": 1}},
         "3": {"class_type": "KSampler",
@@ -396,7 +413,7 @@ def comfy_workflow(prompt: str, width: int, height: int, steps: int | None = Non
 
 async def fetch_comfy_image(prompt: str, max_wait: int = 300,
                             width: int = 832, height: int = 1216,
-                            poll_every: float = 2.0):
+                            poll_every: float = 2.0, negative: str | None = None):
     """Local generation via a ComfyUI instance on the LAN. Returns (data_url, error).
 
     Submitting returns a prompt_id immediately; the work happens on the GPU, so this polls /history
@@ -408,7 +425,8 @@ async def fetch_comfy_image(prompt: str, max_wait: int = 300,
     try:
         async with httpx.AsyncClient(timeout=60, follow_redirects=True) as client:
             resp = await client.post(f"{base}/prompt",
-                                     json={"prompt": comfy_workflow(prompt, width, height),
+                                     json={"prompt": comfy_workflow(prompt, width, height,
+                                                                    negative=negative),
                                            "client_id": client_id})
             if not 200 <= resp.status_code < 300:
                 # ComfyUI reports a bad graph as 400 with the reason in the body; surface it, because
@@ -454,7 +472,8 @@ async def fetch_comfy_image(prompt: str, max_wait: int = 300,
 
 
 async def generate_portrait_image(prompt: str, max_wait: float = 90,
-                                  width: int = 768, height: int = 1024):
+                                  width: int = 768, height: int = 1024,
+                                  negative: str | None = None):
     """Ask the configured provider for one image; returns (data_url, error)."""
     from services.images import normalize_portrait
     if PORTRAIT_PROVIDER == "openrouter":
@@ -467,7 +486,7 @@ async def generate_portrait_image(prompt: str, max_wait: float = 90,
         # Local GPU on the LAN. SDXL-native 2:3 portrait bucket rather than the 768x1024 the hosted
         # providers use.
         raw, error = await fetch_comfy_image(prompt, max_wait=max(int(max_wait), 300),
-                                             width=832, height=1216)
+                                             width=832, height=1216, negative=negative)
     else:
         # Horde is the default, so give it a real queue window rather than a per-request timeout.
         #

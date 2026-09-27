@@ -30,11 +30,14 @@ from pathlib import Path
 STATIC = Path(__file__).resolve().parent.parent / "static"
 ROOT = STATIC / "ref-portraits"
 
-#: kind -> (width, height). Busts are 3:4, objects square on the canvas.
+#: kind -> (width, height) for the HOSTED providers. The local comfy path ignores these and asks for the
+#: SDXL-native 2:3 bucket (832x1216, see services.portraits), which is what the whole shelf is: item,
+#: creature and npc tiles are all 701x1024 on disk. Item used to be the odd one out at 768x768, so a
+#: hosted redo would have dropped a square tile into a portrait shelf.
 KINDS: dict[str, tuple[int, int]] = {
     "creature": (768, 1024),
     "npc": (768, 1024),
-    "item": (768, 768),
+    "item": (768, 1024),
 }
 
 _INFLIGHT: set[str] = set()
@@ -96,11 +99,418 @@ def construct_cue(name: str, detail: str = "") -> str | None:
     shield whose subtitle can mention siege equipment, and giving it a siege engine's description
     would be the same class of mistake as the battering ram looking alive.
     """
+    if re.search(r"\b(?:token|charm|talisman|figurine)\b", name or "", re.I):
+        # A swan-boat token is a small carved charm, not a boat: the vessel cue below matched the
+        # word "Boat" in its name and drew a full masted ship where the record describes a feather.
+        return None
     for pattern, description in CONSTRUCT_CUES:
         if pattern.search(name or ""):
             return description
     if re.search(r"\bconstruct\b|\bautomaton\b|\bmodron\b", detail or "", re.I):
         return CONSTRUCT_CUES[-1][1]
+    return None
+
+
+#: The construct problem again, one shelf over, and found the same way — by looking at the pictures.
+#:
+#: Item records carry a `snippet`, and for gear that snippet is frequently the RULES line rather than a
+#: description of the object:
+#:
+#:     Chain Mail        "Heavy armor. AC 16. Requires STR 13, disadvantage on Stealth. 55 lb. 75 gp."
+#:     Chain (10 feet)   "A chain has 10 hit points. It can be burst with a successful DC 20 Strength check."
+#:     Crossbow bolt     "Ammunition. 1.5 lb. 1 gp."
+#:     Crowbar           "Using a crowbar grants advantage to Strength checks where the crowbar's leverage…"
+#:
+#: Handed to the model as the visual tail, those produced — in a 48-tile art audit — plate armour for
+#: Chain Mail ("Heavy armor"), a clockwork gear assembly for Chain ("burst … DC 20"), brass rifle
+#: cartridges for Crossbow bolt ("Ammunition") and a curved pick head for Crowbar ("leverage"). Rules
+#: text names dice, weights and saves; it never names the object's SHAPE, so the model free-fills from
+#: the noun alone — and "crossbow" then reliably draws a bow.
+#:
+#: Two rules follow, and they are deliberately narrow:
+#:   1. when a family cue matches, that cue IS the visual statement and the snippet is not appended
+#:      (a rules line can only fight the cue);
+#:   2. otherwise a snippet that reads as rules text is dropped rather than fed.
+#: Neither rule invents anything: the cue states the ordinary shape of the object the record names.
+ITEM_CUES = (
+    # Named records whose own words fix the shape, and whose snippets name something else entirely.
+    # Each one is here because a tile was measured wrong in an art audit, and each cue states only
+    # what the record already says (its name, its type line or its description).
+    (re.compile(r"\bring[- ]?mail\b", re.I),
+     "a mail coat of thousands of interlocking silver rings, no plate, not a finger ring"),
+    (re.compile(r"\bbaubles?\b", re.I),
+     "four glass globes hanging from a small brass fixture"),
+    (re.compile(r"\bphilter\b", re.I),
+     "a small glass vial of glowing liquid"),
+    (re.compile(r"\bhoming tree\b", re.I),
+     "a long carved wooden quarterstaff set with glowing embers, no tree"),
+    (re.compile(r"\bspire of conflux\b", re.I),
+     "a tall rune-carved wooden staff"),
+    (re.compile(r"\barkenstone\b", re.I),
+     "a large round faceted white gemstone"),
+    (re.compile(r"\brain and thunder seed\b", re.I),
+     "a single dark seed pod"),
+    (re.compile(r"\bring of obscuring\b", re.I),
+     "a single silver ring set with a smoky dark gem"),
+    (re.compile(r"\bprosthetic limb\b", re.I),
+     "a single articulated metal hand and forearm, one hand only"),
+    (re.compile(r"\bspies'? murmurs?\b", re.I),
+     "a small curved dark metal earpiece worn over one ear"),
+    (re.compile(r"\bscroll of\b|\bspell scroll\b", re.I),
+     "a rolled parchment scroll tied with a ribbon"),
+    (re.compile(r"\bcase\b[^.]*\bbolt|bolt\s+case", re.I),
+     "an open shallow wooden case holding a row of short bolts with small iron tips"),
+    (re.compile(r"\bchain\s*mail\b|\bchainmail\b|\bhauberk\b", re.I),
+     "a hauberk of thousands of interlocking iron rings, no plate"),
+    (re.compile(r"\bchain shirt\b", re.I),
+     "a sleeveless tunic of thousands of interlocking iron rings"),
+    (re.compile(r"\belven chain\b|\bmithral (?:chain|shirt)\b", re.I),
+     "a shirt of fine interlocking mithral rings, bright and light, no wearer"),
+    (re.compile(r"\bscale mail\b", re.I),
+     "a coat of overlapping iron scales over leather, no wearer, no head"),
+    (re.compile(r"\bmail\b", re.I),
+     "a coat of interlocking iron rings, no plate, no wearer"),
+    (re.compile(r"\bchain\b", re.I),
+     "a coiled length of heavy iron chain, large interlocking oval links"),
+    (re.compile(r"\bcrossbow bolt\b|\bquarrel\b", re.I),
+     "a short thin shaft with a small iron point and feather fletchings"),
+    (re.compile(r"\bcrossbow\b", re.I),
+     "a steel bow mounted crosswise on a wooden stock, a cord and a catch"),
+    (re.compile(r"\bcrowbar\b|\bpry bar\b", re.I),
+     "a straight iron bar with a flattened split claw at one end"),
+    (re.compile(r"\bflail\b", re.I),
+     "a handle with a chain ending in a spiked metal ball"),
+    (re.compile(r"\bglaive\b", re.I),
+     "a long wooden pole with one curved blade at the top"),
+    (re.compile(r"\bdart\b", re.I),
+     "a short weighted iron-tipped spike with feathers"),
+    (re.compile(r"\bgrappling hook\b|\bgrapple\b", re.I),
+     "barbed iron hooks on a shank tied to a rope"),
+    (re.compile(r"\bclub\b", re.I),
+     "a thick tapered wooden cudgel"),
+    (re.compile(r"\bdagger\b|\bknife\b|\bscalpel\b", re.I),
+     "a very short stubby blade with a small guard and a pommel"),
+    (re.compile(r"\bdisguise\b", re.I),
+     "an open wooden case of face paints, a false beard, a wig and brushes"),
+    (re.compile(r"\bclimber'?s?\s+kit\b|\bpiton\b", re.I),
+     "a coil of hemp rope, iron pitons, a small hammer and leather straps"),
+    (re.compile(r"\bclothes\b|\btraveller'?s?\s+clothes\b|\btraveler'?s?\s+clothes\b", re.I),
+     "a wool cloak, a linen tunic, leather boots and a belt"),
+    (re.compile(r"\bchariot\b", re.I),
+     "an empty two-wheeled wooden chariot with spoked wheels"),
+    (re.compile(r"\bdonkey\b|\bmule\b", re.I),
+     "a single grey donkey standing alone wearing a pack saddle"),
+    (re.compile(r"\belephant\b", re.I),
+     "a single elephant with tusks and a raised trunk"),
+    (re.compile(r"\bgalley\b|\bkeelboat\b|\browboat\b|\blongship\b", re.I),
+     "a long wooden ship with rows of oars, one mast and a square sail"),
+    # ── The batch-01..10 residue. Same rule as above: every cue states only what the record already
+    # says, and each is here because the auditor's tile showed the model reading the name some other
+    # way. The families that repeat across the shelf lead; the one-offs follow.
+    (re.compile(r"\bammunition\b|\barrows?\b|\bquarrels?\b|\bbolts?\b(?!\s*case)", re.I),
+     "a bundle of short fletched shafts with small iron points, no brass cartridges, no bullets"),
+    (re.compile(r"\bsling bullet|\bbullets?\b", re.I),
+     "a handful of small rounded lead sling bullets"),
+    (re.compile(r"\bblowgun needle|\bneedle\b", re.I),
+     "a thin slender steel needle with a small tuft at one end"),
+    (re.compile(r"\bblowgun\b", re.I),
+     "a long dark wooden blowpipe, a hollow tube to blow darts through"),
+    (re.compile(r"\bbagpipes?\b|\bpipes? of\b|\bhand drum\b|\blonghorn\b|\bhorn of\b|"
+                r"\binstrument of the bards\b|\bwand of conducting\b", re.I),
+     "a wooden musical instrument with binding, keys or a drum skin, made to be played"),
+    (re.compile(r"\bpipe[- ]?weed\b|\bpipe\b(?!s)", re.I),
+     "a carved wooden smoking pipe with a long stem and a small bowl"),
+    (re.compile(r"\bbell\b", re.I),
+     "a small bronze hand bell with a looped handle"),
+    (re.compile(r"\blamp\b", re.I),
+     "an iron oil lamp with a hinged lid and a burning wick, no bulb, no cable, no plug"),
+    (re.compile(r"\blantern\b", re.I),
+     "a lantern of hinged iron and horn panes with a candle inside, no bulb, no cable"),
+    (re.compile(r"\btorch\b|\bcandle\b", re.I),
+     "a wooden torch with a pitch-soaked burning head, no lamp, no bulb"),
+    (re.compile(r"\bwaterskin\b|\bwineskin\b", re.I),
+     "a bulging leather waterskin with a wooden stopper and a shoulder strap"),
+    (re.compile(r"\bsaddlebags?\b", re.I),
+     "a pair of worn leather saddlebags with buckled flaps, no horse"),
+    (re.compile(r"\bbackpack\b|\bpriest'?s pack\b|\bexplorer'?s pack\b|\bdungeoneer'?s pack\b", re.I),
+     "a leather pack with straps, buckles and a bedroll tied on top, no wearer"),
+    (re.compile(r"\bsaddle\b|\bbridle\b|\btack\b|\bhorseshoes?\b", re.I),
+     "a leather saddle and bridle with iron fittings, no horse, no rider"),
+    (re.compile(r"\bwaters?kin\b|\bwater, fresh\b", re.I),
+     "a leather waterskin and a wooden cup of clear water"),
+    (re.compile(r"\bnet\b", re.I),
+     "a wide rope mesh net with weighted edges, spread flat"),
+    (re.compile(r"\blasso\b", re.I),
+     "a coiled rope with a running loop at one end"),
+    (re.compile(r"\bspyglass\b", re.I),
+     "a brass telescope of two sliding tubes with leather binding, no lens flare"),
+    (re.compile(r"\bspectacles\b|\beyeglasses\b", re.I),
+     "a pair of small round brass-rimmed spectacles"),
+    (re.compile(r"\bsignal whistle\b|\bwhistle\b", re.I),
+     "a small brass whistle on a cord"),
+    (re.compile(r"\bpick,? miner'?s\b|\bminer'?s pick\b", re.I),
+     "a miner's pick with a wooden haft and one pointed iron head"),
+    (re.compile(r"\bsledge\b|\bmaul\b|\bhammer\b", re.I),
+     "a heavy iron hammer head on a wooden haft"),
+    (re.compile(r"\bportable ram\b|\bram,? portable\b|\bbattering ram\b", re.I),
+     "a heavy timber ram with an iron-shod head on rope slings and a frame, no creature"),
+    (re.compile(r"\bmace\b", re.I),
+     "a short hafted weapon with a flanged iron head"),
+    (re.compile(r"\bgreat ?club\b|\bclub\b|\bcudgel\b", re.I),
+     "a thick knotted wooden club"),
+    (re.compile(r"\bquarterstaff\b|\bwalking stick\b|\bwooden staff\b", re.I),
+     "a long straight wooden staff with iron-shod ends"),
+    (re.compile(r"\bsickle\b|\bscythe\b", re.I),
+     "a curved steel blade on a short wooden handle"),
+    (re.compile(r"\bpike\b|\btrident\b|\bwarhammer\b|\bbroadsword\b|\bbastard sword\b", re.I),
+     "a long-hafted or heavy steel weapon, forged metal and hardwood only"),
+    (re.compile(r"\bthree-dragon ante\b|\bdice\b|\bplaying cards?\b", re.I),
+     "a set of painted pasteboard cards and carved bone dice on a cloth"),
+    (re.compile(r"\bhide (?:armou?r|armor)\b|\bpadded (?:armou?r|armor)\b|\bhide armour\b", re.I),
+     "a suit of layered leather and quilted cloth armour, no wearer, no head"),
+    (re.compile(r"\bdwarven plate\b|\bhalf-plate\b|\bbreastplates?\b|\bplate armour\b", re.I),
+     "a fitted steel breastplate with riveted lames and shoulder guards, empty, no wearer"),
+    (re.compile(r"\bspears?\b|\bpolearm\b", re.I),
+     "a long wooden shaft with a leaf-shaped iron spearhead"),
+    (re.compile(r"\bbelt of .*strength\b|\bbelt\b", re.I),
+     "a broad leather belt with a heavy studded metal buckle, no wearer"),
+    (re.compile(r"\bcloak\b|\brobes?\b|\braiment\b|\bclothes\b|\bturban\b", re.I),
+     "a folded hooded cloth garment with a clasp, no wearer, no figure"),
+    (re.compile(r"\bhelms?\b|\bheadband\b|\bturban\b|\bcap\b|\bhat\b", re.I),
+     "a single metal or leather headpiece with straps, empty, no head, no face"),
+    (re.compile(r"\bboots?\b|\bsnowboots?\b|\bshoes?\b", re.I),
+     "a pair of empty leather boots standing side by side"),
+    (re.compile(r"\bgauntlets?\b|\bgloves?\b|\bbracers?\b", re.I),
+     "a pair of empty leather and iron arm guards"),
+    (re.compile(r"\bpelts?\b|\bfurs?\b|\bwool\b|\bclothes, (?:spring|fall)\b", re.I),
+     "a folded animal pelt with the fur showing, no animal, no figure"),
+    (re.compile(r"\bapparatus of the crab\b", re.I),
+     "a sealed iron barrel with brass fittings, riveted bands, small hatches and jointed legs, "
+     "no living creature"),
+    (re.compile(r"\bfeather token\b", re.I),
+     "a small carved feather-shaped charm of ivory on a cord"),
+    (re.compile(r"\bhunting trap\b", re.I),
+     "a steel-jawed spring trap with a chain and stake, set open on the ground"),
+    (re.compile(r"\bfigurine of wondrous power\b|\bfigurine\b|\btotem\b", re.I),
+     "a small carved stone statuette on a plinth, no living creature"),
+    (re.compile(r"\bsignet ring\b|\bband of\b|\bgold band\b|\bring of\b|\bring\b", re.I),
+     "a single metal ring, band or seal ring, no finger, no wearer"),
+    (re.compile(r"\brods?\b|\bwands?\b|\bsceptres?\b", re.I),
+     "a short carved rod of dark wood and metal, no figure"),
+    (re.compile(r"\bstones?\b|\bjewel\b|\bpearls?\b|\bgem\b|\bmoonstone\b|\bcarbuncle\b", re.I),
+     "a single polished stone or cut gem with engraved runes, no jewellery box"),
+    (re.compile(r"\boats?\b|\bration\b|\blembas\b|\bbread\b", re.I),
+     "a wrapped bundle of waybread and a wooden bowl, no table setting"),
+    (re.compile(r"\bhoney\b|\bjams?\b|\bpreserves?\b", re.I),
+     "a clay pot of honey with a wooden dipper and a cloth cover"),
+    (re.compile(r"\bpoison\b|\bantitoxin\b|\boil\b|\bacid\b|\balchemist'?s fire\b|\bointment\b|"
+                r"\bpotions?\b|\bphilters?\b|\belixirs?\b", re.I),
+     "a small glass vial or clay flask of liquid with a sealed stopper, one object"),
+    (re.compile(r"\bfireworks?\b|\bsparklers?\b", re.I),
+     "a bundle of rolled paper fireworks with a paper fuse"),
+    (re.compile(r"\blances?\b", re.I),
+     "a long heavy wooden lance with a steel tip and a flared hand guard"),
+    (re.compile(r"\blongbows?\b|\bshortbows?\b|\bbows?\b", re.I),
+     "a tall yew bow stave with a braided linen string and no arrow"),
+    (re.compile(r"\bsling\b", re.I),
+     "a leather sling pouch on two braided cords"),
+    (re.compile(r"\bspikes?\b", re.I),
+     "a single tapering iron spike with a flat head"),
+    (re.compile(r"\bsled\b|\bsledge\b|\bcart\b|\bcoach\b|\bcab\b|\bwagon\b", re.I),
+     "an empty wooden cart or sledge with spoked or bladed runners, no horses, no people, no engine"),
+    (re.compile(r"\banimal feed\b|\bfeed\b|\boats?\b|\bgrain\b", re.I),
+     "a burlap sack of grain spilling oats beside a wooden bucket, no vehicles, no people"),
+    (re.compile(r"\bink\b", re.I),
+     "a small glass ink bottle with a cork stopper and a trimmed quill"),
+    (re.compile(r"\benergy cell\b", re.I),
+     "a sealed brass and glass power cell with glowing green contacts and riveted bands"),
+    (re.compile(r"\broot\b", re.I),
+     "a gnarled dried root with knotted fibres, no plant pot, no figure"),
+    (re.compile(r"\bleaf\b|\bleaves\b", re.I),
+     "a handful of dried green leaves tied with twine"),
+    (re.compile(r"\bberr(?:y|ies)\b", re.I),
+     "a small pile of dark ripe berries on a folded cloth"),
+    (re.compile(r"\bfruit\b", re.I),
+     "a single round ripe fruit with a short stalk and a leaf"),
+    (re.compile(r"\bhide\b", re.I),
+     "a folded tanned animal hide, no animal, no figure"),
+)
+
+#: Words that make a snippet a rules line: ability/stat abbreviations, dice, coin and weight units, and
+#: the weapon-property vocabulary. Deliberately narrow — "light" and "heavy" alone are ordinary English
+#: in a real description, so the units and the abbreviations carry the decision.
+_RULES_TOKEN = re.compile(
+    r"^(ac|hp|dc|str|dex|con|int|wis|cha)$|"
+    r"^\d+d\d+$|^\d+(\.\d+)?$|^(lb|gp|sp|cp|ft)\.?$|"
+    r"^(hit|hits|point|points|advantage|disadvantage|check|checks|save|saving|requires|"
+    r"proficiency|bludgeoning|piercing|slashing|finesse|versatile|ammunition|athletics|"
+    # Field labels and rules vocabulary measured on the item shelf: "Type: Ring-mail.
+    # Craftsmanship: Dwarven. Qualities: ..." scored below the share and went to the model as a
+    # visual tail, which is how a mail coat was drawn as a finger ring.
+    r"type|craftsmanship|qualities|rarity|attunement|charges?|modifier|rolls?)$", re.I)
+
+#: A snippet that OPENS with a stat field label is a record's rules line whatever its share: there is no
+#: reading of "Type: Ring-mail. Craftsmanship: Dwarven." that describes an object's shape.
+_STAT_FIELD = re.compile(r"^\s*(?:type|craftsmanship|qualities|rarity|armou?r|weapon|wondrous item)\s*:",
+                         re.I)
+
+#: The same type line, written as prose. Measured on the batch-01..10 audit residues: the magic-item
+#: summaries open "Wondrous item, legendary This item first appears to be a Large sealed iron barrel…",
+#: "Weapon (arrow), very rare An arrow of slaying is a magic weapon meant to slay…", "Potion, uncommon
+#: When you drink this potion…". The comma form carries no colon, so the rules test above waved it
+#: through and the model received a category and a rarity where a shape belongs — the apparatus came
+#: out as a live giant crab, the arrow of slaying as a polearm blade.
+_TYPE_LINE = re.compile(
+    r"^\s*(?:wondrous items?|weapons?|armou?rs?|potions?|scrolls?|staffs?|staves|rods?|wands?|rings?|"
+    r"ammunition|shields?|wondrous)\b[^.]{0,48}?"
+    r"\b(?:common|uncommon|rare|very rare|legendary|artifact|varies)\b", re.I)
+
+#: Second-person address. A statement of an object's SHAPE never tells the reader what they can do;
+#: rules and story text does it constantly ("You can use an action…", "you must be proficient…"),
+#: and that reading is what puts a wearer, a driver or a crowd into a picture of a rope.
+_SECOND_PERSON = re.compile(r"\b(?:you|your|yours|yourself)\b", re.I)
+
+#: Hints that a snippet is about a scene rather than the object: it names a wearer doing something with
+#: the item. Kept to verbs that only make sense of a person, so real descriptions pass untouched.
+_USER_VERB = re.compile(r"\b(?:wears?|wearing|wore|wield\w*|holds?|holding|carries|carrying|drinks?|"
+                        r"wears?|rides?|riding|dons?|strap\w* on)\b", re.I)
+
+
+def snippet_is_type_line(snippet: str) -> bool:
+    """True when the snippet opens with a category-and-rarity line rather than a description."""
+    return bool(_TYPE_LINE.match((snippet or "").strip()))
+
+
+def snippet_is_second_person(snippet: str) -> bool:
+    """True when the snippet addresses the reader (rules/story prose), so it must not steer the art."""
+    return bool(_SECOND_PERSON.search(snippet or "")) or bool(_USER_VERB.search(snippet or ""))
+
+
+def snippet_is_mechanics(snippet: str, share: float = 0.34) -> bool:
+    """True when the snippet is mostly rules text, so it must not be used as a visual tail.
+
+    A share rather than a single hit: descriptions legitimately mention a weight or an AC in passing
+    ("a shield of blackened steel, 6 lb."), and dropping those would throw away real description.
+    """
+    words = [w.strip(".,;:()!?\"'") for w in (snippet or "").split()]
+    words = [w for w in words if w]
+    if len(words) < 3:
+        return False
+    if _STAT_FIELD.match(snippet or ""):
+        return True
+    hits = sum(1 for w in words if _RULES_TOKEN.match(w))
+    return hits / len(words) >= share
+
+
+#: Words that cannot end a sentence: a capped snippet that stops on one of these is a severed clause,
+#: and a diffusion model reads the fragment as damage. Measured case: the Arkenstone's tail ended
+#: "...Named the Heart of the Mountain, the." — the "A globe with a thousand facets" that the audit
+#: judged the tile against never reached the model.
+_DANGLING = {
+    "the", "a", "an", "of", "and", "or", "but", "with", "without", "in", "on", "at", "to", "for", "by",
+    "from", "as", "that", "which", "who", "whose", "its", "his", "her", "their", "is", "are", "was",
+    "were", "be", "been", "into", "over", "under", "than", "then", "when", "while",
+}
+
+
+def _trim_tail(snippet: str, cap: int = 15) -> str:
+    """The visual tail: at most `cap` words, cut back to a sentence end rather than mid-clause."""
+    words = (snippet or "").split()
+    if len(words) <= cap:
+        return " ".join(words)
+    cut = " ".join(words[:cap])
+    last = cut.rstrip(".,;:!?\"'").rsplit(" ", 1)[-1].lower()
+    if cut[-1] not in ".!?" or last in _DANGLING:
+        # Prefer the last complete sentence inside the cap; otherwise drop the dangling words only.
+        for sep in (". ", "! ", "? "):
+            j = cut.rfind(sep)
+            if j > 0:
+                return cut[:j + 1]
+        while cut and cut.rsplit(" ", 1)[-1].rstrip(".,;:!?\"'").lower() in _DANGLING:
+            cut = cut.rsplit(" ", 1)[0]
+    return cut
+
+
+def item_cue(name: str) -> str | None:
+    """The ordinary shape of the object a gear record names, or None when the name needs no help."""
+    for pattern, description in ITEM_CUES:
+        if pattern.search(name or ""):
+            return description
+    return None
+
+
+#: Records whose NAME outranks any shape clause, so the prompt's copy of the name is rewritten.
+#: A diffusion model reads the noun at the head of the prompt first, and where the name carries a
+#: different object the cue loses: "Silver Ring-mail of Girion" came back as a finger RING under every
+#: cue wording tried (the shelf's own tile is a ring for the same reason), and "The Arkenstone (Heart of
+#: the Mountain)" came back as a HEART under "a large round faceted white gemstone". The replacement
+#: uses the record's own words for what the object is - it renames nothing in the database.
+_NAME_OVERRIDES = {
+    "silver ring-mail of girion": "Silver Mail Coat of Girion",
+    "the arkenstone (heart of the mountain)": "The Arkenstone",
+}
+
+#: A trailing parenthetical on an item name is an alias or a filing label ("(Heart of the Mountain)",
+#: "(Rhingalad)"), and its nouns compete with the shape clause. Dropped from the prompt only.
+_PARENTHETICAL = re.compile(r"\s*\([^)]*\)\s*$")
+
+
+def prompt_name(name: str) -> str:
+    """The name as it goes into the prompt: overrides first, then a trailing alias dropped."""
+    key = (name or "").strip().lower()
+    if key in _NAME_OVERRIDES:
+        return _NAME_OVERRIDES[key]
+    return _PARENTHETICAL.sub("", name or "").strip() or (name or "")
+
+
+#: Which species leads the prompt for a humanoid record: (pattern, lead noun, traits).
+#:
+#: Only species a reference record actually names are listed, and only from the record's own words —
+#: there is no guessing from a name like "Sage". A species is not cosmetic here: the shared negative
+#: prompt used to ban "people, humans" outright, so a humanoid record had nothing human left to draw
+#: and came back horned and scaled (see COMFY_NEGATIVE_LIVING in services.portraits). The traits clause
+#: is what makes the model put the horns DOWN: tieflings and dragonborn keep theirs because they have
+#: them, and everyone else is told plainly that there are none. "human form" leads the table so a
+#: werewolf's human shape wins over the wolf in its own name.
+SPECIES_CUES = (
+    (re.compile(r"\b(?:human|mortal|true)\s+form\b", re.I),
+     "a human", "Ordinary human skin, no fur, no snout, no claws."),
+    (re.compile(r"\bhalf[- ]elf\b", re.I),
+     "a half-elf", "Smooth skin, slightly pointed ears, no horns, no tusks."),
+    (re.compile(r"\bhalf[- ]orc\b", re.I),
+     "a half-orc", "Green-grey skin, small lower tusks, no horns."),
+    (re.compile(r"\bel(?:f|ves|ven|vish)\b", re.I),
+     "an elf", "Smooth fair skin, pointed ears, no horns, no tusks."),
+    (re.compile(r"\bdwar(?:f|ves|ven|vish)\b", re.I),
+     "a dwarf", "Smooth skin, a long full beard, no horns."),
+    (re.compile(r"\bgnom(?:e|es|ish)\b", re.I),
+     "a gnome", "Smooth skin, a long nose, no horns."),
+    (re.compile(r"\bhalfling\b", re.I),
+     "a halfling", "Smooth skin, curly hair, bare feet, no horns."),
+    (re.compile(r"\bgoliath\b", re.I),
+     "a goliath", "Grey stone-grey skin with dark markings, no horns."),
+    (re.compile(r"\btiefling\b", re.I),
+     "a tiefling", "Human face, small curved brow horns, a thin tail."),
+    (re.compile(r"\bdragonborn\b", re.I),
+     "a dragonborn", "Scaled reptilian skin, a draconic snout, no hair."),
+    (re.compile(r"\b(?:man|men|woman|women)\s+of\b", re.I),
+     "a human", "Smooth skin, no horns, no tusks."),
+    (re.compile(r"\bhumans?\b(?!-)|\bhumanoid\s*\(human\)", re.I),
+     "a human", "Smooth skin, no horns, no tusks."),
+)
+
+
+def species_cue(text: str) -> tuple[str, str] | None:
+    """('a human', traits) when the record's own words name a species, else None.
+
+    "humanoid" on its own is deliberately NOT a match: it demotes the species to a vague adjective and
+    the model falls back on its default fantasy face (the measured failure in services.portraits'
+    npc_prompt — a dwarf came back slender with pointed ears). A record that says only "humanoid" gets
+    no species clause rather than a wrong one.
+    """
+    for pattern, lead, traits in SPECIES_CUES:
+        if pattern.search(text or ""):
+            return lead, traits
     return None
 
 
@@ -216,7 +626,7 @@ def _base_prompt(kind: str, name: str, subtitle: str = "", snippet: str = "") ->
     # snippet into the prompt, pushing the actual SUBJECT past the window where CLIP silently drops it.
     # A record called "Clockwork Oaken Bolter of the Nine Gilded Spires of Mechanus" alone ate 10 words.
     detail = " ".join((subtitle or "").split()[:7])
-    tail = " ".join((snippet or "").split()[:15])
+    tail = _trim_tail(snippet)
     short_name = " ".join((name or "").split()[:8])
     cue = construct_cue(name, detail)
     if kind == "creature":
@@ -225,18 +635,55 @@ def _base_prompt(kind: str, name: str, subtitle: str = "", snippet: str = "") ->
                     + (f", {detail}." if detail else ".")
                     + f" {cue}."
                     + " Full body, single subject." + (f" {tail}" if tail else ""))
+        if snippet_is_mechanics(snippet):
+            # Stat blocks are the same trap as the equipment snippets: "Medium, humanoid (human),
+            # neutral evil. AC 15. HP 78 (12d8 + 24). Speed 30 ft.. CR 5." names a size, an alignment
+            # and some dice — never a body. Fed as the tail it does not describe the creature, it just
+            # eats the 77-token window.
+            tail = ""
+        species = species_cue(" ".join((name or "", subtitle or "",
+                                        " ".join((snippet or "").split()[:12]))))
+        if species:
+            lead, traits = species
+            # The species leads the prompt, the same way npc_prompt fused "a female gnome" ahead of
+            # the name and got 4/4 where a trailing "humanoid" got 0/4. It has to be here and not in
+            # the tail: the tail is where the token window truncates.
+            return ("Fantasy bestiary: " + lead + ", " + (short_name or "a figure")
+                    + (f", {detail}." if detail else ".")
+                    + f" Full body, single {lead.split(' ', 1)[1]}." + f" {traits}"
+                    + (f" {tail}" if tail else ""))
         return ("Fantasy bestiary: " + (short_name or "a monster")
                 + (f", {detail}." if detail else ".")
                 + " Full body, single creature." + (f" {tail}" if tail else ""))
     if kind == "item":
+        # The item's own prompt name: aliases dropped, and the measured load-bearing names rewritten
+        # (see _NAME_OVERRIDES). Only items do this — a bestiary name is not a filing label.
+        item_name = " ".join(prompt_name(name).split()[:8]) or "an item"
+        # Two more readings of the same failure, both measured on the batch-01..10 residues: a
+        # category-and-rarity LINE ("Wondrous item, legendary This item first appears to be a Large
+        # sealed iron barrel") and prose ADDRESSED TO A READER ("You can use an action…", "you must be
+        # proficient with wind instruments"). Neither names a shape; both drag the model toward the
+        # category (a live crab for the apparatus) or toward a person handling the thing (a knight for
+        # barding, a crowd for a service). Items only: a bestiary note may legitimately tell a story.
+        if snippet_is_type_line(snippet) or snippet_is_second_person(snippet):
+            tail = ""
         if cue:
             # The cue-bearing items are the vehicles and engines, and the old wording hurt them
             # twice: "RPG item illustration" leads a diffusion model toward a small hand-held object,
             # and interpolating the record's category produced "Carriage (Mounts and Vehicles)" — a
             # filing label, not a description. The object itself now leads.
-            return ("Fantasy construct: " + (short_name or "an object")
+            return ("Fantasy construct: " + item_name
                     + f". {cue}." + (f" {tail}" if tail else ""))
-        return ("Fantasy object: " + (short_name or "an item")
+        shape = item_cue(short_name)
+        if shape:
+            # The family cue is the visual statement. The snippet is left out on purpose: for these
+            # records it is the rules line, and a rules line can only fight the cue (see ITEM_CUES).
+            return ("Fantasy object: " + item_name + f". {shape}.")
+        if snippet_is_mechanics(snippet):
+            # Rules text names dice and weights, never the shape, so the model free-fills from the
+            # noun. Dropping it leaves the name and its category, which cannot mislead.
+            tail = ""
+        return ("Fantasy object: " + item_name
                 + (f" ({detail})" if detail else "")
                 + "." + (f" {tail}" if tail else ""))
     # npc / anything else -> the character prompt builder keeps the look consistent.
@@ -289,14 +736,20 @@ async def generate(kind: str, name: str, subtitle: str = "", snippet: str = "",
             return None, "already generating"
         _INFLIGHT.add(key)
     try:
-        from services.portraits import generate_portrait_image
+        from services.portraits import generate_portrait_image, COMFY_NEGATIVE_LIVING
         width, height = KINDS[kind]
         prompt = prompt_for(kind, name, subtitle, snippet)
+        # Creatures and NPCs are mostly humanoids, so the item negative prompt's "people, humans" ban
+        # would delete the subject of the very record it is describing — that is what turned a fifth of
+        # the flagged creature tiles into horned demons. Items keep the ban: it is what keeps riders,
+        # drivers and crowds out of a picture of a rope.
+        negative = COMFY_NEGATIVE_LIVING if kind in ("creature", "npc") else None
         last = "no attempt made"
         async with _SEM:
             for attempt in range(retries + 1):
                 data, err = await generate_portrait_image(prompt, max_wait=max_wait,
-                                                          width=width, height=height)
+                                                          width=width, height=height,
+                                                          negative=negative)
                 if data:
                     size = save(kind, name, data)
                     if size:
