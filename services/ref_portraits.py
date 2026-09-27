@@ -255,7 +255,7 @@ ITEM_CUES = (
     (re.compile(r"\bsignal whistle\b|\bwhistle\b", re.I),
           "a small brass pea whistle: a short rounded body, a mouthpiece, an air window and a ring"),
     (re.compile(r"\bpick,? miner'?s\b|\bminer'?s pick\b", re.I),
-          "a miner's pick: a wooden haft with one narrow iron spike head set at right angles to it"
+          "a miner's pick: a wooden haft with one narrow iron spike head set at right angles to it"),
     (re.compile(r"\bsledge\b|\bmaul\b|\bhammer\b", re.I),
           "a heavy iron hammer head on a wooden haft"),
     (re.compile(r"\bportable ram\b|\bram,? portable\b|\bbattering ram\b", re.I),
