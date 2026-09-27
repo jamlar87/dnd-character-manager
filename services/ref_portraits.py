@@ -27,6 +27,7 @@ import hashlib
 import re
 import threading
 import time
+import json
 from pathlib import Path
 
 STATIC = Path(__file__).resolve().parent.parent / "static"
@@ -900,6 +901,10 @@ def creature_negative(name: str, subtitle: str = "", snippet: str = "",
     from services.portraits import COMFY_NEGATIVE_LIVING
     base = base or COMFY_NEGATIVE_LIVING
     terms: list[str] = []
+    clause = creature_clause(name)
+    if clause:
+        # the bans the audit wrote inside this record's own clause ("..., no horns, no fur")
+        terms += split_clause(clause)[1]
     sp = species_cue(" ".join((name or "", subtitle or "",
                                " ".join((snippet or "").split()[:12]))))
     if sp and SPECIES_BANS.get(sp[0]):
@@ -918,6 +923,63 @@ def creature_negative(name: str, subtitle: str = "", snippet: str = "",
         seen.add(t.lower())
         uniq.append(t)
     return base + (", " + ", ".join(uniq) if uniq else "")
+
+
+# --- what this particular creature looks like ----------------------------------------------------
+# The bestiary's real problem is that the model has no prior for most of its names: a kruthik, a grell,
+# a grick, a death kiss and a kuo-toa are all just sounds, so it draws the nearest thing it does know -
+# a horned demon or a dragon-man - and no type clause can fix a creature whose anatomy is unusual. The
+# audit already wrote a visual clause per record (the "clause" field of the creature sweep), naming the
+# anatomy in words: "a segmented chitinous insect with many jointed legs and antennae". Those live in
+# data/creature_clauses.json, keyed by record name, and lead the prompt.
+_CLAUSES: dict[str, str] | None = None
+_CLAUSE_BAN = re.compile(r"(?:\s*,?\s*\band\b)?\s*\bno\s+([a-z][a-z ,'-]{1,60}?)(?=\s*,|\s*\.|$|\sand\b)", re.I)
+
+
+def creature_clauses() -> dict[str, str]:
+    """The per-record visual clauses, loaded once. Missing or unreadable file means no clauses."""
+    global _CLAUSES
+    if _CLAUSES is None:
+        path = Path(__file__).resolve().parent.parent / "data" / "creature_clauses.json"
+        try:
+            _CLAUSES = {str(k): str(v) for k, v in json.loads(path.read_text()).items()}
+        except (OSError, ValueError):
+            _CLAUSES = {}
+    return _CLAUSES
+
+
+def split_clause(clause: str) -> tuple[str, list[str]]:
+    """(what the creature IS, what it must not be) from one record clause.
+
+    Nine of every twenty clauses in the sweep were written with a ban inside them ("...many jointed
+    legs, no horns, no fur"). A ban in the positive prompt is a mention - the rule proved three times
+    on the item shelf and once on this one - so the bans are lifted out here and handed to the
+    negative instead.
+    """
+    bans: list[str] = []
+    for m in _CLAUSE_BAN.finditer(clause or ""):
+        term = " ".join(m.group(1).split()).strip(" ,.")
+        if term:
+            bans += [t.strip() for t in re.split(r"\s+and\s+|,\s*", term) if t.strip()]
+    positive = _CLAUSE_BAN.sub("", clause or "")
+    positive = re.sub(r"\s*,\s*(?=[,.])", "", positive)
+    # a dangling connector is what removing "no horns" leaves behind: "a wet heap with," reads as damage
+    positive = re.sub(r"\s+\b(?:and|with|of|in|on|the|a|an)\b\s*$", "", positive.strip(" ,."))
+    positive = re.sub(r"\s{2,}", " ", positive).strip(" ,.")
+    if positive and not positive.endswith("."):
+        positive += "."
+    return positive, bans
+
+
+def creature_clause(name: str) -> str:
+    """The record's own visual clause, or '' when the sweep never wrote one."""
+    return creature_clauses().get((name or "").strip(), "")
+
+
+#: A clause that begins like prose is a description sentence, not a noun phrase: the sweep wrote both
+#: kinds ("a floating orb of grey flesh with one red eye" / "Its ten long tentacles are made of hundreds
+#: of ring-shaped muscles"). The noun phrase can lead the prompt; the sentence goes in the tail.
+_CLAUSE_SENTENCE = re.compile(r"^(?:its|only|the|when|in|on|some|few|most|they|it|this|these)\b", re.I)
 
 
 def looks_like_statline(text: str) -> bool:
@@ -1130,6 +1192,18 @@ def _base_prompt(kind: str, name: str, subtitle: str = "", snippet: str = "") ->
         # and its many legs carry it over stone." The first sentences are the filing label; the prose
         # that follows is the anatomy.
         tail = creature_tail(snippet, tail)
+        # The record's own clause first: it was written from the record and names the anatomy the model
+        # has no prior for. Then the species, then the type from the stat line.
+        clause = creature_clause(name)
+        clause_lead, _clause_bans = ("", [])
+        if clause:
+            clause_lead, _clause_bans = split_clause(clause)
+            if _CLAUSE_SENTENCE.match(clause_lead or ""):
+                tail = (clause_lead + (" " + tail if tail else "")).strip()
+                clause_lead = ""
+        if clause_lead:
+            return ("Fantasy bestiary: " + clause_lead.rstrip(".") + ", " + (short_name or "a monster")
+                    + ". Full body, single creature." + (f" {tail}" if tail else ""))
         species = species_cue(" ".join((name or "", subtitle or "",
                                         " ".join((snippet or "").split()[:12]))))
         if species:
