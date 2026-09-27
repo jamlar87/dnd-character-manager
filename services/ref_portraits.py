@@ -240,7 +240,7 @@ ITEM_CUES = (
     (re.compile(r"\bbackpack\b|\bpriest'?s pack\b|\bexplorer'?s pack\b|\bdungeoneer'?s pack\b", re.I),
           "a leather pack with straps, buckles and a bedroll tied on top"),
     (re.compile(r"\bbridles?\b|\bbit and bridle\b|\bhalters?\b", re.I),
-          "a leather bridle with an iron bit and reins hanging on a plain peg, the tack shown alone"),
+          "a leather bridle with an iron bit and reins hanging on a plain peg, isolated on a plain blank grey background in soft even painted light"),
     (re.compile(r"\bhorseshoes?\b", re.I),
           "a set of four iron horseshoes with nail holes, the shoes alone in frame"),
     (re.compile(r"\bsaddles?\b|\btack\b", re.I),
@@ -292,7 +292,7 @@ ITEM_CUES = (
     (re.compile(r"\bhide (?:armou?r|armor)\b|\bhide armour\b", re.I),
           "a suit of hide armour laid out flat on a plain surface: raw hide and fur panels"),
     (re.compile(r"\bpadded (?:armou?r|armor)\b", re.I),
-          "a suit of quilted padded cloth armour laid out flat on a plain surface"),
+          "a suit of padded armour of thick stitched quilted cloth panels, laid out flat, isolated on a plain blank grey background"),
     (re.compile(r"\bdwarven plate\b|\bhalf-plate\b|\bbreastplates?\b|\bplate armour\b", re.I),
           "a fitted steel breastplate with riveted lames and shoulder guards, empty"),
     (re.compile(r"\bspears?\b|\bpolearm\b", re.I),
@@ -586,7 +586,7 @@ def item_cue(name: str) -> str | None:
 #: uses the record's own words for what the object is - it renames nothing in the database.
 _NAME_OVERRIDES = {
     "dwarven plate": "Plate Armor",
-    "dwarven thrower": "Warhammer of Returning",
+    "dwarven thrower": "Warhammer",
     "eyes of the eagle": "Brass-framed Crystal Lenses",
     "hide armor": "Rough Hide and Fur Panels",
     "hunting trap": "Steel Jaw Spring Trap",
