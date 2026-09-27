@@ -588,6 +588,8 @@ _NAME_OVERRIDES = {
     "dwarven plate": "Plate Armor",
     "dwarven thrower": "Warhammer of Returning",
     "eyes of the eagle": "Brass-framed Crystal Lenses",
+    "hide armor": "Rough Hide and Fur Panels",
+    "hunting trap": "Steel Jaw Spring Trap",
     "signal whistle": "Small brass whistle",
     "potion of animal friendship": "Glass Vial of Potion",
     "sling bullet": "Lead sling balls",
