@@ -70,7 +70,7 @@ FANTASY_STYLE = "high fantasy painting"
 #: the word "scenery" itself pulls the model toward scenery, and no amount of negating undoes that. The
 #: bans now live only in COMFY_NEGATIVE (where negation is the mechanism), and the positive states what
 #: is wanted — an isolated subject on a blank backdrop.
-BLANK_BG = "plain blank background, isolated subject, no text"
+BLANK_BG = "plain blank background, light grey, isolated subject, soft even light, no text"
 
 
 #: Scenery phrases that live inside the 11 curated character prompts. Each one names a SETTING, which
