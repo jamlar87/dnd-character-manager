@@ -208,6 +208,41 @@ function renderMonsterCards() {
   return true;
 }
 
+// ── Reference spell cards ────────────────────────────────────────────────────
+// ~700 cards (~580 KB of HTML) used to be server-rendered on every /dm-tools load.
+// The rows now ride in /static/dm-library.js; the markup and data-* attributes match
+// the template's, so filterSpells() is unchanged (it scopes to '#spellGrid .monster-card').
+function renderSpellCards() {
+  const grid = document.getElementById('spellGrid');
+  if (!grid || grid.dataset.rendered || !Array.isArray(window.DM_SPELLS)) return false;
+  const esc = dmEsc;
+  const html = window.DM_SPELLS.map(function(s) {
+    const name = esc(s.n), src = esc(s.src);
+    const lvl = String(s.lv) === '0' ? 'Cantrip' : 'Level ' + esc(s.lv);
+    const badge = src
+      ? '<div style="font-size:0.6rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer"'
+        + ' class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="' + src + '">📚 ' + src + '</div>'
+      : '';
+    return '<div class="monster-card" data-name="' + name.toLowerCase() + '" data-level="' + esc(s.lv) + '"'
+      + ' data-school="' + esc(s.sc) + '" data-source="' + src + '" data-classes="' + esc(s.cls) + '"'
+      + ' onclick="showSpell(\'' + esc(s.i) + '\')">'
+      + '<div class="m-name">' + name + '</div>'
+      + '<div class="m-type">' + lvl + ' · ' + esc(s.scd || 'Unknown')
+      + (s.rit ? '<span style="color:var(--accent)"> · Ritual</span>' : '')
+      + (s.con ? '<span style="color:var(--warn)"> · Concentration</span>' : '')
+      + '</div>'
+      + badge
+      + '<div class="m-stats">'
+      + '<span class="m-stat">⏱ ' + esc(s.ct) + '</span>'
+      + '<span class="m-stat">📏 ' + esc(s.rng) + '</span>'
+      + '<span class="m-stat">⏳ ' + esc(s.dur) + '</span>'
+      + '</div></div>';
+  });
+  grid.innerHTML = html.join('');
+  grid.dataset.rendered = '1';
+  return true;
+}
+
 // ── Reference trap cards ─────────────────────────────────────────────────────
 // The reference trap library is ~380 rows / ~950 KB of server-rendered HTML on
 // every /dm-tools load, so it now ships in /static/dm-library.js next to the
@@ -5007,6 +5042,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   const renderedMonsters = renderMonsterCards();
   const renderedNpcs = renderManualNpcRows();
   const renderedTraps = renderTrapCards();
+  const renderedSpells = renderSpellCards();
 
   // ── Manual (book) filter on every search bar ──
   if (window.SourceFilter) {
@@ -5030,6 +5066,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   if (renderedMonsters) filterMonsters();
   if (renderedNpcs) filterNpcs();
   if (renderedTraps) filterTraps();
+  if (renderedSpells) filterSpells();
 
   // Populate combat + items dropdowns regardless of active tab (each has its own guard)
   initCombatPanel();

@@ -35,7 +35,9 @@ class TestReferenceTrapsRideInTheAsset:
         assert "renderTrapCards" in (ROOT / "static" / "dm_tools.js").read_text()
         # a card is the .trap-card div; with no custom traps the HTML must carry none
         assert html.count('class="trap-card"') == 0
-        assert len(html) < 1_500_000, f"/dm-tools is back over 1.5 MB ({len(html)} B)"
+        # The four libraries are client-rendered now; a jump back over this line means one
+        # is being inlined again. See tests/test_dm_library_spells.py for the full budget.
+        assert len(html) < 400_000, f"/dm-tools is back to {len(html)} B"
 
     def test_trap_row_fields_match_the_template_markup(self, client, seeded_db, auth_headers):
         client.get("/dm-tools", headers=auth_headers)

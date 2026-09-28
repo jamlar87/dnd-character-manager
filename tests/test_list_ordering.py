@@ -153,6 +153,17 @@ class TestTheTrapLibraryUsesIt:
         assert names == sorted(names, key=alpha_key)
 
 
+class TestTheSpellLibraryUsesIt:
+    def test_the_spell_rows_are_alpha_key_sorted(self, client, seeded_db, auth_headers):
+        """The SRD block was alphabetical but the manual/AI-added spells arrived as an
+        unsorted tail ('windblown', 'hearth and home', 'lure prey'…) on the end."""
+        client.get("/dm-tools", headers=auth_headers)
+        from services.text import alpha_key
+        names = [s["n"] for s in asset_payload()["spells"]]
+        assert len(names) > 300
+        assert names == sorted(names, key=alpha_key)
+
+
 def test_no_plain_lower_sort_is_left_on_a_browsable_name_list():
     """The defect class: `.lower()` used as a sort key for a list a human scans."""
     offenders = []

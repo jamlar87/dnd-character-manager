@@ -457,31 +457,15 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <option value="">All Classes</option>
       {% for cl in spell_classes %}<option value="{{ cl|lower }}">{{ cl }}</option>{% endfor %}
     </select>
-    <span style="color:var(--text-muted);font-size:0.85rem" id="spellCount">{{ spells|length }} spells</span>
+    <span style="color:var(--text-muted);font-size:0.85rem" id="spellCount">{{ spell_total|default(spells|length) }} spells</span>
   </div>
 
   <div class="monster-grid" id="spellGrid">
-    {% for s in spells %}
-    <div class="monster-card" data-name="{{ s.name|lower }}" data-level="{{ s.level }}"
-         data-school="{{ s.school.name|default(s.school|string, true)|lower }}" data-source="{{ s.source|default('') }}"
-         data-classes="{{ s.classes|map(attribute='name')|join(',')|lower }}"
-         onclick="showSpell('{{ s.index }}')">
-      <div class="m-name">{{ s.name }}</div>
-      <div class="m-type">
-        {% if s.level == 0 %}Cantrip{% else %}Level {{ s.level }}{% endif %} · {{ s.school.name if s.school and s.school.name else (s.school|string|title if s.school else 'Unknown') }}
-        {% if s.ritual %}<span style="color:var(--accent)"> · Ritual</span>{% endif %}
-        {% if s.concentration %}<span style="color:var(--warn)"> · Concentration</span>{% endif %}
-      </div>
-      {% if s.source %}
-      <div style="font-size:0.6rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer" class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ s.source }}">📚 {{ s.source }}</div>
-      {% endif %}
-      <div class="m-stats">
-        <span class="m-stat">⏱ {{ s.casting_time }}</span>
-        <span class="m-stat">📏 {{ s.range }}</span>
-        <span class="m-stat">⏳ {{ s.duration }}</span>
-      </div>
-    </div>
-    {% endfor %}
+    {# Cards are built by renderSpellCards() from /static/dm-library.js — ~700 cards
+       (~580 KB of HTML) used to be server-rendered here. Keep .monster-card plus the
+       data-name/level/school/classes/source attributes: filterSpells() matches on them,
+       and renderMonsterCards() must stay scoped to #monsterGrid. #}
+    <noscript>{{ spell_total|default(0) }} spells — enable JavaScript to browse the library.</noscript>
   </div>
 </div>
 
