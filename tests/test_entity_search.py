@@ -8,6 +8,8 @@ alongside manual page hits.
 Expected row shape: {kind, name, subtitle, snippet, source, slug, page, score}
 """
 
+import re
+
 import pytest
 from pathlib import Path
 
@@ -327,10 +329,14 @@ class TestNavSearchWiring:
         assert 'id="manualSearchResults"' in html and 'id="manualSearchInput"' in html
 
     def test_manual_search_folds_in_the_internal_panel(self, client):
-        html = client.get("/login").text
-        assert "EntitySearch.fetchFor" in html
-        assert "EntitySearch.internalHtml" in html
-        assert "EntitySearch.markManual" in html
+        """The nav's manual search must also ask the entity index for the "Internal data"
+        section. That wiring lives in the shared layout JS, which is a static asset now."""
+        js = (Path(__file__).resolve().parent.parent / "static" / "layout.js").read_text()
+        assert "EntitySearch.fetchFor" in js
+        assert "EntitySearch.internalHtml" in js
+        assert "EntitySearch.markManual" in js
+        # and the asset is what the page loads
+        assert re.search(r'/static/layout\.js\?v=\w+', client.get("/login").text)
 
     def test_script_debounces_and_hits_the_entities_endpoint(self):
         js = (Path(__file__).resolve().parent.parent / "static" / "entity-search.js").read_text()
@@ -353,7 +359,7 @@ class TestNavSearchWiring:
         js = (root / "static" / "entity-search.js").read_text()
         assert ".outerHTML" not in js, "mutate nodes in place; never replace the event target"
         assert "e.stopPropagation()" in js
-        layout = (root / "templates" / "layout.html").read_text()
+        layout = (root / "static" / "layout.js").read_text()
         assert "e.target.isConnected" in layout, "outside-click guard needs the isConnected check"
 
     def test_category_toggle_updates_the_head_in_place(self):

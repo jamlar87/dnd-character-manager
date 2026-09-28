@@ -1,0 +1,113 @@
+/* Shared layout CSS — moved out of templates/layout.html so it is fetched once and
+   cached (browser + edge) instead of re-parsed inside every page's HTML. */
+  :root {
+    --bg: #1a1a2e; --card-bg: #16213e; --text: #e0e0e0; --text-muted: #888;
+    --accent: #e94560; --accent2: #0f3460; --border: #2a2a4a;
+    --success: #00c853; --danger: #ff1744; --warn: #ff9100;
+    --font: 'Segoe UI', system-ui, sans-serif;
+  }
+  /* Light theme — toggled via [data-theme="light"] on <html> */
+  html[data-theme="light"] {
+    --bg: #f4f5f7; --card-bg: #ffffff; --text: #22262b; --text-muted: #6b7280;
+    --accent: #c0265a; --accent2: #dbe4f0; --border: #d4d8de;
+    --success: #15803d; --danger: #dc2626; --warn: #b45309;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  img, table, video, canvas, svg { max-width: 100%; height: auto; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; overflow-wrap: break-word; word-break: break-word; }
+  a { color: var(--accent); text-decoration: none; }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.5rem; background: var(--card-bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; }
+  .nav-brand { font-size: 1.2rem; font-weight: 700; color: var(--accent); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 70vw; }
+  .nav-links { display: flex; gap: 1rem; align-items: center; }
+  .nav-links a, .nav-links button { background: none; border: none; color: var(--text); cursor: pointer; font-size: 0.9rem; padding: 0.4rem 0.8rem; border-radius: 4px; white-space: nowrap; touch-action: manipulation; }
+  .nav-links a:hover, .nav-links button:hover { background: var(--accent2); }
+  .nav-email { color: var(--text-muted); font-size: 0.85rem; }
+  @media (max-width: 1200px) { .nav-email { display: none; } }
+  .nav-search { display: flex; align-items: center; gap: 0.3rem; flex: 1; max-width: 480px; margin: 0 1rem; position: relative; }
+  .nav-search input { flex: 1; min-width: 120px; padding: 0.35rem 0.5rem; font-size: 0.8rem; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 4px; }
+  .nav-search input::placeholder { color: var(--text-muted); font-size: 0.75rem; }
+  .nav-search .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.75rem; touch-action: manipulation; position: relative; z-index: 5; }
+  .search-results-dropdown { display: none; position: fixed; top: 56px; left: 50%; transform: translateX(-50%); width: min(92vw, 560px); z-index: 9999; max-height: 65vh; overflow-y: auto; background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+  @media (max-width: 768px) {
+    .nav-search { max-width: none; margin: 0 0.5rem; flex: 2; }
+    .nav-search input { font-size: 0.75rem; padding: 0.3rem 0.4rem; }
+    .nav-search .btn-sm { padding: 0.4rem 0.55rem; font-size: 0.8rem; min-width: 36px; min-height: 36px; }
+  }
+  .hamburger { display: none; background: none; border: 1px solid var(--border); color: var(--text); font-size: 1.3rem; cursor: pointer; padding: 0.35rem 0.6rem; border-radius: 4px; line-height: 1; }
+  .container { max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
+  @media (max-width: 768px) {
+    .hamburger { display: block; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--card-bg); flex-direction: column; gap: 0; padding: 0.5rem 0; border-bottom: 2px solid var(--border); z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+    .nav-links.open { display: flex; }
+    .nav-links a, .nav-links button { display: block; padding: 0.7rem 1.5rem; border-radius: 0; width: 100%; text-align: left; font-size: 0.95rem; }
+    .nav-links span { display: block; padding: 0.5rem 1.5rem; }
+    .nav-links.open .nav-email { display: block; }
+    .container { padding: 0 0.75rem; margin: 1rem auto; }
+  }
+  .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
+  .btn { display: inline-block; padding: 0.5rem 1.2rem; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; font-size: 0.95rem; }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { filter: brightness(1.15); }
+  .btn-outline { background: none; border: 1px solid var(--border); color: var(--text); }
+  .btn-danger { background: var(--danger); color: #fff; }
+  .btn-sm { padding: 0.3rem 0.7rem; font-size: 0.8rem; }
+  .form-group { margin-bottom: 1rem; }
+  .form-group label { display: block; margin-bottom: 0.3rem; font-weight: 600; font-size: 0.9rem; }
+  .form-group input, .form-group select { width: 100%; padding: 0.5rem; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; color: var(--text); font-size: 0.95rem; }
+  .alert { padding: 0.75rem 1rem; border-radius: 6px; margin-bottom: 1rem; }
+  .alert-error { background: rgba(255,23,68,0.15); border: 1px solid var(--danger); color: var(--danger); }
+  .alert-success { background: rgba(0,200,83,0.15); border: 1px solid var(--success); color: var(--success); }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; }
+  .stat-box { text-align: center; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem; }
+  .stat-num { font-size: 1.5rem; font-weight: 700; }
+  .stat-mod { font-size: 0.85rem; color: var(--text-muted); }
+  .badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.75rem; font-weight: 600; }
+  .badge-accent { background: var(--accent); color: #fff; }
+  .badge-muted { background: var(--accent2); color: var(--text); }
+  .hp-bar { height: 12px; border-radius: 6px; background: var(--border); overflow: hidden; }
+  .hp-bar-fill { height: 100%; background: var(--success); transition: width 0.3s; }
+  .hp-bar-fill.danger { background: var(--danger); }
+  .hp-bar-fill.warn { background: var(--warn); }
+  footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.8rem; }
+  /* Shared character portrait tile — see templates/_char_portrait.html.
+     Size comes from the --cp-size custom property so a media query can shrink
+     every instance without fighting inline widths. */
+  .char-portrait {
+    width: var(--cp-size, 40px); height: var(--cp-size, 40px);
+    flex-shrink: 0; display: block; object-fit: cover;
+    border-radius: 8px; border: 1px solid var(--border); background: var(--bg);
+    line-height: 1;
+  }
+  .char-portrait-empty {
+    display: flex; align-items: center; justify-content: center;
+    border-style: dashed; color: var(--text-muted);
+    font-weight: 600; user-select: none;
+  }
+  /* Portraits and reference art open in the full-size viewer (openPortraitFull in char-portrait.js).
+     Tiles are small by design, so the cursor is the only affordance that says so. */
+  .cp-clickable { cursor: zoom-in; }
+  .cp-clickable:hover { filter: brightness(1.06); }
+  .char-portrait-chip {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    padding: 0.15rem 0.5rem 0.15rem 0.15rem;
+    background: var(--accent2); border-radius: 10px;
+    font-size: 0.75rem; font-weight: 600; cursor: pointer;
+  }
+  .char-portrait-chip:hover { filter: brightness(1.1); }
+  @media (max-width: 600px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+  @media (max-width: 480px) {
+    html { font-size: 14px; }
+    .container { padding: 0 0.5rem; margin: 0.75rem auto; }
+    .card { padding: 1rem; }
+    h1 { font-size: 1.4rem !important; }
+    h2 { font-size: 1.2rem !important; }
+    h3 { font-size: 1.05rem !important; }
+    .nav { padding: 0.5rem 0.75rem; }
+    footer { padding: 1rem; font-size: 0.7rem; }
+    /* every portrait tile shrinks a touch on phones */
+    .char-portrait {
+      width: var(--cp-size-mobile, var(--cp-size, 40px));
+      height: var(--cp-size-mobile, var(--cp-size, 40px));
+    }
+  }
