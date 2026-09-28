@@ -1035,11 +1035,14 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <option value="dangerous">Dangerous</option>
       <option value="deadly">Deadly</option>
     </select>
-    <span style="color:var(--text-muted);font-size:0.85rem" id="trapCount">{{ traps|length }} traps</span>
+    <span style="color:var(--text-muted);font-size:0.85rem" id="trapCount">{{ trap_total|default(traps|length) }} traps</span>
     <button class="btn btn-primary btn-sm" onclick="showCreateTrap()" style="flex-shrink:0">+ Create Trap</button>
   </div>
 
   <div class="trap-grid" id="trapGrid">
+    {# Reference traps are appended here by renderTrapCards() from the cached
+       /static/dm-library.js; only the DM's own (custom) traps are server-rendered,
+       because those are user data. #}
     {% for t in traps %}
     <div class="trap-card" data-name="{{ t.name|lower }}" data-type="{{ t.type }}" data-danger="{{ t.danger }}" data-source="{{ t.source|default('') }}">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">

@@ -208,6 +208,58 @@ function renderMonsterCards() {
   return true;
 }
 
+// ── Reference trap cards ─────────────────────────────────────────────────────
+// The reference trap library is ~380 rows / ~950 KB of server-rendered HTML on
+// every /dm-tools load, so it now ships in /static/dm-library.js next to the
+// monsters and manual NPCs. Same .trap-card markup and data-* attributes the
+// template emitted, so filterTraps() is unchanged. Custom (per-DM) traps stay
+// server-rendered in #trapGrid — they are user data and must never enter a
+// cached, shared asset.
+function dmCap(s) {
+  const v = String(s === null || s === undefined ? '' : s);
+  return v.charAt(0).toUpperCase() + v.slice(1).toLowerCase();
+}
+
+function renderTrapCards() {
+  const grid = document.getElementById('trapGrid');
+  if (!grid || grid.dataset.rendered || !Array.isArray(window.DM_TRAPS)) return false;
+  const esc = dmEsc;
+  const custom = grid.innerHTML;              // the DM's own traps, already rendered
+  const html = window.DM_TRAPS.map(function(t) {
+    const name = esc(t.n), src = esc(t.src), type = esc(t.t), danger = esc(t.d);
+    const badge = src
+      ? '<div style="font-size:0.6rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer"'
+        + ' class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="' + src + '">📚 ' + src + '</div>'
+      : '';
+    const stats = '<span class="trap-type-badge">' + (t.t === 'magical' ? '🔮' : '⚙️') + ' ' + esc(dmCap(t.t)) + '</span>'
+      + (t.sdc ? '<span class="trap-stat">DC ' + esc(t.sdc) + ' ' + esc(t.sab) + '</span>' : '')
+      + (t.dmg ? '<span class="trap-stat">' + esc(dmCap(t.dt)) + '</span>' : '');
+    const detail = '<div class="trap-detail" style="display:none;margin-top:0.5rem;font-size:0.82rem;line-height:1.5;color:var(--text-muted)">'
+      + '<div class="trap-section"><strong style="color:var(--text)">Trigger:</strong> ' + esc(t.trig) + '</div>'
+      + '<div class="trap-section"><strong style="color:var(--text)">Detection:</strong> DC ' + esc(t.detdc) + ' ' + esc(t.detsk) + ' — ' + esc(t.detd) + '</div>'
+      + '<div class="trap-section"><strong style="color:var(--text)">Disarm:</strong> ' + esc(t.dism)
+      + (t.disdc ? ' (DC ' + esc(t.disdc) + ')' : '') + ' — ' + esc(t.disd) + '</div>'
+      + '<div class="trap-section"><strong style="color:var(--text)">Effect:</strong> ' + esc(t.eff) + '</div>'
+      + (t.area ? '<div class="trap-section"><strong style="color:var(--text)">Area:</strong> ' + esc(t.area) + '</div>' : '')
+      + '</div>';
+    return '<div class="trap-card" data-name="' + name.toLowerCase() + '" data-type="' + type + '"'
+      + ' data-danger="' + danger + '" data-source="' + src + '">'
+      + '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">'
+      + '<div class="trap-name">' + name + '</div>'
+      + '<span class="trap-danger-badge trap-danger-' + danger + '">' + esc(dmCap(t.d)) + '</span>'
+      + '</div>'
+      + '<div class="trap-meta">' + stats + '</div>'
+      + badge + detail
+      + '<div style="display:flex;gap:0.3rem;align-items:center;margin-top:0.4rem">'
+      + '<button class="trap-expand-btn" onclick="event.stopPropagation();toggleTrapDetail(this)" style="font-size:0.7rem;color:var(--accent);background:none;border:none;cursor:pointer;padding:0">▶ Expand</button>'
+      + '</div></div>';
+  });
+  // Reference traps first, the DM's own traps after — the order the server used.
+  grid.innerHTML = html.join('') + custom;
+  grid.dataset.rendered = '1';
+  return true;
+}
+
 // ── Manual (read-only) NPC rows ──────────────────────────────────────────────
 // ~400 extracted NPCs incl. long descriptions used to be server-rendered
 // (~780 KB of HTML per load); they now come from /static/dm-library.js. Same
@@ -4954,6 +5006,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   // source filter mounts so its onChange sees a populated grid.
   const renderedMonsters = renderMonsterCards();
   const renderedNpcs = renderManualNpcRows();
+  const renderedTraps = renderTrapCards();
 
   // ── Manual (book) filter on every search bar ──
   if (window.SourceFilter) {
@@ -4976,6 +5029,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   // Count/apply the restored source filter now that the grid exists.
   if (renderedMonsters) filterMonsters();
   if (renderedNpcs) filterNpcs();
+  if (renderedTraps) filterTraps();
 
   // Populate combat + items dropdowns regardless of active tab (each has its own guard)
   initCombatPanel();

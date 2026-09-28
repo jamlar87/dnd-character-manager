@@ -28,6 +28,7 @@ from main import get_racial_trait_effects, check_armor_proficiency_from_set, get
 from main import load_manual_data
 from main import SRD_LEVELS, SRD_SPELLS, _get_named_item_types, _get_source_slug_map
 from main import _manual_races_raw, _manual_races_raw as _MANUAL_RACES_RAW
+from services.text import alpha_key
 from data import (
     SPELLS_KNOWN_CASTERS, RACIAL_TRAIT_EFFECTS, FEATURE_ACTION_TYPES,
     ABILITY_NAMES, ALL_SKILLS, LANGUAGES, SKILL_ABILITIES, FEATS, FEAT_BY_NAME,
@@ -104,7 +105,10 @@ def _load_monster_cache() -> list[dict]:
         MANUAL_MONSTERS = manual
     # Append summon-template-derived monsters (vehicles, siege, class summons, Tasha)
     combined = base + MANUAL_MONSTERS + _template_monster_entries()
-    combined.sort(key=lambda m: (m.get("name") or "").lower())
+    # The Monsters tab renders in this order (it rides in the dm-library asset), so the
+    # key has to be what a reader calls alphabetical — see services.text.alpha_key:
+    # ".lower()" alone filed every accented name after all the plain ones.
+    combined.sort(key=lambda m: alpha_key(m.get("name")))
     return combined
 
 
