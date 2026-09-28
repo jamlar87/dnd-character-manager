@@ -5,6 +5,7 @@ convenience symlink in manuals/, the DnD-Manuals library symlink, and a nested
 Manuals/ copy for a few core books — so a naive glob listed 14 books two or
 three times (Field_Guide_to_Floral_Dragons showed up twice in the tab).
 """
+import json
 import re
 import sqlite3
 import uuid
@@ -93,11 +94,26 @@ def test_scan_manual_pdfs_missing_base_is_empty(tmp_path, monkeypatch):
 
 # ── Rendered surfaces ───────────────────────────────────────────────────────
 
+def _manual_rows(client, dm_headers):
+    """The manual tree rows as the page receives them.
+
+    They used to be server-rendered (so a regex over the HTML found them); they now ride in
+    /static/dm-library.js and renderManualGroups() draws them client-side, so the check reads
+    the payload the renderer consumes instead of the HTML.
+    """
+    client.get("/dm-tools", headers=dm_headers)          # regenerates the asset
+    raw = (Path(__file__).parent.parent / "static" / "dm-library.js").read_text()
+    start = raw.index("window.DM_LIBRARY = ") + len("window.DM_LIBRARY = ")
+    payload = json.loads(raw[start:raw.index(";\nwindow.DM_MONSTERS", start)])
+    return [m["n"] for group in payload["manuals"] for m in group["items"]]
+
+
 def test_manuals_tab_lists_each_book_once(client, dm_headers):
     html = client.get("/dm-tools", headers=dm_headers).text
     assert html.count('data-tab="manuals"') == 1  # the tab itself exists
+    assert 'id="manualGroups"' in html            # and the host the renderer fills
 
-    names = re.findall(r'📄</span>\s*<span[^>]*title="([^"]+)"', html)
+    names = _manual_rows(client, dm_headers)
     assert len(names) > 40, f"expected the manual list to render, got {len(names)} rows"
     dupes = {k: v for k, v in Counter(names).items() if v > 1}
     assert not dupes, f"duplicate rows in the Manuals tab: {dupes}"
@@ -105,11 +121,15 @@ def test_manuals_tab_lists_each_book_once(client, dm_headers):
     # Exactly the books the scan reports, no more and no less
     assert len(names) == len(set(names))
 
+    # the row markup (📄 + title attribute) still comes from the renderer
+    js = (Path(__file__).parent.parent / "static" / "dm_tools.js").read_text()
+    assert '>📄</span>' in js and 'title="' in js
+
 
 def test_manuals_tab_has_no_floral_dragon_duplicate(client, dm_headers):
     """The reported bug: Field_Guide_to_Floral_Dragons appeared twice."""
-    html = client.get("/dm-tools", headers=dm_headers).text
-    assert html.count('title="Field_Guide_to_Floral_Dragons"') == 1
+    names = _manual_rows(client, dm_headers)
+    assert names.count("Field_Guide_to_Floral_Dragons") == 1
 
 
 def test_reference_manuals_api_names_are_unique(client, dm_headers):
