@@ -53,8 +53,12 @@ class TestThemeToggle:
         assert resp.status_code == 200
         assert 'id="themeToggle"' in resp.text
         assert 'onclick="toggleTheme()"' in resp.text
-        assert 'data-theme="light"' in resp.text
-        assert "toggleTheme" in resp.text
+        # the toggle's own code is the shared layout asset now (it was inline in the template, so
+        # the theme values and the function body only exist there)
+        from pathlib import Path
+        js = (Path(__file__).resolve().parent.parent / "static" / "layout.js").read_text()
+        assert "data-theme" in js and "'light'" in js and "toggleTheme" in js
+        assert "/static/layout.js?v=" in resp.text
 
     def test_theme_toggle_on_login_page(self, client):
         resp = client.get("/login")
