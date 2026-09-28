@@ -2389,7 +2389,11 @@ def _get_source_slug_map() -> dict[str, dict]:
             "chapter 3 magical miscellany": {"slug": "DTCOE", "display": "Chapter 3 Magical Miscellany — Tasha's Cauldron of Everything"},
             "chapter 3 | magical miscellany": {"slug": "DTCOE", "display": "Chapter 3 | Magical Miscellany — Tasha's Cauldron of Everything"},
             "chapter 3 | magical miscellany, page": {"slug": "DTCOE", "display": "Chapter 3 | Magical Miscellany — Tasha's Cauldron of Everything"},
-            "chapter 4 | dungeon master's tools": {"slug": "DMG", "display": "Chapter 4 | Dungeon Master's Tools — Dungeon Master's Guide"},
+            # Tasha's Cauldron of Everything Ch4 is "Dungeon Master's Tools" (its own intro: "Chapter
+            # 4 holds various rules that a DM may incorporate into a campaign"); the DMG prints no
+            # chapter by that name at all — its Ch2 is "Creating a Multiverse", Ch4 "Creating
+            # Nonplayer Characters". Was mapped to DMG, i.e. a badge that opened the wrong book.
+            "chapter 4 | dungeon master's tools": {"slug": "DTCOE", "display": "Chapter 4 | Dungeon Master's Tools — Tasha's Cauldron of Everything"},
             "chapter 4: creating adventures": {"slug": "DMG", "display": "Chapter 4: Creating Adventures — Dungeon Master's Guide"},
             "chapter 2 | dungeon master's tools": {"slug": "XGE", "display": "Xanathar's Guide to Everything — Chapter 2: Dungeon Master's Tools"},
             "chapter 2 dungeon master's tools": {"slug": "XGE", "display": "Xanathar's Guide to Everything — Chapter 2: Dungeon Master's Tools"},
@@ -2433,20 +2437,6 @@ def _get_source_slug_map() -> dict[str, dict]:
             "part 3 spells": {"slug": "PHB", "display": "Player's Handbook (Part 3: Spells)"},
             "chapter 6 | bestiary, page": {"slug": "MTF", "display": "Mordenkainen's Tome of Foes (Chapter 6: Bestiary)"},
             "chapter 6 bestiary, page": {"slug": "MTF", "display": "Mordenkainen's Tome of Foes (Chapter 6: Bestiary)"},
-            "chapter 2 | dungeon master's tools": {"slug": "DMG", "display": "Dungeon Master's Guide — Chapter 2: Dungeon Master's Tools"},
-            "chapter 2 dungeon master's tools": {"slug": "DMG", "display": "Dungeon Master's Guide — Chapter 2: Dungeon Master's Tools"},
-            "dungeon master's tools p.?": {"slug": "DMG", "display": "Dungeon Master's Guide — Dungeon Master's Tools"},
-            "chapter 2, the land of chult": {"slug": "ToA", "display": "Tomb of Annihilation — The Land of Chult"},
-            "magic items and trickery": {"slug": "DMG", "display": "Dungeon Master's Guide — Magic Items and Trickery"},
-            "baubles of the darkened druids": {"slug": "MOM", "display": "Marauders of the Margreve — Baubles of the Darkened Druids"},
-            "wondrous, legendary and healing items (page 139)": {"slug": "DMG", "display": "Dungeon Master's Guide — Wondrous, Legendary and Healing Items"},
-            "tome of beasts": {"slug": "CC", "display": "Creature Codex — Tome of Beasts"},
-            "the night messengers": {"slug": "CSF", "display": "Courts of the Shadow Fey — The Night Messengers"},
-            "appendix b nonplayer characters": {"slug": "WDH", "display": "Appendix B Nonplayer Characters — Waterdeep: Dragon Heist"},
-            "appendix b: nonplayer characters": {"slug": "WDH", "display": "Appendix B: Nonplayer Characters — Waterdeep: Dragon Heist"},
-            "appendix a: courtiers of the river court": {"slug": "CSF", "display": "Appendix A: Courtiers of the River Court — Courts of the Shadow Fey"},
-            "new creatures and magic items": {"slug": "DPM1", "display": "New Creatures and Magic Items — Deep Magic: Ley Lines"},
-            "bree-land & around": {"slug": "BLRG", "display": "Bree-land & Around — Bree-land Region Guide"},
             "ggr p.?": {"slug": "GGR", "display": "Guildmasters' Guide to Ravnica (GGR p.?)"},
             # ── Adventure/scenario titles referenced in source fields ──
             "Shadows In the north": {"slug": "EREA", "display": "Erebor Adventures — Shadows In the North"},

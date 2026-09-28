@@ -124,7 +124,7 @@ def _meets_feat_prereq(prereq: str, char: dict, abilities: dict, feat_name: str 
     
     # ── Multi-race: "Elf or half-elf", "Dwarf or a Small race", "Half-elf, half-orc, or human" ──
     race_aliases = {
-        "half-elf": "half-elf", "half-orc": "half-orc", "half-orc": "half-orc",
+        "half-elf": "half-elf", "half-orc": "half-orc",
         "human": "human", "elf": "elf", "dwarf": "dwarf", "halfling": "halfling",
         "gnome": "gnome", "dragonborn": "dragonborn", "tiefling": "tiefling",
         "aasimar": "aasimar", "goliath": "goliath", "firbolg": "firbolg",

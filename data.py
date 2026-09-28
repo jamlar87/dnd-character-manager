@@ -1291,7 +1291,6 @@ RACIAL_TRAIT_DESCS = {
     "Trance":             "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day.",
     "Dwarven Combat Training": "You have proficiency with the battleaxe, handaxe, light hammer, and warhammer.",
     "Halfling Nimbleness":"You can move through the space of any creature that is of a size larger than yours.",
-    "Fey Ancestry":       "You have advantage on saving throws against being charmed, and magic can't put you to sleep.",
     "Skill Versatility":  "You gain proficiency in two skills of your choice.",
     "Infernal Legacy":    "You know the thaumaturgy cantrip. When you reach 3rd level, you can cast hellish rebuke as a 2nd-level spell once per day. When you reach 5th level, you can cast darkness once per day.",
     "Nimble Escape":      "You can take the Disengage or Hide action as a bonus action on each of your turns.",

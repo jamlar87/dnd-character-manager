@@ -49,11 +49,6 @@ OCR_FIXES = {
     'RMLING': 'WYRMLING', 'HALF-': 'HALF-RED DRAGON VETERAN',
     'HALF': 'HALF-RED DRAGON VETERAN',
     'HOMUNCU': 'HOMUNCULUS', 'Roc': 'ROC', 'ANGE': 'ANGEL',
-    'ANGE': 'ANGEL', 'ANGE': 'ANGEL', 'ANGE': 'ANGEL',
-    'ANGE': 'ANGEL', 'ANGE': 'ANGEL', 'ANGE': 'ANGEL', 'ANGE': 'ANGEL',
-    'ANGE': 'ANGEL', 'ANGE': 'ANGEL',
-    'ANGE': 'ANGEL',
-    'ANGE': 'ANGEL',
 }
 
 # ── Words to skip (common non-monster-name headings) ────────────────────────

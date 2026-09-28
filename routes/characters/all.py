@@ -588,9 +588,6 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
         "you, you can use your reaction to deal 2d8 lightning or thunder damage (your choice). "
         "You can use this feature a number of times equal to your Wisdom modifier (minimum 1). "
         "Regain uses on a long rest.",
-    "thunderbolt strike":
-        "At 6th level, when you deal lightning damage to a Large or smaller creature, you can "
-        "push it up to 10 feet away from you.",
     "stormborn":
         "At 17th level, you gain a flying speed equal to your walking speed when not underground "
         "or indoors.",
@@ -908,12 +905,6 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
         "with your draconic ancestry, you can add your Charisma modifier to one damage roll of "
         "that spell. At the same time, you can spend 1 sorcery point to gain resistance to that "
         "damage type for 1 hour.",
-    "dragon wings":
-        "At 14th level, you gain the ability to sprout a pair of dragon wings from your back as "
-        "a bonus action, gaining a flying speed equal to your current walking speed. They last "
-        "until you dismiss them as a bonus action. You can't manifest your wings while wearing "
-        "armor unless it is made to accommodate them, and clothing not made to accommodate them "
-        "might be destroyed.",
     "draconic presence":
         "Beginning at 18th level, you can channel the dread presence of your dragon ancestor, "
         "causing those around you to become awestruck or frightened. As an action, you can spend "
@@ -935,11 +926,6 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
         "using it again. Any time before you regain the use of this feature, the DM can have you "
         "roll on the Wild Magic Surge table immediately after you cast a spell of 1st level or "
         "higher, and you regain the use of this feature.",
-    "bend luck":
-        "At 6th level, you can twist fate. When another creature you can see makes an attack "
-        "roll, ability check, or saving throw, you can use your reaction and spend 2 sorcery "
-        "points to roll 1d4 and apply the result as a bonus or penalty (your choice). You can do "
-        "so after the creature rolls but before the outcome is determined.",
     "controlled chaos":
         "At 14th level, you gain a modicum of control over your Wild Magic Surges. Whenever you "
         "roll on the Wild Magic Surge table, you can roll twice and choose which effect occurs.",
@@ -1040,12 +1026,6 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
     "conjuration savant":
         "At 2nd level, the gold and time you must spend to copy a conjuration spell into your "
         "spellbook is halved.",
-    "minor conjuration":
-        "At 2nd level, you can use your action to conjure an inanimate object in your hand or "
-        "on the ground in an unoccupied space within 10 feet. The object can be no larger than "
-        "3 feet on a side and weigh no more than 10 pounds, and its form must be one you've seen. "
-        "It is visibly magical, radiating dim light out to 5 feet. It disappears after 1 hour, "
-        "when you use this feature again, or if it takes any damage.",
     "benign transposition":
         "At 6th level, you can use your action to teleport up to 30 feet to an unoccupied space "
         "you can see. Alternatively, you can choose a space within range that is occupied by a "
@@ -1077,8 +1057,6 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
         "one of the following benefits until you are incapacitated or take a short/long rest: "
         "Darkvision 60 ft, See Invisibility (10 ft), See into the Ethereal Plane (60 ft), or "
         "Comprehend Languages (read any written language).",
-    "greater portent":
-        "At 14th level, you roll three d20s for your Portent feature instead of two.",
 
     # ── Wizard: School of Enchantment (PHB p.117) ──
     "enchantment savant":
@@ -1101,12 +1079,6 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
     "split enchantment":
         "At 10th level, when you cast an enchantment spell of 1st level or higher that targets "
         "only one creature, you can have it target a second creature instead.",
-    "alter memories":
-        "At 14th level, when you cast an enchantment spell to charm one or more creatures, you "
-        "can make one of them unaware of being charmed. Additionally, once before the spell "
-        "expires, you can use your action to make the creature forget some of its time spent "
-        "charmed. It must succeed on an Intelligence save or lose a number of hours of memories "
-        "equal to 1 + your Charisma modifier (minimum 1).",
 
     # ── Wizard: School of Evocation (PHB p.117-118) ──
     "evocation savant":
@@ -1137,10 +1109,6 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
     "illusion savant":
         "At 2nd level, the gold and time you must spend to copy an illusion spell into your "
         "spellbook is halved.",
-    "improved minor illusion":
-        "At 2nd level, you learn the Minor Illusion cantrip. If you already know it, you learn "
-        "a different wizard cantrip. When you cast Minor Illusion, you can create both a sound "
-        "and an image with a single casting.",
     "malleable illusions":
         "At 6th level, when you cast an illusion spell that has a duration of 1 minute or "
         "longer, you can use your action to change the nature of that illusion (using the "
@@ -1174,13 +1142,6 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
     "inured to undeath":
         "At 10th level, you have resistance to necrotic damage, and your hit point maximum "
         "can't be reduced.",
-    "command undead":
-        "At 14th level, you can use magic to bring undead under your control, even those created "
-        "by other wizards. As an action, you can choose one undead you can see within 60 feet. "
-        "It must make a Charisma save against your wizard spell save DC. If it fails, it becomes "
-        "friendly and obeys your commands. Intelligent undead (INT 8+) have advantage. If it has "
-        "INT 12+, it can repeat the save at the end of every hour. If you use this feature again, "
-        "the prior effect ends.",
 
     # ── Subclass Spellcasting (Eldritch Knight / Arcane Trickster) ──
     "spellcasting":
@@ -1194,20 +1155,6 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
     "transmutation savant":
         "At 2nd level, the gold and time you must spend to copy a transmutation spell into your "
         "spellbook is halved.",
-    "minor alchemy":
-        "At 2nd level, you can temporarily alter the physical properties of one nonmagical "
-        "object. Perform a special alchemical procedure on an object composed entirely of wood, "
-        "stone (but not a gem), iron, copper, or silver, transforming it into a different one "
-        "of those materials. For every 10 minutes you spend performing the procedure, you can "
-        "transform up to 1 cubic foot of material. After 1 hour, or until you lose concentration "
-        "(as if concentrating on a spell), the material reverts.",
-    "transmuter's stone":
-        "At 6th level, you can spend 8 hours creating a transmuter's stone that stores "
-        "transmutation magic. You gain the benefit while holding the stone: darkvision 60 ft, "
-        "+10 speed, proficiency in Constitution saves, or resistance to acid/cold/fire/"
-        "lightning/thunder (choose one). You can change the benefit when you cast a "
-        "transmutation spell of 1st level or higher. If you create a new stone, the old one "
-        "ceases to function.",
     "shapechanger":
         "At 10th level, you add the Polymorph spell to your spellbook if it's not there. You "
         "can cast Polymorph without expending a spell slot, but only targeting yourself and "

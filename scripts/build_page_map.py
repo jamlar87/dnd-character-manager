@@ -677,14 +677,10 @@ DMG_FIXES = {
     "sword of answering": 206,
     "moonblade": 217,
     "wave": 218, "whelm": 218,
-    "blackrazor": 216,
     "tentacle rod": 208,
     "trident of warning": 209,  # correct — verify
     "weapon of warning": 213,  # correct
     # Sentient items / artifacts p.216-224
-    "book of exalted deeds": 222,
-    "book of vile darkness": 222,
-    "axe of the dwarvish lords": 221,
 }
 KNOWN_PAGES_DMG.update(DMG_FIXES)
 

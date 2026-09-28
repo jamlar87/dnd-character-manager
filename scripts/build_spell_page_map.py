@@ -73,7 +73,6 @@ SRD_TO_PHB_NAME = {
     "forceful hand": "bigby's hand",  # 6th-level version
     "interposing hand": "bigby's hand",  # 5th-level version
     "freezing sphere": "otiluke's freezing sphere",
-    "acid arrow": "melf's acid arrow",
 }
 
 def resolve_source(source_str):
