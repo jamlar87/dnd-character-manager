@@ -3,8 +3,8 @@
 MPMM lets the player choose "+2 to one ability score and +1 to a different one, or +1 to three
 different ones" (MPMM p.5, "Ability Score Increases" — chapter-wide). The record in RACES already carries a default +2/+1 spread, so a
 player's pick must REPLACE that spread — adding would silently grant four points. These tests
-pin the server half of that contract, and guard the client half (create.html) so the picker
-cannot drift back into "add" behaviour or stop being wired up at all.
+pin the server half of that contract, and guard the client half (the wizard JS, now
+static/create.js) so the picker cannot drift back into "add" behaviour or stop being wired up.
 """
 import re
 from pathlib import Path
@@ -16,6 +16,8 @@ from routes.characters.creation import _race_asi
 
 REPO = Path(__file__).resolve().parent.parent
 CREATE_HTML = (REPO / "templates" / "create.html").read_text()
+#: the wizard's JS moved out of the template into a versioned static asset
+CREATE_JS = (REPO / "static" / "create.js").read_text()
 
 
 # ── the flag itself ──────────────────────────────────────────────────────────
@@ -146,10 +148,13 @@ def test_a_plain_race_ignores_picks():
 
 def test_template_receives_the_mpmm_race_list():
     """Without this context var the picker block never renders (the bug class that killed
-    the flexible-ASI picker's neighbour)."""
+    the flexible-ASI picker's neighbour). The list rides in the cached asset now — the route
+    builds the payload and services.reference_assets writes the Set."""
     src = (REPO / "routes" / "characters" / "creation.py").read_text()
-    assert "mpmm_asi_races=list(MPMM_ASI_RACES)" in src
-    assert "const MPMM_ASI = new Set({{ mpmm_asi_races | tojson }});" in CREATE_HTML
+    assert '"MPMM_ASI": list(MPMM_ASI_RACES)' in src
+    assert 'CREATE_SET_CONSTS = ("FLEXIBLE_ASI", "MPMM_ASI")' in (
+        REPO / "services" / "reference_assets.py").read_text()
+    assert "const MPMM_ASI = " not in CREATE_HTML, "the const is the asset's job now"
 
 
 def test_picker_block_is_present():
@@ -161,16 +166,16 @@ def test_picker_block_is_present():
 def test_client_replaces_the_default_bonus_dict():
     """The JS must drop the record's bonuses before applying the pick — `bonuses = {}`."""
     body = re.search(r"const _mpmm = MPMM_ASI\.has.*?\n(.*?)\n  document\.getElementById\('asi-bonus'\)",
-                     CREATE_HTML, re.S)
+                     CREATE_JS, re.S)
     assert body, "MPMM preview block missing from updateAsiPreview()"
     assert "bonuses = {}" in body.group(1)
 
 
 def test_payload_sends_the_mode_and_picks():
-    assert 'asi_mode: MPMM_ASI.has(state.race) ? state.mpmm_mode : ""' in CREATE_HTML
-    assert "asi_picks: MPMM_ASI.has(state.race) ? mpmmPicks().map(x => x[0])" in CREATE_HTML
+    assert 'asi_mode: MPMM_ASI.has(state.race) ? state.mpmm_mode : ""' in CREATE_JS
+    assert "asi_picks: MPMM_ASI.has(state.race) ? mpmmPicks().map(x => x[0])" in CREATE_JS
 
 
 def test_race_change_clears_the_mpmm_picks():
     assert 'state.mpmm_mode = ""; state.mpmm_p2 = ""; state.mpmm_p1 = ""; state.mpmm_t3 = [];' \
-        in CREATE_HTML
+        in CREATE_JS

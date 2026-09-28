@@ -15,14 +15,16 @@ from datetime import datetime
 from fastapi import APIRouter, Request, HTTPException, Form, Query
 from fastapi.responses import HTMLResponse, JSONResponse
 
-from services.reference_assets import ensure_source_slug_map_asset
+from services.reference_assets import (
+    ensure_create_consts_asset, ensure_source_slug_map_asset,
+)
 
 from main import (
     get_db, require_user, _render, _get_source_slug_map,
     RACES, RACE_NAMES, CLASSES, BACKGROUNDS, BACKGROUND_SOURCES, ALIGNMENTS,
     FLEXIBLE_ASI_RACES, SUBASIS, SKILL_ABILITIES, ALL_SKILLS,
     MPMM_ASI_RACES,
-    DRACONIC_ANCESTRIES, PREPARED_CASTERS, SPELLS_KNOWN_CASTERS,
+    PREPARED_CASTERS, SPELLS_KNOWN_CASTERS,
     SUBCLASS_FEATURES, SUBCLASS_FEATURE_REPLACEMENTS, STARTING_EQUIPMENT,
     SRD_SPELLS, SPELL_DICE, EXPERTISE_LEVELS,
     METAMAGIC_LEVELS, METAMAGIC_PICKS, METAMAGIC_OPTIONS,
@@ -51,29 +53,50 @@ router = APIRouter()
 @router.get("/create", response_class=HTMLResponse)
 async def create_character_page(request: Request):
     require_user(request)
+    # The wizard's reference tables ride in a cached asset, not in the page: they were 39
+    # inline `const NAME = {{ x | tojson }}` lines (~240 KB) re-sent on every load and
+    # uncacheable. Same global-only contract as the source map (services.reference_assets).
+    create_consts = {
+        "RACES": RACES, "SUBASIS": SUBASIS, "CLASSES": CLASSES,
+        "FLEXIBLE_ASI": list(FLEXIBLE_ASI_RACES),
+        "MPMM_ASI": list(MPMM_ASI_RACES),
+        "ALL_SKILLS": ALL_SKILLS, "SKILL_ABILITIES": SKILL_ABILITIES,
+        "EXPERTISE_LEVELS": EXPERTISE_LEVELS,
+        "FIGHTING_STYLE_OPTIONS": FIGHTING_STYLE_OPTIONS, "FIGHTING_STYLES": FIGHTING_STYLES,
+        "METAMAGIC_OPTIONS": METAMAGIC_OPTIONS, "METAMAGIC_LEVELS": METAMAGIC_LEVELS,
+        "METAMAGIC_PICKS": METAMAGIC_PICKS,
+        "INVOCATION_OPTIONS": INVOCATION_OPTIONS, "INVOCATION_LEVELS": INVOCATION_LEVELS,
+        "INVOCATION_PICKS": INVOCATION_PICKS,
+        "PACT_BOON_OPTIONS": PACT_BOON_OPTIONS, "PACT_BOON_LEVELS": PACT_BOON_LEVELS,
+        "MANEUVER_OPTIONS": MANEUVER_OPTIONS, "MANEUVER_LEVELS": MANEUVER_LEVELS,
+        "MANEUVER_PICKS": MANEUVER_PICKS,
+        "MAGICAL_SECRETS_LEVELS": MAGICAL_SECRETS_LEVELS,
+        "MAGICAL_SECRETS_PICKS": MAGICAL_SECRETS_PICKS,
+        "TOTEM_SPIRIT_OPTIONS": TOTEM_SPIRIT_OPTIONS,
+        "TOTEM_SPIRIT_LEVELS": TOTEM_SPIRIT_LEVELS,
+        "TOTEM_SPIRIT_TIER_LABELS": TOTEM_SPIRIT_TIER_LABELS,
+        "HUNTERS_PREY_OPTIONS": HUNTERS_PREY_OPTIONS,
+        "HUNTERS_PREY_LEVELS": HUNTERS_PREY_LEVELS,
+        "FAVORED_ENEMY_OPTIONS": FAVORED_ENEMY_OPTIONS,
+        "FAVORED_ENEMY_LEVELS": FAVORED_ENEMY_LEVELS,
+        "FAVORED_TERRAIN_OPTIONS": FAVORED_TERRAIN_OPTIONS,
+        "FAVORED_TERRAIN_LEVELS": FAVORED_TERRAIN_LEVELS,
+        "INFUSION_OPTIONS": INFUSION_OPTIONS, "INFUSION_LEVELS": INFUSION_LEVELS,
+        "INFUSION_PICKS": INFUSION_PICKS,
+        "SUBCLASS_FEATURE_REPLACEMENTS": SUBCLASS_FEATURE_REPLACEMENTS,
+        "BACKGROUNDS": BACKGROUNDS, "BACKGROUND_SOURCES": BACKGROUND_SOURCES,
+        "ALIGNMENTS": ALIGNMENTS,
+        # the wizard's name pools (server-side expansions merged into its own RACE_NAMES literal)
+        "RACE_NAME_POOLS": RACE_NAMES,
+    }
     return _render("create.html", request=request,
-        races=RACES, subasis=SUBASIS, classes=CLASSES,
-        all_skills=ALL_SKILLS, skill_abilities=SKILL_ABILITIES,
-        backgrounds=BACKGROUNDS, alignments=ALIGNMENTS,
-        background_sources=BACKGROUND_SOURCES,
-        draconic_ancestries=DRACONIC_ANCESTRIES,
-        race_names=RACE_NAMES, expertise_levels=EXPERTISE_LEVELS,
-        flexible_asi_races=list(FLEXIBLE_ASI_RACES),
-        mpmm_asi_races=list(MPMM_ASI_RACES),
-        fighting_style_options=FIGHTING_STYLE_OPTIONS,
-        fighting_styles=FIGHTING_STYLES,
-        metamagic_options=METAMAGIC_OPTIONS, metamagic_levels=METAMAGIC_LEVELS, metamagic_picks=METAMAGIC_PICKS,
-        invocation_options=INVOCATION_OPTIONS, invocation_levels=INVOCATION_LEVELS, invocation_picks=INVOCATION_PICKS,
-        pact_boon_options=PACT_BOON_OPTIONS, pact_boon_levels=PACT_BOON_LEVELS,
-        maneuver_options=MANEUVER_OPTIONS, maneuver_levels=MANEUVER_LEVELS, maneuver_picks=MANEUVER_PICKS,
-        magical_secrets_levels=MAGICAL_SECRETS_LEVELS, magical_secrets_picks=MAGICAL_SECRETS_PICKS,
-        totem_spirit_options=TOTEM_SPIRIT_OPTIONS, totem_spirit_levels=TOTEM_SPIRIT_LEVELS, totem_spirit_tier_labels=TOTEM_SPIRIT_TIER_LABELS,
-        hunters_prey_options=HUNTERS_PREY_OPTIONS, hunters_prey_levels=HUNTERS_PREY_LEVELS,
-        favored_enemy_options=FAVORED_ENEMY_OPTIONS, favored_enemy_levels=FAVORED_ENEMY_LEVELS,
-        favored_terrain_options=FAVORED_TERRAIN_OPTIONS, favored_terrain_levels=FAVORED_TERRAIN_LEVELS,
-        infusion_options=INFUSION_OPTIONS, infusion_levels=INFUSION_LEVELS, infusion_picks=INFUSION_PICKS,
+        create_consts_version=ensure_create_consts_asset(create_consts),
         source_slug_map_version=ensure_source_slug_map_asset(_get_source_slug_map()),
-        subclass_feature_replacements=SUBCLASS_FEATURE_REPLACEMENTS)
+        # the three ASI picker blocks are gated on these; the JS toggles their display, so
+        # the page only needs to know whether the wizard can ever offer them
+        has_half_elf="Half-Elf" in RACES,
+        has_custom_lineage="Custom Lineage" in RACES,
+        has_mpmm_races=bool(MPMM_ASI_RACES))
 
 
 def _race_asi(race_name: str, subrace: str, asi_picks, asi_mode: str = "") -> dict:
