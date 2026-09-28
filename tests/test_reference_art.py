@@ -197,3 +197,20 @@ def test_no_rename_orphans_a_cue():
     orphans = sorted({n for n in ref_portraits._NAME_OVERRIDES.values()
                       if ref_portraits.item_cue(n) is None})
     assert orphans == [], f"renamed to a name no cue matches, so the shape cue is gone: {orphans}"
+
+
+def test_the_bestiary_presentation_states_the_space():
+    """A habitat is what the model draws when nothing says where the creature stands.
+
+    Judged at seed 110, every remaining style failure on the bestiary shelf was habitat rather than
+    texture: a dolphin on open water, a shark breaking through a surface, a winged bull standing on rocks
+    with flames behind it, a rageipede on a dirt strip with plants beside it (a judge checked corner
+    standard deviation on the same tiles - 0.3 to 0.9 - so there was no grain, mottling or vignette left).
+    A seven-tile A/B at one seed with only the presentation clause differing moved four of them onto the
+    plain shelf and tied two, so the clause now states the SPACE. It states it positively: a ban on
+    scenery in the positive prompt is what produced scenery on the item shelf.
+    """
+    for name, sub in (("Riding Horse", "Large, beast, unaligned"), ("Zoog", "")):
+        prompt = ref_portraits.prompt_for("creature", name, sub, "")
+        assert "in an empty grey space" in prompt, prompt
+        assert "no scenery" not in prompt.lower(), "the space is stated, never banned"

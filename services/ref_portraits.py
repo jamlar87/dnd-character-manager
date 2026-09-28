@@ -1365,7 +1365,7 @@ def _base_prompt(kind: str, name: str, subtitle: str = "", snippet: str = "") ->
             return ("Fantasy construct: " + (short_name or "a construct")
                     + (f", {detail}." if detail else ".")
                     + f" {cue}."
-                    + " Full body, single subject." + (f" {tail}" if tail else ""))
+                    + " Full body, single subject, in an empty grey space." + (f" {tail}" if tail else ""))
         # The stat block is dropped SENTENCE BY SENTENCE rather than as a whole tail. Dropping the whole
         # snippet threw away the one part of a bestiary record that describes a body: many of them read
         # "Medium, monstrosity, unaligned. AC 18. HP 39 (6d8 + 12). ... A kruthik's hide is chitinous
@@ -1383,7 +1383,7 @@ def _base_prompt(kind: str, name: str, subtitle: str = "", snippet: str = "") ->
                 clause_lead = ""
         if clause_lead:
             return ("Fantasy bestiary: " + clause_lead.rstrip(".") + ", " + (short_name or "a monster")
-                    + ". Full body, single creature." + (f" {tail}" if tail else ""))
+                    + ". Full body, single creature, in an empty grey space." + (f" {tail}" if tail else ""))
         species = species_cue(" ".join((name or "", subtitle or "",
                                         " ".join((snippet or "").split()[:12]))))
         if species:
@@ -1392,7 +1392,7 @@ def _base_prompt(kind: str, name: str, subtitle: str = "", snippet: str = "") ->
             # the name and got 4/4 where a trailing "humanoid" got 0/4. It has to be here and not in
             # the tail: the tail is where the token window truncates.
             return ("Fantasy bestiary: " + lead + ", " + (short_name or "a figure")
-                    + f". Full body, single {lead.split(' ', 1)[1]}." + f" {traits}"
+                    + f". Full body, single {lead.split(' ', 1)[1]}, in an empty grey space." + f" {traits}"
                     + (f" {tail}" if tail else ""))
         typed = creature_cue(subtitle)
         if typed:
@@ -1402,9 +1402,9 @@ def _base_prompt(kind: str, name: str, subtitle: str = "", snippet: str = "") ->
             # after the name it read as part of the subject on 233 flagged tiles.
             lead, single = typed
             return ("Fantasy bestiary: " + lead + ", " + (short_name or "a monster")
-                    + f". Full body, single {single}." + (f" {tail}" if tail else ""))
+                    + f". Full body, single {single}, in an empty grey space." + (f" {tail}" if tail else ""))
         return ("Fantasy bestiary: " + (short_name or "a monster")
-                + ". Full body, single creature." + (f" {tail}" if tail else ""))
+                + ". Full body, single creature, in an empty grey space." + (f" {tail}" if tail else ""))
     if kind == "item":
         # The item's own prompt name: aliases dropped, and the measured load-bearing names rewritten
         # (see _NAME_OVERRIDES). Only items do this — a bestiary name is not a filing label.
