@@ -1072,35 +1072,13 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       {{ manuals_groups|length }} groups · {{ manuals_groups|sum(attribute='manuals', start=[])|length }} manuals
     </p>
   </div>
-  {% for group in manuals_groups %}
-  <div class="card" style="margin-bottom:0.5rem">
-    <div class="collapse-header" onclick="toggleCollapse(this)" style="margin:0;padding:0.5rem 0.75rem;border:none;display:flex;align-items:center;gap:0.5rem;justify-content:space-between">
-      <span style="display:flex;align-items:center;gap:0.4rem">
-        <span class="collapse-arrow">▶</span>
-        <span style="font-size:0.9rem;font-weight:600">{{ group.group }}</span>
-      </span>
-      <span style="font-size:0.75rem;color:var(--text-muted)">{{ group.manuals|length }}</span>
-    </div>
-    <div class="collapse-body" style="padding:0 0.75rem 0.75rem 0.75rem">
-      <div style="display:flex;flex-direction:column;gap:0.25rem">
-      {% for m in group.manuals %}
-      <div style="display:flex;align-items:center;gap:0.5rem;padding:0.3rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;">
-        <span style="font-size:0.7rem;color:var(--text-muted);flex-shrink:0">📄</span>
-        <span style="font-size:0.82rem;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="{{ m.name }}">{{ m.name }}</span>
-        {% if m.slug %}
-        <a href="/api/reference/open/{{ m.slug }}" target="_blank" class="btn btn-outline btn-xs" style="font-size:0.7rem;padding:0.15rem 0.6rem;flex-shrink:0">Open</a>
-        {% else %}
-        <a href="/api/reference/manual-file/{{ m.path }}" target="_blank" class="btn btn-outline btn-xs" style="font-size:0.7rem;padding:0.15rem 0.6rem;flex-shrink:0">Open</a>
-        {% endif %}
-        {% if m.size > 0 %}
-        <span style="font-size:0.65rem;color:var(--text-muted);flex-shrink:0">{{ (m.size / 1048576)|round(1) }} MB</span>
-        {% endif %}
-      </div>
-      {% endfor %}
-    </div>
+  <div id="manualGroups">
+    {# The tree is drawn by renderManualGroups() from /static/dm-library.js: ~87 rows whose
+       long names and repeated inline styles cost 70 KB of HTML per load. Keep the
+       .collapse-header / .collapse-body / .collapse-arrow classes — toggleCollapse() and the
+       manual filter both read them. #}
+    <noscript>Enable JavaScript to browse the manual library.</noscript>
   </div>
-</div>
-{% endfor %}
 </div>
 
 {# ───── COMBAT PANEL ───── #}

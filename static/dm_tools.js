@@ -208,6 +208,45 @@ function renderMonsterCards() {
   return true;
 }
 
+// ── Manual library tree ──────────────────────────────────────────────────────
+// ~87 rows whose long names and repeated inline styles cost 70 KB of HTML per load. The
+// tree now rides in /static/dm-library.js; markup, classes and sizes match the template's,
+// so toggleCollapse() keeps working.
+function renderManualGroups() {
+  const host = document.getElementById('manualGroups');
+  if (!host || host.dataset.rendered || !Array.isArray(window.DM_MANUALS)) return false;
+  const esc = dmEsc;
+  const html = window.DM_MANUALS.map(function(group) {
+    const rows = (group.items || []).map(function(m) {
+      const name = esc(m.n);
+      const href = m.s ? '/api/reference/open/' + encodeURIComponent(m.s)
+                       : '/api/reference/manual-file/' + esc(m.p || '');
+      const size = m.mb ? '<span style="font-size:0.65rem;color:var(--text-muted);flex-shrink:0">'
+        + Number(m.mb).toFixed(1) + ' MB</span>' : '';
+      return '<div style="display:flex;align-items:center;gap:0.5rem;padding:0.3rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;">'
+        + '<span style="font-size:0.7rem;color:var(--text-muted);flex-shrink:0">📄</span>'
+        + '<span style="font-size:0.82rem;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + name + '">' + name + '</span>'
+        + '<a href="' + href + '" target="_blank" class="btn btn-outline btn-xs" style="font-size:0.7rem;padding:0.15rem 0.6rem;flex-shrink:0">Open</a>'
+        + size
+        + '</div>';
+    }).join('');
+    return '<div class="card" style="margin-bottom:0.5rem">'
+      + '<div class="collapse-header" onclick="toggleCollapse(this)" style="margin:0;padding:0.5rem 0.75rem;border:none;display:flex;align-items:center;gap:0.5rem;justify-content:space-between">'
+      + '<span style="display:flex;align-items:center;gap:0.4rem">'
+      + '<span class="collapse-arrow">▶</span>'
+      + '<span style="font-size:0.9rem;font-weight:600">' + esc(group.g) + '</span>'
+      + '</span>'
+      + '<span style="font-size:0.75rem;color:var(--text-muted)">' + (group.items || []).length + '</span>'
+      + '</div>'
+      + '<div class="collapse-body" style="padding:0 0.75rem 0.75rem 0.75rem">'
+      + '<div style="display:flex;flex-direction:column;gap:0.25rem">' + rows + '</div>'
+      + '</div></div>';
+  });
+  host.innerHTML = html.join('');
+  host.dataset.rendered = '1';
+  return true;
+}
+
 // ── Reference spell cards ────────────────────────────────────────────────────
 // ~700 cards (~580 KB of HTML) used to be server-rendered on every /dm-tools load.
 // The rows now ride in /static/dm-library.js; the markup and data-* attributes match
@@ -5043,6 +5082,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   const renderedNpcs = renderManualNpcRows();
   const renderedTraps = renderTrapCards();
   const renderedSpells = renderSpellCards();
+  renderManualGroups();
 
   // ── Manual (book) filter on every search bar ──
   if (window.SourceFilter) {

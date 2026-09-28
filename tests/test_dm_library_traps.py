@@ -37,7 +37,7 @@ class TestReferenceTrapsRideInTheAsset:
         assert html.count('class="trap-card"') == 0
         # The libraries and constant tables are cached-asset data now; a jump back over this
         # line means one is being inlined again. See tests/test_dm_library_spells.py.
-        assert len(html) < 230_000, f"/dm-tools is back to {len(html)} B"
+        assert len(html) < 150_000, f"/dm-tools is back to {len(html)} B"
 
     def test_trap_row_fields_match_the_template_markup(self, client, seeded_db, auth_headers):
         client.get("/dm-tools", headers=auth_headers)

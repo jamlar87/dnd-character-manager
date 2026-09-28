@@ -12,11 +12,12 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-#: The page's byte budget. Tight on purpose: the five libraries/const blocks are cached-asset
+#: The page's byte budget. Tight on purpose: the libraries and constant tables are cached-asset
 #: data now, so a jump back over this line means one is being inlined again. The rest of the
 #: page is the DM's own campaigns/encounters/characters, which legitimately grows — hence the
-#: headroom over the ~165 KB the test fixture renders (~189 KB with real DM data).
-PAGE_BUDGET = 230_000
+#: headroom over the ~100 KB the test fixture renders (102 KB with real DM data). The exact
+#: "no page inlines X" tests in tests/test_reference_consts_asset.py are the precise net.
+PAGE_BUDGET = 150_000
 
 
 def asset_payload() -> dict:

@@ -296,7 +296,9 @@ async def dm_tools(request: Request):
                        sorted(SRD_SPELLS, key=lambda s: alpha_key(s.get("name"))),
                        # 18 KB + 38 KB of global constant data the page used to inline.
                        named_item_types=_get_named_item_types(),
-                       summon_templates=SUMMON_TEMPLATES),
+                       summon_templates=SUMMON_TEMPLATES,
+                       # ~87 manual rows: a global tree, so it rides in the asset too.
+                       manual_groups=manuals_groups),
                    dm_tools_js_version=static_asset_version("dm_tools.js"),
                    source_slug_map_version=ensure_source_slug_map_asset(_get_source_slug_map()),
                    cr_ranges=cr_ranges,
@@ -864,7 +866,8 @@ def _monster_card_payload(m: dict) -> dict:
 
 
 def ensure_dm_library_asset(monsters, manual_npcs, traps=(), spells=(),
-                           named_item_types=None, summon_templates=None) -> str:
+                           named_item_types=None, summon_templates=None,
+                           manual_groups=()) -> str:
     """Write static/dm-library.js — reference data the DM tools panels render.
 
     The panels used to server-render every row: ~1,900 monster cards, ~400
@@ -881,10 +884,11 @@ def ensure_dm_library_asset(monsters, manual_npcs, traps=(), spells=(),
         npcs = [_manual_npc_payload(n) for n in manual_npcs]
         traps = [_trap_card_payload(t) for t in traps]
         spells = [_spell_card_payload(s) for s in spells]
+        manuals = _manual_group_payload(manual_groups)
         # A real JSON object (not a JS literal) so the payload is parseable and
         # diffable; the aliases keep dm_tools.js readable.
         payload = json.dumps({"monsters": monsters, "manualNpcs": npcs, "traps": traps,
-                              "spells": spells},
+                              "spells": spells, "manuals": manuals},
                              separators=(",", ":"), default=str)
         # NAMED_ITEM_TYPES (18 KB) and SUMMON_TEMPLATES (38 KB) were inline <script>
         # data on the page: re-sent on every load, uncacheable. /dm-tools is their only
@@ -902,7 +906,8 @@ def ensure_dm_library_asset(monsters, manual_npcs, traps=(), spells=(),
             "window.DM_MONSTERS = window.DM_LIBRARY.monsters;\n"
             "window.DM_MANUAL_NPCS = window.DM_LIBRARY.manualNpcs;\n"
             "window.DM_TRAPS = window.DM_LIBRARY.traps;\n"
-            "window.DM_SPELLS = window.DM_LIBRARY.spells;\n" + consts)
+            "window.DM_SPELLS = window.DM_LIBRARY.spells;\n"
+            "window.DM_MANUALS = window.DM_LIBRARY.manuals;\n" + consts)
         target = STATIC / "dm-library.js"
         if not target.exists() or target.read_text() != body:
             target.write_text(body)
@@ -960,6 +965,28 @@ def _trap_card_payload(t: dict) -> dict:
         "disd": dis.get("detail") or "",
         "eff": t.get("effect") or "",
     }
+
+
+def _manual_group_payload(groups) -> list:
+    """Manual library tree for the DM tools panel: [{'g': group, 'items': [row…]}].
+
+    Global (the server's manual directory), ~87 rows whose long names and repeated inline
+    styles cost 70 KB of HTML on every load.
+    """
+    out = []
+    for group in groups or []:
+        rows = []
+        for m in group.get("manuals") or []:
+            row = {"n": m.get("name", "")}
+            if m.get("slug"):
+                row["s"] = m["slug"]
+            elif m.get("path"):
+                row["p"] = m["path"]
+            if (m.get("size") or 0) > 0:
+                row["mb"] = round(m["size"] / 1048576, 1)
+            rows.append(row)
+        out.append({"g": group.get("group", ""), "items": rows})
+    return out
 
 
 def _spell_card_payload(s: dict) -> dict:
