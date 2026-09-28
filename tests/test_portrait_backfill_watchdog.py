@@ -35,9 +35,23 @@ def load(monkeypatch, tmp_path, **attrs):
     monkeypatch.setattr(mod, "STATE", tmp_path / ".state")
     monkeypatch.setattr(mod, "LOG", tmp_path / "backfill.log")
     monkeypatch.setattr(mod, "SCRATCH", tmp_path)
+    # ART and RUN_LOGS are module constants built at import, so patching only MARKER/LOG
+    # left them pointing at this box's real state: last_activity() then read the newest
+    # mtime under static/ref-portraits and /tmp/portrait_run.log, and a live run looked
+    # STALLED the moment the art library finished — which sent main() into stop_runs() with
+    # the pid the test had stubbed. Redirect both into tmp_path so liveness is hermetic.
+    monkeypatch.setattr(mod, "ART", tmp_path / "art")
+    monkeypatch.setattr(mod, "RUN_LOGS", (tmp_path / "backfill.log", tmp_path / "run.log"))
     for k, v in attrs.items():
         monkeypatch.setattr(mod, k, v)
     return mod
+
+
+def no_kills(monkeypatch, mod):
+    """A test that presents a live run must fail loudly if main() decides to signal anything."""
+    def boom(pids):
+        raise AssertionError(f"a live run must never be stopped, got pids {pids!r}")
+    monkeypatch.setattr(mod, "stop_runs", boom)
 
 
 def capture(mod, argv=()):
@@ -51,6 +65,7 @@ def capture(mod, argv=()):
 class TestSilenceWhileRunning:
     def test_cron_mode_is_silent_when_a_run_is_live(self, monkeypatch, tmp_path):
         mod = load(monkeypatch, tmp_path, running_generators=lambda: ["1234 python3 generate_portraits.py"])
+        no_kills(monkeypatch, mod)
         rc, out = capture(mod)
         assert rc == 0
         assert out == "", f"a live run must produce no cron message, got {out!r}"
@@ -58,6 +73,7 @@ class TestSilenceWhileRunning:
     def test_verbose_still_reports_while_running(self, monkeypatch, tmp_path):
         mod = load(monkeypatch, tmp_path, running_generators=lambda: ["1234 python3 generate_portraits.py"],
                    marker_pid=lambda: 1234)
+        no_kills(monkeypatch, mod)
         rc, out = capture(mod, ["--verbose"])
         assert rc == 0 and "nothing to do" in out
 
