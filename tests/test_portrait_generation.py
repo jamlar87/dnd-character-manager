@@ -204,11 +204,17 @@ class TestHonestFailure:
         assert not stored
 
     def test_wizard_no_longer_claims_a_free_daily_quota(self):
+        """The wizard's portrait-failure copy: no invented "free daily quota", no "queued"
+        promise, and the provider's real error shown. The wizard JS is a static asset now, so
+        read it there — and the template too, which only matches if someone re-inlines it."""
         from pathlib import Path
-        html = (Path(__file__).resolve().parent.parent / "templates" / "create.html").read_text()
-        assert "Free tier ~50/day" not in html
-        assert "Generation queued" not in html
-        assert "data.error" in html, "the wizard shows the real reason"
+        root = Path(__file__).resolve().parent.parent
+        js = (root / "static" / "create.js").read_text()
+        html = (root / "templates" / "create.html").read_text()
+        for source in (js, html):
+            assert "Free tier ~50/day" not in source
+            assert "Generation queued" not in source
+        assert "data.error" in js, "the wizard shows the real reason"
 
 
 class TestCreateWizardWriterIsUnified:
