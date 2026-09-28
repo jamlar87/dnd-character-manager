@@ -1200,14 +1200,15 @@ async def character_sheet(char_id: int, request: Request):
                    expertise_levels=EXPERTISE_LEVELS,
                    expertise_options=expertise_options,
                    expertise_count=expertise_count,
-                   source_map_json=json.dumps(_get_source_slug_map()),
+                   # source_map_json / summon_templates were dead context here: no template
+                   # in the sheet's render path reads them, and building them cost a 31 KB
+                   # json.dumps on every load.
                    rider_cards=rider_cards,
                    invocation_levels=INVOCATION_LEVELS,
                    invocation_picks=INVOCATION_PICKS,
                    invocations_by_level=invocations_by_level,
                    invocation_options=INVOCATION_OPTIONS,
                    pact_boon_options=PACT_BOON_OPTIONS,
-                   summon_templates=SUMMON_TEMPLATES,
                    advantage_map=advantage_map,
                    current_user_id=user["id"],
                    is_owner=char.get("user_id") == user["id"])

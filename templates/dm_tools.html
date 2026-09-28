@@ -1209,12 +1209,14 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {% endblock %}
 
 {% block scripts %}
+{# SOURCE_SLUG_MAP / NAMED_ITEM_TYPES / SUMMON_TEMPLATES were ~88 KB of inline JSON here,
+   re-sent on every load and uncacheable. They are global reference tables, so they now ride
+   in versioned assets — the two DM-tools-only ones in dm-library.js. COMBAT_CHARACTERS stays
+   inline: that is the DM's own roster. #}
+<script src="/static/source-slug-map.js?v={{ source_slug_map_version }}"></script>
 <script src="/static/dm-library.js?v={{ dm_library_version }}"></script>
 <script>
-    const SOURCE_SLUG_MAP = {{ source_map_json|safe }};
-const NAMED_ITEM_TYPES = {{ named_item_types|tojson }};
-const SUMMON_TEMPLATES = {{ summon_templates|tojson }};
 const COMBAT_CHARACTERS = {{ characters_json|safe }};
-    </script>
+</script>
 <script src="/static/dm_tools.js?v={{ dm_tools_js_version }}"></script>
 {% endblock %}

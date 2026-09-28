@@ -12,9 +12,11 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-#: The page's byte budget. Tight on purpose: the four libraries are client-rendered now, so
-#: a jump back over this line means a library is being inlined again (or a new one is).
-PAGE_BUDGET = 400_000
+#: The page's byte budget. Tight on purpose: the five libraries/const blocks are cached-asset
+#: data now, so a jump back over this line means one is being inlined again. The rest of the
+#: page is the DM's own campaigns/encounters/characters, which legitimately grows — hence the
+#: headroom over the ~165 KB the test fixture renders (~189 KB with real DM data).
+PAGE_BUDGET = 230_000
 
 
 def asset_payload() -> dict:

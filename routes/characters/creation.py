@@ -15,6 +15,8 @@ from datetime import datetime
 from fastapi import APIRouter, Request, HTTPException, Form, Query
 from fastapi.responses import HTMLResponse, JSONResponse
 
+from services.reference_assets import ensure_source_slug_map_asset
+
 from main import (
     get_db, require_user, _render, _get_source_slug_map,
     RACES, RACE_NAMES, CLASSES, BACKGROUNDS, BACKGROUND_SOURCES, ALIGNMENTS,
@@ -70,7 +72,7 @@ async def create_character_page(request: Request):
         favored_enemy_options=FAVORED_ENEMY_OPTIONS, favored_enemy_levels=FAVORED_ENEMY_LEVELS,
         favored_terrain_options=FAVORED_TERRAIN_OPTIONS, favored_terrain_levels=FAVORED_TERRAIN_LEVELS,
         infusion_options=INFUSION_OPTIONS, infusion_levels=INFUSION_LEVELS, infusion_picks=INFUSION_PICKS,
-        source_map_json=json.dumps(_get_source_slug_map()),
+        source_slug_map_version=ensure_source_slug_map_asset(_get_source_slug_map()),
         subclass_feature_replacements=SUBCLASS_FEATURE_REPLACEMENTS)
 
 

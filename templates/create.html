@@ -276,6 +276,9 @@
   </div>
 </div>
 
+<script src="/static/source-slug-map.js?v={{ source_slug_map_version }}"></script>
+{# SOURCE_SLUG_MAP used to be inlined here (~31 KB of JSON, re-sent every load and
+   uncacheable). It is global reference data, so it rides in that versioned asset. #}
 <script>
 const RACES = {{ races | tojson }};
 const SUBASIS = {{ subasis | tojson }};
@@ -563,7 +566,6 @@ function _srcBadge(src, slug) {
   return `<span class="src-badge" onclick="openSourceRef(this.dataset.src, this.dataset.slug)" data-src="${src}" data-slug="${slug||''}" title="Click to open ${src}">📚 ${short}</span>`;
 }
 
-const SOURCE_SLUG_MAP = {{ source_map_json|safe }};
 function openSourceRef(src, slug) {
   if (!src || src.startsWith('SRD')) return;
   const pageMatch = src.match(/\b[pP]\.?\s*(\d+)/);
