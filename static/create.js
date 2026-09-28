@@ -388,6 +388,9 @@ function selectRace(name) {
 }
 
 function selectSubrace(s) {
+  if (state.subrace !== s) {   // the MPMM entry can be the subrace, so its picks are per-subrace
+    state.mpmm_mode = ""; state.mpmm_p2 = ""; state.mpmm_p1 = ""; state.mpmm_t3 = [];
+  }
   state.subrace = s;
   document.querySelectorAll('#subrace-grid .option-card').forEach(c => c.classList.toggle('selected', c.dataset.name === s));
   // Refresh race info without resetting subrace
@@ -578,8 +581,8 @@ function updateAsiPreview() {
   if (state.subrace && SUBASIS[state.subrace]) Object.entries(SUBASIS[state.subrace]).forEach(([k,v]) => bonuses[k] = (bonuses[k]||0)+v);
   if (state.race === 'Half-Elf' && state.asi_picks.length === 2) state.asi_picks.forEach(a => bonuses[a] = (bonuses[a]||0)+1);
   if (FLEXIBLE_ASI.has(state.race) && state.asi_picks.length === 1) bonuses[state.asi_picks[0]] = (bonuses[state.asi_picks[0]]||0)+2;
-  // MPMM (Tortle): the chosen spread REPLACES the record's default +2 STR/+1 WIS.
-  const _mpmm = MPMM_ASI.has(state.race) ? mpmmPicks() : null;
+  // MPMM: the chosen spread REPLACES the record's default +2 STR/+1 WIS.
+  const _mpmm = isMpmmRace() ? mpmmPicks() : null;
   if (_mpmm && _mpmm.length) { bonuses = {}; _mpmm.forEach(([a, v]) => bonuses[a] = v); }
   renderMpmmGrids();
   document.getElementById('asi-bonus').innerHTML = Object.entries(bonuses).map(([k,v]) => `${k.slice(0,3).toUpperCase()}+${v}`).join(' · ') || '';
@@ -619,6 +622,14 @@ function toggleAsiPick(a, checked) {
 // different ones (MPMM p.5, "Ability Score Increases" — chapter-wide, not repeated per race). That pick REPLACES the record's default +2 STR/+1 WIS spread —
 // the server does the same swap in routes/characters/creation.py. Nothing picked = the default
 // stands, which MPMM also permits (the picker says so on screen).
+// Monsters of the Multiverse's flexible spread applies to some races this app models as
+// SUBRACES (Genasi's Air/Earth/Fire/Water are four races in MPMM p.16-17), so the entry may
+// match either name. Every MPMM check goes through here — testing state.race alone made the
+// Genasi entries unreachable.
+function isMpmmRace() {
+  return MPMM_ASI.has(state.race) || (!!state.subrace && MPMM_ASI.has(state.subrace));
+}
+
 function mpmmPicks() {
   if (state.mpmm_mode === 'two' && state.mpmm_p2 && state.mpmm_p1 && state.mpmm_p2 !== state.mpmm_p1)
     return [[state.mpmm_p2, 2], [state.mpmm_p1, 1]];
@@ -663,7 +674,7 @@ function renderMpmmHint() {
 function renderMpmmGrids() {
   const box = document.getElementById('mpmm-picks');
   if (!box) return;
-  if (!MPMM_ASI.has(state.race)) { box.style.display = 'none'; return; }
+  if (!isMpmmRace()) { box.style.display = 'none'; return; }
   box.style.display = 'block';
   renderMpmmHint();
   document.querySelectorAll('input[name="mpmm-mode"]').forEach(el => { el.checked = (el.value === state.mpmm_mode); });
@@ -807,7 +818,7 @@ function buildReview() {
     ${state.equipment && state.equipment.length ? `<p style="font-size:0.85rem;color:var(--text-muted)">Equipment: ${state.equipment.join(', ')}</p>` : ''}
     ${state.race === 'Half-Elf' && state.asi_picks.length ? `<p style="font-size:0.85rem;color:var(--accent)">Half-Elf bonus: ${state.asi_picks.map(a=>a.slice(0,3).toUpperCase()).join(', ')}</p>` : ''}
     ${FLEXIBLE_ASI.has(state.race) && state.asi_picks.length ? `<p style="font-size:0.85rem;color:var(--accent)">ASI pick: ${state.asi_picks.map(a=>a.slice(0,3).toUpperCase()).join(', ')} +2</p>` : ''}
-    ${MPMM_ASI.has(state.race) && mpmmPicks().length ? `<p style="font-size:0.85rem;color:var(--accent)">ASI choice: ${mpmmPicks().map(([a,v])=>a.slice(0,3).toUpperCase()+'+'+v).join(', ')} <span style="color:var(--text-muted)">(MPMM)</span></p>` : ''}
+    ${isMpmmRace() && mpmmPicks().length ? `<p style="font-size:0.85rem;color:var(--accent)">ASI choice: ${mpmmPicks().map(([a,v])=>a.slice(0,3).toUpperCase()+'+'+v).join(', ')} <span style="color:var(--text-muted)">(MPMM)</span></p>` : ''}
     ${(state.race === 'Dragonborn' || state.race === 'Dragonblood') && !state.dragonborn_ancestry ? `<p style="font-size:0.85rem;color:var(--danger);margin-top:0.5rem">⚠ Draconic Ancestry not selected — required for resistance & breath weapon</p>` : ''}
     ${(state.race === 'Dragonborn' || state.race === 'Dragonblood') && state.dragonborn_ancestry ? `<p style="font-size:0.85rem;color:var(--accent)">Draconic Ancestry: ${state.dragonborn_ancestry}</p>` : ''}
     ${state.subclass_bonus && state.subclass_bonus.length ? `<p style="font-size:0.85rem;color:var(--accent)">Bonus: ${state.subclass_bonus.join(', ')}</p>` : ''}
@@ -1379,8 +1390,8 @@ async function createCharacter() {
       favored_enemies: state.favored_enemies,
       favored_terrains: state.favored_terrains,
       infusions: state.infusions,
-      asi_picks: MPMM_ASI.has(state.race) ? mpmmPicks().map(x => x[0]) : state.asi_picks,
-      asi_mode: MPMM_ASI.has(state.race) ? state.mpmm_mode : "",
+      asi_picks: isMpmmRace() ? mpmmPicks().map(x => x[0]) : state.asi_picks,
+      asi_mode: isMpmmRace() ? state.mpmm_mode : "",
       background: state.background,
       background_data: state.background_data || '',
       alignment: state.alignment, personality: state.personality, backstory: state.backstory,

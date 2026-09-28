@@ -108,7 +108,8 @@ def _race_asi(race_name: str, subrace: str, asi_picks, asi_mode: str = "") -> di
       * FLEXIBLE_ASI_RACES — zero-ASI races (Custom Lineage, Grung, …) where a single pick ADDS +2;
       * MPMM_ASI_RACES — the book lets the player choose +2/+1 or +1/+1/+1, so the pick REPLACES
         the record's default spread (the default is already a +2/+1, so adding would double it).
-        No valid pick = the default stands, which MPMM also permits.
+        No valid pick = the default stands, which MPMM also permits. An entry may be the race OR
+        a subrace (Genasi's four elements are one race here and four races in that book).
     """
     race_asi = dict((RACES.get(race_name, {}) or {}).get("asi", {}))
     if subrace and subrace in SUBASIS:
@@ -124,8 +125,10 @@ def _race_asi(race_name: str, subrace: str, asi_picks, asi_mode: str = "") -> di
     # Custom Lineage / other zero-ASI races: +2 to one ability (same reasoning).
     if race_name in FLEXIBLE_ASI_RACES and len(picks) == 1:
         race_asi[picks[0]] = race_asi.get(picks[0], 0) + 2
-    # Monsters of the Multiverse: the player's chosen spread takes the record's place.
-    if race_name in MPMM_ASI_RACES:
+    # Monsters of the Multiverse: the player's chosen spread takes the record's place. The book
+    # lists races this app models as SUBRACES (Genasi's Air/Earth/Fire/Water), so the name it
+    # matches can be either one — testing only the race would never match a Genasi picker.
+    if race_name in MPMM_ASI_RACES or (subrace and subrace in MPMM_ASI_RACES):
         if asi_mode == "two" and len(picks) == 2 and picks[0] != picks[1]:
             race_asi = {picks[0]: 2, picks[1]: 1}
         elif asi_mode == "three" and len(set(picks)) == 3:

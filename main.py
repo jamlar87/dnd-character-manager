@@ -647,8 +647,15 @@ FLEXIBLE_ASI_RACES = {
 # so for them a blank picker means no increase at all — the wizard says so on screen rather
 # than pretending there is a default to keep.
 MPMM_ASI_RACES = {
-    "Tortle", "Fairy", "Air Genasi", "Earth Genasi", "Githyanki",
-    "Githzerai", "Harengon", "Satyr", "Yuan-ti",
+    # Genasi arrives here as ONE race carrying the four element subraces (EEPC p.9-10), while
+    # MPMM lists each element as its own race (MPMM p.16-17: "Genasi, Air/Earth/Fire/Water") —
+    # so the subrace names belong in this set too, and the check has to match either name
+    # (see _race_asi and isMpmmRace() in static/create.js) or a Genasi could never pick.
+    "Tortle", "Fairy", "Air Genasi", "Earth Genasi", "Fire Genasi", "Water Genasi",
+    # MPMM p.18-19; this app has not ingested either as a race yet, so these entries are inert
+    # until it does — they are what makes the picker appear the moment one is added.
+    "Githyanki", "Githzerai",
+    "Harengon", "Satyr", "Yuan-ti",
 }
 
 # ── Rich supplement race descriptions ──

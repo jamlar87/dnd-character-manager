@@ -165,17 +165,75 @@ def test_picker_block_is_present():
 
 def test_client_replaces_the_default_bonus_dict():
     """The JS must drop the record's bonuses before applying the pick — `bonuses = {}`."""
-    body = re.search(r"const _mpmm = MPMM_ASI\.has.*?\n(.*?)\n  document\.getElementById\('asi-bonus'\)",
+    body = re.search(r"const _mpmm = isMpmmRace\(\).*?\n(.*?)\n  document\.getElementById\('asi-bonus'\)",
                      CREATE_JS, re.S)
     assert body, "MPMM preview block missing from updateAsiPreview()"
     assert "bonuses = {}" in body.group(1)
 
 
 def test_payload_sends_the_mode_and_picks():
-    assert 'asi_mode: MPMM_ASI.has(state.race) ? state.mpmm_mode : ""' in CREATE_JS
-    assert "asi_picks: MPMM_ASI.has(state.race) ? mpmmPicks().map(x => x[0])" in CREATE_JS
+    assert 'asi_mode: isMpmmRace() ? state.mpmm_mode : ""' in CREATE_JS
+    assert "asi_picks: isMpmmRace() ? mpmmPicks().map(x => x[0])" in CREATE_JS
 
 
 def test_race_change_clears_the_mpmm_picks():
     assert 'state.mpmm_mode = ""; state.mpmm_p2 = ""; state.mpmm_p1 = ""; state.mpmm_t3 = [];' \
         in CREATE_JS
+
+
+# ── the subrace-shaped entries (Genasi) ──────────────────────────────────────
+
+def test_a_genasi_subrace_can_pick():
+    """MPMM lists the four Genasi as races of their own (MPMM p.16-17: "Genasi, Air/Earth/Fire/
+    Water") while this app models ONE race carrying the four element subraces. Every check used
+    to read the race name, so the "Air Genasi"/"Earth Genasi" entries in MPMM_ASI_RACES could
+    never be reached: the picker never appeared and a pick would have been ignored server-side."""
+    assert _race_asi("Genasi", "Air Genasi", ["strength", "dexterity"], "two") == {
+        "strength": 2, "dexterity": 1}
+
+
+def test_all_four_genasi_elements_are_listed():
+    """Fire and Water were missing from the set although the same book lists all four."""
+    assert {"Air Genasi", "Earth Genasi", "Fire Genasi", "Water Genasi"} <= set(main.MPMM_ASI_RACES)
+    assert _race_asi("Genasi", "Fire Genasi", ["strength", "dexterity", "wisdom"], "three") == {
+        "strength": 1, "dexterity": 1, "wisdom": 1}
+
+
+def test_a_genasi_without_a_pick_keeps_its_eepc_default():
+    """The choice is optional: blank keeps the record's spread plus the subrace's (EEPC p.9)."""
+    assert _race_asi("Genasi", "Air Genasi", [], "") == {"constitution": 2, "dexterity": 1}
+    assert _race_asi("Genasi", "", [], "") == {"constitution": 2}
+
+
+#: MPMM races this app has not ingested yet — inert by design, kept so the picker works the day
+#: one is added (MPMM p.18-19). An entry that is neither here nor a real race/subrace is rot.
+NOT_YET_INGESTED = {"Githyanki", "Githzerai"}
+
+
+def test_every_mpmm_entry_matches_a_real_race_or_subrace():
+    """The Genasi entries sat unreachable for who knows how long because nothing checked that an
+    entry still names something the app has."""
+    known = set(main.RACES)
+    subraces = {s for r in main.RACES.values() for s in (r.get("subraces") or [])}
+    orphans = sorted(n for n in main.MPMM_ASI_RACES
+                     if n not in known | subraces and n not in NOT_YET_INGESTED)
+    assert not orphans, f"MPMM_ASI_RACES entries match no race or subrace: {orphans}"
+
+
+# ── client half: the same either-name rule ───────────────────────────────────
+
+def test_the_client_matches_the_subrace_too():
+    assert "function isMpmmRace()" in CREATE_JS
+    assert "MPMM_ASI.has(state.subrace)" in CREATE_JS
+    # no check may go back to the bare race name
+    assert "MPMM_ASI.has(state.race) && mpmmPicks()" not in CREATE_JS
+    assert 'asi_mode: MPMM_ASI.has(state.race)' not in CREATE_JS
+    assert CREATE_JS.count("isMpmmRace()") >= 5
+
+
+def test_changing_the_subrace_clears_the_picks():
+    """A pick belongs to the subrace that offered it (Air and Fire Genasi are different MPMM
+    races), so switching element cannot leave the previous spread in place."""
+    body = re.search(r"function selectSubrace\(s\) \{(.*?)\n  state\.subrace = s;", CREATE_JS, re.S)
+    assert body, "selectSubrace no longer sets state.subrace"
+    assert 'state.mpmm_mode = ""' in body.group(1)
