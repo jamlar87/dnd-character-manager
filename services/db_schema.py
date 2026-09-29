@@ -475,6 +475,17 @@ def _migrate_npc_source_columns():
         );
     """)
 
+    # Migration: map fog of war + freehand drawing (one row per map, both layers)
+    for col, coltype in (
+        ("fog", "TEXT DEFAULT '[]'"),        # revealed cell keys, "col,row" (square) or "q,r" (hex)
+        ("fog_on", "INTEGER DEFAULT 0"),
+        ("draw_data", "TEXT DEFAULT '[]'"),  # freehand strokes: [{color, width, points: [[x,y],..]}]
+    ):
+        try:
+            db.execute(f"ALTER TABLE dm_maps ADD COLUMN {col} {coltype}")
+        except sqlite3.OperationalError:
+            pass
+
     # Existing installations keep their users; no default credentials are created.
     db.commit()
     db.close()

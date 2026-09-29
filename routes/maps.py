@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from pathlib import Path
 
 from fastapi import APIRouter, HTTPException, Request
@@ -195,13 +196,21 @@ async def dm_map_create(request: Request):
 
 @router.get("/api/dm/map/{map_id}", response_class=JSONResponse)
 async def dm_map_detail(map_id: int, request: Request):
-    """One map with everything needed to draw it."""
+    """One map with everything needed to draw it.
+
+    The two overlay layers come back parsed (`fog` = revealed cell keys, `draw` = strokes)
+    because only the canvas cares about them and a JSON string in the payload means every
+    caller has to remember to parse it.
+    """
     user = require_user(request)
     db = get_db()
     try:
         row = _own_map(db, user, map_id)
         if not row:
             return JSONResponse({"error": "Not found"}, status_code=404)
+        row = dict(row)
+        row["fog"] = _clean_fog(_safe_json(row.get("fog"), []))
+        row["draw"] = _clean_draw(_safe_json(row.get("draw_data"), []))
         return JSONResponse({"map": row, "tokens": _tokens_of(db, map_id), "scenes": _scenes_of(db, map_id)})
     finally:
         db.close()
@@ -410,6 +419,15 @@ async def dm_map_token_update(token_id: int, request: Request):
             return JSONResponse({"ok": True, "unchanged": True})
         params.append(token_id)
         db.execute(f"UPDATE dm_map_tokens SET {', '.join(sets)} WHERE id = ?", params)
+        # HP changed on a token that came from the tracker: keep the tracker's row in step, so
+        # the DM does not have to wound the same goblin twice.
+        if "hp_current" in data or "hp_max" in data:
+            row = db.execute("SELECT encounter_en_id, hp_current, hp_max FROM dm_map_tokens WHERE id = ?",
+                             (token_id,)).fetchone()
+            if row and row["encounter_en_id"]:
+                db.execute("UPDATE dm_encounter_npcs SET hp_current = ?, hp_max = ?, "
+                           "defeated = CASE WHEN ? <= 0 THEN 1 ELSE defeated END WHERE id = ?",
+                           (row["hp_current"], row["hp_max"], row["hp_current"], row["encounter_en_id"]))
         db.commit()
         out = db.execute("SELECT * FROM dm_map_tokens WHERE id = ?", (token_id,)).fetchone()
         return JSONResponse({"ok": True, "token": dict(out)})
@@ -431,6 +449,89 @@ async def dm_map_token_delete(token_id: int, request: Request):
         db.close()
 
 
+# ── overlay layers: fog of war + freehand drawing ──────────────────────────────────────
+
+FOG_MAX = 20000          # revealed cells; a map bigger than this is not being played on
+DRAW_MAX_STROKES = 400
+DRAW_MAX_POINTS = 2000
+_CELL_KEY = re.compile(r"^-?\d{1,6},-?\d{1,6}$")
+
+
+def _clean_fog(raw) -> list[str]:
+    """Revealed cells, as "col,row" (square) or "q,r" (hex). Validated, deduped, capped.
+
+    The key format is the same for both grid types — the canvas interprets it per grid — so a
+    map switched from square to hex keeps whatever it had rather than losing the layer.
+    """
+    if not isinstance(raw, list):
+        return []
+    out, seen = [], set()
+    for item in raw[:FOG_MAX]:
+        key = str(item)
+        if _CELL_KEY.match(key) and key not in seen:
+            seen.add(key)
+            out.append(key)
+    return out
+
+
+def _clean_draw(raw) -> list[dict]:
+    """Freehand strokes, bounded: a runaway client must not be able to fill the row."""
+    if not isinstance(raw, list):
+        return []
+    out = []
+    for stroke in raw[:DRAW_MAX_STROKES]:
+        if not isinstance(stroke, dict):
+            continue
+        pts = stroke.get("points")
+        if not isinstance(pts, list):
+            continue
+        clean_pts = []
+        for pt in pts[:DRAW_MAX_POINTS]:
+            if isinstance(pt, (list, tuple)) and len(pt) >= 2:
+                clean_pts.append([round(_fnum(pt[0]), 1), round(_fnum(pt[1]), 1)])
+        if len(clean_pts) >= 2:
+            out.append({
+                "color": str(stroke.get("color") or "#e5e7eb")[:24],
+                "width": _inum(stroke.get("width"), 4, 1, 40),
+                "points": clean_pts,
+            })
+    return out
+
+
+@router.post("/api/dm/map/{map_id}/layer", response_class=JSONResponse)
+async def dm_map_layer_save(map_id: int, request: Request):
+    """Save the fog and/or the drawing (the canvas' debounced overlay save).
+
+    Separate from `/tokens` because the two change for different reasons and a fog sweep
+    should never rewrite placements.
+    """
+    user = require_user(request)
+    data = await request.json()
+    db = get_db()
+    try:
+        if not _own_map(db, user, map_id):
+            return JSONResponse({"error": "Not found"}, status_code=404)
+        sets, params = [], []
+        if "fog" in data:
+            sets.append("fog = ?"); params.append(json.dumps(_clean_fog(data.get("fog"))))
+        if "fog_on" in data:
+            sets.append("fog_on = ?"); params.append(1 if data.get("fog_on") else 0)
+        if "draw" in data:
+            sets.append("draw_data = ?"); params.append(json.dumps(_clean_draw(data.get("draw"))))
+        if not sets:
+            return JSONResponse({"ok": True, "unchanged": True})
+        params.append(map_id)
+        db.execute(f"UPDATE dm_maps SET {', '.join(sets)} WHERE id = ?", params)
+        db.commit()
+        row = dict(_own_map(db, user, map_id) or {})
+        return JSONResponse({"ok": True,
+                             "fog": _clean_fog(_safe_json(row.get("fog"), [])),
+                             "fog_on": row.get("fog_on") or 0,
+                             "draw": _clean_draw(_safe_json(row.get("draw_data"), []))})
+    finally:
+        db.close()
+
+
 # ── snapshots ("game saves" for one map) ───────────────────────────────────────────────
 
 @router.post("/api/dm/map/{map_id}/snapshot", response_class=JSONResponse)
@@ -446,7 +547,14 @@ async def dm_map_snapshot(map_id: int, request: Request):
         row = _own_map(db, user, map_id)
         if not row:
             return JSONResponse({"error": "Not found"}, status_code=404)
-        snapshot = json.dumps({"tokens": _tokens_of(db, map_id), "camera": row.get("camera") or ""})
+        snapshot = json.dumps({
+            "tokens": _tokens_of(db, map_id),
+            "camera": row.get("camera") or "",
+            # a prepared setup is also "what the party has already seen" and what is drawn on it
+            "fog": _safe_json(row.get("fog"), []),
+            "fog_on": row.get("fog_on") or 0,
+            "draw": _safe_json(row.get("draw_data"), []),
+        })
         cur = db.execute("INSERT INTO dm_map_scenes (map_id, name, snapshot) VALUES (?,?,?)",
                          (map_id, name[:60], snapshot))
         db.commit()
@@ -475,7 +583,25 @@ async def dm_map_scene_restore(scene_id: int, request: Request):
         if camera:
             db.execute("UPDATE dm_maps SET camera = ? WHERE id = ?", (str(camera)[:400], scene["map_id"]))
             db.commit()
-        return JSONResponse({"ok": True, "tokens": tokens, "camera": camera or ""})
+        layers = {}
+        if "fog" in blob or "fog_on" in blob:
+            layers["fog"] = _clean_fog(blob.get("fog"))
+            layers["fog_on"] = 1 if blob.get("fog_on") else 0
+        if "draw" in blob:
+            layers["draw"] = _clean_draw(blob.get("draw"))
+        if layers:
+            sets, params = [], []
+            if "fog" in layers:
+                sets.append("fog = ?"); params.append(json.dumps(layers["fog"]))
+                sets.append("fog_on = ?"); params.append(layers["fog_on"])
+            if "draw" in layers:
+                sets.append("draw_data = ?"); params.append(json.dumps(layers["draw"]))
+            params.append(scene["map_id"])
+            db.execute(f"UPDATE dm_maps SET {', '.join(sets)} WHERE id = ?", params)
+            db.commit()
+        return JSONResponse({"ok": True, "tokens": tokens, "camera": camera or "",
+                             "fog": layers.get("fog", []), "fog_on": layers.get("fog_on", 0),
+                             "draw": layers.get("draw", [])})
     finally:
         db.close()
 
@@ -490,6 +616,164 @@ async def dm_map_scene_delete(scene_id: int, request: Request):
         db.execute("DELETE FROM dm_map_scenes WHERE id = ?", (scene_id,))
         db.commit()
         return JSONResponse({"ok": True})
+    finally:
+        db.close()
+
+
+# ── spawn an encounter onto a map ──────────────────────────────────────────────────────
+
+SIZE_CELLS = {"tiny": 1, "small": 1, "medium": 1, "large": 2, "huge": 3, "gargantuan": 4}
+
+
+def _safe_json(value, default):
+    if not value:
+        return default
+    try:
+        out = json.loads(value)
+        return out if isinstance(out, type(default)) else default
+    except (TypeError, ValueError):
+        return default
+
+
+def _cells_for(role: str) -> int:
+    """A monster's footprint in cells, read off its role line ("Large monstrosity")."""
+    first = (role or "").strip().split(" ")[0].lower()
+    return SIZE_CELLS.get(first, 1)
+
+
+def _encounter_participants(db, enc_id: int) -> list[dict]:
+    """The encounter's combatants, ready to become tokens.
+
+    A participant's stats live in `dm_encounter_npcs.creature_data` (a JSON copy of the
+    monster), not in `dm_npcs` — monster rows are not created for every fight — so the name,
+    size and role are read from there and the npc join is only a fallback.
+    """
+    rows = db.execute(
+        "SELECT en.id, en.npc_id, en.hp_current, en.hp_max, en.initiative, en.defeated, "
+        "en.creature_data, n.name AS npc_name "
+        "FROM dm_encounter_npcs en LEFT JOIN dm_npcs n ON n.id = en.npc_id "
+        "WHERE en.encounter_id = ? ORDER BY en.initiative DESC, en.id", (enc_id,)).fetchall()
+    out = []
+    for r in rows:
+        r = dict(r)
+        data = _safe_json(r.get("creature_data"), {})
+        name = (data.get("name") or r.get("npc_name") or "Combatant").strip()
+        role = str(data.get("role") or "")
+        out.append({
+            "en_id": r["id"],
+            "name": name[:60],
+            "hp_current": _inum(r.get("hp_current"), 0, -999, 9999),
+            "hp_max": _inum(r.get("hp_max"), 0, 0, 9999),
+            "cells": _cells_for(role),
+            "defeated": bool(r.get("defeated")),
+        })
+    return out
+
+
+def _spawn_layout(count: int, map_row: dict) -> list[tuple[float, float]]:
+    """A tidy block of cell centres, starting where the DM is actually looking."""
+    size = _inum(map_row.get("grid_size"), 50, 10, 400)
+    ox = _inum(map_row.get("grid_offset_x"), 0, -400, 400)
+    oy = _inum(map_row.get("grid_offset_y"), 0, -400, 400)
+    centre = None
+    cam = _safe_json(map_row.get("camera"), {})
+    if isinstance(cam, dict) and cam:
+        try:
+            # the camera is an offset applied to world space; the viewport centre in world
+            # coordinates is what the canvas maps to (unknown size server-side, so use 400x300)
+            centre = (400 / float(cam.get("zoom") or 1) - float(cam.get("x") or 0),
+                      300 / float(cam.get("zoom") or 1) - float(cam.get("y") or 0))
+        except (TypeError, ValueError, ZeroDivisionError):
+            centre = None
+    if not centre:
+        centre = (size * 4.0, size * 3.0)
+    cols = max(1, int(count ** 0.5 + 0.999))
+    out = []
+    for i in range(count):
+        col = i % cols
+        row = i // cols
+        x = centre[0] + (col - (cols - 1) / 2.0) * size * 1.5
+        y = centre[1] + (row - ((count - 1) // cols) / 2.0) * size * 1.5
+        # land on cell centres so snapping does not shuffle them on the first drag
+        out.append((round((x - ox) / size - 0.5) * size + size / 2 + ox,
+                    round((y - oy) / size - 0.5) * size + size / 2 + oy))
+    return out
+
+
+@router.post("/api/dm/map/{map_id}/spawn-encounter", response_class=JSONResponse)
+async def dm_map_spawn_encounter(map_id: int, request: Request):
+    """Place an encounter's combatants on the map, linking each token to its tracker row.
+
+    With `replace` the previous tokens for this encounter are removed first; without it,
+    combatants already placed are left alone (so a mid-fight re-spawn never moves anyone).
+    """
+    user = require_user(request)
+    data = await request.json()
+    db = get_db()
+    try:
+        map_row = _own_map(db, user, map_id)
+        if not map_row:
+            return JSONResponse({"error": "Not found"}, status_code=404)
+        enc_id = _inum(data.get("encounter_id"), 0, 0, 10 ** 9)
+        enc = _require_owned(db, user, "dm_encounters", enc_id) if enc_id else None
+        if not enc:
+            return JSONResponse({"error": "Encounter not found"}, status_code=404)
+
+        participants = _encounter_participants(db, enc_id)
+        if not participants:
+            return JSONResponse({"error": "That encounter has no combatants yet"}, status_code=400)
+
+        existing = {r[0] for r in db.execute(
+            "SELECT encounter_en_id FROM dm_map_tokens WHERE map_id = ? AND encounter_en_id IS NOT NULL",
+            (map_id,))}
+        todo = participants
+        if data.get("replace"):
+            for en_id in existing:
+                db.execute("DELETE FROM dm_map_tokens WHERE map_id = ? AND encounter_en_id = ?",
+                           (map_id, en_id))
+        else:
+            todo = [p for p in participants if p["en_id"] not in existing]
+        skipped = len(participants) - len(todo)
+
+        room = TOKEN_MAX - db.execute(
+            "SELECT COUNT(*) FROM dm_map_tokens WHERE map_id = ?", (map_id,)).fetchone()[0]
+        placed = todo[:max(0, room)]
+        spots = _spawn_layout(len(placed), map_row)
+        for p, (x, y) in zip(placed, spots):
+            db.execute(
+                "INSERT INTO dm_map_tokens (map_id, x, y, w, h, kind, ref_name, label, hp_current, "
+                "hp_max, hidden, z, encounter_en_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                (map_id, x, y, p["cells"], p["cells"], "creature", p["name"], p["name"],
+                 p["hp_current"], p["hp_max"], 0, 0, p["en_id"]))
+
+        # Link the standing party characters too, when the encounter row knows them: a PC is a
+        # character token (its portrait route), not a monster from the reference library.
+        linked_chars = 0
+        state = _safe_json(enc.get("combat_state"), {})
+        party = state.get("player_participants") if isinstance(state, dict) else None
+        for part in (party or []):
+            if not isinstance(part, dict) or len(placed) + linked_chars >= room:
+                continue
+            cid = _inum(part.get("character_id") or part.get("id"), 0, 0, 10 ** 9)
+            if not cid:
+                continue
+            already = db.execute(
+                "SELECT COUNT(*) FROM dm_map_tokens WHERE map_id = ? AND character_id = ?",
+                (map_id, cid)).fetchone()[0]
+            if already:
+                continue
+            total = len(placed) + linked_chars + 1
+            x, y = _spawn_layout(total, map_row)[total - 1]
+            db.execute(
+                "INSERT INTO dm_map_tokens (map_id, x, y, w, h, kind, ref_name, label, hp_current, "
+                "hp_max, hidden, z, character_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                (map_id, x, y, 1, 1, "character", str(part.get("name") or "")[:60],
+                 str(part.get("name") or "")[:60], _inum(part.get("hp_current"), 0, -999, 9999),
+                 _inum(part.get("hp_max"), 0, 0, 9999), 0, 0, cid))
+            linked_chars += 1
+        db.commit()
+        return JSONResponse({"ok": True, "added": len(placed), "skipped": skipped,
+                             "party_linked": linked_chars, "tokens": _tokens_of(db, map_id)})
     finally:
         db.close()
 

@@ -28,6 +28,15 @@
     selected: null,
     drag: null,
     panning: null,
+    tool: 'select',            // 'select' | 'fog' | 'draw'
+    fog: {},                   // revealed cell keys — an object stands in for a Set here
+    fogOn: false,
+    strokes: [],
+    pen: { color: '#ff5555', width: 4 },
+    painting: null,
+    stroke: null,
+    layerDirty: false,
+    layerTimer: null,
     dirty: false,
     saveTimer: null,
     raf: null,
@@ -164,6 +173,7 @@
 
     var isHex = state.grid.type === 'hex';
     ctx.save();
+    if (state.fogOn && !isCellRevealed(cellKeyFor(t.x, t.y))) ctx.globalAlpha = 0.35;
     ctx.beginPath();
     if (isHex) ctx.arc(p[0] + w / 2, p[1] + h / 2, Math.min(w, h) / 2, 0, Math.PI * 2);
     else roundRect(p[0], p[1], w, h, Math.min(6, w * 0.12));
@@ -228,6 +238,95 @@
     ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y);
   }
 
+  // ── grid cells (fog) ────────────────────────────────────────────────────────────────
+  // A cell key is "col,row" on a square grid and "q,r" (axial) on a hex one. The server
+  // validates the shape and does not care which grid it is, so switching grid type keeps the
+  // revealed area instead of throwing it away.
+  function cellKeyFor(wx, wy) {
+    var g = state.grid;
+    if (g.type === 'hex') {
+      var R = g.size / 2;
+      var q = (Math.sqrt(3) / 3 * wx - 1 / 3 * wy) / R;
+      var r = (2 / 3 * wy) / R;
+      var cx = q, cz = r, cy = -cx - cz;
+      var rx = Math.round(cx), ry = Math.round(cy), rz = Math.round(cz);
+      var dx = Math.abs(rx - cx), dy = Math.abs(ry - cy), dz = Math.abs(rz - cz);
+      if (dx > dy && dx > dz) rx = -ry - rz; else if (dy > dz) ry = -rx - rz; else rz = -rx - ry;
+      return rx + ',' + rz;
+    }
+    return Math.floor((wx - g.ox) / g.size) + ',' + Math.floor((wy - g.oy) / g.size);
+  }
+
+  function cellCentreWorld(key) {
+    var parts = String(key).split(',');
+    var a = parseFloat(parts[0]), b = parseFloat(parts[1]);
+    if (isNaN(a) || isNaN(b)) return null;
+    var g = state.grid;
+    if (g.type === 'hex') {
+      var R = g.size / 2;
+      return [Math.sqrt(3) * R * (a + b / 2), 1.5 * R * b];
+    }
+    return [a * g.size + g.size / 2 + g.ox, b * g.size + g.size / 2 + g.oy];
+  }
+
+  function hexOnPath(path, cx, cy, r) {
+    for (var i = 0; i < 6; i++) {
+      var a = Math.PI / 180 * (60 * i - 30);
+      var px = cx + r * Math.cos(a), py = cy + r * Math.sin(a);
+      if (i === 0) path.moveTo(px, py); else path.lineTo(px, py);
+    }
+    path.closePath();
+  }
+
+  function addCellToPath(path, key) {
+    var c = cellCentreWorld(key);
+    if (!c) return;
+    var p = worldToScreen(c[0], c[1]);
+    var size = state.grid.size * state.camera.zoom;
+    if (state.grid.type === 'hex') {
+      hexOnPath(path, p[0], p[1], size / 2);
+    } else {
+      path.rect(p[0] - size / 2, p[1] - size / 2, size, size);
+    }
+  }
+
+  function isCellRevealed(key) { return !!state.fog[key]; }
+
+  function drawFog() {
+    if (!state.fogOn) return;
+    var W = canvas.clientWidth, H = canvas.clientHeight;
+    // One even-odd path: the viewport rectangle with the revealed cells punched out. Filling
+    // the fog and THEN erasing with destination-out would erase the map itself.
+    var path = new Path2D();
+    path.rect(0, 0, W, H);
+    var keys = Object.keys(state.fog);
+    for (var i = 0; i < keys.length; i++) addCellToPath(path, keys[i]);
+    ctx.save();
+    ctx.fillStyle = 'rgba(6,6,10,0.88)';
+    ctx.fill(path, 'evenodd');
+    ctx.restore();
+  }
+
+  function drawStrokes() {
+    if (!state.strokes.length) return;
+    ctx.save();
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    state.strokes.forEach(function (s) {
+      var pts = s.points || [];
+      if (pts.length < 2) return;
+      ctx.beginPath();
+      for (var i = 0; i < pts.length; i++) {
+        var p = worldToScreen(pts[i][0], pts[i][1]);
+        if (i === 0) ctx.moveTo(p[0], p[1]); else ctx.lineTo(p[0], p[1]);
+      }
+      ctx.strokeStyle = s.color || '#e5e7eb';
+      ctx.lineWidth = Math.max(1, (s.width || 4) * state.camera.zoom);
+      ctx.stroke();
+    });
+    ctx.restore();
+  }
+
   function redraw() {
     if (!ctx) return;
     if (state.raf) return;
@@ -256,6 +355,12 @@
       }
 
       drawGrid();
+      drawFog();
+      // The DM's marks and the tokens stay ON TOP of the fog: an annotation has to be readable
+      // (that is the point of drawing it), and the DM is the one looking at this screen and
+      // still has to move whatever is waiting in the dark. Dimming, not hiding, is what keeps
+      // unrevealed tokens manageable — the player view will simply not receive them.
+      drawStrokes();
       state.tokens.slice().sort(function (a, b) { return (a.z || 0) - (b.z || 0) || a.id - b.id; })
         .forEach(drawToken);
     });
@@ -313,6 +418,23 @@
     canvas.addEventListener('mousedown', function (ev) {
       var rect = canvas.getBoundingClientRect();
       var sx = ev.clientX - rect.left, sy = ev.clientY - rect.top;
+      // Right-drag always pans, whatever tool is active: the fog brush and the pen need the
+      // left button and a mouse may have no middle one.
+      if (ev.button === 2) {
+        state.panning = { sx: sx, sy: sy, cx: state.camera.x, cy: state.camera.y };
+        redraw(); ev.preventDefault(); return;
+      }
+      if (state.tool === 'fog') {
+        state.painting = true;
+        paintCell(screenToWorld(sx, sy)[0], screenToWorld(sx, sy)[1], ev.shiftKey);
+        redraw(); ev.preventDefault(); return;
+      }
+      if (state.tool === 'draw') {
+        var dw = screenToWorld(sx, sy);
+        state.stroke = { color: state.pen.color, width: state.pen.width,
+                         points: [[Math.round(dw[0]), Math.round(dw[1])]] };
+        ev.preventDefault(); return;
+      }
       var t = hitTest(sx, sy);
       if (t && !ev.shiftKey) {
         state.selected = t.id;
@@ -328,9 +450,21 @@
     });
 
     window.addEventListener('mousemove', function (ev) {
-      if (!state.drag && !state.panning) return;
+      if (!state.drag && !state.panning && !state.painting && !state.stroke) return;
       var rect = canvas.getBoundingClientRect();
       var sx = ev.clientX - rect.left, sy = ev.clientY - rect.top;
+      if (state.painting) {
+        var pw = screenToWorld(sx, sy);
+        paintCell(pw[0], pw[1], ev.shiftKey);
+        redraw();
+        return;
+      }
+      if (state.stroke) {
+        var sw = screenToWorld(sx, sy);
+        state.stroke.points.push([Math.round(sw[0]), Math.round(sw[1])]);
+        redraw();
+        return;
+      }
       if (state.panning) {
         state.camera.x = state.panning.cx + (sx - state.panning.sx) / state.camera.zoom;
         state.camera.y = state.panning.cy + (sy - state.panning.sy) / state.camera.zoom;
@@ -347,7 +481,14 @@
     });
 
     window.addEventListener('mouseup', function () {
-      if (state.drag) markDirty();
+      if (state.stroke) {
+        if (state.stroke.points.length > 1) state.strokes.push(state.stroke);
+        state.stroke = null;
+        markLayerDirty();
+      } else if (state.painting) {
+        state.painting = null;
+        markLayerDirty();
+      } else if (state.drag) markDirty();
       else if (state.panning) saveCamera();
       state.drag = null;
       state.panning = null;
@@ -390,13 +531,18 @@
     window.addEventListener('keydown', function (ev) {
       if (ev.target && /INPUT|TEXTAREA|SELECT/.test(ev.target.tagName)) return;
       if (ev.key === 'Delete' && state.selected) { removeToken(state.selected); }
+      else if (ev.key === 'v' || ev.key === 'V') setTool('select');
+      else if (ev.key === 'f' || ev.key === 'F') setTool('fog');
+      else if (ev.key === 'd' || ev.key === 'D') setTool('draw');
       else if (ev.key === 'g' || ev.key === 'G') toggleGrid();
       else if (ev.key === 's' || ev.key === 'S') toggleSnap();
       else if (ev.key === '0') fit();
       else if (ev.key === 'Escape') { state.selected = null; renderSelected(); redraw(); }
     });
-    window.addEventListener('pagehide', function () { saveNow(); });
-    document.addEventListener('visibilitychange', function () { if (document.hidden) saveNow(); });
+    window.addEventListener('pagehide', function () { saveNow(); saveLayer(); });
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) { saveNow(); saveLayer(); }
+    });
   }
 
   // ── public actions ──────────────────────────────────────────────────────────────────
@@ -558,6 +704,12 @@
         if (d && d.ok) {
           state.tokens = d.tokens;
           if (d.camera) { try { state.camera = JSON.parse(d.camera); } catch (e) {} }
+          state.fog = {};
+          (d.fog || []).forEach(function (k) { state.fog[String(k)] = 1; });
+          state.fogOn = !!d.fog_on;
+          state.strokes = d.draw || [];
+          var fb = $('vttFogOn');
+          if (fb) fb.textContent = '☁ Fog: ' + (state.fogOn ? 'on' : 'off');
           state.selected = null;
           renderSelected(); redraw();
         }
@@ -594,6 +746,136 @@
       });
       host.innerHTML = html || '<p style="font-size:.75rem;color:var(--text-muted)">nothing matched</p>';
     });
+  }
+
+  // ── fog + drawing ───────────────────────────────────────────────────────────────────
+  function paintCell(wx, wy, erase) {
+    var key = cellKeyFor(wx, wy);
+    if (erase) delete state.fog[key]; else state.fog[key] = 1;
+    markLayerDirty();
+  }
+
+  function markLayerDirty() {
+    state.layerDirty = true;
+    var badge = $('vttSaved');
+    if (badge) { badge.textContent = 'unsaved…'; badge.className = 'vtt-dirty'; }
+    if (state.layerTimer) clearTimeout(state.layerTimer);
+    state.layerTimer = setTimeout(saveLayer, SAVE_DELAY);
+  }
+
+  function layerPayload() {
+    return { fog: Object.keys(state.fog), fog_on: state.fogOn ? 1 : 0, draw: state.strokes };
+  }
+
+  function saveLayer() {
+    if (!state.layerDirty) return Promise.resolve();
+    state.layerDirty = false;
+    var badge = $('vttSaved');
+    if (badge) badge.textContent = 'saving…';
+    return fetch('/api/dm/map/' + window.MAP_ID + '/layer', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(layerPayload()), keepalive: true
+    }).then(function (r) { return r.json(); }).then(function (d) {
+      if (d && d.ok && badge) { badge.textContent = 'saved'; badge.className = ''; }
+      else if (badge) { badge.textContent = 'save failed'; }
+    }).catch(function () { if (badge) badge.textContent = 'save failed'; });
+  }
+
+  function setTool(tool) {
+    state.tool = (tool === 'fog' || tool === 'draw') ? tool : 'select';
+    ['Select', 'Fog', 'Draw'].forEach(function (n) {
+      var b = $('vttTool' + n);
+      if (b) b.style.opacity = (n.toLowerCase() === state.tool) ? '1' : '0.6';
+    });
+    var hint = $('vttHint');
+    if (hint) {
+      hint.textContent = state.tool === 'fog'
+        ? 'Click or drag cells to reveal · shift-drag hides · right-drag pans'
+        : (state.tool === 'draw'
+          ? 'Draw with the left button · right-drag pans · 🧽 Clear erases everything'
+          : 'Drag to pan · wheel to zoom · drag a token to move it');
+    }
+  }
+
+  function toggleFog() {
+    state.fogOn = !state.fogOn;
+    var b = $('vttFogOn');
+    if (b) b.textContent = '☁ Fog: ' + (state.fogOn ? 'on' : 'off');
+    markLayerDirty();
+    redraw();
+  }
+
+  function revealAll() {
+    var iw = 0, ih = 0;
+    var bg = state.map && state.map.image_path ? image(state.map.image_path) : null;
+    if (bg && bg.naturalWidth) { iw = bg.naturalWidth; ih = bg.naturalHeight; }
+    if (!iw) { iw = state.grid.size * 40; ih = state.grid.size * 30; }
+    var g = state.grid;
+    if (g.type === 'hex') {
+      var R = g.size / 2;
+      for (var q = -10; q < iw / (Math.sqrt(3) * R) + 10; q++) {
+        for (var r = -10; r < ih / (1.5 * R) + 10; r++) state.fog[q + ',' + r] = 1;
+      }
+    } else {
+      var cols = Math.ceil(iw / g.size), rows = Math.ceil(ih / g.size);
+      for (var c = 0; c < cols; c++) {
+        for (var row = 0; row < rows; row++) state.fog[c + ',' + row] = 1;
+      }
+    }
+    markLayerDirty();
+    redraw();
+  }
+
+  function hideAll() {
+    state.fog = {};
+    markLayerDirty();
+    redraw();
+  }
+
+  function setPen(color, width) {
+    if (color) state.pen.color = String(color).slice(0, 24);
+    if (width !== null && width !== undefined && width !== '') {
+      state.pen.width = Math.max(1, Math.min(40, parseInt(width, 10) || 4));
+    }
+  }
+
+  function clearDraw() {
+    state.strokes = [];
+    state.stroke = null;
+    markLayerDirty();
+    redraw();
+  }
+
+  function spawnEncounter() {
+    var pick = $('vttEncounterPick');
+    var encId = pick && parseInt(pick.value, 10);
+    if (!encId) { alert('Pick an encounter to place.'); return Promise.resolve(); }
+    var badge = $('vttSaved');
+    if (badge) badge.textContent = 'spawning…';
+    return fetch('/api/dm/map/' + window.MAP_ID + '/spawn-encounter', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ encounter_id: encId, replace: false })
+    }).then(function (r) { return r.json(); }).then(function (d) {
+      if (d && d.ok) {
+        state.tokens = d.tokens;
+        if (badge) badge.textContent = 'placed ' + d.added +
+          (d.skipped ? ', ' + d.skipped + ' already there' : '') +
+          (d.party_linked ? ', ' + d.party_linked + ' party' : '');
+        redraw();
+      } else if (badge) { badge.textContent = (d && d.error) || 'spawn failed'; }
+      return d;
+    }).catch(function () { if (badge) badge.textContent = 'spawn failed'; });
+  }
+
+  function loadEncounters() {
+    var pick = $('vttEncounterPick');
+    if (!pick) return;
+    fetch('/api/dm/encounters').then(function (r) { return r.json(); }).then(function (d) {
+      var list = (d && (d.encounters || d.list)) || (Array.isArray(d) ? d : []);
+      pick.innerHTML = '<option value="">Encounter…</option>' + list.map(function (e) {
+        return '<option value="' + e.id + '">' + (e.name || 'Encounter') + '</option>';
+      }).join('');
+    }).catch(function () { pick.innerHTML = '<option value="">Encounter…</option>'; });
   }
 
   function chooseImage() { var f = $('vttImageInput'); if (f) f.click(); }
@@ -644,6 +926,15 @@
       if (saved) { try { state.camera = JSON.parse(saved); } catch (e) {} }
       else if (state.map.camera) { try { state.camera = JSON.parse(state.map.camera); } catch (e) {} }
       else { setTimeout(fit, 60); }
+      // overlay layers: revealed cells and the DM's drawing
+      state.fog = {};
+      (state.map.fog || []).forEach(function (k) { state.fog[String(k)] = 1; });
+      state.fogOn = !!(parseInt(state.map.fog_on, 10) || 0);
+      state.strokes = state.map.draw || [];
+      var fogBtn = $('vttFogOn');
+      if (fogBtn) fogBtn.textContent = '☁ Fog: ' + (state.fogOn ? 'on' : 'off');
+      setTool('select');
+      loadEncounters();
       var label = $('vttGridSize'); if (label) label.textContent = state.grid.size + 'px';
       renderSelected();
       renderScenes();
@@ -660,8 +951,11 @@
     bumpHp: bumpHp, resize: resizeToken, resizeCanvas: resizeCanvas, toggleHidden: toggleHidden,
     snapshot: snapshot, restoreScene: restoreScene, deleteScene: deleteScene,
     searchPalette: searchPalette, chooseImage: chooseImage, uploadImage: uploadImage,
-    saveNow: saveNow, screenToWorld: screenToWorld, worldToScreen: worldToScreen,
-    snapPoint: snapPoint, state: state
+    saveNow: saveNow, saveLayer: saveLayer, screenToWorld: screenToWorld,
+    worldToScreen: worldToScreen, snapPoint: snapPoint,
+    setTool: setTool, toggleFog: toggleFog, revealAll: revealAll, hideAll: hideAll,
+    setPen: setPen, clearDraw: clearDraw, paintCell: paintCell, cellKeyFor: cellKeyFor,
+    spawnEncounter: spawnEncounter, loadEncounters: loadEncounters, state: state
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

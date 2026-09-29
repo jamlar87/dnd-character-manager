@@ -37,6 +37,20 @@
     <button class="btn btn-outline btn-sm" onclick="VTT.chooseImage()" title="Upload a background image">🖼 Image</button>
 
     <span class="vtt-sep"></span>
+    <button class="btn btn-outline btn-sm" onclick="VTT.setTool('select')" id="vttToolSelect" title="Select and move tokens (V)">🖱 Select</button>
+    <button class="btn btn-outline btn-sm" onclick="VTT.setTool('fog')" id="vttToolFog" title="Paint revealed cells (F); right-drag pans">🕯 Fog</button>
+    <button class="btn btn-outline btn-sm" onclick="VTT.toggleFog()" id="vttFogOn" title="Show or hide the fog layer">☁ Fog: off</button>
+    <button class="btn btn-outline btn-sm" onclick="VTT.revealAll()" title="Reveal the whole map">👁 All</button>
+    <button class="btn btn-outline btn-sm" onclick="VTT.hideAll()" title="Hide the whole map again">🚫 All</button>
+    <button class="btn btn-outline btn-sm" onclick="VTT.setTool('draw')" id="vttToolDraw" title="Draw on the map (D); right-drag pans">✏️ Draw</button>
+    <input type="color" id="vttPenColor" value="#ff5555" onchange="VTT.setPen(this.value, null)" title="Pen colour" style="width:2rem;height:1.6rem;padding:0;border:1px solid var(--border);background:none;border-radius:4px">
+    <input type="number" id="vttPenWidth" value="4" min="1" max="40" onchange="VTT.setPen(null, this.value)" title="Pen width" style="width:3.2rem;padding:.1rem .2rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:.75rem">
+    <button class="btn btn-outline btn-sm" onclick="VTT.clearDraw()" title="Erase all drawing">🧽 Clear</button>
+    <span class="vtt-sep"></span>
+    <select id="vttEncounterPick" style="padding:.25rem .4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:.8rem"></select>
+    <button class="btn btn-outline btn-sm" onclick="VTT.spawnEncounter()" title="Place that encounter's combatants on this map">⚔ Spawn</button>
+
+    <span class="vtt-sep"></span>
     <input id="vttSearch" placeholder="Add creature, NPC or character…" style="width:15rem"
            oninput="VTT.searchPalette(this.value)">
     <input type="file" id="vttImageInput" accept="image/*" style="display:none"
