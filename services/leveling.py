@@ -16,8 +16,9 @@ import json as _json
 from main import SRD_LEVELS, SRD_SPELLS
 from main import (
     CLASSES, EXPERTISE_LEVELS, FEATURE_ACTION_TYPES, FEATURE_DESCRIPTIONS,
-    FULL_CASTERS, HALF_CASTERS, INVOCATION_LEVELS, LIMITED_USE,
-    MULTICLASS_PREREQS, MULTICLASS_PROFICIENCIES, PACT_CASTERS,
+    FULL_CASTERS, HALF_CASTERS, INVOCATION_LEVELS, INVOCATION_PICKS, LIMITED_USE,
+    MANEUVER_LEVELS, METAMAGIC_LEVELS, METAMAGIC_PICKS, MULTICLASS_PREREQS,
+    MULTICLASS_PROFICIENCIES, PACT_BOON_LEVELS, PACT_CASTERS,
     PREPARED_CASTERS, RACIAL_TRAIT_DESCS, RECOMMENDED_FEATS,
     SPELLS_KNOWN_CASTERS, SPELL_DICE, SRD_FEATURES, SUBCLASS_FEATURES,
     _manual_races_raw,
@@ -1068,25 +1069,14 @@ WARLOCK_EXPANDED_SPELLS_BY_LEVEL: dict[str, dict[int, list[str]]] = {
 }
 
 
-# ── Choice-system constants (moved from all.py 2026-07-31; shadow data.py versions) ──
-
-METAMAGIC_LEVELS: dict[str, list[int]] = {"Sorcerer": [3, 10, 17]}
-
-
-METAMAGIC_PICKS: dict[int, int] = {3: 2, 10: 1, 17: 1}  # level → number of choices
-
-
-INVOCATION_LEVELS: dict[str, list[int]] = {"Warlock": [2, 5, 7, 9, 12, 15, 18]}
-
-
-INVOCATION_PICKS: dict[int,int] = {2:2,5:1,7:1,9:1,12:1,15:1,18:1}
-
-
-PACT_BOON_LEVELS: dict[str, int] = {"Warlock": 3}
-
-
-MANEUVER_LEVELS: dict[str, list[int]] = {"Battle Master": [3, 7, 10, 15]}
-
+# ── Choice-system constants ──
+# METAMAGIC_LEVELS / METAMAGIC_PICKS / INVOCATION_LEVELS / INVOCATION_PICKS /
+# PACT_BOON_LEVELS / MANEUVER_LEVELS live in data.py and are imported above. They used to
+# be redefined here *below* the import: the local copy won (a rebind, not a syntax error),
+# data.py's kept plain-list shapes while these were class-keyed, and callers therefore
+# disagreed about the same constant depending on which module they imported it from — the
+# Pitfall-18 shape split, silent because pyflakes reports only *undefined* names.
+# One definition, in data.py, imported everywhere.
 
 CANTRIPS_PROGRESSION: dict[str, dict[int, int]] = {
     "full": {1: 2, 4: 3, 10: 4},

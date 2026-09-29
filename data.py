@@ -706,8 +706,13 @@ METAMAGIC_OPTIONS = {
     "twinned_spell":     {"name": "Twinned Spell",     "desc": "Spend SP = spell level. Target a second creature with a single-target spell."},
 }
 
-METAMAGIC_LEVELS = [3, 10, 17]
-METAMAGIC_PICKS = {3: 2, 10: 1, 17: 1}
+# Class-keyed: the level-up route reads these with .get(cls). A plain [3, 10, 17] here
+# (and a class-keyed copy in services/leveling.py) was the Pitfall-18 shape split — one
+# definition, this one, imported everywhere.
+METAMAGIC_LEVELS = {
+    "Sorcerer": [3, 10, 17],
+}
+METAMAGIC_PICKS = {3: 2, 10: 1, 17: 1}  # level → number of choices
 
 # ── Eldritch Invocations (Warlock PHB p.107) ──────────────────────────
 
@@ -757,11 +762,15 @@ PACT_BOON_OPTIONS = {
     "pact_of_the_blade":  {"name": "Pact of the Blade",  "desc": "Summon a magical pact weapon as an action."},
     "pact_of_the_tome":   {"name": "Pact of the Tome",   "desc": "Gain Book of Shadows with 3 extra cantrips."},
 }
-PACT_BOON_LEVELS = [3]
+PACT_BOON_LEVELS = {
+    "Warlock": 3,
+}
 
 # ── Battle Master Maneuvers (Fighter PHB p.73) ────────────────────────
 
-MANEUVER_LEVELS = [3, 7, 10, 15]
+MANEUVER_LEVELS = {
+    "Battle Master": [3, 7, 10, 15],
+}
 MANEUVER_OPTIONS = {
     "commander_strike":      {"name": "Commander's Strike",     "desc": "Expend superiority die and your action to grant an ally a weapon attack.", "die": "1d8"},
     "disarming_attack":      {"name": "Disarming Attack",       "desc": "Add die to damage; target drops one held item on failed Str save.", "die": "1d8"},
