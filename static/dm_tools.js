@@ -1,4 +1,11 @@
 
+// Counting words: "1 players" and "1 quests" read as bugs. One helper, used wherever a
+// number is next to a noun.
+function plural(n, word) {
+  const v = Number(n) || 0;
+  return `${v} ${word}${v === 1 ? '' : 's'}`;
+}
+
 // ── Source reference: click 📚 badge → open PDF ──
 /* SOURCE_SLUG_MAP and NAMED_ITEM_TYPES set by template */  // server-side weapon/armor classification
 const _missingSourceAlerted = new Set();
@@ -188,7 +195,7 @@ function renderMonsterCards() {
   const html = window.DM_MONSTERS.map(function(m) {
     const name = dmEsc(m.n), type = dmEsc(m.t), src = dmEsc(m.src);
     const badge = src
-      ? '<div style="font-size:0.6rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer"'
+      ? '<div style="font-size:0.72rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer"'
         + ' class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="' + src + '">📚 ' + src + '</div>'
       : '';
     return '<div class="monster-card" data-name="' + name.toLowerCase() + '" data-type="' + type + '"'
@@ -263,7 +270,7 @@ function renderSpellCards() {
     const name = esc(s.n), src = esc(s.src);
     const lvl = String(s.lv) === '0' ? 'Cantrip' : 'Level ' + esc(s.lv);
     const badge = src
-      ? '<div style="font-size:0.6rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer"'
+      ? '<div style="font-size:0.72rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer"'
         + ' class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="' + src + '">📚 ' + src + '</div>'
       : '';
     return '<div class="monster-card" data-name="' + name.toLowerCase() + '" data-level="' + esc(s.lv) + '"'
@@ -306,7 +313,7 @@ function renderTrapCards() {
   const html = window.DM_TRAPS.map(function(t) {
     const name = esc(t.n), src = esc(t.src), type = esc(t.t), danger = esc(t.d);
     const badge = src
-      ? '<div style="font-size:0.6rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer"'
+      ? '<div style="font-size:0.72rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer"'
         + ' class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="' + src + '">📚 ' + src + '</div>'
       : '';
     const stats = '<span class="trap-type-badge">' + (t.t === 'magical' ? '🔮' : '⚙️') + ' ' + esc(dmCap(t.t)) + '</span>'
@@ -715,14 +722,14 @@ async function onAiCampaignChange() {
       sz.value = s.size;
       preview.style.display = 'block';
       preview.style.color = 'var(--accent)';
-      preview.textContent = `${s.size} characters, avg L${s.avg_level} — encounter tailored to their stats`;
+      preview.textContent = `${plural(s.size, 'character')}, avg L${s.avg_level} — encounter tailored to their stats`;
     } else if (d.campaign) {
       // Fallback to campaign's stored values when no characters linked
       lvl.value = d.campaign.party_level || 1;
       sz.value = d.campaign.party_size || 4;
       preview.style.display = 'block';
       preview.style.color = 'var(--accent)';
-      preview.textContent = `L${lvl.value} · ${sz.value} players (campaign default)`;
+      preview.textContent = `L${lvl.value} · ${plural(sz.value, 'player')} (campaign default)`;
     } else {
       preview.style.display = 'block';
       preview.style.color = 'var(--text-muted)';
@@ -760,7 +767,7 @@ async function generateAiEncounter(event) {
         <h3 style="margin:0">${enc.name}</h3>
         <div style="display:flex;gap:0.3rem;align-items:center">
           <span class="badge badge-accent">${enc.difficulty}</span>
-          <span style="font-size:0.8rem;color:var(--text-muted)">L${enc.party.level} · ${enc.party.size} players</span>
+          <span style="font-size:0.8rem;color:var(--text-muted)">L${enc.party.level} · ${plural(enc.party.size, 'player')}</span>
         </div>
       </div>`;
 
@@ -979,13 +986,13 @@ async function openEncounter(id) {
         <div class="monster-palette" id="creaturePalette" style="max-height:400px;overflow-y:auto">`;
     allCreatures.forEach((c, ci) => {
       const kindBadge = c._kind === 'monster'
-        ? '<span class="badge badge-accent" style="font-size:0.55rem">MON</span>'
-        : c.id < 0 ? '<span class="badge badge-muted" style="font-size:0.55rem">📖</span>' : '';
+        ? '<span class="badge badge-accent" style="font-size:0.68rem">MON</span>'
+        : c.id < 0 ? '<span class="badge badge-muted" style="font-size:0.68rem">📖</span>' : '';
       const sourceBadge = c._kind === 'monster' && c._raw && c._raw.source
-        ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef('${c._raw.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${c._raw.source}">📚</span> `
+        ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef('${c._raw.source.replace(/'/g, "\\'")}')" style="font-size:0.72rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${c._raw.source}">📚</span> `
         : '';
       const tagBadge = c._kind === 'monster' && c._raw && c._raw.tags && c._raw.tags.length
-        ? c._raw.tags.map(t => `<span class="badge badge-muted" style="font-size:0.5rem;opacity:0.8">${t}</span>`).join(' ')
+        ? c._raw.tags.map(t => `<span class="badge badge-muted" style="font-size:0.65rem;opacity:0.8">${t}</span>`).join(' ')
         : '';
       const hpDisplay = c._kind === 'monster'
         ? `HP ${c.hp_current}`
@@ -2127,7 +2134,7 @@ async function openCampaign(id) {
     let html = `<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
       <div>
         <h2 style="margin:0">📜 ${camp.name}</h2>
-        <p style="color:var(--text-muted);font-size:0.85rem">Party: L${liveLevel} · ${liveSize} players · ${chars.length} characters</p>
+        <p style="color:var(--text-muted);font-size:0.85rem">Party: L${liveLevel} · ${plural(liveSize, 'player')} · ${plural(chars.length, 'character')}</p>
       </div>
       <div style="display:flex;gap:0.3rem">
         <button class="btn btn-outline btn-sm" onclick="editCampaignMeta(${camp.id})">Edit</button>
@@ -2335,7 +2342,7 @@ async function showNpcPicker(campId) {
       html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:0.3rem 0.5rem;background:var(--bg);border-radius:4px;font-size:0.8rem">
         <span>
           <strong>${n.name}</strong>
-          <span class="npc-badge ${isEnemy}" style="font-size:0.6rem">${n.is_enemy ? 'Enemy' : 'NPC'}</span>
+          <span class="npc-badge ${isEnemy}" style="font-size:0.72rem">${n.is_enemy ? 'Enemy' : 'NPC'}</span>
           <span style="color:var(--text-muted)">${n.race}${n.class_name ? ' L' + n.level + ' ' + n.class_name : ''}${n.role ? ' · ' + n.role : ''}</span>
         </span>
         <button class="btn btn-outline btn-sm" onclick="addNpcToCampaign(${n.id}, ${campId})">➕ Add</button>
@@ -2500,8 +2507,8 @@ function renderItemsPanel(items, chars) {
     poolHtml += '<div style="display:flex;flex-wrap:wrap;gap:0.35rem;min-height:2rem">';
     items.forEach(item => {
       const qtyBadge = `<span class="item-qty" onclick="event.stopPropagation();dmToggleItemExpand(this.closest('.item-card').querySelector('.item-expand-btn'))" title="Click to expand" style="cursor:pointer">${item.qty}</span>`;
-      const gpInfo = item.gp_value > 0 ? `<span style="font-size:0.55rem;color:#ffd700;margin-left:0.2rem">${item.gp_value}gp</span>` : '';
-      const srcBadge = item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.55rem;cursor:pointer;opacity:0.6" title="Click to open ${item.source}">📚</span>` : '';
+      const gpInfo = item.gp_value > 0 ? `<span style="font-size:0.68rem;color:#ffd700;margin-left:0.2rem">${item.gp_value}gp</span>` : '';
+      const srcBadge = item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.68rem;cursor:pointer;opacity:0.6" title="Click to open ${item.source}">📚</span>` : '';
       poolHtml += `<div class="item-card" draggable="true"
         data-item-name="${item.name.replace(/"/g, '&quot;')}" data-item-id="${item.id}"
         ondragstart="itemsDragStart(event, '${item.name.replace(/'/g, "\\'")}', 'pool', ${item.id})"
@@ -2742,7 +2749,7 @@ function renderPickerResults(items) {
     `<div style="padding:0.25rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);overflow-wrap:break-word;word-break:break-word" onclick="showItemDetail('${item.name.replace(/'/g, "\\'")}')">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem">
         ${charPortraitTile(null, item.name, {size: 28, src: '/api/ref-image/item/' + encodeURIComponent(item.name) + '?size=56'})}
-        <span style="flex:1;min-width:0;font-size:0.8rem;color:var(--text)">${item.name}${item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${item.source}">📚 ${item.source}</span>` : ''}</span>
+        <span style="flex:1;min-width:0;font-size:0.8rem;color:var(--text)">${item.name}${item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.72rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${item.source}">📚 ${item.source}</span>` : ''}</span>
         <div style="display:flex;align-items:center;gap:0.3rem;flex-shrink:0">
           <span style="font-size:0.7rem;color:var(--text-muted);white-space:nowrap">${item.type}${item.rarity ? ' · '+item.rarity : ''}</span>
           ${item.dice ? `<span style="font-size:0.65rem;font-weight:600;color:var(--accent)">${item.dice}</span>` : ''}
@@ -2945,7 +2952,7 @@ function renderLootStaging(hoard, bracket) {
       html += `<div class="item-card" style="border-color:#ffd700">
         <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
         <span class="item-card-name">${c.label}</span>
-        <span style="font-size:0.55rem;color:#ffd700;margin-left:0.2rem">≈${c.gp_value.toLocaleString()} gp</span>
+        <span style="font-size:0.68rem;color:#ffd700;margin-left:0.2rem">≈${c.gp_value.toLocaleString()} gp</span>
         <button class="item-card-btn" style="color:var(--success)" onclick="keepLootItem('coin', ${i})" title="Keep">📥</button>
         <div class="item-detail"><span class="detail-label">Value</span> ≈${c.gp_value.toLocaleString()} gp (${c.amount} ${c.type})</div>
       </div>`;
@@ -2975,8 +2982,8 @@ function renderLootStaging(hoard, bracket) {
         <span class="item-card-name">${m.name}</span>
         <span class="wpn-badge item-tag" style="display:none">⚔️</span>
         <span class="arm-badge item-tag" style="display:none">🛡️</span>
-        <span style="font-size:0.6rem;color:var(--text-muted);margin-left:0.2rem">${m.rarity}</span>
-        ${m.source ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef('${m.source.replace(/'/g, "\\'")}')" style="font-size:0.55rem;color:var(--text-muted);opacity:0.6;margin-left:0.2rem;cursor:pointer" title="Click to open ${m.source}">📚</span>` : ''}
+        <span style="font-size:0.72rem;color:var(--text-muted);margin-left:0.2rem">${m.rarity}</span>
+        ${m.source ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef('${m.source.replace(/'/g, "\\'")}')" style="font-size:0.68rem;color:var(--text-muted);opacity:0.6;margin-left:0.2rem;cursor:pointer" title="Click to open ${m.source}">📚</span>` : ''}
         <button class="item-card-btn" style="color:var(--success)" onclick="keepLootItem('magic', ${i})" title="Keep">📥</button>
         <div class="item-detail">
           <span class="detail-label">Rarity</span> ${m.rarity}${attune ? '<br><span class="detail-label">Attunement</span>' + attune : ''}
@@ -3036,7 +3043,7 @@ async function dmToggleItemExpand(btn) {
       descHtml = `<p style="margin:0;font-size:0.7rem;line-height:1.4;white-space:normal;overflow:visible">${data.description}</p>`;
       if (data.curse) descHtml += _dmCurseSectionHtml(data.curse);
       if (data.rarity) descHtml += `<br><span class="detail-label">Rarity</span> ${data.rarity}`;
-      if (data.source) descHtml += ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${data.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;cursor:pointer;opacity:0.7" title="Click to open ${data.source}">📚 ${data.source}</span>`;
+      if (data.source) descHtml += ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${data.source.replace(/'/g, "\\'")}')" style="font-size:0.72rem;cursor:pointer;opacity:0.7" title="Click to open ${data.source}">📚 ${data.source}</span>`;
     } else {
       descHtml = `<span class="detail-label">No description available</span>`;
     }
@@ -3490,7 +3497,7 @@ function renderPlayersPanel() {
       <div style="display:flex;align-items:center;gap:0.4rem">
         ${charPortraitTile(p.char_id, p.name, {size: 28, hasPortrait: p.has_portrait})}
         <div class="init-info" style="flex:1;min-width:0">
-          <div class="init-name">${p.name} <span class="badge" style="background:var(--accent2);color:var(--text);font-size:0.6rem;flex-shrink:0">PC</span></div>
+          <div class="init-name">${p.name} <span class="badge" style="background:var(--accent2);color:var(--text);font-size:0.72rem;flex-shrink:0">PC</span></div>
           <div class="init-meta">L${p.level} ${p.class_name} · AC ${p.ac}</div>
         </div>
       </div>
@@ -3782,13 +3789,13 @@ function renderInitiativeTrack() {
     const isCurrent = p.en_id === currentEnId;
     const hpPct = p.hp_max > 0 ? Math.max(0, Math.round(p.hp_current / p.hp_max * 100)) : 0;
     const hpClass = hpPct <= 0 ? 'danger' : hpPct < 25 ? 'warn' : hpPct < 50 ? 'warn' : 'ok';
-    const badge = p.is_player ? '<span class="badge" style="background:var(--accent2);color:var(--text);font-size:0.6rem">PC</span>'
-      : p.is_summon ? '<span class="badge" style="background:rgba(255,165,0,0.15);color:#ffa500;font-size:0.6rem">🐾</span>'
-      : p.is_enemy ? '<span class="badge badge-accent" style="font-size:0.6rem">ENEMY</span>'
-      : '<span class="badge badge-muted" style="font-size:0.6rem">ALLY</span>';
+    const badge = p.is_player ? '<span class="badge" style="background:var(--accent2);color:var(--text);font-size:0.72rem">PC</span>'
+      : p.is_summon ? '<span class="badge" style="background:rgba(255,165,0,0.15);color:#ffa500;font-size:0.72rem">🐾</span>'
+      : p.is_enemy ? '<span class="badge badge-accent" style="font-size:0.72rem">ENEMY</span>'
+      : '<span class="badge badge-muted" style="font-size:0.72rem">ALLY</span>';
     const role = p.role ? ` · ${p.role}` : '';
     const cls = p.class_name ? `L${p.level} ${p.class_name}${role}` : `L${p.level}${role}`;
-    const rollInfo = p.roll != null ? ` <span style="font-size:0.55rem;opacity:0.6">(${p.roll}${p.dex_mod >= 0 ? '+' : ''}${p.dex_mod || 0})</span>` : '';
+    const rollInfo = p.roll != null ? ` <span style="font-size:0.68rem;opacity:0.6">(${p.roll}${p.dex_mod >= 0 ? '+' : ''}${p.dex_mod || 0})</span>` : '';
 
     return `<div class="initiative-card${isCurrent ? ' current-turn' : ''}${isDefeated ? ' defeated-card' : ''}"
       draggable="true"
@@ -3815,7 +3822,7 @@ function renderInitiativeTrack() {
         <div class="init-meta">${cls} · AC ${p.ac}</div>
         </div>
       </div>
-      <button class="init-btn" onclick="event.stopPropagation();combatOpenCondPicker(${p.en_id})" title="Add condition" style="flex-shrink:0;font-size:0.55rem;line-height:1.2;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);cursor:pointer;min-width:16px;padding:0 0.25rem">+</button>
+      <button class="init-btn" onclick="event.stopPropagation();combatOpenCondPicker(${p.en_id})" title="Add condition" style="flex-shrink:0;font-size:0.68rem;line-height:1.2;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);cursor:pointer;min-width:16px;padding:0 0.25rem">+</button>
       <button class="init-btn" onclick="toggleDefeatedCombat(${p.en_id})" title="Toggle defeated" style="flex-shrink:0">${isDefeated ? '⬆' : '💀'}</button>
       <div class="init-hp-group">
         <span style="font-size:0.85rem;font-weight:600;min-width:2.5em;text-align:right">${p.hp_current}</span>
@@ -4108,7 +4115,7 @@ async function loadCharacterSummons(charId, charName) {
           <div><label style="font-size:0.7rem">Speed</label><input id="s-speed-dm" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" value="30 ft."></div>
         </div>
         <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0.3rem;margin-top:0.5rem">
-          ${['STR','DEX','CON','INT','WIS','CHA'].map(a => `<div style="text-align:center"><label style="font-size:0.6rem;color:var(--text-muted)">${a}</label><input id="s-${a.toLowerCase()}-dm" type="number" style="width:100%;padding:0.15rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.75rem;text-align:center" value="10"></div>`).join('')}
+          ${['STR','DEX','CON','INT','WIS','CHA'].map(a => `<div style="text-align:center"><label style="font-size:0.72rem;color:var(--text-muted)">${a}</label><input id="s-${a.toLowerCase()}-dm" type="number" style="width:100%;padding:0.15rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.75rem;text-align:center" value="10"></div>`).join('')}
         </div>
         <div style="margin-top:0.5rem">
           <label style="font-size:0.7rem">Source (spell/feature)</label>
@@ -4458,7 +4465,7 @@ async function loadCharacterSummons(charId, charName) {
         const val = scores[s] || 10;
         const mod = Math.floor((val - 10) / 2);
         const modStr = mod >= 0 ? '+' + mod : '' + mod;
-        return '<div style="text-align:center"><div style="font-size:0.6rem;color:#999;text-transform:uppercase">' + s.slice(0,3) + '</div><div style="font-weight:700">' + val + '</div><div style="font-size:0.7rem;color:' + (mod>=0?'#4ecca3':'#e94560') + '">' + modStr + '</div></div>';
+        return '<div style="text-align:center"><div style="font-size:0.72rem;color:#999;text-transform:uppercase">' + s.slice(0,3) + '</div><div style="font-weight:700">' + val + '</div><div style="font-size:0.7rem;color:' + (mod>=0?'#4ecca3':'#e94560') + '">' + modStr + '</div></div>';
       }).join('') + '</div>';
   }
   
@@ -4499,11 +4506,11 @@ async function loadCharacterSummons(charId, charName) {
     '<p style="color:#999;margin:0 0 0.5rem 0">', (p.race || 'Unknown'), ' · L', (p.level || '?'), ' ', (p.class_name || ''), (p.role ? ' · ' + p.role : ''), (alignment ? ' · ' + alignment : ''), '</p>',
     desc ? '<p style="color:#aaa;font-size:0.85rem;font-style:italic;margin:0 0 0.75rem 0">' + desc + '</p>' : '',
     '<div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;padding:0.5rem 0;border-top:2px solid #e94560;border-bottom:2px solid #e94560;margin-bottom:0.75rem">',
-    '<div style="text-align:center"><div style="font-size:0.6rem;color:#999">Armor Class</div><div style="font-weight:700;font-size:1.1rem">', (p.ac || '?'), '</div></div>',
-    '<div style="text-align:center"><div style="font-size:0.6rem;color:#999">Hit Points</div><div style="font-weight:700;font-size:1.1rem">', p.hp_current, '/', p.hp_max, '</div><div style="width:80px;height:5px;border-radius:3px;background:#333;overflow:hidden;margin:0.15rem auto 0"><div style="height:100%;border-radius:3px;background:', hpColor, ';width:', hpPct, '%"></div></div></div>',
-    speed ? '<div style="text-align:center"><div style="font-size:0.6rem;color:#999">Speed</div><div style="font-size:0.85rem">' + speed + '</div></div>' : '',
-    '<div style="text-align:center"><div style="font-size:0.6rem;color:#999">Initiative</div><div style="font-size:0.85rem">🎲 ', (p.initiative || 0), '</div></div>',
-    '<div style="text-align:center"><div style="font-size:0.6rem;color:#999">Status</div><div style="font-size:0.85rem">', (p.defeated ? '💀 Defeated' : '✅ Active'), '</div></div>',
+    '<div style="text-align:center"><div style="font-size:0.72rem;color:#999">Armor Class</div><div style="font-weight:700;font-size:1.1rem">', (p.ac || '?'), '</div></div>',
+    '<div style="text-align:center"><div style="font-size:0.72rem;color:#999">Hit Points</div><div style="font-weight:700;font-size:1.1rem">', p.hp_current, '/', p.hp_max, '</div><div style="width:80px;height:5px;border-radius:3px;background:#333;overflow:hidden;margin:0.15rem auto 0"><div style="height:100%;border-radius:3px;background:', hpColor, ';width:', hpPct, '%"></div></div></div>',
+    speed ? '<div style="text-align:center"><div style="font-size:0.72rem;color:#999">Speed</div><div style="font-size:0.85rem">' + speed + '</div></div>' : '',
+    '<div style="text-align:center"><div style="font-size:0.72rem;color:#999">Initiative</div><div style="font-size:0.85rem">🎲 ', (p.initiative || 0), '</div></div>',
+    '<div style="text-align:center"><div style="font-size:0.72rem;color:#999">Status</div><div style="font-size:0.85rem">', (p.defeated ? '💀 Defeated' : '✅ Active'), '</div></div>',
     '</div>',
     abilRow,
     spellHtml,
@@ -4522,7 +4529,7 @@ function showFullMonsterCard(monster, combatant) {
     const val = monster[s] || 10;
     const mod = Math.floor((val - 10) / 2);
     const modStr = mod >= 0 ? '+' + mod : '' + mod;
-    return `<div style="text-align:center"><div style="font-size:0.6rem;color:#999;text-transform:uppercase">${s.slice(0,3)}</div><div style="font-weight:700">${val}</div><div style="font-size:0.7rem;color:${mod>=0?'#4ecca3':'#e94560'}">${modStr}</div></div>`;
+    return `<div style="text-align:center"><div style="font-size:0.72rem;color:#999;text-transform:uppercase">${s.slice(0,3)}</div><div style="font-weight:700">${val}</div><div style="font-size:0.7rem;color:${mod>=0?'#4ecca3':'#e94560'}">${modStr}</div></div>`;
   }).join('');
 
   const speeds = monster.speed ? Object.entries(monster.speed).map(([k,v]) => `${k} ${v}`).join(', ') : '?';
@@ -4562,9 +4569,9 @@ function showFullMonsterCard(monster, combatant) {
       <h2 style="margin:0">${monster.name}</h2>
       <p style="color:#999;margin:0.25rem 0 0.5rem 0">${monster.size || '?'} ${monster.type || '?'}, ${monster.alignment || 'unaligned'}</p>
       <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;padding:0.5rem 0;border-top:2px solid #e94560;border-bottom:2px solid #e94560;margin-bottom:0.75rem">
-        <div style="text-align:center"><div style="font-size:0.6rem;color:#999">Armor Class</div><div style="font-weight:700;font-size:1.1rem">${combatant.ac || '?'}</div></div>
-        <div style="text-align:center"><div style="font-size:0.6rem;color:#999">Hit Points</div><div style="font-weight:700;font-size:1.1rem">${combatant.hp_current}/${combatant.hp_max}</div><div style="width:80px;height:5px;border-radius:3px;background:#333;overflow:hidden;margin:0.15rem auto 0"><div style="height:100%;border-radius:3px;background:${hpColor};width:${hpPct}%"></div></div></div>
-        <div style="text-align:center"><div style="font-size:0.6rem;color:#999">Speed</div><div style="font-size:0.85rem">${speeds}</div></div>
+        <div style="text-align:center"><div style="font-size:0.72rem;color:#999">Armor Class</div><div style="font-weight:700;font-size:1.1rem">${combatant.ac || '?'}</div></div>
+        <div style="text-align:center"><div style="font-size:0.72rem;color:#999">Hit Points</div><div style="font-weight:700;font-size:1.1rem">${combatant.hp_current}/${combatant.hp_max}</div><div style="width:80px;height:5px;border-radius:3px;background:#333;overflow:hidden;margin:0.15rem auto 0"><div style="height:100%;border-radius:3px;background:${hpColor};width:${hpPct}%"></div></div></div>
+        <div style="text-align:center"><div style="font-size:0.72rem;color:#999">Speed</div><div style="font-size:0.85rem">${speeds}</div></div>
       </div>
       <div style="display:flex;gap:0;margin-bottom:0.75rem;background:#16213e;border-radius:6px;padding:0.5rem;justify-content:space-around;flex-wrap:wrap">${statRow}</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 1rem;font-size:0.8rem;margin-bottom:0.75rem">
@@ -4681,8 +4688,8 @@ function renderBenchedNpcs() {
     return;
   }
   container.innerHTML = _benchedNpcs.map(p => {
-    const badge = p.is_enemy ? '<span class="badge badge-accent" style="font-size:0.6rem">ENEMY</span>'
-      : '<span class="badge badge-muted" style="font-size:0.6rem">ALLY</span>';
+    const badge = p.is_enemy ? '<span class="badge badge-accent" style="font-size:0.72rem">ENEMY</span>'
+      : '<span class="badge badge-muted" style="font-size:0.72rem">ALLY</span>';
     return `<div class="initiative-card benched-card" draggable="true"
       data-en-id="${p.en_id}"
       ondragstart="benchedDragStart(event, ${p.en_id})"
@@ -4813,9 +4820,9 @@ function filterCombatCreatures() {
   let html = '';
   shown.forEach((c, ci) => {
     const kindBadge = c._kind === 'monster'
-      ? '<span class="badge badge-accent" style="font-size:0.55rem">MON</span>'
-      : c._kind === 'character' ? '<span class="badge badge-success" style="font-size:0.55rem">PC</span>'
-      : c.id < 0 ? '<span class="badge badge-muted" style="font-size:0.55rem">📖</span>' : '';
+      ? '<span class="badge badge-accent" style="font-size:0.68rem">MON</span>'
+      : c._kind === 'character' ? '<span class="badge badge-success" style="font-size:0.68rem">PC</span>'
+      : c.id < 0 ? '<span class="badge badge-muted" style="font-size:0.68rem">📖</span>' : '';
     let detailDisplay, crDisplay, typeDisplay, sourceHtml, hpDisplay, infoBtn;
 
     if (c._kind === 'character') {
@@ -4823,17 +4830,17 @@ function filterCombatCreatures() {
       detailDisplay = `${c.race || ''} L${c.level} ${c.class_name || ''}${subStr} · AC ${c.ac}`;
       hpDisplay = `HP ${c.hp_current}/${c.hp_max}`;
       sourceHtml = '';
-      infoBtn = `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();previewCharSheet(${c.char_id},'${c.name.replace(/'/g, "\\'")}')" title="View character sheet" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>`;
+      infoBtn = `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();previewCharSheet(${c.char_id},'${c.name.replace(/'/g, "\\'")}')" title="View character sheet" style="font-size:0.72rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>`;
     } else if (c._kind === 'monster') {
       crDisplay = `CR ${c.level} · `;
       typeDisplay = c._type ? `${c._type.charAt(0).toUpperCase() + c._type.slice(1)} · ` : '';
       detailDisplay = `${crDisplay}${typeDisplay}AC ${c.ac} · ${c.race || '?'}`;
       hpDisplay = `HP ${c.hp_current}`;
       sourceHtml = c._raw?.source
-        ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${c._raw.source.replace(/'/g, "\\'")}')" style="font-size:0.55rem;cursor:pointer;opacity:0.7" title="Click to open ${c._raw.source}">📚</span>`
+        ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${c._raw.source.replace(/'/g, "\\'")}')" style="font-size:0.68rem;cursor:pointer;opacity:0.7" title="Click to open ${c._raw.source}">📚</span>`
         : '';
       infoBtn = c._raw?.index
-        ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showMonster('${c._raw.index}')" title="Monster details" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>`
+        ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showMonster('${c._raw.index}')" title="Monster details" style="font-size:0.72rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>`
         : '';
     } else {
       // NPC
@@ -4841,7 +4848,7 @@ function filterCombatCreatures() {
       hpDisplay = `HP ${c.hp_current}/${c.hp_max}`;
       sourceHtml = '';
       infoBtn = c.id > 0
-        ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNpcInfo(${c.id}, '${c.name.replace(/'/g, "\\'")}')" title="NPC details" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>`
+        ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNpcInfo(${c.id}, '${c.name.replace(/'/g, "\\'")}')" title="NPC details" style="font-size:0.72rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>`
         : '';
     }
     html += `<div style="display:flex;align-items:center;gap:0.3rem;padding:0.3rem 0.5rem;background:var(--bg);border-radius:4px"
@@ -5065,7 +5072,7 @@ function combatToggleCond(event, enId, name, desc) {
   const popout = document.createElement('div');
   popout.className = 'cond-popout cond-detail-popout';
   const style = CONDITION_COLORS[name] || 'var(--accent)';
-  popout.innerHTML = '<strong style="color:'+style.split(';')[0]+'">'+name+'</strong><div style="font-size:0.65rem;color:var(--text-muted);margin:0.3rem 0;line-height:1.3">'+desc+'</div><button style="display:block;margin-top:0.4rem;width:100%;padding:0.2rem;border:1px solid var(--danger);border-radius:4px;background:transparent;color:var(--danger);cursor:pointer;font-size:0.6rem" onclick="combatDismissCond('+enId+',\''+name+'\');this.parentElement.remove()">Remove</button>';
+  popout.innerHTML = '<strong style="color:'+style.split(';')[0]+'">'+name+'</strong><div style="font-size:0.65rem;color:var(--text-muted);margin:0.3rem 0;line-height:1.3">'+desc+'</div><button style="display:block;margin-top:0.4rem;width:100%;padding:0.2rem;border:1px solid var(--danger);border-radius:4px;background:transparent;color:var(--danger);cursor:pointer;font-size:0.72rem" onclick="combatDismissCond('+enId+',\''+name+'\');this.parentElement.remove()">Remove</button>';
   popout.style.cssText = 'position:absolute;z-index:1001;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:0.6rem;min-width:180px;max-width:250px;box-shadow:0 4px 12px rgba(0,0,0,0.3);font-size:0.7rem';
   badge.parentElement.style.position = 'relative';
   badge.parentElement.appendChild(popout);
@@ -5082,9 +5089,9 @@ function combatOpenCondPicker(enId) {
   for (const c of STANDARD_CONDITIONS) {
     const style = CONDITION_COLORS[c.name] || 'var(--accent)';
     if (c.name === 'Exhaustion') {
-      html += '<div onclick="combatOpenExhaustionPicker('+enId+')" style="padding:0.25rem 0.4rem;cursor:pointer;border-radius:4px;margin-bottom:0.1rem;font-size:0.65rem;display:flex;flex-wrap:wrap;align-items:flex-start;gap:0.3rem"><span class="cond-badge" style="flex-shrink:0;background:'+style.split(';')[0]+';'+style.split(';')[1]+'">'+c.name+'</span><span style="color:var(--text-muted);font-size:0.6rem;flex:1;min-width:180px;word-wrap:break-word;line-height:1.3">Pick level 1–6…</span></div>';
+      html += '<div onclick="combatOpenExhaustionPicker('+enId+')" style="padding:0.25rem 0.4rem;cursor:pointer;border-radius:4px;margin-bottom:0.1rem;font-size:0.65rem;display:flex;flex-wrap:wrap;align-items:flex-start;gap:0.3rem"><span class="cond-badge" style="flex-shrink:0;background:'+style.split(';')[0]+';'+style.split(';')[1]+'">'+c.name+'</span><span style="color:var(--text-muted);font-size:0.72rem;flex:1;min-width:180px;word-wrap:break-word;line-height:1.3">Pick level 1–6…</span></div>';
     } else {
-    html += '<div onclick="combatAddCondition('+enId+',\''+c.name+'\',\''+c.desc.replace(/'/g,"\\'")+'\');document.getElementById(\'cond-picker-combat\').remove()" style="padding:0.25rem 0.4rem;cursor:pointer;border-radius:4px;margin-bottom:0.1rem;font-size:0.65rem;display:flex;flex-wrap:wrap;align-items:flex-start;gap:0.3rem"><span class="cond-badge" style="flex-shrink:0;background:'+style.split(';')[0]+';'+style.split(';')[1]+'">'+c.name+'</span><span style="color:var(--text-muted);font-size:0.6rem;flex:1;min-width:180px;word-wrap:break-word;line-height:1.3">'+c.desc+'</span></div>';
+    html += '<div onclick="combatAddCondition('+enId+',\''+c.name+'\',\''+c.desc.replace(/'/g,"\\'")+'\');document.getElementById(\'cond-picker-combat\').remove()" style="padding:0.25rem 0.4rem;cursor:pointer;border-radius:4px;margin-bottom:0.1rem;font-size:0.65rem;display:flex;flex-wrap:wrap;align-items:flex-start;gap:0.3rem"><span class="cond-badge" style="flex-shrink:0;background:'+style.split(';')[0]+';'+style.split(';')[1]+'">'+c.name+'</span><span style="color:var(--text-muted);font-size:0.72rem;flex:1;min-width:180px;word-wrap:break-word;line-height:1.3">'+c.desc+'</span></div>';
     }
   }
   html += '<div style="margin-top:0.4rem;border-top:1px solid var(--border);padding-top:0.4rem"><input id="custom-cond-name-combat" placeholder="Custom condition…" style="width:100%;padding:0.25rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.65rem;margin-bottom:0.2rem"><button onclick="combatAddCondition('+enId+',document.getElementById(\'custom-cond-name-combat\').value,\'\');document.getElementById(\'cond-picker-combat\').remove()" style="width:100%;padding:0.2rem;background:var(--accent);color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.65rem">Add Custom</button></div>';
@@ -5099,7 +5106,7 @@ function combatOpenExhaustionPicker(enId) {
   for (const e of EXHAUSTION_LEVELS) {
     const label = 'Exhaustion '+e.level;
     const color = CONDITION_COLORS['Exhaustion'] || '#827717;color:#fff';
-    el.innerHTML += '<div onclick="combatAddCondition('+enId+',\''+label+'\', \'Level '+e.level+': '+e.desc.replace(/'/g,"\\'")+'\');document.getElementById(\'cond-picker-combat\').remove()" style="padding:0.25rem 0.4rem;cursor:pointer;border-radius:4px;margin-bottom:0.1rem;font-size:0.65rem;display:flex;align-items:center;gap:0.4rem"><span class="cond-badge" style="flex-shrink:0;background:'+color.split(';')[0]+';'+color.split(';')[1]+'">'+label+'</span><span style="color:var(--text-muted);font-size:0.6rem;flex:1">'+e.desc+'</span></div>';
+    el.innerHTML += '<div onclick="combatAddCondition('+enId+',\''+label+'\', \'Level '+e.level+': '+e.desc.replace(/'/g,"\\'")+'\');document.getElementById(\'cond-picker-combat\').remove()" style="padding:0.25rem 0.4rem;cursor:pointer;border-radius:4px;margin-bottom:0.1rem;font-size:0.65rem;display:flex;align-items:center;gap:0.4rem"><span class="cond-badge" style="flex-shrink:0;background:'+color.split(';')[0]+';'+color.split(';')[1]+'">'+label+'</span><span style="color:var(--text-muted);font-size:0.72rem;flex:1">'+e.desc+'</span></div>';
   }
 }
 

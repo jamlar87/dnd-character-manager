@@ -367,7 +367,7 @@ function selectRace(name) {
   document.getElementById('race-info').innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">
       <span><strong>${name}</strong>${state.subrace ? ' ('+state.subrace+')' : ''}</span>
-      ${r.source ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="${r.source.replace(/"/g, '&quot;')}" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap;cursor:pointer" title="Click to open ${r.source}">📚 ${r.source}</span>` : ''}
+      ${r.source ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="${r.source.replace(/"/g, '&quot;')}" style="font-size:0.72rem;color:var(--text-muted);opacity:0.7;white-space:nowrap;cursor:pointer" title="Click to open ${r.source}">📚 ${r.source}</span>` : ''}
     </div>
     <div style="font-size:0.85rem;color:var(--text-muted)">Speed ${r.speed}ft · Darkvision ${r.darkvision}ft</div>
     <span style="font-size:0.85rem;color:var(--text-muted)">${r.traits.join(', ') || 'No special traits'}</span>
@@ -399,7 +399,7 @@ function selectSubrace(s) {
   document.getElementById('race-info').innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">
       <span><strong>${state.race}</strong>${state.subrace ? ' ('+state.subrace+')' : ''}</span>
-      ${detailSrc ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="${detailSrc.replace(/"/g, '&quot;')}" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap;cursor:pointer" title="Click to open ${detailSrc}">📚 ${detailSrc}</span>` : ''}
+      ${detailSrc ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="${detailSrc.replace(/"/g, '&quot;')}" style="font-size:0.72rem;color:var(--text-muted);opacity:0.7;white-space:nowrap;cursor:pointer" title="Click to open ${detailSrc}">📚 ${detailSrc}</span>` : ''}
     </div>
     <div style="font-size:0.85rem;color:var(--text-muted)">Speed ${r.speed}ft · Darkvision ${r.darkvision}ft</div>
     <span style="font-size:0.85rem;color:var(--text-muted)">${r.traits.join(', ') || 'No special traits'}</span>
@@ -456,7 +456,7 @@ function selectClass(name) {
   document.getElementById('class-info').innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">
       <span><strong>${name}</strong>${state.subclass ? ' — '+state.subclass : ''}</span>
-      ${c.source ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="${c.source.replace(/"/g, '&quot;')}" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap;cursor:pointer" title="Click to open ${c.source}">📚 ${c.source}</span>` : ''}
+      ${c.source ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="${c.source.replace(/"/g, '&quot;')}" style="font-size:0.72rem;color:var(--text-muted);opacity:0.7;white-space:nowrap;cursor:pointer" title="Click to open ${c.source}">📚 ${c.source}</span>` : ''}
     </div>
     <div style="font-size:0.85rem;color:var(--text-muted)">Hit Die: d${c.hd} · Saving Throws: ${c.saves.join(', ')}</div>
     <span style="font-size:0.85rem;color:var(--text-muted)">${c.skill_count} skill proficiencies from: ${Array.isArray(c.skills) ? c.skills.join(', ') : 'any'}</span>
@@ -472,7 +472,7 @@ function selectSubclass(s) {
   document.getElementById('class-info').innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">
       <span><strong>${state.class_name}</strong>${state.subclass ? ' — '+state.subclass : ''}</span>
-      ${detailSrc ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="${detailSrc.replace(/"/g, '&quot;')}" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap;cursor:pointer" title="Click to open ${detailSrc}">📚 ${detailSrc}</span>` : ''}
+      ${detailSrc ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="${detailSrc.replace(/"/g, '&quot;')}" style="font-size:0.72rem;color:var(--text-muted);opacity:0.7;white-space:nowrap;cursor:pointer" title="Click to open ${detailSrc}">📚 ${detailSrc}</span>` : ''}
     </div>
     <div style="font-size:0.85rem;color:var(--text-muted)">Hit Die: d${c.hd} · Saving Throws: ${c.saves.join(', ')}</div>
     <span style="font-size:0.85rem;color:var(--text-muted)">${c.skill_count} skill proficiencies from: ${Array.isArray(c.skills) ? c.skills.join(', ') : 'any'}</span>
@@ -788,7 +788,7 @@ function showBgInfo(bg) {
     document.getElementById('custom-bg-row').style.display = 'block';
   } else {
     const src = BACKGROUND_SOURCES[bg] || '';
-    el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><span><strong>${bg}</strong></span>${src ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="${src.replace(/"/g, '&quot;')}" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap;cursor:pointer" title="Click to open ${src}">📚 ${src}</span>` : ''}</div>${BACKGROUND_INFO[bg] || ''}`;
+    el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><span><strong>${bg}</strong></span>${src ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="${src.replace(/"/g, '&quot;')}" style="font-size:0.72rem;color:var(--text-muted);opacity:0.7;white-space:nowrap;cursor:pointer" title="Click to open ${src}">📚 ${src}</span>` : ''}</div>${BACKGROUND_INFO[bg] || ''}`;
     document.getElementById('custom-bg-row').style.display = 'none';
   }
 }
@@ -899,17 +899,17 @@ function filterCreateSpells() {
     let diceBadge = '';
     if (s.dice) {
       if (s.dice_healing) {
-        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
+        diceBadge = `<span style="font-size:0.68rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
       } else if (s.dice_ac) {
-        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
+        diceBadge = `<span style="font-size:0.68rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
       } else if (s.dice_buff) {
-        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
+        diceBadge = `<span style="font-size:0.68rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
       } else {
-        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
+        diceBadge = `<span style="font-size:0.68rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
       }
     }
-    let ritualBadge = s.ritual ? '<span style="font-size:0.55rem;color:var(--accent);opacity:0.7;flex-shrink:0" title="Ritual">\\u26a1</span>' : '';
-    let concBadge = s.concentration ? '<span style="font-size:0.55rem;color:var(--warning);opacity:0.8;flex-shrink:0" title="Concentration">\\u23f3</span>' : '';
+    let ritualBadge = s.ritual ? '<span style="font-size:0.68rem;color:var(--accent);opacity:0.7;flex-shrink:0" title="Ritual">\\u26a1</span>' : '';
+    let concBadge = s.concentration ? '<span style="font-size:0.68rem;color:var(--warning);opacity:0.8;flex-shrink:0" title="Concentration">\\u23f3</span>' : '';
     const srcBadge = s.book ? `${_srcBadge(s.book)}` : (s.source ? `${_srcBadge(s.source)}` : '');
     const bg = isSel ? 'background:rgba(99,102,241,0.15);' : '';
     // Description body
@@ -977,21 +977,21 @@ function renderCreateSelected() {
   const selected = state.spells || [];
   div.innerHTML = selected.map(s => {
     const lvlBadge = s.level === 0 
-      ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.6rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
-      : '<span style="background:var(--accent);color:#fff;font-size:0.6rem;padding:0.1rem 0.35rem;border-radius:3px">Lv'+s.level+'</span>';
+      ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.72rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
+      : '<span style="background:var(--accent);color:#fff;font-size:0.72rem;padding:0.1rem 0.35rem;border-radius:3px">Lv'+s.level+'</span>';
     const fullSpell = _createSpellList.find(sp => sp.name === s.name);
     const srcBadge = (fullSpell && fullSpell.book) ? `${_srcBadge(fullSpell.book)}` : ((fullSpell && fullSpell.source) ? `${_srcBadge(fullSpell.source)}` : '');
     // Dice badge on selected chip
     let diceBadge = '';
     if (fullSpell && fullSpell.dice) {
       if (fullSpell.dice_healing) {
-        diceBadge = `<span style="font-size:0.5rem;font-weight:600;background:rgba(34,197,94,0.2);color:var(--success);font-family:monospace;padding:0 0.2rem;border-radius:2px">${fullSpell.dice}</span>`;
+        diceBadge = `<span style="font-size:0.65rem;font-weight:600;background:rgba(34,197,94,0.2);color:var(--success);font-family:monospace;padding:0 0.2rem;border-radius:2px">${fullSpell.dice}</span>`;
       } else if (fullSpell.dice_ac) {
-        diceBadge = `<span style="font-size:0.5rem;font-weight:600;background:rgba(59,130,246,0.2);color:#3b82f6;font-family:monospace;padding:0 0.2rem;border-radius:2px">${fullSpell.dice}</span>`;
+        diceBadge = `<span style="font-size:0.65rem;font-weight:600;background:rgba(59,130,246,0.2);color:#3b82f6;font-family:monospace;padding:0 0.2rem;border-radius:2px">${fullSpell.dice}</span>`;
       } else if (fullSpell.dice_buff) {
-        diceBadge = `<span style="font-size:0.5rem;font-weight:600;background:rgba(139,92,246,0.2);color:#8b5cf6;font-family:monospace;padding:0 0.2rem;border-radius:2px">${fullSpell.dice}</span>`;
+        diceBadge = `<span style="font-size:0.65rem;font-weight:600;background:rgba(139,92,246,0.2);color:#8b5cf6;font-family:monospace;padding:0 0.2rem;border-radius:2px">${fullSpell.dice}</span>`;
       } else {
-        diceBadge = `<span style="font-size:0.5rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0 0.2rem;border-radius:2px">${fullSpell.dice}</span>`;
+        diceBadge = `<span style="font-size:0.65rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0 0.2rem;border-radius:2px">${fullSpell.dice}</span>`;
       }
     }
     return `<div style="display:flex;align-items:center;gap:0.25rem;padding:0.2rem 0.4rem;background:rgba(99,102,241,0.12);border:1px solid var(--accent2);border-radius:4px;font-size:0.78rem">

@@ -23,7 +23,8 @@
     <div>
       <h2 style="margin:0">📜 {{ camp.name }}</h2>
       <p style="color:var(--text-muted);font-size:0.85rem">
-        Party: L{{ live_level }} · {{ live_size }} players · {{ chars|length }} characters
+        {% set party_n = live_size or 0 %}{% set char_n = chars|length %}
+        Party: L{{ live_level }} · {{ party_n }} player{{ '' if party_n == 1 else 's' }} · {{ char_n }} character{{ '' if char_n == 1 else 's' }}
       </p>
     </div>
     <div class="camp-actions" style="display:flex;gap:0.3rem;flex-wrap:wrap">

@@ -95,7 +95,7 @@
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem;cursor:pointer;user-select:none" onclick="toggleConditions()">
           <span style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)"><span id="cond-chevron">▾</span> Conditions</span>
           <button onclick="event.stopPropagation();openConditionPicker()" title="Add condition"
-            style="font-size:0.55rem;padding:0.05rem 0.4rem;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;line-height:1.5">+ Add</button>
+            style="font-size:0.68rem;padding:0.05rem 0.4rem;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;line-height:1.5">+ Add</button>
         </div>
         <div id="condition-badges" style="display:flex;flex-wrap:wrap;gap:0.25rem">
           {% for c in (character.conditions or []) %}
@@ -103,13 +103,13 @@
             data-name="{{ c.name }}">{{ c.name }}<span class="dismiss" onclick="event.stopPropagation();dismissCondition('{{ c.name }}')">✕</span></span>
           {% endfor %}
           {% if not character.conditions %}
-          <span style="font-size:0.6rem;color:var(--text-muted);opacity:0.5">None</span>
+          <span style="font-size:0.72rem;color:var(--text-muted);opacity:0.5">None</span>
           {% endif %}
         </div>
       </div>
       <!-- Hit Dice (collapsible) -->
       <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;margin-top:0.4rem;padding-top:0.4rem;border-top:1px solid var(--border);user-select:none" onclick="toggleHitDice()">
-        <span id="hd-toggle" style="font-size:0.6rem;opacity:0.5">▸</span>
+        <span id="hd-toggle" style="font-size:0.72rem;opacity:0.5">▸</span>
         <span style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted)">Hit Dice</span>
       </div>
       <div id="hd-body" style="display:none;margin-top:0.35rem">
@@ -125,14 +125,14 @@
             <button class="hp-btn heal" onclick="spendHitDice()" title="Spend one Hit Die during a Short Rest" id="hd-spend-btn"
               style="font-size:0.7rem;width:auto;padding:0.2rem 0.5rem">Spend 1 HD</button>
             <button class="hp-btn heal" onclick="rollMax()" title="Spend one HD and take max result (feat/spell)"
-              style="font-size:0.6rem;width:auto;padding:0.2rem 0.4rem;background:var(--accent2);color:var(--text);border:1px solid var(--border)">Max</button>
+              style="font-size:0.72rem;width:auto;padding:0.2rem 0.4rem;background:var(--accent2);color:var(--text);border:1px solid var(--border)">Max</button>
           </div>
           <div id="hd-result" style="display:none;font-size:0.78rem;padding:0.25rem 0.4rem;border-radius:6px;background:var(--bg);border:1px solid var(--border)"></div>
         </div>
       </div>
       <!-- Death Saves (collapsible) -->
       <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;margin-top:0.3rem;padding-top:0.3rem;border-top:1px solid var(--border);user-select:none" onclick="toggleDeathSaves()">
-        <span id="ds-toggle" style="font-size:0.6rem;opacity:0.5">▸</span>
+        <span id="ds-toggle" style="font-size:0.72rem;opacity:0.5">▸</span>
         <span style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted)">Death Saving Throws</span>
       </div>
       <div id="ds-body" style="display:none;margin-top:0.35rem">
@@ -169,7 +169,7 @@
       <div class="combat-quick top-combat-grid">
         <div class="combat-quick-item" onclick="showCombatPopup('ac')" style="cursor:pointer" title="Click for description">
           <div class="cq-label">AC</div>
-          <div class="cq-value editable" data-field="ac" data-num="1">{{ character.ac or 10 }}{% if item_effects.ac_bonus %} <span style="font-size:0.55rem;color:var(--success)">(+{{ item_effects.ac_bonus }})</span>{% endif %}{% if character.armor_warnings or character.shield_warning %} <span style="color:var(--danger);font-size:0.7rem;cursor:help" title="Armor proficiency missing — see Defenses for details">⚠️</span>{% endif %}</div>
+          <div class="cq-value editable" data-field="ac" data-num="1">{{ character.ac or 10 }}{% if item_effects.ac_bonus %} <span style="font-size:0.68rem;color:var(--success)">(+{{ item_effects.ac_bonus }})</span>{% endif %}{% if character.armor_warnings or character.shield_warning %} <span style="color:var(--danger);font-size:0.7rem;cursor:help" title="Armor proficiency missing — see Defenses for details">⚠️</span>{% endif %}</div>
         </div>
         <div class="combat-quick-item" onclick="showCombatPopup('initiative')" style="cursor:pointer" title="Click for description">
           <div class="cq-label">Initiative{% if adv.initiative %}<span class="adv-badge smol" title="Advantage on initiative rolls">A</span>{% endif %}</div>
@@ -210,7 +210,7 @@
         {% endfor %}
       </div>
       <div class="senses-section">
-        <h4 style="cursor:pointer" onclick="toggleSensesBlurb()" title="Click for rules">Senses <span id="senses-blurb-toggle" style="font-size:0.6rem;opacity:0.5">▸</span></h4>
+        <h4 style="cursor:pointer" onclick="toggleSensesBlurb()" title="Click for rules">Senses <span id="senses-blurb-toggle" style="font-size:0.72rem;opacity:0.5">▸</span></h4>
         {% set wis_mod = (character.wisdom - 10) // 2 %}
         {% set int_mod = (character.intelligence - 10) // 2 %}
         <div class="sense-row">
@@ -228,7 +228,7 @@
         {% if darkvision_ft %}
         <div class="sense-row">
           <span class="sense-label">Darkvision</span>
-          <span class="sense-val">{{ darkvision_ft }} ft{% if darkvision_source %} <span style="font-size:0.55rem;color:var(--text-muted)">({{ darkvision_source }})</span>{% endif %}</span>
+          <span class="sense-val">{{ darkvision_ft }} ft{% if darkvision_source %} <span style="font-size:0.68rem;color:var(--text-muted)">({{ darkvision_source }})</span>{% endif %}</span>
         </div>
         {% endif %}
       </div>
@@ -254,13 +254,13 @@
       style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.2rem;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;color:var(--text);cursor:pointer;padding:0.3rem 0.5rem;transition:all 0.15s"
       onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
       <span style="font-size:1.1rem">🛌</span>
-      <span style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Long Rest</span>
+      <span style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Long Rest</span>
     </button>
     <button onclick="shortRestConfirm()" title="Take a short rest — spend Hit Dice to heal, reset short-rest features"
       style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.2rem;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;color:var(--text);cursor:pointer;padding:0.3rem 0.5rem;transition:all 0.15s"
       onmouseover="this.style.borderColor='var(--success)'" onmouseout="this.style.borderColor='var(--border)'">
       <span style="font-size:1.1rem">☕</span>
-      <span style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Short Rest</span>
+      <span style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Short Rest</span>
     </button>
   </div>
 </div>
@@ -273,9 +273,9 @@
 
     <div class="sidebar-section">
       <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('saves-body','saves-arrow')">
-        <span id="saves-arrow" style="font-size:0.6rem;opacity:0.5">▸</span>
+        <span id="saves-arrow" style="font-size:0.72rem;opacity:0.5">▸</span>
         <h4 style="margin:0">Saving Throws</h4>
-        <span onclick="event.stopPropagation();toggleSavesBlurb()" title="Saving throw rules" style="cursor:pointer;font-size:0.6rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
+        <span onclick="event.stopPropagation();toggleSavesBlurb()" title="Saving throw rules" style="cursor:pointer;font-size:0.72rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
       </div>
       <div id="saves-body" style="display:none">
       {% for label, stat in stats %}
@@ -287,7 +287,7 @@
         <span class="stat-val" style="color:{% if prof_save %}var(--accent){% else %}var(--text-muted){% endif %}">{% if save_val >= 0 %}+{% endif %}{{ save_val }}</span>
       </div>
       {% endfor %}
-      <div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.25rem;text-align:right">
+      <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.25rem;text-align:right">
         <span style="color:var(--accent)">●</span> = Proficient
       </div>
       <!-- Conditional save notes → dynamic from advantage_map -->
@@ -304,7 +304,7 @@
     <!-- Skills -->
     <div class="sidebar-section">
       <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('skills-body','skills-arrow')">
-        <span id="skills-arrow" style="font-size:0.6rem;opacity:0.5">▸</span>
+        <span id="skills-arrow" style="font-size:0.72rem;opacity:0.5">▸</span>
         <h4 style="margin:0">Skills</h4>
       </div>
       <div id="skills-body" style="display:none">
@@ -320,7 +320,7 @@
         </span>
       </div>
       {% endfor %}
-      <div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.25rem;text-align:right">
+      <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.25rem;text-align:right">
         <span style="color:var(--accent)">●</span> = Proficient &nbsp; <span style="color:var(--accent);font-weight:700">★</span> = Expertise
       </div>
       </div>
@@ -329,26 +329,26 @@
     <!-- Defenses -->
     <div class="sidebar-section">
       <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('defenses-body','defenses-arrow')">
-        <span id="defenses-arrow" style="font-size:0.6rem;opacity:0.5">▸</span>
+        <span id="defenses-arrow" style="font-size:0.72rem;opacity:0.5">▸</span>
         <h4 style="margin:0">Defenses</h4>
-        <span onclick="event.stopPropagation();toggleDefensesBlurb()" title="Defense rules" style="cursor:pointer;font-size:0.6rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
+        <span onclick="event.stopPropagation();toggleDefensesBlurb()" title="Defense rules" style="cursor:pointer;font-size:0.72rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
       </div>
       <div id="defenses-body" style="display:none">
       <div style="font-size:0.8rem" id="defenses-section">
         {% if character.armor_warnings or character.shield_warning %}
-        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">⚠️ Armor Proficiency</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">⚠️ Armor Proficiency</div>
         {% for w in character.armor_warnings %}
         <div style="background:rgba(220,38,38,0.12);border:1px solid var(--danger);border-radius:6px;padding:0.5rem;margin-bottom:0.4rem;font-size:0.75rem;color:var(--text)">
           <strong>{{ w.item }}</strong> ({{ w.category }} armor) — not proficient<br>
           <span style="color:var(--danger);font-size:0.7rem">{{ w.penalty }}</span><br>
-          <span style="font-size:0.6rem;color:var(--text-muted)">{{ w.source }}</span>
+          <span style="font-size:0.72rem;color:var(--text-muted)">{{ w.source }}</span>
         </div>
         {% endfor %}
         {% if character.shield_warning %}
         <div style="background:rgba(220,38,38,0.12);border:1px solid var(--danger);border-radius:6px;padding:0.5rem;margin-bottom:0.4rem;font-size:0.75rem;color:var(--text)">
           <strong>Shield</strong> — not proficient<br>
           <span style="color:var(--danger);font-size:0.7rem">{{ character.shield_warning.penalty }}</span><br>
-          <span style="font-size:0.6rem;color:var(--text-muted)">{{ character.shield_warning.source }}</span>
+          <span style="font-size:0.72rem;color:var(--text-muted)">{{ character.shield_warning.source }}</span>
         </div>
         {% endif %}
         {% endif %}
@@ -360,33 +360,33 @@
         <!-- Resistances -->
         {% set has_resist = character.damage_resistances or ns.has_fd_resist or item_effects.resist or racial_effects.damage_resist %}
         {% if has_resist %}
-        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Resistances</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Resistances</div>
         {% for r in character.damage_resistances %}<span class="defense-badge defense-resist">🛡️ {{ r }}</span>{% endfor %}
-        {% for r in racial_effects.damage_resist %}{% if r not in character.damage_resistances %}<span class="defense-badge defense-resist">🛡️ {{ r }} <span style="font-size:0.55rem;opacity:0.7">(racial)</span></span>{% endif %}{% endfor %}
-        {% for fd in feature_defenses %}{% if fd.resist %}{% for r in fd.resist %}<span class="defense-badge defense-resist" title="{{ fd.name }}: {{ fd.note }}">🔥 {{ r }} <span style="font-size:0.55rem;opacity:0.7">({{ fd.note }})</span></span>{% endfor %}{% endif %}{% endfor %}
-        {% for r in item_effects.resist %}<span class="defense-badge defense-resist">🛡️ {{ r }} <span style="font-size:0.55rem;opacity:0.7">(item)</span></span>{% endfor %}
+        {% for r in racial_effects.damage_resist %}{% if r not in character.damage_resistances %}<span class="defense-badge defense-resist">🛡️ {{ r }} <span style="font-size:0.68rem;opacity:0.7">(racial)</span></span>{% endif %}{% endfor %}
+        {% for fd in feature_defenses %}{% if fd.resist %}{% for r in fd.resist %}<span class="defense-badge defense-resist" title="{{ fd.name }}: {{ fd.note }}">🔥 {{ r }} <span style="font-size:0.68rem;opacity:0.7">({{ fd.note }})</span></span>{% endfor %}{% endif %}{% endfor %}
+        {% for r in item_effects.resist %}<span class="defense-badge defense-resist">🛡️ {{ r }} <span style="font-size:0.68rem;opacity:0.7">(item)</span></span>{% endfor %}
         {% endif %}
         <!-- Immunities -->
         {% set has_immune = character.damage_immunities or ns.has_fd_immune or item_effects.immune %}
         {% if has_immune %}
-        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Immunities</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Immunities</div>
         {% for i in character.damage_immunities %}<span class="defense-badge defense-immune">✨ {{ i }}</span>{% endfor %}
-        {% for fd in feature_defenses %}{% if fd.immune %}{% for i in fd.immune %}<span class="defense-badge defense-immune" title="{{ fd.name }}: {{ fd.note }}">✨ {{ i }} <span style="font-size:0.55rem;opacity:0.7">({{ fd.note }})</span></span>{% endfor %}{% endif %}{% endfor %}
-        {% for i in item_effects.immune %}<span class="defense-badge defense-immune">✨ {{ i }} <span style="font-size:0.55rem;opacity:0.7">(item)</span></span>{% endfor %}
+        {% for fd in feature_defenses %}{% if fd.immune %}{% for i in fd.immune %}<span class="defense-badge defense-immune" title="{{ fd.name }}: {{ fd.note }}">✨ {{ i }} <span style="font-size:0.68rem;opacity:0.7">({{ fd.note }})</span></span>{% endfor %}{% endif %}{% endfor %}
+        {% for i in item_effects.immune %}<span class="defense-badge defense-immune">✨ {{ i }} <span style="font-size:0.68rem;opacity:0.7">(item)</span></span>{% endfor %}
         {% endif %}
         <!-- Vulnerabilities -->
         {% if character.damage_vulnerabilities %}
-        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Vulnerabilities</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Vulnerabilities</div>
         {% for v in character.damage_vulnerabilities %}<span class="defense-badge defense-vuln">⚠️ {{ v }}</span>{% endfor %}
         {% endif %}
         <!-- Condition Immunities -->
         {% if merged_condition_immune %}
-        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Condition Imm.</div>
-        {% for c in merged_condition_immune %}<span class="defense-badge defense-immune">✨ {{ c }}{% if c in racial_effects.condition_immune and c not in character.condition_immunities %} <span style="font-size:0.55rem;opacity:0.7">(racial)</span>{% endif %}</span>{% endfor %}
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Condition Imm.</div>
+        {% for c in merged_condition_immune %}<span class="defense-badge defense-immune">✨ {{ c }}{% if c in racial_effects.condition_immune and c not in character.condition_immunities %} <span style="font-size:0.68rem;opacity:0.7">(racial)</span>{% endif %}</span>{% endfor %}
         {% endif %}
         <!-- Save Proficiencies -->
         {% if character.save_proficiencies %}
-        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Save Prof.</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Save Prof.</div>
         {% for s in character.save_proficiencies %}<span class="defense-badge" style="background:rgba(100,149,237,0.12);border:1px solid #6495ed;color:#6495ed;font-size:0.65rem;">💪 {{ s[:3]|upper }} save</span>{% endfor %}
         {% endif %}
         {% set has_defenses = has_resist or has_immune or character.damage_vulnerabilities or merged_condition_immune or character.save_proficiencies or item_effects.notes %}
@@ -438,33 +438,33 @@
     <!-- Proficiencies -->
     <div class="sidebar-section">
       <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('profs-body','profs-arrow')">
-        <span id="profs-arrow" style="font-size:0.6rem;opacity:0.5">▸</span>
+        <span id="profs-arrow" style="font-size:0.72rem;opacity:0.5">▸</span>
         <h4 style="margin:0">Proficiencies</h4>
-        <span onclick="event.stopPropagation();toggleProfsBlurb()" title="Proficiency rules" style="cursor:pointer;font-size:0.6rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
+        <span onclick="event.stopPropagation();toggleProfsBlurb()" title="Proficiency rules" style="cursor:pointer;font-size:0.72rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
       </div>
       <div id="profs-body" style="display:none">
       <div style="font-size:0.8rem" id="prof-section">
         <!-- Armor -->
         {% if merged_armor_profs %}
-        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Armor</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Armor</div>
         <span id="prof-badges-armor_proficiencies">{% for a in merged_armor_profs %}<span class="prof-badge">{{ a }}{% if a in racial_effects.armor_profs %} <span style="opacity:0.5" title="Racial trait">⚡</span>{% endif %}</span>{% endfor %}</span>
         <span class="prof-display" data-field="armor_proficiencies" style="display:none">{{ character.armor_proficiencies|join(', ') if character.armor_proficiencies else '' }}</span>
         {% endif %}
         <!-- Weapons -->
         {% if merged_weapon_profs %}
-        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Weapons</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Weapons</div>
         <span id="prof-badges-weapon_proficiencies">{% for w in merged_weapon_profs %}<span class="prof-badge">{{ w }}{% if w in racial_effects.weapon_profs %} <span style="opacity:0.5" title="Racial trait">⚡</span>{% endif %}</span>{% endfor %}</span>
         <span class="prof-display" data-field="weapon_proficiencies" style="display:none">{{ character.weapon_proficiencies|join(', ') if character.weapon_proficiencies else '' }}</span>
         {% endif %}
         <!-- Tools -->
         {% if merged_tool_profs %}
-        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Tools</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Tools</div>
         <span id="prof-badges-tool_proficiencies">{% for t in merged_tool_profs %}<span class="prof-badge">{{ t }}{% if t in racial_effects.tool_profs %} <span style="opacity:0.5" title="Racial trait">⚡</span>{% endif %}</span>{% endfor %}</span>
         <span class="prof-display" data-field="tool_proficiencies" style="display:none">{{ character.tool_proficiencies|join(', ') if character.tool_proficiencies else '' }}</span>
         {% endif %}
         <!-- Languages -->
         {% if character.languages %}
-        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Languages</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Languages</div>
         <span id="prof-badges-languages">{% for l in character.languages %}<span class="prof-badge">{{ l }}</span>{% endfor %}</span>
         <span class="prof-display" data-field="languages" style="display:none">{{ character.languages|join(', ') }}</span>
         {% endif %}
@@ -505,9 +505,9 @@
     <!-- Summons -->
     <div class="sidebar-section" style="margin-top:0.25rem">
       <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('summons-body','summons-arrow')">
-        <span id="summons-arrow" style="font-size:0.6rem;opacity:0.5">▾</span>
+        <span id="summons-arrow" style="font-size:0.72rem;opacity:0.5">▾</span>
         <h4 style="margin:0;flex:1">Summons</h4>
-        <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();openSummonModal()" style="font-size:0.6rem;padding:0.1rem 0.35rem">+ Add</button>
+        <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();openSummonModal()" style="font-size:0.72rem;padding:0.1rem 0.35rem">+ Add</button>
       </div>
       <div id="summons-body">
       <div id="summons-list" style="display:flex;flex-direction:column;gap:0.25rem;margin-top:0.3rem">
@@ -516,24 +516,24 @@
         <div class="summon-chip" data-summon-id="{{ loop.index0 }}" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.3rem 0.4rem;cursor:pointer" onclick="toggleSummonBody(this)">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:0.3rem">
             <span style="font-size:0.72rem;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.main_name or s.name }}{% if s.main_name and s.name %} <span style="color:var(--text-muted);font-weight:400;font-size:0.65rem">({{ s.name }})</span>{% endif %}{% if not s.main_name and s.form %} <span style="color:var(--text-muted);font-weight:400">({{ s.form }})</span>{% endif %}</span>
-            <span style="font-size:0.6rem;color:var(--text-muted);white-space:nowrap">AC {{ s.ac }}</span>
+            <span style="font-size:0.72rem;color:var(--text-muted);white-space:nowrap">AC {{ s.ac }}</span>
           </div>
           <div style="display:flex;align-items:center;gap:0.3rem;margin-top:0.15rem">
             <div style="flex:1;height:4px;border-radius:2px;background:var(--border);overflow:hidden">
               <div class="summon-bar-fill" style="height:100%;width:{{ hp_pct }}%;border-radius:2px;background:{% if hp_pct > 50 %}var(--success){% elif hp_pct > 25 %}var(--warn){% else %}var(--danger){% endif %};transition:width 0.3s"></div>
             </div>
-            <span class="summon-hp-text" style="font-size:0.6rem;font-family:monospace;color:var(--text-muted);white-space:nowrap">{{ s.hp_current }}/{{ s.hp_max }}</span>
+            <span class="summon-hp-text" style="font-size:0.72rem;font-family:monospace;color:var(--text-muted);white-space:nowrap">{{ s.hp_current }}/{{ s.hp_max }}</span>
           </div>
           <div class="summon-body" style="display:none;margin-top:0.35rem;padding-top:0.3rem;border-top:1px solid var(--border);font-size:0.65rem;line-height:1.5;color:var(--text-muted)">
             <div class="edit-only-block" style="display:flex;gap:0.5rem;margin-bottom:0.35rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border)" onclick="event.stopPropagation()">
               <div style="flex:1">
-                <label style="font-size:0.6rem;color:var(--text-muted)">Main Name</label>
+                <label style="font-size:0.72rem;color:var(--text-muted)">Main Name</label>
                 <input class="summon-edit-main-name" value="{{ s.main_name or '' }}" placeholder="{{ s.name }}"
                   onchange="saveSummonName({{ loop.index0 }})"
                   style="width:100%;padding:0.2rem 0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.7rem">
               </div>
               <div style="flex:1">
-                <label style="font-size:0.6rem;color:var(--text-muted)">Name (creature)</label>
+                <label style="font-size:0.72rem;color:var(--text-muted)">Name (creature)</label>
                 <input class="summon-edit-name" value="{{ s.name }}"
                   onchange="saveSummonName({{ loop.index0 }})"
                   style="width:100%;padding:0.2rem 0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.7rem">
@@ -541,13 +541,13 @@
             </div>
             <div class="summon-hp-controls" style="display:flex;align-items:center;gap:0.25rem;margin-bottom:0.35rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border)" onclick="event.stopPropagation()">
               <input type="number" id="summon-hp-delta-{{ loop.index0 }}" value="1" min="1"
-                style="width:3.5ch;text-align:center;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:3px;padding:0.15rem 0.1rem;font-size:0.6rem;-moz-appearance:textfield;appearance:textfield"
+                style="width:3.5ch;text-align:center;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:3px;padding:0.15rem 0.1rem;font-size:0.72rem;-moz-appearance:textfield;appearance:textfield"
                 onfocus="this.style.outline='1px solid var(--accent)'" onblur="this.style.outline='none'">
               <style>.summon-hp-controls input[type=number]::-webkit-inner-spin-button,.summon-hp-controls input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}</style>
-              <button class="hp-btn heal" onclick="applySummonHP({{ loop.index0 }})" title="Heal" style="font-size:0.6rem;padding:0;width:22px;height:22px;line-height:22px">+</button>
-              <button class="hp-btn dmg" onclick="applySummonHP({{ loop.index0 }}, -1)" title="Damage" style="font-size:0.6rem;padding:0;width:22px;height:22px;line-height:22px">−</button>
-              <button class="hp-btn" onclick="resetSummonHP({{ loop.index0 }})" title="Reset to full HP" style="background:var(--accent2);color:var(--text);border:1px solid var(--border);font-size:0.55rem;padding:0 0.3rem;width:auto">↺ Full</button>
-              <button class="btn btn-outline btn-sm" style="font-size:0.55rem;padding:0.1rem 0.3rem;margin-left:auto" onclick="dismissSummon({{ loop.index0 }})">✕ Dismiss</button>
+              <button class="hp-btn heal" onclick="applySummonHP({{ loop.index0 }})" title="Heal" style="font-size:0.72rem;padding:0;width:22px;height:22px;line-height:22px">+</button>
+              <button class="hp-btn dmg" onclick="applySummonHP({{ loop.index0 }}, -1)" title="Damage" style="font-size:0.72rem;padding:0;width:22px;height:22px;line-height:22px">−</button>
+              <button class="hp-btn" onclick="resetSummonHP({{ loop.index0 }})" title="Reset to full HP" style="background:var(--accent2);color:var(--text);border:1px solid var(--border);font-size:0.68rem;padding:0 0.3rem;width:auto">↺ Full</button>
+              <button class="btn btn-outline btn-sm" style="font-size:0.68rem;padding:0.1rem 0.3rem;margin-left:auto" onclick="dismissSummon({{ loop.index0 }})">✕ Dismiss</button>
             </div>
             <div><strong>Size:</strong> {{ s.size }}</div>
             <div><strong>Speed:</strong> {{ s.speed }}</div>
@@ -637,7 +637,7 @@
           <div style="display:flex;justify-content:space-between;align-items:baseline">
             <span style="display:flex;align-items:center;gap:0.3rem">
               <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
-              <span class="atk-name">{{ atk.name }}{% if atk.qty is defined and atk.qty > 1 %} <span class="item-qty" style="font-size:0.6rem;vertical-align:middle">{{ atk.qty }}</span>{% endif %}{% if atk.enhancement %} <span class="enh-badge" style="font-size:0.9rem;padding:0 0.15rem;color:var(--accent);font-weight:700;border-radius:3px;background:var(--accent2)">+{{ atk.enhancement }}</span>{% endif %}</span>
+              <span class="atk-name">{{ atk.name }}{% if atk.qty is defined and atk.qty > 1 %} <span class="item-qty" style="font-size:0.72rem;vertical-align:middle">{{ atk.qty }}</span>{% endif %}{% if atk.enhancement %} <span class="enh-badge" style="font-size:0.9rem;padding:0 0.15rem;color:var(--accent);font-weight:700;border-radius:3px;background:var(--accent2)">+{{ atk.enhancement }}</span>{% endif %}</span>
             </span>
             <span style="font-family:monospace;font-size:0.85rem;color:var(--text-muted)">+{{ atk.attack_bonus }} to hit</span>
           </div>
@@ -700,7 +700,7 @@
             <span style="display:flex;align-items:center;gap:0.3rem">
               <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
               <span class="atk-name">{{ ci.name }}</span>
-              <span class="badge" style="font-size:0.55rem;background:var(--accent2);color:var(--accent);padding:0.05rem 0.3rem">{{ ci.type }}</span>
+              <span class="badge" style="font-size:0.68rem;background:var(--accent2);color:var(--accent);padding:0.05rem 0.3rem">{{ ci.type }}</span>
             </span>
             <span style="font-family:monospace;font-size:0.85rem;color:var(--text-muted)" class="charge-count-display" data-max="{{ ci.max_charges }}">
               {{ ci.current_charges }}/{{ ci.max_charges }} charges
@@ -778,7 +778,7 @@
                onclick="{% if pool %}{% elif not depleted %}useFeature('{{ fa.name }}', this){% endif %}"
                style="display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0.6rem;margin-bottom:0.25rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:{% if pool or not depleted %}pointer{% else %}default{% endif %};transition:all 0.15s;{% if depleted %}opacity:0.45{% endif %};touch-action:manipulation;min-height:44px">
             <span style="display:flex;align-items:center;gap:0.4rem;flex:1;min-width:0">
-              <span class="badge badge-muted" style="font-size:0.6rem;background:{% if atype=='Reaction' %}var(--danger){% elif atype=='Bonus Action' %}var(--warn){% else %}var(--accent2){% endif %};color:{% if atype=='Reaction' or atype=='Bonus Action' %}#fff{% else %}var(--accent){% endif %};padding:0.1rem 0.35rem;white-space:nowrap">{{ atype }}</span>
+              <span class="badge badge-muted" style="font-size:0.72rem;background:{% if atype=='Reaction' %}var(--danger){% elif atype=='Bonus Action' %}var(--warn){% else %}var(--accent2){% endif %};color:{% if atype=='Reaction' or atype=='Bonus Action' %}#fff{% else %}var(--accent){% endif %};padding:0.1rem 0.35rem;white-space:nowrap">{{ atype }}</span>
               {% if fa.get("sub_options") %}
               <span style="font-size:0.85rem;font-weight:600">{{ fa.name.split(" | ")[0] }}</span>
               <div style="display:flex;flex-direction:column;gap:0.15rem;flex:1">
@@ -798,13 +798,13 @@
             {% if pool in ('hp', 'points', 'dice') %}
             <span class="feat-uses-pool" style="display:inline-flex;align-items:center;gap:0.3rem;font-size:0.7rem;margin-left:0.5rem;white-space:nowrap">
               <span class="feat-pool-val" style="font-weight:700;min-width:2.5em;text-align:right" id="action-pool-val-{{ loop.index0 }}">{{ uses }}</span>
-              <span style="color:var(--text-muted);font-size:0.6rem">{{ 'HP' if pool == 'hp' else 'pts' if pool == 'points' else 'dice' }}</span>
+              <span style="color:var(--text-muted);font-size:0.72rem">{{ 'HP' if pool == 'hp' else 'pts' if pool == 'points' else 'dice' }}</span>
               <input type="number" id="action-pool-spend-{{ loop.index0 }}" min="1" max="{{ uses }}" value="1"
                 style="width:3em;padding:0.1rem 0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.65rem;text-align:center"
                 onkeydown="if(event.key==='Enter'){event.preventDefault();event.stopPropagation();spendPoolAction('{{ fa.name }}', this)}"
                 onclick="event.stopPropagation()">
-              <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();spendPoolAction('{{ fa.name }}', this.parentElement.querySelector('input'))" style="font-size:0.6rem;padding:0.08rem 0.3rem" title="Spend from pool">-</button>
-              <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();restorePoolAction('{{ fa.name }}')" style="font-size:0.6rem;padding:0.08rem 0.3rem" title="Restore full pool">↺</button>
+              <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();spendPoolAction('{{ fa.name }}', this.parentElement.querySelector('input'))" style="font-size:0.72rem;padding:0.08rem 0.3rem" title="Spend from pool">-</button>
+              <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();restorePoolAction('{{ fa.name }}')" style="font-size:0.72rem;padding:0.08rem 0.3rem" title="Restore full pool">↺</button>
             </span>
             <span class="feat-pool-max" style="font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem;white-space:nowrap">max {{ uses_max }} {{ 'HP' if pool == 'hp' else 'pts' if pool == 'points' else 'dice' }}</span>
             {% elif uses_max > 0 %}
@@ -884,7 +884,7 @@
                onclick="{% if pool %}{% elif not depleted %}useFeature('{{ fa.name }}', this){% endif %}"
                style="display:flex;align-items:center;justify-content:space-between;padding:0.3rem 0.5rem;margin-bottom:0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:{% if pool or not depleted %}pointer{% else %}default{% endif %};transition:all 0.15s;{% if depleted %}opacity:0.45{% endif %}">
             <span style="display:flex;align-items:center;gap:0.4rem;flex:1;min-width:0">
-              <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff;padding:0.1rem 0.3rem;white-space:nowrap">BA</span>
+              <span class="badge badge-muted" style="font-size:0.68rem;background:var(--warn);color:#fff;padding:0.1rem 0.3rem;white-space:nowrap">BA</span>
               {% if fa.get("sub_options") %}
               <span style="font-size:0.8rem;font-weight:600">{{ fa.name.split(" | ")[0] }}</span>
               <div style="display:flex;flex-direction:column;gap:0.15rem;flex:1">
@@ -926,18 +926,18 @@
           <div class="prepared-spell-chip" style="margin-bottom:0.2rem">
             <div class="prep-header" onclick="this.parentElement.classList.toggle('open')"
                  style="display:flex;align-items:center;flex-wrap:wrap;gap:0.25rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer">
-              <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff;padding:0.1rem 0.3rem;white-space:nowrap">BA</span>
+              <span class="badge badge-muted" style="font-size:0.68rem;background:var(--warn);color:#fff;padding:0.1rem 0.3rem;white-space:nowrap">BA</span>
               <strong style="font-size:0.8rem">{{ sp.spell_name }}</strong>
               {% if sp.srd and sp.srd.school %}
-              <span class="badge badge-muted" style="font-size:0.5rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
+              <span class="badge badge-muted" style="font-size:0.65rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
               {% endif %}
               {% if sp.srd and sp.srd.concentration %}
-              <span class="badge badge-muted" style="font-size:0.5rem;background:var(--warn);color:#fff">Conc.</span>
+              <span class="badge badge-muted" style="font-size:0.65rem;background:var(--warn);color:#fff">Conc.</span>
               {% endif %}
               {% if sp.dice %}
-              <span class="badge" style="font-size:0.5rem;font-weight:600;background:rgba(34,197,94,0.12);color:var(--success);font-family:monospace;padding:0.05rem 0.2rem;border-radius:3px">{{ sp.dice }}</span>
+              <span class="badge" style="font-size:0.65rem;font-weight:600;background:rgba(34,197,94,0.12);color:var(--success);font-family:monospace;padding:0.05rem 0.2rem;border-radius:3px">{{ sp.dice }}</span>
               {% endif %}
-              <span style="font-size:0.6rem;color:var(--text-muted);margin-left:auto">{{ sp.srd.range }}</span>
+              <span style="font-size:0.72rem;color:var(--text-muted);margin-left:auto">{{ sp.srd.range }}</span>
               <span style="font-size:0.65rem;color:var(--text-muted);transition:transform 0.2s">▶</span>
             </div>
             <div class="prep-body" style="display:none;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-top:none;border-radius:0 0 4px 4px;font-size:0.75rem">
@@ -967,7 +967,7 @@
         <div>
           {% for item in ba_items %}
           <div class="item-card" style="padding:0.3rem 0.5rem;margin-bottom:0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;gap:0.3rem">
-            <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff;padding:0.1rem 0.3rem;white-space:nowrap;flex-shrink:0">BA</span>
+            <span class="badge badge-muted" style="font-size:0.68rem;background:var(--warn);color:#fff;padding:0.1rem 0.3rem;white-space:nowrap;flex-shrink:0">BA</span>
             <span style="font-size:0.8rem;font-weight:600;flex-shrink:0">{{ item.name if item.name is defined else item }}</span>
             {% if item.description %}
             <span style="font-size:0.65rem;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0">{{ item.description[:80] }}{% if item.description|length > 80 %}…{% endif %}</span>
@@ -998,7 +998,7 @@
           <div class="feat-reaction" style="background:rgba(255,23,68,0.08);border:1px solid rgba(255,23,68,0.25);border-radius:6px;font-size:0.8rem;overflow:hidden">
             <div style="display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0.5rem;cursor:pointer"
                  onclick="var b=this.nextElementSibling;b.style.display=b.style.display==='none'?'block':'none';this.querySelector('.rx-arrow').textContent=this.querySelector('.rx-arrow').textContent==='▶'?'▼':'▶'">
-              <span class="rx-arrow" style="font-size:0.6rem;color:var(--text-muted);transition:transform 0.15s;width:1em">▶</span>
+              <span class="rx-arrow" style="font-size:0.72rem;color:var(--text-muted);transition:transform 0.15s;width:1em">▶</span>
               <span style="font-weight:600;flex:1">{{ rf.name }}</span>
               <span style="font-size:0.7rem;color:var(--text-muted)">{{ rf.get('level','') }}</span>
             </div>
@@ -1086,17 +1086,17 @@
                 <span class="collapse-arrow" style="flex-shrink:0">▶</span>
                 <span style="font-size:0.78rem;font-weight:600;overflow-wrap:break-word;word-break:break-word;line-height:1.3">{{ rt.name }}</span>
                 {% if rt.dice %}
-                <span style="font-size:0.6rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:3px;flex-shrink:0">{{ rt.dice }}</span>
+                <span style="font-size:0.72rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:3px;flex-shrink:0">{{ rt.dice }}</span>
                 {% endif %}
               </span>
             </div>
             <div class="passive-chip-body" style="padding:0.4rem 0.6rem;font-size:0.75rem;color:var(--text);line-height:1.4;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px">
               {{ rt.desc }}
-              <div style="margin-top:0.2rem;font-size:0.6rem;display:flex;align-items:center;gap:0.3rem">
+              <div style="margin-top:0.2rem;font-size:0.72rem;display:flex;align-items:center;gap:0.3rem">
                 {% if rt.source and rt.source != character.race and rt.source != character.subrace %}
-                <span class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ rt.source }}" title="Click to open {{ rt.source }}" style="font-size:0.55rem;color:var(--accent);opacity:0.7;cursor:pointer;padding:0.05rem 0.2rem;border:1px solid var(--border);border-radius:3px;white-space:nowrap">📚 {{ rt.source }}</span>
+                <span class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ rt.source }}" title="Click to open {{ rt.source }}" style="font-size:0.68rem;color:var(--accent);opacity:0.7;cursor:pointer;padding:0.05rem 0.2rem;border:1px solid var(--border);border-radius:3px;white-space:nowrap">📚 {{ rt.source }}</span>
                 {% elif rt.source %}
-                <span style="font-size:0.55rem;color:var(--text-muted);opacity:0.6">{{ rt.source }}</span>
+                <span style="font-size:0.68rem;color:var(--text-muted);opacity:0.6">{{ rt.source }}</span>
                 {% endif %}
               </div>
             </div>
@@ -1131,21 +1131,21 @@
                 <span class="feat-level" style="font-size:0.65rem;color:var(--accent);font-weight:700;min-width:1.4em">{{ feat.level }}</span>
                 <span style="font-size:0.78rem;font-weight:600;overflow-wrap:break-word;word-break:break-word;line-height:1.3">{{ feat.name }}</span>
                 {% if feat.get("action_type") == "Bonus Action" %}
-                <span class="badge" style="font-size:0.5rem;background:rgba(255,165,0,0.2);color:orange;border:1px solid rgba(255,165,0,0.3);padding:0.1rem 0.25rem;flex-shrink:0">⚡ BA</span>
+                <span class="badge" style="font-size:0.65rem;background:rgba(255,165,0,0.2);color:orange;border:1px solid rgba(255,165,0,0.3);padding:0.1rem 0.25rem;flex-shrink:0">⚡ BA</span>
                 {% endif %}
                 {% if feat.dice %}
-                <span style="font-size:0.6rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:3px;flex-shrink:0">{{ feat.dice }}</span>
+                <span style="font-size:0.72rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:3px;flex-shrink:0">{{ feat.dice }}</span>
                 {% endif %}
                 {% if 'Fighting Style' in feat.name and character.fighting_style %}
                 <span style="font-size:0.65rem;color:var(--accent);font-weight:500;white-space:nowrap;flex-shrink:0">{{ character.fighting_style|replace('_',' ')|title }}</span>
                 {% endif %}
                 {% if feat.source %}
-                <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ feat.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer;max-width:8em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle" title="Source: {{ feat.source }}">📚 {{ feat.source }}</span>
+                <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ feat.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer;max-width:8em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle" title="Source: {{ feat.source }}">📚 {{ feat.source }}</span>
                 {% endif %}
                 {% if feat.recharge == "short" %}
-                <span class="badge badge-muted" style="font-size:0.55rem;background:var(--accent2);color:var(--accent);padding:0.05rem 0.25rem">SR</span>
+                <span class="badge badge-muted" style="font-size:0.68rem;background:var(--accent2);color:var(--accent);padding:0.05rem 0.25rem">SR</span>
                 {% elif feat.recharge == "long" %}
-                <span class="badge badge-muted" style="font-size:0.55rem;background:var(--accent2);color:var(--success);padding:0.05rem 0.25rem">LR</span>
+                <span class="badge badge-muted" style="font-size:0.68rem;background:var(--accent2);color:var(--success);padding:0.05rem 0.25rem">LR</span>
                 {% endif %}
               </span>
               {% if feat.name == 'Expertise' and character.expertise_skills %}
@@ -1241,7 +1241,7 @@
               {% if feat.base_name == 'Song of Rest' and class_levels and class_levels.get('Bard') %}{% set s_lvl = class_levels.get('Bard')|int %}{% if s_lvl >= 17 %}{% set sr_die = '1d12' %}{% elif s_lvl >= 13 %}{% set sr_die = '1d10' %}{% elif s_lvl >= 9 %}{% set sr_die = '1d8' %}{% else %}{% set sr_die = '1d6' %}{% endif %}
               <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ sr_die }}</span>
               {% endif %}
-              <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">✏️</button>
+              <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.72rem;padding:0.1rem 0.3rem;flex-shrink:0">✏️</button>
             </div>
             <div class="passive-chip-body" style="padding:0.4rem 0.6rem;font-size:0.75rem;color:var(--text);line-height:1.4;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px">
               {% if feat.magic_initiate and feat.magic_initiate.class %}
@@ -1306,10 +1306,10 @@
             <div class="feat-header" onclick="toggleFeatBody(this.parentElement)">
               <span style="flex:1;min-width:0"><span class="collapse-arrow">▶</span> <span class="feat-level">{{ feat.level }}</span>{{ feat.name }}
                 {% if feat.get("action_type") == "Bonus Action" %}
-                <span class="badge" style="font-size:0.5rem;background:rgba(255,165,0,0.2);color:orange;border:1px solid rgba(255,165,0,0.3);padding:0.1rem 0.25rem">⚡ BA</span>
+                <span class="badge" style="font-size:0.65rem;background:rgba(255,165,0,0.2);color:orange;border:1px solid rgba(255,165,0,0.3);padding:0.1rem 0.25rem">⚡ BA</span>
                 {% endif %}
                 {% if feat.dice %}
-                <span style="font-size:0.6rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:3px;flex-shrink:0;margin-left:0.3rem">{{ feat.dice }}</span>
+                <span style="font-size:0.72rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:3px;flex-shrink:0;margin-left:0.3rem">{{ feat.dice }}</span>
                 {% endif %}
                 {% if feat.name == "Hexblade's Curse" %}
                 <span style="font-size:0.65rem;color:var(--accent);font-weight:600;margin-left:0.3rem;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">+{{ character.proficiency_bonus }} dmg, crit 19–20</span>
@@ -1343,12 +1343,12 @@
                 <span style="font-size:0.65rem;color:var(--accent);font-weight:500;margin-left:0.3rem">{% for i in character.infusions %}{% if not loop.first %}, {% endif %}{{ i|replace('_',' ')|title }}{% endfor %}</span>
                 {% endif %}
                 {% if feat.source %}
-                <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ feat.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer;max-width:8em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle" title="Source: {{ feat.source }}">📚 {{ feat.source }}</span>
+                <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ feat.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer;max-width:8em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle" title="Source: {{ feat.source }}">📚 {{ feat.source }}</span>
                 {% endif %}
                 {% if feat.recharge == "short" %}
-                <span class="badge badge-muted" style="font-size:0.6rem;background:var(--accent2);color:var(--accent);margin-left:0.3rem">SR</span>
+                <span class="badge badge-muted" style="font-size:0.72rem;background:var(--accent2);color:var(--accent);margin-left:0.3rem">SR</span>
                 {% elif feat.recharge == "long" %}
-                <span class="badge badge-muted" style="font-size:0.6rem;background:var(--accent2);color:var(--success);margin-left:0.3rem">LR</span>
+                <span class="badge badge-muted" style="font-size:0.72rem;background:var(--accent2);color:var(--success);margin-left:0.3rem">LR</span>
                 {% endif %}
               </span>
               <span style="display:flex;align-items:center;gap:0.5rem">
@@ -1426,7 +1426,7 @@
         <div id="pact-rules-toggle" style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none;margin-bottom:0.3rem"
              onclick="toggleSection('pact-rules-body','pact-rules-arrow')">
           <span id="pact-rules-arrow" style="font-size:0.65rem">▸</span>
-          <span style="font-size:0.75rem;color:var(--text-muted)">How Pact Magic works <span style="font-size:0.6rem;opacity:0.6">(PHB p.107)</span></span>
+          <span style="font-size:0.75rem;color:var(--text-muted)">How Pact Magic works <span style="font-size:0.72rem;opacity:0.6">(PHB p.107)</span></span>
         </div>
         <div id="pact-rules-body" style="display:none;margin-top:0.25rem;font-size:0.78rem;color:var(--text-muted);line-height:1.5">
           <p style="margin:0 0 0.35rem 0"><strong>Pact Magic</strong> works differently from other spellcasting. You have a small number of spell slots that you regain on a <strong>short or long rest</strong>, not just a long rest.</p>
@@ -1441,11 +1441,11 @@
         <div id="full-caster-toggle" style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none;margin-bottom:0.3rem"
              onclick="toggleSection('full-caster-body','full-caster-arrow')">
           <span id="full-caster-arrow" style="font-size:0.65rem">▸</span>
-          <span style="font-size:0.75rem;color:var(--text-muted)">How Full Casting works <span style="font-size:0.6rem;opacity:0.6">(PHB Ch.10)</span></span>
+          <span style="font-size:0.75rem;color:var(--text-muted)">How Full Casting works <span style="font-size:0.72rem;opacity:0.6">(PHB Ch.10)</span></span>
         </div>
         <div id="full-caster-body" style="display:none;margin-top:0.25rem;font-size:0.78rem;color:var(--text-muted);line-height:1.5">
           <p style="margin:0 0 0.35rem 0"><strong>Full progression.</strong> Your spell slots advance every level — you gain access to higher-level spell slots as you level up, reaching up to 9th-level spells at level 17.</p>
-          <p style="margin:0 0 0.35rem 0"><strong>Cantrip scaling.</strong> Cantrip damage scales with <em>character</em> level, not class level: 5th (2x), 11th (3x), 17th (4x). <span style="font-size:0.6rem;opacity:0.6">PHB p.201</span></p>
+          <p style="margin:0 0 0.35rem 0"><strong>Cantrip scaling.</strong> Cantrip damage scales with <em>character</em> level, not class level: 5th (2x), 11th (3x), 17th (4x). <span style="font-size:0.72rem;opacity:0.6">PHB p.201</span></p>
           <p style="margin:0 0 0.35rem 0"><strong>Spell slots recharge</strong> on a long rest. You can convert between slots using class features like Sorcery Points or Arcane Recovery.</p>
           <p style="margin:0"><strong>Higher-level slots.</strong> Casting a spell with a higher-level slot can increase its damage, targets, or duration — check the spell's "At Higher Levels" section.</p>
         </div>
@@ -1455,13 +1455,13 @@
         <div id="half-caster-toggle" style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none;margin-bottom:0.3rem"
              onclick="toggleSection('half-caster-body','half-caster-arrow')">
           <span id="half-caster-arrow" style="font-size:0.65rem">▸</span>
-          <span style="font-size:0.75rem;color:var(--text-muted)">How Half Casting works <span style="font-size:0.6rem;opacity:0.6">(PHB p.164)</span></span>
+          <span style="font-size:0.75rem;color:var(--text-muted)">How Half Casting works <span style="font-size:0.72rem;opacity:0.6">(PHB p.164)</span></span>
         </div>
         <div id="half-caster-body" style="display:none;margin-top:0.25rem;font-size:0.78rem;color:var(--text-muted);line-height:1.5">
           <p style="margin:0 0 0.35rem 0"><strong>Half progression.</strong> Your spell slots advance at half the rate of a full caster — you get 1st-level slots at level 2, 2nd-level at level 5, and max out at 5th-level slots at level 17.</p>
-          <p style="margin:0 0 0.35rem 0"><strong>Paladins &amp; Rangers</strong> are <em>prepared</em> casters — you choose which spells to prepare each day from the full class list. Your preparation cap = level + spellcasting modifier. <span style="font-size:0.6rem;opacity:0.6">PHB p.84</span></p>
-          <p style="margin:0 0 0.35rem 0"><strong>Artificers</strong> are also prepared casters, but they use Intelligence and have their own spell list. <span style="font-size:0.6rem;opacity:0.6">TCoE</span></p>
-          <p style="margin:0"><strong>Multiclassing.</strong> Half caster levels count as <strong>half</strong> toward the multiclass spellcaster table (rounded down). Paladin 4 = 2 caster levels. <span style="font-size:0.6rem;opacity:0.6">PHB p.164</span></p>
+          <p style="margin:0 0 0.35rem 0"><strong>Paladins &amp; Rangers</strong> are <em>prepared</em> casters — you choose which spells to prepare each day from the full class list. Your preparation cap = level + spellcasting modifier. <span style="font-size:0.72rem;opacity:0.6">PHB p.84</span></p>
+          <p style="margin:0 0 0.35rem 0"><strong>Artificers</strong> are also prepared casters, but they use Intelligence and have their own spell list. <span style="font-size:0.72rem;opacity:0.6">TCoE</span></p>
+          <p style="margin:0"><strong>Multiclassing.</strong> Half caster levels count as <strong>half</strong> toward the multiclass spellcaster table (rounded down). Paladin 4 = 2 caster levels. <span style="font-size:0.72rem;opacity:0.6">PHB p.164</span></p>
         </div>
         {% endif %}
         <!-- Multiclass caster explainer -->
@@ -1469,7 +1469,7 @@
         <div id="multi-caster-toggle" style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none;margin-bottom:0.3rem"
              onclick="toggleSection('multi-caster-body','multi-caster-arrow')">
           <span id="multi-caster-arrow" style="font-size:0.65rem">▸</span>
-          <span style="font-size:0.75rem;color:var(--text-muted)">How Multiclass Casting works <span style="font-size:0.6rem;opacity:0.6">(PHB p.164-165)</span></span>
+          <span style="font-size:0.75rem;color:var(--text-muted)">How Multiclass Casting works <span style="font-size:0.72rem;opacity:0.6">(PHB p.164-165)</span></span>
         </div>
         <div id="multi-caster-body" style="display:none;margin-top:0.25rem;font-size:0.78rem;color:var(--text-muted);line-height:1.5">
           <p style="margin:0 0 0.35rem 0"><strong>Combined table.</strong> Your total spell slots are determined by adding up your caster levels from each class:</p>
@@ -1502,19 +1502,19 @@
         <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none;margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid var(--border-color)"
              onclick="toggleSection('spell-rules-body','spell-rules-arrow')">
           <span id="spell-rules-arrow" style="font-size:0.65rem">▸</span>
-          <span style="font-size:0.75rem;color:var(--text-muted)">Spellcasting Rules <span style="font-size:0.6rem;opacity:0.6">(PHB Ch.10)</span></span>
+          <span style="font-size:0.75rem;color:var(--text-muted)">Spellcasting Rules <span style="font-size:0.72rem;opacity:0.6">(PHB Ch.10)</span></span>
         </div>
         <div id="spell-rules-body" style="display:none;margin-top:0.4rem;font-size:0.78rem;color:var(--text-muted);line-height:1.5">
-          <p style="margin:0 0 0.35rem 0"><strong>Casting Time.</strong> Spells require 1 action, 1 bonus action, 1 reaction, or longer. <strong>Bonus Action Rule:</strong> you can only cast one non-cantrip spell per turn. If you cast <em>any</em> spell as a bonus action (even a cantrip), the only other spell you can cast that turn is a cantrip with a casting time of 1 action. <span style="font-size:0.6rem;opacity:0.6">PHB p.202</span></p>
-          <p style="margin:0 0 0.35rem 0"><strong>Range.</strong> Touch, Self, or distance in feet. <span style="font-size:0.6rem;opacity:0.6">PHB p.202-203</span></p>
-          <p style="margin:0 0 0.35rem 0"><strong>Components.</strong> Verbal (V), Somatic (S — free hand), Material (M). A spellcasting focus replaces non-costly, non-consumed materials. <span style="font-size:0.6rem;opacity:0.6">PHB p.203</span></p>
-          <p style="margin:0 0 0.35rem 0"><strong>Duration.</strong> Instantaneous, timed, or <em>Concentration</em> (up to duration). One concentration spell at a time. Damage forces CON save (DC 10 or half damage, whichever higher). Lost if incapacitated/killed. <span style="font-size:0.6rem;opacity:0.6">PHB p.203-204</span></p>
-          <p style="margin:0 0 0.35rem 0"><strong>Targets &amp; Areas of Effect.</strong> Cone, Cube, Cylinder, Line, Sphere. Effect spreads in straight lines; blocked by total cover. <span style="font-size:0.6rem;opacity:0.6">PHB p.204-205</span></p>
-          <p style="margin:0 0 0.35rem 0"><strong>Saving Throws.</strong> <strong>Spell Save DC</strong> = 8 + proficiency + spellcasting mod. <span style="font-size:0.6rem;opacity:0.6">PHB p.205</span></p>
-          <p style="margin:0 0 0.35rem 0"><strong>Attack Rolls.</strong> <strong>Spell Attack Modifier</strong> = proficiency + spellcasting mod. <span style="font-size:0.6rem;opacity:0.6">PHB p.205</span></p>
-          <p style="margin:0 0 0.35rem 0"><strong>Combining Effects.</strong> Same spell cast multiple times don't combine; most potent/recent applies. Different spells coexist. <span style="font-size:0.6rem;opacity:0.6">PHB p.205</span></p>
-          <p style="margin:0 0 0.35rem 0"><strong>Higher Levels.</strong> Upcasting uses that slot's effective level. Cantrips scale with character level, not slots. <span style="font-size:0.6rem;opacity:0.6">PHB p.201</span></p>
-          <p style="margin:0"><strong>Rituals.</strong> Bard, Cleric, Druid, Wizard can cast ritual-tagged spells without a slot — adds 10 minutes. <span style="font-size:0.6rem;opacity:0.6">PHB p.201-202</span></p>
+          <p style="margin:0 0 0.35rem 0"><strong>Casting Time.</strong> Spells require 1 action, 1 bonus action, 1 reaction, or longer. <strong>Bonus Action Rule:</strong> you can only cast one non-cantrip spell per turn. If you cast <em>any</em> spell as a bonus action (even a cantrip), the only other spell you can cast that turn is a cantrip with a casting time of 1 action. <span style="font-size:0.72rem;opacity:0.6">PHB p.202</span></p>
+          <p style="margin:0 0 0.35rem 0"><strong>Range.</strong> Touch, Self, or distance in feet. <span style="font-size:0.72rem;opacity:0.6">PHB p.202-203</span></p>
+          <p style="margin:0 0 0.35rem 0"><strong>Components.</strong> Verbal (V), Somatic (S — free hand), Material (M). A spellcasting focus replaces non-costly, non-consumed materials. <span style="font-size:0.72rem;opacity:0.6">PHB p.203</span></p>
+          <p style="margin:0 0 0.35rem 0"><strong>Duration.</strong> Instantaneous, timed, or <em>Concentration</em> (up to duration). One concentration spell at a time. Damage forces CON save (DC 10 or half damage, whichever higher). Lost if incapacitated/killed. <span style="font-size:0.72rem;opacity:0.6">PHB p.203-204</span></p>
+          <p style="margin:0 0 0.35rem 0"><strong>Targets &amp; Areas of Effect.</strong> Cone, Cube, Cylinder, Line, Sphere. Effect spreads in straight lines; blocked by total cover. <span style="font-size:0.72rem;opacity:0.6">PHB p.204-205</span></p>
+          <p style="margin:0 0 0.35rem 0"><strong>Saving Throws.</strong> <strong>Spell Save DC</strong> = 8 + proficiency + spellcasting mod. <span style="font-size:0.72rem;opacity:0.6">PHB p.205</span></p>
+          <p style="margin:0 0 0.35rem 0"><strong>Attack Rolls.</strong> <strong>Spell Attack Modifier</strong> = proficiency + spellcasting mod. <span style="font-size:0.72rem;opacity:0.6">PHB p.205</span></p>
+          <p style="margin:0 0 0.35rem 0"><strong>Combining Effects.</strong> Same spell cast multiple times don't combine; most potent/recent applies. Different spells coexist. <span style="font-size:0.72rem;opacity:0.6">PHB p.205</span></p>
+          <p style="margin:0 0 0.35rem 0"><strong>Higher Levels.</strong> Upcasting uses that slot's effective level. Cantrips scale with character level, not slots. <span style="font-size:0.72rem;opacity:0.6">PHB p.201</span></p>
+          <p style="margin:0"><strong>Rituals.</strong> Bard, Cleric, Druid, Wizard can cast ritual-tagged spells without a slot — adds 10 minutes. <span style="font-size:0.72rem;opacity:0.6">PHB p.201-202</span></p>
         </div>
       </div>
 
@@ -1578,29 +1578,29 @@
                style="display:flex;align-items:center;flex-wrap:wrap;gap:0.3rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer">
             <strong>{{ sp.spell_name }}</strong>
             {% if sp.srd and sp.srd.source %}
-            <span class="source-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ sp.srd.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
+            <span class="source-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ sp.srd.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
             {% endif %}
             {% if sp.srd and sp.srd.school %}
-            <span class="badge badge-muted" style="font-size:0.55rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
+            <span class="badge badge-muted" style="font-size:0.68rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
             {% endif %}
             {% if sp.srd and sp.srd.concentration %}
-            <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff">Conc.</span>
+            <span class="badge badge-muted" style="font-size:0.68rem;background:var(--warn);color:#fff">Conc.</span>
             {% endif %}
             {% if sp.srd and sp.srd.casting_time and 'bonus' in sp.srd.casting_time.lower() %}
-            <span class="badge" style="font-size:0.5rem;background:rgba(255,165,0,0.2);color:orange;border:1px solid rgba(255,165,0,0.3);padding:0.1rem 0.25rem">⚡ BA</span>
+            <span class="badge" style="font-size:0.65rem;background:rgba(255,165,0,0.2);color:orange;border:1px solid rgba(255,165,0,0.3);padding:0.1rem 0.25rem">⚡ BA</span>
             {% endif %}
             {% if sp.dice %}
             {% if sp.dice_healing %}
-            <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
+            <span class="badge" style="font-size:0.68rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
             {% elif sp.ac_bonus %}
-            <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
+            <span class="badge" style="font-size:0.68rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
             {% elif sp.buff %}
-            <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
+            <span class="badge" style="font-size:0.68rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
             {% else %}
-            <span class="badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
+            <span class="badge" style="font-size:0.68rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
             {% endif %}
             {% endif %}
-            <button class="btn btn-outline btn-sm" style="font-size:0.6rem;padding:0.1rem 0.3rem;line-height:1;color:var(--danger);opacity:0.6"
+            <button class="btn btn-outline btn-sm" style="font-size:0.72rem;padding:0.1rem 0.3rem;line-height:1;color:var(--danger);opacity:0.6"
                     onclick="event.stopPropagation();unlearnSpell({{ sp.id }}, '{{ sp.spell_name|e }}')"
                     title="Unlearn this cantrip">🗑</button>
             <span style="font-size:0.65rem;color:var(--text-muted);margin-left:auto;transition:transform 0.2s" class="prep-arrow">▶</span>
@@ -1661,29 +1661,29 @@
                  style="display:flex;align-items:center;flex-wrap:wrap;gap:0.3rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer">
               <strong>{{ sp.spell_name }}</strong>
               {% if sp.srd and sp.srd.source %}
-              <span class="source-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ sp.srd.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
+              <span class="source-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ sp.srd.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
               {% endif %}
               {% if sp.srd and sp.srd.school %}
-              <span class="badge badge-muted" style="font-size:0.55rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
+              <span class="badge badge-muted" style="font-size:0.68rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
               {% endif %}
               {% if sp.srd and sp.srd.concentration %}
-              <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff">Conc.</span>
+              <span class="badge badge-muted" style="font-size:0.68rem;background:var(--warn);color:#fff">Conc.</span>
               {% endif %}
               {% if sp.srd and sp.srd.casting_time and 'bonus' in sp.srd.casting_time.lower() %}
-              <span class="badge" style="font-size:0.5rem;background:rgba(255,165,0,0.2);color:orange;border:1px solid rgba(255,165,0,0.3);padding:0.1rem 0.25rem">⚡ BA</span>
+              <span class="badge" style="font-size:0.65rem;background:rgba(255,165,0,0.2);color:orange;border:1px solid rgba(255,165,0,0.3);padding:0.1rem 0.25rem">⚡ BA</span>
               {% endif %}
               {% if sp.dice %}
               {% if sp.dice_healing %}
-              <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
+              <span class="badge" style="font-size:0.68rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
               {% elif sp.ac_bonus %}
-              <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
+              <span class="badge" style="font-size:0.68rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
               {% elif sp.buff %}
-              <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
+              <span class="badge" style="font-size:0.68rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
               {% else %}
-              <span class="badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
+              <span class="badge" style="font-size:0.68rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
               {% endif %}
               {% endif %}
-              <button class="btn btn-outline btn-sm" style="font-size:0.6rem;padding:0.1rem 0.3rem;line-height:1"
+              <button class="btn btn-outline btn-sm" style="font-size:0.72rem;padding:0.1rem 0.3rem;line-height:1"
                       onclick="event.stopPropagation();togglePrepared({{ sp.id }}, this)" data-checked="true" title="Unprepare">✕</button>
               <span style="font-size:0.65rem;color:var(--text-muted);margin-left:auto;transition:transform 0.2s" class="prep-arrow">▶</span>
             </div>
@@ -1755,22 +1755,22 @@
                  style="display:flex;align-items:center;flex-wrap:wrap;gap:0.35rem;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:border-color 0.15s;margin-bottom:0.15rem">
               <strong style="flex:1 1 auto;min-width:10ch;font-size:0.85rem;overflow-wrap:break-word;word-break:break-word">{{ sp.spell_name }}</strong>
               {% if sp.source == "Expanded Spell List" %}
-              <span class="badge" style="font-size:0.5rem;background:rgba(147,51,234,0.2);color:#a78bfa;border:1px solid rgba(147,51,234,0.3);padding:0.1rem 0.3rem">Patron</span>
+              <span class="badge" style="font-size:0.65rem;background:rgba(147,51,234,0.2);color:#a78bfa;border:1px solid rgba(147,51,234,0.3);padding:0.1rem 0.3rem">Patron</span>
               {% endif %}
               {% if sp.srd and sp.srd.source %}
-              <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ sp.srd.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
+              <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ sp.srd.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
               {% endif %}
               {% if sp.srd and sp.srd.school %}
-              <span class="badge badge-muted" style="font-size:0.6rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
+              <span class="badge badge-muted" style="font-size:0.72rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
               {% endif %}
               {% if sp.srd and sp.srd.ritual %}
-              <span class="badge badge-muted" style="font-size:0.6rem">Ritual</span>
+              <span class="badge badge-muted" style="font-size:0.72rem">Ritual</span>
               {% endif %}
               {% if sp.srd and sp.srd.concentration %}
-              <span class="badge badge-muted" style="font-size:0.6rem;background:var(--warn);color:#fff">Conc.</span>
+              <span class="badge badge-muted" style="font-size:0.72rem;background:var(--warn);color:#fff">Conc.</span>
               {% endif %}
               {% if sp.srd and sp.srd.casting_time and 'bonus' in sp.srd.casting_time.lower() %}
-              <span class="badge" style="font-size:0.55rem;background:rgba(255,165,0,0.2);color:orange;border:1px solid rgba(255,165,0,0.3);padding:0.1rem 0.3rem">⚡ BA</span>
+              <span class="badge" style="font-size:0.68rem;background:rgba(255,165,0,0.2);color:orange;border:1px solid rgba(255,165,0,0.3);padding:0.1rem 0.3rem">⚡ BA</span>
               {% endif %}
               {% if sp.dice %}
               {% if sp.dice_healing %}
@@ -1850,13 +1850,13 @@
             <strong>{{ sp.spell_name }}</strong>
             {% if sp.dice %}
             {% if sp.dice_healing %}
-            <span class="badge" style="font-size:0.6rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.3rem;border-radius:4px;margin:0 0.3rem">{{ sp.dice }}</span>
+            <span class="badge" style="font-size:0.72rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.3rem;border-radius:4px;margin:0 0.3rem">{{ sp.dice }}</span>
             {% elif sp.ac_bonus %}
-            <span class="badge" style="font-size:0.6rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.3rem;border-radius:4px;margin:0 0.3rem">{{ sp.dice }}</span>
+            <span class="badge" style="font-size:0.72rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.3rem;border-radius:4px;margin:0 0.3rem">{{ sp.dice }}</span>
             {% elif sp.buff %}
-            <span class="badge" style="font-size:0.6rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.3rem;border-radius:4px;margin:0 0.3rem">{{ sp.dice }}</span>
+            <span class="badge" style="font-size:0.72rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.3rem;border-radius:4px;margin:0 0.3rem">{{ sp.dice }}</span>
             {% else %}
-            <span class="badge" style="font-size:0.6rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:4px;margin:0 0.3rem">{{ sp.dice }}</span>
+            <span class="badge" style="font-size:0.72rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:4px;margin:0 0.3rem">{{ sp.dice }}</span>
             {% endif %}
             {% endif %}
             <span class="badge badge-muted" style="margin-left:0.5rem">
@@ -1896,17 +1896,17 @@
             <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.15rem">
               <strong>{{ cname }}</strong>
               {% if cspell and cspell.srd and cspell.srd.school %}
-              <span class="badge badge-muted" style="font-size:0.55rem;color:var(--text-muted);border:1px solid var(--border)">{{ cspell.srd.school }}</span>
+              <span class="badge badge-muted" style="font-size:0.68rem;color:var(--text-muted);border:1px solid var(--border)">{{ cspell.srd.school }}</span>
               {% endif %}
               {% if cspell and cspell.dice %}
               {% if cspell.dice_healing %}
-              <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ cspell.dice }}</span>
+              <span class="badge" style="font-size:0.68rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ cspell.dice }}</span>
               {% elif cspell.ac_bonus %}
-              <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ cspell.dice }}</span>
+              <span class="badge" style="font-size:0.68rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ cspell.dice }}</span>
               {% elif cspell.buff %}
-              <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ cspell.dice }}</span>
+              <span class="badge" style="font-size:0.68rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ cspell.dice }}</span>
               {% else %}
-              <span class="badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ cspell.dice }}</span>
+              <span class="badge" style="font-size:0.68rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ cspell.dice }}</span>
               {% endif %}
               {% endif %}
             </div>
@@ -1938,23 +1938,23 @@
             <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.15rem">
               <strong style="color:var(--accent)">{{ mi.spell }}</strong>
               {% if l1spell and l1spell.srd and l1spell.srd.school %}
-              <span class="badge badge-muted" style="font-size:0.55rem;color:var(--text-muted);border:1px solid var(--border)">{{ l1spell.srd.school }}</span>
+              <span class="badge badge-muted" style="font-size:0.68rem;color:var(--text-muted);border:1px solid var(--border)">{{ l1spell.srd.school }}</span>
               {% endif %}
               {% if l1spell and l1spell.srd and l1spell.srd.concentration %}
-              <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff">Conc.</span>
+              <span class="badge badge-muted" style="font-size:0.68rem;background:var(--warn);color:#fff">Conc.</span>
               {% endif %}
               {% if l1spell and l1spell.srd and l1spell.srd.ritual %}
-              <span class="badge badge-muted" style="font-size:0.55rem;background:var(--success);color:#fff">Ritual</span>
+              <span class="badge badge-muted" style="font-size:0.68rem;background:var(--success);color:#fff">Ritual</span>
               {% endif %}
               {% if l1spell and l1spell.dice %}
               {% if l1spell.dice_healing %}
-              <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ l1spell.dice }}</span>
+              <span class="badge" style="font-size:0.68rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ l1spell.dice }}</span>
               {% elif l1spell.ac_bonus %}
-              <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ l1spell.dice }}</span>
+              <span class="badge" style="font-size:0.68rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ l1spell.dice }}</span>
               {% elif l1spell.buff %}
-              <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ l1spell.dice }}</span>
+              <span class="badge" style="font-size:0.68rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ l1spell.dice }}</span>
               {% else %}
-              <span class="badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ l1spell.dice }}</span>
+              <span class="badge" style="font-size:0.68rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ l1spell.dice }}</span>
               {% endif %}
               {% endif %}
             </div>
@@ -2020,17 +2020,17 @@
                    onfocus="this.closest('.item-card').classList.add('editing')"
                    onblur="this.closest('.item-card').classList.remove('editing')">
             {% if item_qty > 1 %}<span class="item-qty" onclick="event.stopPropagation();toggleItemExpand(this.closest('.item-card').querySelector('.item-expand-btn'))" title="Click to expand" style="cursor:pointer">{{ item_qty }}</span>{% endif %}
-            {% if item.concentration %}<span class="conc-badge" style="font-size:0.5rem;font-weight:600;color:#f59e0b;background:rgba(245,158,11,0.12);padding:0.05rem 0.2rem;border-radius:3px;flex-shrink:0;line-height:1.4">⟲</span>{% endif %}
+            {% if item.concentration %}<span class="conc-badge" style="font-size:0.65rem;font-weight:600;color:#f59e0b;background:rgba(245,158,11,0.12);padding:0.05rem 0.2rem;border-radius:3px;flex-shrink:0;line-height:1.4">⟲</span>{% endif %}
             <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo(this.closest('.item-card').querySelector('.item-card-name').value)" title="Info">ℹ️</button>
             <span class="wpn-badge item-tag" style="display:none">⚔️</span>
             <span class="arm-badge item-tag" style="display:none">🛡️</span>
-            {% if item.dice %}<span class="item-dice-badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">{{ item.dice }}</span>{% endif %}
+            {% if item.dice %}<span class="item-dice-badge" style="font-size:0.68rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">{{ item.dice }}</span>{% endif %}
             {% set item_enh2 = item.enhancement|default(0) %}
             <span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)">+{{ item_enh2 }}</span>
             {% if campaign_info %}<button class="item-card-btn" onclick="shareToTeam(this.closest('.item-card').querySelector('.item-card-name').value, {{ item_qty }})" title="Share to team">↗</button>{% endif %}
             <button class="item-card-btn" onclick="quickEquip(this.closest('.item-card').querySelector('.item-card-name').value, {{ item_qty }})" title="Equip">⬆️</button>
             <button class="item-card-btn item-card-del" onclick="deleteInventoryItem(this.closest('.item-card').querySelector('.item-card-name').value)" title="Delete">✕</button>
-            {% if item.source %}<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ item.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer;flex-shrink:0" title="Click to open {{ item.source }}">📚</span>{% endif %}
+            {% if item.source %}<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ item.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer;flex-shrink:0" title="Click to open {{ item.source }}">📚</span>{% endif %}
             <div class="item-detail" data-item-name="{{ item_name }}"></div>
           </div>
           {% endfor %}
@@ -2061,11 +2061,11 @@
             <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
             <span class="item-card-name" style="cursor:default">{{ eq_name }}</span>
             {% if eq_qty > 1 %}<span class="item-qty" style="cursor:default">{{ eq_qty }}</span>{% endif %}
-            {% if eq.concentration %}<span class="conc-badge" style="font-size:0.5rem;font-weight:600;color:#f59e0b;background:rgba(245,158,11,0.12);padding:0.05rem 0.2rem;border-radius:3px;flex-shrink:0;line-height:1.4">⟲</span>{% endif %}
+            {% if eq.concentration %}<span class="conc-badge" style="font-size:0.65rem;font-weight:600;color:#f59e0b;background:rgba(245,158,11,0.12);padding:0.05rem 0.2rem;border-radius:3px;flex-shrink:0;line-height:1.4">⟲</span>{% endif %}
             <span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)">+{{ eq_enh }}</span>
             <span class="wpn-badge item-tag" style="display:none">⚔️</span>
             <span class="arm-badge item-tag" style="display:none">🛡️</span>
-            {% if eq.dice %}<span class="item-dice-badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">{{ eq.dice }}</span>{% endif %}
+            {% if eq.dice %}<span class="item-dice-badge" style="font-size:0.68rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">{{ eq.dice }}</span>{% endif %}
             {% if eq_name in item_attunement_dict %}
               {% if eq_name in character.attuned_items %}
               <span class="item-attune-badge attuned" onclick="toggleAttune(this.closest('.item-card').querySelector('.item-card-name').textContent)" title="Attuned — click to break">◆</span>
@@ -2074,7 +2074,7 @@
               {% endif %}
             {% endif %}
             <button class="item-card-btn" onclick="quickUnequip(this.closest('.item-card').querySelector('.item-card-name').textContent, {{ eq_qty }})" title="Unequip">⬇️</button>
-            {% if eq.source %}<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ eq.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer;flex-shrink:0" title="Click to open {{ eq.source }}">📚</span>{% endif %}
+            {% if eq.source %}<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ eq.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer;flex-shrink:0" title="Click to open {{ eq.source }}">📚</span>{% endif %}
             <div class="item-detail" data-item-name="{{ eq_name }}"></div>
           </div>
           {% endfor %}
@@ -2086,7 +2086,7 @@
       <!-- ATTUNEMENT (below Equipped) -->
       <div class="card" id="attunement-card" style="margin-top:0.75rem">
         <div style="display:flex;align-items:center;gap:0.5rem">
-          <h3 style="margin:0;flex:none;white-space:nowrap">🔮 Attunement <span style="font-size:0.6rem;color:var(--text-muted);font-weight:400;cursor:help" title="Max 3 attuned items (PHB p.138). Items that require attunement only grant their benefits while attuned. You can break attunement over a short rest.">ⓘ</span></h3>
+          <h3 style="margin:0;flex:none;white-space:nowrap">🔮 Attunement <span style="font-size:0.72rem;color:var(--text-muted);font-weight:400;cursor:help" title="Max 3 attuned items (PHB p.138). Items that require attunement only grant their benefits while attuned. You can break attunement over a short rest.">ⓘ</span></h3>
           <div id="attunement-slots" style="display:flex;gap:0.3rem;align-items:center;flex:none">
             {% for i in range(3) %}
             <span class="attune-slot{% if i < item_effects.attunement_slots_used %} filled{% endif %}" style="width:22px;height:22px;border-radius:4px;border:2px solid var(--border);display:inline-flex;align-items:center;justify-content:center;font-size:0.85rem;{% if i < item_effects.attunement_slots_used %}background:var(--accent);border-color:var(--accent);{% endif %}">{{ '◆' if i < item_effects.attunement_slots_used else '◇' }}</span>

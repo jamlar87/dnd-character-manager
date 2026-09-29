@@ -645,7 +645,7 @@ function renderConditions(conditions) {
   const container = document.getElementById('condition-badges');
   if (!container) return;
   if (!conditions || !conditions.length) {
-    container.innerHTML = '<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.5">None</span>';
+    container.innerHTML = '<span style="font-size:0.72rem;color:var(--text-muted);opacity:0.5">None</span>';
     return;
   }
   let html = '';
@@ -1356,7 +1356,7 @@ function filterSpellResults() {
       : `<span style="background:var(--accent);color:#fff;font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Lv${s.level}</span>`;
     const schoolBadge = s.school ? `<span style="font-size:0.65rem;color:var(--text-muted)">${s.school}</span>` : '';
     const srcBadge = s.book ? `${_srcBadge(s.book)}` : '';
-    const originTag = s.source ? `<span style="font-size:0.55rem;color:var(--accent);opacity:0.6">${s.source}</span>` : '';
+    const originTag = s.source ? `<span style="font-size:0.68rem;color:var(--accent);opacity:0.6">${s.source}</span>` : '';
     const concIcon = s.concentration ? '🔷' : '';
     const ritIcon = s.ritual ? '📖' : '';
     return `<div class="spell-option" data-idx="${i}"
@@ -1520,10 +1520,10 @@ async function togglePrepared(spellId, checkbox) {
       };
       chip.title = 'Click to find in Spellbook';
       chip.innerHTML = '<strong>' + name + '</strong>' +
-        (lvl ? ' <span class=\"badge badge-muted\" style=\"font-size:0.6rem\">' + lvl + '</span>' : '') +
+        (lvl ? ' <span class=\"badge badge-muted\" style=\"font-size:0.72rem\">' + lvl + '</span>' : '') +
         (schoolBadge ? ' ' + schoolBadge.outerHTML : '') +
         (concBadge ? ' ' + concBadge.outerHTML : '') +
-        '<button class=\"btn btn-outline btn-sm\" style=\"font-size:0.6rem;padding:0.1rem 0.3rem;line-height:1;color:var(--danger)\" ' +
+        '<button class=\"btn btn-outline btn-sm\" style=\"font-size:0.72rem;padding:0.1rem 0.3rem;line-height:1;color:var(--danger)\" ' +
         'onclick=\"event.stopPropagation();togglePrepared(' + spellId + ', this)\" data-checked=\"true\" title=\"Unprepare\">✕</button>';
       prepList.appendChild(chip);
     } else {
@@ -2250,7 +2250,7 @@ function updateProfBadges(field) {
     // Create header + container
     const label = PROF_SECTION_LABELS[field] || field;
     const header = document.createElement('div');
-    header.style.cssText = 'font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em';
+    header.style.cssText = 'font-size:0.72rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em';
     header.textContent = label;
     container = document.createElement('span');
     container.id = 'prof-badges-' + field;
@@ -2476,7 +2476,7 @@ function getDefenseBadgeContainer(field) {
   // Defense section structure: header div → badges → ...
   const section = document.getElementById('defenses-section');
   if (!section) return null;
-  const labels = section.querySelectorAll('div[style*="font-size:0.6rem"]');
+  const labels = section.querySelectorAll('div[style*="font-size:0.72rem"]');
   for (const label of labels) {
     if (label.textContent.trim() === DEFENSE_SECTION_LABELS[field]) {
       // Return the container after the header — collect all defense-badge siblings until next header or non-badge
@@ -2524,7 +2524,7 @@ function updateDefenseBadges(field) {
   // Create header + container
   const label = DEFENSE_SECTION_LABELS[field] || field;
   const header = document.createElement('div');
-  header.style.cssText = 'font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em';
+  header.style.cssText = 'font-size:0.72rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em';
   header.textContent = label;
 
   const container = document.createElement('span');
@@ -3462,7 +3462,7 @@ function updateAcWarning() {
   if (warning && !existingWarning) {
     const span = document.createElement('span');
     span.className = 'ac-warn';
-    span.style.cssText = 'font-size:0.6rem;color:var(--warn);font-weight:400;display:block;white-space:normal;max-width:200px';
+    span.style.cssText = 'font-size:0.72rem;color:var(--warn);font-weight:400;display:block;white-space:normal;max-width:200px';
     span.textContent = warning;
     acEl.appendChild(span);
   } else if (!warning && existingWarning) {
@@ -3617,7 +3617,7 @@ async function refreshAttacksTab() {
       if (atk.properties && atk.properties.length) {
         propsHtml = '<div class="atk-props">' + atk.properties.map(p => `<span class="atk-prop">${p}</span>`).join('') + '</div>';
       }
-      const qtyBadge = (atk.qty && atk.qty > 1) ? ` <span class="item-qty" style="font-size:0.6rem;vertical-align:middle">${atk.qty}</span>` : '';
+      const qtyBadge = (atk.qty && atk.qty > 1) ? ` <span class="item-qty" style="font-size:0.72rem;vertical-align:middle">${atk.qty}</span>` : '';
       const enhBadge = (atk.enhancement && atk.enhancement > 0) 
         ? ` <span class="enh-badge" style="font-size:0.9rem;padding:0 0.15rem;color:var(--accent);font-weight:700;border-radius:3px;background:var(--accent2)">+${atk.enhancement}</span>` 
         : '';
@@ -3863,7 +3863,7 @@ function renderEquipped() {
     const eqQty = typeof eq === 'object' ? (eq.qty || 1) : 1;
     const enhancement = typeof eq === 'object' ? (eq.enhancement || 0) : 0;
     const eqDice = typeof eq === 'object' ? (eq.dice || '') : '';
-    const diceBadge = eqDice ? `<span class="item-dice-badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${eqDice}</span>` : '';
+    const diceBadge = eqDice ? `<span class="item-dice-badge" style="font-size:0.68rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${eqDice}</span>` : '';
     const needsAttune = ITEM_NEEDS_ATTUNEMENT[item];
     const isAttuned = ATTUNED_ITEMS.includes(item);
     let attuneHtml = '';
@@ -4227,10 +4227,10 @@ function renderPickerResults(items) {
   results.innerHTML = items.map(item =>
     `<div style="padding:0.25rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);overflow-wrap:break-word;word-break:break-word">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem">
-        <span style="flex:1;min-width:0;display:flex;align-items:center;gap:0.45rem;font-size:0.8rem;color:var(--text)" onclick="selectPickerItem('${item.name.replace(/'/g, "\\'")}')">${charPortraitTile(null, item.name, {size: 28, src: '/api/ref-image/item/' + encodeURIComponent(item.name) + '?size=56'})}<span style="min-width:0">${item.name}${item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${item.source}">📚 ${item.source}</span>` : ''}</span></span>
+        <span style="flex:1;min-width:0;display:flex;align-items:center;gap:0.45rem;font-size:0.8rem;color:var(--text)" onclick="selectPickerItem('${item.name.replace(/'/g, "\\'")}')">${charPortraitTile(null, item.name, {size: 28, src: '/api/ref-image/item/' + encodeURIComponent(item.name) + '?size=56'})}<span style="min-width:0">${item.name}${item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.72rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${item.source}">📚 ${item.source}</span>` : ''}</span></span>
         <div style="display:flex;align-items:center;gap:0.3rem;flex-shrink:0">
           <span style="font-size:0.7rem;color:var(--text-muted);white-space:nowrap">${item.type}${item.rarity ? ' · '+item.rarity : ''}</span>
-          ${item.concentration ? '<span style="font-size:0.55rem;font-weight:600;color:#f59e0b;background:rgba(245,158,11,0.12);padding:0.05rem 0.25rem;border-radius:3px">⟲</span>' : ''}
+          ${item.concentration ? '<span style="font-size:0.68rem;font-weight:600;color:#f59e0b;background:rgba(245,158,11,0.12);padding:0.05rem 0.25rem;border-radius:3px">⟲</span>' : ''}
           <span style="font-size:0.75rem;color:var(--accent);cursor:pointer;padding:0.15rem 0.4rem;border-radius:3px;user-select:none" onclick="event.stopPropagation();event.preventDefault();togglePickerRowDesc(this)" onmousedown="event.stopPropagation()" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='transparent'">▾ info</span>
         </div>
       </div>
@@ -5154,17 +5154,17 @@ function filterLuSpells() {
     let diceBadge = '';
     if (s.dice) {
       if (s.dice_healing) {
-        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
+        diceBadge = `<span style="font-size:0.68rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
       } else if (s.dice_ac) {
-        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
+        diceBadge = `<span style="font-size:0.68rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
       } else if (s.dice_buff) {
-        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
+        diceBadge = `<span style="font-size:0.68rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
       } else {
-        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
+        diceBadge = `<span style="font-size:0.68rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
       }
     }
-    let ritualBadge = s.ritual ? '<span style="font-size:0.55rem;color:var(--accent);opacity:0.7;flex-shrink:0" title="Ritual">\u26a1</span>' : '';
-    let concBadge = s.concentration ? '<span style="font-size:0.55rem;color:var(--warning);opacity:0.8;flex-shrink:0" title="Concentration">\u23f3</span>' : '';
+    let ritualBadge = s.ritual ? '<span style="font-size:0.68rem;color:var(--accent);opacity:0.7;flex-shrink:0" title="Ritual">\u26a1</span>' : '';
+    let concBadge = s.concentration ? '<span style="font-size:0.68rem;color:var(--warning);opacity:0.8;flex-shrink:0" title="Concentration">\u23f3</span>' : '';
     const bg = isSelected ? 'background:rgba(99,102,241,0.15);' : '';
     // Description body
     let descText = (s.description || '').replace(/'/g, "\\'").replace(/`/g, '\\`').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -5239,19 +5239,19 @@ function renderLuSelected() {
   const selected = luChoices.spells || [];
   div.innerHTML = selected.map(s => {
     const lvlBadge = s.level === 0 
-      ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.6rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
-      : `<span style="background:var(--accent);color:#fff;font-size:0.6rem;padding:0.1rem 0.35rem;border-radius:3px">Lv${s.level}</span>`;
+      ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.72rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
+      : `<span style="background:var(--accent);color:#fff;font-size:0.72rem;padding:0.1rem 0.35rem;border-radius:3px">Lv${s.level}</span>`;
     // Dice badge on selected chip
     let diceBadge = '';
     if (s.dice) {
       if (s.dice_healing) {
-        diceBadge = `<span style="font-size:0.5rem;font-weight:600;background:rgba(34,197,94,0.2);color:var(--success);font-family:monospace;padding:0 0.2rem;border-radius:2px">${s.dice}</span>`;
+        diceBadge = `<span style="font-size:0.65rem;font-weight:600;background:rgba(34,197,94,0.2);color:var(--success);font-family:monospace;padding:0 0.2rem;border-radius:2px">${s.dice}</span>`;
       } else if (s.dice_ac) {
-        diceBadge = `<span style="font-size:0.5rem;font-weight:600;background:rgba(59,130,246,0.2);color:#3b82f6;font-family:monospace;padding:0 0.2rem;border-radius:2px">${s.dice}</span>`;
+        diceBadge = `<span style="font-size:0.65rem;font-weight:600;background:rgba(59,130,246,0.2);color:#3b82f6;font-family:monospace;padding:0 0.2rem;border-radius:2px">${s.dice}</span>`;
       } else if (s.dice_buff) {
-        diceBadge = `<span style="font-size:0.5rem;font-weight:600;background:rgba(139,92,246,0.2);color:#8b5cf6;font-family:monospace;padding:0 0.2rem;border-radius:2px">${s.dice}</span>`;
+        diceBadge = `<span style="font-size:0.65rem;font-weight:600;background:rgba(139,92,246,0.2);color:#8b5cf6;font-family:monospace;padding:0 0.2rem;border-radius:2px">${s.dice}</span>`;
       } else {
-        diceBadge = `<span style="font-size:0.5rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0 0.2rem;border-radius:2px">${s.dice}</span>`;
+        diceBadge = `<span style="font-size:0.65rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0 0.2rem;border-radius:2px">${s.dice}</span>`;
       }
     }
     return `<div style="display:flex;align-items:center;gap:0.25rem;padding:0.2rem 0.4rem;background:rgba(99,102,241,0.12);border:1px solid var(--accent2);border-radius:4px;font-size:0.78rem">
@@ -5640,7 +5640,7 @@ async function loadTeamItems() {
       return;
     }
     list.innerHTML = items.map(item => {
-      const gpInfo = item.gp_value > 0 ? `<span style="font-size:0.55rem;color:#ffd700;margin-left:0.2rem">${item.gp_value}gp</span>` : '';
+      const gpInfo = item.gp_value > 0 ? `<span style="font-size:0.68rem;color:#ffd700;margin-left:0.2rem">${item.gp_value}gp</span>` : '';
       const qtyBadge = item.qty > 1 ? `<span class="item-qty" style="cursor:default">${item.qty}</span>` : '';
       return `<div class="item-card">
         <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
@@ -6204,7 +6204,7 @@ function openSummonModal() {
         <span id="summon-hp-calc" style="font-size:0.65rem;color:var(--text-muted);margin-left:0.5rem"></span>
       </div>
       <div style="margin-bottom:0.5rem">
-        <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Main Name <span style="font-size:0.6rem">(e.g. "Stolas")</span></label>
+        <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Main Name <span style="font-size:0.72rem">(e.g. "Stolas")</span></label>
         <input id="s-main-name" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" placeholder="">
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
@@ -6216,7 +6216,7 @@ function openSummonModal() {
         <div><label style="font-size:0.7rem">Speed</label><input id="s-speed" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" value="30 ft."></div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0.3rem;margin-top:0.5rem">
-        ${['STR','DEX','CON','INT','WIS','CHA'].map(a => `<div style="text-align:center"><label style="font-size:0.6rem;color:var(--text-muted)">${a}</label><input id="s-${a.toLowerCase()}" type="number" style="width:100%;padding:0.15rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.75rem;text-align:center" value="10"></div>`).join('')}
+        ${['STR','DEX','CON','INT','WIS','CHA'].map(a => `<div style="text-align:center"><label style="font-size:0.72rem;color:var(--text-muted)">${a}</label><input id="s-${a.toLowerCase()}" type="number" style="width:100%;padding:0.15rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.75rem;text-align:center" value="10"></div>`).join('')}
       </div>
       <div style="margin-top:0.5rem">
         <label style="font-size:0.7rem">Source (spell/feature)</label>

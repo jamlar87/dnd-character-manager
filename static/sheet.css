@@ -18,16 +18,16 @@
 /* Abilities grid (base — must precede mobile breakpoints) */
 .abilities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
 .ability-box { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.2rem; text-align: center; position: relative; }
-.ability-box .ab-name { font-size: 0.6rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
+.ability-box .ab-name { font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
 .ability-box .ab-mod { font-size: 1.2rem; font-weight: 700; margin: 0.1rem 0; }
 .ability-box .ab-score { font-size: 0.65rem; color: var(--text-muted); }
 .ability-box.proficient { border-color: var(--accent); }
-.ability-box.proficient::after { content: '●'; position: absolute; top: 2px; right: 4px; font-size: 0.45rem; color: var(--accent); }
+.ability-box.proficient::after { content: '●'; position: absolute; top: 2px; right: 4px; font-size: 0.62rem; color: var(--accent); }
 
 /* Combat quick-stats (base — must precede mobile breakpoints) */
 .combat-quick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
 .combat-quick-item { background: var(--bg); border-radius: 6px; padding: 0.35rem; text-align: center; }
-.combat-quick-item .cq-label { font-size: 0.55rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
+.combat-quick-item .cq-label { font-size: 0.68rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
 .combat-quick-item .cq-value { font-size: 0.95rem; font-weight: 700; margin-top: 0.1rem; }
 
 /* ── Mobile breakpoints (widest first, narrowest overrides) ── */
@@ -46,12 +46,12 @@
   .abilities-grid { grid-template-columns: repeat(3, 1fr); gap: 0.2rem; }
   .combat-quick { grid-template-columns: repeat(3, 1fr); gap: 0.25rem; }
   .combat-quick-item { padding: 0.2rem 0.15rem; }
-  .combat-quick-item .cq-label { font-size: 0.48rem; letter-spacing: 0.02em; }
+  .combat-quick-item .cq-label { font-size: 0.62rem; letter-spacing: 0.02em; }
   .combat-quick-item .cq-value { font-size: 0.8rem; }
   .ability-box { padding: 0.25rem 0.1rem; }
-  .ability-box .ab-name { font-size: 0.5rem; letter-spacing: 0.02em; }
+  .ability-box .ab-name { font-size: 0.65rem; letter-spacing: 0.02em; }
   .ability-box .ab-mod { font-size: 0.95rem; }
-  .ability-box .ab-score { font-size: 0.55rem; }
+  .ability-box .ab-score { font-size: 0.68rem; }
 }
 
 /* ── Senses section box ── */
@@ -94,7 +94,7 @@
 .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 0.2rem 0; font-size: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
 .stat-row .stat-name { color: var(--text-muted); flex: 1; }
 .stat-row .stat-val { font-family: monospace; font-weight: 600; min-width: 2.2rem; text-align: right; }
-.stat-row .prof-dot { color: var(--accent); margin-right: 0.2rem; font-size: 0.5rem; }
+.stat-row .prof-dot { color: var(--accent); margin-right: 0.2rem; font-size: 0.65rem; }
 
 /* Defenses */
 .defense-badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.7rem; font-weight: 600; margin: 0.1rem 0.2rem 0.1rem 0; }
@@ -118,7 +118,7 @@
 .item-card.editing { border-color: var(--accent); }
 .item-card.equipped-card { background: rgba(0,200,83,0.08); border-color: rgba(0,200,83,0.2); }
 .item-card .drag-handle {
-  cursor: grab; color: var(--text-muted); font-size: 0.6rem;
+  cursor: grab; color: var(--text-muted); font-size: 0.72rem;
   letter-spacing: -0.1rem; padding: 0 0.1rem; line-height: 1;
 }
 .item-card .drag-handle:active { cursor: grabbing; }
@@ -130,27 +130,27 @@
 }
 .item-card .item-qty {
   background: var(--accent); color: #000; border-radius: 8px;
-  padding: 0.05rem 0.35rem; font-size: 0.6rem; font-weight: 700;
+  padding: 0.05rem 0.35rem; font-size: 0.72rem; font-weight: 700;
   min-width: 1.2rem; text-align: center;
 }
 .item-card .item-card-btn {
   background: none; border: none; color: var(--text-muted);
-  cursor: pointer; font-size: 0.6rem; padding: 0.1rem 0.2rem;
+  cursor: pointer; font-size: 0.72rem; padding: 0.1rem 0.2rem;
   border-radius: 3px; line-height: 1;
 }
 .item-card .item-card-btn:hover { background: rgba(255,255,255,0.08); color: var(--text); }
 .item-card .item-card-del:hover { color: var(--danger); }
 .item-card .item-card-award { color: var(--success); }
 .item-card .item-card-award:hover { background: rgba(76,175,80,0.15); }
-.item-card .item-tag { font-size: 0.55rem; padding: 0 0.15rem; }
+.item-card .item-tag { font-size: 0.68rem; padding: 0 0.15rem; }
 .item-card .item-attune-badge {
-  font-size: 0.55rem; cursor: pointer; padding: 0 0.15rem;
+  font-size: 0.68rem; cursor: pointer; padding: 0 0.15rem;
   color: var(--warn);
 }
 .item-card .item-attune-badge.attuned { color: var(--success); }
 
 .item-card .enh-badge {
-  font-size: 0.55rem; padding: 0 0.15rem;
+  font-size: 0.68rem; padding: 0 0.15rem;
   color: var(--accent); font-weight: 700;
   border-radius: 3px; background: var(--accent2);
   user-select: none;
@@ -162,7 +162,7 @@
 .item-card { flex-wrap: wrap; }
 .item-card .item-expand-btn {
   background: none; border: none; color: var(--text-muted);
-  cursor: pointer; font-size: 0.5rem; padding: 0.1rem;
+  cursor: pointer; font-size: 0.65rem; padding: 0.1rem;
   border-radius: 3px; line-height: 1; transition: transform 0.15s;
 }
 .item-card .item-expand-btn:hover { color: var(--text); }
@@ -174,7 +174,7 @@
 }
 .item-card.expanded .item-detail { display: block; }
 .item-card .item-detail .detail-label {
-  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.04em;
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;
   color: var(--text-muted); opacity: 0.6;
 }
 .qty-stepper {
@@ -214,7 +214,7 @@
 /* Condition badges */
 .cond-badge { display: inline-flex; align-items: center; gap: 0.2rem; padding: 0.15rem 0.4rem; border-radius: 12px; font-size: 0.62rem; font-weight: 600; cursor: pointer; user-select: none; border: 1px solid; transition: all 0.15s; }
 .cond-badge:hover { filter: brightness(1.15); }
-.cond-badge.dismiss { margin-left: 0.1rem; font-size: 0.55rem; opacity: 0.6; cursor: pointer; }
+.cond-badge.dismiss { margin-left: 0.1rem; font-size: 0.68rem; opacity: 0.6; cursor: pointer; }
 .cond-badge.dismiss:hover { opacity: 1; }
 .cond-popout { position: fixed; z-index: 1001; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem; min-width: 180px; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); font-size: 0.7rem; }
 .cond-popout .cond-desc { color: var(--text-muted); margin: 0.3rem 0; line-height: 1.4; }
@@ -249,7 +249,7 @@
 .spell-level-section { margin-bottom: 0.3rem; }
 .spell-level-header { display: flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.5rem; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; user-select: none; transition: border-color 0.15s; }
 .spell-level-header:hover { border-color: var(--accent); }
-.spell-level-header .sl-arrow { font-size: 0.6rem; color: var(--text-muted); transition: transform 0.15s; width: 0.8rem; text-align: center; }
+.spell-level-header .sl-arrow { font-size: 0.72rem; color: var(--text-muted); transition: transform 0.15s; width: 0.8rem; text-align: center; }
 .spell-level-header.open .sl-arrow { transform: rotate(90deg); }
 .spell-level-header .sl-label { font-weight: 600; font-size: 0.8rem; flex: 1; }
 .spell-level-header .sl-count { font-size: 0.65rem; color: var(--text-muted); }
@@ -346,11 +346,11 @@
   display: inline-flex; align-items: center; justify-content: center;
   width: 16px; height: 16px; border-radius: 3px;
   background: var(--danger); color: #fff;
-  font-size: 0.6rem; font-weight: 800;
+  font-size: 0.72rem; font-weight: 800;
   margin-left: 2px; cursor: help;
   line-height: 1; flex-shrink: 0;
 }
-.adv-badge.smol { width: 12px; height: 12px; font-size: 0.45rem; }
+.adv-badge.smol { width: 12px; height: 12px; font-size: 0.62rem; }
 .adv-chip {
   display: inline-flex; align-items: center; gap: 0.25rem;
   padding: 0.15rem 0.45rem; border-radius: 4px;
@@ -388,7 +388,7 @@
 .dm-preview #delevel-btn { display: none !important; }
 .dm-preview #sidebar-portrait { cursor: default !important; }
 .dm-preview .portrait-placeholder { cursor: default !important; }
-.src-badge { font-size: 0.55rem; color: var(--text-muted); opacity: 0.7; white-space: nowrap; cursor: pointer; }
+.src-badge { font-size: 0.68rem; color: var(--text-muted); opacity: 0.7; white-space: nowrap; cursor: pointer; }
 .src-badge:hover { opacity: 1; color: var(--accent); text-decoration: underline; }
 /* Modal overlay for popouts (summon add, etc.) */
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; overflow-y: auto; }

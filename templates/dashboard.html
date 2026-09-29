@@ -1,11 +1,29 @@
 {% extends "layout.html" %}
 {% block title %}My Characters{% endblock %}
+{% block container_class %}container-wide{% endblock %}
 {% block style %}
 <style>
+/* Two columns on a wide screen: the row layout leaves a large gap between the name and the HP
+   block, so side-by-side cards use the space instead of stretching that gap. */
+.char-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(440px, 1fr)); align-items: start; }
+@media (max-width: 940px) { .char-grid { grid-template-columns: 1fr; } }
 @media (max-width: 480px) {
   .char-card-inner { flex-direction: column; align-items: flex-start !important; }
   .char-card-actions { width: 100%; justify-content: space-between; }
 }
+/* Delete is the only destructive control on a card: outline, not a solid red block competing
+   with the character's name for attention. It still confirms before doing anything. */
+.char-del { background: none; border: 1px solid var(--border); color: var(--text-muted); }
+.char-del:hover { border-color: var(--danger); color: var(--danger); }
+/* Filters collapse on a phone (three rows of controls above the list is a lot of scrolling).
+   The flex lives here, not in the element's style attribute: an inline display:flex would beat
+   .filter-bar.collapsed .filter-body and the bar would look collapsed but stay open. */
+.filter-body { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+@media (max-width: 700px) {
+  .filter-bar.collapsed .filter-body { display: none; }
+  .filter-head { display: flex !important; }
+}
+.filter-head { display: none; width: 100%; align-items: center; justify-content: space-between; }
 </style>
 {% endblock %}
 {% block content %}
@@ -22,8 +40,12 @@
 </div>
 
 {% if characters %}
-<div class="card" style="padding:0.75rem 1rem;margin-bottom:1rem">
-  <div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center">
+<div class="card filter-bar collapsed" style="padding:0.75rem 1rem;margin-bottom:1rem">
+  <button type="button" class="filter-head btn btn-outline btn-sm" onclick="this.parentElement.classList.toggle('collapsed')"
+          aria-expanded="false" title="Show or hide the filters">
+    <span>🔍 Filters</span><span id="filterCount">25 shown</span>
+  </button>
+  <div class="filter-body">
     <input type="text" id="charSearch" placeholder="🔍 Search name, race, class..." oninput="filterChars()"
       style="flex:1;min-width:160px;padding:0.45rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem;outline:none">
     <select id="classFilter" onchange="filterChars()" style="padding:0.45rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem">
@@ -45,6 +67,7 @@
   <a href="/create" class="btn btn-primary">Create Your First Character</a>
 </div>
 {% else %}
+<div class="char-grid">
 {% for c in characters %}
 {% set is_fav = c.id in favorites %}
 <div id="char-card-{{ c.id }}" class="card char-card-inner" style="cursor:pointer" onclick="location.href='/character/{{ c.id }}'"
@@ -60,8 +83,8 @@
       <div>
       <strong style="font-size:1.15rem;overflow-wrap:break-word;word-break:break-word">{{ c.name }}</strong>
       <span class="badge badge-accent" style="margin-left:0.5rem;flex-shrink:0">Lv{{ c.level }}</span>
-      {% if c.shared %}<span class="badge" style="background:var(--accent);color:#fff;font-size:0.6rem;margin-left:0.3rem">🌐 Public</span>{% endif %}
-      {% if c.owner_email and c.user_id != current_user_id %}<span class="badge badge-muted" style="font-size:0.6rem;margin-left:0.3rem">{{ c.owner_email }}</span>{% endif %}
+      {% if c.shared %}<span class="badge" style="background:var(--accent);color:#fff;font-size:0.72rem;margin-left:0.3rem">🌐 Public</span>{% endif %}
+      {% if c.owner_email and c.user_id != current_user_id %}<span class="badge badge-muted" style="font-size:0.72rem;margin-left:0.3rem">{{ c.owner_email }}</span>{% endif %}
       <div style="color:var(--text-muted);font-size:0.85rem;margin-top:0.25rem;overflow-wrap:break-word;word-break:break-word;line-height:1.4">
         {{ c.race }}{% if c.subrace %} ({{ c.subrace }}){% endif %} · {{ c.class_name }}{% if c.subclass %} — {{ c.subclass }}{% endif %}
         {% if c.background %} · {{ c.background }}{% endif %}
@@ -78,12 +101,14 @@
       </div>
       {% if c.user_id == current_user_id %}
       <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();toggleShare({{ c.id }}, {{ 'true' if c.shared else 'false' }})" title="{{ 'Unshare' if c.shared else 'Share publicly' }}" style="font-size:0.65rem">{{ '🔓 Public' if c.shared else '🔒 Share' }}</button>
-      <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteChar({{ c.id }})" title="Delete">✕</button>
+      <button class="btn btn-sm char-del" onclick="event.stopPropagation();deleteChar({{ c.id }})"
+              title="Delete this character" aria-label="Delete {{ c.name }}">🗑 Delete</button>
       {% endif %}
     </div>
   </div>
 </div>
 {% endfor %}
+</div>
 {% endif %}
 
 <script>
@@ -104,6 +129,12 @@ function filterChars() {
   });
   const el = document.getElementById('charCount');
   if (el) el.textContent = count + ' shown';
+  // the collapsed phone header carries the same number, so a closed filter bar still says
+  // how many characters are listed
+  const head = document.getElementById('filterCount');
+  if (head) head.textContent = count + ' shown';
+  const bar = document.querySelector('.filter-bar');
+  if (bar) bar.setAttribute('aria-expanded', bar.classList.contains('collapsed') ? 'false' : 'true');
 }
 document.addEventListener('DOMContentLoaded', filterChars);
 

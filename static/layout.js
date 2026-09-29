@@ -188,6 +188,30 @@ document.addEventListener('click', function(e) {
   }
 });
 
+// Mark the nav link for the section the page is in, so the nav says where you are. Done here
+// rather than in every template: match the link's path against the page's.
+function markCurrentNav() {
+  // a character sheet IS "My Characters", a campaign or map IS "DM Tools"
+  var ALIAS = { '/character': '/dashboard', '/campaign': '/dm-tools', '/dm-map': '/dm-tools',
+                '/npcs': '/dm-tools', '/monsters': '/dm-tools' };
+  function sectionOf(path) {
+    if (path === '/' || !path) return '/';
+    var first = '/' + path.split('/')[1];
+    return ALIAS[first] || first;
+  }
+  var section = sectionOf(location.pathname);
+  document.querySelectorAll('.nav-links a[href]').forEach(function (a) {
+    var href = a.getAttribute('href');
+    if (!href || href.charAt(0) !== '/') return;
+    if (sectionOf(href) === section) {
+      a.classList.add('nav-here');
+      a.setAttribute('aria-current', 'page');
+    }
+  });
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', markCurrentNav);
+else markCurrentNav();
+
 // Import a campaign pack from a <input type="file">. Lives here because two pages offer it (the
 // DM tools campaign list and a campaign page), and one definition cannot drift from the other.
 // The fetch glue above adds the CSRF header, so this can stay a plain fetch.

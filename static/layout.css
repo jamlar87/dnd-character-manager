@@ -35,7 +35,18 @@
   }
   .hamburger { display: none; background: none; border: 1px solid var(--border); color: var(--text); font-size: 1.3rem; cursor: pointer; padding: 0.35rem 0.6rem; border-radius: 4px; line-height: 1; }
   .container { max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
+  /* Dense pages (dashboard list, the map canvas) opt into the full width with this class —
+     see the container_class block in layout.html. Text and form pages stay narrow on purpose. */
+  .container-wide { max-width: 1280px; }
   @media (max-width: 768px) {
+    /* Two rows on a phone: the brand, theme and menu on top, the search across the bottom.
+       Before this the brand was squeezed to 8px — the app's own name was unreadable — because
+       it shared one row with a flex:2 search field. */
+    .nav { flex-wrap: wrap; row-gap: 0.45rem; padding: 0.5rem 0.75rem; position: sticky; }
+    .nav-brand { order: 1; flex: 1 1 auto; max-width: none; font-size: 1.05rem; }
+    #themeToggle { order: 2; margin-left: 0 !important; }
+    .hamburger { order: 3; }
+    .nav-search { order: 4; flex: 1 1 100%; max-width: none; margin: 0; }
     .hamburger { display: block; }
     .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--card-bg); flex-direction: column; gap: 0; padding: 0.5rem 0; border-bottom: 2px solid var(--border); z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
     .nav-links.open { display: flex; }
@@ -44,6 +55,26 @@
     .nav-links.open .nav-email { display: block; }
     .container { padding: 0 0.75rem; margin: 1rem auto; }
   }
+  /* Which section am I in? layout.js marks the matching nav link. */
+  .nav-links a.nav-here, .nav-links a.nav-here:hover { background: var(--accent2); color: var(--accent); font-weight: 700; }
+  /* Theme-matched scrollbars: a pale default bar down the side of a dark page reads as a glitch. */
+  html { scrollbar-color: var(--border) var(--bg); }
+  ::-webkit-scrollbar { width: 12px; height: 12px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; border: 2px solid var(--bg); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent2); }
+  /* Touch: nothing worth tapping is under 34px tall (the map toolbar's buttons were 26px).
+     Matched on width as well as pointer type — a narrow window is the same problem, and an
+     emulated or unusual device does not always report a coarse pointer. */
+  @media (max-width: 768px), (pointer: coarse) {
+    .btn, .btn-sm, .nav-links a, .nav-links button, .hamburger, .dm-tab, .filter-head,
+    select, input[type="text"], input[type="number"], input[type="search"] { min-height: 34px; }
+    .nav-search .btn-sm { min-width: 34px; }
+  }
+  /* Legibility floor for the label/badge classes that used 0.45-0.55rem (~7-9px at a 16px root,
+     worse under the 14px mobile root). Kept proportional above the floor. */
+  .badge, .badge-accent, .badge-muted, .char-portrait-chip, .src-badge,
+  .search-results-dropdown * { font-size: max(0.68rem, 10.5px); }
   .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
   .btn { display: inline-block; padding: 0.5rem 1.2rem; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; font-size: 0.95rem; }
   .btn-primary { background: var(--accent); color: #fff; }
@@ -97,7 +128,7 @@
   .char-portrait-chip:hover { filter: brightness(1.1); }
   @media (max-width: 600px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
   @media (max-width: 480px) {
-    html { font-size: 14px; }
+    html { font-size: 15px; }
     .container { padding: 0 0.5rem; margin: 0.75rem auto; }
     .card { padding: 1rem; }
     h1 { font-size: 1.4rem !important; }

@@ -81,7 +81,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 /* Stat grid for detail */
 .stat-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.3rem; margin-bottom: 0.75rem; }
 .stat-item { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem; text-align: center; }
-.stat-item .si-label { font-size: 0.6rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
+.stat-item .si-label { font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
 .stat-item .si-val { font-size: 1.1rem; font-weight: 700; }
 .stat-item .si-mod { font-size: 0.75rem; color: var(--text-muted); }
 .ability-tag { display: inline-block; padding: 0.1rem 0.3rem; margin: 0.1rem; border-radius: 3px; font-size: 0.75rem; background: var(--accent2); color: var(--text); }
@@ -191,14 +191,14 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 .initiative-card .init-actions { display: flex; gap: 0.2rem; flex-shrink: 0; }
 .initiative-card .init-btn {
   background: none; border: 1px solid var(--border); color: var(--text-muted);
-  cursor: pointer; font-size: 0.6rem; padding: 0.15rem 0.35rem;
+  cursor: pointer; font-size: 0.72rem; padding: 0.15rem 0.35rem;
   border-radius: 4px; white-space: nowrap;
 }
 .initiative-card .init-btn:hover { background: rgba(255,255,255,0.06); color: var(--text); }
 .initiative-card .init-btn.dmg-btn:hover { color: var(--danger); border-color: var(--danger); }
 /* Combat condition badges — compact */
-.cond-badge { display: inline-flex; align-items: center; gap: 0.15rem; padding: 0.1rem 0.3rem; border-radius: 10px; font-size: 0.55rem; font-weight: 600; cursor: pointer; user-select: none; }
-.cond-badge .dismiss { font-size: 0.5rem; opacity: 0.6; }
+.cond-badge { display: inline-flex; align-items: center; gap: 0.15rem; padding: 0.1rem 0.3rem; border-radius: 10px; font-size: 0.68rem; font-weight: 600; cursor: pointer; user-select: none; }
+.cond-badge .dismiss { font-size: 0.65rem; opacity: 0.6; }
 .cond-badge .dismiss:hover { opacity: 1; }
 .initiative-card .init-btn.heal-btn:hover { color: var(--success); border-color: var(--success); }
 
@@ -210,11 +210,11 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   .initiative-card .init-hp-input { width: 36px; font-size: 0.7rem; }
   .initiative-card .init-hp-bar { width: 36px; }
   .initiative-card .init-roll { min-width: 2.2rem; font-size: 0.65rem; }
-  .initiative-card .init-turn-marker { width: 24px; height: 24px; font-size: 0.6rem; }
-  .initiative-card .init-btn { font-size: 0.55rem; padding: 0.1rem 0.25rem; }
+  .initiative-card .init-turn-marker { width: 24px; height: 24px; font-size: 0.72rem; }
+  .initiative-card .init-btn { font-size: 0.68rem; padding: 0.1rem 0.25rem; }
 }
 
-.p-stats .ps-stat .ps-lbl { font-size: 0.6rem; text-transform: uppercase; color: var(--text-muted); }
+.p-stats .ps-stat .ps-lbl { font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); }
 .p-stats .ps-stat .ps-val { font-weight: 600; }
 
 /* Initiative bands */
@@ -228,7 +228,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 }
 .init-band-header .band-range { flex: 1; }
 .init-band-header .band-count { font-size: 0.65rem; opacity: 0.7; }
-.init-band-header .band-arrow { font-size: 0.6rem; transition: transform 0.15s; }
+.init-band-header .band-arrow { font-size: 0.72rem; transition: transform 0.15s; }
 .init-band.collapsed .init-band-header .band-arrow { transform: rotate(-90deg); }
 .init-band.collapsed .init-band-body { display: none; }
 .init-band-body { display: flex; flex-direction: column; gap: 0.25rem; padding: 0.35rem 0 0 0.25rem; }
@@ -307,7 +307,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 .item-card:hover { border-color: var(--text-muted); }
 .item-card.dragging { opacity: 0.4; transform: scale(0.95); }
 .item-card .drag-handle {
-  cursor: grab; color: var(--text-muted); font-size: 0.6rem;
+  cursor: grab; color: var(--text-muted); font-size: 0.72rem;
   letter-spacing: -0.1rem; padding: 0 0.1rem; line-height: 1;
 }
 .item-card .drag-handle:active { cursor: grabbing; }
@@ -318,19 +318,19 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 }
 .item-card .item-qty {
   background: var(--accent); color: #000; border-radius: 8px;
-  padding: 0.05rem 0.35rem; font-size: 0.6rem; font-weight: 700;
+  padding: 0.05rem 0.35rem; font-size: 0.72rem; font-weight: 700;
   min-width: 1.2rem; text-align: center;
 }
 .item-card .item-card-btn {
   background: none; border: none; color: var(--text-muted);
-  cursor: pointer; font-size: 0.6rem; padding: 0.1rem 0.2rem;
+  cursor: pointer; font-size: 0.72rem; padding: 0.1rem 0.2rem;
   border-radius: 3px; line-height: 1;
 }
 .item-card .item-card-btn:hover { background: rgba(255,255,255,0.08); color: var(--text); }
 .item-card .item-card-del:hover { color: var(--danger); }
 .item-card .item-card-award { color: var(--accent); }
 .item-card .item-card-award:hover { color: var(--accent2); background: rgba(233,69,96,0.1); }
-.item-card .item-tag { font-size: 0.55rem; padding: 0 0.15rem; }
+.item-card .item-tag { font-size: 0.68rem; padding: 0 0.15rem; }
 .item-card .wpn-badge { color: var(--accent); }
 .item-card .arm-badge { color: var(--accent); }
 
@@ -356,7 +356,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 .item-card { flex-wrap: wrap; }
 .item-card .item-expand-btn {
   background: none; border: none; color: var(--text-muted);
-  cursor: pointer; font-size: 0.5rem; padding: 0.1rem;
+  cursor: pointer; font-size: 0.65rem; padding: 0.1rem;
   border-radius: 3px; line-height: 1; transition: transform 0.15s;
 }
 .item-card .item-expand-btn:hover { color: var(--text); }
@@ -370,7 +370,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 .item-card.expanded .item-detail { display: block; overflow: visible; white-space: normal; }
 .item-card.expanded { overflow: visible; }
 .item-card .item-detail .detail-label {
-  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.04em;
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;
   color: var(--text-muted); opacity: 0.6;
 }
 .qty-stepper {
@@ -448,14 +448,14 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <option value="11-16">CR 11–16 (Deadly)</option>
       <option value="17-30">CR 17+ (Legendary)</option>
     </select>
-    <span style="color:var(--text-muted);font-size:0.85rem" id="monsterCount">{{ monsters|length }} monsters</span>
+    <span style="color:var(--text-muted);font-size:0.85rem" id="monsterCount">{{ monsters|length }} monster{{ '' if monsters|length == 1 else 's' }}</span>
   </div>
 
   <div class="monster-grid" id="monsterGrid">
-    {# Cards are built by renderMonsterCards() from /static/dm-monsters.js — the
+    {# Cards are built by renderMonsterCards() in /static/dm_tools.js — the
        same card markup used to be server-rendered (~2,600 cards, ~3 MB of HTML).
        Keep the data-* attributes: filterMonsters() matches on them. #}
-    <noscript>{{ monsters|length }} monsters — enable JavaScript to browse the library.</noscript>
+    <noscript>{{ monsters|length }} monster{{ '' if monsters|length == 1 else 's' }} — enable JavaScript to browse the library.</noscript>
   </div>
 </div>
 
@@ -477,11 +477,12 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <option value="">All Classes</option>
       {% for cl in spell_classes %}<option value="{{ cl|lower }}">{{ cl }}</option>{% endfor %}
     </select>
-    <span style="color:var(--text-muted);font-size:0.85rem" id="spellCount">{{ spell_total|default(spells|length) }} spells</span>
+    {% set spell_n = spell_total|default(spells|length) %}
+    <span style="color:var(--text-muted);font-size:0.85rem" id="spellCount">{{ spell_n }} spell{{ '' if spell_n == 1 else 's' }}</span>
   </div>
 
   <div class="monster-grid" id="spellGrid">
-    {# Cards are built by renderSpellCards() from /static/dm-library.js — ~700 cards
+    {# Cards are built by renderSpellCards() in /static/dm-library.js — ~700 cards
        (~580 KB of HTML) used to be server-rendered here. Keep .monster-card plus the
        data-name/level/school/classes/source attributes: filterSpells() matches on them,
        and renderMonsterCards() must stay scoped to #monsterGrid. #}
@@ -510,7 +511,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
           <strong>{{ enc.name }}</strong>
           <span class="badge badge-{{ 'accent' if enc.status == 'active' else 'muted' }}">{{ enc.status|capitalize }}</span>
           {% if enc.difficulty %}<span class="badge badge-muted">{{ enc.difficulty|capitalize }}</span>{% endif %}
-          {% if enc.shared %}<span class="badge badge-accent" style="font-size:0.55rem">🌐 Shared</span>{% endif %}
+          {% if enc.shared %}<span class="badge badge-accent" style="font-size:0.68rem">🌐 Shared</span>{% endif %}
           {% if not enc.is_owner %}<span style="font-size:0.7rem;color:var(--text-muted)">by {{ enc.owner_email }}</span>{% endif %}
         </div>
         <div style="display:flex;gap:0.3rem;align-items:center">
@@ -616,10 +617,13 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
     {% set live_level = (party_chars|sum(attribute='level') / live_size)|round|int if live_size > 0 else camp.party_level %}
     <div class="campaign-card">
       <h3>{{ camp.name }}</h3>
+      {% set party_n = live_size or camp.party_size %}
+      {% set quest_n = camp.quests|length %}
+      {% set loc_n = camp.locations|length %}
       <div class="camp-stat">
-        <span>👥 L{{ live_level }} · {{ live_size or camp.party_size }} players</span>
-        <span>📋 {{ camp.quests|length }} quests</span>
-        <span>📍 {{ camp.locations|length }} locations</span>
+        <span>👥 L{{ live_level }} · {{ party_n }} player{{ '' if party_n == 1 else 's' }}</span>
+        <span>📋 {{ quest_n }} quest{{ '' if quest_n == 1 else 's' }}</span>
+        <span>📍 {{ loc_n }} location{{ '' if loc_n == 1 else 's' }}</span>
       </div>
       {% if camp.description %}<p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem">{{ camp.description }}</p>{% endif %}
       <div style="margin-bottom:0.5rem">
@@ -1064,10 +1068,10 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         {% if t.damage %}<span class="trap-stat">{{ t.damage_type|capitalize }}</span>{% endif %}
       </div>
       {% if t.source %}
-      <div style="font-size:0.6rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer" class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ t.source }}">📚 {{ t.source }}</div>
+      <div style="font-size:0.72rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer" class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ t.source }}">📚 {{ t.source }}</div>
       {% endif %}
       {% if t.get('_custom') %}
-      <div style="font-size:0.6rem;color:var(--accent);opacity:0.8;margin-top:0.15rem">✨ Custom Trap</div>
+      <div style="font-size:0.72rem;color:var(--accent);opacity:0.8;margin-top:0.15rem">✨ Custom Trap</div>
       {% endif %}
       <!-- Expandable detail -->
       <div class="trap-detail" style="display:none;margin-top:0.5rem;font-size:0.82rem;line-height:1.5;color:var(--text-muted)">
@@ -1081,8 +1085,8 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <div style="display:flex;gap:0.3rem;align-items:center;margin-top:0.4rem">
         <button class="trap-expand-btn" onclick="event.stopPropagation();toggleTrapDetail(this)" style="font-size:0.7rem;color:var(--accent);background:none;border:none;cursor:pointer;padding:0">▶ Expand</button>
         {% if t.get('_custom') %}
-        <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();editTrap({{ t._custom_id }})" style="font-size:0.6rem;padding:0.1rem 0.4rem;margin-left:auto">✏️ Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteTrap({{ t._custom_id }})" style="font-size:0.6rem;padding:0.1rem 0.4rem">✕ Delete</button>
+        <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();editTrap({{ t._custom_id }})" style="font-size:0.72rem;padding:0.1rem 0.4rem;margin-left:auto">✏️ Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteTrap({{ t._custom_id }})" style="font-size:0.72rem;padding:0.1rem 0.4rem">✕ Delete</button>
         {% endif %}
       </div>
     </div>
