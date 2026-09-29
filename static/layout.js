@@ -187,3 +187,45 @@ document.addEventListener('click', function(e) {
     btn.textContent = '☰';
   }
 });
+
+// Import a campaign pack from a <input type="file">. Lives here because two pages offer it (the
+// DM tools campaign list and a campaign page), and one definition cannot drift from the other.
+// The fetch glue above adds the CSRF header, so this can stay a plain fetch.
+window.importCampaignPack = function (input) {
+  const file = input && input.files && input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function () {
+    let pack;
+    try {
+      pack = JSON.parse(reader.result);
+    } catch (e) {
+      alert('That file is not a campaign pack (it is not JSON).');
+      return;
+    }
+    fetch('/api/dm/campaign/import', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(pack)
+    }).then(function (r) {
+      return r.json().then(function (d) { return { ok: r.ok, d: d }; });
+    }).then(function (res) {
+      const d = res.d || {};
+      if (!res.ok || !d.ok) {
+        alert(d.error || 'The pack could not be imported.');
+        return;
+      }
+      const c = d.counts || {};
+      let msg = 'Imported "' + d.name + '": ' + (c.characters || 0) + ' characters, ' +
+        (c.npcs || 0) + ' NPCs, ' + (c.maps || 0) + ' maps, ' + (c.tokens || 0) +
+        ' tokens, ' + (c.encounters || 0) + ' encounters.';
+      if (d.warnings && d.warnings.length) msg += '\n\nNotes:\n' + d.warnings.join('\n');
+      alert(msg);
+      if (d.campaign_id) window.location.href = '/campaign/' + d.campaign_id;
+    }).catch(function (e) {
+      alert('The pack could not be imported: ' + e.message);
+    });
+  };
+  reader.readAsText(file);
+  input.value = '';
+};

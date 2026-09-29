@@ -602,6 +602,11 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 <div class="dm-panel" id="panel-campaigns">
   <div class="toolbar">
     <button class="btn btn-primary" onclick="showCreateCampaign()">+ New Campaign</button>
+    <button class="btn btn-outline" onclick="document.getElementById('packFileTools').click()"
+            title="Import a campaign pack as a NEW campaign">📥 Import pack</button>
+    <input type="file" id="packFileTools" accept="application/json,.json" style="display:none"
+           onchange="importCampaignPack(this)">
+    <span style="font-size:.75rem;color:var(--text-muted)">A pack carries a campaign's characters, NPCs, maps and encounters — export one from a campaign page.</span>
   </div>
 
   <div class="campaign-grid" id="campaignList">

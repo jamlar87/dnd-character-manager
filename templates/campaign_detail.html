@@ -28,6 +28,12 @@
     </div>
     <div class="camp-actions" style="display:flex;gap:0.3rem;flex-wrap:wrap">
       <a href="/dm-tools" class="btn btn-outline btn-sm">← Back</a>
+      <a href="/api/dm/campaign/{{ camp.id }}/export" class="btn btn-outline btn-sm" download
+         title="Download this campaign (characters, NPCs, maps, encounters and images) as one file">📦 Export pack</a>
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('packFile').click()"
+              title="Import a campaign pack as a NEW campaign">📥 Import pack</button>
+      <input type="file" id="packFile" accept="application/json,.json" style="display:none"
+             onchange="importCampaignPack(this)">
       <button class="btn btn-primary btn-sm" onclick="editCampaignMeta({{ camp.id }})">✏️ Edit</button>
       <button class="btn btn-danger btn-sm" onclick="deleteFromPage({{ camp.id }})">🗑️ Delete</button>
     </div>

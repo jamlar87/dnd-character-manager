@@ -49,28 +49,7 @@ async def character_export(char_id: int, request: Request):
         raise HTTPException(status_code=404, detail="Character not found")
 
     char = dict(row)
-    payload = {
-        "version": _EXPORT_VERSION,
-        "character": {k: char.get(k) for k in _CHAR_FIELDS if k in char},
-    }
-
-    spells = db.execute(
-        "SELECT spell_name, spell_level, prepared, slots_max, slots_used, source "
-        "FROM character_spells WHERE character_id = ? ORDER BY spell_level, spell_name",
-        (char_id,),
-    ).fetchall()
-    if spells:
-        payload["spells"] = [dict(s) for s in spells]
-
-    rels = db.execute(
-        "SELECT name, relationship_type, description, prompt, npc_data, ai_generated "
-        "FROM character_relationships WHERE character_id = ? AND user_id = ? "
-        "ORDER BY created_at DESC",
-        (char_id, user["id"]),
-    ).fetchall()
-    if rels:
-        payload["relationships"] = [dict(r) for r in rels]
-
+    payload = build_character_payload(db, char, user["id"])
     db.close()
 
     fname = "".join(c for c in (char.get("name") or "character") if c.isalnum() or c in " -_").strip()
@@ -79,6 +58,31 @@ async def character_export(char_id: int, request: Request):
         media_type="application/json",
         headers={"Content-Disposition": f'attachment; filename="{fname}.json"'},
     )
+
+
+def build_character_payload(db, char: dict, user_id: int) -> dict:
+    """The character-export payload — THE one shape, so a campaign pack carries characters
+    exactly as /api/character/{id}/export writes them (and the same importer reads them)."""
+    payload = {
+        "version": _EXPORT_VERSION,
+        "character": {k: char.get(k) for k in _CHAR_FIELDS if k in char},
+    }
+    spells = db.execute(
+        "SELECT spell_name, spell_level, prepared, slots_max, slots_used, source "
+        "FROM character_spells WHERE character_id = ? ORDER BY spell_level, spell_name",
+        (char["id"],),
+    ).fetchall()
+    if spells:
+        payload["spells"] = [dict(s) for s in spells]
+    rels = db.execute(
+        "SELECT name, relationship_type, description, prompt, npc_data, ai_generated "
+        "FROM character_relationships WHERE character_id = ? AND user_id = ? "
+        "ORDER BY created_at DESC",
+        (char["id"], user_id),
+    ).fetchall()
+    if rels:
+        payload["relationships"] = [dict(r) for r in rels]
+    return payload
 
 
 @router.post("/api/character/import", response_class=JSONResponse)
@@ -93,20 +97,38 @@ async def character_import(request: Request):
     if not isinstance(raw, dict) or not isinstance(raw.get("character"), dict):
         return JSONResponse({"error": "Missing character object"}, status_code=400)
 
-    data = raw["character"]
+    db = get_db()
+    try:
+        new_id, name = insert_character(db, user["id"], raw)
+        db.commit()
+    except ValueError as exc:
+        db.close()
+        return JSONResponse({"error": str(exc)}, status_code=422)
+    db.close()
+    return JSONResponse({"id": new_id, "name": name, "ok": True})
 
-    # Minimal validation
+
+def insert_character(db, user_id, raw) -> tuple[int, str]:
+    """Recreate one exported character (with its spells and relationships) under `user_id`.
+
+    THE one character-import path: the campaign pack calls this too, because two inserters with
+    the same whitelist drift and the pack would then read a character the sheet cannot. Raises
+    ValueError when the payload is not a usable character.
+    """
+    data = raw.get("character") if isinstance(raw, dict) else None
+    if not isinstance(data, dict):
+        raise ValueError("Missing character object")
+
     name = str(data.get("name") or "").strip()
     if not name:
-        return JSONResponse({"error": "Character must have a name"}, status_code=422)
+        raise ValueError("Character must have a name")
     if len(name) > 100:
-        return JSONResponse({"error": "Name too long (max 100 chars)"}, status_code=422)
+        raise ValueError("Name too long (max 100 chars)")
     if not str(data.get("race") or "").strip():
-        return JSONResponse({"error": "Character must have a race"}, status_code=422)
+        raise ValueError("Character must have a race")
     if not str(data.get("class_name") or "").strip():
-        return JSONResponse({"error": "Character must have a class"}, status_code=422)
+        raise ValueError("Character must have a class")
 
-    # Whitelist + type-normalize
     updates = {}
     for k in _CHAR_FIELDS:
         if k in data:
@@ -118,58 +140,39 @@ async def character_import(request: Request):
                 try:
                     v = int(v)
                 except (TypeError, ValueError):
-                    v = 0 if k not in ("hp_max", "hp_current", "ac", "speed", "level") else 0
+                    v = 0
             updates[k] = v
-
     if not updates.get("level"):
         updates["level"] = 1
 
-    db = get_db()
     cols = ", ".join(updates.keys())
     marks = ", ".join("?" for _ in updates)
     cur = db.execute(
         f"INSERT INTO characters ({cols}, user_id) VALUES ({marks}, ?)",
-        list(updates.values()) + [user["id"]],
+        list(updates.values()) + [user_id],
     )
     new_id = cur.lastrowid
 
-    # Spells
-    for sp in raw.get("spells") or []:
+    for sp in (raw.get("spells") or []):
         if not isinstance(sp, dict) or not sp.get("spell_name"):
             continue
         db.execute(
             "INSERT INTO character_spells (character_id, spell_name, spell_level, prepared, slots_max, slots_used, source) "
             "VALUES (?, ?, ?, ?, ?, ?, ?)",
-            (
-                new_id,
-                str(sp["spell_name"])[:200],
-                int(sp.get("spell_level") or 0),
-                int(bool(sp.get("prepared"))),
-                int(sp.get("slots_max") or 0),
-                int(sp.get("slots_used") or 0),
-                str(sp.get("source") or "")[:100],
-            ),
+            (new_id, str(sp["spell_name"])[:200], int(sp.get("spell_level") or 0),
+             int(bool(sp.get("prepared"))), int(sp.get("slots_max") or 0),
+             int(sp.get("slots_used") or 0), str(sp.get("source") or "")[:100]),
         )
 
-    # Relationships
-    for rel in raw.get("relationships") or []:
+    for rel in (raw.get("relationships") or []):
         if not isinstance(rel, dict) or not rel.get("name"):
             continue
         db.execute(
             "INSERT INTO character_relationships (character_id, user_id, name, relationship_type, description, prompt, npc_data, ai_generated) "
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            (
-                new_id,
-                user["id"],
-                str(rel["name"])[:100],
-                str(rel.get("relationship_type") or "")[:50],
-                str(rel.get("description") or "")[:2000],
-                str(rel.get("prompt") or "")[:4000],
-                str(rel.get("npc_data") or "")[:4000],
-                int(bool(rel.get("ai_generated"))),
-            ),
+            (new_id, user_id, str(rel["name"])[:100],
+             str(rel.get("relationship_type") or "")[:50],
+             str(rel.get("description") or "")[:2000], str(rel.get("prompt") or "")[:4000],
+             str(rel.get("npc_data") or "")[:4000], int(bool(rel.get("ai_generated")))),
         )
-
-    db.commit()
-    db.close()
-    return JSONResponse({"id": new_id, "name": name, "ok": True})
+    return new_id, name

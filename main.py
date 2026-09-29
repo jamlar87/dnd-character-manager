@@ -2127,6 +2127,9 @@ async def lifespan(_app):
     from routes.maps import router as maps_router
     if not any(r.path == "/api/dm/maps" for r in _app.routes):
         _app.include_router(maps_router)
+    from routes.pack import router as pack_router
+    if not any(r.path == "/api/dm/campaign/import" for r in _app.routes):
+        _app.include_router(pack_router)
     # Prewarm the nav search's internal entity index (~7k rows, ~0.5s) so the
     # first keystroke isn't paying for it. Non-fatal if it fails.
     try:
