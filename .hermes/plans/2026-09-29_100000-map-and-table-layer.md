@@ -50,6 +50,18 @@ canvas, `static_asset_version()` cache busting.
   requested at the size it is drawn. Python's banker's rounding vs JS half-up was putting a token
   on a boundary in a different cell on the server than on the canvas — all grid maths is now
   `_round_half_up`. 43 tests in `tests/test_map_scaling.py`; suite 978 green.
+- **UI audit + responsive pass — DONE** (pushed `bfe7539`, `1dc2732`): the dashboard used 960px
+  inside a 1440px window (240px dead each side) and stacked 26 character cards in one column —
+  now `.container-wide` (1280) with a 2-column `.char-grid`, page height 3382 → 2799px, and the
+  map canvas is 982×688 instead of boxed into 960. The phone nav was the worst defect:
+  `.nav-brand` measured **8px** (one character) because a `flex: 2` search field ate the row — it
+  is two rows now (brand 292px, search across the bottom). 60+ places used 0.45–0.55rem micro text
+  (7–9px): all now 0.62–0.72rem with a `max(0.68rem, 10.5px)` floor; smallest text on the
+  dashboard 8 → 10.4px, on the sheet 7 → 10px. Tap targets ≥34px on narrow/touch screens
+  (dashboard 36 → 1 under-34 controls), filters collapse on phones, counts are pluralised ("1
+  players" gone), destructive buttons are quiet and labelled, the nav marks the current section,
+  and scrollbars follow the theme. No horizontal overflow at 390 or 1440 on any page. Conventions
+  and traps: `references/ui-conventions.md`.
 - **Table tools landed after Slice 3:** rect/circle fog brushes with a live marquee preview, and
   a measure tool (transient ruler, `feet_per_cell` per map, Chebyshev on square grids and axial
   distance on hex) — plus a scrolling toolbar so a narrow window keeps its map area.
