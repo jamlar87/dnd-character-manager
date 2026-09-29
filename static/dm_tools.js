@@ -542,6 +542,9 @@ async function showMonster(index) {
     }
 
     document.getElementById('monsterDetail').innerHTML = html;
+    // Any die expression in the block becomes a clickable roll (static/dice.js). Only the
+    // freshly rendered popup is walked, so the sheet's own re-renders never fight it.
+    if (window.DiceRoller) window.DiceRoller.enhance(document.getElementById('monsterDetail'));
   } catch(e) {
     document.getElementById('monsterDetail').innerHTML = '<p style="color:var(--danger)">Failed to load monster details.</p>';
   }
