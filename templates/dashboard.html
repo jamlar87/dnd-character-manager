@@ -24,8 +24,22 @@
 {% endblock %}
 {% block content %}
 {% from "_char_portrait.html" import char_portrait %}
+{# Admins can look at every user's characters, but that is a deliberate trip — not the default,
+   which used to bury the owner's own characters under other people's. #}
+{% if can_see_all %}
+<div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:0.75rem;
+     flex-wrap:wrap;padding:0.6rem 0.9rem;margin-bottom:1rem;border-left:3px solid var(--accent)">
+  {% if admin_all %}
+  <span>🛡 <strong>Admin view</strong> — showing every user's characters.</span>
+  <a class="btn btn-outline btn-sm" href="/dashboard">Show only mine &amp; shared</a>
+  {% else %}
+  <span style="color:var(--text-muted)">🛡 Admin: you are seeing your own and shared characters.</span>
+  <a class="btn btn-outline btn-sm" href="/dashboard?all=1">View all users' characters</a>
+  {% endif %}
+</div>
+{% endif %}
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.75rem">
-  <h1>My Characters</h1>
+  <h1>{% if admin_all %}All Characters{% else %}My Characters{% endif %}</h1>
   <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
     <label class="btn btn-outline" style="cursor:pointer;margin:0" title="Import a character from an exported JSON file">
       ⬆️ Import

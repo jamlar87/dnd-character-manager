@@ -367,3 +367,80 @@ class TestCharacterCampaignScope:
         r = client.get(f"/api/character/{cid}/campaign", headers=headers_for(dm_token))
         assert r.status_code == 200
         assert r.json()["campaign"]["name"] == "DM View Campaign"
+
+
+class TestDashboardScoping:
+    """The dashboard lists your own and shared characters — for everyone, admin included.
+
+    It used to special-case admins with "see all characters", so the owner's own 16 were listed
+    alongside 9 characters belonging to three other accounts. Seeing everyone is now a deliberate
+    trip (?all=1, linked only for admins) rather than the default.
+    """
+
+    def test_admin_dashboard_defaults_to_own_and_shared(self, client, admin_headers, seeded_db):
+        make_char(seeded_db, "Admin Own Hero", user_id=2)      # 2 is the seeded admin, 1 the user
+        make_char(seeded_db, "Someone Elses Hero", user_id=18)
+        r = client.get("/dashboard", headers=admin_headers)
+        assert r.status_code == 200
+        assert "Admin Own Hero" in r.text
+        assert "Someone Elses Hero" not in r.text, "the default view must not list other users' characters"
+        assert "All Characters" not in r.text
+
+    def test_admin_can_ask_for_every_user(self, client, admin_headers, seeded_db):
+        make_char(seeded_db, "Admin Own Hero", user_id=2)
+        make_char(seeded_db, "Someone Elses Hero", user_id=18)
+        r = client.get("/dashboard?all=1", headers=admin_headers)
+        assert r.status_code == 200
+        assert "Someone Elses Hero" in r.text, "an admin asked for the full list"
+        assert "Admin view" in r.text and "All Characters" in r.text
+
+    def test_regular_user_never_sees_another_users_private_character(self, client, seeded_db):
+        cid = make_char(seeded_db, "Private Hero", user_id=18)
+        uid, token = add_user(seeded_db, "regular@test.com")
+        make_char(seeded_db, "Regular Own Hero", user_id=uid)
+        r = client.get("/dashboard", headers=headers_for(token))
+        assert r.status_code == 200
+        assert "Regular Own Hero" in r.text
+        assert "Private Hero" not in r.text
+        assert cid  # the row exists, it is just not listed
+
+    def test_shared_character_is_listed_for_and_badged_to_others(self, client, seeded_db):
+        make_char(seeded_db, "Public Hero", user_id=18, shared=1)
+        uid, token = add_user(seeded_db, "shared-viewer@test.com")
+        r = client.get("/dashboard", headers=headers_for(token))
+        assert "Public Hero" in r.text, "a shared character is exactly what 'public' means"
+        assert "Public" in r.text, "and it should be labelled as such"
+
+    def test_a_non_admin_cannot_open_the_all_users_view(self, client, seeded_db):
+        make_char(seeded_db, "Hidden Hero", user_id=18)
+        uid, token = add_user(seeded_db, "sneaky@test.com")
+        r = client.get("/dashboard?all=1", headers=headers_for(token))
+        assert r.status_code == 200
+        assert "Hidden Hero" not in r.text, "?all=1 is an admin link; it must be ignored for others"
+
+    def test_only_admins_are_offered_the_link(self, client, admin_headers, seeded_db):
+        assert "?all=1" in client.get("/dashboard", headers=admin_headers).text
+        uid, token = add_user(seeded_db, "no-link@test.com")
+        assert "?all=1" not in client.get("/dashboard", headers=headers_for(token)).text
+
+    def test_admin_view_is_escaped_back_out_of(self, client, admin_headers, seeded_db):
+        make_char(seeded_db, "Owned Hero", user_id=2)
+        r = client.get("/dashboard?all=1", headers=admin_headers)
+        assert "Show only mine" in r.text, "an admin needs a way back to their own list"
+
+    def test_owner_badge_only_marks_other_peoples_characters(self, client, admin_headers, seeded_db):
+        theirs_uid, _ = add_user(seeded_db, "badge-owner@test.com")   # a real account: the badge
+        mine = make_char(seeded_db, "Badge Mine", user_id=2)          # carries the owner's EMAIL,
+        theirs = make_char(seeded_db, "Badge Theirs", user_id=theirs_uid)  # so the row must join
+        html = client.get("/dashboard?all=1", headers=admin_headers).text
+
+        def card_block(char_id):
+            """The card's own markup: from its id to the next card's id (cards are siblings)."""
+            marker = f'id="char-card-{char_id}"'
+            start = html.index(marker)
+            nxt = html.find('id="char-card-', start + len(marker))
+            return html[start:nxt if nxt != -1 else len(html)]
+
+        # the owner badge carries the owner's email; the admin's own card must not get one
+        assert "badge-muted" not in card_block(mine)
+        assert "badge-muted" in card_block(theirs), "which account does this character belong to?"

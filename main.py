@@ -1776,23 +1776,25 @@ async def landing(request: Request):
 async def dashboard(request: Request):
     user = require_user(request)
     db = get_db()
-    where, params = _user_where(user)
-    if where:
-        # Strip leading "WHERE " since we inline it
-        where_clause = where[6:].strip() if where.startswith("WHERE ") else where
-        chars = [dict(r) for r in db.execute(
-            f"SELECT c.*, u.email as owner_email FROM characters c "
-            f"LEFT JOIN users u ON c.user_id = u.id "
-            f"WHERE ({where_clause}) OR (c.shared = 1 AND c.user_id != ?) "
-            f"ORDER BY c.shared ASC, c.created_at DESC",
-            (*params, user["id"])
-        ).fetchall()]
-    else:
-        # Admin: see all characters
+    # An admin CAN see every character in the database, but the dashboard is their own workspace
+    # first: defaulting to everyone's buried the owner's 16 characters under 9 strangers', which is
+    # what an admin reported ("I'm seeing ALL characters instead of just my own/public"). Own +
+    # shared is now the default for every account; an admin opts into the full list with ?all=1.
+    # The link is rendered only for admins, and the parameter is ignored for anyone else.
+    admin_all = _is_admin(user) and request.query_params.get("all") in ("1", "true", "yes")
+    if admin_all:
         chars = [dict(r) for r in db.execute(
             f"SELECT c.*, u.email as owner_email FROM characters c "
             f"LEFT JOIN users u ON c.user_id = u.id "
             f"ORDER BY c.shared ASC, c.created_at DESC"
+        ).fetchall()]
+    else:
+        chars = [dict(r) for r in db.execute(
+            f"SELECT c.*, u.email as owner_email FROM characters c "
+            f"LEFT JOIN users u ON c.user_id = u.id "
+            f"WHERE c.user_id = ? OR (c.shared = 1 AND c.user_id != ?) "
+            f"ORDER BY c.shared ASC, c.created_at DESC",
+            (user["id"], user["id"])
         ).fetchall()]
     db.close()
     # Load favorites and sort: favorites first
@@ -1820,7 +1822,8 @@ async def dashboard(request: Request):
         c["has_portrait"] = bool(_p)
         c["portrait_url"] = "" if _p.startswith("data:") else _p
     return _render("dashboard.html", request=request, characters=chars, current_user_id=user["id"], favorites=favs,
-                   all_classes=sorted({c.get("class_name") for c in chars if c.get("class_name")}))
+                   all_classes=sorted({c.get("class_name") for c in chars if c.get("class_name")}),
+                   can_see_all=_is_admin(user), admin_all=admin_all)
 
 
 # ── Toggle favorite ────────────────────────────────────────────────────
