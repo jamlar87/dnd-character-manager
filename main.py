@@ -2071,7 +2071,6 @@ async def describe_item(name: str = ""):
     """Get full description and metadata for a single item."""
     if not name or not name.strip():
         return JSONResponse({"error": "No item name provided"}, status_code=400)
-    key = name.strip().lower()
     item = _resolve_item_key(name)
     if not item:
         return JSONResponse({"name": name, "description": "No description available.", "type": "Unknown"})

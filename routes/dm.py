@@ -434,12 +434,6 @@ def _enrich_monster(m: dict) -> dict:
     if "ability_scores" in m:
         del m["ability_scores"]  # clean up now-useless dict
     
-    # Proficiency bonus
-    cr_val = m.get("challenge_rating", 0)
-    try: cr_val = float(cr_val)
-    except: cr_val = 0
-    pb = int(m.get("proficiency_bonus", 0) or max(2, 2 + int((cr_val - 1) / 4)))
-    
     # Compute saving throws if not in proficiencies
     has_saves = any(
         p.get("proficiency", {}).get("name", "").startswith("Saving Throw")
@@ -474,14 +468,6 @@ def _enrich_monster(m: dict) -> dict:
     raw_skills = m.get("skills", {})
     if isinstance(raw_skills, dict) and raw_skills:
         m.setdefault("proficiencies", [])
-        skill_abilities = {
-            "acrobatics":"dexterity","animal handling":"wisdom","arcana":"intelligence",
-            "athletics":"strength","deception":"charisma","history":"intelligence",
-            "insight":"wisdom","intimidation":"charisma","investigation":"intelligence",
-            "medicine":"wisdom","nature":"intelligence","perception":"wisdom",
-            "performance":"charisma","persuasion":"charisma","religion":"intelligence",
-            "sleight of hand":"dexterity","stealth":"dexterity","survival":"wisdom",
-        }
         for skill_name, bonus in raw_skills.items():
             try: bonus = int(bonus)
             except: continue
@@ -1790,41 +1776,22 @@ async def dm_ai_build_encounter(request: Request):
     # DMG p.83 multiplier depends on expected monster count
     if encounter_type == "swarm":
         expected_mult = 2.5  # DMG p.83: 7-10 creatures
-        expected_count_hint = "10 creatures"
         target_raw = xp_budget / expected_mult if xp_budget > 0 else 500
         minion_budget = int(target_raw / 10)  # per-creature budget
         boss_budget = 0
         elite_budget = 0
     elif encounter_type == "solo_lair":
         expected_mult = 1.0
-        expected_count_hint = "1-3 creatures"
         boss_budget = int(xp_budget / expected_mult * 0.85) if xp_budget > 0 else 500
         elite_budget = 0
         minion_budget = int(xp_budget / expected_mult * 0.15) if xp_budget > 0 else 50
     else:
         expected_mult = 2.0  # skirmish, ambush, social: target 3-6
-        expected_count_hint = "3-6 creatures"
         boss_budget = int(xp_budget / expected_mult * 0.45) if xp_budget > 0 else 500
         elite_budget = int(xp_budget / expected_mult * 0.25) if xp_budget > 0 else 200
         minion_budget = int(xp_budget / expected_mult * 0.12) if xp_budget > 0 else 50
 
     target_raw = xp_budget / expected_mult if xp_budget > 0 else 500
-
-    def _fit_label(xp_val, budget_target):
-        """Label how well a monster's XP fits a role budget."""
-        if budget_target <= 0:
-            return ""
-        ratio = xp_val / budget_target
-        if 0.5 <= ratio <= 1.4:
-            return "PERFECT"
-        elif 0.2 <= ratio < 0.5:
-            return "CHEAP"
-        elif ratio < 0.2:
-            return "VERY CHEAP"
-        elif 1.4 < ratio <= 2.2:
-            return "PRICEY"
-        else:
-            return "TOO EXPENSIVE"
 
     # Categorize candidates by role budget fit
     boss_pool = []
@@ -1855,36 +1822,6 @@ async def dm_ai_build_encounter(request: Request):
     boss_pool.sort(key=lambda c: abs(c["xp"] - boss_budget) if boss_budget > 0 else c["xp"])
     elite_pool.sort(key=lambda c: abs(c["xp"] - elite_budget) if elite_budget > 0 else c["xp"])
     minion_pool.sort(key=lambda c: c["xp"])
-
-    # Build role-labeled candidate lists for the prompt
-    def _fmt_cr(cr_val):
-        """Format CR value for display: 0.125 → 1/8, 0.25 → 1/4, etc."""
-        if cr_val == 0.125: return "1/8"
-        if cr_val == 0.25: return "1/4"
-        if cr_val == 0.5: return "1/2"
-        if cr_val == int(cr_val): return str(int(cr_val))
-        return str(cr_val)
-
-    def _cand_line(c, budget_target):
-        label = _fit_label(c["xp"], budget_target) if budget_target > 0 else ""
-        idx = c.get("index", c["name"].lower().replace(" ", "-"))
-        return f"  [{idx}] {c['name']} | CR {_fmt_cr(c['cr'])} | {c['xp']} XP | {c['type']} | AC{c['ac']} HP{c['hp']} | {label}"
-
-    boss_lines = "\n".join(_cand_line(c, boss_budget) for c in boss_pool[:15]) if boss_pool else "  (none available)"
-    elite_lines = "\n".join(_cand_line(c, elite_budget) for c in elite_pool[:15]) if elite_pool else "  (none available)"
-    minion_lines = "\n".join(_cand_line(c, minion_budget) for c in minion_pool[:18]) if minion_pool else "  (none available)"
-
-    # Build budget guidance lines
-    budget_lines = [f"BUDGET: {xp_budget} adjusted XP (DMG p.82 {difficulty} threshold)",
-                    f"  Target raw XP: ~{int(target_raw)} (×{expected_mult} for {expected_count_hint})",
-                    f"  Fill to ≥85% of budget — do NOT leave XP unused."]
-    if boss_budget:
-        budget_lines.append(f"  Boss target: ~{boss_budget} XP")
-    if elite_budget:
-        budget_lines.append(f"  Elite target: ~{elite_budget} XP each")
-    if minion_budget:
-        budget_lines.append(f"  Minion target: ≤{minion_budget} XP each" if encounter_type != "swarm" else f"  Per creature target: ~{minion_budget} XP (×10 to fill)")
-    budget_section = "\n".join(budget_lines)
 
     # ── Tier-based scaling guidance ──
     tier_guides = {
@@ -1935,15 +1872,6 @@ async def dm_ai_build_encounter(request: Request):
     }
     guide = archetype_guides.get(encounter_type, archetype_guides["skirmish"])
 
-    # Build role-labeled candidate section
-    role_section = ""
-    if encounter_type != "swarm" and boss_pool:
-        role_section += f"\nBOSS CANDIDATES (target ~{boss_budget} XP):\n{boss_lines}\n"
-    if encounter_type not in ("swarm", "solo_lair") and elite_pool:
-        role_section += f"\nELITE CANDIDATES (target ~{elite_budget} XP each):\n{elite_lines}\n"
-    if minion_pool:
-        role_section += f"\nMINION CANDIDATES (≤{minion_budget} XP each):\n{minion_lines}\n"
-
     # ── Phase 1: Algorithm picks monsters (AI can't do this reliably) ──
     # Pick boss from boss pool, or CR-appropriate candidates if pool empty
     fb_pool = boss_pool if boss_pool else (
@@ -1981,11 +1909,21 @@ async def dm_ai_build_encounter(request: Request):
     monster_str = ", ".join(comp_name_list) or "various creatures"
 
     # ── Phase 2: AI writes narrative for the actual composition ──
+    # The DM's own inputs have to reach the model: the form collects a Tone and an
+    # Encounter Type, and both used to be read and then dropped (the archetype brief was
+    # computed into a local that nothing interpolated), so the flavor text ignored them.
+    tone_line = f"Tone: {tone}\n" if tone else ""
+    design_brief = (
+        f"--- ENCOUNTER-TYPE BRIEF ({encounter_type}) ---\n{guide}\n"
+        "The creature list above is final — do NOT add, swap or drop creatures; use the "
+        "brief for why they are together and how they fight.\n"
+    )
     ai_prompt = f"""Write flavor text for a D&D 5e encounter:
 Difficulty: {difficulty.upper()} | Setting: {environment} | Type: {encounter_type}
 Party: {cr_info}
 Monsters: {monster_str}
 {tier_guide}{party_section}{boss_rotation_context}
+{tone_line}{design_brief}
 
 Write a vivid scene description that sets up WHY these specific monsters are here and
 how they work together. Then describe their tactics and any dynamic element.
