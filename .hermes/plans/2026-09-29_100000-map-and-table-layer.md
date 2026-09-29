@@ -18,6 +18,22 @@ canvas, `static_asset_version()` cache busting.
 
 ---
 
+## Progress (updated as work lands)
+
+- **Slice 0 — DONE** (committed + pushed): dice click-to-roll (`static/dice.js`), tracker
+  keyboard/click-to-locate, table widgets (counters + timers, per encounter and per campaign).
+- **Slice 1 — mostly done** (committed): 1.1 schema, 1.2 map CRUD + ownership, 1.3 image upload
+  to `static/maps/`, 1.4 canvas (`/dm-map/{id}` + `static/vtt.js`: pan/zoom/fit, square + hex
+  grids with snapping, token art from the existing routes, drag-to-move, HP/size/hide/label,
+  palette search, camera memory, **snapshots** = 1.7), plus the 🗺️ Maps tab in DM tools.
+- **Remaining:** 1.5 spawn-from-encounter (encounter row → tokens), 1.6 fog of war + draw, then
+  Slice 2 (player view) and Slice 3 (campaign-pack export). Slice 4 idea: a Fantasy Statblocks
+  YAML importer (MIT — the one thing worth taking from the Obsidian ecosystem).
+- Live example map kept for inspection: **`/dm-map/4`** ("Example — dungeon crawl", a synthetic
+  test image, deletable).
+
+---
+
 ## Ground truth (verified, not assumed)
 
 - Tables today: `dm_campaigns`, `dm_encounters`, `dm_encounter_npcs` (**already carries
