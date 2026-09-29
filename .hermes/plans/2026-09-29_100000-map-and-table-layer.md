@@ -33,9 +33,14 @@ canvas, `static_asset_version()` cache busting.
   auth so a TV/tablet needs no login), a server-side projection (`/api/dm/map/{id}/state?k=`)
   that withholds the DM's drawing, hidden tokens and everything under the fog, poke via
   BroadcastChannel + a 3 s poll, Follow/Free-look, one `readOnly` renderer mode.
-- **Remaining:** Slice 3 (campaign-pack export — extend the existing character export/import
-  `version: 1` format), then the smaller wins: rectangle/circle fog brushes, a measure tool,
-  lighting, and the Fantasy Statblocks YAML importer (MIT) as a slice-4 idea.
+- **Slice 3 — DONE** (committed): campaign packs — `GET /api/dm/campaign/{id}/export` (one
+  self-contained JSON file: campaign, characters, NPCs, maps with tokens/fog/draw/setups, the
+  encounters behind them, and base64 images) and `POST /api/dm/campaign/import` (always a NEW
+  campaign, every id remapped, never a secret). Buttons: 📦 Export on the campaign page, 📥
+  Import on the campaign page and the DM-tools campaign tab. Details:
+  `references/campaign-packs.md`.
+- **Remaining (nice-to-haves):** rectangle/circle fog brushes, a measure tool, lighting, and the
+  Fantasy Statblocks YAML importer (MIT) as a slice-4 idea.
 - Live example map kept for inspection: **`/dm-map/4`** ("Example — dungeon crawl", a synthetic
   test image, 3 tokens, one revealed strip of 4 cells and a green pen stroke from the
   verification run — clears with 🚫 All and 🧽 Clear).
