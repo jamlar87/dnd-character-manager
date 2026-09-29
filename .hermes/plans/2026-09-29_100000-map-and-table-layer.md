@@ -41,6 +41,15 @@ canvas, `static_asset_version()` cache busting.
   `references/campaign-packs.md`.
 - **Remaining (nice-to-haves):** lighting (walls + vision), the Fantasy Statblocks YAML
   importer (MIT) as a slice-4 idea, and campaign-pack zip compression if a pack ever gets big.
+- **Map scaling audit — DONE** (pushed `fd21da3`): battle maps were being shrunk to 1024px while
+  the grid kept its old `grid_size`, so every map over 1024px silently covered 2–4x the squares it
+  should (`fit_blob` replaces the portrait-sized `thumbnail_bytes`; the route now scales the grid
+  and offsets with the art and records `image_w/image_h`). The toolbar gained px/cell, "cells
+  across", offset nudges, Fit and a live readout, and hex grids honour offsets at last. Creature
+  footprints per 5e are applied on every path (1/2/3/4 squares), on hex too, and token art is
+  requested at the size it is drawn. Python's banker's rounding vs JS half-up was putting a token
+  on a boundary in a different cell on the server than on the canvas — all grid maths is now
+  `_round_half_up`. 43 tests in `tests/test_map_scaling.py`; suite 978 green.
 - **Table tools landed after Slice 3:** rect/circle fog brushes with a live marquee preview, and
   a measure tool (transient ruler, `feet_per_cell` per map, Chebyshev on square grids and axial
   distance on hex) — plus a scrolling toolbar so a narrow window keeps its map area.
