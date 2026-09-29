@@ -22,15 +22,21 @@ canvas, `static_asset_version()` cache busting.
 
 - **Slice 0 — DONE** (committed + pushed): dice click-to-roll (`static/dice.js`), tracker
   keyboard/click-to-locate, table widgets (counters + timers, per encounter and per campaign).
-- **Slice 1 — mostly done** (committed): 1.1 schema, 1.2 map CRUD + ownership, 1.3 image upload
+- **Slice 1 — DONE** (committed): 1.1 schema, 1.2 map CRUD + ownership, 1.3 image upload
   to `static/maps/`, 1.4 canvas (`/dm-map/{id}` + `static/vtt.js`: pan/zoom/fit, square + hex
   grids with snapping, token art from the existing routes, drag-to-move, HP/size/hide/label,
-  palette search, camera memory, **snapshots** = 1.7), plus the 🗺️ Maps tab in DM tools.
-- **Remaining:** 1.5 spawn-from-encounter (encounter row → tokens), 1.6 fog of war + draw, then
-  Slice 2 (player view) and Slice 3 (campaign-pack export). Slice 4 idea: a Fantasy Statblocks
-  YAML importer (MIT — the one thing worth taking from the Obsidian ecosystem).
+  palette search, camera memory, **snapshots** = 1.7), **1.5 spawn-from-encounter** (footprint
+  from the monster's role line; token HP mirrors back onto the tracker row and marks a
+  combatant defeated at ≤0), **1.6 fog of war + drawing** (two overlay layers, saved separately
+  from placements, carried by snapshots), plus the 🗺️ Maps tab in DM tools.
+- **Remaining:** Slice 2 (player view — second screen, BroadcastChannel then a poll of the
+  map state), Slice 3 (campaign-pack export), and the 1.8-ish ideas: fog brush shapes
+  (rectangle/circle reveal), measure tool, lighting.
+- Slice 4 idea: a Fantasy Statblocks YAML importer (MIT — the one thing worth taking from the
+  Obsidian ecosystem).
 - Live example map kept for inspection: **`/dm-map/4`** ("Example — dungeon crawl", a synthetic
-  test image, deletable).
+  test image, 3 tokens, one revealed strip of 4 cells and a green pen stroke from the
+  verification run — clears with 🚫 All and 🧽 Clear).
 
 ---
 
