@@ -97,7 +97,11 @@ def test_the_page_stays_lightweight():
     """Everything the canvas needs is its own cached asset, not inline page weight."""
     page = TEMPLATE.read_text()
     assert "static_asset_version('vtt.js')" in page, "the renderer would be served stale"
-    assert len(page) < 6000, "the template is turning into a script host"
+    # markup is fine; LOGIC in a template is not. The only inline script is the config line.
+    inline = re.findall(r"<script(?![^>]*\bsrc\b)[^>]*>(.*?)</script>", page, re.S)
+    logic = " ".join(inline).strip()
+    assert len(logic) < 200, f"inline script logic belongs in the asset: {logic[:100]}"
+    assert len(page) < 8000, "the template has outgrown 'markup only'"
     css = re.search(r"<style>(.*?)</style>", page, re.S)
     assert css and len(css.group(1)) < 2500, "inline CSS is growing; move it to a stylesheet"
 

@@ -486,6 +486,13 @@ def _migrate_npc_source_columns():
         except sqlite3.OperationalError:
             pass
 
+    # Migration: player view. A key rather than a login, because the second screen is often a
+    # TV or tablet that is not signed in — and it only ever exposes the projected state.
+    try:
+        db.execute("ALTER TABLE dm_maps ADD COLUMN player_key TEXT DEFAULT ''")
+    except sqlite3.OperationalError:
+        pass
+
     # Existing installations keep their users; no default credentials are created.
     db.commit()
     db.close()

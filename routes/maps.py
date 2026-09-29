@@ -15,13 +15,16 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import re
+import secrets
 from pathlib import Path
 
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 
-from main import get_db, require_user, _require_owned, _is_admin, _user_where, _render, STATIC
+from main import (get_db, require_user, get_current_user, _require_owned, _is_admin,
+                  _user_where, _render, STATIC)
 from services.images import decode_data_url, thumbnail_bytes
 
 router = APIRouter()
@@ -774,6 +777,157 @@ async def dm_map_spawn_encounter(map_id: int, request: Request):
         db.commit()
         return JSONResponse({"ok": True, "added": len(placed), "skipped": skipped,
                              "party_linked": linked_chars, "tokens": _tokens_of(db, map_id)})
+    finally:
+        db.close()
+
+
+# ── the player view (second screen) ────────────────────────────────────────────────────
+
+def _cell_key_of(x: float, y: float, map_row: dict) -> str:
+    """The fog cell a token's centre falls in — the same maths as the canvas, on the server.
+
+    Duplicated deliberately: the projection has to decide what the party can see, and trusting
+    the client to tell us which cell a token occupies would let a stale client leak one.
+    """
+    size = _inum(map_row.get("grid_size"), 50, 10, 400)
+    ox = _inum(map_row.get("grid_offset_x"), 0, -400, 400)
+    oy = _inum(map_row.get("grid_offset_y"), 0, -400, 400)
+    if str(map_row.get("grid_type")) == "hex":
+        radius = size / 2.0
+        q = (3 ** 0.5 / 3 * x - y / 3) / radius
+        r = (2 / 3 * y) / radius
+        cx, cz, cy = q, r, -q - r
+        rx, ry, rz = round(cx), round(cy), round(cz)
+        dx, dy, dz = abs(rx - cx), abs(ry - cy), abs(rz - cz)
+        if dx > dy and dx > dz:
+            rx = -ry - rz
+        elif dy > dz:
+            ry = -rx - rz
+        else:
+            rz = -rx - ry
+        return f"{rx},{rz}"
+    return f"{math.floor((x - ox) / size)},{math.floor((y - oy) / size)}"
+
+
+def _player_state(db, map_row: dict) -> dict:
+    """What the player view may see.
+
+    Three things are withheld, and each for its own reason: the DM's drawing (it is the DM's
+    notes), hidden tokens (the DM said so), and anything the fog still covers (the party has
+    not been there). HP rides along but as a bar, not a number.
+    """
+    fog = _clean_fog(_safe_json(map_row.get("fog"), []))
+    fog_on = bool(_inum(map_row.get("fog_on"), 0, 0, 1))
+    revealed = set(fog)
+    tokens = []
+    for t in _tokens_of(db, map_row["id"]):
+        if t.get("hidden"):
+            continue
+        if fog_on and _cell_key_of(t["x"], t["y"], map_row) not in revealed:
+            continue
+        tokens.append({
+            "id": t["id"], "x": t["x"], "y": t["y"], "w": t["w"], "h": t["h"],
+            "kind": t["kind"], "ref_name": t["ref_name"], "label": t["label"],
+            "hp_current": t["hp_current"], "hp_max": t["hp_max"], "z": t["z"],
+            "character_id": t["character_id"],
+        })
+    return {
+        "map": {
+            "id": map_row["id"], "name": map_row["name"], "image_path": map_row.get("image_path") or "",
+            "grid_type": map_row.get("grid_type") or "square",
+            "grid_size": _inum(map_row.get("grid_size"), 50, 10, 400),
+            "grid_offset_x": _inum(map_row.get("grid_offset_x"), 0, -400, 400),
+            "grid_offset_y": _inum(map_row.get("grid_offset_y"), 0, -400, 400),
+        },
+        # 1 = the DM's screen may dim what is unseen; the party simply does not get it
+        "tokens": tokens, "fog": fog, "fog_on": int(fog_on),
+        "camera": map_row.get("camera") or "",
+        "shared": True,
+    }
+
+
+@router.get("/api/dm/map/{map_id}/state", response_class=JSONResponse)
+async def dm_map_state(map_id: int, request: Request, k: str = ""):
+    """The projected state a second screen renders.
+
+    Authorised either by the owner's session or by the map's player key (`?k=`), so a TV or a
+    tablet needs no login — and gets no DM drawings, no hidden tokens and nothing under the fog.
+    """
+    db = get_db()
+    try:
+        row = db.execute("SELECT * FROM dm_maps WHERE id = ?", (map_id,)).fetchone()
+        if not row:
+            return JSONResponse({"error": "Not found"}, status_code=404)
+        row = dict(row)
+        key = (row.get("player_key") or "").strip()
+        if k and key and secrets.compare_digest(str(k), key):
+            return JSONResponse(_player_state(db, row))
+        user = get_current_user(request)
+        if not user:
+            return JSONResponse({"error": "login required"}, status_code=403)
+        if not _is_admin(user) and row.get("user_id") != user["id"]:
+            return JSONResponse({"error": "Not found"}, status_code=404)
+        return JSONResponse(_player_state(db, row))
+    finally:
+        db.close()
+
+
+@router.get("/api/dm/map/{map_id}/player-key", response_class=JSONResponse)
+async def dm_map_player_key(map_id: int, request: Request):
+    """The DM's share key for the second screen. Creates one on first ask."""
+    user = require_user(request)
+    db = get_db()
+    try:
+        row = _own_map(db, user, map_id)
+        if not row:
+            return JSONResponse({"error": "Not found"}, status_code=404)
+        key = (row.get("player_key") or "").strip()
+        if not key:
+            key = secrets.token_hex(16)
+            db.execute("UPDATE dm_maps SET player_key = ? WHERE id = ?", (key, map_id))
+            db.commit()
+        return JSONResponse({"ok": True, "player_key": key,
+                             "url": f"/dm-map/{map_id}/player?k={key}"})
+    finally:
+        db.close()
+
+
+@router.post("/api/dm/map/{map_id}/player-key", response_class=JSONResponse)
+async def dm_map_player_key_set(map_id: int, request: Request):
+    """Rotate the key, or revoke it (send an empty key) to close the second screen again."""
+    user = require_user(request)
+    data = await request.json()
+    db = get_db()
+    try:
+        if not _own_map(db, user, map_id):
+            return JSONResponse({"error": "Not found"}, status_code=404)
+        wanted = str(data.get("key") or "").strip()
+        key = wanted[:64] if wanted else ""
+        db.execute("UPDATE dm_maps SET player_key = ? WHERE id = ?", (key, map_id))
+        db.commit()
+        return JSONResponse({"ok": True, "player_key": key,
+                             "url": f"/dm-map/{map_id}/player?k={key}" if key else ""})
+    finally:
+        db.close()
+
+
+@router.get("/dm-map/{map_id}/player", response_class=HTMLResponse)
+async def dm_map_player_page(map_id: int, request: Request, k: str = ""):
+    """The second screen: full-bleed canvas, no toolbar, no DM notes."""
+    db = get_db()
+    try:
+        row = db.execute("SELECT * FROM dm_maps WHERE id = ?", (map_id,)).fetchone()
+        if not row:
+            raise HTTPException(status_code=404, detail="Map not found")
+        row = dict(row)
+        key = (row.get("player_key") or "").strip()
+        if not (k and key and secrets.compare_digest(str(k), key)):
+            # no (valid) key: fall back to the owner's session, which a signed-in DM has
+            user = require_user(request)
+            if not _is_admin(user) and row.get("user_id") != user["id"]:
+                raise HTTPException(status_code=404, detail="Map not found")
+        return _render("map_player.html", request=request, the_map=row,
+                       player_key=key, map_json=json.dumps({"id": row["id"]}))
     finally:
         db.close()
 

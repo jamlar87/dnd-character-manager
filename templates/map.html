@@ -47,6 +47,11 @@
     <input type="number" id="vttPenWidth" value="4" min="1" max="40" onchange="VTT.setPen(null, this.value)" title="Pen width" style="width:3.2rem;padding:.1rem .2rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:.75rem">
     <button class="btn btn-outline btn-sm" onclick="VTT.clearDraw()" title="Erase all drawing">🧽 Clear</button>
     <span class="vtt-sep"></span>
+    <button class="btn btn-outline btn-sm" onclick="VTT.openPlayer()" title="Open the player view on a second screen (TV/tablet)">📺 Player</button>
+    <button class="btn btn-outline btn-sm" onclick="VTT.revokePlayer()" title="Revoke the player link">🚫</button>
+    <span id="vttPlayerHint" style="font-size:.68rem;color:var(--text-muted);max-width:16rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+
+    <span class="vtt-sep"></span>
     <select id="vttEncounterPick" style="padding:.25rem .4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:.8rem"></select>
     <button class="btn btn-outline btn-sm" onclick="VTT.spawnEncounter()" title="Place that encounter's combatants on this map">⚔ Spawn</button>
 

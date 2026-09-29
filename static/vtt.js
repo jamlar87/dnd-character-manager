@@ -28,6 +28,8 @@
     selected: null,
     drag: null,
     panning: null,
+    readOnly: false,           // true on the player view: no input, nothing DM-only
+    pokeChannel: null,
     tool: 'select',            // 'select' | 'fog' | 'draw'
     fog: {},                   // revealed cell keys — an object stands in for a Set here
     fogOn: false,
@@ -171,9 +173,13 @@
     if (w < 3 || h < 3) return;
     if (p[0] + w < -40 || p[1] + h < -40 || p[0] > canvas.clientWidth + 40 || p[1] > canvas.clientHeight + 40) return;
 
+    var unrevealed = state.fogOn && !isCellRevealed(cellKeyFor(t.x, t.y));
+    // The DM's screen dims what is unseen (it still has to move it); the party's screen does not
+    // get it at all. The server already withholds them, this is the second line of defence.
+    if (state.readOnly && unrevealed) return;
     var isHex = state.grid.type === 'hex';
     ctx.save();
-    if (state.fogOn && !isCellRevealed(cellKeyFor(t.x, t.y))) ctx.globalAlpha = 0.35;
+    if (unrevealed) ctx.globalAlpha = 0.35;
     ctx.beginPath();
     if (isHex) ctx.arc(p[0] + w / 2, p[1] + h / 2, Math.min(w, h) / 2, 0, Math.PI * 2);
     else roundRect(p[0], p[1], w, h, Math.min(6, w * 0.12));
@@ -302,7 +308,8 @@
     var keys = Object.keys(state.fog);
     for (var i = 0; i < keys.length; i++) addCellToPath(path, keys[i]);
     ctx.save();
-    ctx.fillStyle = 'rgba(6,6,10,0.88)';
+    // the DM's screen keeps the map faintly readable under the fog; the party's screen is solid
+    ctx.fillStyle = state.readOnly ? 'rgba(5,5,8,0.99)' : 'rgba(6,6,10,0.88)';
     ctx.fill(path, 'evenodd');
     ctx.restore();
   }
@@ -330,8 +337,18 @@
   function redraw() {
     if (!ctx) return;
     if (state.raf) return;
+    // requestAnimationFrame never fires in a HIDDEN tab, so a second screen sitting in the
+    // background would silently never paint (and a poll would keep "updating" an empty canvas).
+    // Draw synchronously there; keep the coalescing for the visible case.
+    if (document.hidden) { drawFrame(); return; }
     state.raf = window.requestAnimationFrame(function () {
       state.raf = null;
+      drawFrame();
+    });
+  }
+
+  function drawFrame() {
+    {
       var W = canvas.clientWidth, H = canvas.clientHeight;
       ctx.clearRect(0, 0, W, H);
       ctx.fillStyle = '#0f0f12';
@@ -363,12 +380,25 @@
       drawStrokes();
       state.tokens.slice().sort(function (a, b) { return (a.z || 0) - (b.z || 0) || a.id - b.id; })
         .forEach(drawToken);
-    });
+    }
   }
 
   // ── saving ──────────────────────────────────────────────────────────────────────────
+  function pokePlayers() {
+    // Tell second screens "something changed" — they then fetch the PROJECTED state from the
+    // server, so the rule about what the party may see lives in exactly one place.
+    if (state.readOnly) return;
+    try {
+      if (!state.pokeChannel && typeof BroadcastChannel === 'function') {
+        state.pokeChannel = new BroadcastChannel('vtt-map-' + window.MAP_ID);
+      }
+      if (state.pokeChannel) state.pokeChannel.postMessage({ type: 'changed', at: Date.now() });
+    } catch (e) { /* no BroadcastChannel (or a private window): the poll still covers it */ }
+  }
+
   function markDirty(msg) {
     state.dirty = true;
+    pokePlayers();
     var badge = $('vttSaved');
     if (badge) { badge.textContent = msg || 'unsaved…'; badge.className = 'vtt-dirty'; }
     if (state.saveTimer) clearTimeout(state.saveTimer);
@@ -395,6 +425,7 @@
   }
 
   function saveCamera() {
+    pokePlayers();
     try { localStorage.setItem('vttCam:' + window.MAP_ID, JSON.stringify(state.camera)); } catch (e) {}
     fetch('/api/dm/map/' + window.MAP_ID + '/update', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -604,7 +635,13 @@
     return fetch('/api/dm/map/' + window.MAP_ID + '/token/add', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(token)
     }).then(function (r) { return r.json(); }).then(function (d) {
-      if (d && d.ok) { state.tokens.push(d.token); state.selected = d.token.id; renderSelected(); redraw(); }
+      if (d && d.ok) {
+        state.tokens.push(d.token);
+        state.selected = d.token.id;
+        pokePlayers();
+        renderSelected();
+        redraw();
+      }
       return d;
     });
   }
@@ -621,6 +658,7 @@
     var t = state.tokens.filter(function (x) { return x.id === id; })[0];
     if (!t) return;
     Object.assign(t, patch);
+    pokePlayers();
     fetch('/api/dm/map/token/' + id + '/update', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(patch)
     }).catch(function () {});
@@ -757,6 +795,7 @@
 
   function markLayerDirty() {
     state.layerDirty = true;
+    pokePlayers();
     var badge = $('vttSaved');
     if (badge) { badge.textContent = 'unsaved…'; badge.className = 'vtt-dirty'; }
     if (state.layerTimer) clearTimeout(state.layerTimer);
@@ -858,6 +897,7 @@
     }).then(function (r) { return r.json(); }).then(function (d) {
       if (d && d.ok) {
         state.tokens = d.tokens;
+        pokePlayers();
         if (badge) badge.textContent = 'placed ' + d.added +
           (d.skipped ? ', ' + d.skipped + ' already there' : '') +
           (d.party_linked ? ', ' + d.party_linked + ' party' : '');
@@ -876,6 +916,31 @@
         return '<option value="' + e.id + '">' + (e.name || 'Encounter') + '</option>';
       }).join('');
     }).catch(function () { pick.innerHTML = '<option value="">Encounter…</option>'; });
+  }
+
+  function openPlayer() {
+    var badge = $('vttSaved');
+    return fetch('/api/dm/map/' + window.MAP_ID + '/player-key')
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (!d || !d.url) { if (badge) badge.textContent = 'player view unavailable'; return; }
+        window.open(d.url, 'vtt-player');
+        var hint = $('vttPlayerHint');
+        if (hint) hint.textContent = location.origin + d.url;
+        if (badge) { badge.textContent = 'player link ready'; badge.className = ''; }
+      });
+  }
+
+  function revokePlayer() {
+    return fetch('/api/dm/map/' + window.MAP_ID + '/player-key', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key: '' })
+    }).then(function (r) { return r.json(); }).then(function (d) {
+      var badge = $('vttSaved');
+      if (badge) badge.textContent = (d && d.ok) ? 'player link revoked' : 'revoke failed';
+      var hint = $('vttPlayerHint');
+      if (hint) hint.textContent = '';
+    });
   }
 
   function chooseImage() { var f = $('vttImageInput'); if (f) f.click(); }
@@ -904,6 +969,10 @@
 
   // ── init ────────────────────────────────────────────────────────────────────────────
   function init() {
+    // The player page loads this same file, so the DM path must stand down there: otherwise it
+    // would fetch the state without the key (403), clobber the projection with an empty map, and
+    // attach the DM's keyboard tools to a screen the party is looking at.
+    if (window.PLAYER_CFG) return;
     canvas = $('vttCanvas');
     host = $('vttHost');
     if (!canvas) return;
@@ -944,6 +1013,121 @@
     });
   }
 
+  // ── the player view (second screen) ─────────────────────────────────────────────────
+  // Same renderer, read-only: it gets the PROJECTED state from the server (never the DM's
+  // drawing, never a hidden token, never anything under the fog) and only lets the viewer pan
+  // around while the camera is not being followed.
+  var player = { following: true, cfg: null, channel: null, timer: null, failures: 0, last: 0 };
+
+  function playerStatus(text) {
+    var s = $('status');
+    if (s) s.textContent = text;
+  }
+
+  function playerApply(payload) {
+    if (!payload || !payload.map) return;
+    state.map = payload.map;
+    state.map.draw = [];
+    state.tokens = payload.tokens || [];
+    state.fog = {};
+    (payload.fog || []).forEach(function (k) { state.fog[String(k)] = 1; });
+    state.fogOn = !!(parseInt(payload.fog_on, 10) || 0);
+    state.strokes = [];                 // the DM's notes are not the party's business
+    state.grid.type = state.map.grid_type || 'square';
+    state.grid.size = state.map.grid_size || 50;
+    state.grid.ox = state.map.grid_offset_x || 0;
+    state.grid.oy = state.map.grid_offset_y || 0;
+    if (player.following && payload.camera) {
+      try { state.camera = JSON.parse(payload.camera); } catch (e) {}
+    }
+    redraw();
+  }
+
+  function playerFetch(first) {
+    var cfg = player.cfg || {};
+    var url = '/api/dm/map/' + cfg.id + '/state' + (cfg.key ? '?k=' + encodeURIComponent(cfg.key) : '');
+    return fetch(url, { cache: 'no-store' }).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (d) {
+      player.failures = 0;
+      player.last = Date.now();
+      var wasEmpty = !state.tokens.length;
+      playerApply(d);
+      playerStatus('live · ' + new Date().toLocaleTimeString());
+      if (first || wasEmpty) playerFit();
+      return d;
+    }).catch(function (e) {
+      player.failures++;
+      // Say what is actually happening: a revoked key or a stopped server must not look "live".
+      playerStatus(player.failures > 2 ? 'disconnected (' + e.message + ')' : 'reconnecting…');
+    });
+  }
+
+  function playerFit() { fit(); }
+
+  function toggleFollow() {
+    player.following = !player.following;
+    var b = $('followBtn');
+    if (b) {
+      b.textContent = player.following ? '🔒 Following' : '🖐 Free look';
+      b.className = player.following ? '' : 'nofollow';
+    }
+    if (player.following) playerFetch(false);   // snap back to the DM's view immediately
+  }
+
+  function initPlayer(cfg) {
+    player.cfg = cfg || window.PLAYER_CFG || {};
+    canvas = $('vttCanvas');
+    host = $('host');
+    if (!canvas) return;
+    ctx = canvas.getContext('2d');
+    state.readOnly = true;
+    resizeCanvas();
+    window.requestAnimationFrame(resizeCanvas);
+    window.addEventListener('resize', resizeCanvas);
+
+    // Free look only while the DM's camera is NOT followed.
+    canvas.addEventListener('mousedown', function (ev) {
+      if (player.following) return;
+      var rect = canvas.getBoundingClientRect();
+      state.panning = { sx: ev.clientX - rect.left, sy: ev.clientY - rect.top,
+                        cx: state.camera.x, cy: state.camera.y };
+    });
+    window.addEventListener('mousemove', function (ev) {
+      if (!state.panning || player.following) return;
+      var rect = canvas.getBoundingClientRect();
+      state.camera.x = state.panning.cx + ((ev.clientX - rect.left) - state.panning.sx) / state.camera.zoom;
+      state.camera.y = state.panning.cy + ((ev.clientY - rect.top) - state.panning.sy) / state.camera.zoom;
+      redraw();
+    });
+    window.addEventListener('mouseup', function () { state.panning = null; });
+    canvas.addEventListener('wheel', function (ev) {
+      if (player.following) return;
+      ev.preventDefault();
+      state.camera.zoom = Math.max(0.08, Math.min(6, state.camera.zoom * (ev.deltaY < 0 ? 1.12 : 1 / 1.12)));
+      redraw();
+    }, { passive: false });
+    canvas.addEventListener('contextmenu', function (ev) { ev.preventDefault(); });
+
+    // A second window on this machine reacts instantly; the poll covers a TV or tablet, which
+    // shares no browser context with the DM's window.
+    try {
+      if (typeof BroadcastChannel === 'function') {
+        player.channel = new BroadcastChannel('vtt-map-' + player.cfg.id);
+        player.channel.onmessage = function () { playerFetch(false); };
+      }
+    } catch (e) { /* the poll is the fallback */ }
+    playerFetch(true);
+    player.timer = setInterval(function () { playerFetch(false); }, 3000);
+  }
+
+  // the player page's controls hang off the player object (its own toggle lives there, not on
+  // the DM surface) — a guard test pins this wiring, because a dead button throws only on click
+  player.toggleFollow = toggleFollow;
+  player.refetch = function () { return playerFetch(false); };
+  player.fit = playerFit;
+
   window.VTT = {
     init: init, redraw: redraw, zoomBy: zoomBy, fit: fit, toggleGrid: toggleGrid,
     setGridType: setGridType, nudgeSize: nudgeSize, toggleSnap: toggleSnap,
@@ -953,9 +1137,12 @@
     searchPalette: searchPalette, chooseImage: chooseImage, uploadImage: uploadImage,
     saveNow: saveNow, saveLayer: saveLayer, screenToWorld: screenToWorld,
     worldToScreen: worldToScreen, snapPoint: snapPoint,
+    playerInit: initPlayer, playerApply: playerApply, playerFit: playerFit, player: player,
+    pokePlayers: pokePlayers,
     setTool: setTool, toggleFog: toggleFog, revealAll: revealAll, hideAll: hideAll,
     setPen: setPen, clearDraw: clearDraw, paintCell: paintCell, cellKeyFor: cellKeyFor,
-    spawnEncounter: spawnEncounter, loadEncounters: loadEncounters, state: state
+    spawnEncounter: spawnEncounter, loadEncounters: loadEncounters,
+    openPlayer: openPlayer, revokePlayer: revokePlayer, state: state
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

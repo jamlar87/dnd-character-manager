@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ the_map.name }} — Player view</title>
+<style>
+  /* The second screen: full-bleed, dark, no app chrome. It is often a TV across the room, so
+     the only controls are a faint bar that brightens on hover. */
+  :root{color-scheme:dark}
+  html,body{margin:0;height:100%;background:#08080b;color:#e5e7eb;font-family:system-ui,-apple-system,sans-serif;overflow:hidden}
+  #host{position:fixed;inset:0}
+  canvas{display:block}
+  .name{position:fixed;top:.5rem;left:.6rem;font-size:.8rem;color:#8b8b96;opacity:.35;pointer-events:none}
+  .bar{position:fixed;left:.6rem;bottom:.6rem;display:flex;gap:.4rem;align-items:center;
+       background:rgba(12,12,16,.8);border:1px solid #2a2a33;border-radius:8px;padding:.35rem .5rem;
+       font-size:.75rem;opacity:.22;transition:opacity .2s}
+  .bar:hover{opacity:1}
+  .bar button{background:none;border:1px solid #2a2a33;border-radius:5px;color:#e5e7eb;
+              padding:.2rem .5rem;cursor:pointer;font-size:.75rem}
+  .bar button:hover{border-color:#c9a227}
+  #status{color:#8b8b96}
+  .nofollow{outline:1px solid #c9a227}
+</style>
+</head>
+<body>
+  <div id="host"><canvas id="vttCanvas"></canvas></div>
+  <div class="name">{{ the_map.name }} · player view</div>
+  <div class="bar">
+    <button id="followBtn" onclick="VTT.player.toggleFollow()" title="Follow the DM's camera">🔒 Following</button>
+    <button onclick="VTT.playerFit()" title="Fit the map to this screen">⤢ Fit</button>
+    <button onclick="if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen()" title="Full screen">⛶ Full screen</button>
+    <span id="status">connecting…</span>
+  </div>
+<script>
+  window.MAP_ID = {{ the_map.id }};
+  window.PLAYER_CFG = { id: {{ the_map.id }}, key: {{ player_key|tojson }} };
+</script>
+<script src="/static/vtt.js?v={{ static_asset_version('vtt.js') }}"></script>
+<script>VTT.playerInit(window.PLAYER_CFG);</script>
+</body>
+</html>
