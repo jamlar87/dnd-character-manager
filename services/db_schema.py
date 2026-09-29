@@ -413,6 +413,14 @@ def _migrate_npc_source_columns():
         except sqlite3.OperationalError:
             pass
 
+    # Migration: table widgets (counters and timers kept next to the initiative order).
+    # Per encounter and per campaign: the campaign's list is what the DM sees on every one.
+    for table in ("dm_encounters", "dm_campaigns"):
+        try:
+            db.execute(f"ALTER TABLE {table} ADD COLUMN widgets TEXT DEFAULT '[]'")
+        except sqlite3.OperationalError:
+            pass
+
     # Existing installations keep their users; no default credentials are created.
     db.commit()
     db.close()

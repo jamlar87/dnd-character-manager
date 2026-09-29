@@ -900,6 +900,9 @@ async function openEncounter(id) {
     if (enc.description) html += `<p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:0.5rem">${enc.description}</p>`;
     if (enc.notes) html += `<details style="margin-bottom:0.5rem"><summary style="cursor:pointer;font-size:0.85rem;color:var(--accent);user-select:none">📋 Tactics & Notes</summary><p style="font-size:0.85rem;color:var(--text-muted);white-space:pre-wrap;margin:0.3rem 0 0 0.5rem;border-left:2px solid var(--accent);padding-left:0.5rem">${enc.notes}</p></details>`;
 
+    // Widget bar: counters and timers the DM ticks mid-fight (loaded from the encounter row).
+    html += `<div id="widgetBar" class="widget-bar">Loading widgets…</div>`;
+
     // Encounter builder: searchable palette + tracking
     html += `<div class="encounter-builder">
       <div>
@@ -1046,6 +1049,8 @@ async function openEncounter(id) {
         <button class="btn btn-danger btn-sm" onclick="deleteEncounter(${id});closeModal('encounterModal')">✕ Delete Encounter</button>
       </div>`;
     document.getElementById('encounterDetail').innerHTML = html;
+    // Widgets live on the encounter row; the bar owns its own timer loop.
+    if (window.WidgetBar) window.WidgetBar.load('encounter', id);
     // Encounter-builder creature palette gets the same manual filter
     if (window.SourceFilter) {
       const mount = document.getElementById('paletteSrcFilter');

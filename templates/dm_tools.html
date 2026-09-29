@@ -1201,5 +1201,6 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 <script>
 const COMBAT_CHARACTERS = {{ characters_json|safe }};
 </script>
+<script src="/static/widgets.js?v={{ static_asset_version('widgets.js') }}"></script>
 <script src="/static/dm_tools.js?v={{ dm_tools_js_version }}"></script>
 {% endblock %}
