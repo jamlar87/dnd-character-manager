@@ -39,8 +39,11 @@ canvas, `static_asset_version()` cache busting.
   campaign, every id remapped, never a secret). Buttons: 📦 Export on the campaign page, 📥
   Import on the campaign page and the DM-tools campaign tab. Details:
   `references/campaign-packs.md`.
-- **Remaining (nice-to-haves):** rectangle/circle fog brushes, a measure tool, lighting, and the
-  Fantasy Statblocks YAML importer (MIT) as a slice-4 idea.
+- **Remaining (nice-to-haves):** lighting (walls + vision), the Fantasy Statblocks YAML
+  importer (MIT) as a slice-4 idea, and campaign-pack zip compression if a pack ever gets big.
+- **Table tools landed after Slice 3:** rect/circle fog brushes with a live marquee preview, and
+  a measure tool (transient ruler, `feet_per_cell` per map, Chebyshev on square grids and axial
+  distance on hex) — plus a scrolling toolbar so a narrow window keeps its map area.
 - Live example map kept for inspection: **`/dm-map/4`** ("Example — dungeon crawl", a synthetic
   test image, 3 tokens, one revealed strip of 4 cells and a green pen stroke from the
   verification run — clears with 🚫 All and 🧽 Clear).
