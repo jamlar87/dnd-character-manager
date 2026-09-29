@@ -10,6 +10,10 @@ REQUIRED_TABLES = {
     "character_spells": {"id", "character_id", "spell_name"},
     "sessions": {"id", "user_id", "token", "expires_at"},
     "schema_migrations": {"version", "applied_at"},
+    # The map layer: a bad migration here would only show up as a 500 on the map page.
+    "dm_maps": {"id", "user_id", "name", "image_path", "grid_type", "grid_size"},
+    "dm_map_tokens": {"id", "map_id", "x", "y", "kind", "ref_name"},
+    "dm_map_scenes": {"id", "map_id", "name", "snapshot"},
 }
 
 

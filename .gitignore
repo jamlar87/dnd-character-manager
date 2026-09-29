@@ -16,6 +16,8 @@ static/dm-library.js
 static/source-slug-map.js
 static/create-consts.js
 static/ref-portraits/
+# uploaded battle-map backgrounds (written by /api/dm/map/{id}/image)
+static/maps/
 
 # ingestion sweep runtime files (not history)
 data/.ingest_sweep.lock

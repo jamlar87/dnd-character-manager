@@ -421,6 +421,60 @@ def _migrate_npc_source_columns():
         except sqlite3.OperationalError:
             pass
 
+    # Migration: map layer — battle maps, their tokens, and per-map snapshots.
+    # A token references the reference library by (kind, name) instead of copying art:
+    # /api/ref-image/{kind}/{name} already serves creature/npc art (with lazy generation for
+    # unknown names) and characters have /api/character/{id}/portrait-image, so a map adds
+    # placement, not a second art pipeline.
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS dm_maps (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            campaign_id INTEGER,
+            name TEXT NOT NULL,
+            image_path TEXT DEFAULT '',
+            grid_type TEXT DEFAULT 'square',
+            grid_size INTEGER DEFAULT 50,
+            grid_offset_x INTEGER DEFAULT 0,
+            grid_offset_y INTEGER DEFAULT 0,
+            parent_map_id INTEGER,
+            camera TEXT DEFAULT '',
+            notes TEXT DEFAULT '',
+            created_at TEXT NOT NULL DEFAULT (datetime('now')),
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        );
+    """)
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS dm_map_tokens (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            map_id INTEGER NOT NULL,
+            x REAL DEFAULT 0,
+            y REAL DEFAULT 0,
+            w INTEGER DEFAULT 1,
+            h INTEGER DEFAULT 1,
+            kind TEXT DEFAULT 'creature',
+            ref_name TEXT DEFAULT '',
+            label TEXT DEFAULT '',
+            hp_current INTEGER DEFAULT 0,
+            hp_max INTEGER DEFAULT 0,
+            hidden INTEGER DEFAULT 0,
+            z INTEGER DEFAULT 0,
+            encounter_en_id INTEGER,
+            character_id INTEGER,
+            FOREIGN KEY (map_id) REFERENCES dm_maps(id) ON DELETE CASCADE
+        );
+    """)
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS dm_map_scenes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            map_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            snapshot TEXT DEFAULT '{}',
+            created_at TEXT NOT NULL DEFAULT (datetime('now')),
+            FOREIGN KEY (map_id) REFERENCES dm_maps(id) ON DELETE CASCADE
+        );
+    """)
+
     # Existing installations keep their users; no default credentials are created.
     db.commit()
     db.close()
