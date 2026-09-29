@@ -165,7 +165,9 @@ def test_token_payloads_are_cleaned(client, seeded_db, auth_headers):
     assert tok["kind"] == "creature", "an unknown kind falls back"
     assert len(tok["ref_name"]) == 120 and len(tok["label"]) == 60
     assert tok["w"] == 12 and tok["h"] == 1, "sizes clamp"
-    assert tok["x"] == 0.0, "a non-numeric position is not a crash"
+    # a non-numeric position is not a crash AND does not drop the token at the image's
+    # corner (0,0) with half of it off the map: it lands on a cell centre
+    assert (tok["x"], tok["y"]) == (25.0, 25.0), "an unusable position snaps into a cell"
     assert tok["hp_max"] == 0, "hp_max cannot go negative"
 
 

@@ -25,7 +25,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 
 from main import (get_db, require_user, get_current_user, _require_owned, _is_admin,
                   _user_where, _render, STATIC)
-from services.images import decode_data_url, thumbnail_bytes
+from services.images import decode_data_url, fit_blob
 
 router = APIRouter()
 
@@ -75,6 +75,13 @@ def _inum(value, default=0, lo=-9999, hi=9999) -> int:
     return max(lo, min(hi, out))
 
 
+def _token_cells(raw: dict) -> int:
+    """The footprint the payload asks for: `cells`, or a 5e size word, or one square."""
+    if raw.get("cells") is not None:
+        return _inum(raw.get("cells"), 1, 1, 4)
+    return _cells_for_size(raw.get("size"), 1)
+
+
 def _clean_token(raw: dict, map_id: int) -> dict | None:
     """Normalise one placement. An unusable entry is dropped rather than stored."""
     if not isinstance(raw, dict):
@@ -86,8 +93,12 @@ def _clean_token(raw: dict, map_id: int) -> dict | None:
         "map_id": map_id,
         "x": _fnum(raw.get("x")),
         "y": _fnum(raw.get("y")),
-        "w": _inum(raw.get("w"), 1, 1, 12),
-        "h": _inum(raw.get("h"), 1, 1, 12),
+        # Footprint: an explicit w/h wins (the DM may want a 2x2 "large" guard), then an explicit
+        # cells count, then a size word, then one square. A token placed with no size at all is a
+        # Medium creature — which is right for a PC or a goblin and wrong for anything bigger, so
+        # the palette sends the creature's real size from the reference library.
+        "w": _inum(raw.get("w"), _token_cells(raw), 1, 12),
+        "h": _inum(raw.get("h"), _token_cells(raw), 1, 12),
         "kind": kind,
         "ref_name": str(raw.get("ref_name") or "")[:120],
         "label": str(raw.get("label") or "")[:60],
@@ -333,19 +344,42 @@ async def dm_map_image(map_id: int, request: Request):
         if not decoded:
             return JSONResponse({"error": "image data URL is not decodable"}, status_code=400)
         blob, media = decoded
-        thumb = thumbnail_bytes(blob, MAP_MAX_PX)
-        if thumb:
-            blob, media = thumb
+        fitted = fit_blob(blob, MAP_MAX_PX)
+        if fitted:
+            blob, media, img_w, img_h, src_w, src_h = fitted
+        else:
+            media, img_w, img_h, src_w, src_h = "image/png", 0, 0, 0, 0
         ext = EXT_BY_MEDIA.get(media, ".png")
         digest = hashlib.sha1(blob).hexdigest()[:12]
         filename = f"map-{map_id}-{digest}{ext}"
         MAP_DIR.mkdir(parents=True, exist_ok=True)
         (MAP_DIR / filename).write_bytes(blob)
+
+        # If the upload HAD to be shrunk, the art's squares are now closer together: scale the
+        # grid with it, so the DM's 5-ft alignment survives the resize instead of silently
+        # covering twice as many squares as it did on the original file.
+        grid_size = _inum(row.get("grid_size"), 50, 10, 400)
+        ox = _inum(row.get("grid_offset_x"), 0, -400, 400)
+        oy = _inum(row.get("grid_offset_y"), 0, -400, 400)
+        scaled = False
+        if src_w and img_w and img_w != src_w:
+            factor = img_w / float(src_w)
+            grid_size = max(10, min(400, int(round(grid_size * factor))))
+            ox = max(-400, min(400, int(round(ox * factor))))
+            oy = max(-400, min(400, int(round(oy * factor))))
+            scaled = True
+
         image_path = f"/static/maps/{filename}"
-        db.execute("UPDATE dm_maps SET image_path = ? WHERE id = ?", (image_path, map_id))
+        db.execute("UPDATE dm_maps SET image_path = ?, image_w = ?, image_h = ?, grid_size = ?, "
+                   "grid_offset_x = ?, grid_offset_y = ? WHERE id = ?",
+                   (image_path, img_w, img_h, grid_size, ox, oy, map_id))
         db.commit()
         _drop_map_image(db, row.get("image_path") or "")
-        return JSONResponse({"ok": True, "image_path": image_path, "bytes": len(blob)})
+        return JSONResponse({"ok": True, "image_path": image_path, "bytes": len(blob),
+                             "image_w": img_w, "image_h": img_h,
+                             "source_w": src_w, "source_h": src_h,
+                             "grid_size": grid_size, "grid_offset_x": ox, "grid_offset_y": oy,
+                             "grid_scaled": scaled})
     finally:
         db.close()
 
@@ -374,7 +408,8 @@ async def dm_map_token_add(map_id: int, request: Request):
     data = await request.json()
     db = get_db()
     try:
-        if not _own_map(db, user, map_id):
+        map_row = _own_map(db, user, map_id)
+        if not map_row:
             return JSONResponse({"error": "Not found"}, status_code=404)
         count = db.execute("SELECT COUNT(*) FROM dm_map_tokens WHERE map_id = ?", (map_id,)).fetchone()[0]
         if count >= TOKEN_MAX:
@@ -382,6 +417,10 @@ async def dm_map_token_add(map_id: int, request: Request):
         clean = _clean_token(data, map_id)
         if not clean:
             return JSONResponse({"error": "bad token payload"}, status_code=400)
+        if data.get("x") is None or data.get("y") is None:
+            # no coordinates: land in a cell rather than at (0,0), which is the map's corner and
+            # would hang half the token off the edge
+            clean["x"], clean["y"] = _snap_to_cell(clean["x"], clean["y"], map_row)
         cur = db.execute(
             "INSERT INTO dm_map_tokens (map_id, x, y, w, h, kind, ref_name, label, hp_current, hp_max, "
             "hidden, z, encounter_en_id, character_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -628,7 +667,31 @@ async def dm_map_scene_delete(scene_id: int, request: Request):
 
 # ── spawn an encounter onto a map ──────────────────────────────────────────────────────
 
+# How many 5-ft squares a creature occupies, per the 5e rules: Tiny/Small/Medium are one square,
+# Large 2x2, Huge 3x3, Gargantuan 4x4. Everything that sizes a token goes through here.
 SIZE_CELLS = {"tiny": 1, "small": 1, "medium": 1, "large": 2, "huge": 3, "gargantuan": 4}
+_SIZE_ALIASES = {"t": "tiny", "sm": "small", "med": "medium", "lg": "large",
+                 "grg": "gargantuan", "garg": "gargantuan"}
+
+
+def _round_half_up(value: float) -> int:
+    """Round like JavaScript's Math.round, not like Python's round.
+
+    Python rounds halves to even (`round(0.5) == 0`); JS rounds them up (`Math.round(0.5) == 1`).
+    On a cell boundary — a token at exactly x = 40 with 40px cells — that difference puts the
+    server's snap in the cell BEFORE the one the canvas names, and the player projection would
+    then reveal or hide the wrong cell for that token. The two implementations have to agree
+    exactly, so this is the only rounding allowed in the grid maths.
+    """
+    return int(math.floor(value + 0.5))
+
+
+def _cells_for_size(value, fallback: int = 1) -> int:
+    """Footprint of a size word ("Large", "Huge", "grg") in 5-ft squares."""
+    word = str(value or "").strip().lower().split(" ")[0].strip(".,;")
+    if not word:
+        return fallback
+    return SIZE_CELLS.get(_SIZE_ALIASES.get(word, word), fallback)
 
 
 def _safe_json(value, default):
@@ -641,10 +704,12 @@ def _safe_json(value, default):
         return default
 
 
-def _cells_for(role: str) -> int:
-    """A monster's footprint in cells, read off its role line ("Large monstrosity")."""
-    first = (role or "").strip().split(" ")[0].lower()
-    return SIZE_CELLS.get(first, 1)
+def _cells_for_role(role: str) -> int:
+    """A creature's footprint from the role line of its stat block ("Large monstrosity").
+
+    Thin wrapper over _cells_for_size, so the 5e size table exists in exactly one place.
+    """
+    return _cells_for_size(role, 1)
 
 
 def _encounter_participants(db, enc_id: int) -> list[dict]:
@@ -670,25 +735,61 @@ def _encounter_participants(db, enc_id: int) -> list[dict]:
             "name": name[:60],
             "hp_current": _inum(r.get("hp_current"), 0, -999, 9999),
             "hp_max": _inum(r.get("hp_max"), 0, 0, 9999),
-            "cells": _cells_for(role),
+            "cells": _cells_for_role(role),
             "defeated": bool(r.get("defeated")),
         })
     return out
 
 
-def _spawn_layout(count: int, map_row: dict) -> list[tuple[float, float]]:
-    """A tidy block of cell centres, starting where the DM is actually looking."""
+def _snap_to_cell(x: float, y: float, map_row: dict) -> tuple[float, float]:
+    """The centre of the cell a point falls in — the server's copy of the canvas' snapPoint.
+
+    Square and hex both, because spawning onto a hex map with square-centre maths leaves every
+    token visibly off its hex.
+    """
     size = _inum(map_row.get("grid_size"), 50, 10, 400)
     ox = _inum(map_row.get("grid_offset_x"), 0, -400, 400)
     oy = _inum(map_row.get("grid_offset_y"), 0, -400, 400)
+    if str(map_row.get("grid_type")) == "hex":
+        radius = size / 2.0
+        gx, gy = x - ox, y - oy
+        q = (3 ** 0.5 / 3 * gx - gy / 3) / radius
+        r = (2 / 3 * gy) / radius
+        rx, ry, rz = _round_half_up(q), _round_half_up(-q - r), _round_half_up(r)
+        dx, dy, dz = abs(rx - q), abs(ry - (-q - r)), abs(rz - r)
+        if dx > dy and dx > dz:
+            rx = -ry - rz
+        elif dy > dz:
+            ry = -rx - rz
+        else:
+            rz = -rx - ry
+        return (3 ** 0.5 * radius * (rx + rz / 2) + ox, 1.5 * radius * rz + oy)
+    return (_round_half_up((x - ox) / size - 0.5) * size + size / 2 + ox,
+            _round_half_up((y - oy) / size - 0.5) * size + size / 2 + oy)
+
+
+def _spawn_layout(count: int, map_row: dict, viewport=None) -> list[tuple[float, float]]:
+    """A tidy block of cell centres, starting where the DM is actually looking.
+
+    `viewport` is the canvas size the DM's browser reported; without it the anchor is a guess
+    and fresh tokens can land off the edge of what they can see.
+    """
+    size = _inum(map_row.get("grid_size"), 50, 10, 400)
+    vw, vh = 800.0, 600.0
+    if isinstance(viewport, (list, tuple)) and len(viewport) == 2:
+        try:
+            vw = max(200.0, min(8000.0, float(viewport[0])))
+            vh = max(200.0, min(8000.0, float(viewport[1])))
+        except (TypeError, ValueError):
+            vw, vh = 800.0, 600.0
     centre = None
     cam = _safe_json(map_row.get("camera"), {})
     if isinstance(cam, dict) and cam:
         try:
             # the camera is an offset applied to world space; the viewport centre in world
-            # coordinates is what the canvas maps to (unknown size server-side, so use 400x300)
-            centre = (400 / float(cam.get("zoom") or 1) - float(cam.get("x") or 0),
-                      300 / float(cam.get("zoom") or 1) - float(cam.get("y") or 0))
+            # coordinates is what the canvas maps to
+            centre = ((vw / 2) / float(cam.get("zoom") or 1) - float(cam.get("x") or 0),
+                      (vh / 2) / float(cam.get("zoom") or 1) - float(cam.get("y") or 0))
         except (TypeError, ValueError, ZeroDivisionError):
             centre = None
     if not centre:
@@ -700,9 +801,9 @@ def _spawn_layout(count: int, map_row: dict) -> list[tuple[float, float]]:
         row = i // cols
         x = centre[0] + (col - (cols - 1) / 2.0) * size * 1.5
         y = centre[1] + (row - ((count - 1) // cols) / 2.0) * size * 1.5
-        # land on cell centres so snapping does not shuffle them on the first drag
-        out.append((round((x - ox) / size - 0.5) * size + size / 2 + ox,
-                    round((y - oy) / size - 0.5) * size + size / 2 + oy))
+        # land on cell centres (of the map's own grid shape) so snapping does not shuffle them
+        # on the first drag
+        out.append(_snap_to_cell(x, y, map_row))
     return out
 
 
@@ -728,6 +829,7 @@ async def dm_map_spawn_encounter(map_id: int, request: Request):
         participants = _encounter_participants(db, enc_id)
         if not participants:
             return JSONResponse({"error": "That encounter has no combatants yet"}, status_code=400)
+        viewport = data.get("viewport")      # [w, h] from the canvas, so tokens land on screen
 
         existing = {r[0] for r in db.execute(
             "SELECT encounter_en_id FROM dm_map_tokens WHERE map_id = ? AND encounter_en_id IS NOT NULL",
@@ -744,7 +846,7 @@ async def dm_map_spawn_encounter(map_id: int, request: Request):
         room = TOKEN_MAX - db.execute(
             "SELECT COUNT(*) FROM dm_map_tokens WHERE map_id = ?", (map_id,)).fetchone()[0]
         placed = todo[:max(0, room)]
-        spots = _spawn_layout(len(placed), map_row)
+        spots = _spawn_layout(len(placed), map_row, viewport)
         for p, (x, y) in zip(placed, spots):
             db.execute(
                 "INSERT INTO dm_map_tokens (map_id, x, y, w, h, kind, ref_name, label, hp_current, "
@@ -757,6 +859,8 @@ async def dm_map_spawn_encounter(map_id: int, request: Request):
         linked_chars = 0
         state = _safe_json(enc.get("combat_state"), {})
         party = state.get("player_participants") if isinstance(state, dict) else None
+        # one layout for the whole arrival (creatures + party), so a PC never lands on a monster
+        party_spots = _spawn_layout(len(placed) + len(party or []), map_row, viewport)
         for part in (party or []):
             if not isinstance(part, dict) or len(placed) + linked_chars >= room:
                 continue
@@ -769,7 +873,8 @@ async def dm_map_spawn_encounter(map_id: int, request: Request):
             if already:
                 continue
             total = len(placed) + linked_chars + 1
-            x, y = _spawn_layout(total, map_row)[total - 1]
+            x, y = (party_spots[total - 1] if total - 1 < len(party_spots)
+                    else _snap_to_cell(party_spots[-1][0], party_spots[-1][1], map_row))
             db.execute(
                 "INSERT INTO dm_map_tokens (map_id, x, y, w, h, kind, ref_name, label, hp_current, "
                 "hp_max, hidden, z, character_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -797,10 +902,13 @@ def _cell_key_of(x: float, y: float, map_row: dict) -> str:
     oy = _inum(map_row.get("grid_offset_y"), 0, -400, 400)
     if str(map_row.get("grid_type")) == "hex":
         radius = size / 2.0
-        q = (3 ** 0.5 / 3 * x - y / 3) / radius
-        r = (2 / 3 * y) / radius
+        # the offset moves the grid over the art on a hex map too: ignoring it meant a hex
+        # battle map could not be aligned at all, while a square one could
+        gx, gy = x - ox, y - oy
+        q = (3 ** 0.5 / 3 * gx - gy / 3) / radius
+        r = (2 / 3 * gy) / radius
         cx, cz, cy = q, r, -q - r
-        rx, ry, rz = round(cx), round(cy), round(cz)
+        rx, ry, rz = _round_half_up(cx), _round_half_up(cy), _round_half_up(cz)
         dx, dy, dz = abs(rx - cx), abs(ry - cy), abs(rz - cz)
         if dx > dy and dx > dz:
             rx = -ry - rz

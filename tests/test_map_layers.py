@@ -178,7 +178,10 @@ def test_fog_painting_and_the_pen_are_wired_to_the_right_buttons():
 
 
 def test_the_toolbar_offers_every_layer_action():
-    page = TEMPLATE.read_text()
+    # the toolbar lives in its own partial (map.html includes it); the controls are what matter
+    toolbar = TEMPLATE.parent / "_map_toolbar.html"
+    page = toolbar.read_text() if toolbar.is_file() else TEMPLATE.read_text()
+    assert '{% include "_map_toolbar.html" %}' in TEMPLATE.read_text(), "the partial is not included"
     for call in ("setTool('select')", "setTool('fog')", "setTool('draw')", "toggleFog()",
                  "revealAll()", "hideAll()", "clearDraw()", "setPen", "spawnEncounter()",
                  "setFogBrush('cell')", "setFogBrush('rect')", "setFogBrush('circle')",

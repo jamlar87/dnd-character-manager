@@ -52,6 +52,61 @@ def thumbnail_bytes(blob: bytes, size: int) -> tuple[bytes, str] | None:
         return None
 
 
+def fit_blob(blob: bytes, max_px: int, quality: int = 90) -> tuple[bytes, str, int, int, int, int] | None:
+    """Fit a battle map to `max_px` on the long edge — and only if it is actually bigger.
+
+    Deliberately NOT `thumbnail_bytes`: that clamps the request to MAX_SIZE (1024, sized for
+    portraits) and always re-encodes. Two things go wrong if a map is quietly squeezed through it:
+
+    1. a 4000px battle map lands at 1024 and reads as a blur when the DM zooms in;
+    2. worse, the pixel dimensions CHANGE, so a grid the DM had aligned to the art no longer
+       matches it — a 50px grid over a map that was 40 squares across now covers 20.
+
+    So: return the original bytes untouched when it already fits (no generational loss), and
+    report the pixel dimensions either way so the caller can keep the grid aligned.
+
+    Returns (bytes, media_type, out_w, out_h, src_w, src_h) — the source dimensions included
+    because the caller has to know whether the art was shrunk, and by how much, to keep the grid
+    in step with it. None if the image cannot be read at all.
+    """
+    try:
+        import io
+        from PIL import Image
+        img = Image.open(io.BytesIO(blob))
+        img.load()
+    except Exception:
+        return None
+    w, h = img.size
+    cap = max(MIN_SIZE, int(max_px))
+    if max(w, h) <= cap:
+        return (blob, _media_of(blob), w, h, w, h)
+    scale = cap / float(max(w, h))
+    tw, th = max(1, int(round(w * scale))), max(1, int(round(h * scale)))
+    try:
+        out = img.convert("RGBA")
+        out.thumbnail((tw, th), Image.LANCZOS)
+        buf = io.BytesIO()
+        out.save(buf, format="WEBP", quality=quality, method=4)
+        resized = buf.getvalue()
+    except Exception:
+        return (blob, _media_of(blob), w, h, w, h)
+    if not resized or len(resized) >= len(blob) * 1.5:
+        return (blob, _media_of(blob), w, h, w, h)
+    return (resized, "image/webp", out.size[0], out.size[1], w, h)
+
+
+def _media_of(blob: bytes) -> str:
+    """The media type of an image we are passing through unchanged."""
+    try:
+        import io
+        from PIL import Image
+        fmt = (Image.open(io.BytesIO(blob)).format or "PNG").lower()
+    except Exception:
+        return "image/png"
+    return {"jpg": "image/jpeg", "jpeg": "image/jpeg", "webp": "image/webp",
+            "gif": "image/gif", "bmp": "image/bmp"}.get(fmt, "image/png")
+
+
 def portrait_payload_error(value) -> str | None:
     """Validate a portrait value before storing it. None = acceptable.
 

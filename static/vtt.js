@@ -66,14 +66,15 @@
     var size = state.grid.size;
     if (state.grid.type === 'hex') {
       var R = HEX_R();
-      var q = (Math.sqrt(3) / 3 * wx - 1 / 3 * wy) / R;
-      var r = (2 / 3 * wy) / R;
+      var hx = wx - state.grid.ox, hy = wy - state.grid.oy;
+      var q = (Math.sqrt(3) / 3 * hx - 1 / 3 * hy) / R;
+      var r = (2 / 3 * hy) / R;
       // cube round
       var cx = q, cz = r, cy = -cx - cz;
       var rx = Math.round(cx), ry = Math.round(cy), rz = Math.round(cz);
       var dx = Math.abs(rx - cx), dy = Math.abs(ry - cy), dz = Math.abs(rz - cz);
       if (dx > dy && dx > dz) rx = -ry - rz; else if (dy > dz) ry = -rx - rz; else rz = -rx - ry;
-      return [Math.sqrt(3) * R * (rx + rz / 2), 1.5 * R * rz];
+      return [Math.sqrt(3) * R * (rx + rz / 2) + state.grid.ox, 1.5 * R * rz + state.grid.oy];
     }
     var col = Math.round((wx - state.grid.ox) / size - 0.5);
     var row = Math.round((wy - state.grid.oy) / size - 0.5);
@@ -83,24 +84,41 @@
   function tokenExtent(t) {
     var size = state.grid.size;
     if (state.grid.type === 'hex') {
-      var d = HEX_R() * 1.7;
+      // one hex for Medium and below; each extra size step adds a hex-centre spacing
+      // (sqrt(3)*R) so a Large creature visibly spans two hexes and a Huge one three
+      var n = Math.max(1, Math.max(t.w || 1, t.h || 1));
+      var d = HEX_R() * (1.7 + (n - 1) * Math.sqrt(3));
       return [t.x - d / 2, t.y - d / 2, d, d];
     }
     return [t.x - (t.w || 1) * size / 2, t.y - (t.h || 1) * size / 2, (t.w || 1) * size, (t.h || 1) * size];
   }
 
+  // A flat ?size=256 is soft once cells are large: a 3x3 token on a 200px grid is drawn 600 CSS
+  // px wide, and 1200 device px on a 2x screen. Ask for what the token is actually drawn at
+  // (the routes cap the request at 1024), so the art stays sharp and costs no more than it must.
+  function artSizeFor(t) {
+    var cells = Math.max(t.w || 1, t.h || 1);
+    var px = state.grid.size * cells * (window.devicePixelRatio || 1);
+    return Math.max(128, Math.min(1024, Math.ceil(px)));
+  }
+
   function tokenArt(t) {
-    if (t.character_id) return '/api/character/' + t.character_id + '/portrait-image?size=256';
+    var size = artSizeFor(t);
+    if (t.character_id) return '/api/character/' + t.character_id + '/portrait-image?size=' + size;
     var kind = t.kind === 'npc' ? 'npc' : 'creature';
     if (t.kind === 'marker' || t.kind === 'pin' || t.kind === 'prop') return '';
-    return '/api/ref-image/' + kind + '/' + encodeURIComponent(t.ref_name || '') + '?size=256';
+    return '/api/ref-image/' + kind + '/' + encodeURIComponent(t.ref_name || '') + '?size=' + size;
   }
 
   function image(url) {
     if (!url) return null;
     if (!IMG_CACHE[url]) {
       var img = new Image();
-      img.onload = function () { redraw(); };
+      var isBackground = /^\/static\/maps\//.test(url);
+      img.onload = function () {
+        if (isBackground) renderGridInfo();   // the "cells across" number needs naturalWidth
+        redraw();
+      };
       img.src = url;
       IMG_CACHE[url] = img;
     }
@@ -131,12 +149,12 @@
       var R = HEX_R();
       var cols = Math.ceil(W / (Math.sqrt(3) * R * cam.zoom)) + 2;
       var rows = Math.ceil(H / (1.5 * R * cam.zoom)) + 2;
-      var originCol = Math.floor((-cam.x) / (Math.sqrt(3) * R)) - 1;
-      var originRow = Math.floor((-cam.y) / (1.5 * R)) - 1;
+      var originCol = Math.floor((-cam.x - state.grid.ox) / (Math.sqrt(3) * R)) - 1;
+      var originRow = Math.floor((-cam.y - state.grid.oy) / (1.5 * R)) - 1;
       for (var r = originRow; r < originRow + rows; r++) {
         for (var c = originCol; c < originCol + cols; c++) {
-          var cx = Math.sqrt(3) * R * (c + (r % 2 ? 0.5 : 0));
-          var cy = 1.5 * R * r;
+          var cx = Math.sqrt(3) * R * (c + (r % 2 ? 0.5 : 0)) + state.grid.ox;
+          var cy = 1.5 * R * r + state.grid.oy;
           var p = worldToScreen(cx, cy);
           hexPath(p[0], p[1], R * cam.zoom);
           ctx.stroke();
@@ -251,8 +269,9 @@
     var g = state.grid;
     if (g.type === 'hex') {
       var R = g.size / 2;
-      var q = (Math.sqrt(3) / 3 * wx - 1 / 3 * wy) / R;
-      var r = (2 / 3 * wy) / R;
+      var hx = wx - g.ox, hy = wy - g.oy;
+      var q = (Math.sqrt(3) / 3 * hx - 1 / 3 * hy) / R;
+      var r = (2 / 3 * hy) / R;
       var cx = q, cz = r, cy = -cx - cz;
       var rx = Math.round(cx), ry = Math.round(cy), rz = Math.round(cz);
       var dx = Math.abs(rx - cx), dy = Math.abs(ry - cy), dz = Math.abs(rz - cz);
@@ -340,7 +359,7 @@
   // "cells whose centre is inside the circle" on either grid — the way templates are judged.
   function axialToWorld(q, r) {
     var R = state.grid.size / 2;
-    return [Math.sqrt(3) * R * (q + r / 2), 1.5 * R * r];
+    return [Math.sqrt(3) * R * (q + r / 2) + state.grid.ox, 1.5 * R * r + state.grid.oy];
   }
 
   function cellsInRect(x0, y0, x1, y1) {
@@ -779,11 +798,8 @@
     redraw();
   }
   function nudgeSize(delta) {
-    state.grid.size = Math.max(16, Math.min(240, state.grid.size + delta));
-    if (state.map) state.map.grid_size = state.grid.size;
-    var label = $('vttGridSize'); if (label) label.textContent = state.grid.size + 'px';
-    persistGrid();
-    redraw();
+    // goes through setGridSize so the clamp matches the API's (10..400) and the readout follows
+    setGridSize(state.grid.size + delta);
   }
   function persistGrid() {
     fetch('/api/dm/map/' + window.MAP_ID + '/update', {
@@ -792,6 +808,78 @@
                              grid_offset_x: state.grid.ox, grid_offset_y: state.grid.oy })
     }).catch(function () {});
   }
+  function backgroundImage() {
+    // `state.bg` was never assigned anywhere, so this goes through the shared image cache —
+    // one Image per URL, loaded once, redrawn on load
+    return (state.bg && state.bg.naturalWidth) ? state.bg
+      : (state.map && state.map.image_path ? image(state.map.image_path) : null);
+  }
+
+  function gridCellsAcross() {
+    // what the grid currently does to the image: the number a DM checks by eye
+    var bg = backgroundImage();
+    var iw = (bg && bg.naturalWidth) || 0;
+    var ih = (bg && bg.naturalHeight) || 0;
+    var size = Math.max(1, state.grid.size);
+    return { w: iw, h: ih, across: iw / size, down: ih / size };
+  }
+
+  function renderGridInfo() {
+    var el = $('vttGridInfo');
+    var g = gridCellsAcross();
+    var squares = $('vttGridSquares');
+    if (squares && g.w && document.activeElement !== squares) {
+      squares.value = (Math.round(g.across * 100) / 100);
+    }
+    var sizeInput = $('vttGridSize');
+    if (sizeInput && document.activeElement !== sizeInput) sizeInput.value = state.grid.size;
+    if (!el) return;
+    if (!g.w) { el.textContent = 'no map image'; return; }
+    el.textContent = g.w + '\u00d7' + g.h + 'px \u00b7 ' + g.across.toFixed(2) + '\u00d7' +
+      g.down.toFixed(2) + ' cells \u00b7 ' + state.grid.size + 'px/cell \u00b7 ' +
+      state.feetPerCell + ' ft/cell \u00b7 offset ' + Math.round(state.grid.ox) + ',' +
+      Math.round(state.grid.oy);
+  }
+
+  function setGridSize(px) {
+    var v = parseInt(px, 10);
+    if (!v || v < 10 || v > 400) { renderGridInfo(); return; }
+    state.grid.size = v;
+    if (state.map) state.map.grid_size = v;
+    persistGrid();
+    renderGridInfo();
+    redraw();
+  }
+
+  function setSquaresAcross(n) {
+    // the input a DM actually has: "this battle map is 28 squares across"
+    var count = parseFloat(n);
+    var g = gridCellsAcross();
+    if (!count || count < 1 || count > 400 || !g.w) { renderGridInfo(); return; }
+    setGridSize(Math.round(g.w / count));
+  }
+
+  function nudgeGrid(dx, dy) {
+    state.grid.ox = Math.max(-400, Math.min(400, Math.round(state.grid.ox) + (dx || 0)));
+    state.grid.oy = Math.max(-400, Math.min(400, Math.round(state.grid.oy) + (dy || 0)));
+    persistGrid();
+    renderGridInfo();
+    redraw();
+  }
+
+  function fitGridToImage() {
+    // make the grid divide the image exactly, so the far edge lands on the art's edge
+    var g = gridCellsAcross();
+    if (!g.w) return;
+    var cells = Math.max(1, Math.round(g.across));
+    state.grid.ox = 0;
+    state.grid.oy = 0;
+    state.grid.size = Math.max(10, Math.min(400, Math.round(g.w / cells)));
+    persistGrid();
+    renderGridInfo();
+    redraw();
+  }
+
   function toggleSnap() {
     state.snap = !state.snap;
     var b = $('vttSnapBtn'); if (b) b.textContent = '🧲 Snap: ' + (state.snap ? 'on' : 'off');
@@ -801,12 +889,9 @@
     redraw(); saveCamera();
   }
   function fit() {
-    var iw = (state.bg && state.bg.naturalWidth) || 0;
-    var ih = (state.bg && state.bg.naturalHeight) || 0;
-    if (!iw) {
-      var bg = state.map && state.map.image_path ? image(state.map.image_path) : null;
-      if (bg && bg.naturalWidth) { iw = bg.naturalWidth; ih = bg.naturalHeight; }
-    }
+    var bg = backgroundImage();
+    var iw = (bg && bg.naturalWidth) || 0;
+    var ih = (bg && bg.naturalHeight) || 0;
     if (!iw) { iw = canvas.clientWidth; ih = canvas.clientHeight; }
     var zoom = Math.min(canvas.clientWidth / iw, canvas.clientHeight / ih) * 0.96;
     state.camera.zoom = Math.max(0.08, Math.min(6, zoom));
@@ -957,16 +1042,32 @@
     if (!q || q.length < 2) { host.innerHTML = ''; return; }
     host.innerHTML = '<p style="font-size:.75rem;color:var(--text-muted)">searching…</p>';
     Promise.all([
+      fetch('/api/dm/monsters/search?q=' + encodeURIComponent(q)).then(function (r) { return r.json(); }).catch(function () { return {}; }),
       fetch('/api/dm/npcs').then(function (r) { return r.json(); }).catch(function () { return {}; }),
       fetch('/api/dm/characters-for-combat').then(function (r) { return r.json(); }).catch(function () { return {}; })
     ]).then(function (res) {
       var needle = q.toLowerCase();
-      var npcs = (res[0].npcs || []).filter(function (n) { return (n.name || '').toLowerCase().indexOf(needle) >= 0; }).slice(0, 6);
-      var chars = (res[1].characters || []).filter(function (c) { return (c.name || '').toLowerCase().indexOf(needle) >= 0; }).slice(0, 6);
+      var beasts = (res[0].monsters || res[0].results || []).filter(function (m) {
+        return (m.name || '').toLowerCase().indexOf(needle) >= 0;
+      }).slice(0, 6);
+      var npcs = (res[1].npcs || []).filter(function (n) { return (n.name || '').toLowerCase().indexOf(needle) >= 0; }).slice(0, 6);
+      var chars = (res[2].characters || []).filter(function (c) { return (c.name || '').toLowerCase().indexOf(needle) >= 0; }).slice(0, 6);
       var html = '';
+      // a monster carries its 5e size, so the token lands as 1 square, 2x2, 3x3 or 4x4 —
+      // and its hit points, so the tracker link is not the only way to get a usable token
+      beasts.forEach(function (m) {
+        var spec = {kind: 'creature', ref_name: m.name, label: m.name, size: m.size || 'Medium',
+                    hp_current: m.hit_points || 0, hp_max: m.hit_points || 0};
+        html += '<div class="vtt-row"><span style="flex:1;min-width:0;font-size:.8rem">🐉 ' + m.name +
+          ' <span style="color:var(--text-muted)">' + (m.size || '') + ' CR' + (m.challenge_rating || 0) +
+          '</span></span><button class="btn btn-primary btn-sm" onclick="VTT.addToken(' +
+          JSON.stringify(spec).replace(/"/g, '&quot;') + ')">Place</button></div>';
+      });
       npcs.forEach(function (n) {
-        html += '<div class="vtt-row"><span style="flex:1;min-width:0;font-size:.8rem">👤 ' + n.name + '</span>' +
-          '<button class="btn btn-primary btn-sm" onclick="VTT.addToken({kind:\'npc\',ref_name:' + JSON.stringify(n.name) + ',label:' + JSON.stringify(n.name) + '})">Place</button></div>';
+        html += '<div class="vtt-row"><span style="flex:1;min-width:0;font-size:.8rem">👤 ' + n.name +
+          ' <span style="color:var(--text-muted)">' + (n.role || '') + '</span></span>' +
+          '<button class="btn btn-primary btn-sm" onclick="VTT.addToken({kind:\'npc\',ref_name:' + JSON.stringify(n.name) +
+          ',label:' + JSON.stringify(n.name) + ',size:' + JSON.stringify(n.role || '') + '})">Place</button></div>';
       });
       chars.forEach(function (c) {
         html += '<div class="vtt-row"><span style="flex:1;min-width:0;font-size:.8rem">🧝 ' + c.name + ' L' + (c.level || 1) + '</span>' +
@@ -1131,7 +1232,8 @@
     if (badge) badge.textContent = 'spawning…';
     return fetch('/api/dm/map/' + window.MAP_ID + '/spawn-encounter', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ encounter_id: encId, replace: false })
+      body: JSON.stringify({ encounter_id: encId, replace: false,
+                             viewport: [canvas.clientWidth, canvas.clientHeight] })
     }).then(function (r) { return r.json(); }).then(function (d) {
       if (d && d.ok) {
         state.tokens = d.tokens;
@@ -1231,8 +1333,10 @@
       state.grid.ox = state.map.grid_offset_x || 0;
       state.grid.oy = state.map.grid_offset_y || 0;
       state.feetPerCell = parseInt(state.map.feet_per_cell, 10) || 5;
+      state.bg = state.map.image_path ? image(state.map.image_path) : null;
       var feetInput = $('vttFeet');
       if (feetInput) feetInput.value = state.feetPerCell;
+      renderGridInfo();
       if (saved) { try { state.camera = JSON.parse(saved); } catch (e) {} }
       else if (state.map.camera) { try { state.camera = JSON.parse(state.map.camera); } catch (e) {} }
       else { setTimeout(fit, 60); }
@@ -1383,6 +1487,10 @@
     setTool: setTool, toggleFog: toggleFog, revealAll: revealAll, hideAll: hideAll,
     setPen: setPen, clearDraw: clearDraw, paintCell: paintCell, cellKeyFor: cellKeyFor,
     setFogBrush: setFogBrush, setFeetPerCell: setFeetPerCell, clearMeasure: clearMeasure,
+    setGridSize: setGridSize, setSquaresAcross: setSquaresAcross, nudgeGrid: nudgeGrid,
+    gridCellsAcross: gridCellsAcross, backgroundImage: backgroundImage,
+    tokenExtent: tokenExtent, tokenArt: tokenArt,
+    fitGridToImage: fitGridToImage, artSizeFor: artSizeFor,
     applyMarquee: applyMarquee, cellsInRect: cellsInRect, cellsInCircle: cellsInCircle,
     measureCells: measureCells,
     spawnEncounter: spawnEncounter, loadEncounters: loadEncounters,

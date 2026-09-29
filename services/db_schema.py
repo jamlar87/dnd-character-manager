@@ -486,6 +486,14 @@ def _migrate_npc_source_columns():
         except sqlite3.OperationalError:
             pass
 
+    # Migration: the background image's real pixel dimensions. Without them the app cannot tell
+    # whether a resized upload still matches the grid the DM aligned to it.
+    for _col in ("image_w", "image_h"):
+        try:
+            db.execute(f"ALTER TABLE dm_maps ADD COLUMN {_col} INTEGER DEFAULT 0")
+        except sqlite3.OperationalError:
+            pass
+
     # Migration: how big a cell is in feet. The measure tool is useless without it (a 10-ft
     # dungeon square is a real thing), and guessing 5 would quietly give wrong distances.
     try:
