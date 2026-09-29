@@ -39,6 +39,44 @@ canvas, `static_asset_version()` cache busting.
 
 ---
 
+## Salvage & licensing (researched 2026-09-29, before writing any of it)
+
+Repo: `github.com/ByteMirror/atlas-vtt` (Fabian Urbanek). **LICENSE = GNU AGPL-3.0-only**
+(read from the raw LICENSE file; releases ≤ 0.1.6 were PolyForm Noncommercial, current is AGPL).
+
+**HARD RULE: copy no Atlas code into this app.** AGPL §13 is network copyleft: serving a
+derived work to users obliges you to offer them the complete corresponding source. This app is
+served on `characters.jamlarnet.stream` to accounts other than James (`tyguymoore`,
+`tylerclaygreen778`, `bronjstevens`), and its repo is private — so any lifted Atlas source
+would demand publishing this app's source to those users. Ideas, algorithms and file FORMATS
+are not copyrightable and are fine to reimplement; their source, their token-ring art and
+their React/PixiJS architecture are not (and the latter two would be a rewrite anyway).
+
+Safe to take, ranked by value:
+
+1. **Fantasy Statblocks (javalent) — MIT, verified.** It defines the de-facto Obsidian 5e
+   statblock format (YAML frontmatter in markdown). An importer here means any community
+   bestiary a user already has becomes a library import instead of hand entry. Highest-value
+   salvage by far. (Their monster DATA is not needed — the app has 1,798 of its own.)
+2. **Icons: game-icons.net, CC BY 3.0** (widgets, map pins, token, end-combat, loot coin) and
+   the starter class tokens, **CC BY 4.0**. Usable in-app with a `CREDITS.md`. Directly needed
+   by Task 0.3 (widget icons) and Task 1.4/1.6 (pins, toolbar).
+3. **Kenney "Impact Sounds" / "Casino Audio" — CC0** for dice-roll and timer feedback; the
+   knotwork dice-toast corners are CC0 too. No attribution needed.
+4. **Interface icons: Lucide, ISC** (what Atlas itself uses; also bundled with Obsidian).
+5. **Every package Atlas bundles is MIT** (floating-ui, radix, pixi/colord, zustand, zundo,
+   jszip). If we want one, take it from npm — never from their bundle.
+6. **Format interop, not code**: their scenes are `.atlasmap` files with tags/thumbnails in
+   `.atlas-data`, and there is a collection-bundle export (`collectionBundle/bundleFormat.ts`).
+   A `POST /api/dm/campaign/import-atlas` would let James move prep he already made into this
+   app. Implement it by parsing an artifact he exports from the plugin (or public docs) — the
+   clean posture is to work from the file format, not from their TypeScript.
+7. **Ideas to reimplement ourselves (no code, no licence surface):** grid auto-detection from
+   the map image, hex geometry + numbering, fog reveal model, per-scene snapshots, camera
+   memory, and "click a creature in the tracker → locate its token on the map".
+
+---
+
 ## Slice 0 — table-side wins (no new subsystem)
 
 ### Task 0.1 — Click any dice expression to roll
