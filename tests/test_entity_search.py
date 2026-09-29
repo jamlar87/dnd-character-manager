@@ -324,9 +324,17 @@ class TestNavSearchWiring:
         html = client.get("/login").text
         assert "/static/entity-search.js?v=" in html, "nav script missing from every page"
 
-    def test_nav_has_the_results_container(self, client):
-        html = client.get("/login").text
+    def test_nav_has_the_results_container(self, client, seeded_db, auth_headers):
+        """The search (and its results container) is for signed-in users.
+
+        It used to render for anonymous visitors too, where the only answer it could give was
+        "Please log in to search the manuals" — a dead end on the landing page. So: present on a
+        signed-in page, absent on /login.
+        """
+        html = client.get("/dashboard", headers=auth_headers).text
         assert 'id="manualSearchResults"' in html and 'id="manualSearchInput"' in html
+        anon = client.get("/login").text
+        assert 'id="manualSearchInput"' not in anon, "a logged-out visitor has nothing to search with"
 
     def test_manual_search_folds_in_the_internal_panel(self, client):
         """The nav's manual search must also ask the entity index for the "Internal data"

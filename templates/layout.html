@@ -15,6 +15,7 @@
 <body>
 <nav class="nav">
   <a href="/" class="nav-brand">⚔️ D&D Character Manager</a>
+  {% if user %}
   <div class="nav-search" id="navSearchBar">
     <input type="text" id="manualSearchInput" placeholder="🔍 Search the Manuals..."
            onkeydown="if(event.key==='Enter'){window.searchManuals();return false}">
@@ -23,6 +24,7 @@
     <span id="navManualFilter"></span>
     <div id="manualSearchResults" class="search-results-dropdown"></div>
   </div>
+  {% endif %}
   <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open');this.textContent=this.textContent==='☰'?'✕':'☰'" aria-label="Menu">☰</button>
   <button id="themeToggle" class="btn btn-outline btn-sm" onclick="toggleTheme()" title="Toggle light/dark theme" style="touch-action:manipulation;margin-left:0.5rem" aria-label="Toggle theme">🌙</button>
   <div class="nav-links">

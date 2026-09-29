@@ -165,12 +165,97 @@ const SUBCLASS_BONUS_MAP = {
   "College of Lore": { type:"skills", count:3 }  // options = ALL_SKILLS from backend
 };
 
+const STEP_NAMES = ['Race', 'Class', 'Abilities', 'Skills', 'Equipment', 'Review'];
+
 function updateDots() {
   document.querySelectorAll('.step-dot').forEach((d, i) => {
     d.classList.toggle('active', i === step);
     d.classList.toggle('done', i < step);
   });
+  const label = document.getElementById('stepName');
+  if (label) {
+    label.innerHTML = `Step ${step + 1} of 6 · ${STEP_NAMES[step] || ''}` +
+      (state.race || state.class_name ? ' <small>— ' + [state.race, state.class_name].filter(Boolean).join(' ') + '</small>' : '');
+  }
 }
+
+// ── searching the option grids ────────────────────────────────────────────────────────────
+// 133 races over 26 rows with no way to look one up is a scroll hunt; the same goes for classes.
+function filterOptions(input, gridIds) {
+  const q = (input.value || '').trim().toLowerCase();
+  let shown = 0, total = 0;
+  gridIds.forEach(id => {
+    const grid = document.getElementById(id);
+    if (!grid) return;
+    grid.querySelectorAll('.option-card').forEach(card => {
+      total++;
+      const hit = !q || (card.textContent || '').toLowerCase().includes(q);
+      card.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    });
+  });
+  const host = input.closest('.opt-tools');
+  const count = host && host.querySelector('.option-count');
+  setText(count, q ? `${shown} of ${total} match` : (total ? `${total} options` : ''));
+}
+
+// Writing the SAME text still replaces the text node, which is a childList mutation — and the
+// observer below watches for exactly that, so an unguarded write here loops forever.
+function setText(el, text) {
+  if (el && el.textContent !== text) el.textContent = text;
+}
+
+// keeps the unfiltered count honest after a grid is (re)built or the source filter changes
+function refreshOptionCounts() {
+  const pairs = [['race-count', ['race-grid', 'subrace-grid']], ['class-count', ['class-grid', 'subclass-grid']]];
+  pairs.forEach(([id, grids]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    let n = 0;
+    grids.forEach(gid => {
+      const g = document.getElementById(gid);
+      if (!g) return;
+      g.querySelectorAll('.option-card').forEach(c => { if (c.style.display !== 'none') n++; });
+    });
+    const input = el.closest('.opt-tools') && el.closest('.opt-tools').querySelector('input[type="search"]');
+    if (input && input.value.trim()) return;    // a filtered count was set by filterOptions
+    setText(el, n ? `${n} options` : '');
+  });
+}
+
+// ── option cards are buttons in everything but markup ──────────────────────────────────────
+// They were <div onclick> only: unreachable by keyboard, and invisible to a screen reader.
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Enter' && event.key !== ' ') return;
+  const card = document.activeElement;
+  if (!card || !card.classList || !card.classList.contains('option-card')) return;
+  event.preventDefault();
+  card.click();
+});
+
+function makeCardsFocusable(root) {
+  (root || document).querySelectorAll('.option-card:not([data-kb])').forEach(card => {
+    card.dataset.kb = '1';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    if (!card.hasAttribute('aria-label')) card.setAttribute('aria-label', card.dataset.name || card.textContent.trim().slice(0, 60));
+  });
+}
+
+// The grids are rebuilt by a dozen builders, so watch the wizard instead of chasing them all.
+document.addEventListener('DOMContentLoaded', () => {
+  const wizard = document.getElementById('wizard');
+  if (!wizard) return;
+  makeCardsFocusable(wizard);
+  refreshOptionCounts();
+  updateDots();                                 // names the step; nothing else runs it on load
+  let queued = false;
+  new MutationObserver(() => {
+    if (queued) return;                         // coalesce: the grids rebuild in bursts
+    queued = true;
+    requestAnimationFrame(() => { queued = false; makeCardsFocusable(wizard); refreshOptionCounts(); });
+  }).observe(wizard, { childList: true, subtree: true });
+});
 
 function showStep(n) {
   document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
@@ -324,6 +409,7 @@ function toggleCoreCreate(el) {
   // Update all toggle labels to stay in sync
   document.querySelectorAll('.core-create-box').forEach(b => b.textContent = _coreOnlyCreate ? '☑' : '☐');
   document.querySelectorAll('label').forEach(l => { if (l.querySelector('.core-create-box')) l.style.color = _coreOnlyCreate ? 'var(--accent)' : 'var(--text-muted)'; });
+  if (typeof refreshOptionCounts === 'function') refreshOptionCounts();
   buildRaces();
   buildClasses();
   // Refresh subrace/subclass grids for any selected race/class

@@ -1,21 +1,87 @@
 {% extends "layout.html" %}
 {% block title %}Character Manager{% endblock %}
+{% block container_class %}container-wide{% endblock %}
 {% block style %}
 <style>
-@media (max-width: 480px) {
-  .landing-title { font-size: 1.6rem !important; }
-  .landing-cta { display: flex; flex-direction: column; gap: 0.5rem; align-items: center; }
-  .landing-cta .btn { width: 100%; max-width: 280px; margin-left: 0 !important; }
+/* The landing page used to be a title, one sentence and two buttons: about 340px of a 900px
+   window, and nothing that said what the app actually does. */
+.landing-hero { text-align: center; padding: 2.5rem 0 1.5rem; }
+.landing-hero h1 { font-size: 2.4rem; margin-bottom: 0.6rem; }
+.landing-hero p.lead { color: var(--text-muted); max-width: 620px; margin: 0 auto 1.6rem;
+  font-size: 1.05rem; line-height: 1.55; }
+.landing-cta { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
+.landing-cta .btn { font-size: 1.05rem; padding: 0.7rem 1.8rem; }
+.landing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem; margin: 1rem 0 2rem; }
+.landing-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px;
+  padding: 1.1rem 1.2rem; }
+.landing-card h3 { margin: 0 0 0.4rem; font-size: 1.02rem; }
+.landing-card p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.5; margin: 0; }
+.landing-icon { font-size: 1.4rem; display: block; margin-bottom: 0.35rem; }
+.landing-stats { display: flex; flex-wrap: wrap; gap: 0.6rem 2rem; justify-content: center;
+  padding: 1rem; border: 1px solid var(--border); border-radius: 10px; background: var(--card-bg); }
+.landing-stat b { display: block; font-size: 1.5rem; color: var(--accent); line-height: 1.1; }
+.landing-stat span { color: var(--text-muted); font-size: 0.8rem; }
+.landing-foot { text-align: center; margin-top: 2rem; }
+.landing-foot a { font-weight: 600; }
+@media (max-width: 600px) {
+  .landing-hero { padding: 1.25rem 0 1rem; }
+  .landing-hero h1 { font-size: 1.7rem; }
+  .landing-cta { flex-direction: column; align-items: stretch; }
+  .landing-cta .btn { width: 100%; }
+  .landing-stats { gap: 0.75rem 1.25rem; }
 }
 </style>
 {% endblock %}
 {% block content %}
-<div style="text-align:center;margin-top:3rem">
-  <h1 class="landing-title" style="font-size:2.5rem;margin-bottom:0.5rem">⚔️ D&D Character Manager</h1>
-  <p style="color:var(--text-muted);max-width:500px;margin:0 auto 2rem">Create and manage D&D 5e characters. Track HP, spell slots, inventory, and more during live sessions. Multi-user — bring your whole party.</p>
+<div class="landing-hero">
+  <h1>⚔️ D&amp;D Character Manager</h1>
+  <p class="lead">Create and run D&amp;D 5e characters and whole campaigns in one place — sheets that
+    track HP, spell slots and inventory during a live session, DM tools for the monsters and
+    encounters behind the screen, and a map your table can see.</p>
   <div class="landing-cta">
-  <a href="/register" class="btn btn-primary" style="font-size:1.1rem;padding:0.75rem 2rem">Get Started</a>
-  <a href="/login" class="btn btn-outline" style="font-size:1.1rem;padding:0.75rem 2rem;margin-left:0.5rem">Login</a>
+    <a href="/register" class="btn btn-primary">Get Started</a>
+    <a href="/login" class="btn btn-outline">Login</a>
   </div>
 </div>
+
+<div class="landing-grid">
+  <div class="landing-card">
+    <span class="landing-icon">📜</span>
+    <h3>Character sheets that keep up</h3>
+    <p>All six ability scores, skills, saves, spell slots, conditions, hit dice and rests — live
+      during play, with a level-up wizard that knows the rules.</p>
+  </div>
+  <div class="landing-card">
+    <span class="landing-icon">🎲</span>
+    <h3>DM tools behind the screen</h3>
+    <p>Campaigns, NPCs, encounters and an initiative tracker. Build a fight, place it on the map,
+      and run it without a second notebook.</p>
+  </div>
+  <div class="landing-card">
+    <span class="landing-icon">🗺️</span>
+    <h3>A map the table can see</h3>
+    <p>Upload a battle map, align a 5-ft grid to it, keep fog over what the party has not reached,
+      and cast it to a second screen — the player view only ever shows what they have seen.</p>
+  </div>
+  <div class="landing-card">
+    <span class="landing-icon">👥</span>
+    <h3>Bring the whole party</h3>
+    <p>Multi-user accounts. Import and export characters as JSON, and carry a whole campaign —
+      characters, NPCs, maps and encounters — as one file.</p>
+  </div>
+</div>
+
+{# Subscript, not dots: `library.items` would resolve to dict.items — the METHOD — and Jinja
+   would happily try to format a builtin method (a 500 in production, seen while building this). #}
+{% if library and library['monsters'] %}
+<div class="landing-stats">
+  <div class="landing-stat"><b>{{ '{:,}'.format(library['monsters']) }}</b><span>monsters &amp; creatures</span></div>
+  <div class="landing-stat"><b>{{ '{:,}'.format(library['spells']) }}</b><span>spells</span></div>
+  <div class="landing-stat"><b>{{ '{:,}'.format(library['races']) }}</b><span>races &amp; lineages</span></div>
+  <div class="landing-stat"><b>{{ '{:,}'.format(library['items']) }}</b><span>items &amp; equipment</span></div>
+</div>
+{% endif %}
+
+<p class="landing-foot"><a href="/register">Create an account</a> to start — your characters stay yours.</p>
 {% endblock %}

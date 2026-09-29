@@ -4,7 +4,19 @@
 <style>
 .wizard-step { display: none; }
 .wizard-step.active { display: block; }
-.step-indicator { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.step-indicator { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center;
+  position: sticky; top: 0; z-index: 40; background: var(--bg); padding: 0.5rem 0; }
+.step-name { font-weight: 700; color: var(--text); margin-left: 0.5rem; }
+.step-name small { color: var(--text-muted); font-weight: 400; }
+.opt-tools { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.6rem; }
+.opt-tools input[type="search"] { flex: 1; min-width: 200px; padding: 0.5rem 0.7rem; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 0.9rem; }
+.opt-tools input[type="search"]:focus { outline: none; border-color: var(--accent); }
+.option-count { color: var(--text-muted); font-size: 0.8rem; white-space: nowrap; }
+.opt-empty { display: none; padding: 1rem; color: var(--text-muted); font-size: 0.9rem; }
+/* Keyboard: an option card is a button, so it should look like one when focused. */
+.option-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.option-card { cursor: pointer; }
 .step-dot { width: 32px; height: 32px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; }
 .step-dot.active { background: var(--accent); }
 .step-dot.done { background: var(--success); }
@@ -57,12 +69,18 @@
   <div class="step-dot" id="dot-0">1</div><div class="step-dot" id="dot-1">2</div>
   <div class="step-dot" id="dot-2">3</div><div class="step-dot" id="dot-3">4</div>
   <div class="step-dot" id="dot-4">5</div><div class="step-dot" id="dot-5">6</div>
+  <span class="step-name" id="stepName"></span>
 </div>
 
 <div id="wizard">
   <!-- Step 0: Race -->
   <div class="wizard-step active" data-step="0">
     <h3>Choose Your Race</h3>
+    <div class="opt-tools">
+      <input type="search" placeholder="🔍 Search races by name or source..." oninput="filterOptions(this, ['race-grid','subrace-grid'])"
+             aria-label="Search races">
+      <span class="option-count" id="race-count"></span>
+    </div>
     <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.72rem;color:var(--text-muted);cursor:pointer;user-select:none;margin-bottom:0.5rem" onclick="toggleCoreCreate(this)">
       <span class="core-create-box" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-radius:3px;text-align:center;line-height:12px;font-size:10px;background:var(--bg)">☐</span>
       Core content only
@@ -80,6 +98,11 @@
   <!-- Step 1: Class -->
   <div class="wizard-step" data-step="1">
     <h3>Choose Your Class</h3>
+    <div class="opt-tools">
+      <input type="search" placeholder="🔍 Search classes and subclasses..." oninput="filterOptions(this, ['class-grid','subclass-grid'])"
+             aria-label="Search classes">
+      <span class="option-count" id="class-count"></span>
+    </div>
     <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.72rem;color:var(--text-muted);cursor:pointer;user-select:none;margin-bottom:0.5rem" onclick="toggleCoreCreate(this)">
       <span class="core-create-box" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-radius:3px;text-align:center;line-height:12px;font-size:10px;background:var(--bg)">☐</span>
       Core content only

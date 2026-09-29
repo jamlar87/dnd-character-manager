@@ -1752,7 +1752,23 @@ async def landing(request: Request):
     user = get_current_user(request)
     if user:
         return RedirectResponse("/dashboard", 303)
-    return _render("landing.html", request=request)
+    # What is actually in the library, for the landing page's "what's inside" strip. These are the
+    # same cached accessors the DM tools use (load_manual_data() populates a cache and returns
+    # None, it does not hand back the data). A failure just means the strip is not shown.
+    counts = {}
+    try:
+        from routes.characters import _load_monster_cache   # local: avoids an import cycle
+        counts = {
+            "monsters": len(_load_monster_cache() or []),
+            "spells": len(SRD_SPELLS or []),
+            "races": len(_load_manual_json("races.json") or []),
+            "items": len(_load_manual_json("magic_items.json") or [])
+                     + len(_load_manual_json("equipment.json") or []),
+        }
+    except Exception as exc:      # never break the landing page for a decoration
+        print(f"[landing] library counts unavailable: {type(exc).__name__}: {exc}", flush=True)
+        counts = {}
+    return _render("landing.html", request=request, library=counts)
 
 # ── Routes: Dashboard ───────────────────────────────────────────────────────
 

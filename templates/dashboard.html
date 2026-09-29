@@ -11,10 +11,6 @@
   .char-card-inner { flex-direction: column; align-items: flex-start !important; }
   .char-card-actions { width: 100%; justify-content: space-between; }
 }
-/* Delete is the only destructive control on a card: outline, not a solid red block competing
-   with the character's name for attention. It still confirms before doing anything. */
-.char-del { background: none; border: 1px solid var(--border); color: var(--text-muted); }
-.char-del:hover { border-color: var(--danger); color: var(--danger); }
 /* Filters collapse on a phone (three rows of controls above the list is a lot of scrolling).
    The flex lives here, not in the element's style attribute: an inline display:flex would beat
    .filter-bar.collapsed .filter-body and the bar would look collapsed but stay open. */

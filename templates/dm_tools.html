@@ -59,8 +59,12 @@
 @media (max-width: 480px) { .campaign-grid { grid-template-columns: 1fr; } }
 .campaign-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; }
 .campaign-card h3 { margin: 0 0 0.5rem 0; }
-.campaign-card .camp-stat { display: flex; gap: 1rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
-.campaign-card .camp-actions { display: flex; gap: 0.3rem; margin-top: 0.5rem; }
+.campaign-card .camp-stat { display: flex; gap: 0.4rem 1rem; flex-wrap: wrap; font-size: 0.85rem;
+  color: var(--text-muted); margin-bottom: 0.5rem; }
+.campaign-card .camp-stat span { white-space: nowrap; }
+.campaign-card .camp-actions { display: flex; gap: 0.3rem; margin-top: 0.5rem; align-items: center; }
+/* Delete sits apart from the two constructive actions, in the outlined style the dashboard uses. */
+.campaign-card .camp-actions .char-del { margin-left: auto; }
 .campaign-card .camp-actions button { touch-action: manipulation; }
 @media (max-width: 480px) {
   .campaign-card .camp-actions button { min-height: 40px; min-width: 60px; font-size: 0.85rem; }
@@ -643,7 +647,8 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <div class="camp-actions">
         <a href="/campaign/{{ camp.id }}" class="btn btn-outline btn-sm">Open</a>
         <button class="btn btn-outline btn-sm" onclick="saveCampNotes({{ camp.id }}, 'campNotes-{{ camp.id }}')">💾 Save</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteCampaign({{ camp.id }})">✕</button>
+        <button class="btn btn-outline btn-sm char-del" onclick="deleteCampaign({{ camp.id }})"
+                title="Delete this campaign" aria-label="Delete {{ camp.name }}">🗑 Delete</button>
       </div>
     </div>
     {% else %}
