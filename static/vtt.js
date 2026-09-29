@@ -37,6 +37,10 @@
     pen: { color: '#ff5555', width: 4 },
     painting: null,
     stroke: null,
+    fogBrush: 'cell',          // 'cell' | 'rect' | 'circle'
+    marquee: null,             // rect/circle in progress: {shape, x0, y0, x1, y1}
+    ruler: null,               // measure tool: {ax, ay, bx, by} — transient, never saved
+    feetPerCell: 5,
     layerDirty: false,
     layerTimer: null,
     dirty: false,
@@ -55,11 +59,6 @@
   }
   function screenToWorld(sx, sy) {
     return [sx / state.camera.zoom - state.camera.x, sy / state.camera.zoom - state.camera.y];
-  }
-
-  function hexCentres() {
-    // pointy-top hexes, odd-r offset; returns nothing — kept for symmetry with squareGrid
-    return null;
   }
 
   function snapPoint(wx, wy) {
@@ -334,6 +333,153 @@
     ctx.restore();
   }
 
+  // ── brush shapes + the measure tool ─────────────────────────────────────────────────
+  // Both are computed from cell CENTRES. The rect brush means "cells the marquee overlaps"
+  // (a square grid can answer that exactly; on a hex grid it is "cells whose centre is within
+  // one cell radius of the marquee", the honest analogue on a honeycomb), and the circle means
+  // "cells whose centre is inside the circle" on either grid — the way templates are judged.
+  function axialToWorld(q, r) {
+    var R = state.grid.size / 2;
+    return [Math.sqrt(3) * R * (q + r / 2), 1.5 * R * r];
+  }
+
+  function cellsInRect(x0, y0, x1, y1) {
+    var g = state.grid;
+    var loX = Math.min(x0, x1), hiX = Math.max(x0, x1);
+    var loY = Math.min(y0, y1), hiY = Math.max(y0, y1);
+    var out = [], seen = {};
+    if (g.type === 'hex') {
+      var R = g.size / 2;
+      var pad = R;
+      var q0 = Math.floor((Math.sqrt(3) / 3 * (loX - pad) - (hiY + pad) / 3) / R) - 2;
+      var q1 = Math.ceil((Math.sqrt(3) / 3 * (hiX + pad) - (loY - pad) / 3) / R) + 2;
+      var r0 = Math.floor((2 / 3 * (loY - pad)) / R) - 2;
+      var r1 = Math.ceil((2 / 3 * (hiY + pad)) / R) + 2;
+      for (var r = r0; r <= r1; r++) {
+        for (var q = q0; q <= q1; q++) {
+          var c = axialToWorld(q, r);
+          if (c[0] >= loX - pad && c[0] <= hiX + pad && c[1] >= loY - pad && c[1] <= hiY + pad) {
+            var key = q + ',' + r;
+            if (!seen[key]) { seen[key] = 1; out.push(key); }
+          }
+        }
+      }
+      return out;
+    }
+    var size = g.size;
+    var col0 = Math.floor((loX - g.ox) / size), col1 = Math.floor((hiX - g.ox) / size);
+    var row0 = Math.floor((loY - g.oy) / size), row1 = Math.floor((hiY - g.oy) / size);
+    for (var col = col0; col <= col1; col++) {
+      for (var row = row0; row <= row1; row++) out.push(col + ',' + row);
+    }
+    return out;
+  }
+
+  function cellsInCircle(cx, cy, radius) {
+    var g = state.grid;
+    var out = [], seen = {};
+    var rr = radius * radius;
+    if (g.type === 'hex') {
+      var R = g.size / 2;
+      var q0 = Math.floor((Math.sqrt(3) / 3 * (cx - radius) - (cy + radius) / 3) / R) - 2;
+      var q1 = Math.ceil((Math.sqrt(3) / 3 * (cx + radius) - (cy - radius) / 3) / R) + 2;
+      var r0 = Math.floor((2 / 3 * (cy - radius)) / R) - 2;
+      var r1 = Math.ceil((2 / 3 * (cy + radius)) / R) + 2;
+      for (var r = r0; r <= r1; r++) {
+        for (var q = q0; q <= q1; q++) {
+          var c = axialToWorld(q, r);
+          var dx = c[0] - cx, dy = c[1] - cy;
+          if (dx * dx + dy * dy <= rr) {
+            var key = q + ',' + r;
+            if (!seen[key]) { seen[key] = 1; out.push(key); }
+          }
+        }
+      }
+      return out;
+    }
+    var size = g.size;
+    var col0 = Math.floor((cx - radius - g.ox) / size), col1 = Math.floor((cx + radius - g.ox) / size);
+    var row0 = Math.floor((cy - radius - g.oy) / size), row1 = Math.floor((cy + radius - g.oy) / size);
+    for (var col = col0; col <= col1; col++) {
+      for (var row = row0; row <= row1; row++) {
+        var px = col * size + size / 2 + g.ox, py = row * size + size / 2 + g.oy;
+        var ddx = px - cx, ddy = py - cy;
+        if (ddx * ddx + ddy * ddy <= rr) out.push(col + ',' + row);
+      }
+    }
+    return out;
+  }
+
+  function measureCells(ax, ay, bx, by) {
+    var a = cellKeyFor(ax, ay).split(','), b = cellKeyFor(bx, by).split(',');
+    var aq = parseInt(a[0], 10), ar = parseInt(a[1], 10);
+    var bq = parseInt(b[0], 10), br = parseInt(b[1], 10);
+    var cells;
+    if (state.grid.type === 'hex') {
+      var dq = aq - bq, dr = ar - br;
+      cells = (Math.abs(dq) + Math.abs(dq + dr) + Math.abs(dr)) / 2;   // axial hex distance
+    } else {
+      // 5e's simplified table rule: a diagonal counts as one cell
+      cells = Math.max(Math.abs(aq - bq), Math.abs(ar - br));
+    }
+    return { cells: cells, feet: cells * state.feetPerCell };
+  }
+
+  function drawMarquee() {
+    var m = state.marquee;
+    if (!m || state.readOnly) return;
+    var p0 = worldToScreen(m.x0, m.y0), p1 = worldToScreen(m.x1, m.y1);
+    ctx.save();
+    ctx.setLineDash([6, 4]);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = m.erase ? '#f87171' : '#4ade80';
+    ctx.fillStyle = m.erase ? 'rgba(248,113,113,0.18)' : 'rgba(74,222,128,0.18)';
+    ctx.beginPath();
+    if (m.shape === 'circle') {
+      var r = Math.hypot(m.x1 - m.x0, m.y1 - m.y0) * state.camera.zoom;
+      ctx.arc(p0[0], p0[1], r, 0, Math.PI * 2);
+    } else {
+      ctx.rect(p0[0], p0[1], p1[0] - p0[0], p1[1] - p0[1]);
+    }
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawRuler() {
+    var r = state.ruler;
+    if (!r || state.readOnly) return;
+    var p0 = worldToScreen(r.ax, r.ay), p1 = worldToScreen(r.bx, r.by);
+    var dist = measureCells(r.ax, r.ay, r.bx, r.by);
+    ctx.save();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#c9a227';
+    ctx.beginPath();
+    ctx.moveTo(p0[0], p0[1]);
+    ctx.lineTo(p1[0], p1[1]);
+    ctx.stroke();
+    ctx.fillStyle = '#c9a227';
+    [p0, p1].forEach(function (p) {
+      ctx.beginPath();
+      ctx.arc(p[0], p[1], 4, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    var label = (dist.cells === 1 ? '1 cell' : dist.cells + ' cells') + ' · ' + dist.feet + ' ft';
+    ctx.font = '13px system-ui,sans-serif';
+    var tw = ctx.measureText(label).width + 12;
+    var mx = (p0[0] + p1[0]) / 2 - tw / 2, my = (p0[1] + p1[1]) / 2 - 22;
+    ctx.fillStyle = 'rgba(12,12,16,0.9)';
+    ctx.fillRect(mx, my, tw, 20);
+    ctx.strokeStyle = '#c9a227';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(mx, my, tw, 20);
+    ctx.fillStyle = '#f4f4f5';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(label, mx + 6, my + 11);
+    ctx.restore();
+  }
+
   function redraw() {
     if (!ctx) return;
     if (state.raf) return;
@@ -380,6 +526,9 @@
       drawStrokes();
       state.tokens.slice().sort(function (a, b) { return (a.z || 0) - (b.z || 0) || a.id - b.id; })
         .forEach(drawToken);
+      // DM-only overlays: the brush preview and the ruler are never sent to a second screen
+      drawMarquee();
+      drawRuler();
     }
   }
 
@@ -456,8 +605,20 @@
         redraw(); ev.preventDefault(); return;
       }
       if (state.tool === 'fog') {
-        state.painting = true;
-        paintCell(screenToWorld(sx, sy)[0], screenToWorld(sx, sy)[1], ev.shiftKey);
+        var fw = screenToWorld(sx, sy);
+        if (state.fogBrush === 'cell') {
+          state.painting = true;
+          paintCell(fw[0], fw[1], ev.shiftKey);
+        } else {
+          // rect/circle: anchor here, show the preview while dragging, apply on release
+          state.marquee = { shape: state.fogBrush, x0: fw[0], y0: fw[1], x1: fw[0], y1: fw[1],
+                            erase: !!ev.shiftKey };
+        }
+        redraw(); ev.preventDefault(); return;
+      }
+      if (state.tool === 'measure') {
+        var mw = screenToWorld(sx, sy);
+        state.ruler = { ax: mw[0], ay: mw[1], bx: mw[0], by: mw[1] };
         redraw(); ev.preventDefault(); return;
       }
       if (state.tool === 'draw') {
@@ -481,9 +642,24 @@
     });
 
     window.addEventListener('mousemove', function (ev) {
-      if (!state.drag && !state.panning && !state.painting && !state.stroke) return;
+      if (!state.drag && !state.panning && !state.painting && !state.stroke &&
+          !state.marquee && !state.ruler) return;
       var rect = canvas.getBoundingClientRect();
       var sx = ev.clientX - rect.left, sy = ev.clientY - rect.top;
+      if (state.marquee) {
+        var qw = screenToWorld(sx, sy);
+        state.marquee.x1 = qw[0];
+        state.marquee.y1 = qw[1];
+        redraw();
+        return;
+      }
+      if (state.ruler) {
+        var rw = screenToWorld(sx, sy);
+        state.ruler.bx = rw[0];
+        state.ruler.by = rw[1];
+        redraw();
+        return;
+      }
       if (state.painting) {
         var pw = screenToWorld(sx, sy);
         paintCell(pw[0], pw[1], ev.shiftKey);
@@ -512,7 +688,15 @@
     });
 
     window.addEventListener('mouseup', function () {
-      if (state.stroke) {
+      if (state.marquee) {
+        applyMarquee();
+        state.marquee = null;
+        markLayerDirty();
+        redraw();
+      } else if (state.ruler) {
+        // the ruler stays on screen until the DM clears it or picks another tool
+        redraw();
+      } else if (state.stroke) {
         if (state.stroke.points.length > 1) state.strokes.push(state.stroke);
         state.stroke = null;
         markLayerDirty();
@@ -565,10 +749,16 @@
       else if (ev.key === 'v' || ev.key === 'V') setTool('select');
       else if (ev.key === 'f' || ev.key === 'F') setTool('fog');
       else if (ev.key === 'd' || ev.key === 'D') setTool('draw');
+      else if (ev.key === 'm' || ev.key === 'M') setTool('measure');
       else if (ev.key === 'g' || ev.key === 'G') toggleGrid();
       else if (ev.key === 's' || ev.key === 'S') toggleSnap();
       else if (ev.key === '0') fit();
-      else if (ev.key === 'Escape') { state.selected = null; renderSelected(); redraw(); }
+      else if (ev.key === 'Escape') {
+        state.selected = null;
+        state.ruler = null;
+        renderSelected();
+        redraw();
+      }
     });
     window.addEventListener('pagehide', function () { saveNow(); saveLayer(); });
     document.addEventListener('visibilitychange', function () {
@@ -787,6 +977,49 @@
   }
 
   // ── fog + drawing ───────────────────────────────────────────────────────────────────
+  function applyMarquee() {
+    var m = state.marquee;
+    if (!m) return 0;
+    var keys = m.shape === 'circle'
+      ? cellsInCircle(m.x0, m.y0, Math.hypot(m.x1 - m.x0, m.y1 - m.y0))
+      : cellsInRect(m.x0, m.y0, m.x1, m.y1);
+    keys.forEach(function (k) { if (m.erase) delete state.fog[k]; else state.fog[k] = 1; });
+    return keys.length;
+  }
+
+  function setFogBrush(shape) {
+    state.fogBrush = (shape === 'rect' || shape === 'circle') ? shape : 'cell';
+    ['Cell', 'Rect', 'Circle'].forEach(function (n) {
+      var b = $('vttBrush' + n);
+      if (b) b.style.opacity = (n.toLowerCase() === state.fogBrush) ? '1' : '0.6';
+    });
+    if (state.tool !== 'fog') setTool('fog');
+    var hint = $('vttHint');
+    if (hint) {
+      hint.textContent = state.fogBrush === 'cell'
+        ? 'Click or drag cells to reveal · shift-drag hides · right-drag pans'
+        : 'Drag a ' + state.fogBrush + ' to reveal · shift-drag hides · right-drag pans';
+    }
+  }
+
+  function setFeetPerCell(feet) {
+    var v = parseInt(feet, 10);
+    if (!v || v < 1 || v > 100) return;
+    state.feetPerCell = v;
+    var input = $('vttFeet');
+    if (input) input.value = v;
+    fetch('/api/dm/map/' + window.MAP_ID + '/update', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ feet_per_cell: v })
+    }).catch(function () {});
+    redraw();
+  }
+
+  function clearMeasure() {
+    state.ruler = null;
+    redraw();
+  }
+
   function paintCell(wx, wy, erase) {
     var key = cellKeyFor(wx, wy);
     if (erase) delete state.fog[key]; else state.fog[key] = 1;
@@ -821,18 +1054,23 @@
   }
 
   function setTool(tool) {
-    state.tool = (tool === 'fog' || tool === 'draw') ? tool : 'select';
-    ['Select', 'Fog', 'Draw'].forEach(function (n) {
+    state.tool = (tool === 'fog' || tool === 'draw' || tool === 'measure') ? tool : 'select';
+    if (state.tool !== 'measure') state.ruler = null;      // the ruler is a transient overlay
+    ['Select', 'Fog', 'Draw', 'Measure'].forEach(function (n) {
       var b = $('vttTool' + n);
       if (b) b.style.opacity = (n.toLowerCase() === state.tool) ? '1' : '0.6';
     });
     var hint = $('vttHint');
     if (hint) {
       hint.textContent = state.tool === 'fog'
-        ? 'Click or drag cells to reveal · shift-drag hides · right-drag pans'
+        ? (state.fogBrush === 'cell'
+          ? 'Click or drag cells to reveal · shift-drag hides · right-drag pans'
+          : 'Drag a ' + state.fogBrush + ' to reveal · shift-drag hides · right-drag pans')
         : (state.tool === 'draw'
           ? 'Draw with the left button · right-drag pans · 🧽 Clear erases everything'
-          : 'Drag to pan · wheel to zoom · drag a token to move it');
+          : (state.tool === 'measure'
+            ? 'Drag to measure · distances use the ft/cell setting · Esc clears'
+            : 'Drag to pan · wheel to zoom · drag a token to move it'));
     }
   }
 
@@ -992,6 +1230,9 @@
       state.grid.size = state.map.grid_size || 50;
       state.grid.ox = state.map.grid_offset_x || 0;
       state.grid.oy = state.map.grid_offset_y || 0;
+      state.feetPerCell = parseInt(state.map.feet_per_cell, 10) || 5;
+      var feetInput = $('vttFeet');
+      if (feetInput) feetInput.value = state.feetPerCell;
       if (saved) { try { state.camera = JSON.parse(saved); } catch (e) {} }
       else if (state.map.camera) { try { state.camera = JSON.parse(state.map.camera); } catch (e) {} }
       else { setTimeout(fit, 60); }
@@ -1141,6 +1382,9 @@
     pokePlayers: pokePlayers,
     setTool: setTool, toggleFog: toggleFog, revealAll: revealAll, hideAll: hideAll,
     setPen: setPen, clearDraw: clearDraw, paintCell: paintCell, cellKeyFor: cellKeyFor,
+    setFogBrush: setFogBrush, setFeetPerCell: setFeetPerCell, clearMeasure: clearMeasure,
+    applyMarquee: applyMarquee, cellsInRect: cellsInRect, cellsInCircle: cellsInCircle,
+    measureCells: measureCells,
     spawnEncounter: spawnEncounter, loadEncounters: loadEncounters,
     openPlayer: openPlayer, revokePlayer: revokePlayer, state: state
   };

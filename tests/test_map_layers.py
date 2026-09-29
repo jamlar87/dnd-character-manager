@@ -180,6 +180,34 @@ def test_fog_painting_and_the_pen_are_wired_to_the_right_buttons():
 def test_the_toolbar_offers_every_layer_action():
     page = TEMPLATE.read_text()
     for call in ("setTool('select')", "setTool('fog')", "setTool('draw')", "toggleFog()",
-                 "revealAll()", "hideAll()", "clearDraw()", "setPen", "spawnEncounter()"):
+                 "revealAll()", "hideAll()", "clearDraw()", "setPen", "spawnEncounter()",
+                 "setFogBrush('cell')", "setFogBrush('rect')", "setFogBrush('circle')",
+                 "setTool('measure')", "clearMeasure()", "setFeetPerCell("):
         assert call in page, f"{call} is not on the map toolbar"
     assert 'id="vttEncounterPick"' in page, "spawning needs an encounter to pick"
+    assert 'id="vttFeet"' in page, "the measure tool is useless without the ft/cell setting"
+
+
+def test_the_brush_shapes_and_the_ruler_are_cells_first():
+    """Both are computed from cell CENTRES, and the ruler has to be honest about diagonals."""
+    src = VTT.read_text()
+    assert "function cellsInRect" in src and "function cellsInCircle" in src
+    assert "function measureCells" in src and "function applyMarquee" in src
+    # 5e's simplified table rule: a diagonal counts as one cell (Chebyshev, not Euclidean)
+    measure = src.split("function measureCells")[1].split("function ")[0]
+    assert "Math.max(Math.abs" in measure, "square-grid distance must use Chebyshev"
+    assert "axial hex distance" in measure or "Math.abs(dq)" in measure, "hex distance is axial"
+    # the ruler is transient and never travels to a second screen
+    assert "state.ruler = null;      // the ruler is a transient overlay" in src
+    ruler = src.split("function drawRuler")[1].split("function ")[0]
+    assert "state.readOnly" in ruler, "the party must not see the DM's ruler"
+
+
+def test_a_measure_tool_uses_the_maps_own_scale():
+    """Assuming 5 ft/cell would silently give wrong numbers on a 10-ft map."""
+    src = VTT.read_text()
+    assert "feetPerCell" in src and "feet_per_cell" in src
+    routes = (REPO / "routes" / "maps.py").read_text()
+    assert '"feet_per_cell"' in routes and "feet_per_cell = ?" in routes
+    schema = (REPO / "services" / "db_schema.py").read_text()
+    assert "ADD COLUMN feet_per_cell" in schema

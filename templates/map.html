@@ -3,7 +3,8 @@
 {% block content %}
 <style>
 .vtt-wrap{display:flex;flex-direction:column;height:calc(100vh - 7.5rem);gap:.4rem}
-.vtt-toolbar{display:flex;align-items:center;gap:.35rem;flex-wrap:wrap;font-size:.85rem}
+.vtt-toolbar{display:flex;align-items:center;gap:.35rem;flex-wrap:wrap;font-size:.85rem;
+  max-height:5.2rem;overflow-y:auto}   /* on a narrow window the toolbar scrolls instead of eating the map */
 .vtt-sep{width:1px;height:1.3rem;background:var(--border);margin:0 .2rem}
 .vtt-body{flex:1;display:flex;gap:.5rem;min-height:0}
 .vtt-canvas-host{position:relative;flex:1;min-width:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#0f0f12}
@@ -40,12 +41,20 @@
     <button class="btn btn-outline btn-sm" onclick="VTT.setTool('select')" id="vttToolSelect" title="Select and move tokens (V)">🖱 Select</button>
     <button class="btn btn-outline btn-sm" onclick="VTT.setTool('fog')" id="vttToolFog" title="Paint revealed cells (F); right-drag pans">🕯 Fog</button>
     <button class="btn btn-outline btn-sm" onclick="VTT.toggleFog()" id="vttFogOn" title="Show or hide the fog layer">☁ Fog: off</button>
+    <button class="btn btn-outline btn-sm" onclick="VTT.setFogBrush('cell')" id="vttBrushCell" title="Reveal cell by cell">⬛ Cell</button>
+    <button class="btn btn-outline btn-sm" onclick="VTT.setFogBrush('rect')" id="vttBrushRect" title="Drag a rectangle to reveal everything it covers">▭ Rect</button>
+    <button class="btn btn-outline btn-sm" onclick="VTT.setFogBrush('circle')" id="vttBrushCircle" title="Drag a circle — for templates and rooms with round walls">⭕ Circle</button>
     <button class="btn btn-outline btn-sm" onclick="VTT.revealAll()" title="Reveal the whole map">👁 All</button>
     <button class="btn btn-outline btn-sm" onclick="VTT.hideAll()" title="Hide the whole map again">🚫 All</button>
     <button class="btn btn-outline btn-sm" onclick="VTT.setTool('draw')" id="vttToolDraw" title="Draw on the map (D); right-drag pans">✏️ Draw</button>
     <input type="color" id="vttPenColor" value="#ff5555" onchange="VTT.setPen(this.value, null)" title="Pen colour" style="width:2rem;height:1.6rem;padding:0;border:1px solid var(--border);background:none;border-radius:4px">
     <input type="number" id="vttPenWidth" value="4" min="1" max="40" onchange="VTT.setPen(null, this.value)" title="Pen width" style="width:3.2rem;padding:.1rem .2rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:.75rem">
     <button class="btn btn-outline btn-sm" onclick="VTT.clearDraw()" title="Erase all drawing">🧽 Clear</button>
+    <button class="btn btn-outline btn-sm" onclick="VTT.setTool('measure')" id="vttToolMeasure" title="Measure a distance (M)">📏 Measure</button>
+    <button class="btn btn-outline btn-sm" onclick="VTT.clearMeasure()" title="Clear the ruler">✖ Ruler</button>
+    <label style="font-size:.72rem;color:var(--text-muted);display:inline-flex;align-items:center;gap:.2rem"
+           title="How many feet one grid cell represents"><input type="number" id="vttFeet" value="5" min="1" max="100"
+           onchange="VTT.setFeetPerCell(this.value)" style="width:2.8rem;padding:.1rem .2rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:.72rem">ft/cell</label>
     <span class="vtt-sep"></span>
     <button class="btn btn-outline btn-sm" onclick="VTT.openPlayer()" title="Open the player view on a second screen (TV/tablet)">📺 Player</button>
     <button class="btn btn-outline btn-sm" onclick="VTT.revokePlayer()" title="Revoke the player link">🚫</button>

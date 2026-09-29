@@ -184,13 +184,14 @@ async def dm_map_create(request: Request):
     try:
         cur = db.execute(
             "INSERT INTO dm_maps (user_id, campaign_id, name, grid_type, grid_size, "
-            "grid_offset_x, grid_offset_y, notes) VALUES (?,?,?,?,?,?,?,?)",
+            "grid_offset_x, grid_offset_y, notes, feet_per_cell) VALUES (?,?,?,?,?,?,?,?,?)",
             (user["id"], _inum(data.get("campaign_id"), 0, 0, 10 ** 9) or None, name[:80],
              "hex" if str(data.get("grid_type")) == "hex" else "square",
              _inum(data.get("grid_size"), 50, 10, 400),
              _inum(data.get("grid_offset_x"), 0, -400, 400),
              _inum(data.get("grid_offset_y"), 0, -400, 400),
-             str(data.get("notes") or "")[:2000]))
+             str(data.get("notes") or "")[:2000],
+             _inum(data.get("feet_per_cell"), 5, 1, 100)))
         db.commit()
         return JSONResponse({"ok": True, "id": cur.lastrowid})
     finally:
@@ -249,6 +250,8 @@ async def dm_map_update(map_id: int, request: Request):
             cam = data.get("camera")
             sets.append("camera = ?")
             params.append(json.dumps(cam)[:400] if isinstance(cam, dict) else str(cam or "")[:400])
+        if "feet_per_cell" in data:
+            sets.append("feet_per_cell = ?"); params.append(_inum(data.get("feet_per_cell"), 5, 1, 100))
         if "campaign_id" in data:
             sets.append("campaign_id = ?"); params.append(_inum(data.get("campaign_id"), 0, 0, 10 ** 9) or None)
         if "parent_map_id" in data:

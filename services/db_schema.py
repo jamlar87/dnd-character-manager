@@ -486,6 +486,13 @@ def _migrate_npc_source_columns():
         except sqlite3.OperationalError:
             pass
 
+    # Migration: how big a cell is in feet. The measure tool is useless without it (a 10-ft
+    # dungeon square is a real thing), and guessing 5 would quietly give wrong distances.
+    try:
+        db.execute("ALTER TABLE dm_maps ADD COLUMN feet_per_cell INTEGER DEFAULT 5")
+    except sqlite3.OperationalError:
+        pass
+
     # Migration: player view. A key rather than a login, because the second screen is often a
     # TV or tablet that is not signed in — and it only ever exposes the projected state.
     try:
