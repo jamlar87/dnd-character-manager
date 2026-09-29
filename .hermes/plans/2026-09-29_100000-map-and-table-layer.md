@@ -29,11 +29,13 @@ canvas, `static_asset_version()` cache busting.
   from the monster's role line; token HP mirrors back onto the tracker row and marks a
   combatant defeated at ≤0), **1.6 fog of war + drawing** (two overlay layers, saved separately
   from placements, carried by snapshots), plus the 🗺️ Maps tab in DM tools.
-- **Remaining:** Slice 2 (player view — second screen, BroadcastChannel then a poll of the
-  map state), Slice 3 (campaign-pack export), and the 1.8-ish ideas: fog brush shapes
-  (rectangle/circle reveal), measure tool, lighting.
-- Slice 4 idea: a Fantasy Statblocks YAML importer (MIT — the one thing worth taking from the
-  Obsidian ecosystem).
+- **Slice 2 — DONE** (committed): the player view — `/dm-map/{id}/player` (chromeless, key
+  auth so a TV/tablet needs no login), a server-side projection (`/api/dm/map/{id}/state?k=`)
+  that withholds the DM's drawing, hidden tokens and everything under the fog, poke via
+  BroadcastChannel + a 3 s poll, Follow/Free-look, one `readOnly` renderer mode.
+- **Remaining:** Slice 3 (campaign-pack export — extend the existing character export/import
+  `version: 1` format), then the smaller wins: rectangle/circle fog brushes, a measure tool,
+  lighting, and the Fantasy Statblocks YAML importer (MIT) as a slice-4 idea.
 - Live example map kept for inspection: **`/dm-map/4`** ("Example — dungeon crawl", a synthetic
   test image, 3 tokens, one revealed strip of 4 cells and a green pen stroke from the
   verification run — clears with 🚫 All and 🧽 Clear).
