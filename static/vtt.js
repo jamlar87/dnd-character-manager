@@ -444,6 +444,16 @@
     return { cells: cells, feet: cells * state.feetPerCell };
   }
 
+  // An overland map is measured in miles per hex (DMG: 1 mile province, 6 kingdom, 60 continent),
+  // so print the unit that matches the scale rather than 316800 ft/cell.
+  function scaleLabel(feet) {
+    if (feet >= 5280) {
+      var miles = feet / 5280;
+      return (Math.abs(miles - Math.round(miles)) < 0.05 ? Math.round(miles) : miles.toFixed(1)) + ' mi';
+    }
+    return feet + ' ft';
+  }
+
   function drawMarquee() {
     var m = state.marquee;
     if (!m || state.readOnly) return;
@@ -483,7 +493,7 @@
       ctx.arc(p[0], p[1], 4, 0, Math.PI * 2);
       ctx.fill();
     });
-    var label = (dist.cells === 1 ? '1 cell' : dist.cells + ' cells') + ' · ' + dist.feet + ' ft';
+    var label = (dist.cells === 1 ? '1 cell' : dist.cells + ' cells') + ' \u00b7 ' + scaleLabel(dist.feet);
     ctx.font = '13px system-ui,sans-serif';
     var tw = ctx.measureText(label).width + 12;
     var mx = (p0[0] + p1[0]) / 2 - tw / 2, my = (p0[1] + p1[1]) / 2 - 22;
@@ -837,7 +847,7 @@
     if (!g.w) { el.textContent = 'no map image'; return; }
     el.textContent = g.w + '\u00d7' + g.h + 'px \u00b7 ' + g.across.toFixed(2) + '\u00d7' +
       g.down.toFixed(2) + ' cells \u00b7 ' + state.grid.size + 'px/cell \u00b7 ' +
-      state.feetPerCell + ' ft/cell \u00b7 offset ' + Math.round(state.grid.ox) + ',' +
+      scaleLabel(state.feetPerCell) + '/cell \u00b7 offset ' + Math.round(state.grid.ox) + ',' +
       Math.round(state.grid.oy);
   }
 
@@ -1105,7 +1115,7 @@
 
   function setFeetPerCell(feet) {
     var v = parseInt(feet, 10);
-    if (!v || v < 1 || v > 100) return;
+    if (!v || v < 1 || v > 1000000) return;   // matches FEET_PER_CELL_MAX on the server
     state.feetPerCell = v;
     var input = $('vttFeet');
     if (input) input.value = v;

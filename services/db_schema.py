@@ -501,6 +501,15 @@ def _migrate_npc_source_columns():
     except sqlite3.OperationalError:
         pass
 
+    # Migration: provenance. Maps ingested from the manual corpus must point back at the book and
+    # page they came from (`/api/reference/open/{slug}?page=N`), or the only copy of a poster map in
+    # the app is an unattributable JPEG. source_manual holds the slug (PHB, DMG, TCOE...).
+    for _col, _type in (("source_manual", "TEXT DEFAULT ''"), ("source_page", "INTEGER DEFAULT 0")):
+        try:
+            db.execute(f"ALTER TABLE dm_maps ADD COLUMN {_col} {_type}")
+        except sqlite3.OperationalError:
+            pass
+
     # Migration: player view. A key rather than a login, because the second screen is often a
     # TV or tablet that is not signed in — and it only ever exposes the projected state.
     try:

@@ -67,6 +67,10 @@ def _fnum(value, default=0.0, lo=-100000.0, hi=100000.0) -> float:
     return max(lo, min(hi, out))
 
 
+# 1,000,000 ft is ~189 miles: headroom over the 60-mile continent hex, and still a bounded field.
+FEET_PER_CELL_MAX = 1_000_000
+
+
 def _inum(value, default=0, lo=-9999, hi=9999) -> int:
     try:
         out = int(float(value))
@@ -195,14 +199,19 @@ async def dm_map_create(request: Request):
     try:
         cur = db.execute(
             "INSERT INTO dm_maps (user_id, campaign_id, name, grid_type, grid_size, "
-            "grid_offset_x, grid_offset_y, notes, feet_per_cell) VALUES (?,?,?,?,?,?,?,?,?)",
+            "grid_offset_x, grid_offset_y, notes, feet_per_cell, source_manual, source_page) "
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?)",
             (user["id"], _inum(data.get("campaign_id"), 0, 0, 10 ** 9) or None, name[:80],
              "hex" if str(data.get("grid_type")) == "hex" else "square",
              _inum(data.get("grid_size"), 50, 10, 400),
              _inum(data.get("grid_offset_x"), 0, -400, 400),
              _inum(data.get("grid_offset_y"), 0, -400, 400),
              str(data.get("notes") or "")[:2000],
-             _inum(data.get("feet_per_cell"), 5, 1, 100)))
+             # Not 1-100: a battle map is 5 ft/cell, but an overland map is miles per hex — the
+             # DMG's scales are 1 mile (5280), 6 miles (31,680) and 60 miles (316,800) per hex.
+             _inum(data.get("feet_per_cell"), 5, 1, FEET_PER_CELL_MAX),
+             str(data.get("source_manual") or "")[:40],          # a manual slug, e.g. "DMG"
+             _inum(data.get("source_page"), 0, 0, 5000)))
         db.commit()
         return JSONResponse({"ok": True, "id": cur.lastrowid})
     finally:
@@ -262,7 +271,12 @@ async def dm_map_update(map_id: int, request: Request):
             sets.append("camera = ?")
             params.append(json.dumps(cam)[:400] if isinstance(cam, dict) else str(cam or "")[:400])
         if "feet_per_cell" in data:
-            sets.append("feet_per_cell = ?"); params.append(_inum(data.get("feet_per_cell"), 5, 1, 100))
+            sets.append("feet_per_cell = ?")
+            params.append(_inum(data.get("feet_per_cell"), 5, 1, FEET_PER_CELL_MAX))
+        if "source_manual" in data:
+            sets.append("source_manual = ?"); params.append(str(data.get("source_manual") or "")[:40])
+        if "source_page" in data:
+            sets.append("source_page = ?"); params.append(_inum(data.get("source_page"), 0, 0, 5000))
         if "campaign_id" in data:
             sets.append("campaign_id = ?"); params.append(_inum(data.get("campaign_id"), 0, 0, 10 ** 9) or None)
         if "parent_map_id" in data:

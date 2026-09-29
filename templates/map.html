@@ -7,6 +7,9 @@
 .vtt-toolbar{display:flex;align-items:center;gap:.35rem;flex-wrap:wrap;font-size:.85rem;
   max-height:5.2rem;overflow-y:auto}   /* on a narrow window the toolbar scrolls instead of eating the map */
 .vtt-sep{width:1px;height:1.3rem;background:var(--border);margin:0 .2rem}
+.vtt-source{font-size:.7rem;color:var(--text-muted);text-decoration:none;border:1px solid var(--border);
+  border-radius:4px;padding:.05rem .35rem;white-space:nowrap}
+.vtt-source:hover{color:var(--accent);border-color:var(--accent)}
 .vtt-body{flex:1;display:flex;gap:.5rem;min-height:0}
 .vtt-canvas-host{position:relative;flex:1;min-width:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#0f0f12}
 .vtt-canvas-host canvas{display:block;cursor:grab}

@@ -23,6 +23,13 @@
     <button class="btn btn-outline btn-sm" onclick="VTT.nudgeGrid(0,1)" title="Move the grid 1px down">▼</button>
     <button class="btn btn-outline btn-sm" onclick="VTT.fitGridToImage()" title="Zero the offset and make the grid divide the image exactly">🧩 Fit</button>
     <span id="vttGridInfo" style="font-size:.7rem;color:var(--text-muted)"></span>
+    {% if the_map and the_map.source_manual %}
+    {# Provenance: an ingested map points back at the book and page it was cut from, or the app's
+       copy of a poster map is an unattributable JPEG. #}
+    <a href="/api/reference/open/{{ the_map.source_manual }}{% if the_map.source_page %}?page={{ the_map.source_page }}{% endif %}"
+       target="_blank" rel="noopener" class="vtt-source"
+       title="Open the source manual at this page">📖 {{ the_map.source_manual }}{% if the_map.source_page %} p.{{ the_map.source_page }}{% endif %}</a>
+    {% endif %}
     <button class="btn btn-outline btn-sm" onclick="VTT.toggleSnap()" id="vttSnapBtn" title="Snap tokens to the grid (S)">🧲 Snap: on</button>
 
     <span class="vtt-sep"></span>
@@ -47,8 +54,8 @@
     <button class="btn btn-outline btn-sm" onclick="VTT.setTool('measure')" id="vttToolMeasure" title="Measure a distance (M)">📏 Measure</button>
     <button class="btn btn-outline btn-sm" onclick="VTT.clearMeasure()" title="Clear the ruler">✖ Ruler</button>
     <label style="font-size:.72rem;color:var(--text-muted);display:inline-flex;align-items:center;gap:.2rem"
-           title="How many feet one grid cell represents — 5 for the standard 5-ft square"><input type="number" id="vttFeet" value="5" min="1" max="100"
-           onchange="VTT.setFeetPerCell(this.value)" style="width:2.8rem;padding:.1rem .2rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:.72rem">ft/cell</label>
+           title="Feet one grid cell represents: 5 for a standard 5-ft square, or a mile (5280) per hex on an overland map"><input type="number" id="vttFeet" value="5" min="1" max="1000000"
+           onchange="VTT.setFeetPerCell(this.value)" style="width:4.2rem;padding:.1rem .2rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:.72rem">ft/cell</label>
     <span class="vtt-sep"></span>
     <button class="btn btn-outline btn-sm" onclick="VTT.openPlayer()" title="Open the player view on a second screen (TV/tablet)">📺 Player</button>
     <button class="btn btn-outline btn-sm" onclick="VTT.revokePlayer()" title="Revoke the player link">🚫</button>
