@@ -17,10 +17,10 @@ import hashlib
 import json
 from pathlib import Path
 
-from fastapi import APIRouter, Request
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import HTMLResponse, JSONResponse
 
-from main import get_db, require_user, _require_owned, _is_admin, _user_where, STATIC
+from main import get_db, require_user, _require_owned, _is_admin, _user_where, _render, STATIC
 from services.images import decode_data_url, thumbnail_bytes
 
 router = APIRouter()
@@ -490,5 +490,22 @@ async def dm_map_scene_delete(scene_id: int, request: Request):
         db.execute("DELETE FROM dm_map_scenes WHERE id = ?", (scene_id,))
         db.commit()
         return JSONResponse({"ok": True})
+    finally:
+        db.close()
+
+
+# ── the map page itself ────────────────────────────────────────────────────────────────
+
+@router.get("/dm-map/{map_id}", response_class=HTMLResponse)
+async def dm_map_page(map_id: int, request: Request):
+    """The canvas. The map's data is fetched by static/vtt.js from /api/dm/map/{id} so the
+    page shell stays cacheable and the canvas can re-read after a snapshot restore."""
+    user = require_user(request)
+    db = get_db()
+    try:
+        row = _own_map(db, user, map_id)
+        if not row:
+            raise HTTPException(status_code=404, detail="Map not found")
+        return _render("map.html", request=request, the_map=row, map_json=json.dumps({"id": row["id"]}))
     finally:
         db.close()

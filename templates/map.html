@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block title %}{{ the_map.name }} — Map{% endblock %}
+{% block content %}
+<style>
+.vtt-wrap{display:flex;flex-direction:column;height:calc(100vh - 7.5rem);gap:.4rem}
+.vtt-toolbar{display:flex;align-items:center;gap:.35rem;flex-wrap:wrap;font-size:.85rem}
+.vtt-sep{width:1px;height:1.3rem;background:var(--border);margin:0 .2rem}
+.vtt-body{flex:1;display:flex;gap:.5rem;min-height:0}
+.vtt-canvas-host{position:relative;flex:1;min-width:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#0f0f12}
+.vtt-canvas-host canvas{display:block;cursor:grab}
+.vtt-hint{position:absolute;left:.5rem;bottom:.4rem;font-size:.68rem;color:#94a3b8;pointer-events:none}
+.vtt-side{width:16rem;flex-shrink:0;overflow-y:auto;display:flex;flex-direction:column;gap:.6rem;
+  border:1px solid var(--border);border-radius:8px;padding:.5rem}
+.vtt-row{display:flex;align-items:center;gap:.25rem;margin:.2rem 0}
+.vtt-row input{padding:.2rem .4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:.8rem;flex:1;min-width:0}
+.vtt-dirty{color:var(--accent)}
+@media(max-width:900px){.vtt-body{flex-direction:column}.vtt-side{width:auto;max-height:14rem}}
+</style>
+<div class="vtt-wrap">
+  <div class="vtt-toolbar">
+    <a class="btn btn-outline btn-sm" href="/dm-tools">← DM Tools</a>
+    <strong style="margin-left:.3rem">{{ the_map.name }}</strong>
+    <span class="vtt-sep"></span>
+
+    <button class="btn btn-outline btn-sm" onclick="VTT.toggleGrid()" id="vttGridBtn" title="Show or hide the grid (G)">▦ Grid</button>
+    <button class="btn btn-outline btn-sm" onclick="VTT.setGridType('square')" id="vttSquareBtn" title="Square grid">⬚ Square</button>
+    <button class="btn btn-outline btn-sm" onclick="VTT.setGridType('hex')" id="vttHexBtn" title="Hex grid (Atlas-style)">⬡ Hex</button>
+    <button class="btn btn-outline btn-sm" onclick="VTT.nudgeSize(-4)" title="Smaller cells">−</button>
+    <span id="vttGridSize" style="font-size:.75rem;color:var(--text-muted);min-width:3.4rem;text-align:center">{{ the_map.grid_size }}px</span>
+    <button class="btn btn-outline btn-sm" onclick="VTT.nudgeSize(4)" title="Bigger cells">+</button>
+    <button class="btn btn-outline btn-sm" onclick="VTT.toggleSnap()" id="vttSnapBtn" title="Snap tokens to the grid (S)">🧲 Snap: on</button>
+
+    <span class="vtt-sep"></span>
+    <button class="btn btn-outline btn-sm" onclick="VTT.zoomBy(1.2)">🔍+</button>
+    <button class="btn btn-outline btn-sm" onclick="VTT.zoomBy(1/1.2)">🔍−</button>
+    <button class="btn btn-outline btn-sm" onclick="VTT.fit()" title="Fit the map to the window (0)">⤢ Fit</button>
+    <button class="btn btn-outline btn-sm" onclick="VTT.chooseImage()" title="Upload a background image">🖼 Image</button>
+
+    <span class="vtt-sep"></span>
+    <input id="vttSearch" placeholder="Add creature, NPC or character…" style="width:15rem"
+           oninput="VTT.searchPalette(this.value)">
+    <input type="file" id="vttImageInput" accept="image/*" style="display:none"
+           onchange="VTT.uploadImage(this)">
+    <span id="vttSaved" style="font-size:.7rem;color:var(--text-muted)"></span>
+  </div>
+
+  <div class="vtt-body">
+    <div class="vtt-canvas-host" id="vttHost">
+      <canvas id="vttCanvas"></canvas>
+      <div class="vtt-hint" id="vttHint">Drag to pan · wheel to zoom · drag a token to move it</div>
+    </div>
+    <aside class="vtt-side">
+      <div id="vttPalette"></div>
+      <div id="vttSelected"></div>
+      <div id="vttScenes"></div>
+    </aside>
+  </div>
+</div>
+
+<script>window.MAP_ID = {{ the_map.id }}; window.MAP_DATA = {{ map_json|safe }};</script>
+<script src="/static/vtt.js?v={{ static_asset_version('vtt.js') }}"></script>
+{% endblock %}

@@ -74,7 +74,7 @@ function activateTab(tabName) {
 (function() {
   try {
     const saved = localStorage.getItem('dmToolsTab');
-    const validTabs = ['campaigns','encounters','combat','monsters','spells','npcs','items','traps','manuals'];
+    const validTabs = ['campaigns','maps','encounters','combat','monsters','spells','npcs','items','traps','manuals'];
     const tab = validTabs.includes(saved) ? saved : 'campaigns';
     activateTab(tab);
   } catch(e) {
@@ -83,7 +83,11 @@ function activateTab(tabName) {
 })();
 
 document.querySelectorAll('.dm-tab').forEach(tab => {
-  tab.addEventListener('click', () => activateTab(tab.dataset.tab));
+  tab.addEventListener('click', () => {
+    activateTab(tab.dataset.tab);
+    // The map list is fetched on demand: it is not part of the page's initial payload.
+    if (tab.dataset.tab === 'maps') renderMaps();
+  });
 });
 
 // ── Modal helpers ──
@@ -845,6 +849,58 @@ async function saveAiEncounter(name, description, environment, difficulty) {
   closeModal('aiEncounterModal');
   if (failed > 0) { alert(`Saved ${added} creatures to encounter${note}.`); }
   location.reload();
+}
+
+// ── Maps ────────────────────────────────────────────────────────────────────────────
+// The map layer's entry point. A map's canvas lives on its own page (/dm-map/{id}) — this
+// tab is only the list, so switching tabs (or coming back) does not pay for a canvas.
+async function renderMaps() {
+  const host = document.getElementById('mapList');
+  if (!host) return;
+  try {
+    const d = await (await fetch('/api/dm/maps')).json();
+    const maps = d.maps || [];
+    if (!maps.length) {
+      host.innerHTML = '<p style="font-size:.85rem;color:var(--text-muted)">No maps yet. Create one above, then upload a background image from the map page.</p>';
+      return;
+    }
+    host.innerHTML = maps.map(m => {
+      const tokens = m.token_count === 1 ? '1 token' : m.token_count + ' tokens';
+      const setups = m.scene_count === 1 ? '1 setup' : m.scene_count + ' setups';
+      return `<div style="display:flex;align-items:center;gap:.6rem;padding:.5rem;background:var(--card-bg);border:1px solid var(--border);border-radius:6px;margin-bottom:.4rem;flex-wrap:wrap">
+        <span style="font-size:1.3rem">🗺️</span>
+        <span style="flex:1;min-width:10rem">
+          <strong>${dmEsc(m.name)}</strong>
+          <span style="font-size:.75rem;color:var(--text-muted);display:block">${m.grid_type} grid · ${m.grid_size}px · ${tokens} · ${setups}${m.image_path ? '' : ' · no image yet'}</span>
+        </span>
+        <a class="btn btn-primary btn-sm" href="/dm-map/${m.id}">Open map</a>
+        <button class="btn btn-danger btn-sm" onclick="deleteMap(${m.id}, '${dmEsc(m.name).replace(/'/g, "\\'")}')">✕</button>
+      </div>`;
+    }).join('');
+  } catch (e) {
+    host.innerHTML = '<p style="color:var(--danger)">Failed to load maps.</p>';
+  }
+}
+
+async function createMap() {
+  const nameEl = document.getElementById('newMapName');
+  const gridEl = document.getElementById('newMapGrid');
+  const name = ((nameEl && nameEl.value) || '').trim();
+  if (!name) { if (nameEl) nameEl.focus(); return; }
+  const r = await fetch('/api/dm/map/create', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name: name, grid_type: (gridEl && gridEl.value) || 'square'})
+  });
+  const d = await r.json();
+  if (d && d.ok) window.location = '/dm-map/' + d.id;
+  else alert((d && d.error) || 'Could not create the map');
+}
+
+async function deleteMap(id, name) {
+  if (!confirm('Delete the map "' + name + '" and everything placed on it?')) return;
+  const r = await fetch('/api/dm/map/' + id + '/delete', {method: 'POST'});
+  const d = await r.json();
+  if (d && d.ok) renderMaps();
 }
 
 function toggleShareEncounter(encId, currentlyShared) {
