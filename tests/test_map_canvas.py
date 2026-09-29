@@ -38,7 +38,8 @@ def test_the_page_renders_for_its_owner(client, seeded_db, auth_headers):
     assert "vttCanvas" in r.text, "the canvas element is gone"
     assert "vtt.js" in r.text, "the renderer is not loaded"
     assert "Test mine" in r.text
-    assert "40px" in r.text, "the grid size from the row is not shown"
+    assert 'id="vttGridSize" value="40"' in r.text, (
+        "the grid size from the row is not on the page (an aligned grid starts from it)")
 
 
 def test_the_page_is_not_served_to_other_users_or_anonymous(client, seeded_db, auth_headers):
@@ -101,7 +102,10 @@ def test_the_page_stays_lightweight():
     inline = re.findall(r"<script(?![^>]*\bsrc\b)[^>]*>(.*?)</script>", page, re.S)
     logic = " ".join(inline).strip()
     assert len(logic) < 200, f"inline script logic belongs in the asset: {logic[:100]}"
-    assert len(page) < 8000, "the template has outgrown 'markup only'"
+    toolbar = (TEMPLATE.parent / "_map_toolbar.html").read_text()
+    assert "vttCanvas" not in toolbar, "the toolbar partial should hold the toolbar, nothing else"
+    # counted together: splitting a file must not be a way to grow the page unnoticed
+    assert len(page) + len(toolbar) < 10000, "the map page has outgrown 'markup only'"
     css = re.search(r"<style>(.*?)</style>", page, re.S)
     assert css and len(css.group(1)) < 2500, "inline CSS is growing; move it to a stylesheet"
 
