@@ -142,6 +142,11 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 .participant-row.defeated { opacity: 0.4; }
 .participant-row.defeated .p-name { text-decoration: line-through; }
 .participant-row .p-name { overflow-wrap: break-word; word-break: break-word; }
+/* Keyboard / click focus in the tracker: the row you are "on" is visible at a glance
+   (Atlas VTT's tracker highlight — and the anchor the map layer will locate a token from). */
+.participant-row.init-active { outline: 2px solid var(--accent); outline-offset: 1px; background: var(--card-bg); }
+.participant-row .p-locate { font-size: 0.7rem; padding: 0.15rem 0.4rem; opacity: 0.6; flex-shrink: 0; }
+.participant-row .p-locate:hover { opacity: 1; }
 
 /* Collapsable per-participant stat block */
 .p-stats { display: none; padding: 0.5rem; margin-top: 0.3rem; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; font-size: 0.8rem; }

@@ -974,7 +974,7 @@ async function openEncounter(id) {
         const hasSpells = p.class_name && ['Bard','Cleric','Druid','Paladin','Ranger','Sorcerer','Warlock','Wizard','Artificer'].includes(p.class_name);
         const isCaster = hasSpells && Object.keys(npcSlots).length > 0;
 
-        html += `<div class="participant-row${isDefeated ? ' defeated' : ''}" onclick="toggleParticipantStats(${idx})">
+        html += `<div class="participant-row${isDefeated ? ' defeated' : ''}" id="participant-row-${p.id}" data-name="${dmEsc(p.npc_name || p.name || '')}" onclick="toggleParticipantStats(${idx})">
           <div style="flex:1;min-width:0">
             <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap">
               ${p.npc_id === -1
@@ -995,6 +995,7 @@ async function openEncounter(id) {
               <span style="font-size:0.75rem">/${p.hp_max}</span>
               <div class="hp-bar-mini" style="width:80px"><div class="hp-bar-mini-fill ${hpClass}" style="width:${Math.max(0, hpPct)}%"></div></div>
               <button class="defeat-btn ${isDefeated ? 'dead' : 'alive'}" onclick="event.stopPropagation();toggleDefeated(${id}, ${p.id}, ${idx})">${isDefeated ? '✓ Alive' : '💀 Defeat'}</button>
+              <button class="btn btn-outline btn-sm p-locate" onclick="event.stopPropagation();focusTrackerRow(${idx})" title="Jump to this combatant (↑/↓ to move, Enter to open)">🎯</button>
               <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();removeNpcFromEncounter(${id}, ${p.id})" title="Remove">✕</button>
               ${p._monster_index ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showMonster('${p._monster_index}')" title="Monster details" style="font-size:0.7rem;padding:0.15rem 0.4rem">ℹ️</button>` : (p.npc_id && p.npc_id > 0 ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNpcEditor(${p.npc_id})" title="NPC details" style="font-size:0.7rem;padding:0.15rem 0.4rem">ℹ️</button>` : '')}
             </div>
@@ -1183,6 +1184,56 @@ function updateInitiatives(encId) {
 }
 
 // ── Participant helpers ──
+// ── Combat tracker: keyboard + click-to-locate ────────────────────────────────
+// Atlas VTT's tracker lets you click an entry to jump to that token, and drive it from the
+// keyboard mid-fight. There is no map yet, so "locate" means the row itself: highlight it,
+// scroll it into view, and let Enter open it. Each row carries a stable anchor
+// (`id="participant-row-<en_id>"` + `data-name`) so the map layer can centre a token from here
+// without re-rendering the tracker.
+let _trackerFocus = -1;
+
+function trackerRows() {
+  const modal = document.getElementById('encounterModal');
+  // Only live while the encounter modal is open: otherwise every arrow key on the page
+  // would be stolen from the search inputs and the creature palette.
+  if (!modal || getComputedStyle(modal).display === 'none') return [];
+  const detail = document.getElementById('encounterDetail');
+  if (!detail) return [];
+  return Array.from(detail.querySelectorAll('.participant-row'));
+}
+
+function focusTrackerRow(idx, opts) {
+  const rows = trackerRows();
+  if (!rows.length) return null;
+  const scroll = !opts || opts.scroll !== false;
+  if (idx < 0) idx = rows.length - 1;
+  if (idx >= rows.length) idx = 0;
+  rows.forEach((row, n) => row.classList.toggle('init-active', n === idx));
+  _trackerFocus = idx;
+  if (scroll && rows[idx].scrollIntoView) rows[idx].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  return rows[idx];
+}
+
+function trackerKeydown(ev) {
+  if (!trackerRows().length) return;
+  const tag = (ev.target && ev.target.tagName) || '';
+  // Typing in an initiative or HP box is not navigation.
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+  const k = ev.key;
+  if (k === 'ArrowDown' || k === 'j' || k === 'J') {
+    ev.preventDefault();
+    focusTrackerRow(_trackerFocus + 1);
+  } else if (k === 'ArrowUp' || k === 'k' || k === 'K') {
+    ev.preventDefault();
+    focusTrackerRow(_trackerFocus - 1);
+  } else if (k === 'Enter' && _trackerFocus >= 0) {
+    ev.preventDefault();
+    toggleParticipantStats(_trackerFocus);
+  }
+}
+
+document.addEventListener('keydown', trackerKeydown);
+
 function toggleParticipantStats(idx) {
   const el = document.getElementById('p-stats-' + idx);
   if (el) el.classList.toggle('open');
