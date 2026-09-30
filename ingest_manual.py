@@ -2178,6 +2178,22 @@ def _dedup_within_extraction(data: dict) -> dict:
 # Chapter detection
 # ═══════════════════════════════════════════════════════════════════════════════
 
+# Manuals whose PDF carries no usable table of contents AND whose running headers defeat the text
+# heuristic. Left to itself the detector guesses, and a mis-bounded chapter is silently dropped or only
+# partly read: that is how Tal'Dorei Reborn came back with "5 of 9 chapters", one race, and 12 entries
+# from a 65-page bestiary. The ranges come from the book's own running headers.
+CHAPTER_OVERRIDES = {
+    "TCSR": [
+        ("Chapter 1: Welcome to Tal'Dorei", 5, 31),
+        ("Chapter 2: Allegiances of Tal'Dorei", 32, 67),
+        ("Chapter 3: Tal'Dorei Gazetteer", 68, 149),
+        ("Chapter 4: Character Options", 150, 207),
+        ("Chapter 5: Game Master's Toolkit", 208, 217),
+        ("Chapter 6: Allies and Adversaries", 218, 283),
+    ],
+}
+
+
 def _detect_chapters(text: str, manual: dict) -> list[dict]:
     """Detect chapter/section boundaries using fitz TOC + page markers in text.
 
@@ -2186,6 +2202,19 @@ def _detect_chapters(text: str, manual: dict) -> list[dict]:
     """
     slug = manual["slug"]
     pdf_path = Path(manual["abs_path"])
+
+    # An explicit map beats every heuristic. Consulted first, because the failure modes below are silent:
+    # a chapter that cannot be found is not reported, it simply never appears.
+    override = CHAPTER_OVERRIDES.get(slug)
+    if override:
+        page_texts = _split_by_page(text)
+        chapters = [{"title": t, "start_page": s, "end_page": e,
+                     "text": _extract_chapter_text(page_texts, s, e)} for t, s, e in override]
+        kept = [ch for ch in chapters if ch.get("text") and len(ch["text"]) >= 100]
+        print(f"  {len(kept)} chapter(s) from the explicit map for {slug}:")
+        for ch in kept:
+            print(f"    p{ch['start_page']}-{ch['end_page']}: {ch['title']} ({len(ch['text'])} chars)")
+        return kept
 
     # Try fitz TOC
     chapters = _detect_from_toc(pdf_path)

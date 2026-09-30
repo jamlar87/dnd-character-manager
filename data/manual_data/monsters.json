@@ -121676,5 +121676,1968 @@
     "legendary_actions": [],
     "source": "(Wrath of the River King, p.67)",
     "_source_manual": "WRKF"
+  },
+  {
+    "name": "Blighted Sapling",
+    "size": "Medium",
+    "type": "plant",
+    "alignment": "unaligned",
+    "armor_class": 10,
+    "ac_type": "natural armor (10 + PB)",
+    "hit_points": "twice your druid level",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 2,
+      "dexterity": 13,
+      "constitution": 12,
+      "intelligence": 4,
+      "wisdom": 8,
+      "charisma": 3
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [
+      "necrotic",
+      "poison"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [
+      "blinded",
+      "deafened",
+      "poisoned"
+    ],
+    "senses": "blindsight 60 ft. (blind beyond this radius), passive Perception 9",
+    "languages": [
+      "understands the languages you speak"
+    ],
+    "challenge_rating": "—",
+    "xp": 0,
+    "features": [
+      {
+        "name": "Proficiency Bonus",
+        "description": "Proficiency Bonus (PB) equals your bonus"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "When you reach 14th level in this class, the blighted sapling makes two claw attacks."
+      },
+      {
+        "name": "Claws",
+        "description": "Melee Weapon Attack: your spell attack modifier to hit, reach 5 ft., one target. Hit: 2d4 + PB piercing damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.172)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Master Adranach",
+    "size": "Gargantuan",
+    "type": "construct",
+    "alignment": "",
+    "armor_class": 19,
+    "ac_type": "natural armor",
+    "hit_points": "290 (20d20 + 80)",
+    "speed": "60 ft., fly 120 ft.",
+    "ability_scores": {
+      "strength": 25,
+      "dexterity": 16,
+      "constitution": 19,
+      "intelligence": 10,
+      "wisdom": 14,
+      "charisma": 11
+    },
+    "saving_throws": {
+      "str": 14,
+      "dex": 10,
+      "wis": 9
+    },
+    "skills": {
+      "Athletics": 14,
+      "Perception": 16
+    },
+    "damage_resistances": [
+      "damage from spells"
+    ],
+    "damage_immunities": [
+      "poison",
+      "bludgeoning, piercing, and slashing from nonmagical attacks"
+    ],
+    "condition_immunities": [
+      "charmed",
+      "exhaustion",
+      "frightened",
+      "paralyzed",
+      "petrified",
+      "poisoned"
+    ],
+    "senses": "darkvision 360 ft., passive Perception 26",
+    "languages": [
+      "the languages spoken by its creator"
+    ],
+    "challenge_rating": "21",
+    "xp": 33000,
+    "features": [
+      {
+        "name": "Arcane Leak",
+        "description": "When the adranach is reduced to half its hit point maximum (145 hit points), its mithral mask cracks and its arcane form begins to waver, creating a field of unstable magic around it. Any creature that starts its turn within 20 feet of the adranach or enters that area for the first time on a turn takes 21 (6d6) radiant damage. Additionally, if a creature casts a spell within this area, it must make a DC 18 ability check using its spellcasting ability. On a failure, the spell backfires, consuming the spell slot and dealing 7 (2d6) force damage to the caster for each level of the spell slot that was consumed."
+      },
+      {
+        "name": "Immutable Form",
+        "description": "The adranach is immune to any spell or effect that would alter its form."
+      },
+      {
+        "name": "Magic Resistance",
+        "description": "The adranach has advantage on saving throws against spells and other magical effects."
+      },
+      {
+        "name": "Magic Weapons",
+        "description": "The adranach's weapon attacks are magical."
+      },
+      {
+        "name": "Colossal Build",
+        "description": "The adranach's carrying capacity is doubled, as is the weight it can push, drag, or lift."
+      },
+      {
+        "name": "Slipstream",
+        "description": "The adranach can cast invisibility on itself at will. While it is invisible, its speed is doubled."
+      },
+      {
+        "name": "Legendary Resistance (3/Day)",
+        "description": "If the adranach fails a saving throw, it can choose to succeed instead."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The adranach makes three attacks: two with its claws and one with its tail."
+      },
+      {
+        "name": "Claws",
+        "description": "Melee Weapon Attack: +14 to hit, one target, reach 5 ft. Hit: 33 (4d12 + 7) slashing damage."
+      },
+      {
+        "name": "Tail",
+        "description": "Melee Weapon Attack: +14 to hit, one target, reach 15 ft. Hit: 20 (2d12 + 7) bludgeoning damage."
+      },
+      {
+        "name": "Force Bolts (Recharge 5-6)",
+        "description": "The adranach targets up to six creatures it can see within 120 feet of it. Each target must succeed on a DC 22 Dexterity saving throw or take 35 (10d6) force damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [
+      {
+        "name": "Claw Attack",
+        "description": "The adranach makes one claw attack."
+      },
+      {
+        "name": "Vanish (Costs 2 Actions)",
+        "description": "The adranach casts invisibility and moves up to its walking or flying speed. (This movement doesn't benefit from its Slipstream trait)"
+      },
+      {
+        "name": "Starry Burst (Costs 3 Actions)",
+        "description": "A burst of astral energy flares from the adranach's body. Each creature within 60 feet of it must make a DC 22 Constitution saving throw. On a failed save, a creature takes 27 (6d10) force damage and is blinded until the end of its next turn. On a successful save, the creature takes half as much damage and is not blinded. The adranach then turns invisible until the start of its next turn or until it makes an attack."
+      }
+    ],
+    "source": "(taldorei campaign setting reborn compress, p.224)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Ashari Skydancer",
+    "size": "Medium",
+    "type": "humanoid (any)",
+    "alignment": "",
+    "armor_class": 14,
+    "ac_type": "",
+    "hit_points": "63 (14d8)",
+    "speed": "30 ft., fly 60 ft. (with skysail)",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 18,
+      "constitution": 10,
+      "intelligence": 12,
+      "wisdom": 16,
+      "charisma": 11
+    },
+    "saving_throws": {
+      "dex": 7
+    },
+    "skills": {
+      "Acrobatics": 7,
+      "Perception": 6
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 16",
+    "languages": [
+      "Auran",
+      "Common",
+      "Druidic"
+    ],
+    "challenge_rating": "5",
+    "xp": 1800,
+    "features": [
+      {
+        "name": "Evasion",
+        "description": "If the skydancer is subjected to an effect that allows it to make a Dexterity saving throw to take only half damage, the skydancer instead takes no damage if it succeeds on the saving throw, and only half damage if it fails."
+      },
+      {
+        "name": "Flyby",
+        "description": "The skydancer doesn't provoke an opportunity attack when it flies out of an enemy's reach."
+      },
+      {
+        "name": "Skysail",
+        "description": "The skydancer flies with a special Ashari magic item called a skysail (see page 199). While the skysail's wings are extended, the skydancer can glide through the air at a speed of 60 feet, but must descend by at least 10 feet at the end of its turn and can't gain altitude."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "The skydancer is a 3rd-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 14, +6 to hit with spell attacks). It has the following druid spells prepared:\nCantrips (at will): guidance, shillelagh\n1st level (4 slots): entangle, fog cloud, jump\n2nd level (2 slots): gust of wind, pass without trace"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The skydancer makes two skysail staff attacks."
+      },
+      {
+        "name": "Skysail Staff",
+        "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) bludgeoning damage. If the skydancer makes this attack while flying, the target must make a DC 14 Dexterity saving throw, taking 21 (6d6) lightning damage on a failed save, or half as much damage on a successful one."
+      },
+      {
+        "name": "Fly (1/Day)",
+        "description": "The skydancer uses its skysail to cast fly on itself for up to 1 minute (no concentration required).",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Slow Fall",
+        "description": "When the skydancer takes falling damage, it can reduce the damage by half."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.227)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Clasp Cutthroat",
+    "size": "Medium",
+    "type": "humanoid (any)",
+    "alignment": "",
+    "armor_class": 15,
+    "ac_type": "leather",
+    "hit_points": "44 (8d8 + 8)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 18,
+      "constitution": 12,
+      "intelligence": 8,
+      "wisdom": 14,
+      "charisma": 9
+    },
+    "saving_throws": {
+      "dex": 6
+    },
+    "skills": {
+      "Deception": 3,
+      "Stealth": 8
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 12",
+    "languages": [
+      "Common",
+      "thieves' cant"
+    ],
+    "challenge_rating": "3",
+    "xp": 700,
+    "features": [
+      {
+        "name": "Sneak Attack (1/Turn)",
+        "description": "The cutthroat deals an extra 14 (4d6) damage when it hits a target with a weapon attack and has advantage on the attack roll, or when the target is within 5 feet of an ally of the cutthroat that isn't incapacitated and the cutthroat doesn't have disadvantage on the attack roll."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The cutthroat makes two shortsword or dagger attacks."
+      },
+      {
+        "name": "Shortsword",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) piercing damage."
+      },
+      {
+        "name": "Dagger",
+        "description": "Melee or Ranged Weapon Attack: +6 to hit, reach 5 ft., range 20/60 ft., one target. Hit: 6 (1d4 + 4) piercing damage."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Uncanny Dodge",
+        "description": "The cutthroat halves the damage that it takes from an attack that hits it. The cutthroat must be able to see the attacker."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.232)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Clasp Enforcer",
+    "size": "Medium",
+    "type": "humanoid (any)",
+    "alignment": "",
+    "armor_class": 16,
+    "ac_type": "half plate",
+    "hit_points": "102 (12d8 + 48)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 12,
+      "constitution": 18,
+      "intelligence": 8,
+      "wisdom": 11,
+      "charisma": 14
+    },
+    "saving_throws": {},
+    "skills": {
+      "Athletics": 6,
+      "Intimidation": 8
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 10",
+    "languages": [
+      "Common",
+      "thieves' cant"
+    ],
+    "challenge_rating": "5",
+    "xp": 1800,
+    "features": [
+      {
+        "name": "Intimidating Presence",
+        "description": "Whenever the enforcer hits a creature with a melee attack, the target must succeed on a DC 15 Wisdom saving throw or be frightened of the enforcer until the end of the target's next turn. The enforcer and its allies have advantage on attack rolls against any creature frightened in this way. If a creature's saving throw is successful or the effect ends for it, the creature is immune to the enforcer's Intimidating Presence for the next 24 hours."
+      },
+      {
+        "name": "Second Wind (Recharges after a Short or Long Rest)",
+        "description": "As a bonus action, the enforcer can regain 12 hit points.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The enforcer makes three warhammer attacks."
+      },
+      {
+        "name": "Warhammer",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 8 (1d10 + 3) bludgeoning damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.233)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Demonfeed Spider",
+    "size": "Large",
+    "type": "fiend",
+    "alignment": "Chaotic evil",
+    "armor_class": 16,
+    "ac_type": "natural armor",
+    "hit_points": "75 (10d10+20)",
+    "speed": "40 ft., climb 40 ft.",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 16,
+      "constitution": 15,
+      "intelligence": 6,
+      "wisdom": 10,
+      "charisma": 6
+    },
+    "saving_throws": {
+      "dex": 7
+    },
+    "skills": {
+      "Perception": 3,
+      "Stealth": 7
+    },
+    "damage_resistances": [
+      "cold",
+      "fire",
+      "lightning"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [
+      "poisoned"
+    ],
+    "senses": "darkvision 120 ft., passive Perception 13",
+    "languages": [],
+    "challenge_rating": "8",
+    "xp": 3900,
+    "features": [
+      {
+        "name": "Spider Climb",
+        "description": "The spider can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+      },
+      {
+        "name": "Web Walker",
+        "description": "The spider ignores movement restrictions caused by webbing."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The spider makes two melee attacks: one with its bite and one with its stinger; or the spider can make one attack with its web spinner followed by a melee attack."
+      },
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 8 (1d10 + 3) piercing damage, and the target must make a DC 14 Constitution saving throw. On a failed save, the target takes 27 (6d8) poison damage and is poisoned for 1 minute. On a successful save, the target takes half as much damage and isn't poisoned. If this poison damage reduces the target to 0 hit points, the target is stable but poisoned for 1 hour, even after regaining hit points, and is paralyzed while poisoned in this way."
+      },
+      {
+        "name": "Stinger",
+        "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 9 (1d12 + 3) piercing damage, and the target must succeed on a DC 14 Constitution saving throw or be paralyzed for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+      },
+      {
+        "name": "Web Spinner",
+        "description": "Ranged Weapon Attack: +7 to hit, reach 40 ft., one target. Hit: The target is pulled 40 feet toward the spider and is grappled (escape DC 14). The spider can grapple only one creature at a time in this way. As an action, the spider can cocoon a creature it has grappled in webbing, causing it to be restrained and ending the grappled condition."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Arterial Spray",
+        "description": "When the spider takes damage while below half its hit point maximum, it can spray poisonous blood in a 15-foot cone. Each creature in the area must make a DC 14 Constitution saving throw. On a failed save, a creature takes 13 (3d8) poison damage and is poisoned for 1 minute. On a successful save, the creature takes half as much damage and isn't poisoned. If this poison damage reduces a creature to 0 hit points, the creature is stable but poisoned for 1 hour, even after regaining hit points, and is paralyzed while poisoned in this way."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.237)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Demonfeed Spiderling",
+    "size": "Medium",
+    "type": "fiend",
+    "alignment": "",
+    "armor_class": 13,
+    "ac_type": "natural armor",
+    "hit_points": "16 (3d8+3)",
+    "speed": "30 ft., climb 30 ft.",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 12,
+      "constitution": 12,
+      "intelligence": 2,
+      "wisdom": 7,
+      "charisma": 3
+    },
+    "saving_throws": {
+      "dex": 3
+    },
+    "skills": {
+      "Perception": 0,
+      "Stealth": 5
+    },
+    "damage_resistances": [
+      "cold",
+      "fire",
+      "lightning"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [
+      "poisoned"
+    ],
+    "senses": "darkvision 120 ft., passive Perception 10",
+    "languages": [],
+    "challenge_rating": "1",
+    "xp": 200,
+    "features": [
+      {
+        "name": "Spider Climb",
+        "description": "The spiderling can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+      },
+      {
+        "name": "Web Walker",
+        "description": "The spiderling ignores movement restrictions caused by webbing."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 5 (1d8 + 1) piercing damage, and the target must make a DC 13 Constitution saving throw, taking 10 (3d6) poison damage on a failed save, or half as much damage on a successful one."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.237)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Ember Roc",
+    "size": "Gargantuan",
+    "type": "monstrosity",
+    "alignment": "",
+    "armor_class": 14,
+    "ac_type": "natural armor",
+    "hit_points": "232 (16d20+64)",
+    "speed": "20 ft., fly 120 ft.",
+    "ability_scores": {
+      "strength": 26,
+      "dexterity": 10,
+      "constitution": 18,
+      "intelligence": 4,
+      "wisdom": 11,
+      "charisma": 9
+    },
+    "saving_throws": {
+      "dex": 5,
+      "con": 9,
+      "wis": 5,
+      "cha": 4
+    },
+    "skills": {
+      "Perception": 5
+    },
+    "damage_resistances": [],
+    "damage_immunities": [
+      "fire"
+    ],
+    "condition_immunities": [],
+    "senses": "passive Perception 15",
+    "languages": [
+      "understands Ignan but can't speak"
+    ],
+    "challenge_rating": "14",
+    "xp": 11500,
+    "features": [
+      {
+        "name": "Keen Sight",
+        "description": "The roc has advantage on Wisdom (Perception) checks that rely on sight."
+      },
+      {
+        "name": "Searing Presence",
+        "description": "Any creature that starts its turn within 5 feet of the roc takes 7 (2d6) fire damage."
+      },
+      {
+        "name": "Illumination",
+        "description": "The roc sheds bright light in a 40-foot radius and dim light for an additional 40 feet."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The roc makes two attacks: one with its beak and one with its talons."
+      },
+      {
+        "name": "Beak",
+        "description": "Melee Weapon Attack: +13 to hit, reach 10 ft., one target. Hit: 26 (4d8 + 8) piercing damage and 7 (2d6) fire damage."
+      },
+      {
+        "name": "Talons",
+        "description": "Melee Weapon Attack: +13 to hit, reach 5 ft., one target. Hit: 22 (4d6 + 8) slashing damage and 7 (2d6) fire damage."
+      },
+      {
+        "name": "Inferno (Recharge 5-6)",
+        "description": "The roc beats its wings, creating a swirling conflagration. Each creature within 30 feet of the roc must succeed on a DC 18 Dexterity saving throw or take 21 (6d6) fire damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.237)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Jourrael, the Caedogeist",
+    "size": "Medium",
+    "type": "fiend (drow)",
+    "alignment": "chaotic evil",
+    "armor_class": 19,
+    "ac_type": "studded leather armor",
+    "hit_points": "152 (16d8 + 80)",
+    "speed": "80 ft., fly 40 ft.",
+    "ability_scores": {
+      "strength": 13,
+      "dexterity": 24,
+      "constitution": 20,
+      "intelligence": 14,
+      "wisdom": 17,
+      "charisma": 15
+    },
+    "saving_throws": {
+      "dex": 12,
+      "con": 10,
+      "wis": 8
+    },
+    "skills": {
+      "Acrobatics": 12,
+      "Perception": 13,
+      "Stealth": 17
+    },
+    "damage_resistances": [
+      "acid",
+      "fire",
+      "lightning",
+      "cold",
+      "thunder",
+      "bludgeoning, piercing, and slashing from nonmagical attacks"
+    ],
+    "damage_immunities": [
+      "poison"
+    ],
+    "condition_immunities": [
+      "frightened",
+      "grappled",
+      "paralyzed",
+      "poisoned",
+      "prone",
+      "restrained"
+    ],
+    "senses": "darkvision 120 ft., passive Perception 23",
+    "languages": [
+      "Abyssal",
+      "Common",
+      "Infernal",
+      "Undercommon"
+    ],
+    "challenge_rating": "15",
+    "xp": 13000,
+    "features": [
+      {
+        "name": "Incorporeal Movement",
+        "description": "Jourrael can move through other creatures and objects as if they were difficult terrain. They take 5 (1d10) force damage if they end their turn inside an object."
+      },
+      {
+        "name": "Sneak Attack (1/Turn)",
+        "description": "Jourrael deals an extra 35 (10d6) damage when they hit a target with a weapon attack and have advantage on the attack roll, or when the target is within 5 feet of an ally of Jourrael that isn't incapacitated and Jourrael doesn't have disadvantage on the attack roll."
+      },
+      {
+        "name": "Innate Spellcasting",
+        "description": "Jourrael's spellcasting ability is Charisma (spell save DC 15). She can innately cast the following spells, requiring no material components:\nAt will: dancing lights\n1/day each: darkness, faerie fire"
+      },
+      {
+        "name": "Inevitable",
+        "description": "If Jourrael is reduced to 0 hit points, they do not fall unconscious but become an incorporeal spirit for 24 hours. During this time, Jourrael can't return to their original form until they return to full hit points. In this form, they are invisible, can't attack or interact with corporeal creatures or objects, and can't be targeted by spells. After 24 hours have passed, Jourrael regains 1 hit point and returns to their original form with four levels of exhaustion."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Jourrael makes two melee attacks or two ranged attacks."
+      },
+      {
+        "name": "Spectral Blade",
+        "description": "Melee Weapon Attack: +12 to hit, reach 5 ft., one target. Hit: 10 (1d6 + 7) slashing damage, and the target must succeed on a DC 14 Constitution saving throw or be poisoned for 1 hour. If the saving throw fails by 5 or more, the target is also unconscious while poisoned in this way. The target wakes up if it takes damage or if another creature takes an action to shake it awake."
+      },
+      {
+        "name": "Void Dagger",
+        "description": "Ranged Weapon Attack: +12 to hit, range 60/120 ft., one target. Hit: 9 (1d4 + 7) piercing damage."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Parry",
+        "description": "Jourrael adds 5 to their AC against one melee attack that would hit them. To do so, they must see the attacker."
+      }
+    ],
+    "legendary_actions": [],
+    "bonus_actions": [
+      {
+        "name": "Cunning Action",
+        "description": "Jourrael can take the Dash, Disengage, or Hide action."
+      },
+      {
+        "name": "Mirrored Form (Recharges after a Short Rest)",
+        "description": "Jourrael manifests three illusory duplicates that hover in her space. Each time a creature targets Jourrael with an attack, roll a d20 to see if it hits one of the duplicates. If there are three duplicates, a duplicate is targeted on a roll of 6 or higher. With two duplicates, a duplicate is targeted on a roll of 8 or higher. A single duplicate is targeted on a roll of 11 or higher. A duplicate's AC is 17, and it is destroyed if hit. Jourrael can hide the duplicates as a bonus action.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "source": "(taldorei campaign setting reborn compress, p.243)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Kraghammer Goat-Knight",
+    "size": "Medium",
+    "type": "humanoid (dwarf)",
+    "alignment": "",
+    "armor_class": 20,
+    "ac_type": "plate, shield",
+    "hit_points": "52 (8d8 + 16)",
+    "speed": "25 ft.",
+    "ability_scores": {
+      "strength": 17,
+      "dexterity": 8,
+      "constitution": 14,
+      "intelligence": 10,
+      "wisdom": 11,
+      "charisma": 16
+    },
+    "saving_throws": {
+      "str": 5,
+      "dex": 1,
+      "con": 4,
+      "int": 2,
+      "wis": 2,
+      "cha": 5
+    },
+    "skills": {
+      "Nature": 2,
+      "Religion": 4
+    },
+    "damage_resistances": [
+      "poison"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 10",
+    "languages": [
+      "Common",
+      "Dwarvish"
+    ],
+    "challenge_rating": "3",
+    "xp": 700,
+    "features": [
+      {
+        "name": "Aura of Protection",
+        "description": "Whenever the goat-knight or a creature friendly to it within 10 feet of it makes a saving throw, that creature gains a +2 bonus (included in the goat-knight's saving throws above). The goat-knight must be conscious to grant and gain this bonus."
+      },
+      {
+        "name": "Divine Health",
+        "description": "The goat-knight is immune to disease."
+      },
+      {
+        "name": "Dwarven Resilience",
+        "description": "The goat-knight has resistance to poison damage and advantage on saving throws against poison."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "The goat-knight is a 6th-level spellcaster. Its spellcasting ability is Charisma (spell save DC 13, +5 to hit with spell attacks). It has the following paladin spells prepared:\n1st level (4 slots): bless, cure wounds, protection from evil and good, sanctuary, shield of faith\n2nd level (2 slots): branding smite, find steed, lesser restoration, zone of truth"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The goat-knight makes two warhammer attacks."
+      },
+      {
+        "name": "Warhammer",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) bludgeoning damage, or 8 (1d10 + 3) bludgeoning damage if used with two hands."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.245)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Magma Landshark",
+    "size": "Huge",
+    "type": "elemental",
+    "alignment": "",
+    "armor_class": 18,
+    "ac_type": "natural armor",
+    "hit_points": "150 (12d12 + 72)",
+    "speed": "50 ft., burrow 50 ft., swim 50 ft. (lava only)",
+    "ability_scores": {
+      "strength": 22,
+      "dexterity": 11,
+      "constitution": 22,
+      "intelligence": 2,
+      "wisdom": 14,
+      "charisma": 5
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 7
+    },
+    "damage_resistances": [],
+    "damage_immunities": [
+      "fire"
+    ],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., tremorsense 120 ft., passive Perception 17",
+    "languages": [],
+    "challenge_rating": "14",
+    "xp": 11500,
+    "features": [
+      {
+        "name": "Searing Presence",
+        "description": "Any creature that starts its turn within 10 feet of the landshark takes 11 (2d10) fire damage."
+      },
+      {
+        "name": "Standing Leap",
+        "description": "The landshark's long jump is up to 40 feet and its high jump is up to 20 feet, with or without a running start."
+      },
+      {
+        "name": "Illumination",
+        "description": "The landshark sheds bright light in a 15-foot radius and dim light for an additional 15 feet."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +11 to hit, reach 5 ft., one target. Hit: 45 (6d12 + 6) piercing damage, and 14 (4d6) fire damage. If the target is a Large or smaller creature, it must succeed on a DC 18 Dexterity saving throw or be swallowed by the landshark. A swallowed creature is blinded and restrained, it has total cover against attacks and other effects outside the landshark, and it takes 42 (12d6) fire damage at the start of each of the landshark's turns.\nIf the landshark takes 30 damage or more on a single turn from a creature inside it, the landshark must succeed on a DC 23 Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall prone in a space within 10 feet of the landshark. If the landshark dies, a swallowed creature is no longer restrained by it and can escape from the corpse by using 15 feet of movement, exiting prone."
+      },
+      {
+        "name": "Deadly Leap",
+        "description": "If the landshark jumps at least 15 feet as part of its movement, it can then use this action to land on its feet in a space that contains one or more other creatures. Each of those creatures must succeed on a DC 18 Strength or Dexterity saving throw (target's choice) or be knocked prone and take 27 (6d6 + 6) bludgeoning damage plus 21 (6d6) fire damage. On a successful save, the creature takes only half the damage, isn't knocked prone, and is pushed 5 feet out of the landshark's space into an unoccupied space of the creature's choice. If no unoccupied space is within range, the creature instead falls prone in the landshark's space."
+      },
+      {
+        "name": "Lava Pool (Recharge 6)",
+        "description": "If the landshark is on solid ground, it melts the area around it, creating a pool of lava in a 10-foot radius. Any creature that starts its turn in the area or enters it for the first time on a turn takes 44 (8d10) fire damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.246)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Young Magma Landshark",
+    "size": "Large",
+    "type": "elemental",
+    "alignment": "",
+    "armor_class": 16,
+    "ac_type": "natural armor",
+    "hit_points": "105 (10d10 + 50)",
+    "speed": "40 ft., burrow 40 ft., swim 40 ft. (lava only)",
+    "ability_scores": {
+      "strength": 20,
+      "dexterity": 11,
+      "constitution": 21,
+      "intelligence": 2,
+      "wisdom": 10,
+      "charisma": 5
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 4
+    },
+    "damage_resistances": [],
+    "damage_immunities": [
+      "fire"
+    ],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., tremorsense 120 ft., passive Perception 14",
+    "languages": [],
+    "challenge_rating": "9",
+    "xp": 5000,
+    "features": [
+      {
+        "name": "Searing Presence",
+        "description": "Any creature that starts its turn within 10 feet of the landshark takes 11 (2d10) fire damage."
+      },
+      {
+        "name": "Standing Leap",
+        "description": "The landshark's long jump is up to 40 feet and its high jump is up to 20 feet, with or without a running start."
+      },
+      {
+        "name": "Illumination",
+        "description": "The landshark sheds bright light in a 15-foot radius and dim light for an additional 15 feet."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +9 to hit, reach 5 ft., one target. Hit: 31 (4d12 + 5) piercing damage, and 14 (4d6) fire damage."
+      },
+      {
+        "name": "Deadly Leap",
+        "description": "If the landshark jumps at least 15 feet as part of its movement, it can then use this action to land on its feet in a space that contains one or more other creatures. Each of those creatures must succeed on a DC 16 Strength or Dexterity saving throw (target's choice) or be knocked prone and take 19 (4d6 + 5) bludgeoning damage plus 14 (4d6) fire damage. On a successful save, the creature takes only half the damage, isn't knocked prone, and is pushed 5 feet out of the landshark's space into an unoccupied space of the creature's choice. If no unoccupied space is within range, the creature instead falls prone in the landshark's space."
+      },
+      {
+        "name": "Lava Pool (Recharge 6)",
+        "description": "If the landshark is on solid ground, it melts the area around it, creating a pool of lava in a 10-foot radius. Any creature that starts its turn in the area or enters it for the first time on a turn takes 44 (8d10) fire damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.6)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Plainscow",
+    "size": "Large",
+    "type": "beast",
+    "alignment": "",
+    "armor_class": 13,
+    "ac_type": "natural armor",
+    "hit_points": "42 (5d10 + 15)",
+    "speed": "40 ft.",
+    "ability_scores": {
+      "strength": 18,
+      "dexterity": 8,
+      "constitution": 16,
+      "intelligence": 2,
+      "wisdom": 10,
+      "charisma": 6
+    },
+    "saving_throws": {},
+    "skills": {
+      "Insight": 2
+    },
+    "damage_resistances": [
+      "bludgeoning, piercing, and slashing from nonmagical attacks"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 10",
+    "languages": [],
+    "challenge_rating": "2",
+    "xp": 450,
+    "features": [
+      {
+        "name": "Trampling Charge",
+        "description": "If the plainscow moves at least 20 feet straight toward a creature and then hits it with a hooves attack on the same turn, that target must succeed on a DC 14 Strength saving throw or be knocked prone. If the target is prone, the plainscow can make another attack with its hooves as a bonus action."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Hooves",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) bludgeoning damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.6)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Ravager Slaughter Lord",
+    "size": "Large",
+    "type": "humanoid (any)",
+    "alignment": "Chaotic evil",
+    "armor_class": 17,
+    "ac_type": "Unarmored Defense",
+    "hit_points": "157 (15d10 + 75)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 22,
+      "dexterity": 14,
+      "constitution": 20,
+      "intelligence": 12,
+      "wisdom": 16,
+      "charisma": 16
+    },
+    "saving_throws": {
+      "str": 10,
+      "con": 9,
+      "wis": 7
+    },
+    "skills": {
+      "Intimidation": 11,
+      "Religion": 5
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 13",
+    "languages": [
+      "Abyssal",
+      "Common",
+      "one other language"
+    ],
+    "challenge_rating": "9",
+    "xp": 5000,
+    "features": [
+      {
+        "name": "Innate Spellcasting",
+        "description": "The Slaughter Lord's innate spellcasting ability is Wisdom (spell save DC 15, +7 to hit with spell attacks). It can innately cast the following spells, requiring no material components:\nAt will: thaumaturgy\n3/day each: flame strike, spirit guardians\n1/day each: control weather, divine word, fire storm"
+      },
+      {
+        "name": "Legendary Resistance (2/Day)",
+        "description": "If the Slaughter Lord fails a saving throw, it can choose to succeed instead.",
+        "uses": 2,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Unarmored Defense",
+        "description": "While the Slaughter Lord is wearing no armor and not wielding a shield, its AC includes its Constitution modifier."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The Slaughter Lord makes four attacks with its dual greatswords or three attacks with its spear."
+      },
+      {
+        "name": "Dual Greatswords",
+        "description": "Melee Weapon Attack: +10 to hit, reach 5 ft., one target. Hit: 13 (2d6 + 6) piercing damage plus 3 (1d6) fire damage."
+      },
+      {
+        "name": "Spear",
+        "description": "Melee or Ranged Weapon Attack: +10 to hit, range 20/60 ft., one target. Hit: 13 (2d6 + 6) piercing damage plus 3 (1d6) fire damage, or 15 (2d8 + 6) piercing damage plus 3 (1d6) fire damage if used with both hands to make a melee attack."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [
+      {
+        "name": "Attack",
+        "description": "The Slaughter Lord makes a spear or dual greatswords attack."
+      },
+      {
+        "name": "Move",
+        "description": "The Slaughter Lord moves up to half its speed."
+      },
+      {
+        "name": "Cast a Spell (Costs 3 Actions)",
+        "description": "The Slaughter Lord casts an innate spell."
+      }
+    ],
+    "source": "(taldorei campaign setting reborn compress, p.250)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Ravager Stabby-Stabber",
+    "size": "Small",
+    "type": "humanoid (any)",
+    "alignment": "Chaotic evil",
+    "armor_class": 15,
+    "ac_type": "studded leather",
+    "hit_points": "36 (8d6 + 8)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 16,
+      "constitution": 12,
+      "intelligence": 10,
+      "wisdom": 8,
+      "charisma": 7
+    },
+    "saving_throws": {
+      "wis": 4
+    },
+    "skills": {},
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [
+      "charmed"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 9",
+    "languages": [
+      "Common",
+      "one other language"
+    ],
+    "challenge_rating": "3",
+    "xp": 700,
+    "features": [
+      {
+        "name": "Stabby Frenzy",
+        "description": "When the stabby-stabber hits with a melee attack, it can attack again and continue making additional attacks until it misses. The stabby-stabber cannot move between the attacks made with this trait."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Shortsword",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) piercing damage."
+      },
+      {
+        "name": "Dagger",
+        "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft., range 20/60 ft., one target. Hit: 5 (1d4 + 3) piercing damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.250)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Remnant Chosen",
+    "size": "Medium",
+    "type": "humanoid (any)",
+    "alignment": "Chaotic evil",
+    "armor_class": 12,
+    "ac_type": "15 with mage armor",
+    "hit_points": "117 (18d8 + 36)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 14,
+      "constitution": 14,
+      "intelligence": 15,
+      "wisdom": 16,
+      "charisma": 20
+    },
+    "saving_throws": {
+      "cha": 9,
+      "wis": 7
+    },
+    "skills": {
+      "Arcana": 10,
+      "Deception": 9
+    },
+    "damage_resistances": [
+      "damage from spells"
+    ],
+    "damage_immunities": [
+      "necrotic"
+    ],
+    "condition_immunities": [],
+    "senses": "truesight 60 ft., passive Perception 13",
+    "languages": [
+      "Abyssal",
+      "Common",
+      "Infernal"
+    ],
+    "challenge_rating": "12",
+    "xp": 8400,
+    "features": [
+      {
+        "name": "Magic Resistance",
+        "description": "The chosen has advantage on saving throws against spells and other magical effects."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "The chosen is an 18th-level spellcaster. Its spellcasting ability is Charisma (spell save DC 17, +9 to hit with spell attacks). It has the following sorcerer spells prepared:\nCantrips (at will): chill touch (4d8), dancing lights, mage hand, message, shocking grasp (4d8)\n1st level (4 slots): charm person, mage armor, shield\n2nd level (3 slots): blindness/deafness, detect thoughts\n3rd level (3 slots): counterspell, fly, hypnotic pattern\n4th level (3 slots): greater invisibility\n5th level (3 slots): dominate person, seeming\n6th level (1 slot): eyebite\n7th level (1 slot): finger of death\n8th level (1 slot): power word stun\n9th level (1 slot): power word kill"
+      },
+      {
+        "name": "Withering Spells",
+        "description": "When the chosen casts a spell of 1st level or higher, the next Withered Hand attack it makes before the end of its next turn deals extra damage equal to 1d6 per level of the spell cast."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Withering Touch",
+        "description": "Melee Spell Attack: +9 to hit, reach 5 ft., one target. Hit: 17 (5d6) force damage plus extra damage from the Withering Touch trait. If this damage reduces a creature to 0 hit points, the creature and everything it is wearing and carrying, except magic items, are reduced to a pile of fine gray dust. The creature can be restored to life only by means of a true resurrection or a wish spell."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.251)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Remnant Cultist",
+    "size": "Medium",
+    "type": "humanoid (any)",
+    "alignment": "",
+    "armor_class": 13,
+    "ac_type": "16 with mage armor",
+    "hit_points": "60 (11d8+11)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 16,
+      "constitution": 12,
+      "intelligence": 18,
+      "wisdom": 8,
+      "charisma": 8
+    },
+    "saving_throws": {
+      "wis": 2
+    },
+    "skills": {
+      "Deception": 5,
+      "Stealth": 6
+    },
+    "damage_resistances": [
+      "necrotic",
+      "psychic"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 9",
+    "languages": [
+      "Common",
+      "Infernal"
+    ],
+    "challenge_rating": "7",
+    "xp": 2900,
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "The remnant cultist is an 11th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 15, +7 to hit with spell attacks). The cultist has the following wizard spells prepared:\nCantrips (at will): chill touch (3d8), message, minor illusion, prestidigitation, ray of frost (3d8)\n1st level (4 slots): detect magic, hideous laughter, mage armor, shield\n2nd level (3 slots): detect thoughts, suggestion\n3rd level (3 slots): counterspell, fear, vampiric touch\n4th level (3 slots): greater invisibility, phantasmal killer\n5th level (2 slots): dream, mislead\n6th level (1 slot): circle of death"
+      },
+      {
+        "name": "Unknowable Secrets",
+        "description": "Any attempt to form a mental link with the cultist, cast scry on the cultist, or cast speak with dead on the cultist automatically fails, and the creature that initiated the attempt takes 21 (6d6) psychic damage."
+      },
+      {
+        "name": "One-Eyed",
+        "description": "The cultist has disadvantage on any attack roll made against a target more than 30 feet away."
+      },
+      {
+        "name": "Spellsteal",
+        "description": "If the cultist successfully uses counterspell to negate another creature's spell, it can cast the countered spell once before the end of its next turn using one of its spell slots of the same level or higher, and requiring no material components."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Dagger of Wounding",
+        "description": "Melee or Ranged Weapon Attack: +6 to hit, reach 5 ft., range 20/60 ft., one target. Hit: 5 (1d4 + 3) piercing damage. Hit points lost to this weapon's damage can be regained only through a short or long rest, rather than by regeneration, magic, or any other means.\nOnce per turn when the cultist hits a creature with an attack using this weapon, it can wound its target. At the start of each of the wounded creature's turns, it takes 2 (1d4) necrotic damage for each time it's been wounded by this weapon. It can then make a DC 15 Constitution saving throw, ending the effect of all such wounds on itself on a success. Alternatively, the wounded creature, or a creature within 5 feet of it, can use an action to make a DC 15 Wisdom (Medicine) check, ending the effect of such wounds on it on a success."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.252)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Rivermaw Brawler",
+    "size": "Medium",
+    "type": "humanoid (any)",
+    "alignment": "",
+    "armor_class": 15,
+    "ac_type": "Unarmored Defense",
+    "hit_points": "65 (10d8 + 20)",
+    "speed": "40 ft.",
+    "ability_scores": {
+      "strength": 17,
+      "dexterity": 14,
+      "constitution": 15,
+      "intelligence": 14,
+      "wisdom": 16,
+      "charisma": 8
+    },
+    "saving_throws": {
+      "str": 5,
+      "wis": 5
+    },
+    "skills": {
+      "Acrobatics": 4,
+      "Athletics": 5,
+      "Perception": 5
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 15",
+    "languages": [
+      "Common",
+      "Giant"
+    ],
+    "challenge_rating": "4",
+    "xp": 1100,
+    "features": [
+      {
+        "name": "Unarmored Defense",
+        "description": "While the brawler is wearing no armor and wielding no shield, its AC includes its Wisdom modifier."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The brawler makes three unarmed strikes."
+      },
+      {
+        "name": "Unarmed Strike",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) bludgeoning damage. If the target is a Large or smaller creature, the brawler can choose one of the following additional effects: Bruise. The target must succeed on a DC 13 Constitution saving throw. On a failure, its speed is reduced by 5 feet until it receives at least 1 point of magical healing. A creature can use its action to make a DC 15 Wisdom (Medicine) check to heal an affected creature within 5 feet of it (including itself), restoring any lost speed on a success. Disarm. The target must succeed on a DC 13 Strength saving throw or drop one item it is holding. The brawler can choose which item is dropped, and can pick it up. Suplex. The target must succeed on a DC 13 Strength saving throw or be knocked prone."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Clever Fighter",
+        "description": "When the brawler hits with an attack or is targeted by an attack, it can add its Intelligence modifier (+2) to its damage rolls or AC until the end of its turn."
+      },
+      {
+        "name": "Endurance (Recharges after a Short or Long Rest)",
+        "description": "When the brawler takes damage, it can reduce the damage by 8 (1d12 + 2)."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.253)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Rivermaw Stormborn",
+    "size": "Medium",
+    "type": "humanoid (any)",
+    "alignment": "",
+    "armor_class": 13,
+    "ac_type": "hide armor",
+    "hit_points": "102 (12d8 + 48)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 18,
+      "dexterity": 12,
+      "constitution": 18,
+      "intelligence": 11,
+      "wisdom": 10,
+      "charisma": 12
+    },
+    "saving_throws": {
+      "con": 7,
+      "cha": 4
+    },
+    "skills": {
+      "Athletics": 7,
+      "Intimidation": 4
+    },
+    "damage_resistances": [
+      "lightning"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 10",
+    "languages": [
+      "Common",
+      "Giant"
+    ],
+    "challenge_rating": "5",
+    "xp": 1800,
+    "features": [
+      {
+        "name": "Reckless",
+        "description": "At the start of its turn, the stormborn can gain advantage on all melee weapon attack rolls during that turn, but attack rolls against it have advantage until the start of its next turn."
+      },
+      {
+        "name": "Innate Spellcasting",
+        "description": "The stormborn's innate spellcasting ability is Charisma (spell save DC 12). The stormborn can innately cast the following spells, requiring no material components: 3/day: lightning bolt; 1/day: call lightning"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The stormborn makes two greataxe attacks. If it is concentrating on call lightning, it can also call down a lightning bolt."
+      },
+      {
+        "name": "Greataxe",
+        "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 10 (1d12 + 4) slashing damage plus 3 (1d6) lightning damage."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Endurance (Recharges after a Short or Long rest)",
+        "description": "When the stormborn takes damage, it can reduce the damage by 10 (1d12 + 4)."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.253)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Centaur Skeleton",
+    "size": "Large",
+    "type": "undead",
+    "alignment": "",
+    "armor_class": 12,
+    "ac_type": "",
+    "hit_points": "45 (6d10 + 12)",
+    "speed": "50 ft.",
+    "ability_scores": {
+      "strength": 17,
+      "dexterity": 14,
+      "constitution": 14,
+      "intelligence": 6,
+      "wisdom": 9,
+      "charisma": 5
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [],
+    "damage_immunities": [
+      "poison"
+    ],
+    "condition_immunities": [
+      "exhaustion",
+      "poisoned"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 9",
+    "languages": [
+      "understands Common but can't speak"
+    ],
+    "challenge_rating": "2",
+    "xp": 450,
+    "features": [
+      {
+        "name": "Charge",
+        "description": "If the centaur moves at least 30 feet straight toward a target and then hits it with a pike attack on the same turn, the target takes an extra 10 (3d6) piercing damage."
+      },
+      {
+        "name": "Spirit Away",
+        "description": "The centaur skeleton and up to three creatures within 5 feet of it magically enter the Ethereal Plane from the Material Plane, or vice versa. An unwilling creature that succeeds on a DC 13 Charisma saving throw can resist this effect."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The centaur skeleton makes two attacks: one with its pike and one with its hooves, or two with its longbow."
+      },
+      {
+        "name": "Pike",
+        "description": "Melee Weapon Attack: +5 to hit, reach 10 ft., one target. Hit: 8 (1d10 + 3) piercing damage."
+      },
+      {
+        "name": "Hooves",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) bludgeoning damage."
+      },
+      {
+        "name": "Longbow",
+        "description": "Ranged Weapon Attack: +4 to hit, range 150/600 ft., one target. Hit: 6 (1d8 + 2) piercing damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.257)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Flaming Skeleton",
+    "size": "Medium",
+    "type": "undead",
+    "alignment": "",
+    "armor_class": 12,
+    "ac_type": "",
+    "hit_points": "19 (3d8 + 6)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 14,
+      "constitution": 15,
+      "intelligence": 6,
+      "wisdom": 8,
+      "charisma": 5
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [],
+    "damage_immunities": [
+      "fire",
+      "poison"
+    ],
+    "condition_immunities": [
+      "exhaustion",
+      "poisoned"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 9",
+    "languages": [
+      "understands all languages it knew in life but can't speak"
+    ],
+    "challenge_rating": "1/2",
+    "xp": 100,
+    "features": [
+      {
+        "name": "Heated Weapons",
+        "description": "When the skeleton hits with a metal melee weapon, the weapon deals an extra 3 (1d6) fire damage (included in the attack)."
+      },
+      {
+        "name": "Illumination",
+        "description": "The skeleton sheds bright light in a 10-foot radius and dim light for an additional 10 feet."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Shortsword",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage and 3 (1d6) fire damage."
+      },
+      {
+        "name": "Ignite",
+        "description": "The skeleton flings itself at a Large or smaller creature within 5 feet of it. The target must succeed on a DC 12 Dexterity saving throw or be grappled (escape DC 12). On a failed save, the target also takes 3 (1d6) fire damage at the start of each of its turns, even after the grapple ends. If the target or a creature within 5 feet of it uses an action to put out the flames, or if some other effect douses the flames (such as the target being submerged in water), the effect ends."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.257)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "S'Skyriss Serpentfolk",
+    "size": "Large",
+    "type": "monstrosity",
+    "alignment": "neutral evil",
+    "armor_class": 14,
+    "ac_type": "natural armor",
+    "hit_points": "60 (8d10 + 16)",
+    "speed": "40 ft., swim 40 ft.",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 15,
+      "constitution": 15,
+      "intelligence": 12,
+      "wisdom": 10,
+      "charisma": 14
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 2,
+      "Stealth": 4
+    },
+    "damage_resistances": [],
+    "damage_immunities": [
+      "poison"
+    ],
+    "condition_immunities": [
+      "poisoned"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 12",
+    "languages": [
+      "Common",
+      "Draconic"
+    ],
+    "challenge_rating": "3",
+    "xp": 700,
+    "features": [
+      {
+        "name": "Innate Spellcasting",
+        "description": "The serpentfolk's innate spellcasting ability is Charisma (spell save DC 12). It can innately cast the following spells, requiring no material components:\nAt will: animal friendship, speak with animals (snakes only)\n2/day each: sleep, suggestion\n1/day: pass without trace"
+      },
+      {
+        "name": "Hold Breath",
+        "description": "The serpentfolk can hold its breath for 30 minutes."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The serpentfolk makes two scimitar attacks."
+      },
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one creature. Hit: 6 (1d6 + 3) piercing damage plus 7 (2d6) poison damage."
+      },
+      {
+        "name": "Scimitar",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) slashing damage."
+      },
+      {
+        "name": "Constrict",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one creature. Hit: 7 (1d8 + 3) bludgeoning damage, and the target is grappled (escape DC 13). Until this grapple ends, the creature is restrained, and the serpentfolk can't constrict another target."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.257)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Vos'Skyriss Serpentfolk Ghost",
+    "size": "Large",
+    "type": "undead",
+    "alignment": "neutral evil",
+    "armor_class": 13,
+    "ac_type": "",
+    "hit_points": "55 (10d10)",
+    "speed": "0 ft., fly 40 ft. (hover)",
+    "ability_scores": {
+      "strength": 7,
+      "dexterity": 16,
+      "constitution": 10,
+      "intelligence": 12,
+      "wisdom": 10,
+      "charisma": 16
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 2,
+      "Stealth": 7
+    },
+    "damage_resistances": [
+      "acid",
+      "fire",
+      "lightning",
+      "thunder",
+      "bludgeoning, piercing, and slashing from nonmagical attacks"
+    ],
+    "damage_immunities": [
+      "cold",
+      "necrotic",
+      "poison"
+    ],
+    "condition_immunities": [
+      "charmed",
+      "exhaustion",
+      "frightened",
+      "grappled",
+      "paralyzed",
+      "poisoned",
+      "prone",
+      "restrained"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 12",
+    "languages": [
+      "Common",
+      "Draconic"
+    ],
+    "challenge_rating": "4",
+    "xp": 1100,
+    "features": [
+      {
+        "name": "Incorporeal Movement",
+        "description": "The ghost can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object."
+      },
+      {
+        "name": "Ethereal Sight",
+        "description": "The ghost can see 60 feet into the Ethereal Plane when it is on the Material Plane, and vice versa."
+      },
+      {
+        "name": "Etherealness",
+        "description": "The ghost enters the Ethereal Plane from the Material Plane, or vice versa. It is visible on the Material Plane while it is in the Border Ethereal, and vice versa, yet it can't affect or be affected by anything on the other plane."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The ghost makes two spear attacks."
+      },
+      {
+        "name": "Spear",
+        "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 6 (1d6 + 3) piercing damage plus 7 (2d6) necrotic damage. If the ghost makes a ranged attack, its spear rematerializes in its hands after the attack is resolved."
+      },
+      {
+        "name": "Terrifying Hiss",
+        "description": "The ghost emits an uncanny, rasping hiss. Each non-undead creature within 30 feet of the ghost that can hear it must succeed on a DC 13 Wisdom saving throw or be frightened for 1 minute. A frightened target can repeat the saving throw at the end of each of its turns, ending the condition on itself on a success. If a target's saving throw is successful or the effect ends for it, the target is immune to this ghost's Terrifying Hiss for the next 24 hours."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.257)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Wraithroot Tree",
+    "size": "Huge",
+    "type": "plant",
+    "alignment": "neutral evil",
+    "armor_class": 16,
+    "ac_type": "natural armor",
+    "hit_points": "270 (20d12 + 140)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 23,
+      "dexterity": 8,
+      "constitution": 24,
+      "intelligence": 12,
+      "wisdom": 16,
+      "charisma": 12
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 8
+    },
+    "damage_resistances": [
+      "bludgeoning",
+      "piercing"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [
+      "stunned",
+      "frightened",
+      "charmed",
+      "paralyzed",
+      "poisoned"
+    ],
+    "senses": "passive Perception 18",
+    "languages": [
+      "Common",
+      "Druidic",
+      "Elvish",
+      "Sylvan"
+    ],
+    "challenge_rating": "14",
+    "xp": 11500,
+    "features": [
+      {
+        "name": "False Appearance",
+        "description": "While the wraithroot tree remains motionless, it is indistinguishable from a normal tree."
+      },
+      {
+        "name": "Wraith Shift",
+        "description": "On its turn, the wraithroot tree can move through other creatures and objects as if they were difficult terrain. The tree does not provoke opportunity attacks while moving, and must finish its movement in a space unoccupied by any Large or larger objects or creatures. Any Medium or smaller creature in the tree's space when it finishes moving is pushed to the nearest unoccupied space of the creature's choice. Medium or smaller objects in the tree's space are pushed to the nearest unoccupied spaces of the tree's choice."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The wraithroot tree makes two slam attacks."
+      },
+      {
+        "name": "Slam",
+        "description": "Melee Weapon Attack: +11 to hit, reach 10 ft., one target. Hit: 16 (3d6 + 6) bludgeoning damage."
+      },
+      {
+        "name": "Rock",
+        "description": "Ranged Weapon Attack: +11 to hit, range 60/180 ft., one target. Hit: 28 (4d10 + 6) bludgeoning damage."
+      },
+      {
+        "name": "Wraithstorm (Recharge 5-6)",
+        "description": "The wraithroot tree pulls life energy from the area around it, leaving creatures temporarily frail. Each creature that is not a construct or undead within 30 feet of the tree must succeed on a DC 16 Constitution saving throw or have its speed halved and gain vulnerability to bludgeoning damage until the end of the tree's next turn."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.257)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Trinket",
+    "size": "Large",
+    "type": "beast (brown bear)",
+    "alignment": "",
+    "armor_class": 18,
+    "ac_type": "plate",
+    "hit_points": "61 (6d10 + 18 + 10)",
+    "speed": "40 ft., climb 30 ft.",
+    "ability_scores": {
+      "strength": 19,
+      "dexterity": 10,
+      "constitution": 16,
+      "intelligence": 5,
+      "wisdom": 13,
+      "charisma": 7
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 10
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 20",
+    "languages": [
+      "understands Common but can't speak it"
+    ],
+    "challenge_rating": "5",
+    "xp": 1800,
+    "features": [
+      {
+        "name": "Chosen Companion",
+        "description": "Trinket has an additional 10 hit points, and has a +6 bonus to attack and damage rolls and to Wisdom (Perception) checks."
+      },
+      {
+        "name": "Empowered Attacks",
+        "description": "Trinket's attacks are treated as magical for the purpose of overcoming resistance and immunity to damage from nonmagical attacks."
+      },
+      {
+        "name": "Keen Smell",
+        "description": "Trinket has advantage on Wisdom (Perception) checks that rely on smell."
+      },
+      {
+        "name": "Raven's Slumber",
+        "description": "If Trinket is reduced to 0 hit points and is within 100 feet of Vex, he is immediately drawn into the demiplane within Vex's raven's slumber and stabilized."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Trinket makes two attacks: one with his bite and one with his claws."
+      },
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +13 to hit, reach 5 ft., one target. Hit: 14 (1d8 + 10) piercing damage."
+      },
+      {
+        "name": "Claws",
+        "description": "Melee Weapon Attack: +13 to hit, reach 5 ft., one target. Hit: 17 (2d6 + 10) slashing damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Doty X",
+    "size": "Medium",
+    "type": "construct",
+    "alignment": "",
+    "armor_class": 17,
+    "ac_type": "natural armor",
+    "hit_points": "78 (9d8 + 18 + 20)",
+    "speed": "40 ft.",
+    "ability_scores": {
+      "strength": 14,
+      "dexterity": 12,
+      "constitution": 14,
+      "intelligence": 4,
+      "wisdom": 10,
+      "charisma": 6
+    },
+    "saving_throws": {
+      "dex": 4,
+      "con": 5
+    },
+    "skills": {
+      "Athletics": 7,
+      "Perception": 8
+    },
+    "damage_resistances": [],
+    "damage_immunities": [
+      "poison"
+    ],
+    "condition_immunities": [
+      "charmed",
+      "exhaustion",
+      "poisoned"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 18",
+    "languages": [
+      "understands the languages that Tary speaks"
+    ],
+    "challenge_rating": "6",
+    "xp": 2300,
+    "features": [
+      {
+        "name": "Arcane Surge (4/Day)",
+        "description": "When Doty hits a target, Tary can channel magical energy to deal an extra 14 (4d6) force damage to the target as long as Tary is not incapacitated."
+      },
+      {
+        "name": "Dedicated Servant",
+        "description": "Doty has an additional 20 hit points, and has a +2 modifier to saving throws, ability checks using skill proficiencies, and attack rolls."
+      },
+      {
+        "name": "Limited Vocabulary",
+        "description": "Doty can say the following words in Common: \"Tary,\" \"Yes,\" \"Correct,\" \"Absolutely,\" \"Soon,\" and \"Handsome.\""
+      },
+      {
+        "name": "Doty can't be surprised.",
+        "description": "Doty can't be surprised."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Empowered Fist",
+        "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 8 (1d8 + 4) force damage."
+      },
+      {
+        "name": "Repair (3/Day)",
+        "description": "Doty regains 15 (2d8 + 6) hit points."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Deflect",
+        "description": "If a creature within 5 feet of Doty that he can see makes an attack against a creature other than Doty, he can impose disadvantage on the attack roll. The attacker then takes 6 (1d4 + 4) force damage."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.272)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Champion of Ravens",
+    "size": "Medium",
+    "type": "celestial",
+    "alignment": "",
+    "armor_class": 20,
+    "ac_type": "Deathwatker's Ward",
+    "hit_points": "150 (20d10 + 40)",
+    "speed": "30 ft., fly 60 ft.",
+    "ability_scores": {
+      "strength": 14,
+      "dexterity": 20,
+      "constitution": 14,
+      "intelligence": 16,
+      "wisdom": 14,
+      "charisma": 17
+    },
+    "saving_throws": {
+      "str": 5,
+      "dex": 15,
+      "con": 5,
+      "int": 13,
+      "wis": 5,
+      "cha": 6
+    },
+    "skills": {
+      "Acrobatics": 9,
+      "Intimidation": 10,
+      "Investigation": 10,
+      "Perception": 16,
+      "Persuasion": 10,
+      "Sleight of Hand": 12,
+      "Stealth": 19
+    },
+    "damage_resistances": [
+      "radiant",
+      "necrotic",
+      "poison",
+      "bludgeoning, piercing, and slashing from nonmagical attacks"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [
+      "charmed",
+      "exhaustion",
+      "frightened",
+      "unconscious"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 26",
+    "languages": [
+      "Abyssal",
+      "Celestial",
+      "Common",
+      "Druidic",
+      "Elvish",
+      "thieves' cant"
+    ],
+    "challenge_rating": "21",
+    "xp": 33000,
+    "features": [
+      {
+        "name": "Proficiency Bonus",
+        "description": "+7"
+      },
+      {
+        "name": "Assassinate",
+        "description": "During his first turn, the Champion has advantage on attack rolls against any creature that hasn't taken a turn. Any hit the Champion scores against a surprised creature is a critical hit."
+      },
+      {
+        "name": "Aura of Protection",
+        "description": "While the Champion is conscious, he and friendly creatures within 10 feet of him have a +3 bonus to saving throws (included above)."
+      },
+      {
+        "name": "Eternal Champion",
+        "description": "When the Champion is reduced to 0 hit points or dies, his body is destroyed but his spirit returns to the Raven Queen's side, and he gains a new body after 1d4 days."
+      },
+      {
+        "name": "Evasion",
+        "description": "If the Champion is subjected to an effect that allows him to make a Dexterity saving throw to take only half damage, he instead takes no damage if he succeeds on the saving throw, and only half damage if he fails."
+      },
+      {
+        "name": "Fate-Touched (4/Day)",
+        "description": "When the Champion makes an attack roll, ability check, or saving throw, he can reroll the d20 and use either roll. Alternatively, when a creature the Champion can see makes an attack roll against him, or a saving throw against one of his spells or features, he can force that creature to reroll the attack or save and use the new roll.",
+        "uses": 4,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Innate Spellcasting",
+        "description": "The Champion's innate spellcasting ability is Charisma (+10 to hit with spell attacks, save DC 18). He can innately cast the following spells, requiring no material components:\nAt will: bane, bless, druidcraft\n1/day: greater invisibility"
+      },
+      {
+        "name": "Shadow Smite (1/Turn)",
+        "description": "The Champion deals an extra 49 (14d6) radiant or necrotic damage (his choice) when he hits a target with a weapon attack and he doesn't have disadvantage on the attack roll."
+      },
+      {
+        "name": "Unerring Sight",
+        "description": "The Champion's ranged weapon attacks ignore half cover and three-quarters cover and have no range penalty."
+      },
+      {
+        "name": "Special Equipment",
+        "description": "The Champion wears boots of haste (see page 194) and the Deathwalker's Ward (see page 204), and wields Whisper (see page 211)."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The Champion makes three attacks with Whisper."
+      },
+      {
+        "name": "Whisper",
+        "description": "Melee or Ranged Weapon Attack: +15 to hit, reach 5 ft. or range 60 ft., one target. Hit: 10 (1d4 + 8) piercing damage plus 4 (1d8) psychic damage. On a critical hit, the target must succeed on a DC 18 Wisdom saving throw or be frightened of the Champion for 1 minute. On a ranged attack, the Champion can teleport with Whisper, appearing within 5 feet of the target on a hit, or in a random space within 30 feet of the target on a miss."
+      },
+      {
+        "name": "Touch of Life and Death (Recharges after a Short or Long Rest)",
+        "description": "The Champion touches a creature within 5 feet of him, and chooses to either heal or harm that creature, restoring 55 (10d10) hit points or dealing 55 (10d10) necrotic damage. If the creature is an unwilling target, it can avoid either effect with a successful DC 20 Dexterity saving throw.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Uncanny Dodge",
+        "description": "The Champion halves the damage that he takes from an attack that hits him. He must be able to see the attacker."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(taldorei campaign setting reborn compress, p.275)",
+    "_source_manual": "TCSR"
   }
 ]

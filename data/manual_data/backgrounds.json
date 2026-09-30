@@ -1513,5 +1513,91 @@
     "description": "Courtfolk are a long-lived race, and old habits have been hard to shake. The majority of courtfolk, even independent now, were once servants at some point in their lives. These halflings are experts in complex social dynamics and knowledgeable in elven history and customs.",
     "source": "(Warlock 017 FINAL v2)",
     "_source_manual": "WFV"
+  },
+  {
+    "name": "Ashari",
+    "skill_proficiencies": [
+      "Nature"
+    ],
+    "tool_proficiencies": [
+      "Herbalism kit"
+    ],
+    "languages": [
+      "Primordial (Aquan, Auran, Ignan, or Terran, depending on the elemental affinity of your tribe)"
+    ],
+    "equipment": [
+      "A set of traveler's clothes",
+      "a staff carved with symbols of your tribe",
+      "an herbalism kit",
+      "a belt pouch containing 10 gp"
+    ],
+    "feature": {
+      "name": "Elemental Harmony",
+      "description": "Growing up surrounded by wild elemental ma; has attuned your senses to those chaotic forces, enabling you to subtly bend them to your will. As an action, you channel minor magic involving the element of your chosen Ashari order, giving you one of the following abilities: Pyrah. You instantaneously create and control a burst of flame small enough to light a candle, a torch, ora small campfire. Alternatively, you snuff out a flame of the same size. Terrah. You instantaneously create a small rock no larger than a gold coin. The rock appears in your hand, then turns to dust after 1 minute. Vesrah. You instantaneously create enough hot or cold water to fill a small drinking vessel. Zephrah. You create an instantaneous puff of wind strong enough to blow papers off a desk or mess up someone's hair."
+    },
+    "description": "Isolated from the political struggles of urban Tal'Dorei, you are a member of the Ashari people—a society bound to an ancient covenant protecting the Material Plane from the chaos of the primordial elements.",
+    "source": "(taldorei campaign setting reborn compress)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Clasp Member",
+    "skill_proficiencies": [
+      "Deception"
+    ],
+    "tool_proficiencies": [
+      "Disguise kit, forgery kit, or thieves' tools (one of your choice)"
+    ],
+    "languages": [
+      "Thieves' Cant"
+    ],
+    "equipment": [
+      "A set of inconspicuous common clothes"
+    ],
+    "feature": {
+      "name": "A Favor in Turn",
+      "description": "You have gained enough clout in the Clasp that you can call in a favor from your contacts whenever you're close enough to a center of syndicate activity. A request for a favor can be no longer than 20 words, and is passed up the chain to an undisclosed Spireling for approval. This favor can take on any form subject to the approval of the GM, who decides how it is fulfilled. If muscle is requested, an NPC member of the Clasp (using statistics found in chapter 6) can temporarily aid your party. If money is needed, a small loan can be provided. If you've been imprisoned, Clasp operatives can look into breaking you out or paying off the jailer. At some point, the favor will be called in for repayment, often without warning. Refusing the call will result in your termination—literally. You might be called on to commit a specific burglary, or to pressure an Emonian dignitary to reveal a secret at an upcoming ball. The Clasp might even demand that you assassinate a specific person, with no questions asked or answered. It's the GM's prerogative to ensure that the syndicate's request is proportionate to the favor they bestowed—or that they compensate you in other ways for a service that goes beyond the scope of repaying the initial favor."
+    },
+    "description": "Whether you grew up in the mean streets of Kymal bamboozling foolish gamblers, or spent your youth pilfering loose coin from the pockets of Emon's many tourists, your lifestyle of deceiving-to-survive eventually drew the attention of the Clasp: a storied crime syndicate that has hideouts in every city in Tal'Dorei. In exchange for protection, a modicum of kinship, and a number of useful resources to further develop your craft as a criminal, you agreed to receive the brand of the Clasp and join their ranks.",
+    "source": "(taldorei campaign setting reborn compress)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Lyceum Scholar",
+    "skill_proficiencies": [
+      "Arcana",
+      "History",
+      "Persuasion"
+    ],
+    "tool_proficiencies": [],
+    "languages": [
+      "Two of your choice"
+    ],
+    "equipment": [
+      "A set of fine clothes",
+      "a student uniform",
+      "a writing kit (small pouch with a quill, ink, folded parchment, and a penknife)",
+      "a belt pouch containing 10 gp"
+    ],
+    "feature": {
+      "name": "Academic Requisition",
+      "description": "You've cleared enough lessons—and have gained an ally or two among the staff—to enable access to certain private areas within the Lyceum and other allied universities. Whenever you're on Lyceum grounds or at another major academic institution, you can requisition any set of tools found in the fifth edition rules, Each set of tools is magically marked to sound an alarm if they are removed from the university's grounds. When you seek services such as spellcasting from an NPC at the Alabaster Lyceum or a related institution, you can use those services at a 25 percent discount, at the GM's discretion."
+    },
+    "description": "You most likely came up through money or hailed from a family with social prestige if you were able to afford tuition at the Alabaster Lyceum in Emon. But whatever your origin, your interests and pursuits brought you to the hallowed halls of Tal'Dorei's highest place of learning, where you soaked in every lesson you could, hoping to better make your mark on the world.",
+    "source": "(taldorei campaign setting reborn compress)",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Lycеum Scholar",
+    "skill_proficiencies": [],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "",
+      "description": ""
+    },
+    "description": "A student of the Lyceum, with personality traits, ideals, bonds, and flaws tables provided.",
+    "source": "(taldorei campaign setting reborn compress)",
+    "_source_manual": "TCSR"
   }
 ]
