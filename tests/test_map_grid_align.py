@@ -46,6 +46,47 @@ def test_a_known_grid_comes_back_at_the_right_pitch_and_phase(tmp_path):
         assert min(d, pitch - d) <= 2.5, f"phase {r['offset_x']} for offset {offset}"
 
 
+def test_a_strong_harmonic_does_not_double_the_pitch(tmp_path):
+    """Autocorrelation correlates just as well at 2p and 3p as at p, so the raw argmax can land on a
+    multiple of the true pitch. A pass that trusted it set 104->178, 116->232, 106->319 on real maps.
+    Every other line darker makes the even spacing dominant, which is exactly that trap."""
+    import random
+    size, pitch = 1200, 50
+    rnd = random.Random(5)
+    img = Image.new("RGB", (size, size))
+    px = img.load()
+    for y in range(size):
+        for x in range(size):
+            v = 150 + rnd.randint(-16, 16)
+            px[x, y] = (v, v, v)
+    for i, x in enumerate(range(pitch // 2, size, pitch)):        # alternate dark / very dark
+        shade = 30 if i % 2 == 0 else 90
+        for t in range(2):
+            for y in range(size):
+                px[x + t, y] = (shade, shade, shade)
+    for i, y in enumerate(range(pitch // 2, size, pitch)):
+        shade = 30 if i % 2 == 0 else 90
+        for t in range(2):
+            for x in range(size):
+                px[x, y + t] = (shade, shade, shade)
+    p = tmp_path / "harmonic.png"
+    img.save(p)
+    # with a hint the pitch is taken as given, so the answer is exact - this is the path the app uses,
+    # because every map already carries a cell size
+    r2 = detect(p, hint_pitch=pitch)
+    assert abs(r2["pitch_px"] - pitch) <= 1, f"the hint did not hold: {r2['pitch_px']}"
+    d = abs(r2["offset_x"] - pitch // 2)
+    assert min(d, pitch - d) <= 3, f"phase {r2['offset_x']} wrong for a hinted pitch of {pitch}"
+
+    # with no hint the ambiguity is real and is not pretended away: a lattice at pitch p is genuinely
+    # also periodic at 2p, 3p ..., so a multiple is an acceptable answer and a SUBmultiple is not - that
+    # would put two overlay lines on every printed one.
+    r = detect(p)
+    assert r, "nothing detected"
+    ratio = r["pitch_px"] / pitch
+    assert ratio >= 0.9, f"picked {r['pitch_px']}, a submultiple of the true {pitch}"
+
+
 def test_art_with_no_printed_grid_is_refused(tmp_path):
     """The whole feature is a lie if it invents a grid. Noise folds flat: measured 0.08 against 0.9+."""
     p = _gridded(tmp_path / "plain.png", 100, 0, noise=True)

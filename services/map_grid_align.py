@@ -23,8 +23,16 @@ from PIL import Image
 #: Cells across the long edge. The corpus runs 8-60; the low end is a single big hall in one image.
 MIN_PITCH_FRAC, MAX_PITCH_FRAC = 1 / 160, 1 / 5
 WORK = 1400          # work scale; results are scaled back to the source image
-MIN_SCORE = 0.5      # fold peak over fold mean: measured 0.08-0.21 without a grid, 0.9+ with one
+MIN_SCORE = 0.4      # fold peak over fold mean: how periodic the profile is at this pitch
 MIN_AGREE = 0.9      # a printed battle grid is square, so the two axes must share a pitch
+# The gate asks "is there structure here to align to", not "is a grid printed here". Those are
+# different questions and the corpus cannot answer the second one: "Swine and Roses grid" and its
+# "no grid" twin both fold at 0.35 against 0.37, and the no-grid variants score HIGHER on lattice
+# contrast than some genuinely gridded maps. What they share is the answer that matters — both detect
+# the same offset, because the artist drew the grid along the tile joints. Aligning a map whose art has
+# no lines is harmless (the grid is off until asked for); misaligning one that does is not.
+MIN_AXIS_Z = 0.5     # lattice ink over the profile's own MAD, per axis
+MIN_STRONG_Z = 1.5   # at least one axis must show real structure
 
 
 def _profile(arr: np.ndarray, along: str) -> np.ndarray:
@@ -36,6 +44,23 @@ def _profile(arr: np.ndarray, along: str) -> np.ndarray:
     """
     g = np.abs(np.diff(arr.astype(np.float32), axis=1 if along == "x" else 0))
     return g.sum(axis=0 if along == "x" else 1)
+
+
+def _lattice_contrast(profile: np.ndarray, phase: float, pitch: float) -> float:
+    """How far the ink ON the lattice stands above the profile's own variability, in MADs.
+
+    The fold RATIO cannot tell a grid from paper texture: on "Swine and Roses grid" and its "no grid"
+    twin — the same picture with the printed grid removed — it scores 0.35 against 0.37. A printed line
+    is a SPIKE though, and texture is a wobble, so measuring the lattice's ink in units of how much the
+    profile normally wobbles does separate the cases where the grid is really drawn.
+    """
+    med = float(np.median(profile))
+    mad = float(np.median(np.abs(profile - med))) or 1.0
+    idx = np.arange(len(profile))
+    near = np.abs(((idx - phase + pitch / 2) % pitch) - pitch / 2) <= max(1.0, pitch * 0.04)
+    if not near.any():
+        return 0.0
+    return float((profile[near].mean() - med) / mad)
 
 
 def _fold_peak(profile: np.ndarray, pitch: float) -> tuple[float, float]:
@@ -51,8 +76,41 @@ def _fold_peak(profile: np.ndarray, pitch: float) -> tuple[float, float]:
     return float(np.argmax(acc)), float((acc.max() - mean) / mean)
 
 
-def detect(image_path: str | Path) -> dict | None:
-    """Measure the printed grid: pitch, phase per axis, and whether there is one at all."""
+def _best_fold(prof: np.ndarray, lo: int, hi: int) -> tuple[float, float, float]:
+    """Best (phase, score, pitch) over a range, resolving harmonic ambiguity toward the fundamental.
+
+    Autocorrelation returns the pitch OR a multiple of it — a periodic signal correlates just as well at
+    2p and 3p — so the global peak can be a harmonic. That is not a subtle failure: a bulk pass on this
+    measured 104->178, 116->232 and 106->319, all exact multiples, and every one of them came from the
+    raw argmax. The fix is to test the submultiples too and keep the SMALLEST pitch whose fold is within
+    a whisker of the best: at the true pitch every line lands in one bin, at 2p they alternate between
+    two, so a genuine fundamental survives the comparison and an accidental one does not.
+    """
+    best_phase, best_score, best_pitch = 0.0, -1.0, float(lo)
+    for cand in range(lo, hi + 1):
+        phase, score = _fold_peak(prof, cand)
+        if score > best_score:
+            best_phase, best_score, best_pitch = phase, score, float(cand)
+    if best_score <= 0:
+        return 0.0, 0.0, float(lo)
+    for div in (2, 3, 4, 5):
+        sub = int(round(best_pitch / div))
+        if sub < lo * 0.9:
+            continue
+        for cand in range(max(lo, sub - 1), min(hi, sub + 1) + 1):
+            phase, score = _fold_peak(prof, cand)
+            if score >= best_score * 0.7:
+                return phase, score, float(cand)
+    return best_phase, best_score, best_pitch
+
+
+def detect(image_path: str | Path, hint_pitch: float | None = None) -> dict | None:
+    """Measure the printed grid: pitch, phase per axis, and whether there is one at all.
+
+    `hint_pitch` is the cell size the map already carries. With a hint the pitch is searched within 25%
+    of it, which is both safer and what "match the existing grid" actually means — the size is usually
+    already right and the phase is the missing part. Without one the whole plausible range is searched.
+    """
     try:
         im = Image.open(image_path).convert("L")
     except Exception:
@@ -62,7 +120,15 @@ def detect(image_path: str | Path) -> dict | None:
     scale = w0 / im.width
     arr = np.asarray(im, dtype=np.uint8)
 
-    def axis_reading(along: str, around: float | None):
+    def phase_for(along: str, pitch: float):
+        """Where the lines of a KNOWN pitch sit, and how strongly they fold."""
+        prof = _profile(arr, along)
+        if prof.size < 32 or prof.sum() <= 0:
+            return None
+        phase, score = _fold_peak(prof, pitch)
+        return phase, score, float(pitch), _lattice_contrast(prof, phase, pitch)
+
+    def axis_reading(along: str, around: float | None, hint: float | None = None):
         size = arr.shape[1] if along == "x" else arr.shape[0]
         prof = _profile(arr, along)
         if prof.size < 32 or prof.sum() <= 0:
@@ -71,18 +137,45 @@ def detect(image_path: str | Path) -> dict | None:
         ac = np.correlate(centred, centred, mode="full")[len(centred) - 1:]
         lo = max(4, int(size * MIN_PITCH_FRAC))
         hi = min(len(ac) - 1, int(size * MAX_PITCH_FRAC))
+        if hint:
+            # the map already carries a cell size: search near it, which is what "match the existing
+            # grid" means and what keeps a wood-grain texture from doubling the pitch
+            lo, hi = max(lo, int(hint * 0.75)), min(hi, int(hint * 1.25) + 1)
         if around:
             # a printed battle grid is square, so with one axis confident the other cannot be far off
             lo, hi = max(4, int(around * 0.88)), min(hi, int(around * 1.12) + 1)
         if hi <= lo:
             return None
-        pitch = int(lo + int(np.argmax(ac[lo:hi])))
-        best = (0.0, 0.0, float(pitch))
-        for cand in range(max(lo, pitch - max(2, pitch // 12)), min(hi, pitch + max(2, pitch // 12) + 1)):
-            phase, score = _fold_peak(prof, cand)
-            if score > best[1]:
-                best = (phase, score, float(cand))
-        return best
+        # the autocorrelation's argmax only narrows the field; the fold decides, harmonics and all
+        peak = int(lo + int(np.argmax(ac[lo:hi])))
+        narrow_lo = max(lo, peak - max(3, peak // 5))
+        narrow_hi = min(hi, peak + max(3, peak // 5))
+        return _best_fold(prof, narrow_lo, narrow_hi)
+
+    hinted = float(hint_pitch) if hint_pitch and 10 <= float(hint_pitch) <= 400 else None
+
+    if hinted:
+        # The map already has a cell size - usually measured at ingest and in use. Matching the art then
+        # means finding the PHASE, not re-deriving the pitch, and that sidesteps the harmonic ambiguity
+        # entirely: a lattice can always be periodic at a multiple of the true pitch, so re-estimating an
+        # already-known size only adds a way to be wrong. Refinement is capped at 10% for the same reason.
+        out = {}
+        for along in ("x", "y"):
+            got = phase_for(along, hinted)
+            if got:
+                out[along] = {"pitch_px": round(hinted, 2), "phase_px": round(got[0] * scale, 2),
+                              "score": round(got[1], 3), "z": round(got[3], 2)}
+        if len(out) < 2:
+            return None
+        score = (out["x"]["score"] + out["y"]["score"]) / 2
+        zs = (out["x"]["z"], out["y"]["z"])
+        return {"pitch_px": round(hinted, 2), "offset_x": out["x"]["phase_px"],
+                "offset_y": out["y"]["phase_px"], "axis_agree": 1.0, "score": round(score, 3),
+                "z_x": zs[0], "z_y": zs[1],
+                # A phase read off a flat axis is a wrong offset, so both axes need real structure and
+                # at least one must be convincing. Otherwise the map keeps the offsets it had.
+                "has_grid": bool(min(zs) >= MIN_AXIS_Z and max(zs) >= MIN_STRONG_Z
+                                 and score >= MIN_SCORE), "hinted": True}
 
     free = {}
     for along in ("x", "y"):

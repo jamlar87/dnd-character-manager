@@ -492,6 +492,25 @@ async def dm_map_image(map_id: int, request: Request):
             oy = max(-400, min(400, int(round(oy * factor))))
             scaled = True
 
+        # Align by default, where the art offers something to align to. A map whose grid was never
+        # placed (offsets still 0,0) is put onto the art's own lines as its art lands, rather than
+        # waiting for someone to notice and press a button. The pitch stays exactly as it is — the map
+        # already carries a cell size and re-deriving it is how a lattice lands on a multiple of the
+        # real one — so this only solves for the phase. Best-effort: a failure must never cost an upload.
+        auto_aligned = False
+        if ox == 0 and oy == 0:
+            try:
+                from starlette.concurrency import run_in_threadpool as _pool
+
+                from services.map_grid_align import detect as _detect
+                got = await _pool(_detect, str(MAP_DIR / filename), grid_size)
+                if got and got.get("has_grid"):
+                    ox = max(-400, min(400, int(round(got["offset_x"])) % max(1, grid_size)))
+                    oy = max(-400, min(400, int(round(got["offset_y"])) % max(1, grid_size)))
+                    auto_aligned = True
+            except Exception:
+                auto_aligned = False
+
         image_path = f"/static/maps/{filename}"
         db.execute("UPDATE dm_maps SET image_path = ?, image_w = ?, image_h = ?, grid_size = ?, "
                    "grid_offset_x = ?, grid_offset_y = ? WHERE id = ?",
@@ -502,7 +521,7 @@ async def dm_map_image(map_id: int, request: Request):
                              "image_w": img_w, "image_h": img_h,
                              "source_w": src_w, "source_h": src_h,
                              "grid_size": grid_size, "grid_offset_x": ox, "grid_offset_y": oy,
-                             "grid_scaled": scaled})
+                             "grid_scaled": scaled, "auto_aligned": auto_aligned})
     finally:
         db.close()
 
