@@ -4,9 +4,12 @@
 {% block content %}
 <style>
 .vtt-wrap{display:flex;flex-direction:column;height:calc(100vh - 7.5rem);gap:.4rem}
-.vtt-toolbar{display:flex;align-items:center;gap:.35rem;flex-wrap:wrap;font-size:.85rem;
-  max-height:5.2rem;overflow-y:auto}   /* on a narrow window the toolbar scrolls instead of eating the map */
-.vtt-sep{width:1px;height:1.3rem;background:var(--border);margin:0 .2rem}
+.vtt-bar{display:flex;align-items:center;gap:.35rem;font-size:.85rem;overflow-x:auto;padding-bottom:.15rem}
+.vtt-bar>*{flex:0 0 auto}
+.vtt-title{max-width:22rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vtt-spacer{flex:1 1 auto}
+.vtt-note{font-size:.7rem;color:var(--text-muted)}
+.vtt-clip{max-width:16rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .vtt-source{font-size:.7rem;color:var(--text-muted);text-decoration:none;border:1px solid var(--border);
   border-radius:4px;padding:.05rem .35rem;white-space:nowrap}
 .vtt-source:hover{color:var(--accent);border-color:var(--accent)}
@@ -14,12 +17,20 @@
 .vtt-canvas-host{position:relative;flex:1;min-width:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#0f0f12}
 .vtt-canvas-host canvas{display:block;cursor:grab}
 .vtt-hint{position:absolute;left:.5rem;bottom:.4rem;font-size:.68rem;color:#94a3b8;pointer-events:none}
-.vtt-side{width:16rem;flex-shrink:0;overflow-y:auto;display:flex;flex-direction:column;gap:.6rem;
-  border:1px solid var(--border);border-radius:8px;padding:.5rem}
+.vtt-side{width:17rem;flex-shrink:0;overflow-y:auto;display:flex;flex-direction:column;gap:.4rem}
+.vtt-side[hidden]{display:none}
+.vtt-panel{border:1px solid var(--border);border-radius:6px;padding:.2rem .45rem;flex:0 0 auto}
+.vtt-panel>summary{cursor:pointer;font-size:.78rem;font-weight:600;color:var(--text-muted);padding:.15rem 0}
+.vtt-panel[open]>summary{color:var(--text);margin-bottom:.2rem}
+.vtt-ctl{display:flex;flex-wrap:wrap;align-items:center;gap:.25rem}
+.vtt-ctl input[type=number]{padding:.1rem .25rem;background:var(--bg);border:1px solid var(--border);
+  border-radius:4px;color:var(--text);font-size:.75rem;width:3.6rem;text-align:center}
+.vtt-ctl input[type=color]{width:2rem;height:1.6rem;padding:0;border:1px solid var(--border);background:none;border-radius:4px}
+.vtt-ctl select{padding:.25rem .4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:.8rem}
 .vtt-row{display:flex;align-items:center;gap:.25rem;margin:.2rem 0}
 .vtt-row input{padding:.2rem .4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:.8rem;flex:1;min-width:0}
 .vtt-dirty{color:var(--accent)}
-@media(max-width:900px){.vtt-body{flex-direction:column}.vtt-side{width:auto;max-height:14rem}}
+@media(max-width:900px){.vtt-body{flex-direction:column}.vtt-side{width:auto;max-height:22rem}}
 </style>
 <div class="vtt-wrap">
 {% include "_map_toolbar.html" %}
@@ -29,10 +40,85 @@
       <canvas id="vttCanvas"></canvas>
       <div class="vtt-hint" id="vttHint">Drag to pan · wheel to zoom · drag a token to move it</div>
     </div>
-    <aside class="vtt-side">
-      <div id="vttPalette"></div>
-      <div id="vttSelected"></div>
-      <div id="vttScenes"></div>
+    <aside class="vtt-side" id="vttSide">
+      <details class="vtt-panel">
+        <summary>View</summary>
+        <div class="vtt-ctl">
+          <button class="btn btn-outline btn-sm" onclick="VTT.zoomBy(1/1.2)">🔍−</button>
+          <button class="btn btn-outline btn-sm" onclick="VTT.zoomBy(1.2)">🔍+</button>
+        </div>
+      </details>
+      <details class="vtt-panel" open>
+        <summary>Tool</summary>
+        <div class="vtt-ctl">
+          <select id="vttToolPick" onchange="VTT.setTool(this.value)">
+            <option value="select">🖱 Select &amp; move</option><option value="fog">🕯 Reveal fog</option>
+            <option value="draw">✏️ Draw</option><option value="measure">📏 Measure</option>
+          </select>
+        </div>
+      </details>
+      <details class="vtt-panel">
+        <summary>Grid &amp; scale</summary>
+        <div class="vtt-ctl">
+          <select id="vttGridType" onchange="VTT.setGridType(this.value)" title="Square 5-ft cells, or hexes for an overland map">
+            <option value="square">⬚ Square</option><option value="hex">⬡ Hex</option>
+          </select>
+          <button class="btn btn-outline btn-sm" onclick="VTT.nudgeSize(-4)">−</button>
+          <input type="number" id="vttGridSize" value="{{ the_map.grid_size }}" min="10" max="400" step="1"
+                 onchange="VTT.setGridSize(this.value)" title="Pixels per cell — one 5-ft square on the image">
+          <button class="btn btn-outline btn-sm" onclick="VTT.nudgeSize(4)">+</button>
+          <label class="vtt-note">cells across
+            <input type="number" id="vttGridSquares" min="1" max="400" step="1" onchange="VTT.setSquaresAcross(this.value)"></label>
+          <details class="vtt-sub"><summary>Align the grid</summary><div class="vtt-ctl">
+          <button class="btn btn-outline btn-sm" onclick="VTT.nudgeGrid(-1,0)">◀</button>
+          <button class="btn btn-outline btn-sm" onclick="VTT.nudgeGrid(1,0)">▶</button>
+          <button class="btn btn-outline btn-sm" onclick="VTT.nudgeGrid(0,-1)">▲</button>
+          <button class="btn btn-outline btn-sm" onclick="VTT.nudgeGrid(0,1)">▼</button>
+          </div></details>
+          <button class="btn btn-outline btn-sm" onclick="VTT.fitGridToImage()" title="Zero the offset and make the grid divide the image exactly">🧩 Fit</button>
+          <button class="btn btn-outline btn-sm" onclick="VTT.toggleSnap()" id="vttSnapBtn">🧲 Snap: on</button>
+          <label class="vtt-note">
+            <input type="number" id="vttFeet" value="5" min="1" max="1000000" onchange="VTT.setFeetPerCell(this.value)">ft/cell</label>
+        </div>
+      </details>
+      <details class="vtt-panel">
+        <summary>Fog of war</summary>
+        <div class="vtt-ctl">
+          <button class="btn btn-outline btn-sm" onclick="VTT.setTool('fog')" id="vttToolFog">🕯 Fog</button>
+          <button class="btn btn-outline btn-sm" onclick="VTT.toggleFog()" id="vttFogOn">☁ Fog: off</button>
+          <select id="vttBrushPick" onchange="VTT.setFogBrush(this.value)">
+            <option value="cell">⬛ By cell</option><option value="rect">▭ By rectangle</option><option value="circle">⭕ By circle</option>
+          </select>
+          <button class="btn btn-outline btn-sm" onclick="VTT.toggleFog()" id="vttFogOn" title="Show or hide the fog layer">☁ Fog: off</button>
+          <button class="btn btn-outline btn-sm" onclick="VTT.toggleRevealAll()" title="Reveal the whole map, or hide it again if any of it is revealed">👁 Reveal / hide all</button>
+        </div>
+      </details>
+      <details class="vtt-panel">
+        <summary>Draw &amp; measure</summary>
+        <div class="vtt-ctl">
+          <input type="color" id="vttPenColor" value="#ff5555" onchange="VTT.setPen(this.value, null)">
+          <input type="number" id="vttPenWidth" value="4" min="1" max="40" onchange="VTT.setPen(null, this.value)">
+          <button class="btn btn-outline btn-sm" onclick="VTT.clearDraw()">🧽 Clear</button>
+          <button class="btn btn-outline btn-sm" onclick="VTT.clearMeasure()">✖ Ruler</button>
+        </div>
+      </details>
+      <details class="vtt-panel">
+        <summary>Encounter</summary>
+        <div class="vtt-ctl">
+          <select id="vttEncounterPick"></select>
+          <button class="btn btn-outline btn-sm" onclick="VTT.spawnEncounter()">⚔ Spawn</button>
+        </div>
+      </details>
+      <details class="vtt-panel" open>
+        <summary>Tokens &amp; scenes</summary>
+        <div class="vtt-ctl">
+          <button class="btn btn-outline btn-sm" onclick="VTT.revokePlayer()">🚫 Player link</button>
+        </div>
+        <div class="vtt-row"><input id="vttSearch" placeholder="Add creature, NPC or character…" oninput="VTT.searchPalette(this.value)"></div>
+        <div id="vttPalette"></div>
+        <div id="vttSelected"></div>
+        <div id="vttScenes"></div>
+      </details>
     </aside>
   </div>
 </div>
@@ -40,3 +126,12 @@
 <script>window.MAP_ID = {{ the_map.id }}; window.MAP_DATA = {{ map_json|safe }};</script>
 <script src="/static/vtt.js?v={{ static_asset_version('vtt.js') }}"></script>
 {% endblock %}
+<details class="vtt-panel" open>
+        <summary>Tool</summary>
+        <div class="vtt-ctl">
+          <select id="vttToolPick" onchange="VTT.setTool(this.value)" title="What a drag on the map does (V/F/D/M)">
+            <option value="select">🖱 Select &amp; move</option><option value="fog">🕯 Reveal fog</option>
+            <option value="draw">✏️ Draw</option><option value="measure">📏 Measure</option>
+          </select>
+        </div>
+      </details>

@@ -801,8 +801,15 @@
     var b = $('vttGridBtn'); if (b) b.style.opacity = state.grid.on ? '1' : '0.55';
     redraw();
   }
+  // One control for "reveal the whole map / hide it again": two buttons did opposite things to the
+  // same layer, so they were one button with two states all along.
+  function toggleRevealAll() {
+    if (state.fog && Object.keys(state.fog).length) hideAll(); else revealAll();
+  }
+
   function setGridType(type) {
     state.grid.type = type === 'hex' ? 'hex' : 'square';
+    var gt = $('vttGridType'); if (gt) gt.value = state.grid.type;
     if (state.map) { state.map.grid_type = state.grid.type; }
     persistGrid();
     redraw();
@@ -1100,6 +1107,7 @@
 
   function setFogBrush(shape) {
     state.fogBrush = (shape === 'rect' || shape === 'circle') ? shape : 'cell';
+    var bp = $('vttBrushPick'); if (bp) bp.value = state.fogBrush;
     ['Cell', 'Rect', 'Circle'].forEach(function (n) {
       var b = $('vttBrush' + n);
       if (b) b.style.opacity = (n.toLowerCase() === state.fogBrush) ? '1' : '0.6';
@@ -1167,6 +1175,7 @@
   function setTool(tool) {
     state.tool = (tool === 'fog' || tool === 'draw' || tool === 'measure') ? tool : 'select';
     if (state.tool !== 'measure') state.ruler = null;      // the ruler is a transient overlay
+    var pick = $('vttToolPick'); if (pick) pick.value = state.tool;
     ['Select', 'Fog', 'Draw', 'Measure'].forEach(function (n) {
       var b = $('vttTool' + n);
       if (b) b.style.opacity = (n.toLowerCase() === state.tool) ? '1' : '0.6';
@@ -1483,6 +1492,20 @@
   player.refetch = function () { return playerFetch(false); };
   player.fit = playerFit;
 
+  // Hiding the panels gives the map the full width. `resizeCanvas` matters: the canvas sizes itself
+  // from its host, which changes the moment the panels appear or go.
+  function togglePanels() {
+    var side = document.getElementById('vttSide');
+    var btn = document.getElementById('vttPanelBtn');
+    if (!side) return;
+    side.hidden = !side.hidden;
+    if (btn) {
+      btn.setAttribute('aria-expanded', String(!side.hidden));
+      btn.classList.toggle('btn-primary', !side.hidden);
+    }
+    resizeCanvas();
+  }
+
   window.VTT = {
     init: init, redraw: redraw, zoomBy: zoomBy, fit: fit, toggleGrid: toggleGrid,
     setGridType: setGridType, nudgeSize: nudgeSize, toggleSnap: toggleSnap,
@@ -1504,7 +1527,7 @@
     applyMarquee: applyMarquee, cellsInRect: cellsInRect, cellsInCircle: cellsInCircle,
     measureCells: measureCells,
     spawnEncounter: spawnEncounter, loadEncounters: loadEncounters,
-    openPlayer: openPlayer, revokePlayer: revokePlayer, state: state
+    openPlayer: openPlayer, revokePlayer: revokePlayer, togglePanels: togglePanels, toggleRevealAll: toggleRevealAll, state: state
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

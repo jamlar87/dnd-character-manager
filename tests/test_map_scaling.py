@@ -325,14 +325,17 @@ def test_spawning_uses_the_viewport_the_browser_reported():
 
 # ── the page and the asset stay honest ────────────────────────────────────────────────
 
-def test_the_toolbar_lets_the_dm_align_the_grid():
+def test_the_page_lets_the_dm_align_the_grid():
+    """The alignment controls are still there — the grid's own settings now sit in a panel beside the
+    map rather than in the strip above it, so both files count together."""
     page = (REPO / "templates" / "map.html").read_text()
     toolbar = (REPO / "templates" / "_map_toolbar.html").read_text()
+    both = page + toolbar
     assert '{% include "_map_toolbar.html" %}' in page, "the toolbar partial is not included"
     for control in ('id="vttGridSize"', 'id="vttGridSquares"', "VTT.nudgeGrid", "VTT.fitGridToImage",
                     'id="vttGridInfo"', "VTT.setSquaresAcross"):
-        assert control in toolbar, f"the grid cannot be aligned to the art: {control} is missing"
-    assert "5 ft" in toolbar or "five" in toolbar or "5-ft" in toolbar, (
+        assert control in both, f"the grid cannot be aligned to the art: {control} is missing"
+    assert "5 ft" in both or "five" in both or "5-ft" in both or "5-ft" in both, (
         "nothing tells the DM what a cell represents")
 
 

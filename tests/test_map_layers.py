@@ -177,16 +177,38 @@ def test_fog_painting_and_the_pen_are_wired_to_the_right_buttons():
     assert "paintCell" in move and "state.stroke.points.push" in move
 
 
-def test_the_toolbar_offers_every_layer_action():
-    # the toolbar lives in its own partial (map.html includes it); the controls are what matter
+def test_the_page_offers_every_layer_action():
+    """Every layer action must stay reachable after the toolbar was split up.
+
+    The bar above the map holds the few controls worth reaching for mid-turn; the rest live in
+    collapsed panels beside it (both in map.html now), and several were consolidated — the four tool
+    buttons became one dropdown, the three brushes became one dropdown, and reveal/hide-all became a
+    single two-state button. Consolidation is only acceptable while the capability survives, so this
+    checks the reachable control AND, where a button was merged away, that the underlying function is
+    still there to be called.
+    """
     toolbar = TEMPLATE.parent / "_map_toolbar.html"
-    page = toolbar.read_text() if toolbar.is_file() else TEMPLATE.read_text()
+    page = TEMPLATE.read_text() + toolbar.read_text()
     assert '{% include "_map_toolbar.html" %}' in TEMPLATE.read_text(), "the partial is not included"
-    for call in ("setTool('select')", "setTool('fog')", "setTool('draw')", "toggleFog()",
-                 "revealAll()", "hideAll()", "clearDraw()", "setPen", "spawnEncounter()",
-                 "setFogBrush('cell')", "setFogBrush('rect')", "setFogBrush('circle')",
-                 "setTool('measure')", "clearMeasure()", "setFeetPerCell("):
-        assert call in page, f"{call} is not on the map toolbar"
+    for call in ("toggleFog()", "clearDraw()", "setPen", "spawnEncounter()", "clearMeasure()",
+                 "setFeetPerCell(", "toggleRevealAll()", "toggleGrid()", "fitGridToImage()"):
+        assert call in page, f"{call} is no longer reachable from the map page"
+    # the consolidated dropdowns offer the same choices as the buttons they replaced
+    for value in ("select", "fog", "draw", "measure"):
+        assert f'<option value="{value}">' in page, f"the tool dropdown lost {value}"
+    assert 'onchange="VTT.setTool(this.value)"' in page
+    for brush in ("cell", "rect", "circle"):
+        assert f'<option value="{brush}">' in page, f"the brush dropdown lost {brush}"
+    assert 'onchange="VTT.setFogBrush(this.value)"' in page
+    # ...and the merged-away functions still exist in the asset
+    src = VTT.read_text()
+    for fn in ("function revealAll", "function hideAll", "function setFogBrush", "function setTool",
+               "function setGridType", "function toggleRevealAll"):
+        assert fn in src, f"{fn} disappeared with its button"
+    # the selects are kept in step with the state they set
+    assert "var pick = $('vttToolPick'); if (pick) pick.value = state.tool;" in src
+    assert "var bp = $('vttBrushPick'); if (bp) bp.value = state.fogBrush;" in src
+    assert "var gt = $('vttGridType'); if (gt) gt.value = state.grid.type;" in src
     assert 'id="vttEncounterPick"' in page, "spawning needs an encounter to pick"
     assert 'id="vttFeet"' in page, "the measure tool is useless without the ft/cell setting"
 
