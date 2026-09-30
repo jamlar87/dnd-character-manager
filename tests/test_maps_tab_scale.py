@@ -47,6 +47,20 @@ def test_the_tab_renders_collapsed_groups_rather_than_every_row():
     assert "${open ?" in body or "${open ?" in body, "rows must be conditional on the section being open"
 
 
+def test_the_source_link_is_visible_and_its_absence_is_stated():
+    """Rendered at `var(--text-muted)` and 0.72rem — the same grey as the metadata beside it — the
+    source link was invisible: reported as "I don't see the source links on the map tab". It gets the
+    theme's link colour, an underline, and its own line, and a map with no recorded source says so
+    rather than showing nothing."""
+    js = (APP / "static" / "dm_tools.js").read_text()
+    row = js.split("function mapRow(")[1].split(".join('')")[0]
+    assert "color:var(--accent)" in row, "the source link must use the theme's link colour"
+    assert "text-decoration:underline" in row, "a link that is not underlined reads as metadata"
+    assert "Source: " in row, "label it, so it is not mistaken for more metadata"
+    assert "no source recorded" in row, "absence should be stated, not silent"
+    assert "/api/reference/open/" in row
+
+
 def test_a_deleted_map_does_not_linger_in_the_cached_list():
     js = (APP / "static" / "dm_tools.js").read_text()
     delete_fn = js.split("async function deleteMap(")[1].split("function toggleShareEncounter")[0]

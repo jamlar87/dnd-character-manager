@@ -916,14 +916,20 @@ function mapRow(m) {
   if (m.token_count) meta.push(m.token_count === 1 ? '1 token' : m.token_count + ' tokens');
   if (m.scene_count) meta.push(m.scene_count === 1 ? '1 setup' : m.scene_count + ' setups');
   if (!m.image_path) meta.push('no image yet');
+  // The source link gets its own line and the theme's link colour. Set in the muted grey at 0.72rem
+  // it was indistinguishable from the metadata beside it — a link nobody can see is not a link.
   const src = m.source_manual
-    ? `<a href="/api/reference/open/${encodeURIComponent(m.source_manual)}${m.source_page ? '?page=' + m.source_page : ''}" target="_blank" rel="noopener" style="color:var(--text-muted)">📖 ${dmEsc(mapBook(m))}${m.source_page ? ' p.' + m.source_page : ''}</a>`
-    : '';
+    ? `<a href="/api/reference/open/${encodeURIComponent(m.source_manual)}${m.source_page ? '?page=' + m.source_page : ''}"
+         target="_blank" rel="noopener" title="Open this map's page in the source manual"
+         style="color:var(--accent);text-decoration:underline;font-size:.74rem;display:inline-block;margin-top:.15rem"
+       >📖 Source: ${dmEsc(mapBook(m))}${m.source_page ? ' p.' + m.source_page : ''} ↗</a>`
+    : '<span style="font-size:.72rem;color:var(--text-muted);display:inline-block;margin-top:.15rem">no source recorded</span>';
   return `<div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .5rem;background:var(--card-bg);border:1px solid var(--border);border-radius:6px;margin-bottom:.4rem">
     ${mapThumb(m) || '<span style="font-size:1.2rem;width:44px;flex:0 0 44px;text-align:center">🗺️</span>'}
     <span style="flex:1 1 auto;min-width:0">
       <strong style="display:block;overflow-wrap:anywhere">${dmEsc(m.name)}</strong>
-      <span style="font-size:.72rem;color:var(--text-muted);display:block">${meta.join(' · ')}${src ? ' · ' + src : ''}</span>
+      <span style="font-size:.72rem;color:var(--text-muted);display:block">${meta.join(' · ')}</span>
+      ${src}
     </span>
     <a class="btn btn-primary btn-sm" href="/dm-map/${m.id}" style="flex:0 0 auto">Open</a>
     <button class="btn btn-danger btn-sm" style="flex:0 0 auto;padding:.15rem .4rem" title="Delete this map" onclick="deleteMap(${m.id}, '${dmEsc(m.name).replace(/'/g, "\\'")}')">✕</button>
