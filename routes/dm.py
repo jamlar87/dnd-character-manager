@@ -99,6 +99,13 @@ async def dm_tools(request: Request):
     # Merge manual NPCs from extracted data
     manual_npcs = _load_manual_json("npcs.json")
     for i, mn in enumerate(manual_npcs):
+        # Belt and braces: the sentinel is a database row (NPC id -1, created by the pack import and the
+        # DM bootstrap so encounter rows always have a non-null NPC to point at), and the database query
+        # above filters it. The current npcs.json carries no such entry, but the merge is where a second
+        # copy would appear, and a creature-shaped placeholder in a search list is worth being sure
+        # about. scripts/generate_portraits.py skips it by name for the same reason.
+        if str(mn.get("name") or "").strip() == "__sentinel__":
+            continue
         hp_raw = mn.get("hp_current") or mn.get("hit_points", "10")
         try: hp = int(re.match(r"(\d+)", str(hp_raw)).group(1))
         except: hp = 10
@@ -638,8 +645,17 @@ async def dm_npcs_list(request: Request):
     user = require_user(request)
     db = get_db()
     where, params = _user_where(user)
+    # NPC id -1 named __sentinel__ is the pack import's placeholder: it exists so encounter and campaign
+    # rows always have a non-null NPC to point at. It is not a creature, and in the palette it listed as
+    # a real entry that placed a blank token; generate_portraits.py already skips it by name.
+    #
+    # The guard needs its OWN clause: `_user_where` returns '' for an admin (who sees everything), and
+    # appending "AND ..." to an empty clause is `SELECT * FROM dm_npcs  AND ...` - a syntax error that
+    # took the whole list down with a 500 rather than filtering one row.
+    guard = "COALESCE(name, '') <> '__sentinel__'"
+    clause = f"{where} AND {guard}" if where.strip() else f"WHERE {guard}"
     rows = [dict(r) for r in db.execute(
-        f"SELECT * FROM dm_npcs {where} ORDER BY is_enemy DESC, name", params
+        f"SELECT * FROM dm_npcs {clause} ORDER BY is_enemy DESC, name", params
     ).fetchall()]
     db.close()
     for r in rows:
@@ -653,6 +669,13 @@ async def dm_npcs_list(request: Request):
     # Merge manual NPCs from extracted data
     manual_npcs = _load_manual_json("npcs.json")
     for i, mn in enumerate(manual_npcs):
+        # Belt and braces: the sentinel is a database row (NPC id -1, created by the pack import and the
+        # DM bootstrap so encounter rows always have a non-null NPC to point at), and the database query
+        # above filters it. The current npcs.json carries no such entry, but the merge is where a second
+        # copy would appear, and a creature-shaped placeholder in a search list is worth being sure
+        # about. scripts/generate_portraits.py skips it by name for the same reason.
+        if str(mn.get("name") or "").strip() == "__sentinel__":
+            continue
         hp_raw = mn.get("hp_current") or mn.get("hit_points", "10")
         try: hp = int(re.match(r"(\d+)", str(hp_raw)).group(1))
         except: hp = 10

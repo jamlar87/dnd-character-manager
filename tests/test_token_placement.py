@@ -89,6 +89,35 @@ def test_addToken_does_not_assert_a_footprint_it_does_not_mean():
     assert "Object.assign(" in body and "spec || {}" in body, "an explicit spec must still win"
 
 
+def test_the_internal_sentinel_npc_is_not_listed(client, seeded_db, auth_headers):
+    """`__sentinel__` is an internal placeholder, there so encounter and campaign rows always have a
+    non-null NPC to point at. It is not a creature, but it reached the palette as a real search result
+    that placed a blank token.
+
+    It comes from the manual data (npcs.json, merged with negative ids) as well as from the database,
+    which is why a DB-only filter missed it — the source is real data, so this reads the API."""
+    payload = client.get("/api/dm/npcs", headers=auth_headers).json()
+    names = [n.get("name") for n in payload.get("npcs", [])]
+    assert "__sentinel__" not in names, f"the sentinel leaked into the NPC list: {names[:6]}"
+    # and the listing is still populated — a filter that empties the list would "pass" the above
+    assert names, "the NPC list came back empty, which would hide the sentinel for the wrong reason"
+
+
+def test_the_npc_list_survives_an_admin_whose_where_clause_is_empty(client, seeded_db, auth_headers,
+                                                                   monkeypatch):
+    """The sentinel guard must not break the admin shape of the query. `_user_where` returns '' for an
+    admin — who sees everything — and appending "AND ..." to an empty clause produces
+    `SELECT * FROM dm_npcs  AND ...`, a syntax error that returned 500 and emptied the whole NPC list
+    instead of filtering one row. The first version of this guard did exactly that, and the test beside
+    it used a non-admin header, so it passed while the live list was broken."""
+    from routes import dm as dm_routes
+
+    monkeypatch.setattr(dm_routes, "_user_where", lambda user: ("", ()))
+    r = client.get("/api/dm/npcs", headers=auth_headers)
+    assert r.status_code == 200, f"the admin shape of the query is broken: {r.status_code} {r.text[:200]}"
+    assert isinstance(r.json().get("npcs"), list)
+
+
 def test_the_palette_sends_the_creatures_real_size():
     """The server can only size the token if it is told the size (or a cells count)."""
     palette = JS.split("function searchPalette(")[1]
