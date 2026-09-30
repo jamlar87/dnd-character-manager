@@ -396,6 +396,10 @@ async def dm_map_update(map_id: int, request: Request):
             # Snap to a quarter turn: the point is to straighten a sideways scan, and an arbitrary angle
             # would put the art at odds with the square grid it is drawn on.
             sets.append("rotation = ?"); params.append(_quarter_turn(data.get("rotation")))
+        if "hex_turn" in data:
+            # Which way the hexes run: 0 pointy-top (the default), 1 flat-top. Only meaningful on hex
+            # maps, but stored regardless so switching grid type never loses the DM's choice.
+            sets.append("hex_turn = ?"); params.append(_inum(data.get("hex_turn"), 0, 0, 1))
 
         # Record that a human placed this grid. The canvas autosaves the values it just loaded, so
         # "the grid fields were posted" is not an edit — only a post that actually differs from the

@@ -529,6 +529,12 @@ def _migrate_npc_source_columns():
         db.execute("ALTER TABLE dm_maps ADD COLUMN rotation INTEGER DEFAULT 0")
     except sqlite3.OperationalError:
         pass
+    # Migration: hex orientation. A hex grid has two orientations a quarter turn apart, and a printed
+    # map's own hexes often run the other way, so without this the overlay could never be made to match.
+    try:
+        db.execute("ALTER TABLE dm_maps ADD COLUMN hex_turn INTEGER DEFAULT 0")
+    except sqlite3.OperationalError:
+        pass
 
     # Existing installations keep their users; no default credentials are created.
     db.commit()

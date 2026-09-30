@@ -19,11 +19,20 @@
   var SAVE_DELAY = 600;
   var HEX_R = function () { return state.grid.size / 2; };
 
+  // Hexes sit in one of two orientations, a quarter turn apart, and a printed map's hexes often run the
+  // other way from the overlay. Rather than keep two sets of lattice maths, the lattice is built as it
+  // always was and the frame is turned around it: toHexFrame maps a world point into lattice space,
+  // fromHexFrame maps a lattice point back out. The transform is about the grid origin, so the offset
+  // controls keep moving the overlay the way they always did.
+  function hexTurned() { return state.grid.hexTurn ? 1 : 0; }
+  function toHexFrame(x, y) { return hexTurned() ? [y, -x] : [x, y]; }
+  function fromHexFrame(x, y) { return hexTurned() ? [-y, x] : [x, y]; }
+
   var state = {
     map: null,
     tokens: [],
     camera: { x: 0, y: 0, zoom: 1 },
-    grid: { on: true, type: 'square', size: 50, ox: 0, oy: 0 },
+    grid: { on: true, type: 'square', size: 50, ox: 0, oy: 0, hexTurn: 0 },
     snap: true,
     selected: null,
     drag: null,
@@ -147,15 +156,19 @@
     ctx.lineWidth = 1;
     if (state.grid.type === 'hex') {
       var R = HEX_R();
-      var cols = Math.ceil(W / (Math.sqrt(3) * R * cam.zoom)) + 2;
-      var rows = Math.ceil(H / (1.5 * R * cam.zoom)) + 2;
-      var originCol = Math.floor((-cam.x - state.grid.ox) / (Math.sqrt(3) * R)) - 1;
-      var originRow = Math.floor((-cam.y - state.grid.oy) / (1.5 * R)) - 1;
+      // The lattice is built exactly as before and each cell is mapped out through fromHexFrame, with the
+      // viewport measured the way the lattice sees it - otherwise a turned overlay leaves a bare corner.
+      var turned = hexTurned();
+      var vw = turned ? H : W, vh = turned ? W : H;
+      var cols = Math.ceil(vw / (Math.sqrt(3) * R * cam.zoom)) + 3;
+      var rows = Math.ceil(vh / (1.5 * R * cam.zoom)) + 3;
+      var c0 = toHexFrame(-cam.x - state.grid.ox, -cam.y - state.grid.oy);
+      var originCol = Math.floor(c0[0] / (Math.sqrt(3) * R)) - 1;
+      var originRow = Math.floor(c0[1] / (1.5 * R)) - 1;
       for (var r = originRow; r < originRow + rows; r++) {
         for (var c = originCol; c < originCol + cols; c++) {
-          var cx = Math.sqrt(3) * R * (c + (r % 2 ? 0.5 : 0)) + state.grid.ox;
-          var cy = 1.5 * R * r + state.grid.oy;
-          var p = worldToScreen(cx, cy);
+          var w = fromHexFrame(Math.sqrt(3) * R * (c + (r % 2 ? 0.5 : 0)), 1.5 * R * r);
+          var p = worldToScreen(w[0] + state.grid.ox, w[1] + state.grid.oy);
           hexPath(p[0], p[1], R * cam.zoom);
           ctx.stroke();
         }
@@ -176,7 +189,10 @@
   function hexPath(cx, cy, r) {
     ctx.beginPath();
     for (var i = 0; i < 6; i++) {
-      var a = Math.PI / 180 * (60 * i - 30);
+      // Vertices normally at -30 + 60i (pointy top). When the frame is turned the shape turns with it, so
+      // the same lattice reads as flat-topped without a second set of geometry. Both hex builders - the
+      // outline and the fog/draw path - go through here, which is what keeps fog lined up with the grid.
+      var a = Math.PI / 180 * (60 * i - 30 + (hexTurned() ? 90 : 0));
       var px = cx + r * Math.cos(a), py = cy + r * Math.sin(a);
       if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
     }
@@ -269,7 +285,8 @@
     var g = state.grid;
     if (g.type === 'hex') {
       var R = g.size / 2;
-      var hx = wx - g.ox, hy = wy - g.oy;
+      var f = toHexFrame(wx - g.ox, wy - g.oy);
+      var hx = f[0], hy = f[1];
       var q = (Math.sqrt(3) / 3 * hx - 1 / 3 * hy) / R;
       var r = (2 / 3 * hy) / R;
       var cx = q, cz = r, cy = -cx - cz;
@@ -288,14 +305,20 @@
     var g = state.grid;
     if (g.type === 'hex') {
       var R = g.size / 2;
-      return [Math.sqrt(3) * R * (a + b / 2), 1.5 * R * b];
+      var w = fromHexFrame(Math.sqrt(3) * R * (a + b / 2), 1.5 * R * b);
+      // the offsets belong to the caller's frame, not the lattice's: the square branch has always added
+      // them, and leaving them off here put a revealed cell's centre somewhere other than its hex
+      return [w[0] + g.ox, w[1] + g.oy];
     }
     return [a * g.size + g.size / 2 + g.ox, b * g.size + g.size / 2 + g.oy];
   }
 
   function hexOnPath(path, cx, cy, r) {
     for (var i = 0; i < 6; i++) {
-      var a = Math.PI / 180 * (60 * i - 30);
+      // Vertices normally at -30 + 60i (pointy top). When the frame is turned the shape turns with it, so
+      // the same lattice reads as flat-topped without a second set of geometry. Both hex builders - the
+      // outline and the fog/draw path - go through here, which is what keeps fog lined up with the grid.
+      var a = Math.PI / 180 * (60 * i - 30 + (hexTurned() ? 90 : 0));
       var px = cx + r * Math.cos(a), py = cy + r * Math.sin(a);
       if (i === 0) path.moveTo(px, py); else path.lineTo(px, py);
     }
@@ -359,7 +382,8 @@
   // "cells whose centre is inside the circle" on either grid — the way templates are judged.
   function axialToWorld(q, r) {
     var R = state.grid.size / 2;
-    return [Math.sqrt(3) * R * (q + r / 2) + state.grid.ox, 1.5 * R * r + state.grid.oy];
+    var w = fromHexFrame(Math.sqrt(3) * R * (q + r / 2), 1.5 * R * r);
+    return [w[0] + state.grid.ox, w[1] + state.grid.oy];
   }
 
   function cellsInRect(x0, y0, x1, y1) {
@@ -807,6 +831,7 @@
       else if (ev.key === 's' || ev.key === 'S') toggleSnap();
       else if (ev.key === '0') fit();
       else if (ev.key === 'r' || ev.key === 'R') rotateBy(90);
+      else if (ev.key === 'h' || ev.key === 'H') flipHex();
       else if (ev.key === 'Escape') {
         state.selected = null;
         state.ruler = null;
@@ -847,9 +872,19 @@
     fetch('/api/dm/map/' + window.MAP_ID + '/update', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ grid_type: state.grid.type, grid_size: state.grid.size,
-                             grid_offset_x: state.grid.ox, grid_offset_y: state.grid.oy })
+                             grid_offset_x: state.grid.ox, grid_offset_y: state.grid.oy,
+                             hex_turn: state.grid.hexTurn ? 1 : 0 })
     }).catch(function () {});
   }
+  function flipHex() {
+    state.grid.hexTurn = hexTurned() ? 0 : 1;
+    if (state.map) state.map.hex_turn = state.grid.hexTurn;   // keep the loaded copy in step, not just the grid
+    persistGrid();
+    renderGridInfo();
+    redraw();
+    return state.grid.hexTurn;
+  }
+
   function backgroundImage() {
     // `state.bg` was never assigned anywhere, so this goes through the shared image cache —
     // one Image per URL, loaded once, redrawn on load
@@ -1602,6 +1637,7 @@
       state.grid.type = state.map.grid_type || 'square';
       state.grid.size = state.map.grid_size || 50;
       state.grid.ox = state.map.grid_offset_x || 0;
+      state.grid.hexTurn = state.map.hex_turn || 0;
       state.grid.oy = state.map.grid_offset_y || 0;
       state.feetPerCell = parseInt(state.map.feet_per_cell, 10) || 5;
       state.bg = state.map.image_path ? image(state.map.image_path) : null;
@@ -1759,7 +1795,7 @@
   }
 
   window.VTT = {
-    init: init, redraw: redraw, zoomBy: zoomBy, rotateBy: rotateBy, fit: fit, toggleGrid: toggleGrid,
+    init: init, redraw: redraw, zoomBy: zoomBy, rotateBy: rotateBy, flipHex: flipHex, fit: fit, toggleGrid: toggleGrid,
     setGridType: setGridType, nudgeSize: nudgeSize, toggleSnap: toggleSnap,
     addToken: addToken, removeToken: removeToken, updateToken: updateToken,
     bumpHp: bumpHp, resize: resizeToken, resizeCanvas: resizeCanvas, toggleHidden: toggleHidden,
