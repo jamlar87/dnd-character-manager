@@ -25,8 +25,12 @@
   // fromHexFrame maps a lattice point back out. The transform is about the grid origin, so the offset
   // controls keep moving the overlay the way they always did.
   function hexTurned() { return state.grid.hexTurn ? 1 : 0; }
-  function toHexFrame(x, y) { return hexTurned() ? [y, -x] : [x, y]; }
-  function fromHexFrame(x, y) { return hexTurned() ? [-y, x] : [x, y]; }
+  // A transpose, not a rotation: it swaps the lattice axes (pointy-top becomes flat-top) and both axes
+  // then run INTO the canvas, so a loop that starts at the viewport's corner sweeps inward. A rotation
+  // sends increasing rows leftward instead - the loop starts at the top-left, walks off the edge, and
+  // the grid simply disappears. A transpose is also its own inverse, so both directions are one function.
+  function toHexFrame(x, y) { return hexTurned() ? [y, x] : [x, y]; }
+  function fromHexFrame(x, y) { return hexTurned() ? [y, x] : [x, y]; }
 
   var state = {
     map: null,

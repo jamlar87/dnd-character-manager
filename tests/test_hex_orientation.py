@@ -17,8 +17,10 @@ def test_the_frame_transform_is_its_own_inverse():
     back to its own key and fog would land on the wrong hex."""
     to = JS.split("function toHexFrame")[1].split("\n  }")[0]
     fro = JS.split("function fromHexFrame")[1].split("\n  }")[0]
-    assert "[y, -x]" in to, "a quarter turn into lattice space"
-    assert "[-y, x]" in fro, "and the opposite quarter turn back out"
+    # a transpose (swap the axes), not a rotation: a rotation sends increasing rows leftward, so the
+    # draw loop leaves the canvas at the top-left corner and the grid vanishes
+    assert "[y, x]" in to, "the axes swap"
+    assert "-x]" not in to and "-y]" not in fro, "no negation: both axes must run into the canvas"
     assert "hexTurned()" in to and "hexTurned()" in fro, "both must respect the flag"
     assert "[x, y]" in to and "[x, y]" in fro, "and both must be the identity when it is off"
 
