@@ -26,7 +26,7 @@
     {% if the_map and the_map.source_manual %}
     {# Provenance: an ingested map points back at the book and page it was cut from, or the app's
        copy of a poster map is an unattributable JPEG. #}
-    <a href="/api/reference/open/{{ the_map.source_manual }}{% if the_map.source_page %}?page={{ the_map.source_page }}{% endif %}"
+    <a href="/api/reference/open/{{ the_map.source_manual }}{% if the_map.source_page %}?page={{ the_map.source_page }}#page={{ the_map.source_page }}{% endif %}"
        target="_blank" rel="noopener" class="vtt-source"
        title="Open the source manual at this page">📖 {{ the_map.source_manual }}{% if the_map.source_page %} p.{{ the_map.source_page }}{% endif %}</a>
     {% endif %}

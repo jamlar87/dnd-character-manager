@@ -924,7 +924,7 @@ function mapRow(m) {
   // The source link gets its own line and the theme's link colour. Set in the muted grey at 0.72rem
   // it was indistinguishable from the metadata beside it — a link nobody can see is not a link.
   const src = m.source_manual
-    ? `<a href="/api/reference/open/${encodeURIComponent(m.source_manual)}${m.source_page ? '?page=' + m.source_page : ''}"
+    ? `<a href="/api/reference/open/${encodeURIComponent(m.source_manual)}${m.source_page ? '?page=' + m.source_page + '#page=' + m.source_page : ''}"
          target="_blank" rel="noopener" title="Open this map's page in the source manual"
          style="color:var(--accent);text-decoration:underline;font-size:.74rem;display:inline-block;margin-top:.15rem"
        >📖 Source: ${dmEsc(mapBook(m))}${m.source_page ? ' p.' + m.source_page : ''} ↗</a>`

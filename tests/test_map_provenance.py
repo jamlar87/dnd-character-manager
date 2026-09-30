@@ -50,6 +50,27 @@ def test_the_map_page_links_to_the_manual_page(client, seeded_db, auth_headers):
     assert "vtt-source" in html
 
 
+def test_every_manual_link_jumps_to_its_page():
+    """`?page=N` alone lands on page 1 — the server cannot set a URL fragment, so the jump has to be
+    `#page=N`. Reported as "the sourcelinks dont go to the exact page": the map list's link and the
+    map toolbar's link were the only two in the app passing `?page=` without the fragment, while
+    every other call site already did it correctly.
+
+    This checks all of them, so a new link cannot quietly reintroduce it."""
+    import pathlib
+    import re
+
+    app = pathlib.Path(__file__).resolve().parent.parent
+    offenders = []
+    for path in list((app / "static").glob("*.js")) + list((app / "templates").glob("*.html")):
+        for i, line in enumerate(path.read_text().splitlines(), 1):
+            if "/api/reference/open/" not in line:
+                continue
+            if re.search(r"\?page=", line) and "#page=" not in line:
+                offenders.append(f"{path.name}:{i}")
+    assert not offenders, f"manual links with a page but no #page fragment: {offenders}"
+
+
 def test_a_map_without_provenance_renders_no_dead_link(client, seeded_db, auth_headers):
     mid = client.post("/api/dm/map/create", json={"name": "Unsourced"},
                       headers=auth_headers).json()["id"]

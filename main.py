@@ -2744,10 +2744,16 @@ def _manual_titles() -> list[dict]:
 
 @app.get("/api/reference/open/{slug}")
 async def open_manual(slug: str, page: int = 0):
-    """Serve a reference manual PDF, optionally jumping to a page.
+    """Serve a reference manual PDF.
 
     Slug is the pdf_map key (e.g. 'PHB', 'DMG', 'XGE').
-    Page is the printed page number (not PDF page index).
+
+    `page` is accepted for compatibility but does nothing — the server cannot set a URL fragment, so
+    the caller must append `#page=N` to jump, which every call site does
+    (`?page=N#page=N`). N is a PDF page: that is what the ingest stores in `source_page`.
+
+    Without the fragment this serves page 1, which is how the map list's source links appeared to
+    "not go to the exact page".
     """
     slug_map = _get_source_slug_map()
     # Case-insensitive lookup: check as-given, all-upper, all-lower, then scan keys
