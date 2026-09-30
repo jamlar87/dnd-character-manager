@@ -1002,8 +1002,21 @@
         pokePlayers();
         renderSelected();
         redraw();
+      } else {
+        // Never fail quietly here again: a rejected placement used to look identical to a dead button.
+        var hint = $('vttHint');
+        if (hint) {
+          hint.textContent = 'Could not place that token: ' + ((d && (d.error || d.reason)) || 'the server refused it');
+          setTimeout(function () {
+            hint.textContent = 'Drag to pan · wheel to zoom · drag a token to move it';
+          }, 6000);
+        }
       }
       return d;
+    }).catch(function (e) {
+      var hint = $('vttHint');
+      if (hint) hint.textContent = 'Could not place that token: ' + e;
+      return null;
     });
   }
 
@@ -1206,9 +1219,48 @@
     });
   }
 
+  // A Place row for any kind. The spec travels as DATA ATTRIBUTES of simple escaped values, never as
+  // JSON inside an onclick: JSON.stringify emits double quotes, which close the attribute, so the
+  // handler becomes `{kind:'character',character_id:78,label:` - a syntax error that fires nothing and
+  // reports nothing. That is exactly how characters and NPCs stopped placing while creatures, whose
+  // branch escaped its quotes, kept working.
+  function placeRow(icon, name, meta, data) {
+    var attrs = '';
+    Object.keys(data).forEach(function (k) {
+      attrs += ' data-' + k + '="' + esc(data[k]) + '"';
+    });
+    return '<div class="vtt-row"><span style="flex:1;min-width:0;font-size:.8rem">' + icon + ' ' +
+      esc(name) + (meta ? ' <span style="color:var(--text-muted)">' + esc(meta) + '</span>' : '') +
+      '</span><button class="btn btn-primary btn-sm" data-place' + attrs + '>Place</button></div>';
+  }
+
+  // One listener for the whole palette: rows are replaced on every search, so a listener per button
+  // would be thrown away with them.
+  function wirePalette() {
+    var host = $('vttPalette');
+    if (!host || host.getAttribute('data-wired')) return;
+    host.setAttribute('data-wired', '1');
+    host.addEventListener('click', function (ev) {
+      var btn = ev.target && ev.target.closest ? ev.target.closest('[data-place]') : null;
+      if (!btn) return;
+      ev.preventDefault();
+      var d = btn.dataset, spec;
+      if (d.kind === 'creature') {
+        spec = {kind: 'creature', ref_name: d.name, label: d.name, size: d.size || 'Medium',
+                hp_current: Number(d.hp) || 0, hp_max: Number(d.hp) || 0};
+      } else if (d.kind === 'npc') {
+        spec = {kind: 'npc', ref_name: d.name, label: d.name, size: d.role || ''};
+      } else {
+        spec = {kind: 'character', character_id: Number(d.cid), label: d.name};
+      }
+      addToken(spec);
+    });
+  }
+
   function searchPalette(q) {
     var host = $('vttPalette');
     if (!host) return;
+    wirePalette();
     if (!q || q.length < 2) { host.innerHTML = ''; return; }
     host.innerHTML = '<p style="font-size:.75rem;color:var(--text-muted)">searching…</p>';
     Promise.all([
@@ -1226,22 +1278,15 @@
       // a monster carries its 5e size, so the token lands as 1 square, 2x2, 3x3 or 4x4 —
       // and its hit points, so the tracker link is not the only way to get a usable token
       beasts.forEach(function (m) {
-        var spec = {kind: 'creature', ref_name: m.name, label: m.name, size: m.size || 'Medium',
-                    hp_current: m.hit_points || 0, hp_max: m.hit_points || 0};
-        html += '<div class="vtt-row"><span style="flex:1;min-width:0;font-size:.8rem">🐉 ' + m.name +
-          ' <span style="color:var(--text-muted)">' + (m.size || '') + ' CR' + (m.challenge_rating || 0) +
-          '</span></span><button class="btn btn-primary btn-sm" onclick="VTT.addToken(' +
-          JSON.stringify(spec).replace(/"/g, '&quot;') + ')">Place</button></div>';
+        html += placeRow('🐉', m.name, (m.size || '') + ' CR' + (m.challenge_rating || 0), {
+          kind: 'creature', name: m.name, size: m.size || 'Medium', hp: m.hit_points || 0});
       });
       npcs.forEach(function (n) {
-        html += '<div class="vtt-row"><span style="flex:1;min-width:0;font-size:.8rem">👤 ' + n.name +
-          ' <span style="color:var(--text-muted)">' + (n.role || '') + '</span></span>' +
-          '<button class="btn btn-primary btn-sm" onclick="VTT.addToken({kind:\'npc\',ref_name:' + JSON.stringify(n.name) +
-          ',label:' + JSON.stringify(n.name) + ',size:' + JSON.stringify(n.role || '') + '})">Place</button></div>';
+        html += placeRow('👤', n.name, n.role || '', {kind: 'npc', name: n.name, role: n.role || ''});
       });
       chars.forEach(function (c) {
-        html += '<div class="vtt-row"><span style="flex:1;min-width:0;font-size:.8rem">🧝 ' + c.name + ' L' + (c.level || 1) + '</span>' +
-          '<button class="btn btn-primary btn-sm" onclick="VTT.addToken({kind:\'character\',character_id:' + c.id + ',label:' + JSON.stringify(c.name) + '})">Place</button></div>';
+        html += placeRow('🧝', c.name, 'L' + (c.level || 1),
+                         {kind: 'character', name: c.name, cid: c.id});
       });
       host.innerHTML = html || '<p style="font-size:.75rem;color:var(--text-muted)">nothing matched</p>';
     });

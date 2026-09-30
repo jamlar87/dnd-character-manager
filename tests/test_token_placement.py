@@ -50,6 +50,39 @@ def test_the_map_lists_its_tokens_and_each_row_jumps_to_that_token():
     assert "renderTokenList();" in sel, "adding or removing a token must refresh the roster"
 
 
+def test_palette_place_buttons_carry_no_inline_json_spec():
+    """Characters and NPCs stopped placing entirely: JSON.stringify put double quotes inside a
+    double-quoted onclick, so the attribute closed early and the handler became `{kind:'character',
+    character_id:78,label:` - a syntax error that fired nothing and reported nothing. Creatures escaped
+    theirs with &quot; and kept working, which is exactly why the bug looked partial.
+
+    No inline JSON spec anywhere: specs travel as escaped data attributes instead."""
+    assert 'onclick="VTT.addToken(' not in JS, "an inline JSON spec is back - it only survives if escaped"
+    assert "function placeRow(" in JS, "rows must be built through one helper, so branches cannot drift"
+    body = JS.split("function placeRow(")[1].split("\n  }")[0]
+    assert "esc(data[k])" in body, "attribute values must be escaped"
+    assert "data-place" in body
+    for kind in ("'creature'", "'npc'", "'character'"):
+        assert kind in JS.split("function searchPalette(")[1], f"the {kind} branch vanished"
+
+
+def test_the_palette_uses_one_delegated_listener():
+    """Rows are replaced on every search, so a listener per button would be thrown away with them."""
+    body = JS.split("function wirePalette(")[1].split("\n  }")[0]
+    assert "closest('[data-place]')" in body, "the delegated handler must find the row's button"
+    assert "addToken(spec)" in body
+    search = JS.split("function searchPalette(")[1].split("\n  }")[0]
+    assert "wirePalette();" in search, "the listener must be wired when the palette renders"
+
+
+def test_a_refused_placement_is_visible():
+    """The whole reason this took two rounds: a placement that never happened looked identical to a
+    button that did nothing."""
+    body = JS.split("function addToken(")[1].split("\n  }")[0]
+    assert "Could not place that token" in body, "a refusal must say so on the page"
+    assert ".catch(" in body, "a network failure must say so too"
+
+
 def test_duplicate_names_are_numbered_and_unique_ones_are_not():
     """Three goblins on one map must be tellable apart in the roster, and a lone creature must keep its
     plain name — numbering everything would be noise."""
