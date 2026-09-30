@@ -1027,7 +1027,79 @@
   }
 
   // ── side panels ─────────────────────────────────────────────────────────────────────
+  // Every token on the map, in one list, newest state always. Rebuilt only when the set actually
+  // changes (ids/labels/hidden), because renderSelected runs on every selection and drag: rebuilding
+  // the DOM there would fight the canvas for frames.
+  var _tokenListSig = null;
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c];
+    });
+  }
+
+  function renderTokenList() {
+    var host = $('vttTokenList');
+    if (!host) return;
+    var list = (state.tokens || []).slice();
+    var sig = list.map(function (t) {
+      return t.id + ':' + (t.label || t.ref_name || '') + ':' + (t.hidden ? 1 : 0) +
+             ':' + (t.hp_current || 0);
+    }).join('|');
+    if (sig !== _tokenListSig) {
+      _tokenListSig = sig;
+      if (!list.length) {
+        host.innerHTML = '<p class="vtt-note">No tokens yet — search above to add one.</p>';
+      } else {
+        // reading order, top of the map first, so the list matches what the DM is looking at
+        list.sort(function (a, b) {
+          return (Math.floor(a.y / 100) - Math.floor(b.y / 100)) || (a.x - b.x);
+        });
+        var rows = list.map(function (t) {
+          var label = t.label || t.ref_name || 'Token';
+          var bits = [];
+          if (t.hp_max) bits.push('HP ' + (t.hp_current == null ? '?' : t.hp_current) + '/' + t.hp_max);
+          if (t.hidden) bits.push('hidden');
+          return '<button type="button" data-token="' + t.id + '" onclick="VTT.centreOn(' + t.id + ')" ' +
+            'style="display:block;width:100%;text-align:left;background:none;border:0;border-left:3px solid transparent;' +
+            'padding:.28rem .4rem;cursor:pointer;color:var(--text);font:inherit;font-size:.8rem">' +
+            '<span style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' +
+            esc(label) + '</span>' +
+            (bits.length ? '<span style="display:block;color:var(--text-muted);font-size:.7rem">' +
+              esc(bits.join(' · ')) + '</span>' : '') +
+            '</button>';
+        }).join('');
+        host.innerHTML = '<div style="color:var(--text-muted);font-size:.7rem;margin:.3rem 0 .1rem">' +
+          'On this map (' + list.length + ')</div>' + rows;
+      }
+    }
+    markTokenListSelection();
+  }
+
+  function markTokenListSelection() {
+    var host = $('vttTokenList');
+    if (!host) return;
+    [].slice.call(host.querySelectorAll('[data-token]')).forEach(function (b) {
+      var on = Number(b.getAttribute('data-token')) === state.selected;
+      b.style.borderLeftColor = on ? 'var(--accent)' : 'transparent';
+      b.style.background = on ? 'var(--bg-hover, rgba(255,255,255,.05))' : 'none';
+    });
+  }
+
+  // Bring a token to the middle of the canvas. The camera is an offset applied BEFORE the zoom
+  // (worldToScreen = (world + cam) * zoom), so centring is its exact inverse — no guessing at signs.
+  function centreOn(id) {
+    var t = (state.tokens || []).filter(function (x) { return x.id === id; })[0];
+    if (!t) return;
+    state.selected = t.id;
+    state.camera.x = canvas.clientWidth / (2 * state.camera.zoom) - t.x;
+    state.camera.y = canvas.clientHeight / (2 * state.camera.zoom) - t.y;
+    renderSelected();
+    redraw();
+  }
+
   function renderSelected() {
+    renderTokenList();
     var host = $('vttSelected');
     if (!host) return;
     var t = state.tokens.filter(function (x) { return x.id === state.selected; })[0];
@@ -1597,7 +1669,8 @@
     measureCells: measureCells,
     spawnEncounter: spawnEncounter, loadEncounters: loadEncounters,
     openPlayer: openPlayer, revokePlayer: revokePlayer, togglePanels: togglePanels, toggleRevealAll: toggleRevealAll,
- alignGrid: alignGrid, setGridOffset: setGridOffset, freeSpotNear: freeSpotNear, state: state
+ alignGrid: alignGrid, setGridOffset: setGridOffset, freeSpotNear: freeSpotNear,
+ centreOn: centreOn, renderTokenList: renderTokenList, state: state
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

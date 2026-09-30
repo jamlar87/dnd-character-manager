@@ -35,6 +35,36 @@ def test_the_search_prefers_the_centre_and_only_moves_when_busy():
         "the centre is tested before any ring search")
 
 
+def test_the_map_lists_its_tokens_and_each_row_jumps_to_that_token():
+    """Asked for: a list of every token on the map, and clicking one centres the view on it."""
+    page = (APP / "templates" / "map.html").read_text()
+    assert 'id="vttTokenList"' in page, "the panel has nowhere to show the roster"
+    assert "function renderTokenList(" in JS, "there is no roster renderer"
+    body = JS.split("function renderTokenList(")[1].split("\n  }")[0]
+    assert "VTT.centreOn(" in body, "a roster row must jump to its token"
+    assert "esc(" in body, "labels come from creature names and must be escaped, never interpolated raw"
+    # the roster is rebuilt only when the set changes: renderSelected runs on every drag
+    assert "_tokenListSig" in body, "the roster must not rebuild the DOM on every selection"
+    # ...and it is reachable from the place every token change already passes through
+    sel = JS.split("function renderSelected(")[1].split("\n  }")[0]
+    assert "renderTokenList();" in sel, "adding or removing a token must refresh the roster"
+
+
+def test_centring_uses_the_exact_inverse_of_the_camera_transform():
+    """worldToScreen is (world + cam) * zoom, so centring must be cam = centre / zoom - world. Getting
+    a sign or the zoom placement wrong puts the token somewhere plausible but wrong, which is the
+    failure this codebase keeps paying for."""
+    assert "function worldToScreen(x, y)" in JS and "(x + state.camera.x) * state.camera.zoom" in JS, (
+        "the transform changed - re-derive the inverse below")
+    body = JS.split("function centreOn(")[1].split("\n  }")[0]
+    assert "canvas.clientWidth / (2 * state.camera.zoom) - t.x" in body, (
+        "the x centring is not the inverse of worldToScreen")
+    assert "canvas.clientHeight / (2 * state.camera.zoom) - t.y" in body, (
+        "the y centring is not the inverse of worldToScreen")
+    assert "state.selected = t.id" in body, "jumping to a token should also select it"
+    assert "centreOn: centreOn" in JS, "not exported, so nothing can call it"
+
+
 def test_occupied_cells_are_keyed_on_rounded_coordinates():
     """Tokens store float world coordinates; the occupancy test must round them, or two tokens a
     fraction of a pixel apart count as different cells and still stack visually."""
