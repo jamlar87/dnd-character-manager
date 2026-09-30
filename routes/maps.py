@@ -71,6 +71,17 @@ def _fnum(value, default=0.0, lo=-100000.0, hi=100000.0) -> float:
 FEET_PER_CELL_MAX = 1_000_000
 
 
+def _quarter_turn(value):
+    """Snap a rotation to the nearest quarter turn, normalised to 0/90/180/270.
+
+    A free angle would put the artwork at odds with the square grid drawn on it, and the point of the
+    control is to straighten a sideways scan, so anything else is a mistake rather than a feature."""
+    try:
+        return (int(round(float(value) / 90.0)) * 90) % 360
+    except (TypeError, ValueError):
+        return 0
+
+
 def _inum(value, default=0, lo=-9999, hi=9999) -> int:
     try:
         out = int(float(value))
@@ -381,6 +392,10 @@ async def dm_map_update(map_id: int, request: Request):
             sets.append("grid_offset_x = ?"); params.append(_inum(data.get("grid_offset_x"), 0, -400, 400))
         if "grid_offset_y" in data:
             sets.append("grid_offset_y = ?"); params.append(_inum(data.get("grid_offset_y"), 0, -400, 400))
+        if "rotation" in data:
+            # Snap to a quarter turn: the point is to straighten a sideways scan, and an arbitrary angle
+            # would put the art at odds with the square grid it is drawn on.
+            sets.append("rotation = ?"); params.append(_quarter_turn(data.get("rotation")))
 
         # Record that a human placed this grid. The canvas autosaves the values it just loaded, so
         # "the grid fields were posted" is not an edit — only a post that actually differs from the

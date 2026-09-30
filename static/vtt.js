@@ -522,6 +522,16 @@
     });
   }
 
+  function rot() { return (((state.map && state.map.rotation) || 0) % 360 + 360) % 360; }
+
+  // The art's footprint once turned. At 90 and 270 the axes swap, so anything that frames or measures
+  // the whole map (fit, cells across) has to ask here rather than read image_w/image_h directly.
+  function mapDims() {
+    var w = (state.map && state.map.image_w) || state.grid.size * 20;
+    var h = (state.map && state.map.image_h) || state.grid.size * 14;
+    return (rot() % 180) ? [h, w] : [w, h];
+  }
+
   function drawFrame() {
     {
       var W = canvas.clientWidth, H = canvas.clientHeight;
@@ -533,7 +543,21 @@
         var bg = image(state.map.image_path);
         if (bg && bg.complete && bg.naturalWidth) {
           var p = worldToScreen(0, 0);
-          ctx.drawImage(bg, p[0], p[1], bg.naturalWidth * state.camera.zoom, bg.naturalHeight * state.camera.zoom);
+          var z = state.camera.zoom, R = rot(), iw = bg.naturalWidth, ih = bg.naturalHeight;
+          if (!R) {
+            ctx.drawImage(bg, p[0], p[1], iw * z, ih * z);
+          } else {
+            // Turn the picture about the map's own origin. The world frame is deliberately NOT rotated:
+            // tokens, grid, fog and hit-testing all measure in world units, so leaving them alone means
+            // a rotate cannot silently move a token off its square. Only the image is turned.
+            ctx.save();
+            ctx.translate(p[0], p[1]);
+            ctx.rotate(R * Math.PI / 180);
+            var ox = (R === 90) ? 0 : iw * z;   // where the image's own origin sits once turned
+            var oy = (R === 270) ? 0 : ih * z;
+            ctx.drawImage(bg, -ox, -oy, iw * z, ih * z);
+            ctx.restore();
+          }
         }
       } else {
         // no background yet: draw a placeholder field so the grid is visible
@@ -782,6 +806,7 @@
       else if (ev.key === 'g' || ev.key === 'G') toggleGrid();
       else if (ev.key === 's' || ev.key === 'S') toggleSnap();
       else if (ev.key === '0') fit();
+      else if (ev.key === 'r' || ev.key === 'R') rotateBy(90);
       else if (ev.key === 'Escape') {
         state.selected = null;
         state.ruler = null;
@@ -833,12 +858,14 @@
   }
 
   function gridCellsAcross() {
-    // what the grid currently does to the image: the number a DM checks by eye
+    // what the grid currently does to the image: the number a DM checks by eye. This is the TURNED
+    // footprint, so a rotated map reports its cells across the way it looks on screen, not the way the
+    // file happens to be stored. No artwork still means no numbers, so "fit" keeps declining.
     var bg = backgroundImage();
-    var iw = (bg && bg.naturalWidth) || 0;
-    var ih = (bg && bg.naturalHeight) || 0;
+    if (!bg || !bg.naturalWidth) return { w: 0, h: 0, across: 0, down: 0 };
+    var d = mapDims();
     var size = Math.max(1, state.grid.size);
-    return { w: iw, h: ih, across: iw / size, down: ih / size };
+    return { w: d[0], h: d[1], across: d[0] / size, down: d[1] / size };
   }
 
   function renderGridInfo() {
@@ -897,7 +924,7 @@
           var inp = $('vttGridSize'); if (inp) inp.value = d.grid_size;
           var sq = $('vttGridSquares');
           if (sq && state.map && state.map.image_w) {
-            sq.value = (state.map.image_w / d.grid_size).toFixed(2);
+            sq.value = (mapDims()[0] / d.grid_size).toFixed(2);
           }
           setGridOffset(d.offset_x, d.offset_y);
           if (btn) btn.textContent = '🎯 Aligned (score ' + d.score + ')';
@@ -942,15 +969,37 @@
     state.snap = !state.snap;
     var b = $('vttSnapBtn'); if (b) b.textContent = '🧲 Snap: ' + (state.snap ? 'on' : 'off');
   }
+  function rotateBy(deg) {
+    if (!state.map) return null;
+    var r = (rot() + (deg === undefined ? 90 : deg)) % 360;
+    if (r < 0) r += 360;
+    state.map.rotation = r;
+    // Straight to /update, the way the grid does it. saveNow() posts TOKENS only, so leaning on it left
+    // the turn in the browser and lost it on the next load.
+    fetch('/api/dm/map/' + window.MAP_ID + '/update', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rotation: r })
+    }).then(function () {
+      var badge = $('vttSaved');
+      if (badge) { badge.textContent = 'art turned ' + r + '°'; badge.className = ''; }
+    }).catch(function () {});
+    renderGridInfo();   // the cells-across readout describes the turned art, so it has to be refreshed
+    // Re-frame, because the turn moves the art under a fixed camera: without this the DM is left looking
+    // at a different part of the map than the one they were reading.
+    fit();
+    redraw();
+    return r;
+  }
+
   function zoomBy(factor) {
     state.camera.zoom = Math.max(0.08, Math.min(6, state.camera.zoom * factor));
     redraw(); saveCamera();
   }
   function fit() {
     var bg = backgroundImage();
-    var iw = (bg && bg.naturalWidth) || 0;
-    var ih = (bg && bg.naturalHeight) || 0;
-    if (!iw) { iw = canvas.clientWidth; ih = canvas.clientHeight; }
+    var d = mapDims();
+    var iw = ((bg && bg.naturalWidth) ? d[0] : 0) || canvas.clientWidth;
+    var ih = ((bg && bg.naturalHeight) ? d[1] : 0) || canvas.clientHeight;
     var zoom = Math.min(canvas.clientWidth / iw, canvas.clientHeight / ih) * 0.96;
     state.camera.zoom = Math.max(0.08, Math.min(6, zoom));
     state.camera.x = (canvas.clientWidth / state.camera.zoom - iw) / 2;
@@ -1710,7 +1759,7 @@
   }
 
   window.VTT = {
-    init: init, redraw: redraw, zoomBy: zoomBy, fit: fit, toggleGrid: toggleGrid,
+    init: init, redraw: redraw, zoomBy: zoomBy, rotateBy: rotateBy, fit: fit, toggleGrid: toggleGrid,
     setGridType: setGridType, nudgeSize: nudgeSize, toggleSnap: toggleSnap,
     addToken: addToken, removeToken: removeToken, updateToken: updateToken,
     bumpHp: bumpHp, resize: resizeToken, resizeCanvas: resizeCanvas, toggleHidden: toggleHidden,

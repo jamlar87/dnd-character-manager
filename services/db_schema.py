@@ -522,6 +522,13 @@ def _migrate_npc_source_columns():
         db.execute("ALTER TABLE dm_maps ADD COLUMN grid_source TEXT DEFAULT ''")
     except sqlite3.OperationalError:
         pass
+    # Migration: rotation, in quarter turns. The artwork is drawn turned by this much. Stored rather than
+    # baked into the image so a sideways scan is straightened losslessly and can be turned back; only the
+    # picture moves, because the world frame is what tokens, grid and fog measure against.
+    try:
+        db.execute("ALTER TABLE dm_maps ADD COLUMN rotation INTEGER DEFAULT 0")
+    except sqlite3.OperationalError:
+        pass
 
     # Existing installations keep their users; no default credentials are created.
     db.commit()
