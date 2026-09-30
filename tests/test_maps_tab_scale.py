@@ -47,6 +47,32 @@ def test_the_tab_renders_collapsed_groups_rather_than_every_row():
     assert "${open ?" in body or "${open ?" in body, "rows must be conditional on the section being open"
 
 
+def test_showing_the_maps_tab_is_what_loads_it():
+    """Reported: "I get a hung 'loading Maps...' when loading directly into the maps tab, but if i
+    click into another tab and back it load correctly."
+
+    The fetch lived in the tab's click handler, so the restore-last-tab path on page load activated
+    the tab — showing its static "Loading maps…" placeholder — without ever fetching. Clicking away
+    and back fired the handler, which is why that worked. Loading now belongs to activateTab, so every
+    path in (restore, click, anything later) behaves the same.
+    """
+    js = (APP / "static" / "dm_tools.js").read_text()
+    activate = js.split("function activateTab(")[1].split("\n}")[0]
+    assert "if (tabName === 'maps') renderMaps();" in activate, (
+        "showing the maps tab must load it, not only clicking it")
+    click = js.split("tab.addEventListener('click'")[1].split("});")[0]
+    assert "renderMaps()" not in click, (
+        "the click path must not be the only place that loads the tab")
+    # and the restore must not run inline: it sits above state declared with `let` further down, and
+    # an async loader that throws on that reference fails silently — no error, no fallback, just the
+    # placeholder. `renderMaps` reads _mapsCache on its first line.
+    restore = js.split("// Restore last active tab on page load")[1].split("}, 0);")[0]
+    assert "setTimeout(" in restore, "the restore must be deferred past the script's own evaluation"
+    assert js.index("setTimeout(function() {") > 0
+    assert js.index("let _mapsCache") > js.index("// Restore last active tab on page load"), (
+        "if _mapsCache ever moves above the restore, this test should be revisited")
+
+
 def test_the_book_group_handler_does_not_embed_escaped_text():
     """Reported: the Wildemount group would not expand.
 

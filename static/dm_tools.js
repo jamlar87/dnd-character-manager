@@ -75,10 +75,21 @@ function activateTab(tabName) {
   if (tabBtn) tabBtn.classList.add('active');
   if (panel) panel.classList.add('active');
   localStorage.setItem('dmToolsTab', tabName);
+  // Showing a tab loads it, whoever asked. The map list is fetched on demand rather than shipped in
+  // the page, and doing that only from the tab's click handler left a direct load — the restore below,
+  // or a bookmark — staring at "Loading maps…" until the tab was clicked away and back.
+  if (tabName === 'maps') renderMaps();
 }
 
-// Restore last active tab on page load
-(function() {
+// Restore last active tab on page load.
+//
+// Deferred to a task, not run inline: this block sits near the top of the file and the tab it
+// restores may load content, which reaches state declared with `let` much further down. Reading that
+// state before the declaration is evaluated is a temporal-dead-zone ReferenceError — and because the
+// loader is `async`, the failure arrives as a rejected promise with no console error and no fallback,
+// leaving the tab's static "Loading maps…" on screen forever. Deferring past the script's own
+// evaluation makes the order irrelevant.
+setTimeout(function() {
   try {
     const saved = localStorage.getItem('dmToolsTab');
     const validTabs = ['campaigns','maps','encounters','combat','monsters','spells','npcs','items','traps','manuals'];
@@ -87,13 +98,11 @@ function activateTab(tabName) {
   } catch(e) {
     activateTab('campaigns');
   }
-})();
+}, 0);
 
 document.querySelectorAll('.dm-tab').forEach(tab => {
   tab.addEventListener('click', () => {
-    activateTab(tab.dataset.tab);
-    // The map list is fetched on demand: it is not part of the page's initial payload.
-    if (tab.dataset.tab === 'maps') renderMaps();
+    activateTab(tab.dataset.tab);   // which loads whatever that tab needs
   });
 });
 
