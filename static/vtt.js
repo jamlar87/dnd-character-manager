@@ -876,6 +876,47 @@
     setGridSize(Math.round(g.w / count));
   }
 
+  // Put the overlay on the grid printed on the art: the server measures pitch and phase from the
+  // image, this applies the answer. Mirrors nudgeGrid's persist/readout/redraw order.
+  function setGridOffset(ox, oy) {
+    state.grid.ox = Math.max(-400, Math.min(400, Math.round(ox) || 0));
+    state.grid.oy = Math.max(-400, Math.min(400, Math.round(oy) || 0));
+    persistGrid();
+    renderGridInfo();
+    redraw();
+  }
+
+  function alignGrid() {
+    var btn = document.getElementById('vttAlignBtn');
+    if (btn) { btn.disabled = true; btn.textContent = '⏳ Measuring…'; }
+    fetch('/api/dm/map/' + window.MAP_ID + '/align-grid', {method: 'POST'})
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (d && d.ok) {
+          state.grid.size = d.grid_size;
+          var inp = $('vttGridSize'); if (inp) inp.value = d.grid_size;
+          var sq = $('vttGridSquares');
+          if (sq && state.map && state.map.image_w) {
+            sq.value = (state.map.image_w / d.grid_size).toFixed(2);
+          }
+          setGridOffset(d.offset_x, d.offset_y);
+          if (btn) btn.textContent = '🎯 Aligned (score ' + d.score + ')';
+        } else {
+          if (btn) btn.textContent = '🎯 Align to art';
+          var hint = $('vttHint');
+          if (hint) {
+            hint.textContent = (d && d.reason) ? ('Could not align: ' + d.reason +
+              (d.score !== undefined ? ' (score ' + d.score + ')' : '')) : 'Could not align the grid';
+            setTimeout(function () {
+              hint.textContent = 'Drag to pan · wheel to zoom · drag a token to move it';
+            }, 6000);
+          }
+        }
+      })
+      .catch(function () { if (btn) btn.textContent = '🎯 Align to art'; })
+      .then(function () { if (btn) btn.disabled = false; });
+  }
+
   function nudgeGrid(dx, dy) {
     state.grid.ox = Math.max(-400, Math.min(400, Math.round(state.grid.ox) + (dx || 0)));
     state.grid.oy = Math.max(-400, Math.min(400, Math.round(state.grid.oy) + (dy || 0)));
@@ -1527,7 +1568,8 @@
     applyMarquee: applyMarquee, cellsInRect: cellsInRect, cellsInCircle: cellsInCircle,
     measureCells: measureCells,
     spawnEncounter: spawnEncounter, loadEncounters: loadEncounters,
-    openPlayer: openPlayer, revokePlayer: revokePlayer, togglePanels: togglePanels, toggleRevealAll: toggleRevealAll, state: state
+    openPlayer: openPlayer, revokePlayer: revokePlayer, togglePanels: togglePanels, toggleRevealAll: toggleRevealAll,
+ alignGrid: alignGrid, setGridOffset: setGridOffset, state: state
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

@@ -195,6 +195,55 @@ async def dm_maps_list(request: Request, campaign_id: str = ""):
         db.close()
 
 
+@router.post("/api/dm/map/{map_id}/align-grid", response_class=JSONResponse)
+async def dm_map_align_grid(map_id: int, request: Request):
+    """Put the overlay grid on the grid printed on the art.
+
+    Cell size is half the problem: an overlay at the right pitch still looks wrong until its lines land
+    on the printed ones, which is the phase a DM otherwise nudges in by hand. services/map_grid_align
+    measures both from the image. It is deliberately allowed to fail — art with no printed grid folds
+    flat (measured 0.08-0.21 against 0.9+ for a real grid), and the map is then left exactly as it was
+    rather than given a confident-looking wrong grid.
+    """
+    from pathlib import Path as _P
+
+    from starlette.concurrency import run_in_threadpool
+
+    from services.map_grid_align import detect
+
+    user = require_user(request)
+    db = get_db()
+    try:
+        row = _own_map(db, user, map_id)
+        if not row:
+            return JSONResponse({"ok": False, "error": "map not found"}, status_code=404)
+        rel = str(row["image_path"] or "")
+        if not rel.startswith("/static/maps/"):
+            return JSONResponse({"ok": False, "reason": "this map has no art to measure"})
+        src = _P(__file__).resolve().parent.parent / rel.lstrip("/")
+        if not src.is_file():
+            return JSONResponse({"ok": False, "reason": "the art file is missing"})
+
+        # CPU-bound and the route is async: never encode or measure inline
+        res = await run_in_threadpool(detect, str(src))
+        if not res:
+            return JSONResponse({"ok": False, "reason": "the art could not be read"})
+        if not res["has_grid"]:
+            return JSONResponse({"ok": False, "reason": "no printed grid found on this map",
+                                 "score": res["score"], "axis_agree": res["axis_agree"]})
+
+        size = max(10, min(400, int(round(res["pitch_px"]))))
+        ox = int(round(res["offset_x"])) % max(1, size)
+        oy = int(round(res["offset_y"])) % max(1, size)
+        db.execute("UPDATE dm_maps SET grid_size=?, grid_offset_x=?, grid_offset_y=? WHERE id=?",
+                   (size, ox, oy, map_id))
+        db.commit()
+        return JSONResponse({"ok": True, "grid_size": size, "offset_x": ox, "offset_y": oy,
+                             "score": res["score"], "axis_agree": res["axis_agree"]})
+    finally:
+        db.close()
+
+
 @router.get("/api/dm/map/{map_id}/thumb")
 async def dm_map_thumb(map_id: int, request: Request, size: int = 96):
     """A small WebP of the map's art for the list. 96px by default.

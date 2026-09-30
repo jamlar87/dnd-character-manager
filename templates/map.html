@@ -60,7 +60,7 @@
       <details class="vtt-panel">
         <summary>Grid &amp; scale</summary>
         <div class="vtt-ctl">
-          <select id="vttGridType" onchange="VTT.setGridType(this.value)" title="Square 5-ft cells, or hexes for an overland map">
+          <select id="vttGridType" onchange="VTT.setGridType(this.value)" title="Square 5-ft cells, or hexe">
             <option value="square">⬚ Square</option><option value="hex">⬡ Hex</option>
           </select>
           <button class="btn btn-outline btn-sm" onclick="VTT.nudgeSize(-4)">−</button>
@@ -75,7 +75,9 @@
           <button class="btn btn-outline btn-sm" onclick="VTT.nudgeGrid(0,-1)">▲</button>
           <button class="btn btn-outline btn-sm" onclick="VTT.nudgeGrid(0,1)">▼</button>
           </div></details>
-          <button class="btn btn-outline btn-sm" onclick="VTT.fitGridToImage()" title="Zero the offset and make the grid divide the image exactly">🧩 Fit</button>
+          <button class="btn btn-outline btn-sm" onclick="VTT.fitGridToImage()">🧩 Fit</button>
+          <button class="btn btn-outline btn-sm" onclick="VTT.alignGrid()" id="vttAlignBtn"
+                  title="Measure the grid printed o">🎯 Align to art</button>
           <button class="btn btn-outline btn-sm" onclick="VTT.toggleSnap()" id="vttSnapBtn">🧲 Snap: on</button>
           <label class="vtt-note">
             <input type="number" id="vttFeet" value="5" min="1" max="1000000" onchange="VTT.setFeetPerCell(this.value)">ft/cell</label>
@@ -90,7 +92,7 @@
             <option value="cell">⬛ By cell</option><option value="rect">▭ By rectangle</option><option value="circle">⭕ By circle</option>
           </select>
           <button class="btn btn-outline btn-sm" onclick="VTT.toggleFog()" id="vttFogOn" title="Show or hide the fog layer">☁ Fog: off</button>
-          <button class="btn btn-outline btn-sm" onclick="VTT.toggleRevealAll()" title="Reveal the whole map, or hide it again if any of it is revealed">👁 Reveal / hide all</button>
+          <button class="btn btn-outline btn-sm" onclick="VTT.toggleRevealAll()" title="Reveal the whole map, or h">👁 Reveal / hide all</button>
         </div>
       </details>
       <details class="vtt-panel">

@@ -147,6 +147,9 @@ def test_the_dm_tools_tab_lists_and_opens_maps():
     assert "renderMaps" in jsrc and "createMap" in jsrc and "deleteMap" in jsrc
     valid = jsrc.split("const validTabs")[1][:260]
     assert "'maps'" in valid, "the maps tab would be forgotten when the last tab is restored"
-    assert "if (tab.dataset.tab === 'maps') renderMaps();" in jsrc, (
+    # Loading belongs to activateTab, not to the click handler. When it lived in the click handler a
+    # direct load restored the tab, showed the static "Loading maps…" placeholder and never fetched.
+    activate = jsrc.split("function activateTab(")[1].split("\n}")[0]
+    assert "if (tabName === 'maps') renderMaps();" in activate, (
         "the list is never fetched — the panel would say 'Loading maps…' forever")
     assert "'/dm-map/'" in jsrc or "/dm-map/" in jsrc, "nothing links to the canvas page"
