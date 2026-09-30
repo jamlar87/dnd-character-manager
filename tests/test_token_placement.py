@@ -50,6 +50,16 @@ def test_the_map_lists_its_tokens_and_each_row_jumps_to_that_token():
     assert "renderTokenList();" in sel, "adding or removing a token must refresh the roster"
 
 
+def test_duplicate_names_are_numbered_and_unique_ones_are_not():
+    """Three goblins on one map must be tellable apart in the roster, and a lone creature must keep its
+    plain name — numbering everything would be noise."""
+    body = JS.split("function renderTokenList(")[1].split("\n  }")[0]
+    assert "total[label] > 1" in body, "numbering must apply only to labels that collide"
+    assert "seen[label] = (seen[label] || 0) + 1" in body, "duplicates need an index"
+    assert "label = label + ' ' + seen[label]" in body, "the index must land on the displayed label"
+    assert "esc(label)" in body, "the numbered label still has to be escaped"
+
+
 def test_centring_uses_the_exact_inverse_of_the_camera_transform():
     """worldToScreen is (world + cam) * zoom, so centring must be cam = centre / zoom - world. Getting
     a sign or the zoom placement wrong puts the token somewhere plausible but wrong, which is the

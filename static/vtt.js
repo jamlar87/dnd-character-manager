@@ -1055,8 +1055,20 @@
         list.sort(function (a, b) {
           return (Math.floor(a.y / 100) - Math.floor(b.y / 100)) || (a.x - b.x);
         });
+        // Three rows all reading "Chaos-Spawn Goblin" is honest and unscannable, so duplicates get an
+        // index — assigned in the list's own reading order, and only to labels that actually collide,
+        // so a lone creature keeps its plain name.
+        var seen = {}, total = {};
+        list.forEach(function (t) {
+          var raw = t.label || t.ref_name || 'Token';
+          total[raw] = (total[raw] || 0) + 1;
+        });
         var rows = list.map(function (t) {
           var label = t.label || t.ref_name || 'Token';
+          if (total[label] > 1) {
+            seen[label] = (seen[label] || 0) + 1;
+            label = label + ' ' + seen[label];
+          }
           var bits = [];
           if (t.hp_max) bits.push('HP ' + (t.hp_current == null ? '?' : t.hp_current) + '/' + t.hp_max);
           if (t.hidden) bits.push('hidden');
