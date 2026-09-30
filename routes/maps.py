@@ -235,8 +235,9 @@ async def dm_map_align_grid(map_id: int, request: Request):
         size = max(10, min(400, int(round(res["pitch_px"]))))
         ox = int(round(res["offset_x"])) % max(1, size)
         oy = int(round(res["offset_y"])) % max(1, size)
-        db.execute("UPDATE dm_maps SET grid_size=?, grid_offset_x=?, grid_offset_y=? WHERE id=?",
-                   (size, ox, oy, map_id))
+        # pressing the button is a decision too, so it claims the map for the DM as well
+        db.execute("UPDATE dm_maps SET grid_size=?, grid_offset_x=?, grid_offset_y=?, "
+                   "grid_source='user' WHERE id=?", (size, ox, oy, map_id))
         db.commit()
         return JSONResponse({"ok": True, "grid_size": size, "offset_x": ox, "offset_y": oy,
                              "score": res["score"], "axis_agree": res["axis_agree"]})
@@ -308,8 +309,8 @@ async def dm_map_create(request: Request):
     try:
         cur = db.execute(
             "INSERT INTO dm_maps (user_id, campaign_id, name, grid_type, grid_size, "
-            "grid_offset_x, grid_offset_y, notes, feet_per_cell, source_manual, source_page) "
-            "VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+            "grid_offset_x, grid_offset_y, notes, feet_per_cell, source_manual, source_page, "
+            "grid_source) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
             (user["id"], _inum(data.get("campaign_id"), 0, 0, 10 ** 9) or None, name[:80],
              "hex" if str(data.get("grid_type")) == "hex" else "square",
              _inum(data.get("grid_size"), 50, 10, 400),
@@ -320,7 +321,12 @@ async def dm_map_create(request: Request):
              # DMG's scales are 1 mile (5280), 6 miles (31,680) and 60 miles (316,800) per hex.
              _inum(data.get("feet_per_cell"), 5, 1, FEET_PER_CELL_MAX),
              str(data.get("source_manual") or "")[:40],          # a manual slug, e.g. "DMG"
-             _inum(data.get("source_page"), 0, 0, 5000)))
+             _inum(data.get("source_page"), 0, 0, 5000),
+             # A size or offset given at creation is the DM saying something, so "preset". It still
+             # allows the phase to be aligned later, but the cell size is not re-derived from the art —
+             # only an untouched default may be replaced by what the art actually measures.
+             "preset" if any(k in data for k in
+                             ("grid_size", "grid_offset_x", "grid_offset_y")) else ""))
         db.commit()
         return JSONResponse({"ok": True, "id": cur.lastrowid})
     finally:
@@ -375,6 +381,26 @@ async def dm_map_update(map_id: int, request: Request):
             sets.append("grid_offset_x = ?"); params.append(_inum(data.get("grid_offset_x"), 0, -400, 400))
         if "grid_offset_y" in data:
             sets.append("grid_offset_y = ?"); params.append(_inum(data.get("grid_offset_y"), 0, -400, 400))
+
+        # Record that a human placed this grid. The canvas autosaves the values it just loaded, so
+        # "the grid fields were posted" is not an edit — only a post that actually differs from the
+        # stored row is. Without this the automatic paths cannot tell a DM's correction from a default,
+        # and the image route would re-measure over a grid someone had aligned by hand.
+        grid_keys = ("grid_size", "grid_offset_x", "grid_offset_y")
+        if any(k in data for k in grid_keys + ("grid_type",)):
+            stored_row = db.execute("SELECT grid_size, grid_offset_x, grid_offset_y, grid_type "
+                                    "FROM dm_maps WHERE id = ?", (map_id,)).fetchone()
+            stored = dict(zip(("grid_size", "grid_offset_x", "grid_offset_y", "grid_type"),
+                              tuple(stored_row))) if stored_row else {}
+            changed = False
+            for k in grid_keys:
+                if k in data and k in stored:
+                    if _inum(data.get(k), stored[k], -100000, 100000) != int(stored[k] or 0):
+                        changed = True
+            if "grid_type" in data and str(data.get("grid_type") or "") != str(stored.get("grid_type") or ""):
+                changed = True
+            if changed:
+                sets.append("grid_source = ?"); params.append("user")
         if "camera" in data:
             cam = data.get("camera")
             sets.append("camera = ?")
@@ -497,8 +523,17 @@ async def dm_map_image(map_id: int, request: Request):
         # waiting for someone to notice and press a button. The pitch stays exactly as it is — the map
         # already carries a cell size and re-deriving it is how a lattice lands on a multiple of the
         # real one — so this only solves for the phase. Best-effort: a failure must never cost an upload.
+        try:
+            _placed_by = str(row["grid_source"] or "")
+        except Exception:
+            _placed_by = ""
+        # The cell size is NEVER re-derived here. It was tempting — a brand-new map carries the default
+        # 50, so replacing it with what the art measures looks like free accuracy — but it re-introduces
+        # the failure this feature already paid for: texture and harmonics measure as plausible pitches
+        # (on plain test art the detector confidently reports 35, and on real maps it reported 178 where
+        # the truth was 104). Only a map's own size or an explicit measurement from the DM sets it.
         auto_aligned = False
-        if ox == 0 and oy == 0:
+        if ox == 0 and oy == 0 and _placed_by != "user":
             try:
                 from starlette.concurrency import run_in_threadpool as _pool
 

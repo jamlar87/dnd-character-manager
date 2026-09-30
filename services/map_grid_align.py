@@ -93,14 +93,27 @@ def _best_fold(prof: np.ndarray, lo: int, hi: int) -> tuple[float, float, float]
             best_phase, best_score, best_pitch = phase, score, float(cand)
     if best_score <= 0:
         return 0.0, 0.0, float(lo)
-    for div in (2, 3, 4, 5):
-        sub = int(round(best_pitch / div))
-        if sub < lo * 0.9:
-            continue
-        for cand in range(max(lo, sub - 1), min(hi, sub + 1) + 1):
-            phase, score = _fold_peak(prof, cand)
-            if score >= best_score * 0.7:
-                return phase, score, float(cand)
+    # Walk DOWN, not just one step: a grid at 50 whose alternate lines are darker peaks at 200, then
+    # 100, and only then 50. Stopping at the first submultiple that passes leaves 100 — halve again
+    # while the fold holds, and stop the moment it stops holding (50 -> 25 scores 0.35 of the best).
+    cur = best_pitch
+    for _ in range(8):
+        improved = False
+        for div in (2, 3, 5, 7):
+            sub = int(round(cur / div))
+            if sub < lo * 0.9:
+                continue
+            for cand in range(max(lo, sub - 1), min(hi, sub + 1) + 1):
+                phase, score = _fold_peak(prof, cand)
+                if score >= best_score * 0.7:
+                    cur, improved = float(cand), True
+                    break
+            if improved:
+                break
+        if not improved:
+            break
+    if cur != best_pitch:
+        return _fold_peak(prof, cur) + (cur,)
     return best_phase, best_score, best_pitch
 
 
@@ -155,10 +168,24 @@ def detect(image_path: str | Path, hint_pitch: float | None = None) -> dict | No
     hinted = float(hint_pitch) if hint_pitch and 10 <= float(hint_pitch) <= 400 else None
 
     if hinted:
-        # The map already has a cell size - usually measured at ingest and in use. Matching the art then
-        # means finding the PHASE, not re-deriving the pitch, and that sidesteps the harmonic ambiguity
-        # entirely: a lattice can always be periodic at a multiple of the true pitch, so re-estimating an
-        # already-known size only adds a way to be wrong. Refinement is capped at 10% for the same reason.
+        # The map already has a cell size, so prefer it — it is the size in use, and re-deriving a known
+        # number only adds a way to be wrong (a lattice is equally periodic at 2p, which is how a bulk
+        # pass turned 104 into 178). But it must not be a straitjacket: a brand-new map carries the
+        # DEFAULT 50, and refusing to look further would leave every such map at the wrong cell size.
+        # So measure freely first, collapse harmonics toward the fundamental, and take the map's own
+        # number when the two broadly agree.
+        measured = {}
+        for along in ("x", "y"):
+            prof = _profile(arr, along)
+            size_a = arr.shape[1] if along == "x" else arr.shape[0]
+            lo_a, hi_a = max(4, int(size_a * MIN_PITCH_FRAC)), min(size_a - 1, int(size_a * MAX_PITCH_FRAC))
+            if hi_a > lo_a and prof.size >= 32 and prof.sum() > 0:
+                measured[along] = _best_fold(prof, lo_a, hi_a)[2]
+        agree = [v for v in measured.values() if v and abs(v - hinted) <= 0.25 * hinted]
+        use = hinted if (len(agree) == len(measured) and measured) else (
+            round(sum(measured.values()) / len(measured), 2) if measured else hinted)
+        hinted = float(use)
+
         out = {}
         for along in ("x", "y"):
             got = phase_for(along, hinted)

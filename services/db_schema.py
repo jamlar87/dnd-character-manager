@@ -516,6 +516,12 @@ def _migrate_npc_source_columns():
         db.execute("ALTER TABLE dm_maps ADD COLUMN player_key TEXT DEFAULT ''")
     except sqlite3.OperationalError:
         pass
+    # Migration: who placed the grid. Empty means "as created or measured"; 'user' means the DM set it
+    # by hand or asked for a measurement, and automatic paths must leave it alone from then on.
+    try:
+        db.execute("ALTER TABLE dm_maps ADD COLUMN grid_source TEXT DEFAULT ''")
+    except sqlite3.OperationalError:
+        pass
 
     # Existing installations keep their users; no default credentials are created.
     db.commit()
