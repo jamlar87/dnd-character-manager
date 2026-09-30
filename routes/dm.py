@@ -1018,7 +1018,7 @@ async def dm_npc_portrait_image(npc_id: int, request: Request, size: int | None 
     instead of inlining the blob. Scoped to the NPC's owner (or an admin) —
     404 for anyone else, exactly like a missing NPC.
     """
-    from services.images import decode_data_url, thumbnail_bytes
+    from services.images import decode_data_url, thumb_for_blob
     user = require_user(request)
     db = get_db()
     row = db.execute("SELECT user_id, portrait_url FROM dm_npcs WHERE id = ?",
@@ -1034,7 +1034,9 @@ async def dm_npc_portrait_image(npc_id: int, request: Request, size: int | None 
             raise HTTPException(status_code=404, detail="No portrait stored")
         blob, media = decoded
         if size is not None:
-            thumb = thumbnail_bytes(blob, size)
+            # encoding inline would block the event loop for every other request in flight
+            from starlette.concurrency import run_in_threadpool
+            thumb = await run_in_threadpool(thumb_for_blob, blob, size)
             if thumb:
                 blob, media = thumb
         return Response(content=blob, media_type=media,

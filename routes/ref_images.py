@@ -14,11 +14,17 @@ Cloudflare answers BYPASS (see the /static/ exception in main.py).
 
 from fastapi import APIRouter, Request
 from fastapi.responses import Response
+from starlette.concurrency import run_in_threadpool
 
 from services import ref_portraits
-from services.images import thumbnail_bytes
+from services.images import cached_thumb
 
 router = APIRouter()
+
+
+#: Sized variants live next to the art (see services.images.cached_thumb). Every sized request used
+#: to re-encode the image — measured at 47ms of CPU against 8ms to serve the file — so a page of 60
+#: entity tiles paid ~3s of encoding per load, and paid it again on every reload.
 
 
 @router.get("/api/ref-image/{kind}/{name}")
@@ -53,11 +59,12 @@ async def ref_image(kind: str, name: str, request: Request, size: int = 0):
     # kept showing the old image long after the file changed. must-revalidate keeps it cheap.
     headers = {"Cache-Control": "public, max-age=300, must-revalidate", "X-Ref-Image": "ready"}
     if size:
-        thumb = thumbnail_bytes(blob, size)
+        # thumbnail_bytes is CPU-bound and this route is async: encoding inline blocks the event loop,
+        # so one cold page of portraits stalls every other request the server is handling.
+        thumb = await run_in_threadpool(cached_thumb, path, size)
         if thumb:
-            blob, media = thumb
-            headers["Content-Type"] = media
-            return Response(blob, headers=headers)
+            headers["Content-Type"] = "image/webp"
+            return Response(thumb, headers=headers)
     headers["Content-Type"] = "image/webp"
     return Response(blob, headers=headers)
 

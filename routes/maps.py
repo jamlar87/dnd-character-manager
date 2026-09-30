@@ -179,11 +179,71 @@ async def dm_maps_list(request: Request, campaign_id: str = ""):
             # _user_where returns '' for an admin, so the AND cannot be appended blindly
             where = (where + " AND m.campaign_id = ?") if where else "WHERE m.campaign_id = ?"
             params.append(_inum(campaign_id, 0, 0, 10 ** 9))
+        # Only what the list draws. `SELECT m.*` shipped every map's fog, draw_data, notes, camera
+        # and player key: with one demo map that was free, with 689 corpus maps the list payload was
+        # 323 KB of state the tab never reads. Those blobs belong to the map page, not the list.
+        minted = ("id", "user_id", "campaign_id", "name", "image_path", "image_w", "image_h",
+                  "grid_type", "grid_size", "grid_offset_x", "grid_offset_y", "feet_per_cell",
+                  "source_manual", "source_page", "created_at", "parent_map_id")
         rows = db.execute(
-            f"SELECT m.*, (SELECT COUNT(*) FROM dm_map_tokens t WHERE t.map_id = m.id) AS token_count, "
+            f"SELECT {', '.join('m.' + c for c in minted)}, "
+            f"(SELECT COUNT(*) FROM dm_map_tokens t WHERE t.map_id = m.id) AS token_count, "
             f"(SELECT COUNT(*) FROM dm_map_scenes s WHERE s.map_id = m.id) AS scene_count "
             f"FROM dm_maps m {where} ORDER BY m.created_at DESC", params).fetchall()
         return JSONResponse({"count": len(rows), "maps": [dict(r) for r in rows]})
+    finally:
+        db.close()
+
+
+@router.get("/api/dm/map/{map_id}/thumb")
+async def dm_map_thumb(map_id: int, request: Request, size: int = 96):
+    """A small WebP of the map's art for the list. 96px by default.
+
+    The list is 689 maps long, so its thumbs must never be full-size art and must never be
+    re-encoded twice: the first request writes `static/maps/thumbs/<stem>-<size>.webp` and every
+    later one is a file read. The stem comes from the stored image path, which carries a content
+    hash, so replacing a map's art changes the URL — which is what makes a year-long immutable
+    cache safe here where the reference portraits deliberately keep theirs short.
+    """
+    from fastapi.responses import Response
+    from pathlib import Path as _P
+
+    from services.images import thumbnail_bytes
+
+    user = require_user(request)
+    db = get_db()
+    try:
+        row = _own_map(db, user, map_id)
+        if not row:
+            return Response(status_code=404)
+        rel = str(row["image_path"] or "")
+        if not rel.startswith("/static/maps/"):
+            return Response(status_code=404, headers={"Cache-Control": "no-store"})
+        src = _P(__file__).resolve().parent.parent / rel.lstrip("/")
+        if not src.is_file():
+            return Response(status_code=404, headers={"Cache-Control": "no-store"})
+        size = _inum(size, 96, 32, 512)
+        cache = src.parent / "thumbs" / f"{src.stem}-{size}.webp"
+        if cache.is_file():
+            return Response(cache.read_bytes(),
+                            media_type="image/webp",
+                            headers={"Cache-Control": "public, max-age=31536000, immutable"})
+        thumb = thumbnail_bytes(src.read_bytes(), size)
+        if not thumb:
+            # Pillow could not help (or would not be smaller): serve the original, but do not let a
+            # year-long cache pin it, in case a later request can do better.
+            return Response(src.read_bytes(),
+                            headers={"Cache-Control": "public, max-age=300, must-revalidate"})
+        blob, media = thumb
+        try:
+            cache.parent.mkdir(parents=True, exist_ok=True)
+            tmp = cache.with_suffix(".tmp")
+            tmp.write_bytes(blob)
+            tmp.replace(cache)
+        except OSError:
+            pass                                    # serving beats caching
+        return Response(blob, media_type=media,
+                        headers={"Cache-Control": "public, max-age=31536000, immutable"})
     finally:
         db.close()
 

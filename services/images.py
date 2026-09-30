@@ -6,6 +6,9 @@ the slot — see `thumbnail_bytes` and the `?size=` parameter on
 /api/character/{id}/portrait-image and /api/dm/npc/{id}/portrait-image.
 """
 
+import threading
+from collections import OrderedDict
+
 # A single portrait must not be able to bloat the DB (and every payload that
 # touches the row). Generous: a 4000x4000 PNG is ~8 MB.
 MAX_PORTRAIT_BYTES = 12 * 1024 * 1024
@@ -50,6 +53,72 @@ def thumbnail_bytes(blob: bytes, size: int) -> tuple[bytes, str] | None:
         return (out, "image/webp") if out and len(out) < len(blob) else None
     except Exception:
         return None
+
+
+#: Sized variants of the same source image, keyed by (hash of the bytes, size). Portrait art arrives
+#: as a data URL in the DB rather than a file, so it cannot be cached next to a path — but re-encoding
+#: a 60KB portrait into a 1KB tile on every request is the expensive part, and the bytes never change
+#: for a given portrait. Bounded so a library-sized page cannot grow this without limit.
+_BLOB_THUMBS: "OrderedDict[tuple[str, int], tuple[bytes, str]]" = OrderedDict()
+_BLOB_THUMBS_MAX = 512
+_BLOB_THUMBS_LOCK = threading.Lock()
+
+
+def thumb_for_blob(blob: bytes, size: int) -> tuple[bytes, str] | None:
+    """`thumbnail_bytes` with an in-memory cache. Same contract: None means "serve the original"."""
+    import hashlib
+
+    key = (hashlib.md5(blob).hexdigest(), int(size))
+    with _BLOB_THUMBS_LOCK:
+        hit = _BLOB_THUMBS.get(key)
+        if hit is not None:
+            _BLOB_THUMBS.move_to_end(key)
+            return hit
+    got = thumbnail_bytes(blob, size)
+    if got:
+        with _BLOB_THUMBS_LOCK:
+            _BLOB_THUMBS[key] = got
+            while len(_BLOB_THUMBS) > _BLOB_THUMBS_MAX:
+                _BLOB_THUMBS.popitem(last=False)
+    return got
+
+
+def cached_thumb(path, size: int) -> bytes | None:
+    """The sized WebP of a file on disk, generated once and read after that.
+
+    Keyed on the source's mtime and size rather than on the URL: regenerating a portrait rewrites the
+    same path, so a URL-keyed cache would serve the old image — this way new art is a new key, and the
+    stale variant for that size is deleted. `thumbnail_bytes` is deliberately still the primitive:
+    this only avoids paying it twice.
+    """
+    from pathlib import Path
+
+    path = Path(path)
+    try:
+        st = path.stat()
+    except OSError:
+        return None
+    target = path.parent / "thumbs" / f"{path.stem}-{int(size)}-{int(st.st_mtime)}-{st.st_size}.webp"
+    try:
+        if target.is_file():
+            return target.read_bytes()
+    except OSError:
+        pass                                # unreadable cache entry: re-encode below
+    got = thumbnail_bytes(path.read_bytes(), size)
+    if not got:
+        return None
+    blob = got[0]
+    try:
+        target.parent.mkdir(parents=True, exist_ok=True)
+        tmp = target.with_suffix(".tmp")
+        tmp.write_bytes(blob)
+        tmp.replace(target)
+        for old in target.parent.glob(f"{path.stem}-{int(size)}-*.webp"):
+            if old != target:
+                old.unlink()                # only the current key can ever be read again
+    except OSError:
+        pass                                # serving beats caching
+    return blob
 
 
 def fit_blob(blob: bytes, max_px: int, quality: int = 90) -> tuple[bytes, str, int, int, int, int] | None:

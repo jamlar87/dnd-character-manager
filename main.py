@@ -454,7 +454,8 @@ async def security_middleware(request: Request, call_next):
     # (content hash for the sheet assets), so a 4h TTL is safe.
     # Reference art is the same kind of thing as /static/: shared by every
     # user, never changes for a given entity. A cookie here means CF BYPASS.
-    if request.url.path.startswith(("/static/", "/api/ref-image/")):
+    if request.url.path.startswith(("/static/", "/api/ref-image/")) or (
+            request.url.path.startswith("/api/dm/map/") and request.url.path.endswith("/thumb")):
         # Reference art is REWRITTEN IN PLACE behind a stable URL: the filename is a slug derived from
         # the record name, so regenerating a portrait does not change its address. A long max-age
         # therefore serves stale art to the browser and to Cloudflare for hours (measured: a second

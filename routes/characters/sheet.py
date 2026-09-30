@@ -1723,9 +1723,10 @@ async def delete_character(char_id: int, request: Request):
 
 
 def _portrait_thumbnail(blob: bytes, size: int) -> tuple[bytes, str] | None:
-    """Thin wrapper — the implementation is shared with the NPC route."""
-    from services.images import thumbnail_bytes
-    return thumbnail_bytes(blob, size)
+    """Thin wrapper — the implementation is shared with the NPC route, and cached: the same portrait
+    asked for at the same size must not be re-encoded on every request."""
+    from services.images import thumb_for_blob
+    return thumb_for_blob(blob, size)
 
 
 @router.get("/api/character/{char_id}/portrait-image")
@@ -1763,7 +1764,8 @@ async def character_portrait_image(char_id: int, request: Request, size: int | N
         except Exception:
             raise HTTPException(status_code=404, detail="No portrait stored")
         if size is not None:
-            thumb = _portrait_thumbnail(blob, size)
+            from starlette.concurrency import run_in_threadpool
+            thumb = await run_in_threadpool(_portrait_thumbnail, blob, size)
             if thumb:
                 blob, media = thumb
         return Response(content=blob, media_type=media,
