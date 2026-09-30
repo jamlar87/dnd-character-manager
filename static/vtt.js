@@ -958,9 +958,37 @@
     redraw(); saveCamera();
   }
 
+  // Placing a token puts it in the middle of what the DM is looking at, which is right the first time
+  // and wrong every time after: the second token lands exactly underneath the first, the selection ring
+  // is drawn in the same place, and the click appears to have done nothing at all. Walk outward from the
+  // centre to the first free snapped cell instead — a ring at a time, so a batch of goblins lands as a
+  // tidy cluster rather than a queue.
+  function freeSpotNear(cx, cy) {
+    var taken = {};
+    (state.tokens || []).forEach(function (t) {
+      if (t && typeof t.x === 'number' && typeof t.y === 'number') {
+        taken[Math.round(t.x) + ',' + Math.round(t.y)] = 1;
+      }
+    });
+    function isFree(pt) { return !taken[Math.round(pt[0]) + ',' + Math.round(pt[1])]; }
+    var start = snapPoint(cx, cy);
+    if (isFree(start)) return start;
+    var step = (state.grid && state.grid.size) || 50;
+    for (var ring = 1; ring <= 10; ring++) {
+      for (var dy = -ring; dy <= ring; dy++) {
+        for (var dx = -ring; dx <= ring; dx++) {
+          if (Math.max(Math.abs(dx), Math.abs(dy)) !== ring) continue;      // this ring only
+          var pt = snapPoint(cx + dx * step, cy + dy * step);
+          if (isFree(pt)) return pt;
+        }
+      }
+    }
+    return [cx + step, cy + step];
+  }
+
   function addToken(spec) {
     var centre = screenToWorld(canvas.clientWidth / 2, canvas.clientHeight / 2);
-    var pt = snapPoint(centre[0], centre[1]);
+    var pt = freeSpotNear(centre[0], centre[1]);
     var token = Object.assign({
       kind: 'creature', ref_name: '', label: '', x: pt[0], y: pt[1], w: 1, h: 1,
       hp_current: 0, hp_max: 0, hidden: 0, z: 0
@@ -1569,7 +1597,7 @@
     measureCells: measureCells,
     spawnEncounter: spawnEncounter, loadEncounters: loadEncounters,
     openPlayer: openPlayer, revokePlayer: revokePlayer, togglePanels: togglePanels, toggleRevealAll: toggleRevealAll,
- alignGrid: alignGrid, setGridOffset: setGridOffset, state: state
+ alignGrid: alignGrid, setGridOffset: setGridOffset, freeSpotNear: freeSpotNear, state: state
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

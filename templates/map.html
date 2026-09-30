@@ -57,7 +57,7 @@
           </select>
         </div>
       </details>
-      <details class="vtt-panel">
+<details class="vtt-panel">
         <summary>Grid &amp; scale</summary>
         <div class="vtt-ctl">
           <select id="vttGridType" onchange="VTT.setGridType(this.value)" title="Square 5-ft cells, or hexe">
@@ -128,12 +128,3 @@
 <script>window.MAP_ID = {{ the_map.id }}; window.MAP_DATA = {{ map_json|safe }};</script>
 <script src="/static/vtt.js?v={{ static_asset_version('vtt.js') }}"></script>
 {% endblock %}
-<details class="vtt-panel" open>
-        <summary>Tool</summary>
-        <div class="vtt-ctl">
-          <select id="vttToolPick" onchange="VTT.setTool(this.value)" title="What a drag on the map does (V/F/D/M)">
-            <option value="select">🖱 Select &amp; move</option><option value="fog">🕯 Reveal fog</option>
-            <option value="draw">✏️ Draw</option><option value="measure">📏 Measure</option>
-          </select>
-        </div>
-      </details>
