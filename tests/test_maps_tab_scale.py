@@ -47,6 +47,35 @@ def test_the_tab_renders_collapsed_groups_rather_than_every_row():
     assert "${open ?" in body or "${open ?" in body, "rows must be conditional on the section being open"
 
 
+def test_the_book_group_handler_does_not_embed_escaped_text():
+    """Reported: the Wildemount group would not expand.
+
+    Its heading was `onclick="toggleMapBook(this, '${dmEsc(book).replace(/'/g, "\\'")}')"`. dmEsc turns
+    an apostrophe into &#39;, which leaves no literal apostrophe for the .replace() to find — so the
+    guard was unreachable, the browser decoded &#39; back inside the attribute, and the handler arrived
+    as `toggleMapBook(this, 'Explorer's Guide to Wildemount')`: a syntax error, so the click did
+    nothing. Any group whose name contains an apostrophe was dead, which is why Netherdeep opened and
+    Wildemount (and the Dungeon Master's Guide) did not.
+
+    Handlers now pass an index into the rendered order, so no name is ever quoted into JS.
+    """
+    js = (APP / "static" / "dm_tools.js").read_text()
+    offenders = [ln.strip()[:90] for ln in js.splitlines()
+                 if 'onclick="' in ln and "dmEsc(" in ln and "'${" in ln]
+    assert not offenders, f"escaped text interpolated into an inline handler: {offenders}"
+    assert 'onclick="toggleMapBook(${bi})"' in js, "the group heading must pass an index"
+    assert "const book = _bookOrder[index];" in js, "the index must resolve to the book name"
+    assert "_bookOrder = ordered.map(([book]) => book);" in js
+
+
+def test_deleting_a_map_does_not_quote_its_name_into_the_handler():
+    """Same defect one step away: a map named "The King's Road" would break its own delete button."""
+    js = (APP / "static" / "dm_tools.js").read_text()
+    assert 'onclick="deleteMap(${m.id})"' in js
+    assert "async function deleteMap(id) {" in js
+    assert "(_mapsCache || []).find(x => x.id === id)" in js
+
+
 def test_the_source_link_is_visible_and_its_absence_is_stated():
     """Rendered at `var(--text-muted)` and 0.72rem — the same grey as the metadata beside it — the
     source link was invisible: reported as "I don't see the source links on the map tab". It gets the

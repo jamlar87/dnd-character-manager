@@ -871,6 +871,11 @@ let _mapsCache = null;
 let _mapFilter = '';
 let _openBooks = new Set();
 let _bookLabels = {};
+// The rendered order of the book groups, so a header's handler can pass an INDEX rather than the
+// book's name. Interpolating a name into an inline handler is what broke this: dmEsc turns an
+// apostrophe into &#39;, the browser decodes it back inside onclick, and the handler becomes
+// `toggleMapBook(this, 'Explorer's Guide to Wildemount')` — a syntax error, so the click did nothing.
+let _bookOrder = [];
 
 function bookLabels(maps) {
   // The ingest names a map "<Title> — <Book>" and a page "<Book> p<N>", so the book's human label
@@ -932,7 +937,7 @@ function mapRow(m) {
       ${src}
     </span>
     <a class="btn btn-primary btn-sm" href="/dm-map/${m.id}" style="flex:0 0 auto">Open</a>
-    <button class="btn btn-danger btn-sm" style="flex:0 0 auto;padding:.15rem .4rem" title="Delete this map" onclick="deleteMap(${m.id}, '${dmEsc(m.name).replace(/'/g, "\\'")}')">✕</button>
+    <button class="btn btn-danger btn-sm" style="flex:0 0 auto;padding:.15rem .4rem" title="Delete this map" onclick="deleteMap(${m.id})">✕</button>
   </div>`;
 }
 
@@ -956,12 +961,14 @@ function renderMapList() {
   const ordered = [...books.entries()].sort((a, b) =>
     a[0] === 'No source book' ? 1 : b[0] === 'No source book' ? -1 : a[0].localeCompare(b[0]));
   const searching = !!q;
+  _bookOrder = ordered.map(([book]) => book);
   let html = '';
-  for (const [book, items] of ordered) {
+  for (let bi = 0; bi < ordered.length; bi++) {
+    const [book, items] = ordered[bi];
     // while searching, sections open themselves: a hit you have to expand twice is not a hit
     const open = searching || _openBooks.has(book);
     html += `<div style="margin-bottom:.5rem;border:1px solid var(--border);border-radius:6px;overflow:hidden">
-      <button type="button" onclick="toggleMapBook(this, '${dmEsc(book).replace(/'/g, "\\'")}')"
+      <button type="button" onclick="toggleMapBook(${bi})"
         aria-expanded="${open}" style="width:100%;display:flex;align-items:center;gap:.5rem;padding:.5rem .6rem;background:var(--card-bg);border:0;border-radius:0;color:var(--text);cursor:pointer;font:inherit;text-align:left">
         <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${open ? '▾' : '▸'} <strong>${dmEsc(book)}</strong></span>
         <span style="font-size:.75rem;color:var(--text-muted)">${items.length} map${items.length === 1 ? '' : 's'}</span>
@@ -991,7 +998,9 @@ function filterMaps(value) {
   }
 }
 
-function toggleMapBook(btn, book) {
+function toggleMapBook(index) {
+  const book = _bookOrder[index];
+  if (book === undefined) return;
   if (_openBooks.has(book)) _openBooks.delete(book); else _openBooks.add(book);
   renderMapList();
 }
@@ -1029,7 +1038,11 @@ async function createMap() {
   else alert((d && d.error) || 'Could not create the map');
 }
 
-async function deleteMap(id, name) {
+async function deleteMap(id) {
+  // the name is looked up rather than passed in: a map called "The King's Road" would otherwise
+  // break its own delete button exactly the way the Wildemount group heading did
+  const m = (_mapsCache || []).find(x => x.id === id);
+  const name = m ? m.name : 'this map';
   if (!confirm('Delete the map "' + name + '" and everything placed on it?')) return;
   const r = await fetch('/api/dm/map/' + id + '/delete', {method: 'POST'});
   const d = await r.json();
