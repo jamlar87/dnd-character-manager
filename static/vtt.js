@@ -989,8 +989,13 @@
   function addToken(spec) {
     var centre = screenToWorld(canvas.clientWidth / 2, canvas.clientHeight / 2);
     var pt = freeSpotNear(centre[0], centre[1]);
+    // w/h are deliberately absent here. The server takes an explicit w/h first, then a cells count,
+    // then the creature's 5e size - so defaulting them to 1x1 on every placement silently beat the
+    // size, and a Large creature landed as a single square however carefully the palette sent it.
+    // Omit the field and the Server derives the footprint; a caller that really wants a specific one
+    // can still put it in the spec. The response's token carries what was decided.
     var token = Object.assign({
-      kind: 'creature', ref_name: '', label: '', x: pt[0], y: pt[1], w: 1, h: 1,
+      kind: 'creature', ref_name: '', label: '', x: pt[0], y: pt[1],
       hp_current: 0, hp_max: 0, hidden: 0, z: 0
     }, spec || {});
     return fetch('/api/dm/map/' + window.MAP_ID + '/token/add', {

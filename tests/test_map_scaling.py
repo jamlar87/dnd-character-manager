@@ -85,6 +85,22 @@ def _upload(client, headers, mid, blob):
 
 # ── the image pipeline must not silently rescale the art ──────────────────────────────
 
+def test_a_size_word_sizes_the_token_when_nothing_more_explicit_is_sent():
+    """The precedence the placement path depends on: explicit w/h, then a cells count, then the 5e
+    size word. A Large creature with no w/h must come back 2x2 — placing one as a single square is the
+    bug this guards, and addToken must therefore never send a default w/h of its own."""
+    from routes.maps import _clean_token
+
+    base = {"kind": "creature", "ref_name": "Owlbear", "label": "Owlbear", "x": 10, "y": 10}
+    for size, cells in (("Medium", 1), ("Large", 2), ("Huge", 3), ("Gargantuan", 4)):
+        got = _clean_token(dict(base, size=size), 1)
+        assert (got["w"], got["h"]) == (cells, cells), f"{size} came out {got['w']}x{got['h']}"
+    # an explicit footprint still wins over the size — which is exactly why the client must not send
+    # one it does not mean, and why this test lives next to the client-side guard
+    got = _clean_token(dict(base, size="Large", w=1, h=1), 1)
+    assert (got["w"], got["h"]) == (1, 1), "explicit w/h is meant to override the size"
+
+
 def test_fit_blob_leaves_a_map_that_already_fits_alone():
     """No resize, no re-encode: an unchanged file cannot break the alignment."""
     blob = _png(1200, 900)

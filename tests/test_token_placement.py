@@ -75,6 +75,29 @@ def test_the_palette_uses_one_delegated_listener():
     assert "wirePalette();" in search, "the listener must be wired when the palette renders"
 
 
+def test_addToken_does_not_assert_a_footprint_it_does_not_mean():
+    """Large and Huge creatures landed as single squares because addToken's base object always sent
+    w:1 h:1, and the server prefers an explicit w/h over the creature's size. The size travelled all
+    the way to the server and was then overridden by a default nobody asked for.
+
+    Omit w/h unless a caller means them - the server derives the footprint from the size the palette
+    sends, and returns it on the token."""
+    body = JS.split("function addToken(")[1].split("\n  }")[0]
+    base = body.split("Object.assign(")[1].split("},")[0]
+    assert "w:" not in base, "a hardcoded w in the base object beats the creature's size"
+    assert "h:" not in base, "a hardcoded h in the base object beats the creature's size"
+    assert "Object.assign(" in body and "spec || {}" in body, "an explicit spec must still win"
+
+
+def test_the_palette_sends_the_creatures_real_size():
+    """The server can only size the token if it is told the size (or a cells count)."""
+    palette = JS.split("function searchPalette(")[1]
+    assert "kind: 'creature', name: m.name, size: m.size" in palette, (
+        "the creature branch must pass the reference library's size")
+    handler = JS.split("function wirePalette(")[1].split("\n  }")[0]
+    assert "size: d.size" in handler, "the delegated handler must carry the size into the spec"
+
+
 def test_a_refused_placement_is_visible():
     """The whole reason this took two rounds: a placement that never happened looked identical to a
     button that did nothing."""
