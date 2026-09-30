@@ -76,9 +76,11 @@ def test_the_client_guards_agree_with_the_server_clamp():
     refuses a scale the server would accept (that is how the 100 cap was felt)."""
     from routes.maps import FEET_PER_CELL_MAX
     number = f"{FEET_PER_CELL_MAX}"
-    toolbar = (APP / "templates" / "_map_toolbar.html").read_text()
+    # page + partial together: the ft/cell input lives in a collapsed panel beside the map, not in the
+    # slim strip above it, so reading only the toolbar partial reports a control that is present as gone
+    page = (APP / "templates" / "map.html").read_text() + (APP / "templates" / "_map_toolbar.html").read_text()
     js = (APP / "static" / "vtt.js").read_text()
-    assert f'max="{number}"' in toolbar, f"toolbar input max should be {number}"
+    assert f'max="{number}"' in page, f"the ft/cell input's max should be {number}"
     assert f"v > {number}" in js, f"vtt.js guard should allow up to {number}"
 
 
