@@ -115,6 +115,37 @@ def _load_manual_json(filename: str) -> list[dict]:
     return result if isinstance(result, list) else result
 
 
+# Articles and punctuation are dropped so the two spellings of one subclass
+# collide: "Circle of Stars" / "Circle of the Stars", "Genie" / "The Genie".
+_SUBCLASS_ARTICLE_RE = re.compile(r"\b(?:the|an?)\b")
+_SUBCLASS_PUNCT_RE = re.compile(r"[^a-z0-9]+")
+
+
+def _subclass_name_key(name: str) -> str:
+    """Comparison shape for a subclass name, ignoring articles and punctuation."""
+    return _SUBCLASS_PUNCT_RE.sub("", _SUBCLASS_ARTICLE_RE.sub(" ", (name or "").lower()))
+
+
+def _existing_subclass_name(existing: list[str], name: str) -> str | None:
+    """Return the already-listed subclass this name is a second spelling of.
+
+    The merge below only skips a LITERAL repeat (`sc_name not in subs`), so a
+    re-extraction that titled the same subclass differently added a twin: the
+    wizard listed "Circle of Stars" AND "Circle of the Stars" (identical content),
+    and the Warlock patron appeared as both "Genie" and "The Genie" — where the
+    listed "Genie" had no features at all, because the extracted features were
+    hung off the other spelling. Matching on the article-stripped name lets the
+    entry fold into the name already in use instead of duplicating it.
+    """
+    key = _subclass_name_key(name)
+    if not key:
+        return None
+    for candidate in existing:
+        if candidate != name and _subclass_name_key(candidate) == key:
+            return candidate
+    return None
+
+
 def _normalize_manual_source(source: str, source_manual: str, meta: dict) -> str:
     """Rebuild source string with proper book prefix when it's missing or malformed.
 
@@ -1153,6 +1184,12 @@ def load_manual_data():
         subs = CLASSES[parent_class].setdefault("subclasses", [])
         descs = CLASSES[parent_class].setdefault("subclass_descs", {})
         srcs = CLASSES[parent_class].setdefault("_subclass_sources", {})
+        # Fold a second spelling of a subclass already listed into that name, so
+        # its features/description/source land on the entry the user can pick
+        # instead of creating a twin (see _existing_subclass_name).
+        _already_listed = _existing_subclass_name(subs, sc_name)
+        if _already_listed:
+            sc_name = _already_listed
         # Skip base progression entries (name == class) — they carry base features,
         # not a real subclass choice. Still extract features/descriptions below.
         _is_base_progression = (sc_name == parent_class)

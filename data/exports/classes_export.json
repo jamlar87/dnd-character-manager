@@ -256,7 +256,6 @@
       "Circle of the Moon",
       "Circle of Spores",
       "Circle of Stars",
-      "Circle of the Stars",
       "Circle of Wildfire",
       "Circle of Shadows",
       "Circle of Oaks",
@@ -273,7 +272,6 @@
       "Circle of the Moon": "Druids of the Circle of the Moon are fierce guardians of the wilds. Their order gathers under the full moon to share news and trade warnings. They haunt thc deepest parts of the wilderness, where they might go for weeks on end before crossing paths with another humanoid creature, let alone another druid. Changeable as the moon, a druid of this circle might prowl as a great cat one night, soar over the treetops as an eagle the next day, and crash through the undergrowth in bear form to drive off a trespassing monster. The wild is in the druid's blood.",
       "Circle of Spores": "Druids of the Circle of Spores find beauty in decay and see within mold and other fungi the ability to transform lifeless material into abundant life, believing life and death are parts of a grand cycle.",
       "Circle of Stars": "The Circle of Stars allows druids to draw on the power of starlight. These druids have tracked heavenly patterns since time immemorial, discovering secrets hidden amid the constellations. By revealing and understanding these secrets, the Circle of the Stars seeks to harness the powers of the cosmos.",
-      "Circle of the Stars": "The Circle of Stars allows druids to draw on the power of starlight, tracking heavenly patterns and harnessing the powers of the cosmos.",
       "Circle of Wildfire": "Druids within the Circle of Wildfire understand that destruction is sometimes the precursor of creation, such as when a forest fire promotes later growth. These druids bond with a primal spirit that harbors both destructive and creative power, allowing the druids to create controlled flames that burn away one thing but give life to another.",
       "Circle of Shadows": "Druids who belong to the Circle of Shadows embrace the primal power of darkness as the purest distillation of the natural world. While other druids might concern themselves with balance, the Circle of Shadows understands that all things eventually return to darkness, so it must be understood.",
       "Circle of Oaks": "A druid circle that draws power from ancient oaks, fostering resilience and connection to the forest.",
@@ -293,7 +291,6 @@
       "Circle of the Moon": "PHB p.69-70",
       "Circle of Spores": "TCE p.37",
       "Circle of Stars": "TCE p.38",
-      "Circle of the Stars": "TCE p.39",
       "Circle of Wildfire": "TCE p.39",
       "Circle of Shadows": "Book of Ebon Tides p.42-43",
       "Circle of Oaks": "(Margreve Player's Guide, p.17)",
@@ -383,7 +380,6 @@
       "Way of Mercy",
       "Way of the Astral Self",
       "Way of the Prophet",
-      "Way of Tranquility",
       "Way of the Long Death",
       "Way of the Sun Soul",
       "Way of the Drunken Master",
@@ -398,7 +394,6 @@
       "Way of Mercy": "Monks of the Way of Mercy learn to manipulate the life force of others to bring aid to those in need. They are wandering physicians to the poor and hurt, and to those beyond their help, they bring a swift end as an act of mercy.",
       "Way of the Astral Self": "A monk who follows the Way of the Astral Self believes their body is an illusion. They see their ki as a representation of their true form, an astral self.",
       "Way of the Prophet": "Monks who follow the Way of the Prophet refuse to cloister the wisdom they have learned. They are driven to spread their knowledge to all the peoples of the land. Some are set on this path by divine intervention. Others take up the prophet's mantle out of a sense of personal obligation, and they all share a deep-rooted faith that empowers their actions.",
-      "Way of Tranquility": "Beginning at 11th level, you can enter a special meditation that surrounds you with an aura of peace.",
       "Way of the Long Death": "Monks of the Way of the Long Death are obsessed with the meaning and mechanics of dying. They capture the energy of death and use it in their attacks.",
       "Way of the Sun Soul": "Monks of the Way of the Sun Soul learn to channel their own life energy into searing bolts of light. They teach that meditation can unlock the ability to unleash the indomitable light shed by the soul of every living creature.",
       "Way of the Drunken Master": "Monks of the Way of the Drunken Master stumble, sway, and appear to be intoxicated, but their seemingly clumsy movements are actually a sophisticated martial art form.",
@@ -414,7 +409,6 @@
       "Way of Mercy": "TCE p.49-50",
       "Way of the Astral Self": "TCE p.50-51",
       "Way of the Prophet": "Book of Ebon Tides",
-      "Way of Tranquility": "PHB p.80",
       "Way of the Long Death": "(Sword Coast Adventurer's Guide)",
       "Way of the Sun Soul": "(Xanathar's Guide to Everything, p.35)",
       "Way of the Drunken Master": "XGE p.50",
@@ -822,15 +816,13 @@
     ],
     "subclasses": [
       "The Rider",
-      "Foe-Hammer",
-      "Horns Wildly Blowing"
+      "Foe-Hammer"
     ],
     "armor": "Light, medium, shields",
     "subclass_descs": {
       "Slayer": "The Slayer is a Scholar who specializes in the study of beasts and monsters, learning their weaknesses and how to overcome them.",
       "The Rider": "While the Rohirrim are the most famous riders among the Free People, they are not the only folk to fight from horseback. The charge of a mounted Slayer is as terrible and glorious as the break of dawn, and the blowing of their horns resounds from the mountains to the Sea.",
-      "Foe-Hammer": "Slayers who walk the path of the Foe-hammer wade into the very thick of battle, heedless of their enemies’ paltry blows. Such Slayers are near unstoppable, their fury enhancing their might to a point where they can slay lesser warriors with nothing more than a blow of their fist.",
-      "Horns Wildly Blowing": "At 14th level, you can inspire your allies by blowing your horn or shouting a battle-cry, granting them benefits of your Reckless Attack and Fury Damage."
+      "Foe-Hammer": "Slayers who walk the path of the Foe-hammer wade into the very thick of battle, heedless of their enemies’ paltry blows. Such Slayers are near unstoppable, their fury enhancing their might to a point where they can slay lesser warriors with nothing more than a blow of their fist."
     },
     "desc": "The Slayer fights with raw ferocity — equivalent to a Barbarian.",
     "weapons": "All",
@@ -839,8 +831,7 @@
     "_subclass_sources": {
       "Slayer": "Adventures in Middle-earth p.71-72",
       "The Rider": "Adventures in Middle-earth p.74",
-      "Foe-Hammer": "Adventures in Middle-earth p.75-76",
-      "Horns Wildly Blowing": "Adventures in Middle-earth p.75"
+      "Foe-Hammer": "Adventures in Middle-earth p.75-76"
     }
   },
   "Warden": {

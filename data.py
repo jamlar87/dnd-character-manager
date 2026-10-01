@@ -580,6 +580,20 @@ FEATURE_ACTION_TYPES = {
 
     "silent steps":                   ("Action", "You’ve always been adept at evading notice, but now your own shadow seems to muffle the noise you make. You…"),
 
+    # ── Limited-use features that had no badge entry ──────────────────────
+    # Every runtime LIMITED_USE key must resolve here (the sheet renders the
+    # tracked button from this table; a miss shows the feature with no badge).
+    # Action type and wording are taken from each feature's own description.
+    "cursing stick":                  ("Action", "Point the gnarled stick at a creature within 30 ft — DC 12 Wis save or it is polymorphed"),
+    "dawnmartyr's grace":             ("Special", "When reduced to 0 HP: regain 1 HP, stand up, and deal 2d6 fire or radiant to foes within 10 ft"),
+    "enchant arrows":                 ("Special", "15-minute ritual with your ancestral spirits: imbue up to 50 arrows with an enhancement bonus"),
+    "fascinate":                      ("Action", "Sing: creatures within 60 ft that can hear you must pass a DC 14 Cha save or be stunned 1d4 rounds"),
+    "forest song":                    ("Action", "Call 2d6 wolves or 2 wampus cats — they arrive in 1d4 rounds and serve for 1 hour"),
+    "friends in low places":          ("Special", "Call in a favour in a familiar settlement with a Streetwise check (1/day)"),
+    "quickened spell":                ("Bonus Action", "Spend 2 sorcery points to cast a spell as a bonus action"),
+    "spellsmith":                     ("Special", "Spend 1 minute to make a weapon or armor a +1 magic item for 1 hour"),
+    "subtle spell":                   ("Special", "Spend 1 sorcery point to cast a spell without verbal or somatic components"),
+
 }
 
 # ── Always-on combat rider callout cards ─────────────────────────────
