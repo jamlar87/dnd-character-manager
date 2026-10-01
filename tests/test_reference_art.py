@@ -61,6 +61,55 @@ class TestSlugsAndStore:
         assert not list(ref_portraits.path_for("creature", "Aboleth").parent.glob("*.tmp")), \
             "the temp file must be renamed away"
 
+
+class TestDisplayNameResolution:
+    """Inventory rows label items with a display string, but the art is keyed on the
+    entity — so the lookup resolves the display name instead of keying on it verbatim."""
+
+    def test_the_srd_reference_is_the_art_key(self):
+        # The AI background generator is INSTRUCTED to write items this way
+        # (ai_routes.BACKGROUND_ITEM_POOL), so these strings are expected input.
+        assert ref_portraits.art_names("Granny's Kit (SRD: Healer's Kit)")[0] == "Healer's Kit"
+        assert ref_portraits.art_names("Rope of Climbing (SRD: Rope of Climbing)")[0] == "Rope of Climbing"
+
+    def test_a_flagged_item_finds_the_referenced_art(self):
+        ref_portraits.save("item", "Healer's Kit", png_data_url())
+        got = ref_portraits.path_for_existing("item", "Granny's Healer's Kit (SRD: Healer's Kit)")
+        assert got == ref_portraits.path_for("item", "Healer's Kit")
+
+    def test_plural_and_case_variants_find_the_same_file(self):
+        ref_portraits.save("item", "Thieves' Tools", png_data_url())
+        ref_portraits.save("item", "Spear", png_data_url())
+        for variant, canonical in (("Thieves' Tool", "Thieves' Tools"), ("spear", "Spear")):
+            assert ref_portraits.path_for_existing("item", variant) == \
+                ref_portraits.path_for("item", canonical), variant
+
+    def test_a_trailing_parenthetical_is_ignored(self):
+        ref_portraits.save("item", "Spearman’s Shield", png_data_url())
+        assert ref_portraits.path_for_existing("item", "Spearman’s Shield (shield)") is not None
+
+    def test_an_exact_name_still_resolves_to_its_own_file(self):
+        """The resolver may only ADD matches: a name that already has a file keeps it."""
+        ref_portraits.save("item", "Dagger", png_data_url())
+        ref_portraits.save("item", "Daggers", png_data_url())
+        assert ref_portraits.path_for_existing("item", "Dagger") == \
+            ref_portraits.path_for("item", "Dagger")
+
+    def test_an_unknown_name_resolves_to_nothing(self):
+        assert ref_portraits.path_for_existing("item", "Nonsense Of Nothing") is None
+
+    def test_capitalisation_alone_still_finds_the_art(self):
+        ref_portraits.save("item", "Backpack", png_data_url())
+        assert ref_portraits.path_for_existing("item", "backpack") == \
+            ref_portraits.path_for("item", "Backpack")
+
+    def test_two_files_sharing_a_base_are_not_guessed_between(self):
+        """Two entities whose names normalise alike must never be picked between —
+        an ambiguous match is refused rather than resolved to the wrong picture."""
+        ref_portraits.save("item", "Acid (vial)", png_data_url())
+        ref_portraits.save("item", "Acid vial", png_data_url())
+        assert ref_portraits.path_for_existing("item", "Acid-vial") is None
+
     def test_save_rejects_junk(self):
         assert ref_portraits.save("item", "Nonsense", "not-an-image") == 0
         assert ref_portraits.have("item", "Nonsense") is False

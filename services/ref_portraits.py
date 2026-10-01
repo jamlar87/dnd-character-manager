@@ -60,6 +60,108 @@ def path_for(kind: str, name: str) -> Path:
     return ROOT / kind / f"{slug_for(name)}.webp"
 
 
+#: Item display names may carry an SRD reference in parentheses — the AI background
+#: generator is *instructed* to write them that way ("Granny's Kit (SRD: Healer's Kit)",
+#: see routes/characters/ai_routes.BACKGROUND_ITEM_POOL), and the reference is the art
+#: key. Keying on the whole display string therefore never matches: Orla's sheet showed
+#: letter tiles for "Rope of Climbing (SRD: Rope of Climbing)" and for "Thieves' Tool"
+#: (singular) while files for "Rope of Climbing" and "Thieves' Tools" sat on disk.
+_SRD_REF_RE = re.compile(r"\(\s*SRD:\s*([^)]+?)\s*\)", re.I)
+_TRAILING_PAREN_RE = re.compile(r"\s*\([^)]*\)\s*$")
+
+
+def art_names(name: str) -> list[str]:
+    """Candidate art keys for a display name, most specific first.
+
+    The parenthesised SRD reference wins over the surrounding flavour text — that is
+    what the reference is for. The rest are spelling variants of the same entity, each
+    only ever *tried*: a candidate is used solely when its file already exists, so a
+    name that resolves today keeps resolving to the same file.
+    """
+    name = (name or "").strip()
+    if not name:
+        return []
+    out: list[str] = []
+
+    def add(candidate: str) -> None:
+        candidate = (candidate or "").strip()
+        if candidate and candidate not in out:
+            out.append(candidate)
+
+    ref = _SRD_REF_RE.search(name)
+    if ref:
+        add(ref.group(1))
+    add(name)
+    stripped = _TRAILING_PAREN_RE.sub("", name).strip()
+    if stripped and stripped != name:
+        add(stripped)                      # "Spearman's Shield (shield)"
+    for base in (name, stripped):
+        if not base:
+            continue
+        add(base.title())                  # 'spear' -> 'Spear', 'backpack' -> 'Backpack'
+        if base.endswith("s"):
+            add(base[:-1])                 # "Thieves' Tools" -> "Thieves' Tool"
+        else:
+            add(base + "s")                # "Thieves' Tool" -> "Thieves' Tools"
+    return out
+
+
+#: base slug (no digest) -> files, so a case/punctuation difference that no candidate
+#: spelling covered can still find its art. Keyed by DIRECTORY (not kind) so a test that
+#: swaps ROOT, or any other rebind, can never read another directory's index; rebuilt
+#: whenever the directory's mtime changes.
+_BASE_INDEX: dict[str, tuple[float, dict[str, list[Path]]]] = {}
+
+
+def _base_slug(name: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", (name or "").lower()).strip("-")[:80] or "unnamed"
+
+
+def _files_by_base(kind: str) -> dict[str, list[Path]]:
+    directory = ROOT / kind
+    try:
+        stamp = directory.stat().st_mtime
+    except OSError:
+        return {}
+    cache_key = str(directory)
+    cached = _BASE_INDEX.get(cache_key)
+    if cached and cached[0] == stamp:
+        return cached[1]
+    index: dict[str, list[Path]] = {}
+    try:
+        for p in directory.glob("*.webp"):
+            # '<base>-<6 hex>.webp' — drop the digest to compare names, not strings.
+            index.setdefault(re.sub(r"-[0-9a-f]{6}$", "", p.stem), []).append(p)
+    except OSError:
+        return {}
+    _BASE_INDEX[cache_key] = (stamp, index)
+    return index
+
+
+def path_for_existing(kind: str, name: str) -> Path | None:
+    """The art file for `name`, trying the display-name variants; None when absent.
+
+    A None result means "no art yet" — the caller keeps its letter tile and may kick a
+    generation. Callers must not assume the file is named after `slug_for(name)`.
+    """
+    for candidate in art_names(name):
+        p = path_for(kind, candidate)
+        try:
+            if p.is_file() and p.stat().st_size > 0:
+                return p
+        except OSError:
+            continue
+    # Last resort: same normalised name, different capitalisation or punctuation. The
+    # index already keys on the digest-stripped stem, so compare candidate to candidate
+    # (including the parenthetical-stripped forms — "Spearman’s Shield (shield)").
+    index = _files_by_base(kind)
+    for candidate in art_names(name):
+        matches = index.get(_base_slug(candidate), [])
+        if len(matches) == 1:
+            return matches[0]
+    return None
+
+
 def have(kind: str, name: str) -> bool:
     p = path_for(kind, name)
     try:

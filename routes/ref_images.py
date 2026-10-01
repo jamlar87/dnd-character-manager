@@ -35,13 +35,17 @@ async def ref_image(kind: str, name: str, request: Request, size: int = 0):
     if kind not in ref_portraits.KINDS:
         return Response(status_code=404)
 
-    path = ref_portraits.path_for(kind, name)
-    if not path.is_file():
+    path = ref_portraits.path_for_existing(kind, name)
+    if path is None:
         # Nothing yet: start generating and let the caller keep its letter tile.
+        # Generate under the SRD reference when the display name carries one, so the
+        # file lands on the shared canonical name rather than the flavour string
+        # ("Granny's Kit (SRD: Healer's Kit)" -> Healer's Kit art, reused by everyone).
+        target = (ref_portraits.art_names(name) or [name])[0]
         subtitle, snippet, known = "", "", False
         try:
             from services.entity_search import entity_detail
-            row = entity_detail(kind, name) or {}
+            row = entity_detail(kind, target) or {}
             known = bool(row)
             subtitle = (row.get("subtitle") or "")[:160]
             snippet = (row.get("snippet") or "")[:240]
@@ -49,7 +53,7 @@ async def ref_image(kind: str, name: str, request: Request, size: int = 0):
             pass                          # a kick without context is fine
         # Only spend a generation on something that actually exists in the index —
         # a typo or a probe name must not cost a free-tier request.
-        started = ref_portraits.kick(kind, name, subtitle, snippet) if known else False
+        started = ref_portraits.kick(kind, target, subtitle, snippet) if known else False
         return Response(status_code=404,
                         headers={"Cache-Control": "no-store",
                                  "X-Ref-Image": "generating" if started else "unknown"})
