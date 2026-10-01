@@ -32,35 +32,13 @@
         }
       ],
       "subraces": [],
-      "description": "Firbolgs are forest-dwelling Humanoids native to the Greying Wild lands of Wildemount. They are on the tall side of Medium, and their bodies are covered with thick fur ranging in color from tones of brown and ruddy red to cool gray and blue, and occasionally in hues of pink or green.",
+      "description": "Firbolgs are forest-dwelling Humanoids native to the Greying Wildlands of Wildemount. They are on the tall side of Medium, and their bodies are covered with thick fur ranging in color from tones of brown and ruddy red to cool gray and blue, and occasionally in hues of pink or green. They have floppy, pointed ears and broad, pink noses.",
       "_effects": {
         "Powerful Build": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [],
-          "skill_profs": [],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": null,
-          "darkvision": null,
-          "hp_per_level": 0,
-          "natural_armor": null,
-          "notes": "Counts as one size larger when determining carrying capacity and weight it can push, drag, or lift."
+          "notes": "Counts as one size larger for carrying capacity and for the weight it can push, drag, or lift."
         },
         "Speech of Beast and Leaf": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [],
-          "skill_profs": [],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": null,
-          "darkvision": null,
-          "hp_per_level": 0,
-          "natural_armor": null,
-          "notes": "Can communicate in a limited way with Beasts and Plants; they understand the firbolg's words but the firbolg cannot understand their languages. Advantage on Charisma checks to influence a Beast or Plant."
+          "notes": "Can communicate in a limited way with Beasts and Plants; they understand the firbolg's words, but the firbolg cannot understand their languages. Has advantage on Charisma checks made to influence a Beast or Plant."
         }
       }
     }
@@ -88,16 +66,16 @@
       "type": "Weapon (dagger)",
       "rarity": "uncommon",
       "requires_attunement": false,
-      "description": "A +1 dagger embedded in the hide of the udaak. The dagger is inscribed with the name of its owner, Kierchaly Wastewalker.",
-      "source": "Chapter 2 | The Leave-Taking p.43"
+      "description": "A magic dagger with a +1 bonus to attack and damage rolls.",
+      "source": "Explorer's Guide to Wildemount p.45"
     },
     {
       "name": "Spell Scroll of Bestow Curse",
       "type": "Scroll",
       "rarity": "uncommon",
       "requires_attunement": false,
-      "description": "A folded-up spell scroll of bestow curse.",
-      "source": "Call of the Netherdeep p.54"
+      "description": "A spell scroll bears the words of a single spell, written in a mystical cipher. If the spell is on your class's spell list, you can read the scroll and cast its spell without providing any material components. Otherwise, the scroll is unintelligible. Casting the spell by reading the scroll requires the spell's normal casting time. Once the spell is cast, the words on the scroll fade, and it crumbles to dust. If the casting is interrupted, the scroll is not lost. This scroll contains the spell bestow curse.",
+      "source": "DMG p.200"
     },
     {
       "name": "Mote of Possibility",
@@ -180,20 +158,20 @@
       "source": "Chapter 5, The Drowned City p.135"
     },
     {
-      "name": "sentinel shield",
-      "type": "Shield",
+      "name": "Sentinel Shield",
+      "type": "Armor (shield)",
       "rarity": "uncommon",
       "requires_attunement": false,
-      "description": "A sentinel shield and a frost brand longsword.",
-      "source": "Call of the Netherdeep p.??"
+      "description": "Among these objects are two magic items, both of which can be located quickly by using a detect magic spell: a sentinel shield and a frost brand longsword.",
+      "source": "Critical Role: Call of the Netherdeep p.Chapter 5"
     },
     {
-      "name": "frost brand longsword",
+      "name": "Frost Brand Longsword",
       "type": "Weapon (longsword)",
       "rarity": "very rare",
       "requires_attunement": true,
-      "description": "A sentinel shield and a frost brand longsword.",
-      "source": "Call of the Netherdeep p.??"
+      "description": "Among these objects are two magic items, both of which can be located quickly by using a detect magic spell: a sentinel shield and a frost brand longsword.",
+      "source": "Critical Role: Call of the Netherdeep p.Chapter 5"
     },
     {
       "name": "Fragment of Pity",
@@ -338,6 +316,190 @@
       "requires_attunement": false,
       "description": "This clay tablet is eight inches long, four inches wide, and half an inch thick. Inscribed on it is the sigil sequence for a permanent teleportation circle. A creature that studies the sequence for 10 minutes can make a DC 21 Intelligence (Arcana) check, learning the circle's destination on a success.\n\nYou can use an action to break the tablet in half, turning it to dust. If the tablet is broken while it is on the same plane of existence as the teleportation circle whose sigil sequence was engraved on it, a 10-foot-diameter teleportation circle of glowing blue light appears on the ground in an unoccupied space you choose within 30 feet of you. This teleportation circle has the characteristics of one created using the teleportation circle spell, except that it connects to the teleportation circle whose sigil sequence appears on the tablet.\n\nThe teleportation circle created by the tablet disappears at the end of your next turn.",
       "source": "Appendix B p.215"
+    },
+    {
+      "name": "Spell Scroll of Thunderwave",
+      "type": "Scroll",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "A character who explores this cave discovers a vial containing a potion of healing and a soggy but usable spell scroll of thunderwave.",
+      "source": "Chapter 1 p.31"
+    },
+    {
+      "name": "+1 battleaxe",
+      "type": "Weapon (battleaxe)",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A magic battleaxe with a +1 bonus to attack and damage rolls.",
+      "source": "Explorer's Guide to Wildemount p.45"
+    },
+    {
+      "name": "charm of vitality",
+      "type": "Wondrous item",
+      "rarity": "varies",
+      "requires_attunement": false,
+      "description": "A supernatural gift (see the rules for supernatural gifts in the Dungeon Master's Guide).",
+      "source": "Explorer's Guide to Wildemount p.45"
+    },
+    {
+      "name": "Cracked Driftglobe",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "In its damaged state, the driftglobe can be used only to cast the light spell.",
+      "source": "Bazzoxan p.71"
+    },
+    {
+      "name": "Figurine of Wondrous Power (Marble Elephant)",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "Unknown to anyone who has come into contact with it, the elephant figurine was infected with ruidium during its time in Cael Morrow, and that substance has warped its magical properties. When a character tries to retrieve the figurine, it reacts as if it had been activated, transforming into a crystalline version of the creature it was meant to become (use the ruidium elephant stat block earlier in the chapter). This creature can't be controlled.",
+      "source": "Critical Role: Call of the Netherdeep"
+    },
+    {
+      "name": "Elephant Figurine (Ruidium-Corrupted)",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "This elephant figurine was infected with ruidium during its time in Cael Morrow, and that substance has warped its magical properties. When a character tries to retrieve the figurine, it reacts as if it had been activated, transforming into a crystalline version of the creature it was meant to become (use the ruidium elephant stat block earlier in the chapter). This creature can't be controlled. The figurine transforms even if the space where the elephant appears is occupied by other creatures. A creature in the space where the elephant appears must make a successful DC 13 Dexterity saving throw or take 11 (2d10) force damage and be pushed into the nearest unoccupied space. Reducing the elephant to 0 hit points causes it to transform back into a figurine, after which it can be handled and transported safely. The figurine can't transform again for seven days. If the characters keep the elephant figurine for themselves, the elephant it creates uses the ruidium elephant stat block (see earlier in the chapter) and can't be controlled. If the characters slay or redeem the Apotheon (see chapter 7), the figurine is rid of its ruidium corruption and functions like a normal figurine of wondrous power (marble elephant).",
+      "source": "Critical Role: Call of the Netherdeep p.??"
+    },
+    {
+      "name": "Spell Scroll of Detect Magic",
+      "type": "Scroll",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "A spell scroll of detect magic, available for purchase at the Temple of the Mentor for 10 gp.",
+      "source": "Critical Role: Call of the Netherdeep p. (Chapter 4)"
+    },
+    {
+      "name": "Spell Scroll of Divination",
+      "type": "Scroll",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A spell scroll of divination, available for purchase at the Temple of the Mentor for 125 gp.",
+      "source": "Critical Role: Call of the Netherdeep p. (Chapter 4)"
+    },
+    {
+      "name": "Spell Scroll of Commune",
+      "type": "Scroll",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "A spell scroll of commune, available for purchase at the Temple of the Mentor for 250 gp.",
+      "source": "Critical Role: Call of the Netherdeep p. (Chapter 4)"
+    },
+    {
+      "name": "Sending Stones",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A pair of sending stones, available for purchase at the Temple of the Mentor for 250 gp.",
+      "source": "Critical Role: Call of the Netherdeep p. (Chapter 4)"
+    },
+    {
+      "name": "Potion of Healing (Superior)",
+      "type": "Potion",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "Found in Xot's collection on the second floor of the Allegiance base camp (area M3). A character who makes a successful DC 12 Intelligence (Investigation) check finds a ring of the ram and a sludgy but still potent potion of healing (superior). Xot can be convinced to give up these two items from her collection by a character who makes a successful DC 18 Charisma (Persuasion) check.",
+      "source": "Critical Role: Call of the Netherdeep p.127"
+    },
+    {
+      "name": "Potion of Healing (Greater)",
+      "type": "Potion",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "You regain 4d4 + 4 hit points when you drink this potion. The potion's red liquid glimmers when agitated.",
+      "source": "DMG p.187"
+    },
+    {
+      "name": "Jade Dagger",
+      "type": "Weapon (dagger)",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A ceremonial dagger made of jade, its hilt and crossguard carved to resemble two green snakes coiled around one another (250 gp).",
+      "source": "Critical Role: Call of the Netherdeep p. (N11a)"
+    },
+    {
+      "name": "Potion of Healing (Superior) and Heroism Combined",
+      "type": "Potion",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A stoppered vial containing a bubbling purple liquid that combines the beneficial effects of a potion of healing (superior) and a potion of heroism.",
+      "source": "Critical Role: Call of the Netherdeep p. (N11a)"
+    },
+    {
+      "name": "Weapon of Warning (Spear)",
+      "type": "Weapon (spear)",
+      "rarity": "uncommon",
+      "requires_attunement": true,
+      "description": "The spear sticking out of the pile of bones is a replica of Alyxian's spear. It shows no signs of rust, decay, or ruidium corruption, unlike the other weapons found throughout the chamber. It is imbued with the properties of a weapon of warning.",
+      "source": "Critical Role: Call of the Netherdeep, Chapter 6, p. (unknown)"
+    },
+    {
+      "name": "Spell Scroll of Otiluke's Resilient Sphere",
+      "type": "Scroll",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "The rolled-up scroll is a spell scroll of Otiluke's resilient sphere tied with a green ribbon.",
+      "source": "Critical Role: Call of the Netherdeep p. (Chapter 6)"
+    },
+    {
+      "name": "Fragment of Abhorrence",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Benefit. Once on each of your turns when you hit a creature with a weapon attack roll, you can force the target to move up to 10 feet away from you in a direction of your choice. A creature that can't be frightened is immune to this effect. Drawback. If you start your turn frightened, you take 2d6 psychic damage.",
+      "source": "Fragments of Suffering"
+    },
+    {
+      "name": "Fragment of Attachment",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Benefit. You can't be frightened while within 10 feet of an ally. If you're already frightened and move within 10 feet of an ally, the frightened condition ends on you. Drawback. You have disadvantage on Wisdom and Charisma saving throws while you aren't within 10 feet of an ally.",
+      "source": "Fragments of Suffering"
+    },
+    {
+      "name": "Fragment of Despondence",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Benefit. You are immune to the charmed condition. Drawback. You can't take the Help action.",
+      "source": "Fragments of Suffering"
+    },
+    {
+      "name": "Fragment of Intransigence",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Benefit. Another creature can't force you to move anywhere you don't want to go. Drawback. You can't take the Disengage or Dodge action.",
+      "source": "Fragments of Suffering"
+    },
+    {
+      "name": "Fragment of Loathing",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Benefit. When a creature damages you with a weapon attack or a spell, you can focus your hatred on that creature. Until the end of your next turn, you have advantage on attack rolls you make against the creature. You can focus your hatred on only one creature at a time. Drawback. You have disadvantage on Charisma checks.",
+      "source": "Fragments of Suffering"
+    },
+    {
+      "name": "Fragment of Melancholy",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Benefit. When you fail a Wisdom or Charisma saving throw, you can reroll it with advantage, potentially turning a failure into a success. After you use this benefit, you must finish a long rest before you can use it again. Drawback. If you use this fragment's benefit and it doesn't turn a failed saving throw into a success, you are incapacitated until the end of your next turn, overcome with despair.",
+      "source": "Fragments of Suffering"
+    },
+    {
+      "name": "Fragment of Rancor",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Benefit. When you hit a creature with an attack, you can choose to deal either an extra 2d6 psychic damage to the creature or 4d6 psychic damage to each other creature within 5 feet of it. After you use this benefit, you must finish a short or long rest before you can use it again. Drawback. Whenever you are not unconscious and fail a saving throw, you take 2d6 psychic damage.",
+      "source": "Fragments of Suffering"
     }
   ],
   "equipment": [
@@ -358,7 +520,7 @@
       "damage": "",
       "properties": [],
       "cost": "1 sp",
-      "weight": 0,
+      "weight": 1,
       "source": "CotN"
     },
     {
@@ -368,27 +530,27 @@
       "damage": "",
       "properties": [],
       "cost": "50 gp",
-      "weight": 0,
+      "weight": 0.5,
       "source": "CotN"
     },
     {
       "name": "Quiver of 20 Arrows",
-      "type": "Ammunition",
+      "type": "Adventuring Gear",
       "subtype": "",
       "damage": "",
       "properties": [],
       "cost": "2 gp",
-      "weight": 0,
+      "weight": 1,
       "source": "CotN"
     },
     {
       "name": "Quiver of 20 Crossbow Bolts",
-      "type": "Ammunition",
+      "type": "Adventuring Gear",
       "subtype": "",
       "damage": "",
       "properties": [],
       "cost": "2 gp",
-      "weight": 0,
+      "weight": 1.5,
       "source": "CotN"
     },
     {
@@ -434,6 +596,16 @@
         "nonmagical"
       ],
       "cost": "unknown",
+      "weight": 0,
+      "source": "CotN"
+    },
+    {
+      "name": "Monastic Robe",
+      "type": "Clothing",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "1 gp",
       "weight": 0,
       "source": "CotN"
     }
@@ -3119,6 +3291,521 @@
         }
       ],
       "source": "Appendix A"
+    },
+    {
+      "name": "Animated Glass Statue (Ibises)",
+      "size": "Large",
+      "type": "construct",
+      "alignment": "unaligned",
+      "armor_class": 10,
+      "ac_type": "",
+      "hit_points": "22 (3d10+6)",
+      "speed": "10 ft., fly 60 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 14,
+        "constitution": 14,
+        "intelligence": 2,
+        "wisdom": 12,
+        "charisma": 4
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "paralyzed",
+        "petrified",
+        "poisoned"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 11",
+      "languages": [],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Construct",
+          "description": "Each statue is a Construct that has darkvision out to a range of 60 feet."
+        },
+        {
+          "name": "Condition Immunities",
+          "description": "Each statue has immunity to the charmed, exhaustion, frightened, paralyzed, petrified, and poisoned conditions."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Beak",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6+2) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Crystal Chateau"
+    },
+    {
+      "name": "Irvan Wastewalker (Tier 1)",
+      "size": "Medium",
+      "type": "humanoid (human)",
+      "alignment": "Chaotic Neutral",
+      "armor_class": 13,
+      "ac_type": "leather armor",
+      "hit_points": "66 (12d8 + 12)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 14,
+        "constitution": 12,
+        "intelligence": 12,
+        "wisdom": 12,
+        "charisma": 12
+      },
+      "saving_throws": {
+        "dex": 4,
+        "con": 3
+      },
+      "skills": {
+        "Acrobatics": 4,
+        "Deception": 3,
+        "Stealth": 6,
+        "Survival": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [
+        "Common",
+        "Goblin"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Fortitude",
+          "description": "Fortitude (Recharges after a Short or Long Rest). If damage reduces Irvan to 0 hit points, he can make a Constitution saving throw with a DC equal to 5 + the damage taken. On a successful save, Irvan drops to 1 hit point instead.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Irvan makes two Dagger attacks."
+        },
+        {
+          "name": "Dagger",
+          "description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 4 (1d4 + 2) piercing damage plus 7 (2d6) poison damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Creatures"
+    },
+    {
+      "name": "Ayo Jabe (Tier 2)",
+      "size": "Medium",
+      "type": "humanoid (ranger, water genasi)",
+      "alignment": "Chaotic Good",
+      "armor_class": 15,
+      "ac_type": "studded leather",
+      "hit_points": "97 (15d8 + 30)",
+      "speed": "30 ft., swim 30 ft.",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 16,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 14,
+        "charisma": 12
+      },
+      "saving_throws": {
+        "str": 5,
+        "dex": 6
+      },
+      "skills": {
+        "Athletics": 5,
+        "Perception": 5,
+        "Survival": 5
+      },
+      "damage_resistances": [
+        "acid"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 15",
+      "languages": [
+        "Common",
+        "Goblin",
+        "Orc"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "Ayo can breathe air and water."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Ayo makes three Harpoon or Longbow attacks."
+        },
+        {
+          "name": "Harpoon",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 11 (2d8 + 2) piercing damage."
+        },
+        {
+          "name": "Longbow",
+          "description": "Ranged Weapon Attack: +6 to hit, range 150/600 ft., one target. Hit: 12 (2d8 + 3) piercing damage."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "Ayo casts one of the following spells, using Wisdom as the spellcasting ability (spell save DC 13):\n1/day each: animal friendship, goodberry, pass without trace"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Creatures"
+    },
+    {
+      "name": "Galsariad Ardyth (Tier 2)",
+      "size": "Medium",
+      "type": "humanoid (drow, elf, wizard)",
+      "alignment": "Neutral",
+      "armor_class": 12,
+      "ac_type": "15 with mage armor",
+      "hit_points": "67 (15d8)",
+      "speed": "30 ft., fly 30 ft. (hover)",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 14,
+        "constitution": 10,
+        "intelligence": 18,
+        "wisdom": 15,
+        "charisma": 11
+      },
+      "saving_throws": {
+        "int": 7,
+        "wis": 5
+      },
+      "skills": {
+        "Arcana": 7,
+        "Investigation": 7,
+        "Nature": 7
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 120 ft., passive Perception 12",
+      "languages": [
+        "Common",
+        "Draconic",
+        "Undercommon"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Fey Ancestry",
+          "description": "Galsariad has advantage on saving throws against being charmed, and magic can't put him to sleep."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Drain Potential",
+          "description": "Melee or Ranged Spell Attack: +7 to hit, reach 5 ft. or range 60 ft., one creature. Hit: 22 (4d10) necrotic damage, and Galsariad gains 5 temporary hit points."
+        },
+        {
+          "name": "Gravity Wave (Recharge 5-6)",
+          "description": "Galsariad causes a rippling wave of magical gravity to fill a 20-foot-radius sphere centered on a point he can see within 100 feet of himself. Each creature in that area must make a DC 15 Strength saving throw. On a failed saving throw, the creature takes 35 (10d6) force damage, is pulled up to 20 feet toward the sphere's center, and is knocked prone. On a successful save, the creature takes half as much damage and isn't pulled or knocked prone.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Spellcasting",
+          "description": "Galsariad casts one of the following spells, using Intelligence as the spellcasting ability (spell save DC 15):\nAt will: mage armor, mage hand\n1/day each: longstrider, scrying (as an action), slow"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Creatures"
+    },
+    {
+      "name": "Dermot Wurder (Tier 2)",
+      "size": "Small",
+      "type": "humanoid (cleric, goblin, goblinoid)",
+      "alignment": "Lawful Good",
+      "armor_class": 19,
+      "ac_type": "splint mail, shield",
+      "hit_points": "82 (15d6+30)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 12,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 18,
+        "charisma": 10
+      },
+      "saving_throws": {
+        "wis": 7,
+        "cha": 3
+      },
+      "skills": {
+        "Medicine": 7,
+        "Religion": 3,
+        "Survival": 7
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 14",
+      "languages": [
+        "Common",
+        "Goblin",
+        "Orc"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Proficiency Bonus",
+          "description": "+3"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Dermot makes one Warhammer attack and one Searing Wrath attack."
+        },
+        {
+          "name": "Warhammer",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 8 (1d8 + 4) bludgeoning damage, or 9 (1d10 + 4) bludgeoning damage when used with two hands."
+        },
+        {
+          "name": "Searing Wrath",
+          "description": "Ranged Spell Attack: +7 to hit, range 60 ft., one creature. Hit: 18 (4d8) radiant damage, and the target is blinded until the end of its next turn."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "Dermot casts one of the following spells, using Wisdom as the spellcasting ability (spell save DC 15):\nAt will: guidance, light, spare the dying\n2/day each: bless (at 2nd level), cure wounds (at 3rd level)\n1/day: revivify"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Creatures"
+    },
+    {
+      "name": "Irvan Wastewalker (Tier 2)",
+      "size": "Medium",
+      "type": "humanoid (human)",
+      "alignment": "Chaotic Neutral",
+      "armor_class": 15,
+      "ac_type": "studded leather",
+      "hit_points": "99 (18d8+18)",
+      "speed": "40 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 16,
+        "constitution": 12,
+        "intelligence": 14,
+        "wisdom": 14,
+        "charisma": 14
+      },
+      "saving_throws": {
+        "dex": 4,
+        "con": 3
+      },
+      "skills": {
+        "Acrobatics": 4,
+        "Deception": 3,
+        "Stealth": 6,
+        "Survival": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [
+        "Common",
+        "Goblin"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Proficiency Bonus",
+          "description": "+3"
+        },
+        {
+          "name": "Fortitude",
+          "description": "If damage reduces Irvan to 0 hit points, he can make a Constitution saving throw with a DC equal to 5 + the damage taken. On a successful save, Irvan drops to 1 hit point instead.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Irvan makes two Dagger attacks."
+        },
+        {
+          "name": "Dagger",
+          "description": "Melee or Ranged Weapon Attack: +6 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 5 (1d4 + 3) piercing damage plus 14 (4d6) poison damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Creatures"
+    },
+    {
+      "name": "Maggie Keeneyes (Tier 2)",
+      "size": "Large",
+      "type": "giant (ogre)",
+      "alignment": "Lawful Neutral",
+      "armor_class": 15,
+      "ac_type": "chain shirt",
+      "hit_points": "114 (12d10+48)",
+      "speed": "30 ft., swim 30 ft.",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 14,
+        "constitution": 18,
+        "intelligence": 14,
+        "wisdom": 16,
+        "charisma": 8
+      },
+      "saving_throws": {
+        "str": 7,
+        "con": 7
+      },
+      "skills": {
+        "Athletics": 7,
+        "Insight": 6,
+        "Perception": 6,
+        "Persuasion": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "frightened"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 16",
+      "languages": [
+        "Common",
+        "Giant"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Proficiency Bonus",
+          "description": "+3"
+        },
+        {
+          "name": "Push",
+          "description": "Once during each of her turns, after hitting a creature with an attack, Maggie can force the target to make a DC 15 Strength saving throw; on a failed save, the target is pushed up to 10 feet horizontally away from Maggie and knocked prone."
+        },
+        {
+          "name": "Tactical Readiness",
+          "description": "Maggie and allies within 30 feet of her have advantage on initiative rolls, as long as Maggie isn't incapacitated."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Maggie makes two Giant Maul or Hammer Toss attacks."
+        },
+        {
+          "name": "Giant Maul",
+          "description": "Melee Weapon Attack: +7 to hit, reach 10 ft., one target. Hit: 13 (2d8 + 4) bludgeoning damage."
+        },
+        {
+          "name": "Hammer Toss",
+          "description": "Ranged Weapon Attack: +7 to hit, range 20/60 ft., one target. Hit: 9 (2d4 + 4) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Creatures"
+    },
+    {
+      "name": "Maggie Keeneyes (Tier 3)",
+      "size": "Large",
+      "type": "giant (ogre)",
+      "alignment": "lawful neutral",
+      "armor_class": 18,
+      "ac_type": "plate",
+      "hit_points": "142 (15d10+60)",
+      "speed": "30 ft., swim 30 ft. (ruidium armor)",
+      "ability_scores": {
+        "strength": 20,
+        "dexterity": 14,
+        "constitution": 18,
+        "intelligence": 14,
+        "wisdom": 14,
+        "charisma": 8
+      },
+      "saving_throws": {
+        "str": 8,
+        "con": 7
+      },
+      "skills": {
+        "Athletics": 8,
+        "Insight": 5,
+        "Perception": 5,
+        "Persuasion": 5
+      },
+      "damage_resistances": [
+        "psychic (granted by ruidium armor)"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "charmed",
+        "frightened"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 15",
+      "languages": [
+        "Common",
+        "Giant"
+      ],
+      "challenge_rating": "8",
+      "xp": 3900,
+      "features": [
+        {
+          "name": "Push",
+          "description": "Once during each of her turns, after hitting a creature with an attack, Maggie can force the target to make a DC 16 Strength saving throw; on a failed save, the target is pushed up to 15 feet horizontally away from Maggie and knocked prone."
+        },
+        {
+          "name": "Special Equipment",
+          "description": "Maggie wears a suit of ruidium armor (plate; see appendix B). If Maggie rolls a 1 on a saving throw while wearing the armor, she must succeed on a DC 20 Charisma saving throw or gain 1 level of exhaustion."
+        },
+        {
+          "name": "Tactical Readiness",
+          "description": "Maggie and allies within 30 feet of her have advantage on initiative rolls, as long as Maggie isn't incapacitated."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Maggie makes two Heavy Greataxe or Hammer Toss attacks."
+        },
+        {
+          "name": "Heavy Greataxe",
+          "description": "Melee Weapon Attack: +8 to hit, reach 10 ft., one target. Hit: 16 (2d12+5) slashing damage."
+        },
+        {
+          "name": "Hammer Toss",
+          "description": "Ranged Weapon Attack: +8 to hit, range 20/60 ft., one target. Hit: 15 (4d4+5) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Critical Role: Call of the Netherdeep p.195"
     }
   ],
   "npcs": [
@@ -3239,37 +3926,35 @@
     },
     {
       "name": "Maryl Bronzefang",
-      "race": "ore",
-      "class_name": "gladiator",
+      "race": "Orc",
+      "class_name": "Gladiator",
       "subclass": "",
       "level": 0,
-      "alignment": "lawful neutral",
+      "alignment": "Lawful Neutral",
       "armor_class": 0,
       "hit_points": "",
       "speed": "",
-      "ability_scores": {
-        "strength": 0,
-        "dexterity": 0,
-        "constitution": 0,
-        "intelligence": 0,
-        "wisdom": 0,
-        "charisma": 0
-      },
+      "ability_scores": {},
       "saving_throws": {},
       "skills": {},
-      "features": [],
+      "features": [
+        {
+          "name": "Arm Wrestling",
+          "description": "Maryl Bronzefang competes only against the best, and to challenge her, a character must first defeat one of her drow companions. Maryl returns to the table after at least one character has accomplished this, casting a challenging grin at the victor and inviting them to try their luck against her. The first character to defeat Maryl receives a challenge from Maggie. Otherwise, Maggie challenges Maryl after all other contestants fall by the wayside. Maryl Bronzefang has a +4 modifier to Strength checks, which come into play during the arm-wrestling contest."
+        }
+      ],
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "The victor in this contest, and the defending champion of the event, is Maryl Bronzefang, a lawful neutral, ore gladiator. A native of Jigow serving in Bazzoxan's Aurora Watch, she was given leave to return home for the festival.",
-      "role": "Competitor",
+      "description": "A lawful neutral orc gladiator. A native of Jigow serving in Bazzoxan's Aurora Watch, she was given leave to return home for the festival. She is the defending champion of the arm-wrestling event.",
+      "role": "Contestant",
       "is_enemy": false,
       "xp_reward": 0,
-      "source": "Chapter 1 | A Fateful Competition p.25"
+      "source": "Critical Role: Call of the Netherdeep p.25"
     },
     {
       "name": "Maggie Keeneyes",
-      "race": "",
+      "race": "Unknown",
       "class_name": "",
       "subclass": "",
       "level": 0,
@@ -3277,55 +3962,55 @@
       "armor_class": 0,
       "hit_points": "",
       "speed": "",
-      "ability_scores": {
-        "strength": 0,
-        "dexterity": 0,
-        "constitution": 0,
-        "intelligence": 0,
-        "wisdom": 0,
-        "charisma": 0
-      },
+      "ability_scores": {},
       "saving_throws": {},
       "skills": {},
-      "features": [],
+      "features": [
+        {
+          "name": "Arm Wrestling",
+          "description": "Maggie Keeneyes has a +4 modifier to Strength checks, which come into play during the arm-wrestling contest. After prodding Dermot to try the maze in area J2, Maggie Keeneyes can be found here, eager to compete. The first character to defeat Maryl receives a challenge from Maggie. Otherwise, Maggie challenges Maryl after all other contestants fall by the wayside."
+        }
+      ],
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "After prodding Dermot to try the maze in area J2, Maggie Keeneyes can be found here, eager to compete.",
-      "role": "Competitor",
+      "description": "A contestant in the arm-wrestling event who is eager to compete.",
+      "role": "Contestant",
       "is_enemy": false,
       "xp_reward": 0,
-      "source": "Chapter 1 | A Fateful Competition p.25"
+      "source": "Critical Role: Call of the Netherdeep p.25"
     },
     {
       "name": "Vars",
-      "race": "goblin",
-      "class_name": "commoner",
+      "race": "Goblin",
+      "class_name": "Commoner",
       "subclass": "",
       "level": 0,
       "alignment": "",
       "armor_class": 0,
       "hit_points": "",
       "speed": "",
-      "ability_scores": {
-        "strength": 0,
-        "dexterity": 0,
-        "constitution": 0,
-        "intelligence": 0,
-        "wisdom": 0,
-        "charisma": 0
-      },
+      "ability_scores": {},
       "saving_throws": {},
       "skills": {},
-      "features": [],
+      "features": [
+        {
+          "name": "Betting",
+          "description": "A character can place a bet with Vars by handing him 5 sp and declaring who they think will win the next match. A character whose choice wins the match receives 9 sp, and Vars pockets 1 sp."
+        },
+        {
+          "name": "Treasure",
+          "description": "Vars hands anyone who bests Maryl and Maggie a medal of muscle (see appendix B) made of ebony and shaped like a flexing arm. If one stares at it for long enough, the muscles appear to bulge."
+        }
+      ],
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "A quiet male goblin commoner — Vars, the owner of the butcher shop — sits off to the side, managing the wagers made by onlookers.",
-      "role": "Bookmaker",
+      "description": "A quiet male goblin commoner and the owner of the butcher shop. He sits off to the side, managing the wagers made by onlookers.",
+      "role": "Betting Manager",
       "is_enemy": false,
       "xp_reward": 0,
-      "source": "Chapter 1 | A Fateful Competition p.25"
+      "source": "Critical Role: Call of the Netherdeep p.25"
     },
     {
       "name": "Beetle",
@@ -3853,56 +4538,113 @@
     {
       "name": "Reynard Allerton",
       "race": "Human",
-      "class_name": "",
+      "class_name": "Scout",
       "subclass": "",
       "level": 0,
-      "alignment": "Chaotic Good",
-      "armor_class": 0,
-      "hit_points": "",
-      "speed": "",
-      "ability_scores": {},
+      "alignment": "chaotic good",
+      "armor_class": 13,
+      "hit_points": "16 (3d8+3)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 14,
+        "constitution": 12,
+        "intelligence": 11,
+        "wisdom": 13,
+        "charisma": 11
+      },
       "saving_throws": {},
-      "skills": {},
-      "features": [],
-      "actions": [],
+      "skills": {
+        "Nature": 4,
+        "Perception": 5,
+        "Stealth": 6,
+        "Survival": 5
+      },
+      "features": [
+        {
+          "name": "Keen Hearing and Sight",
+          "description": "The scout has advantage on Wisdom (Perception) checks that rely on hearing or sight."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The scout makes two melee attacks or two ranged attacks."
+        },
+        {
+          "name": "Shortsword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6+2) piercing damage."
+        },
+        {
+          "name": "Longbow",
+          "description": "Ranged Weapon Attack: +4 to hit, ranged 150/600 ft., one target. Hit: 6 (1d8+2) piercing damage."
+        }
+      ],
       "equipment": [],
       "spellcasting": null,
-      "description": "A willowy man wearing a leather apron, a chaotic good scout.",
+      "description": "A willowy man wearing a leather apron who greets visitors with surprising cheer. He is a chaotic good scout and the more gregarious of the Allerton brothers.",
       "role": "Ally",
       "is_enemy": false,
-      "xp_reward": 0,
-      "source": "Call of the Netherdeep p.53"
+      "xp_reward": 100,
+      "source": "Critical Role: Call of the Netherdeep p.53"
     },
     {
       "name": "Sebastian Allerton",
       "race": "Human",
-      "class_name": "",
+      "class_name": "Thug",
       "subclass": "",
       "level": 0,
-      "alignment": "Neutral Good",
-      "armor_class": 0,
-      "hit_points": "",
-      "speed": "",
-      "ability_scores": {},
+      "alignment": "neutral good",
+      "armor_class": 11,
+      "hit_points": "32 (5d8+10)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 11,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 11
+      },
       "saving_throws": {},
-      "skills": {},
-      "features": [],
-      "actions": [],
+      "skills": {
+        "Intimidation": 2
+      },
+      "features": [
+        {
+          "name": "Pack Tactics",
+          "description": "The thug has advantage on an attack roll against a creature if at least one of the thug's allies is within 5 feet of the creature and the ally isn't incapacitated."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The thug makes two melee attacks."
+        },
+        {
+          "name": "Mace",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 5 (1d6+2) bludgeoning damage."
+        },
+        {
+          "name": "Heavy Crossbow",
+          "description": "Ranged Weapon Attack: +2 to hit, range 100/400 ft., one target. Hit: 5 (1d10) piercing damage."
+        }
+      ],
       "equipment": [],
       "spellcasting": null,
-      "description": "A giant of a man: muscular, blue-eyed, with short-cropped hair and a missing arm, a neutral good thug.",
+      "description": "A giant of a man: muscular, blue-eyed, with short-cropped hair and a missing arm. He is a neutral good thug and the older, quieter brother of Reynard.",
       "role": "Ally",
       "is_enemy": false,
-      "xp_reward": 0,
-      "source": "Call of the Netherdeep p.53"
+      "xp_reward": 100,
+      "source": "Critical Role: Call of the Netherdeep p.53"
     },
     {
       "name": "Prolix Yusaf",
       "race": "Tiefling",
-      "class_name": "",
+      "class_name": "Scholarly Agent",
       "subclass": "",
       "level": 0,
-      "alignment": "Lawful Neutral",
+      "alignment": "lawful neutral",
       "armor_class": 0,
       "hit_points": "",
       "speed": "",
@@ -3913,11 +4655,11 @@
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "A bookish tiefling, a scholarly agent from the Allegiance of Allsight.",
+      "description": "A bookish tiefling archaeologist from Ank'Harel, a city on the distant continent of Marquet. He is a lawful neutral scholarly agent from the Allegiance of Allsight, sent to spy on a rival agent of the Consortium of the Vermilion Dream.",
       "role": "Ally",
       "is_enemy": false,
       "xp_reward": 0,
-      "source": "Call of the Netherdeep p.53"
+      "source": "Critical Role: Call of the Netherdeep p.54"
     },
     {
       "name": "Bautha Dyrr",
@@ -4388,7 +5130,7 @@
       "class_name": "Mage",
       "subclass": "",
       "level": 0,
-      "alignment": "neutral evil",
+      "alignment": "Neutral Evil",
       "armor_class": 0,
       "hit_points": "",
       "speed": "",
@@ -4399,11 +5141,11 @@
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "A neutral evil, human mage who is a double agent for the Consortium of the Vermilion Dream.",
+      "description": "A traitor who led the expedition through a wrong turn, to an area where they were accosted by an armed ruffian. She planted the ring of red fury on Prolix. When confronted, she casts fly on herself and tries to escape by smashing through the window behind her desk. If unable to escape, she fights to the death.",
       "role": "Enemy",
       "is_enemy": true,
       "xp_reward": 0,
-      "source": "Chapter 4 | The Jewel of Hope p.101"
+      "source": "Chapter 4 p.101"
     },
     {
       "name": "Anbara",
@@ -4411,7 +5153,7 @@
       "class_name": "Acolyte",
       "subclass": "",
       "level": 0,
-      "alignment": "lawful neutral",
+      "alignment": "Lawful Neutral",
       "armor_class": 0,
       "hit_points": "",
       "speed": "",
@@ -4422,11 +5164,11 @@
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "A lawful neutral human acolyte from the expedition that recovered the ring.",
-      "role": "Witness",
+      "description": "One of two agents from the expedition that recovered the ring. She vaguely recalls being attacked during their work, but can't provide any details. Her memories of the incident have been tampered with.",
+      "role": "Ally",
       "is_enemy": false,
       "xp_reward": 0,
-      "source": "Chapter 4 | The Jewel of Hope p.101"
+      "source": "Chapter 4 p.101"
     },
     {
       "name": "Idris",
@@ -4434,7 +5176,7 @@
       "class_name": "Acolyte",
       "subclass": "",
       "level": 0,
-      "alignment": "lawful neutral",
+      "alignment": "Lawful Neutral",
       "armor_class": 0,
       "hit_points": "",
       "speed": "",
@@ -4445,11 +5187,11 @@
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "A lawful neutral human acolyte from the expedition that recovered the ring.",
-      "role": "Witness",
+      "description": "One of two agents from the expedition that recovered the ring. He vaguely recalls being attacked during their work, but can't provide any details. His memories of the incident have been tampered with.",
+      "role": "Ally",
       "is_enemy": false,
       "xp_reward": 0,
-      "source": "Chapter 4 | The Jewel of Hope p.101"
+      "source": "Chapter 4 p.101"
     },
     {
       "name": "Headmaster Gryz Alakritos",
@@ -4813,36 +5555,84 @@
     {
       "name": "Laurin Ophidas",
       "race": "Half-elf",
-      "class_name": "",
+      "class_name": "Cult Fanatic",
       "subclass": "",
       "level": 0,
-      "alignment": "chaotic evil",
-      "armor_class": 0,
-      "hit_points": "",
-      "speed": "",
-      "ability_scores": {},
+      "alignment": "Chaotic Evil",
+      "armor_class": 13,
+      "hit_points": "33 (6d8+6)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 14,
+        "constitution": 12,
+        "intelligence": 10,
+        "wisdom": 13,
+        "charisma": 14
+      },
       "saving_throws": {},
-      "skills": {},
+      "skills": {
+        "Deception": 4,
+        "Persuasion": 4,
+        "Religion": 2
+      },
       "features": [
         {
-          "name": "Immunity to poison damage and poisoned condition",
+          "name": "Dark Devotion",
+          "description": "The cult fanatic has advantage on saving throws against being charmed or frightened."
+        },
+        {
+          "name": "Immunities",
           "description": "He has immunity to poison damage and the poisoned condition."
         },
         {
-          "name": "Staff of the Adder attunement",
-          "description": "He wields a staff of the adder and is attuned to it as though he were a cleric."
+          "name": "Spellcasting",
+          "description": "The cult fanatic is a 4th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 11, +3 to hit with spell attacks). It has the following cleric spells prepared:\n\nCantrips (at will): light, sacred flame, thaumaturgy\n1st level (4 slots): command, inflict wounds, shield of faith\n2nd level (3 slots): hold person, spiritual weapon"
         }
       ],
-      "actions": [],
-      "equipment": [
-        "staff of the adder"
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The cult fanatic makes two melee attacks."
+        },
+        {
+          "name": "Dagger",
+          "description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft. or range 20/60 ft., one creature. Hit: 4 (1d4 + 2) piercing damage."
+        },
+        {
+          "name": "Staff of the Adder",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) bludgeoning damage, or 6 (1d8 + 2) bludgeoning damage if used with two hands. The staff can also be used to make a melee attack that deals 5 (1d6 + 2) piercing damage plus 3 (1d6) poison damage on a hit."
+        }
       ],
-      "spellcasting": null,
-      "description": "A chaotic evil half-elf cultist of Zehir, using the cult fanatic stat block with modifications.",
+      "equipment": [
+        "Staff of the Adder"
+      ],
+      "spellcasting": {
+        "ability": "Wisdom",
+        "save_dc": 11,
+        "to_hit": 3,
+        "spells": {
+          "cantrips": [
+            "light",
+            "sacred flame",
+            "thaumaturgy"
+          ],
+          "1st": [
+            "command",
+            "inflict wounds",
+            "shield of faith"
+          ],
+          "2nd": [
+            "hold person",
+            "spiritual weapon"
+          ]
+        }
+      },
+      "description": "A disgraced member of the Cerberus Assembly, a chaotic evil half-elf who stole a staff of the adder and fled. He uses the cult fanatic stat block with modifications.",
       "role": "Enemy",
       "is_enemy": true,
-      "xp_reward": 0,
-      "source": "Chapter 4 - Knowledge Is Power (Cobalt Soul Story Track)"
+      "xp_reward": 450,
+      "source": "Chapter 4: The Jewel of Hope"
     },
     {
       "name": "Jamil A'alithiya",
@@ -4959,10 +5749,10 @@
     {
       "name": "Scribble",
       "race": "Kenku",
-      "class_name": "",
+      "class_name": "Scholarly Agent",
       "subclass": "",
       "level": 0,
-      "alignment": "chaotic neutral",
+      "alignment": "Chaotic Neutral",
       "armor_class": 0,
       "hit_points": "",
       "speed": "",
@@ -4971,18 +5761,18 @@
       "skills": {},
       "features": [
         {
-          "name": "Mimicry",
+          "name": "Languages",
           "description": "Scribble understands Auran and Common but speaks only through mimicry. He can imitate any sounds he has heard, including voices."
         }
       ],
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "Scribble uses the scholarly agent stat block (see appendix A), with this change: Scribble understands Auran and Common but speaks only through mimicry. He can imitate any sounds he has heard, including voices.",
+      "description": "A laconic chaotic neutral kenku research technician. Uses the scholarly agent stat block (see appendix A) with modifications. He seems pleasant enough, but a character who spends more than 10 minutes with him can tell that the kenku is haunted. While scouring Cael Morrow for relics, he received telepathic threats from the Alyxian Aboleth but lacks the vocabulary to convey the horror of that experience; however, he can repeat any of the phrases listed on the Poisoned Emotions table.",
       "role": "Ally",
       "is_enemy": false,
       "xp_reward": 0,
-      "source": "Call of the Netherdeep p.127"
+      "source": "Critical Role: Call of the Netherdeep p.127"
     },
     {
       "name": "Xot",
@@ -5026,21 +5816,30 @@
       "class_name": "",
       "subclass": "",
       "level": 0,
-      "alignment": "neutral good",
-      "armor_class": 0,
-      "hit_points": "",
+      "alignment": "Neutral Good",
+      "armor_class": 13,
+      "hit_points": "16 (3d8+3)",
       "speed": "30 ft., swim 30 ft.",
       "ability_scores": {
-        "strength": 0,
-        "dexterity": 0,
-        "constitution": 0,
-        "intelligence": 0,
-        "wisdom": 0,
-        "charisma": 0
+        "strength": 11,
+        "dexterity": 14,
+        "constitution": 12,
+        "intelligence": 11,
+        "wisdom": 13,
+        "charisma": 11
       },
       "saving_throws": {},
-      "skills": {},
+      "skills": {
+        "Nature": 4,
+        "Perception": 5,
+        "Stealth": 6,
+        "Survival": 5
+      },
       "features": [
+        {
+          "name": "Keen Hearing and Sight",
+          "description": "The scout has advantage on Wisdom (Perception) checks that rely on hearing or sight."
+        },
         {
           "name": "Swimming Speed",
           "description": "She has a swimming speed equal to her walking speed, and she can breathe air and water."
@@ -5055,17 +5854,30 @@
         },
         {
           "name": "Ancient Dialect",
-          "description": "Olara speaks an ancient dialect that formed the basis for both Elvish and Ore, and any character who speaks and understands either of those languages can converse with her."
+          "description": "Olara speaks an ancient dialect that formed the basis for both Elvish and Orc, and any character who speaks and understands either of those languages can converse with her."
         }
       ],
-      "actions": [],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The scout makes two melee attacks or two ranged attacks."
+        },
+        {
+          "name": "Shortsword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+        },
+        {
+          "name": "Longbow",
+          "description": "Ranged Weapon Attack: +4 to hit, ranged 150/600 ft., one target. Hit: 6 (1d8 + 2) piercing damage."
+        }
+      ],
       "equipment": [],
       "spellcasting": null,
-      "description": "A neutral good sea elf named Olara floats behind a granite countertop in the Sunken Tavern (M6). She is one of the few mortals who survived Gruumsh's attack centuries ago, subsisting on kelp. Decades spent near the Netherdeep and the Alyxian Aboleth have damaged her memories.",
-      "role": "Neutral",
+      "description": "A neutral good sea elf barkeep who runs the Last Willow Tavern in the Drowned City. She is one of the few mortals who survived Gruumsh's attack centuries ago.",
+      "role": "Ally",
       "is_enemy": false,
       "xp_reward": 0,
-      "source": "Chapter 5 | The Drowned City"
+      "source": "Critical Role: Call of the Netherdeep p.100"
     },
     {
       "name": "Galeokaerda",
@@ -5199,6 +6011,770 @@
       "is_enemy": true,
       "xp_reward": 0,
       "source": "Chapter 6 | The Netherdeep p.168-169"
+    },
+    {
+      "name": "Ayojabe",
+      "race": "Water Genasi",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A water genasi (tier 1) who participates in the swimming challenge. She is impressed by courage and determination. Her stat block appears in appendix A.",
+      "role": "Contestant",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Chapter 1: A Fateful Competition, p.23"
+    },
+    {
+      "name": "Omo",
+      "race": "Goblin",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "lawful neutral",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "An impassive, lawful neutral goblin who referees the swimming challenge.",
+      "role": "Referee",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Chapter 1: A Fateful Competition, p.23"
+    },
+    {
+      "name": "Adan",
+      "race": "Orc",
+      "class_name": "Scout",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Lawful Good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A horizonback tortoise trainer who supervises the transfer of young tortoises from the paddock to the open fields on the west side of the Jumble.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Critical Role: Call of the Netherdeep p.25"
+    },
+    {
+      "name": "Belana Zolaed",
+      "race": "Drow",
+      "class_name": "Priest",
+      "subclass": "",
+      "level": 0,
+      "alignment": "neutral good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A neutral good drow priest who maintains the Temple of the Luxon and conducts worship ceremonies.",
+      "role": "Temple Keeper",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Critical Role: Call of the Netherdeep p.7"
+    },
+    {
+      "name": "Elder Ushru",
+      "race": "Orc",
+      "class_name": "Priest",
+      "subclass": "",
+      "level": 0,
+      "alignment": "neutral good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A neutral good orc priest who is one of the clan elders of Jigow. He announces the final contest and chooses the two teams to compete in the grand finale.",
+      "role": "Elder",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Critical Role: Call of the Netherdeep p.7"
+    },
+    {
+      "name": "Auntie Jaller",
+      "race": "Hobgoblin",
+      "class_name": "Druid",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Chaotic Neutral",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Old and elegant-looking, thanks to her long silver hair and deep green robes. She calls herself an \"old witch\" and spends much of her time brewing potions and inventing new tea blends.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Explorer's Guide to Wildemount p.45"
+    },
+    {
+      "name": "Rohaya Tak",
+      "race": "Half-Elf",
+      "class_name": "Commoner",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral Good",
+      "armor_class": 10,
+      "hit_points": "4 (1d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 10,
+        "constitution": 10,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [
+        {
+          "name": "Club",
+          "description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d4) bludgeoning damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Rohaya Tak, a neutral good, half-elf commoner, who inherited the business from her mother two decades ago. An innovative metalworker, Rohaya combines her smithcraft with shrewd business intuition. In addition to crafting blades and tools, Rohaya uses the forge to produce cannons for use on sailing ships and skyships, modeled after the bronze cannons of her family's homeland in southern Marquet.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Explorer's Guide to Wildemount p.89"
+    },
+    {
+      "name": "Carliale Kroogan",
+      "race": "Gnome",
+      "class_name": "Scholarly Excavator",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral Good",
+      "armor_class": 10,
+      "hit_points": "4 (1d8)",
+      "speed": "25 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 10,
+        "constitution": 10,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [
+        {
+          "name": "Club",
+          "description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d4) bludgeoning damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "The Allegiance of Allsight scholar Carliale Kroogan, a neutral good, gnome scholarly excavator (see appendix A), is currently the chief supervisor for the Life Dome. Lonely and a bit of a chatterbox, Carliale is always ready to chat about arcane theory with any individual who comes his way.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Explorer's Guide to Wildemount p.89"
+    },
+    {
+      "name": "Old Man Kruuk",
+      "race": "Half-Orc",
+      "class_name": "Bandit Captain",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral",
+      "armor_class": 15,
+      "hit_points": "65 (10d8+20)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 16,
+        "constitution": 14,
+        "intelligence": 14,
+        "wisdom": 11,
+        "charisma": 14
+      },
+      "saving_throws": {
+        "str": 4,
+        "dex": 5,
+        "wis": 2
+      },
+      "skills": {
+        "Athletics": 4,
+        "Deception": 4
+      },
+      "features": [],
+      "actions": [
+        {
+          "name": "Scimitar",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6+3) slashing damage."
+        },
+        {
+          "name": "Dagger",
+          "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 5 (1d4+3) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Old Man Kruuk, a neutral, half-orc bandit captain, is a mediocre baker; his pitas are tough and chewy, and the caramel of his baklava is bitter and burned. Kruuk's talent lies in his true vocation as a fence for stolen goods. After an individual gains his trust, he drops his bumbling baker facade and reveals himself to be an excellent businessperson, able to sweet-talk even the most uncompromising thieves into a favorable deal.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Explorer's Guide to Wildemount p.89"
+    },
+    {
+      "name": "Sheed Caltor",
+      "race": "Orc",
+      "class_name": "Noble",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Chaotic Neutral",
+      "armor_class": 15,
+      "hit_points": "9 (2d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 12,
+        "constitution": 11,
+        "intelligence": 12,
+        "wisdom": 14,
+        "charisma": 16
+      },
+      "saving_throws": {},
+      "skills": {
+        "Deception": 5,
+        "Insight": 4,
+        "Persuasion": 5
+      },
+      "features": [],
+      "actions": [
+        {
+          "name": "Rapier",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 5 (1d8+1) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Sheed Caltor, a chaotic neutral, orc noble, is the suave ringmaster of the Bowl. Sheed is mostly concerned with his image, his income, and his status among the upper crust of Ank'Harel.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Explorer's Guide to Wildemount p.89"
+    },
+    {
+      "name": "Adima Shemsilver",
+      "race": "Halfling",
+      "class_name": "Noble",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Chaotic Neutral",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Adima Shemsilver is a chaotic neutral halfling noble who owns and runs the casino Luck's Run. He walks with the confidence of someone twice his height. Adima secretly uses half of the casino's earnings to fund the Veil, as his family has done for generations.",
+      "role": "Casino Owner",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Critical Role: Call of the Netherdeep"
+    },
+    {
+      "name": "Amkezne",
+      "race": "Tiefling",
+      "class_name": "Mage",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Chaotic Neutral",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Amkezne is a charlatan who poses as a soothsayer at the Arcane Shop. She is a chaotic neutral tiefling mage and a Crystal Chateau dropout who makes a living defrauding wide-eyed tourists with her mystical displays and fake enchanted trinkets. Customers who see through her act but treat her with respect can purchase any spell component worth 1,000 gp or less from her. She also has a collection of fine jewelry for sale, including five gold bracelets (25 gp each), three gem-studded gold rings (250 gp each), and two jewel-encrusted necklaces and tiaras (750 gp each). An invisible stalker watches over this collection and attacks anyone who tries to steal from it.",
+      "role": "Merchant",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Critical Role: Call of the Netherdeep"
+    },
+    {
+      "name": "Nedosi Array",
+      "race": "Half-orc",
+      "class_name": "Veteran",
+      "subclass": "",
+      "level": 0,
+      "alignment": "neutral",
+      "armor_class": 17,
+      "hit_points": "45 (6d8+18)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 13,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 11,
+        "charisma": 10
+      },
+      "saving_throws": {
+        "str": 5,
+        "con": 4
+      },
+      "skills": {
+        "Athletics": 5,
+        "Perception": 2
+      },
+      "features": [],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The veteran makes two longsword attacks. If it has a shortsword drawn, it can also make a shortsword attack."
+        },
+        {
+          "name": "Longsword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8+3) slashing damage, or 8 (1d10+3) slashing damage if used with two hands."
+        },
+        {
+          "name": "Shortsword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6+3) piercing damage."
+        },
+        {
+          "name": "Heavy Crossbow",
+          "description": "Ranged Weapon Attack: +3 to hit, range 100/400 ft., one target. Hit: 6 (1d10+1) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Security Captain Nedosi Array, a neutral, half-orc veteran, brusquely briefs the characters.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Chapter 4: The Jewel of Hope p.105"
+    },
+    {
+      "name": "Kai",
+      "race": "Human",
+      "class_name": "Scholarly Agent",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Lawful Neutral",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A lawful neutral human guard wearing Allegiance of Allsight apparel and badges, standing outside the door to area M3. Uses the scholarly agent stat block (see appendix A).",
+      "role": "Guard",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Critical Role: Call of the Netherdeep p.127"
+    },
+    {
+      "name": "Nadiya",
+      "race": "Halfling",
+      "class_name": "Scholarly Agent",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Lawful Good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A lawful good halfling guard wearing Allegiance of Allsight apparel and badges, standing outside the door to area M3. Uses the scholarly agent stat block (see appendix A).",
+      "role": "Guard",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Critical Role: Call of the Netherdeep p.127"
+    },
+    {
+      "name": "Ayojabe (Tier 1)",
+      "race": "Water Genasi",
+      "class_name": "Ranger",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Chaotic Good",
+      "armor_class": 14,
+      "hit_points": "65 (10d8 + 20)",
+      "speed": "30 ft., swim 30 ft.",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 14,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 12
+      },
+      "saving_throws": {
+        "str": 4,
+        "dex": 4
+      },
+      "skills": {
+        "Athletics": 4,
+        "Perception": 3,
+        "Survival": 3
+      },
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "Ayo can breathe air and water."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Ayo makes two Harpoon or Longbow attacks."
+        },
+        {
+          "name": "Harpoon",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 11 (2d8 + 2) piercing damage."
+        },
+        {
+          "name": "Longbow",
+          "description": "Ranged Weapon Attack: +4 to hit, range 150/600 ft., one target. Hit: 11 (2d8 + 2) piercing damage."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "Ayo casts one of the following spells, using Wisdom as the spellcasting ability (spell save DC 11):\n1/day each: animal friendship, goodberry"
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Ayojabe is a water genasi and a natural-born leader who was born to ore parents during a fierce storm at sea.",
+      "role": "Rival",
+      "is_enemy": false,
+      "xp_reward": 700,
+      "source": "Critical Role: Call of the Netherdeep p.187"
+    },
+    {
+      "name": "Galsariad Ardyth (Tier 1)",
+      "race": "Drow, Elf",
+      "class_name": "Wizard",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral",
+      "armor_class": 12,
+      "hit_points": "49 (14d8 - 14)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 14,
+        "constitution": 8,
+        "intelligence": 16,
+        "wisdom": 15,
+        "charisma": 11
+      },
+      "saving_throws": {
+        "int": 5,
+        "wis": 4
+      },
+      "skills": {
+        "Arcana": 5,
+        "Investigation": 5,
+        "Nature": 5
+      },
+      "features": [
+        {
+          "name": "Fey Ancestry",
+          "description": "Galsariad has advantage on saving throws against being charmed, and magic can't put him to sleep."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Drain Potential",
+          "description": "Melee or Ranged Spell Attack: +5 to hit, reach 5 ft. or range 30 ft., one creature. Hit: 16 (3d10) necrotic damage, and Galsariad gains 5 temporary hit points."
+        },
+        {
+          "name": "Gravity Wave (Recharge 5-6)",
+          "description": "Galsariad causes a rippling wave of magical gravity to fill a 10-foot-radius sphere centered on a point he can see within 120 feet of himself. Each creature in that area must make a DC 13 Strength saving throw. On a failed saving throw, the creature takes 17 (5d6) force damage and is pulled up to 10 feet toward the sphere's center. On a successful save, the creature takes half as much damage and isn't pulled."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "Galsariad casts one of the following spells, using Intelligence as the spellcasting ability (spell save DC 13):\nAt will: mage armor, mage hand\n1/day: longstrider"
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Galsariad Ardyth is a drow mage from the Kryn Dynasty who studies the esoteric practice of dunamancy.",
+      "role": "Rival",
+      "is_enemy": false,
+      "xp_reward": 700,
+      "source": "Critical Role: Call of the Netherdeep p.187"
+    },
+    {
+      "name": "Dermot Wurder (Tier 1)",
+      "race": "Goblin",
+      "class_name": "Cleric",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Lawful Good",
+      "armor_class": 17,
+      "hit_points": "44 (8d6 + 16)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 12,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 16,
+        "charisma": 10
+      },
+      "saving_throws": {
+        "wis": 5,
+        "cha": 2
+      },
+      "skills": {
+        "Medicine": 5,
+        "Religion": 2,
+        "Survival": 5
+      },
+      "features": [],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Dermot makes one Warhammer attack and one Searing Wrath attack."
+        },
+        {
+          "name": "Warhammer",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) bludgeoning damage, or 8 (1d10 + 3) bludgeoning damage when used with two hands."
+        },
+        {
+          "name": "Searing Wrath",
+          "description": "Ranged Spell Attack: +5 to hit, range 60 ft., one creature. Hit: 9 (2d8) radiant damage, and the target is blinded until the end of its next turn."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "Dermot casts one of the following spells, using Wisdom as the spellcasting ability (spell save DC 13):\nAt will: guidance, light, spare the dying\n1/day each: bless, cure wounds"
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Dermot Wurder is a goblin priest who worships the Luxon, a divine entity of light and rebirth.",
+      "role": "Rival",
+      "is_enemy": false,
+      "xp_reward": 700,
+      "source": "Critical Role: Call of the Netherdeep p.187"
+    },
+    {
+      "name": "Ayo",
+      "race": "Unknown",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Spellcasting",
+          "description": "dom as the spellcasting ability (spell save DC 14): l /day each: animal friendship.freedom of movement, good berry, pass without trace, protection from energy"
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Ayo issues orders to allies.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Appendix A Creatures"
+    },
+    {
+      "name": "Dermot Wurder (Tier 3)",
+      "race": "Goblin",
+      "class_name": "Cleric",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Lawful Good",
+      "armor_class": 20,
+      "hit_points": "93 (17d6 + 34)",
+      "speed": "30 ft., swim 30 ft. (mariner's armor)",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 12,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 20,
+        "charisma": 10
+      },
+      "saving_throws": {
+        "wisdom": 8,
+        "charisma": 3
+      },
+      "skills": {
+        "Medicine": 8,
+        "Religion": 3,
+        "Survival": 8
+      },
+      "features": [
+        {
+          "name": "Special Equipment",
+          "description": "Dermot wears mariner's armor and wields a ruidium warhammer (see appendix B). If Dermot rolls a 1 on an attack roll made with the warhammer, he must succeed on a DC 20 Charisma saving throw or gain 1 level of exhaustion."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Dermot makes one Ruidium Warhammer attack and one Searing Wrath attack."
+        },
+        {
+          "name": "Ruidium Warhammer",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 8 (1d8 + 4) bludgeoning damage, or 9 (ldl0 + 4) bludgeoning damage when used with two hands, plus 7 (2d6) psychic damage."
+        },
+        {
+          "name": "Searing Wrath",
+          "description": "Ranged Spell Attack: +8 to hit, range 60 ft., one creature. Hit: 22 (5d8) radiant damage, and the target is blinded until the end of its next turn."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "Dermot casts one ofthe following spells, using Wisdom as the spellcasting ability (spell save DC 16): At will: guidance, light, spare the dying 2/day each: bless (at 3rd level), cure wounds (at 3rd level) 1/day: revivify"
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Dermot Wurder is a goblin cleric.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 3900,
+      "source": "Appendix A Creatures"
+    },
+    {
+      "name": "Galsariad Ardyth (Tier 3)",
+      "race": "Drow, Elf",
+      "class_name": "Wizard",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral",
+      "armor_class": 17,
+      "hit_points": "90 (20d8)",
+      "speed": "30 ft., fly 30 ft. (hover), swim 40 ft. (ring of swimming)",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 14,
+        "constitution": 10,
+        "intelligence": 20,
+        "wisdom": 15,
+        "charisma": 11
+      },
+      "saving_throws": {
+        "intelligence": 8,
+        "wisdom": 5
+      },
+      "skills": {
+        "Arcana": 8,
+        "Investigation": 8,
+        "Nature": 8
+      },
+      "features": [
+        {
+          "name": "Deflection",
+          "description": "Galsariad warps gravity around himself to magically deflect incoming attacks. While Galsariad is wearing no armor and not incapacitated, his AC includes his Intelligence modifier."
+        },
+        {
+          "name": "Fey Ancestry",
+          "description": "Galsariad has advantage on saving throws against being charmed, and magic can't put him to sleep."
+        },
+        {
+          "name": "Special Equipment",
+          "description": "Galsariad wears a ring of swimming and carries a ruidium dagger (see appendix B). lfhe rolls a 1 on an attack roll made with the dagger, he must succeed on a DC 20 Charisma saving throw or gain 1 level of exhaustion."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Galsariad makes one Drain Potential attack and one Ruidium Dagger attack."
+        },
+        {
+          "name": "Drain Potential",
+          "description": "Melee or Ranged Spell Attack: +8 to hit, reach 5 ft. or range 120 ft., one creature. Hit: 22 (4dl0) necrotic damage, and Galsariad gains 10 temporary hit points."
+        },
+        {
+          "name": "Ruidium Dagger",
+          "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 4 (1 d4 + 2) piercing damage plus 7 (2d6) psychic damage."
+        },
+        {
+          "name": "Gravity Rend (Recharge 5-6)",
+          "description": "Galsariad causes a rippling wave of magical gravity to fill a 30-foot-radius sphere centered on a point he can see within 100 feet of himself. Each creature of Galsariad's choice in that area must make a DC 16 Strength saving throw. On a failed saving throw, the creature takes 42 (12d6) force damage and is restrained for 1 minute. On a successful save, the creature takes half as much damage and isn't restrained. A restrained creature can repeat the save at the end of each of its turns, ending the effect on itself on a success."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "Galsariad casts one of the following spells, using Intelligence as the spellcasting ability (spell save DC 16): At will: mage hand 1/day each: longstrider, scrying (as an action), slow, telekinesis, water breathing"
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Galsariad Ardyth is a drow elf wizard.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 3900,
+      "source": "Appendix A Creatures"
     }
   ],
   "feats": [],
@@ -5660,16 +7236,389 @@
       "area": "10 feet of the door",
       "description": "A sturdy cellar door with a built-in lock that triggers a crimson flash and pushes creatures away when first touched.",
       "source": "Chapter 6 | The Netherdeep p.168"
+    },
+    {
+      "name": "The Box's Riddle Lock",
+      "type": "magical",
+      "danger": "setback",
+      "trigger": "A character inserts an incorrect key into the lock or tries to pick the lock.",
+      "detection": {
+        "dc": 13,
+        "skill": "Intelligence (Arcana or History)",
+        "detail": "A character who succeeds on a DC 13 Intelligence (Arcana or History) check recognizes the shape of the dragon lock or the box's aquatic decorations as indicative of a bronze dragon; if a character saw someone get shocked by lightning after an incorrect guess, the DC for this check is reduced to 11. A character can make a DC 10 Intelligence check to recognize that the metallic hues of the keys and the first two lines of the riddle are talking about not just metals but also types of metallic dragons."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "The correct key (the bronze key) opens the lock without triggering the trap. Inserting the incorrect key or trying to pick the lock triggers the shock."
+      },
+      "effect": "The lock emits an electric shock.",
+      "save_dc": 16,
+      "save_ability": "Dexterity",
+      "damage": "2 (1d4)",
+      "damage_type": "lightning",
+      "area": "The creature inserting the incorrect key or picking the lock",
+      "description": "A locked wooden box with four metal keys (bronze, copper, silver, gold). The lock is shaped like a dragon with a fluted crest, and the box edges are decorated with engravings of pearls and shells. The bronze key opens the lock; incorrect keys or lockpicking triggers an electric shock.",
+      "source": "Critical Role: Call of the Netherdeep p.7"
+    },
+    {
+      "name": "Bottle 2 (Blight Brew)",
+      "type": "hazard",
+      "danger": "setback",
+      "trigger": "A character sips from this bottle.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The bottle is green and filled with blight brew."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not applicable; the bottle is simply avoided or the correct bottle is chosen."
+      },
+      "effect": "The character becomes poisoned for 1 minute, spending the time retching.",
+      "save_dc": 10,
+      "save_ability": "Constitution",
+      "damage": "",
+      "damage_type": "",
+      "area": "The creature sipping from the bottle",
+      "description": "Bottle 2 of the Bottles' Riddle is a green bottle filled with blight brew. Sipping from it requires a DC 10 Constitution saving throw or the character becomes poisoned for 1 minute, retching.",
+      "source": "Critical Role: Call of the Netherdeep p.7"
+    },
+    {
+      "name": "Bottle 4 (Spicy Pepper Oil)",
+      "type": "hazard",
+      "danger": "setback",
+      "trigger": "A character sips from this bottle.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The bottle is white and filled with overwhelmingly spicy pepper oil."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not applicable; the bottle is simply avoided or the correct bottle is chosen."
+      },
+      "effect": "The character takes 1 fire damage from the spice.",
+      "save_dc": 10,
+      "save_ability": "Constitution",
+      "damage": "1",
+      "damage_type": "fire",
+      "area": "The creature sipping from the bottle",
+      "description": "Bottle 4 of the Bottles' Riddle is a white bottle filled with overwhelmingly spicy pepper oil. Sipping from it requires a DC 10 Constitution saving throw or the character takes 1 fire damage from the spice.",
+      "source": "Critical Role: Call of the Netherdeep p.7"
+    },
+    {
+      "name": "Stained-Glass Mosaic",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "A creature presses an incorrect symbol on the stained-glass mosaic.",
+      "detection": {
+        "dc": 11,
+        "skill": "Intelligence (Religion)",
+        "detail": "A character who succeeds on a DC 11 Intelligence (Religion) check recognizes the nine symbols as the symbols of evil gods."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "The mosaic can be bypassed by pressing four symbols in the correct order (Spider, Bleeding Eye, Jagged Spiral, Trio of Arms), or by breaking through it with a successful DC 12 Strength check or by destroying it."
+      },
+      "effect": "A creature that presses an incorrect symbol must make a DC 16 Wisdom saving throw, taking 28 (8d6) psychic damage on a failed save, or half as much damage on a successful one. Destroying the mosaic causes the flame creatures in the hall to attack. Moreover, each creature in the hall when the mosaic breaks must make a DC 20 Wisdom saving throw unless it is a Construct, a Fiend, or an Undead. On a failed save, the creature is cursed and can't regain hit points until the effect on that creature is ended by a remove curse spell or similar magic. If destroyed, the stained-glass window repairs itself after 1 hour.",
+      "save_dc": 16,
+      "save_ability": "Wisdom",
+      "damage": "28 (8d6)",
+      "damage_type": "psychic",
+      "area": "The stained-glass mosaic is a 10-foot-wide section of wall at the north end of the basilica.",
+      "description": "A stained-glass mosaic depicting a maelstrom of color with nine symbols of evil gods. Pressing the correct sequence of four symbols opens a door; pressing an incorrect symbol triggers psychic damage.",
+      "source": "Bazzoxan p. (Chapter 3)"
+    },
+    {
+      "name": "Chains of Darkness",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "A creature falls prone in the hall of area R10.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The chains on the floor slither toward the creature when it falls prone."
+      },
+      "disarm": {
+        "dc": 15,
+        "method": "Strength (Athletics)",
+        "detail": "Any creature that is not grappled by the chains can use an action to try to free a chained creature within reach, doing so with a successful DC 15 Strength (Athletics) check. Whatever the result of the check, the creature making the attempt takes 11 (2d10) psychic damage."
+      },
+      "effect": "The creature must succeed on a DC 15 Dexterity saving throw or be grappled by the chains (escape DC 15). Until it escapes, the creature takes 5 (1d10) psychic damage at the start of each of its turns.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "5 (1d10)",
+      "damage_type": "psychic",
+      "area": "The hall of area R10, which is covered by a nest of black chains.",
+      "description": "When a creature falls prone in this hall, the chains on the floor slither toward it and attempt to grapple it, dealing psychic damage each turn.",
+      "source": "Bazzoxan p. (Chapter 3)"
+    },
+    {
+      "name": "Wailing Statue",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Any creature within 30 feet of the statue that can hear the wailing sound coming from it",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "A detect magic spell reveals an aura of abjuration magic emanating from the iron doors in the statue's chest. Similar auras are apparent in the palms of the stone arms that are within the spell's range."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "The curse can be ended by a remove curse spell or similar magic, or by entering area R16."
+      },
+      "effect": "Any creature within 30 feet of the statue that can hear the wailing sound coming from it must make a successful DC 16 Charisma saving throw or become cursed by Torog's hunger. A creature that succeeds on this saving throw is immune to the effect of the wailing statue for 24 hours. The curse has the following effects on a creature: • At the start of each of its turns, the creature must make a DC 16 Wisdom saving throw. On a failed save, the creature must use its action to harm another creature it can see, using a spell or an attack that deals the greatest amount of damage. • While the creature has fewer than half its hit points, its successful weapon attacks deal an extra 3 (1d6) psychic damage. The creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. Otherwise, the curse of Torog remains in effect on the creature until ended by a remove curse spell or similar magic, or until the creature enters area R16.",
+      "save_dc": 16,
+      "save_ability": "Charisma",
+      "damage": "3 (1d6)",
+      "damage_type": "psychic",
+      "area": "30-foot radius around the statue",
+      "description": "A statue of a tortured man that emits a hideous wailing noise, cursing those who hear it with Torog's hunger.",
+      "source": "Chapter 3: Bazzoxan p.70"
+    },
+    {
+      "name": "Arms of Torog Pustules",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Attacking or destroying the pustules on the palms of the stone arms",
+      "detection": {
+        "dc": 13,
+        "skill": "Perception",
+        "detail": "Characters who have a passive Wisdom (Perception) score of 13 or higher notice that each one of the arms bears a throbbing, purple-black pustule on its palm."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Destroying all three pustules lights up the entire triangle and unlocks the doors embedded in the statue's chest. If the pustules are all destroyed, they re-form after 1 hour, at which point the doors close and become locked again unless they are held open or are opened from the inside."
+      },
+      "effect": "Each pustule has AC 17, 25 hit points, and immunity to poison and psychic damage. When a pustule is reduced to 0 hit points, it is destroyed, and one side of the triangle engraved on the floor begins to glow white. Destroying all three pustules lights up the entire triangle and unlocks the doors embedded in the statue's chest.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "Three stone arms at the points of a 40-foot triangle around the statue",
+      "description": "Three stone arms jut up from the floor, each with a throbbing purple-black pustule on its palm. Destroying all three unlocks the iron doors in the statue's chest.",
+      "source": "Chapter 3: Bazzoxan p.70"
+    },
+    {
+      "name": "South Hallway Stone Slab",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "When one or more characters enter the hallway to the south",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The grinding noise is heard automatically when entering the hallway."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Defeating the fiendish ores in area R14 or using a knock spell or similar magic causes the slab to sink back into the floor; it can't be moved or breached otherwise."
+      },
+      "effect": "A loud grinding noise is heard as a stone slab rises from the floor to block the entrance to area R14. This slab has no handle or keyhole.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "Entrance to area R14",
+      "description": "A stone slab rises to block the southern hallway, sealing off area R14 until the fiendish ores are defeated or a knock spell is used.",
+      "source": "Chapter 3: Bazzoxan p.70"
+    },
+    {
+      "name": "Lightless Labyrinth",
+      "type": "magical",
+      "danger": "setback",
+      "trigger": "Entering the labyrinth and choosing paths",
+      "detection": {
+        "dc": 14,
+        "skill": "Religion",
+        "detail": "A character who makes a successful DC 14 Intelligence (Religion) check recalls one of Torog's commandments: \"Seek and exalt places where no light touches.\" A character can guess that the darkened passages are related by making a successful DC 10 Wisdom (Insight) check."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Always take the fork shrouded in darkness. After choosing three paths, if they chose the darkened path all three times, they emerge at the opposite side from where they entered."
+      },
+      "effect": "When the characters enter the labyrinth, they're faced with a choice of three paths: one lit by violet continual flame spells, one by red continual flame spells, and one shrouded in impenetrable magical darkness. Following any of the paths leads them to another three-way fork with the same choices available, and then another. If they chose any of the illuminated paths, they emerge at the same place where they entered, and each character must succeed on a DC 15 Constitution saving throw or gain 1 level of exhaustion as the endlessly zigzagging pathways drain their resolve.",
+      "save_dc": 15,
+      "save_ability": "Constitution",
+      "damage": "",
+      "damage_type": "",
+      "area": "Network of 5-foot-wide, 10-foot-high tunnels",
+      "description": "A zigzagging labyrinth with three paths at each fork: violet-lit, red-lit, and magical darkness. Taking the dark path leads to the exit; taking lit paths causes exhaustion.",
+      "source": "Chapter 3: Bazzoxan p.70"
+    },
+    {
+      "name": "Blood Font of the Ruiner",
+      "type": "magical",
+      "danger": "deadly",
+      "trigger": "The ores pray to Gruumsh on their first turn in combat, activating the blood font",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The pool of blood is visible in the center of the chamber."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Killing both ores or forcing open either exit causes the boiling blood to drain out of the room through holes that open in the floor, lowering the blood's depth by 5 feet per round."
+      },
+      "effect": "Stone slabs rise from the floor to block the north and south exits (unless both slabs were already closed). A knock spell or similar magic can force a slab to sink back into the floor. When both exits are sealed after the ores pray to Gruumsh, the pool of blood begins to boil and overflow. The boiling blood starts to flood the room, rising at a rate of 5 feet per minute to a maximum depth of 45 feet. A creature that ends its turn in the boiling blood takes 7 (2d6) fire damage.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "7 (2d6)",
+      "damage_type": "fire",
+      "area": "Entire chamber, flooding up to 45 feet deep",
+      "description": "A circular pool of blood that, when activated by the ores' prayer to Gruumsh, seals the exits and floods the room with boiling blood.",
+      "source": "Chapter 3: Bazzoxan p.70"
+    },
+    {
+      "name": "Vault Door Concussive Blast",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "A character forcibly pries open the vault door with a successful DC 21 Strength (Athletics) check.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "This trap can't be disarmed."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "This trap can't be disarmed."
+      },
+      "effect": "Forcing the vault open produces a loud, concussive blast of energy that fills a 15-foot cube immediately outside the vault.",
+      "save_dc": 18,
+      "save_ability": "Constitution",
+      "damage": "33 (6d10)",
+      "damage_type": "thunder",
+      "area": "15-foot cube immediately outside the vault",
+      "description": "A magical trap that triggers when the vault door is forcibly pried open, releasing a concussive blast of thunder damage.",
+      "source": "Crystal Chateau"
+    },
+    {
+      "name": "Lockbox Poison Gas Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Forcing open the metal lockbox (prying it open with a successful DC 16 Strength (Athletics) check) causes poison gas to spray outward.",
+      "detection": {
+        "dc": 15,
+        "skill": "Investigation",
+        "detail": "A character who makes a successful DC 15 Intelligence (Investigation) check locates the metal lockbox stowed underneath an upside-down crate in a corner of the room."
+      },
+      "disarm": {
+        "dc": 21,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "The lockbox can be opened safely by a character who makes a successful DC 21 Dexterity check using thieves' tools."
+      },
+      "effect": "Poison gas sprays outward, and the character who opened it must succeed on a DC 15 Constitution saving throw or take 22 (4d10) poison damage and be poisoned for 1 hour.",
+      "save_dc": 15,
+      "save_ability": "Constitution",
+      "damage": "22 (4d10)",
+      "damage_type": "poison",
+      "area": "The character who opened the box",
+      "description": "A metal lockbox hidden under an upside-down crate sprays poison gas when forced open.",
+      "source": "Chapter 4: The Jewel of Hope"
+    },
+    {
+      "name": "Secret Armory Glyph Trap",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "If a creature enters the armory without first saying a prayer to Corellon",
+      "detection": {
+        "dc": 17,
+        "skill": "Investigation",
+        "detail": "A character who searches the opening for traps and succeeds on a DC 17 Intelligence (Investigation) check spots a tiny glyph inscribed along the edge of the opening, in a location that's not visible while the trapdoor is closed."
+      },
+      "disarm": {
+        "dc": 17,
+        "method": "dispel magic or mason's tools",
+        "detail": "If this glyph is dispelled with a successful casting of dispel magic (DC 17) or defaced using mason's tools or similar equipment, the following trap ceases to function."
+      },
+      "effect": "a burst of radiance flares from the chamber. Each creature in the armory and within 15 feet of the trapdoor must make a DC 18 Constitution saving throw, taking 33 (6d10) radiant damage on a failed save, or half as much damage on a successful one. This trap can be triggered only once.",
+      "save_dc": 18,
+      "save_ability": "Constitution",
+      "damage": "33 (6d10)",
+      "damage_type": "radiant",
+      "area": "Each creature in the armory and within 15 feet of the trapdoor",
+      "description": "A magical glyph trap in a secret armory that triggers a burst of radiant damage if a creature enters without praying to Corellon.",
+      "source": "Critical Role: Call of the Netherdeep p.Chapter 5"
+    },
+    {
+      "name": "Scalding Pit Boiling Water",
+      "type": "hazard",
+      "danger": "dangerous",
+      "trigger": "Removing either the ruidium greatsword or the ruidium shield from its resting place causes the vents in the floor to flare with bright red light and spew forth a flood of boiling-hot water, drastically raising the temperature of the water in the chamber to a height of 30 feet.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No detection check specified; the trap is triggered by removing the items."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method specified; the scalding heat lasts for 1 hour, after which the vents return to normal."
+      },
+      "effect": "Any creature that starts its turn in the boiling water must make a DC 15 Constitution saving throw, taking 21 (6d6) fire damage on a failed save, or half as much damage on a successful one. The scalding heat lasts for 1 hour.",
+      "save_dc": 15,
+      "save_ability": "Constitution",
+      "damage": "21 (6d6)",
+      "damage_type": "fire",
+      "area": "The water in the chamber up to a height of 30 feet.",
+      "description": "Removing either ruidium item from its vent triggers a flood of boiling-hot water in the Scalding Pit chamber.",
+      "source": "Critical Role: Call of the Netherdeep p. (N12)"
+    },
+    {
+      "name": "Ruidium Tendrils",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "When all three serpentmaws in area N13 are dead, dozens of tendrils of ruidium emerge from the statues in the cavern.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No detection check specified; tendrils appear automatically after the serpentmaws are killed."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Each tendril can be destroyed; it is an Ooze with AC 15, 10 hit points, immunity to all damage except slashing, Strength/Dexterity/Constitution 20, Intelligence/Wisdom/Charisma 1. A tendril reduced to 0 hit points disintegrates."
+      },
+      "effect": "Any creature that enters the cavern or starts its turn there must succeed on a DC 15 Dexterity saving throw or be grappled by a tendril (escape DC 15). While grappled, the creature is also restrained. On initiative count 0, each creature grappled by a tendril takes 3 (1d6) piercing damage and 3 (1d6) psychic damage as it is flung against a ruidium spike. The creature remains grappled and must succeed on a DC 20 Charisma saving throw or gain 1 level of exhaustion. If not already suffering from ruidium corruption, it becomes corrupted when it fails the saving throw.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "3 (1d6) piercing and 3 (1d6) psychic",
+      "damage_type": "piercing and psychic",
+      "area": "The entire cavern of area N13.",
+      "description": "After the serpentmaws are slain, ruidium tendrils emerge from statues and grapple creatures in the cavern.",
+      "source": "Critical Role: Call of the Netherdeep p. (N13)"
     }
   ],
   "_chapters_completed": [
-    "Critical Role: Call of the Netherdeep"
+    "Critical Role: Call of the Netherdeep",
+    "Ch. 2: The Leave-Taking",
+    "Appendix B: Magic Items",
+    "Appendix D: Fragments of Suffering",
+    "Ch. 4: The Jewel of Hope",
+    "Appendix E: Story Concept Art",
+    "Appendix C: Medals of Merit",
+    "Ch. 6: The Netherdeep",
+    "Introduction: Answering the Call",
+    "Ch. 1: A Fateful Competition",
+    "Ch. 7: The Heart of Despair",
+    "Appendix A: Creatures",
+    "Ch. 5: The Drowned City",
+    "Ch. 3: Bazzoxan"
   ],
   "_chapter_errors": {},
   "_current_chapter": "",
-  "_total_chapters": 1,
+  "_total_chapters": 13,
   "_book_slug": "CotN",
   "_book_title": "critical role presents call of the netherdeep dd adventure book wizards rpg team compress",
   "_completed": true,
-  "_timestamp": 1782522369.282396
+  "_timestamp": 1790808767.9079082
 }

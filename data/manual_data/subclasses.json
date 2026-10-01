@@ -7758,5 +7758,251 @@
     ],
     "source": "(Warlock 017 FINAL v2, p.21)",
     "_source_manual": "WFV"
+  },
+  {
+    "name": "Elven Archer",
+    "class": "Ranger",
+    "description": "A master of the bow who hunts specific foes with deadly precision, imbues arrows with arcane energy, and moves unseen through the wilderness.",
+    "features": [
+      {
+        "name": "Track",
+        "level": 1,
+        "description": "The elven archer gains Track as a bonus feat."
+      },
+      {
+        "name": "Wild Empathy",
+        "level": 1,
+        "description": "The elven archer can improve the attitude of an animal. This ability functions just like a Diplomacy check made to improve the attitude of a person. The elven archer rolls 1d20 and adds his elven archer level and his Charisma modifier to determine the wild empathy check result. The typical domestic animal has a starting attitude of indifferent, while wild animals are usually unfriendly. To use wild empathy, the elven archer and the animal must be within 30 ft. of one another under normal visibility conditions. Influencing an animal in this way takes 1 minute, but it might take more or less time under especially stressful or favorable conditions. The elven archer can also use this ability to influence a magical beast with an Intelligence score of 1 or 2, with a -4 penalty on the check."
+      },
+      {
+        "name": "Bonus Feat",
+        "level": 2,
+        "description": "Elven archers are bow experts. At 2nd level, and every three levels thereafter, the elven archer receives a bonus feat in addition to those gained from normal advancement. The elven archer must meet all the prerequisites of the feat prior to selecting it. An elven archer may select these bonus feats from the below-listed combat feats with this class ability. For prerequisites, treat his elven archer level -3 as his fighter level. For example, a 7th-level elven archer qualifies for Weapon Specialization because he treats his fighter level as 4th. Elven archers may select these bonus feats from the following list: Deadly Aim, Far Shot, Greater Weapon Focus, Greater Weapon Specialization, Improved Critical, Improved Precise Shot, Manyshot, Pinpoint Targeting, Point Blank Shot, Precise Shot, Rapid Shot, Shot on the Run, Weapon Focus, and Weapon Specialization. Elven archers must select a bow when selecting a feat that allows them to choose a weapon, such as Improved Critical or Weapon Focus."
+      },
+      {
+        "name": "Preferred Target",
+        "level": 3,
+        "description": "Much like a ranger, an elven archer becomes an expert at hunting a specific foe. At 3rd level, the elven archer selects a creature type (and subtype where appropriate) from the list of ranger’s favored enemies. Against those creatures, he gains a +2 bonus on Bluff, Knowledge, Perception, Sense Motive, and Survival check. Likewise, he gets a +2 bonus on weapon attack and damage rolls against them. The elven archer may make Knowledge skill checks untrained when attempting to identify these creatures. At 10th level, the bonus increases to +4, and at 17th level it increases to +6. (Unlike a ranger, an elven archer does not select an additional favored creature type at these levels.)"
+      },
+      {
+        "name": "Precision",
+        "level": 4,
+        "description": "Beginning at 4th level, an elven archer adds the indicated damage bonus to any shot he makes against a foe who is denied Dexterity to AC (whether the target already has a Dexterity bonus or not). This extra damage is 1d6 at 5th level, and it only applies when the elven archer uses a bow while within 30 feet of the target. The extra damage increases by 1d6 every five elven archer levels thereafter. At 16th level, when the elven archer gains the ability to flank with the bow, this damage also applies to shots against flanked targets. The elven archer must be able to see the target well enough to pick out a vital spot and must be able to reach such a spot. A rogue cannot sneak attack while striking a creature with concealment."
+      },
+      {
+        "name": "Spells",
+        "level": 4,
+        "description": "Beginning at 4th level, an elven archer can call upon his ancestors and forebears, granting him the ability to cast a small number of divine spells, which are drawn from the ranger’s spell list. To prepare or cast a spell, an elven archer must have a Wisdom score of 10 + the spell level. The Difficulty Class for a saving throw against an elven archer’s spell is 10 + the spell level + the elven archer’s Wisdom modifier. Like other spellcasters, an elven archer can cast only a certain number of spells of each spell level per day. His base daily spell allotment is given on Table 1: Elven Archer. In addition, he receives bonus spells per day if he has a high Wisdom score. When Table 1: Elven Archer indicates that the elven archer gets 0 spells per day of a given spell level, he gains only the bonus spells he would be entitled to based on his Wisdom score for that spell level. An elven archer must spend 1 hour per day in quiet meditation with the spirits to regain his daily allotment of spells. An elven archer may prepare and cast any spell on the ranger spell list, provided that he can cast spells of that level, but he must choose which spells to prepare during his daily meditation. Through 3rd level, an elven archer has no caster level. At 4th level and higher, his caster level is equal to his elven archer level - 3."
+      },
+      {
+        "name": "Camouflage",
+        "level": 6,
+        "description": "The elven archer may use the Stealth skill to hide in any natural environment, even if he does not have cover or concealment."
+      },
+      {
+        "name": "Lightfoot",
+        "level": 7,
+        "description": "An elven archer spends his life in the woods, often far from home. Starting at 7th level, an elven archer may move through any sort of undergrowth (such as natural thorns, briars, overgrown areas, and similar terrain) at his normal speed and without taking damage or suffering any other impairment. Thorns, briars, and overgrown areas that have been magically manipulated to impede motion, however, still affect him. In addition, the elven archer leaves no trail in natural surroundings and cannot be tracked. He may choose to leave a trail if so desired."
+      },
+      {
+        "name": "Swift Tracker",
+        "level": 8,
+        "description": "Beginning at 8th level, the elven archer can move at his normal speed while using Survival to follow tracks without taking the normal -5 penalty. He takes only a -10 penalty (instead of the normal -20) when moving at up to twice normal speed while tracking."
+      },
+      {
+        "name": "Enchant Arrows",
+        "level": 9,
+        "description": "Beginning at 9th level, the elven archer gains the ability to imbue arrows (only arrows) with ambient arcane energy once per day. He must spend 15 minutes communing with his ancestral spirits to gain this ability; at the end of the ritual, he imbues up to 50 arrows with an enhancement of his choice. At 9th level, he may imbue any ability up to a +1 enhancement bonus. Every three levels thereafter, the bonus increases by +1. The elven archer may spend these bonuses as he sees fit. For example, a 12th-level elven archer could enhance his arrows with a +2 bonus, or he could enhance them with a +1 bonus and the keen ability. Once the abilities are set, they cannot be changed until the next day’s ritual. Unlike when crafting magical weapons, the elven archer need not invest an initial +1 enhancement bonus before imbuing the arrows with special properties. For example, a 12th-level elven archer could imbue his arrows with keen and flaming. The enchantment lasts for one hour per level.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Close Combat Shot",
+        "level": 10,
+        "description": "Beginning at 10th level, the elven archer no longer provokes attacks of opportunity when making a ranged attack with his bow. When making other ranged attacks, such as throwing a dagger, the elven archer provokes as normal."
+      },
+      {
+        "name": "Take Aim",
+        "level": 13,
+        "description": "At 13th level, an elven archer may spend a full round to aim at a target. If the target remains stationary (moves no more than 5 ft), he may add half his class level to all ranged attacks he makes against that target within the next round."
+      },
+      {
+        "name": "Threatening Shot",
+        "level": 16,
+        "description": "Beginning at 16th level, the elven archer is so deadly with his bow, he may flank targets. He threatens an area at 10 ft. away, but not adjacent."
+      }
+    ],
+    "source": "(Kobold Quarterly 20, p.11)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Battle Captain",
+    "class": "Warrior",
+    "description": "Not everyone leads by inspiring example. Some lead through intelligence, cunning, and a sharp tongue. Battle captains are knowledgeable in sound tactics and strategy. Experienced fighters follow battle captains because they get results, not because of their charismatic personalities or lack thereof.",
+    "features": [
+      {
+        "name": "Battle Captain Talent",
+        "level": 1,
+        "description": "Class: Warrior. Requirement: You must have Strength and Cunning 3 or higher. You know how to best direct your allies in a fight. Novice: You can command your allies to move into better positions during combat. You must use a minor action to use this ability. For each point of your Cunning score, one ally can move 2 yards. No ally can move more than 2 yards each time you use this ability. Allies must be within 10 yards of you to take advantage of this ability but can move beyond this range using this ability. Journeyman: You can direct your allies in attacking or defending. You can use an activate action to give all allies within 8 yards of you either a +1 to attack or a +1 to Defense until the beginning of your next turn. Master: When you use the lightning attack stunt, you can command one of your allies to make the second attack instead of yourself. Choose one ally within 10 yards to make an immediate melee or ranged attack against a target within range. The ally must have a loaded ranged weapon to make a ranged attack. Using the lightning attack stunt in this way costs only 2 SP instead of the usual 3."
+      }
+    ],
+    "source": "(Kobold Quarterly 20, p.52)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Elementalist",
+    "class": "Mage",
+    "description": "More than just focusing on Primal magic, an elementalist becomes one with it. They no longer simply manipulate the elements through magic, but their body becomes a conduit for elemental power.",
+    "features": [
+      {
+        "name": "Elementalist Talent",
+        "level": 1,
+        "description": "Class: Mage. Requirement: You must have Constitution and Magic 3 or higher and Primal Magic (novice). Primal magic has infused your body. Novice: You gain AR equal to your Magic score against environmental damage such as extreme cold or heat. You also get a bonus equal to your Magic score to any Constitution (Stamina) tests made due to environmental effects. Journeyman: Add +2 to the spellpower of any Primal spell you cast. Master: When you take damage from Primal spells, you can absorb some of the energy in the form of mana points. You gain MP equal to your Constitution for each D6 of damage caused by the spell. For example, if you have Constitution is 3 and are struck by a Shock spell that does 1D6+4 damage, you would gain 3 MP. You may gain MP above your normal pool of mana points to a maximum of your normal mana plus twice your Magic score. Using this power does not reduce the amount of damage taken."
+      }
+    ],
+    "source": "(Kobold Quarterly 20, p.52)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Master Thief",
+    "class": "Rogue",
+    "description": "Those rogues who dedicate their lives to taking what belongs to others can become master thieves. These rogues specialize in getting past locked doors, avoiding traps, and dipping light fingers into passing pockets.",
+    "features": [
+      {
+        "name": "Master Thief Talent",
+        "level": 1,
+        "description": "Class: Rogue. Requirement: You must have Cunning and Dexterity 3 or higher. You have mastered the thieving arts. Novice: You have become very wary of traps. You get a +2 to all Perception tests to sense or find traps. Journeyman: When using any of the following Dexterity focuses, you can spend 1 SP to have the test take half the time it would normally take: Legerdemain, Lock Picking, Stealth, and Traps. Master: You can use your Bluff rogue power to distract a target while you steal from his pockets or purse. Use the power as written, except instead of backstabbing the target, you get a +2 on any Dexterity (Legerdemain) test made against that target in the same round."
+      }
+    ],
+    "source": "(Kobold Quarterly 20, p.52)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Marksman",
+    "class": "Rogue",
+    "description": "Expertise at ranged weapons can take years and years of practice for some. Others find themselves with natural, raw talent. A marksman is someone who can who can split an arrow with another or throw a dagger into a bull's-eye while blindfolded.",
+    "features": [
+      {
+        "name": "Marksman Talent",
+        "level": 1,
+        "description": "Class: Rogue. Requirement: You must have Dexterity and Perception 3 or better and either Archery Style (novice) or Thrown Weapon Style (novice). Your skills with ranged weapons are unsurpassed. Novice: You have learned how to hit the smallest of targets. When making a ranged attack, you can ignore up to -2 of cover penalties. This means you will suffer no penalties for attacking targets in light cover and only a -1 penalty for attacking targets in heavy cover. Journeyman: You know how to get the best out of your weapons. You can increase the short range of any missile weapon by 20% and the long range by 30%. Round the new ranges up to the nearest even number. Master: You can do additional damage when taking careful aim at your target. When you hit with an attack immediately after taking the Aim action, you get an additional +2 to your damage roll."
+      }
+    ],
+    "source": "(Kobold Quarterly 20, p.53)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Skirmisher",
+    "class": "Rogue",
+    "description": "A rogue specialization for those who prefer to avoid stand-up fights, using movement to gain an advantage or compromise opponents with a stick-and-move fighting style.",
+    "features": [
+      {
+        "name": "Skirmisher Talent",
+        "level": 1,
+        "description": "Class: Rogue. Requirement: You must have Dexterity and Perception 3 or higher. You have developed a stick-and-move fighting style. Novice: If you use a move action to move at least half of your Speed in a round, you gain a +1 to your Defense until the beginning of your next turn. Journeyman: When using the skirmish stunt, the first 2 yards you choose to move yourself costs 0 SP. Moving your opponent and any further movement of yourself costs normal SP. You must generate stunt points to use this ability. Master: You have developed a hit-and-run combat style. If you choose to move as a minor action and attack as your major action in a single round, you can move up to half your Speed before making your attack, then move up to half your Speed after the attack. This ability cannot be used as part of a charge."
+      }
+    ],
+    "source": "(Kobold Quarterly 20, p.53)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "The Bardic Arts",
+    "class": "Bard",
+    "description": "The Bardic Arts is an additional class feature for the bard that allows the character to choose from a variety of artistic and social talents, enhancing their versatility in social encounters and skill challenges.",
+    "features": [
+      {
+        "name": "The Bardic Arts",
+        "level": 1,
+        "description": "Whether trained at a bardic college, apprenticed with a traveling master, or self-educated, you practice the time-honored artistic traditions of the bard. At 1st level, you gain 2 of the following bardic arts of your choice. You gain an additional bardic art at 4th level and another at 8th level.",
+        "uses": null,
+        "recharge": null
+      },
+      {
+        "name": "Cantrip Study",
+        "level": 1,
+        "description": "You’ve delved more into the wizardly arts than other bards, relying on simple magic tricks to illustrate your storytelling. Benefit: Choose two cantrips from those available to wizards.",
+        "uses": null,
+        "recharge": null
+      },
+      {
+        "name": "Carousing",
+        "level": 1,
+        "description": "You can drink dwarves under the table and make eladrin smile. Tavern-keepers know you by name, and you’re hard pressed to find a watering hole that doesn’t welcome your song and wit. Benefit: You always receive free room and board at familiar taverns, and the local patrons often come to your aid in bar fights. When spending time at a tavern, you may attempt to carouse, making a saving throw with a +2 bonus. Failure means you succumb to drunkenness, and the GM provides a suitable awkward plot complication or a new enemy. On a success, you gain something helpful to your current adventure (using the roll results detailed below): 10-14 Songs & Lore: You’ve learned new drinking songs and ribald limericks from a culture, race, or social strata featuring prominently in your current adventure. Whenever you confront antagonistic members of that group, you may use what you’ve learned to defuse hostility and parlay. You may use this song only once in this way. 15-19 Hireling: Whether acquired at the gambling table or after a night of heavy drinking, you gain a free hireling for the rest of your current adventure. Kobold Quarterly #17 describes sample henchmen and hirelings. 20+ Gift: You gain a critically helpful gift useable during your current adventure. The gift may be a one-time use magical item (like a potion or one-charge wand—subject to the GM’s approval), or it may be information, such as the sigil combination for a teleportation circle, a discovered map, or the means to bypass a trap. You may leave the gift undefined until you come to a point in the adventure when you really need a particular item. Then, you just happen to have the perfect thing, and a funny story to go with it! You may receive only one benefit from the Carousing art during an adventure.",
+        "uses": null,
+        "recharge": null
+      },
+      {
+        "name": "Chronicling",
+        "level": 1,
+        "description": "After every adventure your party faces, you take pen to paper, recording those deeds of valor and glory (with a fine editing hand). Perhaps someday you’ll publish your masterpiece, but for now, writing down your exploits helps your storytelling abilities. Benefit: While in any settlement directly helped by your party’s successful deeds, your allies gain +2 to Bluff, Diplomacy, and Intimidate checks.",
+        "uses": null,
+        "recharge": null
+      },
+      {
+        "name": "Etiquette",
+        "level": 1,
+        "description": "Accustomed to the critical eye of court, you are versed in the social customs of various nations, including proper forms of address, the polite technique of agreeably disagreeing, the etiquette of introducing new people to court, and so forth. In your presence, even the most tactless half-orc may be treated with respect and gain the ear of kings. Benefit: When you succeed a Diplomacy check, you reduce the DC of all subsequent Diplomacy checks with the same NPC by 2 for your allies until the end of the encounter. In addition, the first time you succeed at a Diplomacy check in a skill challenge, you gain an extra success.",
+        "uses": null,
+        "recharge": null
+      },
+      {
+        "name": "Friends in Low Places",
+        "level": 1,
+        "description": "You have associations you’d prefer your party didn’t know about – marginal “friends” connected to the pulse of the city and the underworld. Benefit: Streetwise checks never take you longer than 5 minutes. In addition, when in a familiar settlement, you can call in a favor with a Streetwise check once per day; the GM sets the check’s DC according to the nature of the favor. If successful, you gain aid in the form of maps and guard routes, secret doors, a hidden flophouse, legal aid, forged permits, and so forth.",
+        "uses": 1,
+        "recharge": "day"
+      },
+      {
+        "name": "Insult Dueling",
+        "level": 1,
+        "description": "Few traditions are as venerable among bards as the duel of wits. Whether it be trading barbs with a haughty noble over drawn swords, or viciously taunting an evil mastermind, you’ve wield your mockery like a finely edged blade. Benefit: After defeating an intelligent enemy with whom you’ve been insult dueling, you may make a demand of the NPC as a condition of peaceful surrender, and the enemy agrees to follow your terms as long as it abides with his nature. Possible demands may include acting as your temporary guide, giving you the password or other information, surrendering his treasure, providing a false alibi, or anything else the GM deems appropriate.",
+        "uses": null,
+        "recharge": null
+      },
+      {
+        "name": "Master of Disguise",
+        "level": 1,
+        "description": "Jilted lovers, angry lords, vicious debtors, and tenacious guardsmen–all good reasons to learn the art of disguise! You have several alternate identities complete with clothes, contacts, and documentation. Benefit: You have a number of alternate identities equal to your Charisma modifier, and you gain a +5 bonus to Bluff checks to pose as an alternate identity. Depending on the nature of your alternate identity, you might have diplomatic immunity, access to military intelligence, privileges of nobility, or some other benefit while “in disguise.”",
+        "uses": null,
+        "recharge": null
+      },
+      {
+        "name": "Polyglot",
+        "level": 1,
+        "description": "You have an intuitive understanding of the cadence and meaning of the spoken word, and you have a seemingly supernatural ability to bridge language barriers. Benefit: You always understand the gist of a foreign speaker’s conversation (“the keep is under attack”), though not the fine details (“fire giants are smashing in its gates”). In addition, you may learn two extra languages of your choice.",
+        "uses": null,
+        "recharge": null
+      },
+      {
+        "name": "Seduction",
+        "level": 1,
+        "description": "There are charming bards, and then there is you, a master of seduction with all the right moves. You bed nobles, commoners, villains, and heroes, with ease. Sometimes you do so just for the pleasure, but other times, you have alternative motives. Benefit: You can make a Bluff check versus a DC equal to their Insight check (modified by the circumstances) to seduce members of a favorable sex. If you succeed, choose one of these advantages: • Learn the target: Treat your Bluff check result as a monster knowledge check against the NPC. With the GM’s permission, you gather blackmail material. • Intimacy: You gain intimate contact with the NPC, keeping him or her occupied for several hours. Attacking your partner after your rendezvous may provide you the upper hand, as the target is likely surprised, unarmed, prone, or even helpless, at the GM’s discretion. This betrayal is likely an evil act. • Sway: Convince the NPC to take an action to gain your favor, though this action must be something morally acceptable to the character.",
+        "uses": null,
+        "recharge": null
+      },
+      {
+        "name": "Student of Human Nature",
+        "level": 1,
+        "description": "By observing the subtleties of body language and conversation, you can ascertain even deeply hidden conspiracies in a matter of minutes. The slightest glance or change in attitude provides enough fodder for you to read gathered company like an open book. Benefit: Gain +2 on Insight checks. You can make an Insight check without the bonus (GM determines the DC) to study the palette of interactions between all NPCs present. If your check succeeds, you learn the rough nature of relationships between those present, notice any innuendo or conversational undercurrents, and get a read on recent developments or changes in goals or allegiance.",
+        "uses": null,
+        "recharge": null
+      },
+      {
+        "name": "Additional Bardic Art",
+        "level": 4,
+        "description": "You gain an additional bardic art of your choice.",
+        "uses": null,
+        "recharge": null
+      },
+      {
+        "name": "Additional Bardic Art",
+        "level": 8,
+        "description": "You gain an additional bardic art of your choice.",
+        "uses": null,
+        "recharge": null
+      }
+    ],
+    "source": "(Kobold Quarterly 20, p.60)",
+    "_source_manual": "KW"
   }
 ]

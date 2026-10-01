@@ -22,32 +22,10 @@
       "description": "A human that undergoes and survives the yuan-ti transformation ritual retains its traits and gains the following yuan-ti racial traits.",
       "_effects": {
         "Darkvision": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [],
-          "skill_profs": [],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": null,
-          "darkvision": 60,
-          "hp_per_level": 0,
-          "natural_armor": null,
-          "notes": ""
+          "darkvision": 60
         },
         "Innate Spellcasting": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [],
-          "skill_profs": [],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": null,
-          "darkvision": null,
-          "hp_per_level": 0,
-          "natural_armor": null,
-          "notes": "Knows poison spray cantrip. Can cast animal friendship at will (snakes only). At 3rd level, can cast suggestion once per long rest. Charisma is the spellcasting ability."
+          "notes": "Knows the poison spray cantrip. Can cast animal friendship at will, but only targeting snakes. Starting at 3rd level, can cast suggestion once per long rest. Charisma is the spellcasting ability for these spells."
         }
       }
     },
@@ -89,7 +67,7 @@
         }
       ],
       "subraces": [],
-      "description": "Tabaxi are feline humanoids with claws and agility, often resembling anthropomorphic cats.",
+      "description": "Tabaxi are feline humanoids with claws and agility, often appearing as hunters or assassins.",
       "_effects": {
         "Feline Agility": {
           "notes": "Can double speed until end of turn when moving on its turn in combat; recharges after moving 0 feet on a turn."
@@ -385,7 +363,7 @@
       "type": "Weapon",
       "rarity": "uncommon",
       "requires_attunement": false,
-      "description": "Sephirius wore no armor but carried a +1 yklwa (see \"Buying a Special Item\" in chapter 1 for more information on this weapon).",
+      "description": "Sephirius wore no armor but carried a +1 yklwa (see \"Buying a Special Item\" in chapter 1 for more information on this weapon), a dungeoneer's pack, a pouch containing 8 gp, an ivory back scratcher shaped like a dinosaur claw (25 gp), a holy symbol of Bahamut (25 gp), and a red crystal eyeball measuring 1 inch in diameter.",
       "source": "Tomb of the Nine Gods p.32"
     },
     {
@@ -667,16 +645,120 @@
       "requires_attunement": true,
       "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) slashing damage, or 8 (1d10 + 3) slashing damage when used with two hands, plus 7 (2d6) fire damage.",
       "source": "Appendix D: Monsters and NPCs"
+    },
+    {
+      "name": "Control Amulet for a Shield Guardian",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "The queen wears a bronze and adamantine medallion that has the word \"Vorn\" etched into it. This is the control amulet for a shield guardian (see \"Vorn,\" page 83). None of the goblins have any notion the amulet is related to the object they venerate as a minor deity.",
+      "source": "Tomb of Annihilation p.90"
+    },
+    {
+      "name": "Withers's Skeletal Songbird",
+      "type": "Wondrous item",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "Withers's skeletal songbird is tame but cantankerous. It can't fly, but it can be sold to a buyer in Port Nyanzaru for 75 gp.",
+      "source": "Tomb of Annihilation p.148"
+    },
+    {
+      "name": "Withers's Bronze Mask",
+      "type": "Wondrous item",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "Withers's bronze mask is worth 25 gp.",
+      "source": "Tomb of Annihilation p.148"
+    },
+    {
+      "name": "I'jin's Golden Sarcophagus",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "I'jin's golden sarcophagus cannot be opened by any means other than stepping on eight floor tiles in the correct order. The sarcophagus is worth 7,500 gp intact but weighs 75 pounds. Removing it from the funeral barge causes four floor-to-ceiling walls of force (like those created by a wall of force spell) to surround the dais on all four sides. The walls last until destroyed or until the sarcophagus is returned to the barge.",
+      "source": "Tomb of the Nine Gods p.35"
+    },
+    {
+      "name": "Jeweled Cockroach Jewelry Box",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "The cockroach-shaped jewelry box is made of gold, set with precious gems (including tiny black pearls for its eyes), and worth 1,500 gp. It weighs 5 pounds and contains two items: a small jade key shaped like a crocodile (designed to fit in the keyhole in area 62B) and a necklace of fireballs with eight beads remaining.",
+      "source": "Tomb of the Nine Gods p.53"
+    },
+    {
+      "name": "Hornet Mask",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A hornet mask made of painted gold (250 gp).",
+      "source": "Tomb of the Nine Gods p.53"
+    },
+    {
+      "name": "Golden Sun",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A two-foot-diameter orb hanging from a chain above the sarcophagus is made of hammered gold to resemble a smiling sun. Whenever the sun or its chain are touched or damaged, the sun's smile fades to an inscrutable expression, and it emits tremendous heat in a 20-foot-radius sphere centered on itself. Any creature that starts its turn in the area takes 10 (3d6) fire damage. This effect ends if all creatures leave the affected area. The first time the queen's remains or any of her treasures are removed from the sarcophagus, the sun's expression turns angry as it emits rays of searing light. Each creature within 30 feet of the sun that doesn't have total cover against it must succeed on a DC 14 Dexterity saving throw or be struck by a ray, which deals 42 (12d6) fire damage. The sun and its chain are treated as a single Small object with AC 15; 22 hit points; and immunity to fire, poison, and psychic damage. The sun loses its magical properties when it shoots its rays or is destroyed.",
+      "source": "Tomb of the Nine Gods p.53"
+    },
+    {
+      "name": "Charm of Nine Lives",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "When you drop to 0 hit points as a result of taking damage, you can choose to drop to 1 hit point instead. Once used nine times, the charm goes away.",
+      "source": "Tomb of the Nine Gods p.128"
+    },
+    {
+      "name": "Charm of the Crystal Heart",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "This charm grants you immunity to piercing and slashing damage from nonmagical attacks, but you gain vulnerability to bludgeoning damage. These effects last for 10 days, after which the charm vanishes from you.",
+      "source": "Tomb of the Nine Gods p.128"
+    },
+    {
+      "name": "Charm of Treasure Sense",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "While this charm lasts, you can use an action to pinpoint, by scent, the location of precious metals and stones, such as coins and gems, within 30 feet of you. The effect lasts for 3 days, after which the charm vanishes from you.",
+      "source": "Tomb of the Nine Gods p.128"
+    },
+    {
+      "name": "Charm of the Swollen Hag",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "This charm allows you to spit up a frog as an action. The frog understands you and obeys your commands. Once used three times, the charm goes away.",
+      "source": "Tomb of the Nine Gods p.128"
+    },
+    {
+      "name": "Charm of the Maimed",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "This charm allows you to regrow a lost appendage or organ, such as an arm, a foot, or an eye. After it is used once, the charm goes away.",
+      "source": "Tomb of the Nine Gods p.128"
+    },
+    {
+      "name": "Charm of the Ghoul",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "This charm allows you to use an action to eat a mouthful of flesh from a humanoid that has been dead no longer than 1 day. When you do, you regain 3d8 + 3 hit points. Once used three times, the charm goes away.",
+      "source": "Tomb of the Nine Gods p.128"
     }
   ],
   "equipment": [
     {
       "name": "Canoe",
       "type": "Vehicle",
-      "subtype": "Waterborne",
+      "subtype": "",
       "damage": "",
       "properties": [],
-      "cost": "50 gp",
+      "cost": "",
       "weight": 0,
       "source": "ToA"
     },
@@ -685,7 +767,10 @@
       "type": "Adventuring Gear",
       "subtype": "",
       "damage": "",
-      "properties": [],
+      "properties": [
+        "Burns for 8 hours",
+        "Repels normal insects within a 20-foot-radius"
+      ],
       "cost": "1 sp",
       "weight": 0,
       "source": "ToA"
@@ -695,7 +780,11 @@
       "type": "Adventuring Gear",
       "subtype": "",
       "damage": "",
-      "properties": [],
+      "properties": [
+        "Contains 20 applications",
+        "One application protects against normal insects for 24 hours",
+        "Waterproof"
+      ],
       "cost": "1 gp",
       "weight": 0,
       "source": "ToA"
@@ -705,7 +794,11 @@
       "type": "Adventuring Gear",
       "subtype": "",
       "damage": "",
-      "properties": [],
+      "properties": [
+        "Catches 2 gallons of drinking water per inch of rainfall",
+        "Holds up to 8 gallons",
+        "Folds up for easy transport"
+      ],
       "cost": "1 gp",
       "weight": 5,
       "source": "ToA"
@@ -733,8 +826,8 @@
     {
       "name": "Yklwa",
       "type": "Weapon",
-      "subtype": "",
-      "damage": "",
+      "subtype": "simple melee",
+      "damage": "1d8 piercing",
       "properties": [],
       "cost": "",
       "weight": 0,
@@ -777,8 +870,9 @@
       "damage": "",
       "properties": [
         "Can be shunted onto side passages using a crowbar",
-        "Brake can fail (10% chance per use if old)",
-        "Requires dinosaur to pull up track"
+        "Has a stout, lever-operated brake",
+        "Brake has a 10 percent chance to fail utterly each time it's used",
+        "Brake can be repaired with spare parts from the supply shed"
       ],
       "cost": "",
       "weight": 0,
@@ -890,7 +984,7 @@
     },
     {
       "name": "Artisan's Tools",
-      "type": "Tools",
+      "type": "Tool",
       "subtype": "",
       "damage": "",
       "properties": [],
@@ -1011,18 +1105,18 @@
       "source": "ToA"
     },
     {
-      "name": "Carnelian gemstones",
+      "name": "Carnelian gemstone",
       "type": "Treasure",
       "subtype": "",
       "damage": "",
       "properties": [],
-      "cost": "50 gp each",
+      "cost": "50 gp",
       "weight": 0,
       "source": "ToA"
     },
     {
       "name": "Dancing Monkey Fruit",
-      "type": "Flora and Fauna",
+      "type": "Flora",
       "subtype": "",
       "damage": "",
       "properties": [],
@@ -1032,7 +1126,7 @@
     },
     {
       "name": "Menga Leaves (1 ounce)",
-      "type": "Flora and Fauna",
+      "type": "Flora",
       "subtype": "",
       "damage": "",
       "properties": [],
@@ -1042,7 +1136,7 @@
     },
     {
       "name": "Ryath Root",
-      "type": "Flora and Fauna",
+      "type": "Flora",
       "subtype": "",
       "damage": "",
       "properties": [],
@@ -1052,7 +1146,7 @@
     },
     {
       "name": "Sinda Berries (10)",
-      "type": "Flora and Fauna",
+      "type": "Flora",
       "subtype": "",
       "damage": "",
       "properties": [],
@@ -1062,7 +1156,7 @@
     },
     {
       "name": "Wild Root",
-      "type": "Flora and Fauna",
+      "type": "Flora",
       "subtype": "",
       "damage": "",
       "properties": [],
@@ -1072,7 +1166,7 @@
     },
     {
       "name": "Wukka Nut",
-      "type": "Flora and Fauna",
+      "type": "Flora",
       "subtype": "",
       "damage": "",
       "properties": [],
@@ -1082,7 +1176,7 @@
     },
     {
       "name": "Yahcha",
-      "type": "Flora and Fauna",
+      "type": "Fauna",
       "subtype": "",
       "damage": "",
       "properties": [],
@@ -1092,11 +1186,56 @@
     },
     {
       "name": "Zabou",
-      "type": "Flora and Fauna",
+      "type": "Flora",
       "subtype": "",
       "damage": "",
       "properties": [],
       "cost": "10 gp",
+      "weight": 0,
+      "source": "ToA"
+    },
+    {
+      "name": "Heavy crossbow",
+      "type": "Weapon",
+      "subtype": "martial ranged",
+      "damage": "1d10 piercing",
+      "properties": [
+        "ammunition (range 100/400)",
+        "heavy",
+        "loading",
+        "two-handed"
+      ],
+      "cost": "",
+      "weight": 0,
+      "source": "ToA"
+    },
+    {
+      "name": "Crossbow bolts (200)",
+      "type": "Ammunition",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "",
+      "weight": 0,
+      "source": "ToA"
+    },
+    {
+      "name": "Dwarven half-plate armor",
+      "type": "Armor",
+      "subtype": "medium",
+      "damage": "",
+      "properties": [],
+      "cost": "",
+      "weight": 0,
+      "source": "ToA"
+    },
+    {
+      "name": "Opalescent Bracelet",
+      "type": "Treasure",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "75 gp",
       "weight": 0,
       "source": "ToA"
     }
@@ -4714,6 +4853,146 @@
       "reactions": [],
       "legendary_actions": [],
       "source": "Appendix D p.240"
+    },
+    {
+      "name": "Bear Statue",
+      "size": "Large",
+      "type": "vehicle (siege)",
+      "alignment": "unaligned",
+      "armor_class": 17,
+      "ac_type": "natural armor",
+      "hit_points": "45",
+      "speed": "0 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 10,
+        "constitution": 10,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [
+        "bludgeoning, piercing, and slashing from nonmagical attacks",
+        "poison",
+        "psychic"
+      ],
+      "condition_immunities": [],
+      "senses": "none",
+      "languages": [],
+      "challenge_rating": "0",
+      "xp": 0,
+      "features": [],
+      "actions": [],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tomb of the Nine Gods p.135"
+    },
+    {
+      "name": "Treasure Chest",
+      "size": "Medium",
+      "type": "vehicle (siege)",
+      "alignment": "unaligned",
+      "armor_class": 13,
+      "ac_type": "natural armor",
+      "hit_points": "30",
+      "speed": "0 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 10,
+        "constitution": 10,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [
+        "poison",
+        "psychic"
+      ],
+      "condition_immunities": [],
+      "senses": "none",
+      "languages": [],
+      "challenge_rating": "0",
+      "xp": 0,
+      "features": [],
+      "actions": [],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tomb of the Nine Gods p.135"
+    },
+    {
+      "name": "Artus Cimber",
+      "size": "Medium",
+      "type": "humanoid (human)",
+      "alignment": "neutral good",
+      "armor_class": 14,
+      "ac_type": "studded leather",
+      "hit_points": "82 (15d8 + 15)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 15,
+        "constitution": 13,
+        "intelligence": 17,
+        "wisdom": 16,
+        "charisma": 18
+      },
+      "saving_throws": {
+        "dex": 5,
+        "cha": 7
+      },
+      "skills": {
+        "Deception": 7,
+        "History": 9,
+        "Insight": 6,
+        "Survival": 9
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "cold (while wearing the Ring of Winter)"
+      ],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [
+        "Common",
+        "Draconic",
+        "Dwarvish",
+        "Goblin"
+      ],
+      "challenge_rating": "7",
+      "xp": 2900,
+      "features": [
+        {
+          "name": "Special Equipment",
+          "description": "Artus wears the Ring of Winter. He and the ring can't be targeted by divination magic or perceived through magical scrying sensors. While attuned to and wearing the ring, Artus ceases to age and is immune to cold damage and the effects of extreme cold.\n\nArtus wields Bookmark, a +3 dagger with additional magical properties. As a bonus action, Artus can activate any one of the following properties while attuned to the dagger, provided he has the weapon drawn:\n• Cause a blue gem set into the dagger's pommel to shed bright light in a 20-foot radius and dim light for an additional 20 feet, or make the gem go dark.\n• Turn the dagger into a compass that, while resting on Artus's palm, points north.\n• Cast dimension door from the dagger. Once this property is used, it can't be used again until the next dawn.\n• Cast compulsion (save DC 15) from the dagger. The range of the spell increases to 90 feet, but the spell targets only spiders that are beasts. Once this property is used, it can't be used again until the next dawn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Artus makes three attacks with Bookmark or his longbow."
+        },
+        {
+          "name": "Bookmark (+3 Dagger)",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 7 (1d4 + 5) piercing damage."
+        },
+        {
+          "name": "Longbow",
+          "description": "Ranged Weapon Attack: +5 to hit, range 150/600 ft., one target. Hit: 6 (1d8 + 2) piercing damage."
+        },
+        {
+          "name": "Ring of Winter",
+          "description": "The Ring of Winter has 12 charges and regains all its expended charges daily at dawn. While attuned to and wearing the ring, Artus can expend the necessary number of charges to activate one of the following properties:\n• Artus can expend 1 charge and use the ring to lower the temperature in a 120-foot-radius sphere centered on a point he can see within 300 feet of him. The temperature in that area drops 20 degrees per minute, to a minimum of -30 degrees Fahrenheit. Frost and ice begin to form on surfaces once the temperature drops below 32 degrees. This effect is permanent unless Artus uses the ring to end the effect as an action, at which point the temperature in the area returns to normal at a rate of 10 degrees per minute.\n• Artus can cast one of the following spells from the ring (spell save DC 17) by expending the necessary number of charges: Bigby's hand (2 charges; the hand is made of ice, is immune to cold damage, and deals bludgeoning damage instead of force damage as a clenched fist), cone of cold (2 charges), flesh to ice (3 charges; as flesh to stone except that the target turns to solid ice with the density and durability of stone), ice storm (2 charges), Otiluke's freezing sphere (3 charges), sleet storm (1 charge), spike growth (1 charge; the spikes are made of ice), or wall of ice (2 charges).\n• Artus can expend the necessary number of charges and use the ring to create either an inanimate ice object (2 charges) or an animated ice creature (4 charges). The ice object can't have any moving parts, must be able to fit inside a 10-foot cube, and has the density and durability of metal or stone (Artus's choice). The ice creature must be modeled after a beast with a challenge rating of 2 or less. The ice creature has the same statistics as the beast it models, with the following changes: the creature is a construct with vulnerability to fire damage, immunity to cold and poison damage, and immunity to the following conditions: charmed, exhaustion, frightened, paralyzed, petrified, and poisoned. The ice creature obeys only its creator's commands. The ice object or creature appears in an unoccupied space within 60 feet of Artus. It melts into a pool of normal water after 24 hours or when it drops to 0 hit points. In extreme heat, it loses 5 (1d10) hit points per minute as it melts. Use the guidelines in chapter 8 of the Dungeon Master's Guide to determine the hit points of an inanimate object if they become necessary."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "ToA p.212"
     }
   ],
   "npcs": [
@@ -5156,7 +5435,7 @@
     },
     {
       "name": "Grig Ruddell",
-      "race": "Illuskan human",
+      "race": "Illuskan Human",
       "class_name": "Veteran",
       "subclass": "",
       "level": 0,
@@ -5171,11 +5450,11 @@
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "The first mate of the Brazen Pegasus, a hulking man whose face is almost hidden by a heavy beard streaked with gray.",
-      "role": "Ally",
+      "description": "Male Illuskan human veteran, first mate of the Brazen Pegasus. A hulking man whose face is almost hidden by a heavy beard streaked with gray. Barely speaks.",
+      "role": "First Mate",
       "is_enemy": false,
       "xp_reward": 0,
-      "source": "Tomb of Annihilation p.20"
+      "source": "Tomb of Annihilation p.19"
     },
     {
       "name": "Jessamine",
@@ -5422,18 +5701,22 @@
       "skills": {},
       "features": [
         {
-          "name": "Background",
+          "name": "Incompetent Fortune Hunter",
           "description": "Spoiled and pompous, Faroul was shipped off by his exasperated parents to Port Nyanzaru and told to make his fortune there. Bursting with coin and ready for adventure, Faroul brought along his carousing companion, Gondolo. Together, they thought they'd soon be living the high life on distant shores. Within a few months, they'd squandered most of Faroul's cash at the dinosaur races and were in debt to numerous bookies and several merchant princes."
         },
         {
-          "name": "Combat Avoidance",
-          "description": "He tells great tales of his battle prowess but he uses his shortsword only in emergencies."
+          "name": "Treasure Map",
+          "description": "In desperation, Gondolo bought a treasure map from a fever-wracked explorer who needed cash to buy passage back to Baldur's Gate. Miraculously, the map accurately indicates the location of Needle's Bones. This hapless pair hope to be hired by adventurers on an equal-shares basis so they can lead the group to what they believe will be an easily claimed dragon's hoard."
+        },
+        {
+          "name": "Physical Description",
+          "description": "Faroul is 5 feet 10 inches tall and 175 pounds. He tells great tales of his battle prowess but he uses his shortsword only in emergencies."
         }
       ],
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "Faroul is 5 feet 10 inches tall and 175 pounds. He is a dandy down on his luck in Port Nyanzaru.",
+      "description": "Faroul is a Neutral Good male Calishite human scout, one of two incompetent fortune hunters in Port Nyanzaru.",
       "role": "Guide",
       "is_enemy": false,
       "xp_reward": 0,
@@ -5454,18 +5737,22 @@
       "skills": {},
       "features": [
         {
-          "name": "Background",
+          "name": "Incompetent Fortune Hunter",
           "description": "Spoiled and pompous, Faroul was shipped off by his exasperated parents to Port Nyanzaru and told to make his fortune there. Bursting with coin and ready for adventure, Faroul brought along his carousing companion, Gondolo. Together, they thought they'd soon be living the high life on distant shores. Within a few months, they'd squandered most of Faroul's cash at the dinosaur races and were in debt to numerous bookies and several merchant princes."
         },
         {
-          "name": "Personality",
-          "description": "He fancies himself a poet, a pugilist, and a philosopher who'll make up important-sounding facts when he runs out of actual ones. He has a knack for narrowly escaping the jaws of peril and has the normal halfling's luck."
+          "name": "Treasure Map",
+          "description": "In desperation, Gondolo bought a treasure map from a fever-wracked explorer who needed cash to buy passage back to Baldur's Gate. Miraculously, the map accurately indicates the location of Needle's Bones. This hapless pair hope to be hired by adventurers on an equal-shares basis so they can lead the group to what they believe will be an easily claimed dragon's hoard."
+        },
+        {
+          "name": "Physical Description",
+          "description": "Gondolo is 3 feet 6 inches tall and 80 flaccid pounds. He fancies himself a poet, a pugilist, and a philosopher who'll make up important-sounding facts when he runs out of actual ones. He has a knack for narrowly escaping the jaws of peril and has the normal halfling's luck."
         }
       ],
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "Gondolo is 3 feet 6 inches tall and 80 flaccid pounds. He is a dandy down on his luck in Port Nyanzaru.",
+      "description": "Gondolo is a Chaotic Good male lightfoot halfling scout with 13 hit points, one of two incompetent fortune hunters in Port Nyanzaru.",
       "role": "Guide",
       "is_enemy": false,
       "xp_reward": 0,
@@ -5498,14 +5785,23 @@
         {
           "name": "One-Armed",
           "description": "He wields a battleaxe instead of a greataxe that deals 7 (1d8 + 3) slashing damage on a hit. Hew can't wield the weapon with two hands, since he's missing his left arm."
+        },
+        {
+          "name": "Dragon Slayer Goal",
+          "description": "Three years ago, Hew was part of a dwarven expedition seeking to reopen Wyrmheart Mine. The expedition encountered Tinder the red dragon. Hew alone escaped, and only after the dragon bit off his left arm. Hew wants to return to the mine and slay the dragon, but he needs a band of stout-hearted adventurers to help him. If the characters hire him as a guide, Hew says he can lead them wherever they want, but he'll only take them to Wyrmheart Mine."
         }
       ],
-      "actions": [],
+      "actions": [
+        {
+          "name": "Battleaxe",
+          "description": "Melee Weapon Attack: deals 7 (1d8 + 3) slashing damage on a hit."
+        }
+      ],
       "equipment": [
         "battleaxe"
       ],
       "spellcasting": null,
-      "description": "Three years ago, Hew was part of a dwarven expedition seeking to reopen Wyrmheart Mine. The expedition encountered Tinder the red dragon. Hew alone escaped, and only after the dragon bit off his left arm. Hew wants to return to the mine and slay the dragon, but he needs a band of stout-hearted adventurers to help him.",
+      "description": "Hew is a shield dwarf berserker with these changes: Hew is chaotic neutral. He has Survival +4. He has resistance to poison damage and advantage on saving throws against being poisoned. He has darkvision out to a range of 60 feet. He wields a battleaxe instead of a greataxe that deals 7 (1d8 + 3) slashing damage on a hit. Hew can't wield the weapon with two hands, since he's missing his left arm.",
       "role": "Guide",
       "is_enemy": false,
       "xp_reward": 0,
@@ -5527,17 +5823,17 @@
       "features": [
         {
           "name": "Secret Goal",
-          "description": "He is secretly looking for adventurers of the right skill and fortitude to help him reclaim Hrakhamar—or at least to sneak into its treasury and retrieve Moradin's Gauntlet, a dwarven relic."
+          "description": "Musharib (LG male albino dwarf spirit warrior; see appendix D) will gladly serve as a guide out of Port Nyanzaru, but he is secretly looking for adventurers of the right skill and fortitude to help him reclaim Hrakhamar- or at least to sneak into its treasury and retrieve Moradin's Gauntlet, a dwarven relic."
         },
         {
-          "name": "Dwarven Bond",
-          "description": "If there are any dwarves in the player characters' party, Musharib locks onto them and appeals to their love of dwarvenkind to aid him in reclaiming his clan's ancestral forge."
+          "name": "Dwarf Affinity",
+          "description": "If there are any dwarves in the player characters' party, Musharib locks onto them and appeals to their love of dwarvenkind to aid him in reclaiming his clan's ancestral forge. In general, he directs his questions and answers to the naga if they're looking for guidance."
         }
       ],
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "Musharib (LG male albino dwarf spirit warrior; see appendix D) will gladly serve as a guide out of Port Nyanzaru.",
+      "description": "Musharib is a Lawful Good male albino dwarf spirit warrior who serves as a guide out of Port Nyanzaru.",
       "role": "Guide",
       "is_enemy": false,
       "xp_reward": 0,
@@ -5560,7 +5856,7 @@
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "Qawasha (NG male Chultan druid) is a member of the Emerald Enclave based in Fort Beluarian. The druid travels with a vegepygmy companion named Kupalue, a Chultan word that means \"walking weed.\" Qawasha often refers to his companion simply as Weed. They communicate with each other using their own unique sign language. Qawasha would like to rid the jungle of its undead menace, so he deliberately leads adventurers through undead-infested regions. As he travels through the jungle, Qawasha calls out the names of unusual flora and fauna around him. The druid also has a knack for camping in places where chwingas dwell, and he has experience dealing with the elemental spirits. Qawasha stands 6 feet 2 inches tall and weighs 180 pounds.",
+      "description": "Qawasha (NG male Chultan druid) is a member of the Emerald Enclave based in Fort Beluarian. The druid travels with a vegepygmy companion named Kupalue. Qawasha would like to rid the jungle of its undead menace, so he deliberately leads adventurers through undead-infested regions. As he travels through the jungle, Qawasha calls out the names of unusual flora and fauna around him. The druid also has a knack for camping in places where chwingas dwell, and he has experience dealing with the elemental spirits. Qawasha stands 6 feet 2 inches tall and weighs 180 pounds.",
       "role": "Guide",
       "is_enemy": false,
       "xp_reward": 0,
@@ -5632,7 +5928,7 @@
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "Flask of Wine (CG male tabaxi hunter) is a sibling of River Mist. They are in league with the Zhentarim. Flask seldom speaks except to agree with River, often repeating the last few words of River's utterance (with a slight lisp) while nodding in assent. Despite this laconic nature, he enjoys being among people and might even be considered gregarious, for a tabaxi. He is tall and lanky (5 feet 8 inches and 140 pounds).",
+      "description": "Flask of Wine (CG male tabaxi hunter) is a sibling in league with the Zhentarim. Flask seldom speaks except to agree with River, often repeating the last few words of River's utterance (with a slight lisp) while nodding in assent. Despite this laconic nature, he enjoys being among people and might even be considered gregarious, for a tabaxi. He is tall and lanky (5 feet 8 inches and 140 pounds). He and his sister can guide characters to Firefinger and Dungrunglung.",
       "role": "Guide",
       "is_enemy": false,
       "xp_reward": 0,
@@ -5707,8 +6003,8 @@
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "CN female Chultan human scout who leads a ragtag troop of Chultan hunters and scouts consisting of fifteen tribal warriors.",
-      "role": "Ally",
+      "description": "Finally, the fort is supported by a ragtag troop of Chultan hunters and scouts consisting of fifteen tribal warriors led by Lorsa Bilwatal (CN female Chultan human scout) and Niles Breakbone's longtime friend, WulfRygor (CG male half-elf scout).",
+      "role": "Scout leader",
       "is_enemy": false,
       "xp_reward": 0,
       "source": "Tomb of Annihilation p.17"
@@ -5730,8 +6026,8 @@
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "CG male half-elf scout and longtime friend of Niles Breakbone, part of the Chultan scout cadre.",
-      "role": "Ally",
+      "description": "Finally, the fort is supported by a ragtag troop of Chultan hunters and scouts consisting of fifteen tribal warriors led by Lorsa Bilwatal (CN female Chultan human scout) and Niles Breakbone's longtime friend, WulfRygor (CG male half-elf scout).",
+      "role": "Scout leader",
       "is_enemy": false,
       "xp_reward": 0,
       "source": "Tomb of Annihilation p.17"
@@ -5761,11 +6057,11 @@
     },
     {
       "name": "Ord Firebeard",
-      "race": "",
-      "class_name": "",
+      "race": "Gold dwarf",
+      "class_name": "Veteran",
       "subclass": "",
       "level": 0,
-      "alignment": "",
+      "alignment": "Lawful Good",
       "armor_class": 0,
       "hit_points": "",
       "speed": "",
@@ -5776,19 +6072,19 @@
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "One of Commander Breakbone's two immediate subordinates who does a commendable job of managing the camp in the absence of effective leadership from Breakbone.",
-      "role": "Ally",
+      "description": "Breakbone has two captains under his command: Ord Firebeard (LG male gold dwarf veteran) and Perne Salhana (LG female Tethyrian human veteran).",
+      "role": "Captain",
       "is_enemy": false,
       "xp_reward": 0,
       "source": "Tomb of Annihilation p.17"
     },
     {
       "name": "Perne Salhana",
-      "race": "",
-      "class_name": "",
+      "race": "Tethyrian human",
+      "class_name": "Veteran",
       "subclass": "",
       "level": 0,
-      "alignment": "",
+      "alignment": "Lawful Good",
       "armor_class": 0,
       "hit_points": "",
       "speed": "",
@@ -5799,19 +6095,19 @@
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "One of Commander Breakbone's two immediate subordinates who does a commendable job of managing the camp in the absence of effective leadership from Breakbone.",
-      "role": "Ally",
+      "description": "Breakbone has two captains under his command: Ord Firebeard (LG male gold dwarf veteran) and Perne Salhana (LG female Tethyrian human veteran).",
+      "role": "Captain",
       "is_enemy": false,
       "xp_reward": 0,
       "source": "Tomb of Annihilation p.17"
     },
     {
       "name": "Sister Cyas",
-      "race": "",
-      "class_name": "",
+      "race": "Chondathan human",
+      "class_name": "Priest",
       "subclass": "",
       "level": 0,
-      "alignment": "",
+      "alignment": "Lawful Good",
       "armor_class": 0,
       "hit_points": "",
       "speed": "",
@@ -5822,8 +6118,8 @@
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "An acolyte tending the sick in the field hospital tents. If characters provide substantial medical aid, she becomes their staunch defender against Commander Breakbone's unreasonable demands.",
-      "role": "Ally",
+      "description": "This is supplemented by a religious corps of six acolytes led by Sister Cyas (LG female Chondathan human priest of Helm).",
+      "role": "Religious leader",
       "is_enemy": false,
       "xp_reward": 0,
       "source": "Tomb of Annihilation p.17"
@@ -5845,8 +6141,8 @@
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "Nrak is a hate-filled creature with a scar that begins at the top of its head and cuts down the right side of its face and chest to below its right wing.",
-      "role": "Enemy",
+      "description": "Nrak is the hate-filled leader of the pterafolk flock lairing atop Firefinger. It has a scar that begins at the top of its head and cuts down the right side of its face and chest to below its right wing. Nrak has 40 hit points.",
+      "role": "Pterafolk Leader",
       "is_enemy": true,
       "xp_reward": 0,
       "source": "Tomb of Annihilation p.53"
@@ -6004,7 +6300,7 @@
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "A sharp-tongued old man who runs the Flaming Fist provisioner (sutler), a store that serves the soldiers of the Flaming Fist exclusively.",
+      "description": "The fort provisioner, or sutler, is a store that serves the soldiers of the Flaming Fist exclusively. It doesn't have much variety and the prices aren't great, but some elements of the garrison appreciate its \"no civilians allowed\" policy. It sells basic necessities during the day and serves food and drink in the evening. The store is run by a sharp-tongued old man named Jaro.",
       "role": "Provisioner",
       "is_enemy": false,
       "xp_reward": 0,
@@ -6542,8 +6838,8 @@
     },
     {
       "name": "Queen Grabstab",
-      "race": "Goblin (Batiri)",
-      "class_name": "Goblin Boss",
+      "race": "Goblin",
+      "class_name": "",
       "subclass": "",
       "level": 0,
       "alignment": "",
@@ -6557,11 +6853,11 @@
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "Queen Grabstab is a goblin boss who leads the Biting Ant tribe of Batiri goblins in Yellyark.",
+      "description": "Queen Grabstab is a goblin boss who rules the Batiri village. She wears a bronze and adamantine medallion that is the control amulet for a shield guardian. Two goblins always stand guard outside her hut, and four more goblins (her adult children and attendants) are inside with her.",
       "role": "Enemy",
       "is_enemy": true,
       "xp_reward": 0,
-      "source": "Tomb of Annihilation p.60"
+      "source": "Tomb of Annihilation p.90"
     },
     {
       "name": "Orvex",
@@ -7149,6 +7445,160 @@
       "is_enemy": false,
       "xp_reward": 50,
       "source": "Tomb of Annihilation p.235"
+    },
+    {
+      "name": "K'lahu",
+      "race": "Chultan human",
+      "class_name": "Thug",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A bookie who takes bets at Executioner's Run (see area 3).",
+      "role": "Quest giver",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tomb of Annihilation p.15"
+    },
+    {
+      "name": "Niles Breakbone",
+      "race": "Chondathan human",
+      "class_name": "Noble",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Lawful Good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "The templar in charge is a devout worshiper of Tyr named Niles Breakbone (LG male Chondathan human noble), a man who's dedicated to everything the Order of the Gauntlet represents but poorly suited to commanding a post like Camp Vengeance.",
+      "role": "Commander",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tomb of Annihilation p.17"
+    },
+    {
+      "name": "Korhie Donadrue",
+      "race": "Chondathan human",
+      "class_name": "Spy",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Lawful Good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Chief armorer for the fort. Having spent years as an adventurer himself before becoming a smith, he enjoys having adventurers and explorers spend time in his work area, swapping tales and sharing news of the world.",
+      "role": "Merchant",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tomb of Annihilation p.55"
+    },
+    {
+      "name": "Laz Drumthunder",
+      "race": "Albino Dwarf",
+      "class_name": "Warrior",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "1",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Exhaustion",
+          "description": "Suffering from 5 levels of exhaustion."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Laz Drumthunder is an albino dwarf warrior captured by firenewts. He is wounded, starving, dehydrated, and suffering from 5 levels of exhaustion. He will recover normally with time and care, or magical healing.",
+      "role": "Prisoner",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tomb of Annihilation p.60"
+    },
+    {
+      "name": "Malkar Stonegrist",
+      "race": "Albino Dwarf",
+      "class_name": "Warrior",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "1",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Exhaustion",
+          "description": "Suffering from 5 levels of exhaustion."
+        },
+        {
+          "name": "Madness",
+          "description": "Malkar has gone mad; he shudders uncontrollably and screams nonstop if his gag is removed. A lesser restoration spell or comparable magic is needed to restore his sanity."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Malkar Stonegrist is an albino dwarf warrior captured by firenewts. He is wounded, starving, dehydrated, and suffering from 5 levels of exhaustion. He has gone mad and requires a lesser restoration spell or comparable magic to restore his sanity.",
+      "role": "Prisoner",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tomb of Annihilation p.60"
+    },
+    {
+      "name": "Devlin Bashir",
+      "race": "Human (Calishite)",
+      "class_name": "Wizard",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [
+        "staff tipped with a bronze goat's head"
+      ],
+      "spellcasting": null,
+      "description": "Devlin Bashir, a Calishite wizard and member of the Company of the Yellow Banner. Devlin's goat-like features are the result of a curse, and he was killed by tomb dwarves after he became separated from his companions.",
+      "role": "Deceased NPC",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tomb of the Nine Gods p.139"
     }
   ],
   "feats": [],
@@ -7262,13 +7712,13 @@
         "method": "Strength checks (hammering spikes or metal blades into the niches)",
         "detail": "Once identified, the trap can be jammed by hammering spikes or metal blades into the niches and succeeding on four separate DC 10 Strength checks (to hammer in the metal solidly enough). Each successful check jams one scythe and reduces the trap's damage by 1d8."
       },
-      "effect": "Scything blades sweep out from concealed wall niches. Any creature in the 10-foot-square section of hall between the blades must make a DC 13 Dexterity saving throw, taking 18 (4d8) slashing damage on a failed save, or half as much damage on a successful one.",
+      "effect": "Scything blades sweep out from concealed wall niches. Any creature in the 10-foot-square section of hall between the blades must make a DC 13 Dexterity throw, taking 18 (4d8) slashing damage on a failed save, or half as much damage on a successful one.",
       "save_dc": 13,
       "save_ability": "Dexterity",
       "damage": "18 (4d8)",
       "damage_type": "slashing",
       "area": "10-foot-square section of hall between the blades",
-      "description": "A corridor trap with concealed wall niches that release scything blades when triggered.",
+      "description": "The ceiling here is 23 feet high and draped with cobwebs. Each individual that passes through this section of the corridor has a 50 percent chance of triggering scything blades that sweep out from concealed wall niches.",
       "source": "Tomb of Annihilation p.45"
     },
     {
@@ -7291,8 +7741,8 @@
       "save_ability": "Dexterity",
       "damage": "22 (4d10)",
       "damage_type": "fire",
-      "area": "The terrace (16-foot-high terrace with tiled floor)",
-      "description": "A tiled floor puzzle where stepping on the wrong square triggers magical flames from the walls.",
+      "area": "The terrace",
+      "description": "The area north of the ledge forms a 16-foot-high terrace, the floor of which is tiled in a four-by-four pattern of squares. The pattern on the door corresponds to the pattern on the floor, with the bottom door row matching to the floor row closest to the characters.",
       "source": "Tomb of Annihilation p.45"
     },
     {
@@ -9070,16 +9520,845 @@
       "area": "20-foot-radius sphere centered on the statue",
       "description": "A glyph of warding inscribed on a statue of Ubtao that erupts with thunder damage when touched.",
       "source": "Tomb of Annihilation p.202"
+    },
+    {
+      "name": "Puzzle Door",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "If wrong squares are pressed, the squares are pressed in the wrong order, or they're pressed by the wrong people, a glyph of warding on the door triggers a thunderwave spell.",
+      "detection": {
+        "dc": 13,
+        "skill": "Intelligence (Investigation)",
+        "detail": "Finding the glyph requires a thorough search of the door and a successful DC 13 Intelligence (Investigation) check."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "A glyph of warding on the door triggers a thunderwave spell. Every creature on the ledge when the spell triggers must make a DC 13 Constitution saving throw. On a failed save, a creature takes 9 (2d8) thunder damage, is pushed 10 feet away from the door, and falls into area 6C, setting off the trap there. A creature that succeeds on the save takes half damage and is not pushed.",
+      "save_dc": 13,
+      "save_ability": "Constitution",
+      "damage": "9 (2d8)",
+      "damage_type": "thunder",
+      "area": "The ledge",
+      "description": "A wooden door at the back of the ledge has no apparent handle or latch. To open it, the four lit-up squares must be touched, in order from bottom to top, by a rider/carrier team emulating Man and Crocodile.",
+      "source": "Tomb of Annihilation p.45"
+    },
+    {
+      "name": "Ore Cart Brake Failure",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Using a faulty brake on an ore cart",
+      "detection": {
+        "dc": 10,
+        "skill": "Intelligence",
+        "detail": "Someone who inspects the brake and makes a successful DC 10 Intelligence check recognizes the risk."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "Repair with spare parts",
+        "detail": "The brake can be repaired with spare parts from the supply shed."
+      },
+      "effect": "If a brake fails, the cart races out of control round and round the pit until it smashes into the barrier at the bottom of the track. Everyone in the cart when it hits takes 1d6 bludgeoning damage per 20 vertical feet the cart descended. Those who bail out before the cart hits take half damage, based on how far the cart descended before they jumped, but each creature must also succeed on a DC 10 Dexterity saving throw or tumble over the edge of the track and plunge to the bottom of the shaft.",
+      "save_dc": 10,
+      "save_ability": "Dexterity",
+      "damage": "1d6 per 20 vertical feet descended",
+      "damage_type": "bludgeoning",
+      "area": "The ore cart and its occupants",
+      "description": "A faulty brake on an ore cart can cause it to race out of control down the track and smash into the barrier at the bottom.",
+      "source": "Tomb of Annihilation p. (Chapter 2, Area 3)"
+    },
+    {
+      "name": "Boulder Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "If the kobolds hear an ore cart rumbling down the tracks, four of them race out and prepare to yank a rope, timing it so the boulder smashes down on the cart.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "The kobolds make an attack roll (+4 to hit) against the cart's AC, which depends on its speed. Rolling at top speed (no brakes), the cart has AC 16. If occupants are using the brakes to control its speed, the cart has AC 8. If the cart's occupants engage or release the brake when they see the kobolds pulling the rope, to change the cart's speed, it has AC 12. If the boulder hits, every creature in the cart takes 5 (1d10) bludgeoning damage. Roll a d6 to determine what happens to the cart and its occupants: 1-2. The cart continues down the track unhindered. 3-5. The cart derails into area 11. Each creature in the cart is thrown out, lands prone, and must succeed on a DC 12 Dexterity saving throw or take 5 (1d10) bludgeoning damage. 6. The cart tumbles off the track and falls 125 feet to area 12. A creature in the cart can make a DC 12 Dexterity saving throw to leap out before the cart goes over the edge and falls. On a successful save, the creature lands prone on the cart track. On a failed save, the creature goes over the edge with the cart and takes damage from the fall, as normal.",
+      "save_dc": 12,
+      "save_ability": "Dexterity",
+      "damage": "5 (1d10)",
+      "damage_type": "bludgeoning",
+      "area": "The cart track at this point",
+      "description": "A boulder is precariously balanced on a ledge above the cart track at this point. A rope tied round the boulder passes through an iron ring on the central pillar and through another near the kobolds' chambers.",
+      "source": "Tomb of Annihilation p.87"
+    },
+    {
+      "name": "Tripwire Alert",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "Approaching enemies trigger a tripwire around the village.",
+      "detection": {
+        "dc": 13,
+        "skill": "Perception",
+        "detail": "A successful DC 13 Wisdom (Perception) check notices the tripwires; otherwise, they're noticed by anyone with a passive Wisdom (Perception) score of 13 or higher."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "If approaching enemies are noticed by sentries or trigger a tripwire, the village goes on alert, making it impossible to sneak in.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "Around the village",
+      "description": "Tripwires surround the village to alert the goblins of intruders.",
+      "source": "Tomb of Annihilation p.90"
+    },
+    {
+      "name": "Spiked Pit",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "A creature falls into the pit",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "A creature that falls into the pit takes 10 (3d6) bludgeoning damage from the fall and must make a DC 12 Dexterity saving throw. On a failed save, 1d4 stakes impale the creature for an additional 1d6 piercing damage per stake.",
+      "save_dc": 12,
+      "save_ability": "Dexterity",
+      "damage": "10 (3d6) bludgeoning plus 1d4 stakes each 1d6 piercing",
+      "damage_type": "bludgeoning and piercing",
+      "area": "30-foot-deep pit",
+      "description": "A pit of sharpened stakes at the bottom of a 30-foot drop.",
+      "source": "Tomb of Annihilation p.97"
+    },
+    {
+      "name": "Glyph of Warding (Fear)",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Attempting to pick the lock on the gate at area 3B",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "A glyph of warding spell targets the character with a fear spell (save DC 15). The glyph doesn't trigger if the door is unlocked using the stone key from the froghemoth pool (area 3A).",
+      "save_dc": 15,
+      "save_ability": "Wisdom",
+      "damage": "",
+      "damage_type": "",
+      "area": "The character attempting to pick the lock",
+      "description": "A glyph of warding that casts fear on anyone who tries to pick the lock without the stone key.",
+      "source": "Tomb of Annihilation p.97"
+    },
+    {
+      "name": "Kobold Bazaar Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "A tripwire or pressure plate",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "A character has a cumulative 20 percent chance of finding a trap for each minute spent searching the bazaar. When a trap is found, have the character make a DC 15 Wisdom (Perception) check. If the check succeeds, the character spots the trap (a hidden, spring-loaded catapult) and its triggering mechanism (a tripwire or pressure plate) without triggering it."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "No check required",
+        "detail": "Once spotted, the trap is easily disarmed or avoided (no check required)."
+      },
+      "effect": "A failed check indicates that the character accidentally set off the trap, which duplicates the Weapon Invention attack of a kobold inventor.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "",
+      "description": "Kobolds live in hidden cellars underneath the ruined market hall and have set six traps throughout the bazaar. The trap is a hidden, spring-loaded catapult.",
+      "source": "Tomb of Annihilation p.106"
+    },
+    {
+      "name": "Chanting Skulls",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "If combat ensues in the sacrificial chamber, the skulls start to chant in Abyssal.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The human skull in each niche radiates an aura of abjuration magic under the scrutiny of a detect magic spell."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "The skulls stop chanting when they are removed from their niches or when combat ends."
+      },
+      "effect": "As long as one or more skulls are chanting, all yuan-ti in the room gain the following benefits: [benefits not fully detailed in this text chunk]",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "Sacrificial chamber (area 6)",
+      "description": "The altar has six niches (one at each end and two on each long side). The human skull in each niche radiates an aura of abjuration magic under the scrutiny of a detect magic spell. If combat ensues here, the skulls start to chant in Abyssal. The skulls stop chanting when they are removed from their niches or when combat ends. Each skull has AC 9, 1 hit point, and immunity to poison and psychic damage.",
+      "source": "Tomb of Annihilation p.117"
+    },
+    {
+      "name": "First Puzzle Door Trap",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Placing a puzzle cube incorrectly in the cavities of the first puzzle door",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "A detect magic spell or similar effect reveals an aura of evocation magic around each of the cavities."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method specified; must place cubes correctly."
+      },
+      "effect": "Electricity erupts from the incorrectly placed cube, dealing 18 (4d8) lightning damage to any creature within 20 feet of the door. Any previously placed cubes pop out.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "18 (4d8)",
+      "damage_type": "lightning",
+      "area": "20 feet of the door",
+      "description": "A slab of worked stone with nine cube-shaped cavities arranged in three rows of three. Incorrect placement of a puzzle cube triggers an electrical discharge.",
+      "source": "Tomb of the Nine Gods p.132"
+    },
+    {
+      "name": "Rusty Iron Chest Trap",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Pushing the rusty iron button on the sarcophagus lid",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "Pushing the rusty iron button causes any nonmagical metal objects inside the rusty iron chest (including objects carried or worn by a creature in the chest) to corrode into worthless piles of rust. Objects partly made of metal are ruined as their metal components decay.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "Nonmagical metal objects inside the rusty iron chest",
+      "description": "A trap triggered by pressing the rusty iron button on the sarcophagus lid, corroding metal objects inside the rusty iron chest.",
+      "source": "Tomb of the Nine Gods p.139"
+    },
+    {
+      "name": "Silver Chest Trap",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Pushing the silver button on the sarcophagus lid",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "Pushing the silver button causes any creature inside the silver chest to make a DC 15 Constitution saving throw, taking 45 (10d8) cold damage on a failed save, or half as much damage on a successful one.",
+      "save_dc": 15,
+      "save_ability": "Constitution",
+      "damage": "45 (10d8)",
+      "damage_type": "cold",
+      "area": "Creature inside the silver chest",
+      "description": "A trap triggered by pressing the silver button on the sarcophagus lid, affecting any creature inside the silver chest.",
+      "source": "Tomb of the Nine Gods p.139"
+    },
+    {
+      "name": "Salt Pentagram Wards",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Another creature attacks the slaad, enters the area of the boundary circle, or breaks any part of the circle or pentagram by sweeping or brushing away the salt.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The invisible gray slaad paces inside the salt pentagram; magical wards prevent the slaad from disturbing the salt or leaving the circle's confines."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Breaking any part of the circle or pentagram by sweeping or brushing away the salt frees the slaad."
+      },
+      "effect": "The slaad is freed. Hungry for carnage, the creature vents its rage on the characters before leaving the room in search of its control gem, not knowing that it is kept in area 28.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "Salt pentagram on the floor of the chamber",
+      "description": "An invisible gray slaad is trapped inside a salt pentagram by magical wards.",
+      "source": "Tomb of Annihilation p.143"
+    },
+    {
+      "name": "Enchanted Clay Urn",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "The first creature to touch the urn or disturb its contents.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "A detect magic spell or similar effect reveals an aura of enchantment surrounding the clay urn."
+      },
+      "disarm": {
+        "dc": 18,
+        "method": "dispel magic",
+        "detail": "A successful dispel magic (DC 18) dismisses the effect on the urn, allowing it to be touched safely."
+      },
+      "effect": "The creature must succeed on a DC 21 Wisdom saving throw or be affected by an Otto's irresistible dance spell. Until the effect ends, the creature also takes 11 (2d10) psychic damage at the end of each of its turns as discordant, percussive music overwhelms its mind. Any creature under the effect of a mind blank spell or similar magic doesn't hear this music or suffer the psychic damage.",
+      "save_dc": 21,
+      "save_ability": "Wisdom",
+      "damage": "11 (2d10)",
+      "damage_type": "psychic",
+      "area": "The clay urn within the sarcophagus",
+      "description": "A varnished clay urn containing the skull and bones of a gruog is enchanted with a trap.",
+      "source": "Tomb of Annihilation p.143"
+    },
+    {
+      "name": "Jackal Mask Vision",
+      "type": "magical",
+      "danger": "setback",
+      "trigger": "Looking through the gaps between the fangs of the jackal mask",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "A huge carving of a snarling jackal's head protrudes from the wall at the end of this corridor. A chamber is visible through the gaps between its fangs."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "This view is a magical window into the past. Whoever looks through the jackal's jaws sees a vision of I'jin's tomb (area 35) as it was just before the last person entered it. After a few moments, the vision reveals a person entering the chamber. A slab of wall suddenly grinds upward to the east, and a dwarf wearing a turban and chain mail creeps into the tomb. He brandishes a shield in front of him as he treads cautiously across the floor. The magic here records the last moments of Bravus Boulderborn, hero of the Company of the Yellow Banner. The dwarf ignores any attempts by the characters to communicate with him. A loud click sounds out as the dwarf steps onto one of the floor tiles. Then a deafening buzzing rises as locusts pour out from the mouths of the sphinx statues, quickly engulfing him. He tries to fight them off, to no avail. When the cloud of insects vanishes, nothing of the dwarf remains except its bones and gear. If all the characters turn away, the vision resets. When any character next looks through the mask, the dwarf is seen entering I'jin's tomb once more.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "Area 29",
+      "description": "A magical window into the past that shows the last moments of Bravus Boulderborn.",
+      "source": "Tomb of Annihilation p.148"
+    },
+    {
+      "name": "Revolving Room Effect: Soporific Gas",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Roll of 1-6 on the Revolving Room Effects table.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No detection method specified."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method specified."
+      },
+      "effect": "The demon faces exhale jets of a soporific gas that dissipates quickly. Each creature in the room that is not immune to the poisoned condition must succeed on a DC 15 Constitution saving throw or fall unconscious. An unconscious creature can repeat the saving throw each time it takes damage, ending the effect on itself on a success.",
+      "save_dc": 15,
+      "save_ability": "Constitution",
+      "damage": "",
+      "damage_type": "",
+      "area": "The room",
+      "description": "Soporific gas that can render creatures unconscious.",
+      "source": "Tomb of the Nine Gods p.153"
+    },
+    {
+      "name": "Revolving Room Effect: Sparkling Dust",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Roll of 7-12 on the Revolving Room Effects table.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No detection method specified."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method specified."
+      },
+      "effect": "The demon faces exhale jets of sparkling dust, which blind any creature in the room that does not succeed on a DC 15 Wisdom saving throw. A creature's blindness lasts until it is cured with a lesser restoration spell or similar magic.",
+      "save_dc": 15,
+      "save_ability": "Wisdom",
+      "damage": "",
+      "damage_type": "",
+      "area": "The room",
+      "description": "Sparkling dust that can blind creatures.",
+      "source": "Tomb of the Nine Gods p.153"
+    },
+    {
+      "name": "Revolving Room Effect: Stone Spikes",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Roll of 13-18 on the Revolving Room Effects table.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No detection method specified."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "The spikes retract when the next room effect is triggered."
+      },
+      "effect": "Stone spikes 6 inches long magically protrude from the walls. Any creature that takes damage from the room at the start of its turn takes an additional 11 (2d10) piercing damage from the spikes.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "11 (2d10)",
+      "damage_type": "piercing",
+      "area": "The room",
+      "description": "Stone spikes that protrude from the walls and deal extra damage.",
+      "source": "Tomb of the Nine Gods p.153"
+    },
+    {
+      "name": "Revolving Room Effect: Incendiary Gas",
+      "type": "magical",
+      "danger": "deadly",
+      "trigger": "Roll of 19-20 on the Revolving Room Effects table.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No detection method specified."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method specified."
+      },
+      "effect": "The demon faces spew jets of an incendiary gas that promptly ignites, filling the room with fire. Each creature in the room takes 45 (10d8) fire damage.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "45 (10d8)",
+      "damage_type": "fire",
+      "area": "The room",
+      "description": "Incendiary gas that ignites and fills the room with fire.",
+      "source": "Tomb of the Nine Gods p.153"
+    },
+    {
+      "name": "Stone Chest Gas Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Opening the chest by any means other than the silver key.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No detection method specified."
+      },
+      "disarm": {
+        "dc": 20,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "A character using thieves' tools can pick the lock with a successful DC 20 Dexterity check. However, opening the chest by any means other than the silver key releases the gas."
+      },
+      "effect": "Releases a cloud of gas that fills a 15-foot cube centered above the chest (filling the entire pit). The gas instantly corrodes and destroys all nonmagical metal that comes into contact with it, including armor and weapons. Metal objects sealed in containers are protected.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "15-foot cube centered above the chest",
+      "description": "A trapped stone chest that releases corrosive gas if opened without the key.",
+      "source": "Tomb of the Nine Gods p.153"
+    },
+    {
+      "name": "Wraiths from Bones",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Performing any of the ritual actions incorrectly",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "Three wraiths rise from the bones on the floor. The wraiths attack until they are destroyed and pursue any characters who flee this area. When the wraiths appear, any character wearing one of the frog masks is polymorphed into a frog, as though it had failed a saving throw against the polymorph spell.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "",
+      "description": "If any of the ritual actions are performed incorrectly, three wraiths rise from the bones on the floor.",
+      "source": "Tomb of the Nine Gods p.43"
+    },
+    {
+      "name": "Third Curtain of the Feast",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Looking at the third curtain",
+      "detection": {
+        "dc": 0,
+        "skill": "detect magic",
+        "detail": "A detect magic spell or similar effect reveals an aura of enchantment magic radiating from the third curtain."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method specified."
+      },
+      "effect": "Any creature that looks at this curtain must succeed on a DC 14 Wisdom saving throw or be frightened of it. A frightened creature tries to leave the room as quickly as possible and cannot reenter. Once outside the room, a creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. A creature that saves against this effect is unaffected by the curtain thereafter and can reenter the room.",
+      "save_dc": 14,
+      "save_ability": "Wisdom",
+      "damage": "",
+      "damage_type": "",
+      "area": "The room containing the third curtain",
+      "description": "An enchanted curtain that frightens creatures that look upon it.",
+      "source": "Tomb of the Nine Gods p.43"
+    },
+    {
+      "name": "Lord of the Feast (Boar's Head)",
+      "type": "magical",
+      "danger": "deadly",
+      "trigger": "Any humanoid that can see the severed boar's head",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No detection method specified; the head is visible behind the final curtain."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Destroying the boar's head ends its charm effect on all creatures. The boar's head is a Medium object with AC 5 and 22 hit points."
+      },
+      "effect": "Any humanoid that can see the severed boar's head must succeed on a DC 16 Wisdom saving throw or be charmed by it. On its turn, a charmed creature does nothing except approach the severed head and put its own head in the boar's mouth. Only one head can fit in the mouth at a time. If the boar's mouth is already full, a charmed creature waits patiently until the mouth is clear. Any creature that ends its turn with its head in the boar's mouth takes 22 (4d10) slashing damage as the boar's jaws clamp down. If this damage reduces the creature to 0 hit points, it is decapitated. A charmed creature can repeat the saving throw each time it takes damage, ending the effect on itself on a success. Once a creature successfully saves against this effect, it cannot be affected by the boar's head for 24 hours.",
+      "save_dc": 16,
+      "save_ability": "Wisdom",
+      "damage": "22 (4d10)",
+      "damage_type": "slashing",
+      "area": "Line of sight to the boar's head",
+      "description": "A severed boar's head that charms humanoids into placing their heads in its mouth, clamping down and potentially decapitating them.",
+      "source": "Tomb of the Nine Gods p.43"
+    },
+    {
+      "name": "Slick Floor of the Vault",
+      "type": "hazard",
+      "danger": "setback",
+      "trigger": "Stepping onto or starting a turn on the floor",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The floor is visibly polished and reflective; no check specified."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method specified."
+      },
+      "effect": "Any creature that steps onto or starts its turn on the floor must succeed on a DC 10 Dexterity saving throw or fall prone. When an untethered creature is shoved or otherwise moved across the floor, it travels in one direction and does not stop until it comes into contact with a wall or other barrier.",
+      "save_dc": 10,
+      "save_ability": "Dexterity",
+      "damage": "",
+      "damage_type": "",
+      "area": "The floor beneath the dome in area 44B",
+      "description": "A magically slick marble floor that causes creatures to fall prone and slide uncontrollably.",
+      "source": "Tomb of the Nine Gods p.44"
+    },
+    {
+      "name": "Shagambi's Coffin Music Box Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Opening the coffin lid activates a music box inside the coffin.",
+      "detection": {
+        "dc": 14,
+        "skill": "Perception",
+        "detail": "Any character who succeeds on a DC 14 Wisdom (Perception) check while gently lifting the coffin lid spots the trap's trigger wire."
+      },
+      "disarm": {
+        "dc": 12,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "The trigger wire can be cut with thieves' tools and a successful DC 12 Dexterity check."
+      },
+      "effect": "The music box is activated, rousing the terracotta warriors if they can hear its haunting melody (even if the adventurers have been silent up to that point).",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "The tomb area where the terracotta warriors are stationed.",
+      "description": "Shagambi's coffin is trapped but not locked. When its lid is opened, a music box inside the coffin is activated, rousing the terracotta warriors if they can hear its haunting melody.",
+      "source": "Tomb of Annihilation p.148"
+    },
+    {
+      "name": "Sphere of Annihilation in Devil's Mouth",
+      "type": "magical",
+      "danger": "deadly",
+      "trigger": "Any character who stands within 5 feet of the sphere can hear a faint whisper emanating from it.",
+      "detection": {
+        "dc": 12,
+        "skill": "Perception",
+        "detail": "A successful DC 12 Wisdom (Perception) check allows a character to make out words in Abyssal that translate as follows: \"Darkness is coming for you. Your doom is at hand.\""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "The sphere of annihilation can't be controlled or moved."
+      },
+      "effect": "The darkness within the mouth is a sphere of annihilation, which can't be controlled or moved.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "5 feet",
+      "description": "A green stone face of devilish countenance protrudes from the wall. The devil's mouth is agape and filled with darkness. The devil face is 6 feet tall, with a mouth 2 feet in diameter. A detect magic spell or similar effect reveals an aura of transmutation magic on the face.",
+      "source": "Tomb of the Nine Gods p.162"
+    },
+    {
+      "name": "Golden Sun Heat",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Whenever the sun or its chain are touched or damaged",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "A detect magic spell or similar effect reveals auras of evocation magic around the golden sun."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "The sun loses its magical properties when it shoots its rays or is destroyed."
+      },
+      "effect": "The sun's smile fades to an inscrutable expression, and it emits tremendous heat in a 20-foot-radius sphere centered on itself. Any creature that starts its turn in the area takes 10 (3d6) fire damage. This effect ends if all creatures leave the affected area.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "10 (3d6)",
+      "damage_type": "fire",
+      "area": "20-foot-radius sphere centered on the sun",
+      "description": "The golden sun emits tremendous heat when touched or damaged.",
+      "source": "Tomb of the Nine Gods p.53"
+    },
+    {
+      "name": "Golden Sun Searing Rays",
+      "type": "magical",
+      "danger": "deadly",
+      "trigger": "The first time the queen's remains or any of her treasures are removed from the sarcophagus",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "A detect magic spell or similar effect reveals auras of evocation magic around the golden sun."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "The sun loses its magical properties when it shoots its rays or is destroyed."
+      },
+      "effect": "The sun's expression turns angry as it emits rays of searing light. Each creature within 30 feet of the sun that doesn't have total cover against it must succeed on a DC 14 Dexterity saving throw or be struck by a ray, which deals 42 (12d6) fire damage.",
+      "save_dc": 14,
+      "save_ability": "Dexterity",
+      "damage": "42 (12d6)",
+      "damage_type": "fire",
+      "area": "30 feet of the sun",
+      "description": "The golden sun emits rays of searing light when the queen's remains or treasures are removed.",
+      "source": "Tomb of the Nine Gods p.53"
+    },
+    {
+      "name": "Cursed Necklace of Fireballs",
+      "type": "magical",
+      "danger": "deadly",
+      "trigger": "When any creature dons the cursed necklace",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "Acererak placed a curse on the necklace, which can be revealed by an identify spell."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "A remove curse spell or similar magic removes the curse from the necklace."
+      },
+      "effect": "All its beads detonate at once. Each creature in a 20-foot-radius sphere centered on the exploding necklace must make a DC 15 Dexterity saving throw, taking 56 (16d6) fire damage on a failed save, or half as much damage on a successful one. The wearer of the necklace fails the saving throw automatically.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "56 (16d6)",
+      "damage_type": "fire",
+      "area": "20-foot-radius sphere centered on the exploding necklace",
+      "description": "A cursed necklace of fireballs that detonates when worn.",
+      "source": "Tomb of the Nine Gods p.53"
+    },
+    {
+      "name": "Napaka's Baleful Black Gas",
+      "type": "magical",
+      "danger": "deadly",
+      "trigger": "If the scepter is removed and not immediately replaced with its nonmagical twin from area 52, or if Napaka's remains are removed from their resting place",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "The queen's corpse opens its mouth in a wide yawn and exhales a baleful black gas that fills a 15-foot cube centered on it. Each creature in the area must make a DC 18 Constitution saving throw, taking 45 (7d12) necrotic damage on a failed save, or half as much damage on a successful one.",
+      "save_dc": 18,
+      "save_ability": "Constitution",
+      "damage": "45 (7d12)",
+      "damage_type": "necrotic",
+      "area": "15-foot cube centered on the corpse",
+      "description": "Napaka's corpse exhales a baleful black gas if her scepter or remains are removed.",
+      "source": "Tomb of the Nine Gods p.53"
+    },
+    {
+      "name": "Rolling Doom",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "When the chest or its lid is lifted, a heavy stone ball (area 54B) tumbles down the stairs.",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "Finding the compartment requires that a character search the tunnel ceiling and succeed on a DC 15 Wisdom (Perception) check."
+      },
+      "disarm": {
+        "dc": 20,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "The hatch can be jammed with an iron spike or with a successful DC 20 Dexterity check made using thieves' tools."
+      },
+      "effect": "When released, the stone ball thunders down the stairs and tumbles into the pit at 54C. Any character on the stairs or in the tunnel below can stay ahead of the ball by running toward the pit. A character can also leap over the ball with a successful DC 15 Dexterity (Acrobatics) check. Any character who fails the check or can't move out of the ball's way is struck for 22 (4d10) bludgeoning damage and knocked prone. The ball also flattens the treasure chest (54A) as it tumbles through.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "22 (4d10)",
+      "damage_type": "bludgeoning",
+      "area": "Stairs and tunnel below, leading to pit at 54C",
+      "description": "A granite ball trap triggered by lifting a treasure chest, rolling down stairs into an acid pit.",
+      "source": "Tomb of the Nine Gods p.166"
+    },
+    {
+      "name": "Green Devil Face - Left Nostril Lever",
+      "type": "magical",
+      "danger": "deadly",
+      "trigger": "Pulling the lever in the left nostril",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "Any close inspection reveals that its nostrils contain hollow cavities, each one containing a stone lever."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "A pulled lever locks into place and can't be moved until it resets. After 1 minute, the lever resets with an audible clunk."
+      },
+      "effect": "Pulling the lever in the left nostril causes the mouth of the devil face to open wide, revealing a gullet filled with impenetrable darkness that pulls in everything in the room. Initiative should be rolled for all creatures in the area. Any creature that starts its turn in the room and isn't secured in some fashion must succeed on a DC 11 Dexterity saving throw or be pulled into the gullet and destroyed. If a character fails the saving throw, another character within reach, or any character bound to the first character by a rope, can use his or her reaction to grab on and grant the first character a reroll. After 1 minute, the lever resets with an audible clunk. The gullet remains open until the lever resets. Magic has no effect on the gullet or the darkness within.",
+      "save_dc": 11,
+      "save_ability": "Dexterity",
+      "damage": "",
+      "damage_type": "",
+      "area": "The room",
+      "description": "A green devil face with a lever in its left nostril that opens a gullet of darkness pulling creatures in.",
+      "source": "Tomb of Annihilation p.168"
+    },
+    {
+      "name": "Green Devil Face - Right Nostril Lever",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Pulling the lever in the right nostril",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "Any close inspection reveals that its nostrils contain hollow cavities, each one containing a stone lever."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "The lever then resets."
+      },
+      "effect": "Pulling the lever in the right nostril causes the devil's eyes to glow red as all living creatures in the room (including the otyugh, if it's still alive) are teleported in front of the devil face at area 5B, along with whatever they are wearing or carrying. The lever then resets.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "The room",
+      "description": "A green devil face with a lever in its right nostril that teleports all living creatures in the room.",
+      "source": "Tomb of Annihilation p.168"
+    },
+    {
+      "name": "Iron Wall Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Pushing the red button causes a 6-inch-thick wall of iron to drop from the ceiling in the doorway, sealing off the east exit.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No detection method specified; the trap is activated by pushing the red button."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method specified; the wall remains locked in place for 1 hour, after which it rises back into the ceiling on its own. It can't be lifted or pried open, though a knock spell causes it to retract into the ceiling."
+      },
+      "effect": "Any creature in the doorway when the wall drops must make a DC 15 Dexterity saving throw. On a successful save, the creature is pushed to one side of the barrier or the other (its choice). On a failed save, the creature is pinned under the wall, falls prone, and takes 44 (8d10) bludgeoning damage. A pinned creature is restrained, can't stand up, and takes 11 (2d10) bludgeoning damage at the start of each of its turns until it crawls out from under the door or another creature pulls it free, either of which requires an action and a successful DC 25 Strength (Athletics) check.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "44 (8d10)",
+      "damage_type": "bludgeoning",
+      "area": "The doorway sealing off the east exit.",
+      "description": "A red button that causes an iron wall to drop from the ceiling, potentially pinning creatures in the doorway.",
+      "source": "Tomb of the Nine Gods p.62"
+    },
+    {
+      "name": "Golden Mastodon Ceiling Block Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Inserting the star-shaped lever into the indentation on the back of the mastodon's head causes a thunderous trumpeting sound, a block of stone to seal off the room, and the cog to revolve.",
+      "detection": {
+        "dc": 20,
+        "skill": "Perception",
+        "detail": "A character who searches for traps in the tunnel approaching this room notices a block of stone lodged in the ceiling with a successful DC 20 Wisdom (Perception) check."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method is described in the source text."
+      },
+      "effect": "A block of stone falls from the ceiling in the hallway. Any creature under the block when it falls must make a DC 15 Dexterity saving throw. On a success, the creature moves out of the block's way in whichever direction it prefers. On a failed save, the creature takes 55 (10d10) bludgeoning damage. If this damage reduces the creature's hit points to 0, the creature is crushed to a pulp; otherwise, it is shoved into the room.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "55 (10d10)",
+      "damage_type": "bludgeoning",
+      "area": "The space in the hallway indicated on map 5.5, under the falling block.",
+      "description": "A trap in the Hall of the Golden Mastodon that drops a stone block from the ceiling when the mastodon statue is activated.",
+      "source": "Tomb of the Nine Gods p.175"
     }
   ],
   "_chapters_completed": [
-    "Tomb of Annihilation"
+    "Ch. 5: Tomb of the Nine Gods",
+    "Ch. 4: Fane of the Night Serpent",
+    "App. C: Discoveries",
+    "Ch. 1: Port Nyanzaru",
+    "Ch. 3: Dwellers of the Forbidden City",
+    "App. A: Character Backgrounds",
+    "App. D: Monsters and NPCs",
+    "App. B: Random Encounters",
+    "App. F: Trickster Gods of Omu",
+    "Tomb of Annihilation",
+    "Foreword",
+    "App. E: Player Handouts",
+    "Ch. 2: The Land of Chult",
+    "Introduction"
   ],
   "_chapter_errors": {},
   "_current_chapter": "",
-  "_total_chapters": 1,
+  "_total_chapters": 13,
   "_book_slug": "ToA",
   "_book_title": "D&D 5E  Tomb of Annihilation",
   "_completed": true,
-  "_timestamp": 1790283169.1330183
+  "_timestamp": 1790810513.3984926
 }

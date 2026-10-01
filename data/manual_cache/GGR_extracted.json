@@ -79,7 +79,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Strength +2, Wisdom +1"
+          "notes": "Strength score increases by 2, Wisdom score increases by 1."
         },
         "Age": {
           "armor_profs": [],
@@ -121,7 +121,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Size is Medium"
+          "notes": "Size is Medium."
         },
         "Speed": {
           "armor_profs": [],
@@ -149,7 +149,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Creature type is fey instead of humanoid"
+          "notes": "Creature type is fey rather than humanoid."
         },
         "Charge": {
           "armor_profs": [],
@@ -163,7 +163,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "After moving 30 feet straight toward a target and hitting with a melee weapon attack, can use a bonus action to make one hooves attack against that target"
+          "notes": "If you move at least 30 feet straight toward a target and hit it with a melee weapon attack on the same turn, you can use a bonus action to make one attack against the target with your hooves."
         },
         "Hooves": {
           "armor_profs": [],
@@ -177,7 +177,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Natural melee weapon: hooves deal 1d4 + Strength modifier bludgeoning damage on unarmed strikes"
+          "notes": "Hooves are natural melee weapons usable for unarmed strikes, dealing 1d4 + Strength modifier bludgeoning damage."
         },
         "Equine Build": {
           "armor_profs": [],
@@ -191,7 +191,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Count as one size larger for carrying capacity and push/drag weight; climbing that requires hands and feet costs 4 extra feet per foot of movement"
+          "notes": "Count as one size larger for carrying capacity and push/drag weight. Climbing that requires hands and feet costs 4 extra feet per foot of movement instead of 1 extra foot."
         },
         "Survivor": {
           "armor_profs": [],
@@ -210,7 +210,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Proficiency in one skill of your choice from the listed options"
+          "notes": "Proficiency in one skill of your choice from the listed options."
         },
         "Languages": {
           "armor_profs": [],
@@ -224,7 +224,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Can speak, read, and write Common and Sylvan"
+          "notes": "Can speak, read, and write Common and Sylvan."
         }
       }
     },
@@ -285,7 +285,7 @@
         }
       ],
       "subraces": [],
-      "description": "Goblins are small, mischievous humanoids standing between 3 and 4 feet tall and weighing between 40 and 80 pounds, known for their wild mood swings, destructive inclinations, and outrageous sense of humor.",
+      "description": "Goblins are small, mischievous humanoids standing between 3 and 4 feet tall, known for their chaotic nature, outrageous sense of humor, and inclination toward destruction.",
       "_effects": {
         "Ability Score Increase": {
           "armor_profs": [],
@@ -397,7 +397,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Can take the Disengage or Hide action as a bonus action on each of your turns."
+          "notes": "You can take the Disengage or Hide action as a bonus action on each of your turns."
         },
         "Languages": {
           "armor_profs": [],
@@ -411,7 +411,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Can speak, read, and write Common and Goblin"
+          "notes": "You can speak, read, and write Common and Goblin."
         }
       }
     },
@@ -494,7 +494,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Constitution score increases by 2, Wisdom score increases by 1."
+          "notes": "Constitution +2, Wisdom +1"
         },
         "Age": {
           "armor_profs": [],
@@ -508,7 +508,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Flavor only; no mechanical effects."
+          "notes": "Lifespan ~450 years; mature at same rate as humans; considered young until 60"
         },
         "Alignment": {
           "armor_profs": [],
@@ -522,7 +522,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Flavor only; no mechanical effects."
+          "notes": "Roleplay only; no mechanical effect"
         },
         "Size": {
           "armor_profs": [],
@@ -536,7 +536,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Size is Medium."
+          "notes": "Size is Medium; height 7-8 ft, weight 300-400 lb"
         },
         "Powerful Build": {
           "armor_profs": [],
@@ -550,7 +550,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Count as one size larger for carrying capacity and for the weight you can push, drag, or lift."
+          "notes": "Count as one size larger for carrying capacity and push/drag/lift weight"
         },
         "Speed": {
           "armor_profs": [],
@@ -581,7 +581,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Advantage on saving throws against being charmed or frightened."
+          "notes": "Advantage on saving throws against being charmed or frightened"
         },
         "Natural Armor": {
           "armor_profs": [],
@@ -599,7 +599,7 @@
             "max_dex": null,
             "allow_shield": true
           },
-          "notes": "When not wearing armor, AC = 12 + Constitution modifier. Can use natural armor if worn armor would leave a lower AC. Shields apply as normal."
+          "notes": "AC = 12 + Constitution modifier when not wearing armor; can use if worn armor would be lower; shield benefits apply"
         },
         "Trunk": {
           "armor_profs": [],
@@ -613,7 +613,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Trunk has 5 ft reach; can lift pounds equal to 5 x Strength score; can perform simple tasks (lift, drop, hold, push, pull, open/close door or container, grapple, unarmed strike). Can be used as a snorkel. Cannot wield weapons or shields or perform tasks requiring manual precision (tools, magic items, somatic components)."
+          "notes": "Trunk: 5 ft reach; can lift 5x Strength score pounds; can lift/drop/hold/push/pull objects or creatures, open/close doors or containers, grapple, make unarmed strike, act as snorkel; cannot wield weapons/shields or perform tasks requiring manual precision (tools, magic items, somatic components)"
         },
         "Keen Smell": {
           "armor_profs": [],
@@ -627,7 +627,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Advantage on Wisdom (Perception), Wisdom (Survival), and Intelligence (Investigation) checks that involve smell."
+          "notes": "Advantage on Wisdom (Perception), Wisdom (Survival), and Intelligence (Investigation) checks involving smell"
         },
         "Languages": {
           "armor_profs": [],
@@ -641,7 +641,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Can speak, read, and write Common and Loxodon."
+          "notes": "Speak, read, and write Common and Loxodon"
         }
       }
     },
@@ -772,7 +772,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Natural melee weapon (horns): unarmed strike dealing 1d6 + Strength modifier piercing damage"
+          "notes": "Natural melee weapon: horns deal 1d6 + Strength modifier piercing damage on unarmed strikes"
         },
         "Goring Rush": {
           "armor_profs": [],
@@ -786,7 +786,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "After Dash action and moving at least 20 feet, can make one melee horns attack as a bonus action"
+          "notes": "After Dash and moving at least 20 feet, can make one melee attack with horns as a bonus action"
         },
         "Hammering Horns": {
           "armor_profs": [],
@@ -800,7 +800,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "After hitting with a melee attack, can use bonus action to shove target (max one size larger, within 5 ft) up to 10 feet away; target makes Strength save vs DC 8 + proficiency bonus + Strength modifier"
+          "notes": "After hitting with a melee attack, can use bonus action to shove target with horns; target must succeed on Strength save (DC 8 + proficiency bonus + Strength modifier) or be pushed up to 10 feet away"
         },
         "Imposing Presence": {
           "armor_profs": [],
@@ -817,7 +817,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Proficiency in one of Intimidation or Persuasion (choice)"
+          "notes": "Proficiency in one of the following skills of your choice: Intimidation or Persuasion"
         },
         "Languages": {
           "armor_profs": [],
@@ -874,7 +874,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Choose one enhancement at 1st level and a second at 5th level. Manta Glide: subtract up to 100 feet from fall damage and move 2 feet horizontally per 1 foot descended when falling and not incapacitated. Nimble Climber: climbing speed equal to walking speed. Underwater Adaptation: can breathe air and water, swimming speed equal to walking speed. Grappling Appendages (5th level): two natural weapon appendages (claws or tentacles) usable for unarmed strikes dealing 1d6 + Strength modifier bludgeoning damage; can attempt grapple as an action and as a bonus action after hitting; cannot wield weapons or manipulate objects precisely. Carapace (5th level): +1 bonus to AC when not wearing heavy armor."
+          "notes": "Choose one option at 1st level and another at 5th level. Manta Glide: subtract up to 100 feet from fall damage and move 2 feet horizontally per 1 foot descended when falling and not incapacitated. Nimble Climber: climbing speed equal to walking speed. Underwater Adaptation: breathe air and water, swimming speed equal to walking speed. Grappling Appendages: two natural weapon appendages (claws or tentacles) usable for unarmed strikes dealing 1d6 + Strength modifier bludgeoning damage; can attempt grapple as an action and as a bonus action immediately after hitting; cannot wield weapons or manipulate objects precisely. Carapace: +1 bonus to AC when not wearing heavy armor."
         }
       }
     },
@@ -963,7 +963,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Flavor only; no mechanical effect."
+          "notes": "Maturity around age 40; lifespan typically 350 years, up to 500."
         },
         "Alignment": {
           "armor_profs": [],
@@ -977,7 +977,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Flavor only; no mechanical effect."
+          "notes": "Usually lawful and non-evil."
         },
         "Size": {
           "armor_profs": [],
@@ -991,7 +991,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Size is Medium."
+          "notes": "Size is Medium; 6 to 6.5 feet tall, under 200 pounds."
         },
         "Speed": {
           "armor_profs": [],
@@ -1042,7 +1042,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Choose one skill from the listed options and one tool of your choice for proficiency. When making an ability check with the chosen skill or tool, roll a d4 and add the number rolled to the check's total."
+          "notes": "Proficient in one skill of your choice from the listed options and one tool of your choice. When making an ability check with the chosen skill or tool, roll a d4 and add the number rolled to the check's total."
         },
         "Partially Amphibious": {
           "armor_profs": [],
@@ -1056,7 +1056,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Can breathe underwater for up to 1 hour. Once used, cannot use again until finishing a long rest."
+          "notes": "Can breathe underwater for up to 1 hour by absorbing oxygen through skin; recharges on a long rest."
         },
         "Languages": {
           "armor_profs": [],
@@ -1357,6 +1357,118 @@
       "requires_attunement": true,
       "description": "You gain a +1 bonus to attack and damage rolls made with this magic quarterstaff. While you hold it, you gain a +1 bonus to spell attack rolls.\nThis staff has 10 charges. While holding it, you can use an action to expend 1 or more of the staff's charges to cast one of the following spells from it, using your spell save DC: banishment (4 charges), blink (3 charges), misty step (2 charges), passwall (5 charges), or teleport (7 charges).\nThe staff regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff vanishes forever.",
       "source": "GGR p.181"
+    },
+    {
+      "name": "Weapon of warning",
+      "type": "Weapon",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "",
+      "source": "DMG p.175"
+    },
+    {
+      "name": "Iron bands of Bilarro",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "",
+      "source": "DMG p.175"
+    },
+    {
+      "name": "Sentinel shield",
+      "type": "Armor",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "",
+      "source": "DMG p.175"
+    },
+    {
+      "name": "Daern's instant fortress",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "",
+      "source": "DMG p.175"
+    },
+    {
+      "name": "Sun forger",
+      "type": "Weapon",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "",
+      "source": "GGR p.175"
+    },
+    {
+      "name": "Cloak of invisibility",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": false,
+      "description": "",
+      "source": "DMG p.175"
+    },
+    {
+      "name": "Alchemy jug",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "",
+      "source": "DMG p.176"
+    },
+    {
+      "name": "Apparatus of Kwalish",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": false,
+      "description": "",
+      "source": "DMG p.176"
+    },
+    {
+      "name": "Azorius Keyrune",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "This keyrune is carved from white marble and lapis lazuli to resemble a noble bird of prey. It can become a giant eagle for up to 1 hour. While the transformed eagle is within l mile of you, you can communicate with it telepathically. As an action, you can see through the eagle's eyes and hear what it hears until the start of your next turn, and you gain the benefit of its keen sight. During this time, you are deaf and blind with regard to your own senses.",
+      "source": "GGR p.177"
+    },
+    {
+      "name": "Boros Keyrune",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "Carved from red sandstone with white granite elements to resemble a member of the Boros Legion, this keyrune can become a veteran (human) for up to 8 hours. In addition to fighting on your behalf, this veteran cheerfully offers tactical advice, which is usually sound. Anyone who talks with the transformed keyrune or examines it closely can easily recognize that it is an artificial human.",
+      "source": "GGR p.177"
+    },
+    {
+      "name": "Dimir Keyrune",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "This keyrune, carved from black stone accented with steel, resembles a stylized horror. On command, it transforms into an intellect devourer that resembles the Dimir guild symbol, with six bladelike legs. The creature exists for up to 24 hours. During that time, it pursues only a single mission you give it- usually an assignment to take over someone's body, either to impersonate that person for a brief time or to extract secrets from their mind. When the mission is complete, the creature returns to you, reports its success, and reverts to its keyrune form.",
+      "source": "GGR p.177"
+    },
+    {
+      "name": "Golgari Keyrune",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "Made from deep green jade with black veins, this keyrune has an insectile shape. It can transform into a giant scorpion for up to 6 hours. The scorpion has an Intelligence of 4 and can communicate with you telepathically while it is within 60 feet of you, though its messages are largely limited to describing the passage of potential prey.",
+      "source": "GGR p.177"
+    },
+    {
+      "name": "Gruul Keyrune",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "This crude keyrune is cobbled together from bits of rubble, broken glass, bone, and animal hair. One end resembles a horned beast. On command, the keyrune transforms into a ceratok, a horned creature much like a rhinoceros (and with the same statistics). It remains in its ceratok form for 1 hour.",
+      "source": "GGR p.177"
+    },
+    {
+      "name": "Izzet Keyrune",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "Formed of carved and polished red and blue stone, the keyrune includes bits of cable and wire. One end resembles a humanlike head, suggesting the jagged elemental form of the galvanice weird (see chapter 6 for the stat block) that it can become for a duration of 3 hours. In this form, it will serve you as a bodyguard, lift and carry things for you, act as a test subject for your experiments, or aid you in any other way that its capabilities allow.",
+      "source": "GGR p.177"
     }
   ],
   "equipment": [
@@ -1366,7 +1478,7 @@
       "subtype": "",
       "damage": "",
       "properties": [
-        "Can be used as a spellcasting focus by members of the guild"
+        "spellcasting focus"
       ],
       "cost": "5 gp",
       "weight": 0,
@@ -7258,7 +7370,20 @@
         "name": "Researcher",
         "description": "When you attempt to learn or recall a magical or scientific fact, if you don't know that information, you know where and from whom you can obtain it. Usually, this information comes from a Simic laboratory, or sometimes from an Izzet facility, a library, a university, or an independent scholar or other learned person or creature. Knowing where the information can be found doesn't automatically enable you to learn it; you might need to offer bribes, favors, or other incentives to induce people to reveal their secrets.\nYour DM might rule that the knowledge you seek is secreted away in an inaccessible place, or that it simply can't be found. Unearthing the deepest secrets of the multiverse can require an adventure or even a whole campaign."
       },
-      "description": "Imagine a perfect world: one in which nature and civilization exist in harmony, adapted to each other; one in which life is shaped to match its environment and the environment is shaped to match life. That's the world you have been trying to grow in the laboratories of the Simic Combine.",
+      "description": "Imagine a perfect world: one in which nature and civilization exist in harmony, adapted to each other; one in which life is shaped to match its environment and the environment is shaped to match life. That's the world you have been trying to grow in the laboratories of the Simic Combine. Nature is all about adaptation, evolution, and balance—but for it to keep up with the pace of advancing civilization, nature needs some help from biomancers and terraformers. If, along the way, you happen to create super-soldiers and mutant monsters that can bolster the combine's defenses against the schemes and ambitions of the other guilds, so much the better.",
+      "source": "GGR"
+    },
+    {
+      "name": "Rakdos Guild Spells",
+      "skill_proficiencies": [],
+      "tool_proficiencies": [],
+      "languages": [],
+      "equipment": [],
+      "feature": {
+        "name": "Rakdos Guild Spells",
+        "description": "Prerequisite: Spellcasting or Pact Magic class feature\nFor you, the spells on the Rakdos Guild Spells table are added to the spell list of your spellcasting class. (If you are a multiclass character with multiple spell lists, these spells are added to all of them.)\n\nRAKDOS GUILD SPELLS\nSpell Level | Spells\nCantrip | fire bolt, vicious mockery\n1st | burning hands, dissonant whispers, hellish rebuke\n2nd | crown of madness, enthrall, flaming sphere\n3rd | fear, haste\n4th | confusion, wall of fire\n5th | dominate person\n\nYour magic often produces a flashy spectacle, wreathing you or your targets in a mixture of harmless flame and shadowy shapes. When you manipulate an opponent's mind, a flaming symbol of Rakdos might momentarily appear like a mask over the target's face."
+      },
+      "description": "The Cult of Rakdos is anything but organized. Individuals frequently move from one performance troupe to another. Almost all members of the cult know former castmates now in different troupes, which allows for the possibility of a widespread network of contacts.",
       "source": "GGR"
     }
   ],
@@ -7419,16 +7544,47 @@
       "area": "One step of the catwalk staircase",
       "description": "One of the steps of the catwalk staircase is ready to collapse.",
       "source": "Chapter 4 p.168"
+    },
+    {
+      "name": "Glyph of Warding (Sleep)",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "A character attempts to pick the lock or force open the copper door.",
+      "detection": {
+        "dc": 15,
+        "skill": "Investigation",
+        "detail": "A character who searches the door for traps can detect the glyph with a successful DC 15 Intelligence (Investigation) check."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "The triggered glyph casts sleep at 3rd level, affecting 9d8 hit points of creatures.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "9d8",
+      "damage_type": "",
+      "area": "",
+      "description": "The copper door is trapped with a glyph of warding spell that triggers when a character attempts to pick the lock or force open the door.",
+      "source": "GGR p.165"
     }
   ],
   "_chapters_completed": [
-    "Front Cover"
+    "Welcome to Ravnica",
+    "Chapter 2: Guilds of Ravnica",
+    "Chapter 3: The Tenth District",
+    "Chapter 4: Creating Adventures",
+    "Chapter 6: Friends and Foes",
+    "Chapter 1: Character Creation",
+    "Front Cover",
+    "Chapter 5: Treasures"
   ],
   "_chapter_errors": {},
   "_current_chapter": "",
-  "_total_chapters": 1,
+  "_total_chapters": 7,
   "_book_slug": "GGR",
   "_book_title": "D&D 5E  Guildmasters' Guide to Ravnica",
   "_completed": true,
-  "_timestamp": 1790282492.6191745
+  "_timestamp": 1790809783.3233833
 }

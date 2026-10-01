@@ -46,7 +46,7 @@
         }
       ],
       "subraces": [],
-      "description": "A winged people who originated on the Elemental Plane of Air, aarakocra soar through the sky wherever they wander. From below, aarakocra look like large birds and thus are sometimes called birdfolk.",
+      "description": "Aarakocra are a winged people who originated on the Elemental Plane of Air, appearing from below like large birds with feathers typically red, orange, yellow, brown, or gray, and avian heads resembling parrots or eagles. Standing upright, they are about 5 feet tall with long, narrow legs that taper to sharp talons.",
       "_effects": {
         "Creature Type": {
           "armor_profs": [],
@@ -277,7 +277,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "As an action, touch a creature to heal it for a number of d4s equal to your proficiency bonus. Usable once per long rest."
+          "notes": "As an action, touch a creature and roll a number of d4s equal to your proficiency bonus; the creature regains that many hit points. Once used, can't be used again until you finish a long rest."
         },
         "Light Bearer": {
           "armor_profs": [],
@@ -305,7 +305,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "At 3rd level, choose one revelation. As a bonus action, transform for 1 minute (once per long rest). Necrotic Shroud: creatures within 10 ft that can see you must succeed on a Charisma save (DC 8 + prof + Cha mod) or be frightened until end of your next turn; once per turn deal extra necrotic damage equal to proficiency bonus. Radiant Consumption: shed bright light 10 ft and dim light 10 ft; at end of each of your turns, each creature within 10 ft takes radiant damage equal to proficiency bonus; once per turn deal extra radiant damage equal to proficiency bonus. Radiant Soul: flying speed equal to walking speed; once per turn deal extra radiant damage equal to proficiency bonus."
+          "notes": "At 3rd level, choose one revelation option. As a bonus action, transform for 1 minute or until ended as a bonus action; once used, can't be used again until you finish a long rest. Necrotic Shroud: creatures other than allies within 10 ft that can see you must succeed on a Charisma saving throw (DC 8 + proficiency bonus + Charisma modifier) or become frightened of you until the end of your next turn; once per turn, deal extra necrotic damage equal to your proficiency bonus to one target on an attack or spell. Radiant Consumption: shed bright light in a 10-ft radius and dim light for an additional 10 ft; at the end of each of your turns, each creature within 10 ft takes radiant damage equal to your proficiency bonus; once per turn, deal extra radiant damage equal to your proficiency bonus to one target on an attack or spell. Radiant Soul: flying speed equal to your walking speed; once per turn, deal extra radiant damage equal to your proficiency bonus to one target on an attack or spell."
         }
       }
     },
@@ -618,7 +618,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "You count as one size larger when determining carrying capacity and the weight you can push or drag. Climbing that requires hands and feet costs 4 extra feet of movement per foot instead of the normal 1 extra foot."
+          "notes": "You count as one size larger when determining carrying capacity and the weight you can push or drag. Climbing that requires hands and feet costs 4 extra feet per foot of movement instead of the normal 1 extra foot."
         },
         "Hooves": {
           "armor_profs": [],
@@ -632,7 +632,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Natural weapon: hooves can be used for unarmed strikes, dealing 1d6 + Strength modifier bludgeoning damage on a hit instead of the normal unarmed strike bludgeoning damage."
+          "notes": "Natural weapon: hooves can be used to make unarmed strikes, dealing 1d6 + Strength modifier bludgeoning damage on a hit instead of the normal unarmed strike damage."
         },
         "Natural Affinity": {
           "armor_profs": [],
@@ -651,7 +651,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Proficiency in one skill of your choice from Animal Handling, Medicine, Nature, or Survival."
+          "notes": "Proficiency in one skill chosen from Animal Handling, Medicine, Nature, or Survival."
         }
       }
     },
@@ -723,7 +723,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Size is Medium or Small (chosen at character creation)."
+          "notes": "You are Medium or Small; choose size when selecting this race."
         },
         "Speed": {
           "armor_profs": [],
@@ -771,7 +771,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "As an action, can change appearance and voice, adjust height/weight, and change size between Medium and Small. Game statistics remain unchanged. Cannot duplicate an unseen individual's appearance. Clothing and equipment are not changed. Lasts until an action is used to revert or until death."
+          "notes": "As an action, can change appearance and voice, adjust height/weight, and change size between Medium and Small. Game statistics do not change. Cannot duplicate an individual you have not seen, and must adopt a form with the same basic limb arrangement. Clothing and equipment are not changed. Lasts until an action is used to revert or until death."
         }
       }
     },
@@ -831,25 +831,102 @@
       "description": "Deep gnomes, or svirfneblin, are natives of the Underdark and are suffused with that subterranean realm’s magic. They can supernaturally camouflage themselves, and their svirfneblin magic renders them difficult to locate.",
       "_effects": {
         "Creature Type": {
-          "notes": "You are a Humanoid and are also considered a gnome for any prerequisite or effect that requires you to be a gnome."
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "You are a Humanoid. You are also considered a gnome for any prerequisite or effect that requires you to be a gnome."
         },
         "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
           "notes": "You are Small."
         },
         "Speed": {
-          "speed": 30
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
         },
         "Darkvision": {
-          "darkvision": 120
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 120,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
         },
         "Gift of the Svirfneblin": {
-          "notes": "Starting at 3rd level, you can cast disguise self with this trait. Starting at 5th level, you can also cast nondetection with it, without requiring a material component. Once you cast either spell with this trait, you can't cast that spell with it again until you finish a long rest. You can also cast these spells using spell slots you have of the appropriate level. Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells when you cast them with this trait (choose when you select this race)."
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "At 3rd level, can cast disguise self once per long rest. At 5th level, can also cast nondetection once per long rest (no material component). Can also cast these spells using spell slots. Spellcasting ability is Intelligence, Wisdom, or Charisma (chosen when selecting race)."
         },
         "Gnomish Magic Resistance": {
-          "notes": "You have advantage on Intelligence, Wisdom, and Charisma saving throws against spells."
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on Intelligence, Wisdom, and Charisma saving throws against spells."
         },
         "Svirfneblin Camouflage": {
-          "notes": "When you make a Dexterity (Stealth) check, you can make the check with advantage. You can use this trait a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest."
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "When making a Dexterity (Stealth) check, can make the check with advantage. Usable a number of times equal to proficiency bonus, regained on long rest."
         }
       }
     },
@@ -867,7 +944,8 @@
       "speed": 30,
       "darkvision": 120,
       "languages": [
-        "Common"
+        "Common",
+        "Dwarvish"
       ],
       "size": "Medium",
       "traits": [
@@ -903,7 +981,7 @@
         }
       ],
       "subraces": [],
-      "description": "Duergar are dwarves whose ancestors were transformed by centuries living in the deepest places of the Underdark, with gray skin and a lifespan of 350 years.",
+      "description": "Duergar are dwarves whose ancestors were transformed by centuries living in the deepest places of the Underdark, often with gray skin and a psionic heritage from aberrant experiments.",
       "_effects": {
         "Creature Type": {
           "armor_profs": [],
@@ -973,7 +1051,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "At 3rd level, can cast enlarge/reduce on self once per long rest without material components. At 5th level, can also cast invisibility on self once per long rest without material components. Can also cast these spells using spell slots. Spellcasting ability is Intelligence, Wisdom, or Charisma (choose when selecting race)."
+          "notes": "At 3rd level, can cast enlarge/reduce on self without material component once per long rest. At 5th level, can also cast invisibility on self without material component once per long rest. Can also cast these spells using spell slots. Spellcasting ability is Intelligence, Wisdom, or Charisma (chosen when selecting race)."
         },
         "Dwarven Resilience": {
           "armor_profs": [],
@@ -1153,7 +1231,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Bonus action teleport up to 30 feet to an unoccupied space you can see. Uses equal to proficiency bonus, regained on long rest. At 3rd level, additional seasonal effect: Autumn (charm up to two creatures within 10 ft, Wisdom save), Winter (frighten one creature within 5 ft, Wisdom save), Spring (touch one willing creature within 5 ft to teleport instead of you), Summer (each creature within 5 ft takes fire damage equal to proficiency bonus). Save DC = 8 + proficiency bonus + Intelligence, Wisdom, or Charisma modifier (chosen when selecting race)."
+          "notes": "Bonus action teleport up to 30 feet to an unoccupied space you can see. Uses equal to proficiency bonus, regained on long rest. At 3rd level, gains seasonal effect: Autumn (charm up to two creatures within 10 ft, WIS save), Winter (frighten one creature within 5 ft, WIS save), Spring (touch willing creature within 5 ft to teleport instead of you), Summer (each chosen creature within 5 ft takes fire damage equal to proficiency bonus). Save DC = 8 + proficiency bonus + INT/WIS/CHA modifier."
         },
         "Keen Senses": {
           "armor_profs": [],
@@ -1360,7 +1438,7 @@
         }
       ],
       "subraces": [],
-      "description": "Distant cousins of giants, firbolgs are tall, forest-dwelling humanoids whose magic entwines with the wild places of the world. They can live up to 500 years.",
+      "description": "Distant cousins of giants, firbolgs are a race whose magic entwined with primeval forests, allowing them to pass through nature unnoticed and communicate with flora and fauna. They can live up to 500 years.",
       "_effects": {
         "Creature Type": {
           "armor_profs": [],
@@ -1416,7 +1494,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Can cast detect magic and disguise self (self-only, can appear up to 3 feet shorter or taller) once per long rest each without a spell slot; can also cast them using spell slots. Spellcasting ability is Intelligence, Wisdom, or Charisma (chosen when selecting the race)."
+          "notes": "Can cast detect magic and disguise self (with modified height range of up to 3 feet shorter or taller) once each per long rest without spell slots; can also cast them using spell slots. Spellcasting ability is Intelligence, Wisdom, or Charisma (chosen at race selection)."
         },
         "Hidden Step": {
           "armor_profs": [],
@@ -1444,7 +1522,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Counts as one size larger for determining carrying capacity and the weight you can push, drag, or lift."
+          "notes": "Counts as one size larger for determining carrying capacity and weight you can push, drag, or lift."
         },
         "Speech of Beast and Leaf": {
           "armor_profs": [],
@@ -1458,7 +1536,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Can communicate in a limited manner with Beasts, Plants, and vegetation (they understand you, but you cannot understand them in return). Advantage on all Charisma checks to influence them."
+          "notes": "Can communicate in a limited manner with Beasts, Plants, and vegetation (they understand you, but you cannot understand them). Advantage on all Charisma checks to influence them."
         }
       }
     },
@@ -1526,7 +1604,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Creature type is Humanoid."
+          "notes": "You are a Humanoid."
         },
         "Size": {
           "armor_profs": [],
@@ -1540,7 +1618,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Size is Medium or Small (chosen when selecting the race)."
+          "notes": "You are Medium or Small. You choose the size when you select this race."
         },
         "Speed": {
           "armor_profs": [],
@@ -1582,7 +1660,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Can hold breath indefinitely while not incapacitated."
+          "notes": "You can hold your breath indefinitely while you're not incapacitated."
         },
         "Lightning Resistance": {
           "armor_profs": [],
@@ -1612,7 +1690,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Knows shocking grasp cantrip. At 3rd level can cast feather fall once per long rest without material components. At 5th level can also cast levitate once per long rest without material components. Can also cast these spells using spell slots. Spellcasting ability is Intelligence, Wisdom, or Charisma (chosen when selecting the race)."
+          "notes": "You know the shocking grasp cantrip. Starting at 3rd level, you can cast feather fall with this trait without requiring a material component. Starting at 5th level, you can also cast levitate with this trait without requiring a material component. Once you cast feather fall or levitate with this trait, you can't cast that spell with it again until you finish a long rest. You can also cast either of those spells using any spell slots you have of the appropriate level. Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells when you cast them with this trait (choose when you select this race)."
         }
       }
     },
@@ -1676,7 +1754,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Creature type is Humanoid."
+          "notes": "You are a Humanoid."
         },
         "Size": {
           "armor_profs": [],
@@ -1690,7 +1768,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Size is Medium or Small (chosen when selecting the race)."
+          "notes": "You are Medium or Small. You choose the size when you select this race."
         },
         "Speed": {
           "armor_profs": [],
@@ -1718,7 +1796,7 @@
           "darkvision": 60,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "In darkness, vision is only in shades of gray."
+          "notes": ""
         },
         "Earth Walk": {
           "armor_profs": [],
@@ -1732,7 +1810,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Can move across difficult terrain without expending extra movement when using walking speed on the ground or a floor."
+          "notes": "You can move across difficult terrain without expending extra movement if you are using your walking speed on the ground or a floor."
         },
         "Merge with Stone": {
           "armor_profs": [],
@@ -1746,7 +1824,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Knows the blade ward cantrip; can cast it as a bonus action a number of times equal to proficiency bonus (regained on long rest). At 5th level, can cast pass without trace without material components once per long rest (also castable with 2nd-level+ spell slots). Spellcasting ability is Intelligence, Wisdom, or Charisma (chosen when selecting the race)."
+          "notes": "You know the blade ward cantrip. You can cast it as normal, and you can also cast it as a bonus action a number of times equal to your proficiency bonus, regaining all expended uses when you finish a long rest. Starting at 5th level, you can cast the pass without trace spell with this trait, without requiring a material component. Once you cast that spell with this trait, you can't do so again until you finish a long rest. You can also cast it using any spell slots you have of 2nd level or higher. Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells when you cast them with this trait (choose when you select this race)."
         }
       }
     },
@@ -1810,7 +1888,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Creature type is Humanoid."
+          "notes": "You are a Humanoid."
         },
         "Size": {
           "armor_profs": [],
@@ -1824,7 +1902,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Size is Medium or Small (chosen when selecting the race)."
+          "notes": "You are Medium or Small. You choose the size when you select this race."
         },
         "Speed": {
           "armor_profs": [],
@@ -1882,7 +1960,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Grants innate spellcasting: produce flame cantrip at will; burning hands (1/long rest, no material component) at 3rd level; flame blade (1/long rest, no material component) at 5th level. Spells can also be cast using spell slots of appropriate level. Spellcasting ability is Intelligence, Wisdom, or Charisma (chosen when selecting the race)."
+          "notes": "You know the produce flame cantrip. Starting at 3rd level, you can cast burning hands with this trait. Starting at 5th level, you can also cast flame blade with this trait, without requiring a material component. Once you cast burning hands or flame blade with this trait, you can't cast that spell with it again until you finish a long rest. You can also cast either of those spells using any spell slots you have of the appropriate level. Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells when you cast them with this trait (choose when you select this race)."
         }
       }
     },
@@ -2022,7 +2100,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Knows acid splash cantrip. At 3rd level can cast create or destroy water (1/long rest, or with spell slots). At 5th level can also cast water walk (1/long rest, no material component, or with spell slots). Spellcasting ability is Intelligence, Wisdom, or Charisma (chosen when selecting the race)."
+          "notes": "Knows acid splash cantrip. At 3rd level can cast create or destroy water once per long rest; at 5th level can also cast water walk once per long rest (no material component). Can also cast these spells using spell slots. Spellcasting ability is Intelligence, Wisdom, or Charisma (chosen when selecting the race)."
         },
         "Darkvision": {
           "armor_profs": [],
@@ -2158,7 +2236,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Know mage hand cantrip (hand invisible when cast with this trait). At 3rd level, can cast jump once per long rest. At 5th level, can cast misty step once per long rest. Can also cast jump or misty step using spell slots. Spellcasting ability is Intelligence, Wisdom, or Charisma (chosen at race selection). These spells require no components when cast with this trait."
+          "notes": "Knows mage hand cantrip (hand is invisible when cast with this trait). At 3rd level, can cast jump once per long rest. At 5th level, can cast misty step once per long rest. Can also cast jump or misty step using spell slots of appropriate level. Spellcasting ability is Intelligence, Wisdom, or Charisma (chosen when selecting race). These spells require no spell components when cast with this trait."
         },
         "Psychic Resilience": {
           "armor_profs": [],
@@ -2278,7 +2356,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Knows mage hand cantrip (invisible hand when cast via this trait). At 3rd level can cast shield once per long rest. At 5th level can cast detect thoughts once per long rest. Can also cast these spells using spell slots. Spellcasting ability is Int, Wis, or Cha (chosen at race selection). Spells cast via this trait require no spell components."
+          "notes": "Knows mage hand cantrip (invisible hand when cast with this trait). At 3rd level can cast shield once per long rest. At 5th level can cast detect thoughts once per long rest. Can also cast these spells using spell slots. Spellcasting ability is Int, Wis, or Cha (chosen at race selection). Spells cast with this trait require no spell components."
         },
         "Mental Discipline": {
           "armor_profs": [],
@@ -2365,7 +2443,7 @@
         }
       ],
       "subraces": [],
-      "description": "Goblins are small, black-hearted humanoids that lair in caves and other dark places. They are cowardly and cruel, and they delight in the torment of others.",
+      "description": "Goblins are small, black-hearted humanoids that lair in caves and other dark places.",
       "_effects": {
         "Creature Type": {
           "armor_profs": [],
@@ -2515,7 +2593,7 @@
         }
       ],
       "subraces": [],
-      "description": "Goliaths are distantly related to giants and infused with the supernatural essence of their ancestors’ mountainous home. They stand between 7 and 8 feet tall and have a wide array of skin tones resembling different types of stone.",
+      "description": "Goliaths stand between 7 and 8 feet tall and have a wide array of skin tones resembling different types of stone. They are distantly related to giants and infused with the supernatural essence of their ancestors' mountainous home.",
       "_effects": {
         "Creature Type": {
           "armor_profs": [],
@@ -2573,7 +2651,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Reaction when taking damage: roll d12 + Constitution modifier and reduce the damage by that total. Usable a number of times equal to proficiency bonus, regained on a long rest."
+          "notes": "Reaction when taking damage: roll d12 + Constitution modifier, reduce damage by total. Usable a number of times equal to proficiency bonus, regained on long rest."
         },
         "Speed": {
           "armor_profs": [],
@@ -2603,7 +2681,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Counts as one size larger when determining carrying capacity and the weight you can push, drag, or lift."
+          "notes": "Counts as one size larger for carrying capacity and push/drag/lift weight."
         }
       }
     },
@@ -2658,7 +2736,7 @@
         }
       ],
       "subraces": [],
-      "description": "Harengons are bipedal rabbitfolk with long feet, fur in a variety of colors, keen senses, powerful legs, and a bit of fey luck.",
+      "description": "Harengons are bipedal rabbitfolk with long feet, fur in a variety of colors, keen senses, powerful legs, and a touch of fey luck.",
       "_effects": {
         "Creature Type": {
           "armor_profs": [],
@@ -2686,7 +2764,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Size is Medium or Small (chosen when selecting the race)."
+          "notes": "Size is Medium or Small (chosen at race selection)."
         },
         "Speed": {
           "armor_profs": [],
@@ -2744,7 +2822,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "When you fail a Dexterity saving throw, you can use your reaction to roll a d4 and add it to the save, potentially turning the failure into a success. You can't use this reaction if you're prone or your speed is 0."
+          "notes": "Reaction on failed Dexterity saving throw: roll d4 and add to save, potentially turning failure into success. Unusable if prone or speed is 0."
         },
         "Rabbit Hop": {
           "armor_profs": [],
@@ -2758,7 +2836,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "As a bonus action, you can jump a number of feet equal to five times your proficiency bonus, without provoking opportunity attacks. You can use this trait only if your speed is greater than 0. You can use it a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest."
+          "notes": "Bonus action: jump 5 × proficiency bonus feet without provoking opportunity attacks. Requires speed > 0. Uses equal to proficiency bonus, regained on long rest."
         }
       }
     },
@@ -2815,7 +2893,7 @@
         }
       ],
       "subraces": [],
-      "description": "Hobgoblins are Medium Fey (Goblinoid) creatures, typically Lawful Neutral, standing about as tall as humans with a muscular build and a militaristic bearing.",
+      "description": "Hobgoblins are a goblinoid race that first appeared in the Feywild millennia ago, and they are known for their martial prowess and tactical cunning.",
       "_effects": {
         "Creature Type": {
           "armor_profs": [],
@@ -2901,7 +2979,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Take the Help action as a bonus action, a number of times equal to your proficiency bonus, regaining all expended uses on a long rest. At 3rd level, choose one of three options each time you use this Help action: Hospitality (you and the helped creature each gain 1d6 + proficiency bonus temporary hit points), Passage (you and the helped creature each increase walking speeds by 10 feet until the start of your next turn), or Spite (until the start of your next turn, the first time the helped creature hits a target with an attack roll, that target has disadvantage on its next attack roll within the next minute)."
+          "notes": "Take the Help action as a bonus action, a number of times equal to your proficiency bonus, regaining all expended uses on a long rest. Starting at 3rd level, choose one option each time you take the Help action with this trait: Hospitality (you and the helped creature each gain temporary hit points equal to 1d6 + proficiency bonus), Passage (you and the helped creature each increase walking speeds by 10 feet until the start of your next turn), or Spite (until the start of your next turn, the first time the helped creature hits a target with an attack roll, that target has disadvantage on the next attack roll it makes within the next minute)."
         },
         "Fortune from the Many": {
           "armor_profs": [],
@@ -2915,7 +2993,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "When you miss with an attack roll or fail an ability check or saving throw, you can add a bonus to the roll equal to the number of allies you can see within 30 feet of you (maximum +3). Usable a number of times equal to your proficiency bonus, regaining all expended uses on a long rest."
+          "notes": "When you miss with an attack roll or fail an ability check or saving throw, you can gain a bonus to the roll equal to the number of allies you can see within 30 feet of you (maximum +3). Usable a number of times equal to your proficiency bonus, regaining all expended uses on a long rest."
         }
       }
     },
@@ -3051,7 +3129,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Can accurately mimic sounds and voices heard; listeners can detect imitation with a Wisdom (Insight) check against DC 8 + proficiency bonus + Charisma modifier."
+          "notes": "Can accurately mimic sounds and voices; listeners can detect imitation with a Wisdom (Insight) check against DC 8 + proficiency bonus + Charisma modifier."
         }
       }
     },
@@ -3102,7 +3180,7 @@
         }
       ],
       "subraces": [],
-      "description": "Kobolds are small, reptilian humanoids with draconic features, often serving dragons and living in underground lairs.",
+      "description": "Kobolds are small, reptilian humanoids with draconic features, often serving dragons and living in tribes.",
       "_effects": {
         "Creature Type": {
           "armor_profs": [],
@@ -3336,7 +3414,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Bonus action special Bite attack; on hit grants temporary HP equal to proficiency bonus. Usable a number of times equal to proficiency bonus, regained on long rest."
+          "notes": "Bonus action special Bite attack; on hit grants temporary HP equal to proficiency bonus. Usable a number of times equal to proficiency bonus, recharging on long rest."
         },
         "Natural Armor": {
           "armor_profs": [],
@@ -3427,7 +3505,7 @@
         }
       ],
       "subraces": [],
-      "description": "Minotaurs are barrel-chested humanoids with heads resembling those of bulls. Their horns range in size from about 1 foot long to easily three times that length, and they have heavy, cloven hooves and long, tufted tails.",
+      "description": "Minotaurs are barrel-chested humanoids with heads resembling those of bulls. Their horns range in size from about 1 foot long to easily three times that length, and they have thick hair, cloven hooves, and long, tufted tails.",
       "_effects": {
         "Creature Type": {
           "armor_profs": [],
@@ -3441,7 +3519,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "You are a Humanoid."
+          "notes": "Creature type is Humanoid."
         },
         "Size": {
           "armor_profs": [],
@@ -3455,7 +3533,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "You are Medium."
+          "notes": "Size is Medium."
         },
         "Speed": {
           "armor_profs": [],
@@ -3483,7 +3561,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Natural weapon: horns used for unarmed strikes deal 1d6 + Strength modifier piercing damage instead of bludgeoning."
+          "notes": "Natural weapon: horns can be used for unarmed strikes, dealing 1d6 + Strength modifier piercing damage instead of normal unarmed strike bludgeoning damage."
         },
         "Goring Rush": {
           "armor_profs": [],
@@ -3497,7 +3575,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "After taking the Dash action and moving at least 20 feet, you can make one melee attack with your Horns as a bonus action."
+          "notes": "After taking the Dash action and moving at least 20 feet, can make one melee attack with Horns as a bonus action."
         },
         "Hammering Horns": {
           "armor_profs": [],
@@ -3511,7 +3589,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "After hitting with a melee attack, you can use a bonus action to attempt to push the target up to 10 feet away; target must succeed on a Strength saving throw (DC 8 + proficiency bonus + Strength modifier) or be pushed."
+          "notes": "After hitting with a melee attack as part of the Attack action, can use a bonus action to attempt to push a target within 5 feet and no more than one size larger; target must succeed on a Strength saving throw (DC 8 + proficiency bonus + Strength modifier) or be pushed up to 10 feet away."
         },
         "Labyrinthine Recall": {
           "armor_profs": [],
@@ -3525,7 +3603,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "You always know which direction is north, and you have advantage on Wisdom (Survival) checks made to navigate or track."
+          "notes": "Always know which direction is north; advantage on Wisdom (Survival) checks to navigate or track."
         }
       }
     },
@@ -3582,7 +3660,7 @@
         }
       ],
       "subraces": [],
-      "description": "Orcs are a race created by the one-eyed god Gruumsh, possessing toughness and tenacity that allows them to live above or below ground.",
+      "description": "Orcs are a race created by the one-eyed god Gruumsh, known for their toughness and tenacity. They are tireless guardians and mighty allies, equipped to live above or below ground.",
       "_effects": {
         "Creature Type": {
           "armor_profs": [],
@@ -3638,7 +3716,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Can take the Dash action as a bonus action a number of times equal to proficiency bonus per long rest. Each use grants temporary hit points equal to proficiency bonus."
+          "notes": "Can take the Dash action as a bonus action, usable a number of times equal to proficiency bonus, regained on a long rest. Each use grants temporary hit points equal to proficiency bonus."
         },
         "Darkvision": {
           "armor_profs": [],
@@ -3735,107 +3813,32 @@
       "description": "Originating in the Feywild—a realm of pure emotion-satyrs thrive on the energy of merriment. They resemble elves but have goatlike legs, cloven hooves, and ram or goat horns.",
       "_effects": {
         "Creature Type": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [],
-          "skill_profs": [],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": null,
-          "darkvision": null,
-          "hp_per_level": 0,
-          "natural_armor": null,
-          "notes": "Creature type is Fey."
+          "notes": "You are a Fey."
         },
         "Size": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [],
-          "skill_profs": [],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": null,
-          "darkvision": null,
-          "hp_per_level": 0,
-          "natural_armor": null,
-          "notes": "Size is Medium."
+          "notes": "You are Medium."
         },
         "Speed": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [],
-          "skill_profs": [],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": 35,
-          "darkvision": null,
-          "hp_per_level": 0,
-          "natural_armor": null,
-          "notes": ""
+          "speed": 35
         },
         "Ram": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [],
-          "skill_profs": [],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": null,
-          "darkvision": null,
-          "hp_per_level": 0,
-          "natural_armor": null,
-          "notes": "Natural weapon: unarmed strike with head/horns deals 1d6 + Strength modifier bludgeoning damage."
+          "notes": "Unarmed strikes with head/horns deal 1d6 + Strength modifier bludgeoning damage instead of normal unarmed strike damage."
         },
         "Magic Resistance": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [],
-          "skill_profs": [],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": null,
-          "darkvision": null,
-          "hp_per_level": 0,
-          "natural_armor": null,
-          "notes": "Advantage on saving throws against spells."
+          "notes": "You have advantage on saving throws against spells."
         },
         "Mirthful Leaps": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [],
-          "skill_profs": [],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": null,
-          "darkvision": null,
-          "hp_per_level": 0,
-          "natural_armor": null,
-          "notes": "When making a long or high jump, add 1d8 feet to distance covered, including standing jumps; extra distance costs movement as normal."
+          "notes": "When making a long or high jump, you can roll a d8 and add the result to the distance covered in feet, even when standing jump. Extra distance costs movement as normal."
         },
         "Reveler": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [
-            "One musical instrument of your choice"
-          ],
           "skill_profs": [
             "Performance",
             "Persuasion"
           ],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": null,
-          "darkvision": null,
-          "hp_per_level": 0,
-          "natural_armor": null,
-          "notes": ""
+          "tool_profs": [
+            "one musical instrument of your choice"
+          ],
+          "notes": "You have proficiency with one musical instrument of your choice."
         }
       }
     },
@@ -3899,42 +3902,137 @@
       "description": "Sea elves are elves who fell in love with the wild beauty of the ocean, navigating currents and exploring the waters of many worlds. They can be found wherever oceans exist, as well as in the Elemental Plane of Water.",
       "_effects": {
         "Creature Type": {
-          "notes": "You are a Humanoid and are also considered an elf for any prerequisite or effect that requires you to be an elf."
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "You are a Humanoid. You are also considered an elf for any prerequisite or effect that requires you to be an elf."
         },
         "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
           "notes": "You are Medium."
         },
         "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
           "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
           "notes": "You have a swimming speed equal to your walking speed."
         },
         "Child of the Sea": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
           "damage_resist": [
             "Cold"
           ],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
           "notes": "You can breathe air and water."
         },
         "Darkvision": {
-          "darkvision": 60
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 60,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
         },
         "Fey Ancestry": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
           "condition_immune": [
             "Charmed"
           ],
-          "notes": "Advantage on saving throws to avoid or end the charmed condition on yourself."
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "You have advantage on saving throws you make to avoid or end the charmed condition on yourself."
         },
         "Friend of the Sea": {
-          "notes": "You can communicate simple ideas to any Beast that has a swimming speed; it can understand your words, but you have no special ability to understand it in return."
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "You can communicate simple ideas to any Beast that has a swimming speed. It can understand your words, though you have no special ability to understand it in return."
         },
         "Keen Senses": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
           "skill_profs": [
             "Perception"
-          ]
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
         },
         "Trance": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
           "condition_immune": [
             "Sleep"
           ],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
           "notes": "You don't need to sleep, and magic can't put you to sleep. You can finish a long rest in 4 hours if you spend those hours in a trancelike meditation, during which you retain consciousness. Whenever you finish this trance, you can gain two proficiencies that you don't have, each one with a weapon or a tool of your choice selected from the Player's Handbook. You mystically acquire these proficiencies by drawing them from shared elven memory, and you retain them until you finish your next long rest."
         }
       }
@@ -3997,43 +4095,140 @@
         }
       ],
       "subraces": [],
-      "description": "Shadar-kai are the elves of the Shadowfell, with ashen skin tones and a wizened appearance while in the Shadowfell. They exist in a state between life and death, transformed by the Shadowfell’s grim energy.",
+      "description": "Shadar-kai are the elves of the Shadowfell, originally drawn to that dread realm by the Raven Queen. Once Fey like the rest of their elven kin, they now exist in a state between life and death, with ashen skin tones and a wizened appearance in the Shadowfell.",
       "_effects": {
         "Creature Type": {
-          "notes": "You are a Humanoid and are also considered an elf for any prerequisite or effect that requires you to be an elf."
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "You are a Humanoid. You are also considered an elf for any prerequisite or effect that requires you to be an elf."
         },
         "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
           "notes": "You are Medium."
         },
         "Speed": {
-          "speed": 30
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
         },
         "Blessing of the Raven Queen": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
           "notes": "As a bonus action, you can magically teleport up to 30 feet to an unoccupied space you can see. You can use this trait a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest. Starting at 3rd level, you also gain resistance to all damage when you teleport using this trait. The resistance lasts until the start of your next turn. During that time, you appear ghostly and translucent."
         },
         "Darkvision": {
-          "darkvision": 60
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 60,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
         },
         "Fey Ancestry": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
           "condition_immune": [
             "Charmed"
           ],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
           "notes": "You have advantage on saving throws you make to avoid or end the charmed condition on yourself."
         },
         "Keen Senses": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
           "skill_profs": [
             "Perception"
-          ]
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
         },
         "Necrotic Resistance": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
           "damage_resist": [
             "Necrotic"
-          ]
+          ],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
         },
         "Trance": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
           "condition_immune": [
             "Sleep"
           ],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
           "notes": "You don't need to sleep, and magic can't put you to sleep. You can finish a long rest in 4 hours if you spend those hours in a trancelike meditation, during which you retain consciousness. Whenever you finish this trance, you can gain two proficiencies that you don't have, each one with a weapon or a tool of your choice selected from the Player's Handbook. You mystically acquire these proficiencies by drawing them from shared elven memory, and you retain them until you finish your next long rest."
         }
       }
@@ -4084,7 +4279,7 @@
         }
       ],
       "subraces": [],
-      "description": "Shifters are descendants of people who contracted full or partial lycanthropy. Humanoids with a bestial aspect, they are similar to humans in height and build but are typically more lithe and flexible, with facial features that have a bestial cast, often with large eyes and pointed ears, and fur-like hair on nearly every part of their bodies.",
+      "description": "Shifters are descendants of people who contracted full or partial lycanthropy. Humanoids with a bestial aspect, they are similar to humans in height and build but are typically more lithe and flexible, with facial features that have a bestial cast, often with large eyes and pointed ears, and prominent canine teeth.",
       "_effects": {
         "Creature Type": {
           "armor_profs": [],
@@ -4098,7 +4293,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "You are a Humanoid."
+          "notes": "Creature type is Humanoid."
         },
         "Size": {
           "armor_profs": [],
@@ -4112,7 +4307,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "You are Medium."
+          "notes": "Size is Medium."
         },
         "Speed": {
           "armor_profs": [],
@@ -4173,7 +4368,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Bonus action to shift for 1 minute (or until death or reverting as a bonus action). Gain temporary HP equal to 2 x proficiency bonus. Uses equal to proficiency bonus, regained on long rest. Sub-options: Beasthide: +1d6 additional temporary HP and +1 AC while shifted. Longtooth: while shifted, bonus action unarmed strike with fangs dealing 1d6 + Strength modifier piercing damage. Swiftstride: while shifted, +10 ft walking speed; can move up to 10 ft as a reaction when a creature ends its turn within 5 ft, without provoking opportunity attacks. Wildhunt: while shifted, advantage on Wisdom checks and no creature within 30 ft can attack with advantage against you unless you're incapacitated."
+          "notes": "Bonus action to shift for 1 minute (or until reverted/dying); gain temporary HP equal to 2 x proficiency bonus; uses equal to proficiency bonus, regained on long rest. Sub-options: Beasthide grants +1d6 additional temporary HP and +1 AC while shifted; Longtooth grants an unarmed fang strike (1d6 + Strength piercing) as a bonus action while shifted; Swiftstride grants +10 ft walking speed while shifted and a 10-ft reaction move when a creature ends its turn within 5 ft (no opportunity attacks); Wildhunt grants advantage on Wisdom checks while shifted and prevents creatures within 30 ft from attacking with advantage unless you're incapacitated."
         }
       }
     },
@@ -4239,7 +4434,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Creature type is Humanoid."
+          "notes": "You are a Humanoid."
         },
         "Size": {
           "armor_profs": [],
@@ -4253,7 +4448,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Size is Medium or Small (chosen when selecting the race)."
+          "notes": "You are Medium or Small. You choose the size when you select this race."
         },
         "Speed": {
           "armor_profs": [],
@@ -4267,7 +4462,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Climbing speed equal to walking speed (30 feet)."
+          "notes": "You have a climbing speed equal to your walking speed."
         },
         "Cat's Claws": {
           "armor_profs": [],
@@ -4281,7 +4476,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Natural weapon: claws usable for unarmed strikes, dealing 1d6 + Strength modifier slashing damage instead of bludgeoning."
+          "notes": "You can use your claws to make unarmed strikes. When you hit with them, the strike deals 1d6 + your Strength modifier slashing damage, instead of the bludgeoning damage normal for an unarmed strike."
         },
         "Cat's Talent": {
           "armor_profs": [],
@@ -4326,7 +4521,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Can double speed until end of turn when moving in combat; recharges after moving 0 feet on a turn."
+          "notes": "When you move on your turn in combat, you can double your speed until the end of the turn. Once you use this trait, you can't use it again until you move 0 feet on one of your turns."
         }
       }
     },
@@ -4385,97 +4580,29 @@
       "description": "Tortles are turtle folk who live on many worlds, most often journeying up and down coasts, along waterways, and across the sea. They exhibit the same range of coloration and patterns found among turtles, and many tortles enjoy adorning their shells in distinctive ways.",
       "_effects": {
         "Creature Type": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [],
-          "skill_profs": [],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": null,
-          "darkvision": null,
-          "hp_per_level": 0,
-          "natural_armor": null,
-          "notes": "Creature type is Humanoid."
+          "notes": "You are a Humanoid."
         },
         "Size": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [],
-          "skill_profs": [],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": null,
-          "darkvision": null,
-          "hp_per_level": 0,
-          "natural_armor": null,
-          "notes": "Size is Medium or Small (chosen when selecting the race)."
+          "notes": "You are Medium or Small. You choose the size when you select this race."
         },
         "Speed": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [],
-          "skill_profs": [],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": 30,
-          "darkvision": null,
-          "hp_per_level": 0,
-          "natural_armor": null,
-          "notes": ""
+          "speed": 30
         },
         "Claws": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [],
-          "skill_profs": [],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": null,
-          "darkvision": null,
-          "hp_per_level": 0,
-          "natural_armor": null,
-          "notes": "Natural weapon: claws usable for unarmed strikes, dealing 1d6 + Strength modifier slashing damage instead of the normal bludgeoning damage."
+          "notes": "Natural weapon: unarmed strikes with claws deal 1d6 + Strength modifier slashing damage instead of bludgeoning."
         },
         "Hold Breath": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [],
-          "skill_profs": [],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": null,
-          "darkvision": null,
-          "hp_per_level": 0,
-          "natural_armor": null,
-          "notes": "Can hold breath for up to 1 hour."
+          "notes": "You can hold your breath for up to 1 hour."
         },
         "Natural Armor": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [],
-          "skill_profs": [],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": null,
-          "darkvision": null,
-          "hp_per_level": 0,
           "natural_armor": {
             "base_ac": 17,
             "max_dex": null,
             "allow_shield": true
           },
-          "notes": "Dexterity modifier does not affect AC. Cannot wear light, medium, or heavy armor; shield bonus applies normally."
+          "notes": "You can't wear light, medium, or heavy armor."
         },
         "Nature's Intuition": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [],
           "skill_profs": [
             "Animal Handling",
             "Medicine",
@@ -4484,28 +4611,10 @@
             "Stealth",
             "Survival"
           ],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": null,
-          "darkvision": null,
-          "hp_per_level": 0,
-          "natural_armor": null,
-          "notes": "Gain proficiency with one skill of your choice from the listed options."
+          "notes": "Choose one skill proficiency from the listed options."
         },
         "Shell Defense": {
-          "armor_profs": [],
-          "weapon_profs": [],
-          "tool_profs": [],
-          "skill_profs": [],
-          "damage_resist": [],
-          "damage_immune": [],
-          "condition_immune": [],
-          "speed": null,
-          "darkvision": null,
-          "hp_per_level": 0,
-          "natural_armor": null,
-          "notes": "As an action, withdraw into shell: +4 bonus to AC, advantage on Strength and Constitution saving throws; while withdrawn you are prone, speed is 0 and can't increase, disadvantage on Dexterity saving throws, can't take reactions, and only action is a bonus action to emerge."
+          "notes": "As an action, withdraw into shell: +4 bonus to AC, advantage on Strength and Constitution saving throws, prone, speed 0 and can't increase, disadvantage on Dexterity saving throws, can't take reactions, only action is a bonus action to emerge."
         }
       }
     },
@@ -4633,7 +4742,7 @@
           "darkvision": null,
           "hp_per_level": 0,
           "natural_armor": null,
-          "notes": "Innate spellcasting: fog cloud (1st level); gust of wind (3rd level); water walk (5th level). Each castable once per long rest without a spell slot, or with spell slots. Spellcasting ability is Int, Wis, or Cha (chosen at race selection)."
+          "notes": "Innate spellcasting: fog cloud at will (1/long rest); gust of wind at 3rd level (1/long rest); water walk at 5th level (1/long rest). Can also cast using spell slots. Spellcasting ability is Int, Wis, or Cha (chosen at race selection)."
         },
         "Darkvision": {
           "armor_profs": [],
@@ -4812,7 +4921,9 @@
             "Poison"
           ],
           "damage_immune": [],
-          "condition_immune": [],
+          "condition_immune": [
+            "Poisoned"
+          ],
           "speed": null,
           "darkvision": null,
           "hp_per_level": 0,
@@ -22972,6 +23083,58 @@
         }
       ],
       "source": "MTF p.282"
+    },
+    {
+      "name": "Thorny",
+      "size": "Medium",
+      "type": "plant",
+      "alignment": "neutral",
+      "armor_class": 14,
+      "ac_type": "natural armor",
+      "hit_points": "27 (5d8+5)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 12,
+        "constitution": 13,
+        "intelligence": 2,
+        "wisdom": 10,
+        "charisma": 6
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "piercing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "blinded",
+        "deafened",
+        "frightened"
+      ],
+      "senses": "blindsight 30 ft. (blind beyond this radius), passive Perception 10",
+      "languages": [],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Regeneration",
+          "description": "The thorny regains 5 hit points at the start of its turn. If the thorny takes fire damage, this trait doesn't function at the start of the thorny's next turn. The thorny dies only if it starts its turn with 0 hit points and doesn't regenerate."
+        },
+        {
+          "name": "Thorny Body",
+          "description": "At the start of its turn, the thorny deals 2 (1d4) piercing damage to any creature grappling it."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 10 (2d8 + 1) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "MPMM p.253"
     }
   ],
   "npcs": [],
@@ -22980,13 +23143,17 @@
   "subclasses": [],
   "traps": [],
   "_chapters_completed": [
-    "D&D 5E  Mordenkainen Presents Monsters of the Multiverse"
+    "Using This Book",
+    "Ch. 1: Fantastical Races",
+    "Ch. 2: Bestiary",
+    "D&D 5E  Mordenkainen Presents Monsters of the Multiverse",
+    "Appendix: Monster Lists"
   ],
   "_chapter_errors": {},
   "_current_chapter": "",
-  "_total_chapters": 1,
+  "_total_chapters": 4,
   "_book_slug": "DMPMOT",
   "_book_title": "D&D 5E  Mordenkainen Presents Monsters of the Multiverse",
   "_completed": true,
-  "_timestamp": 1790276811.3422782
+  "_timestamp": 1790812898.6761959
 }

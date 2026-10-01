@@ -53,6 +53,13 @@ MERGES = [
     ("equipment", "Wine, Fine (bottle)", "Wine - Fine (bottle)", "same table row"),
     ("equipment", "Hireling (Skilled)", "Hireling - Skilled", "same table row"),
     ("equipment", "Coach cab (between towns)", "Coach cab - Between towns", "same table row"),
+    # Introduced by the 2026-09 chapter re-extraction of two books that had been ingested as a
+    # single chunk (CotN, WGE): the chapter pass emitted the name without its parenthetical while
+    # the older chunk row keeps the printed form. Survivor is the printed form and carries a page.
+    ("traps", "Scalding Pit (Boiling Water)", "Scalding Pit Boiling Water",
+     "same trap, same book (CotN); survivor carries CotN:157 and the fuller text"),
+    ("races", "Mark of Passage (Human)", "Mark of Passage Human",
+     "same dragonmark race, same book (WGE); survivor carries a printed page"),
 ]
 
 # Rows with no twin: renamed to the surviving style so the same mis-parse cannot reappear as a

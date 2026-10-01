@@ -9498,5 +9498,1655 @@
     "description": "A tripwire hidden in the grass triggers a halberd to swing down from a statue, striking creatures between the statue and the door.",
     "source": "(WL23 Wrath of the Bramble King, p.5)",
     "_source_manual": "WWOTBK"
+  },
+  {
+    "name": "Locked Room without Doors",
+    "type": "magical",
+    "danger": "setback",
+    "trigger": "Entering the room and attempting to leave through any of its six doors",
+    "detection": {
+      "dc": 30,
+      "skill": "Intelligence (Arcana) or Sleight of Hand",
+      "detail": "Materials in the room look like clues for which doors to go through in what order: a tapestry, an enameled box, a carved wooden set of chessmen. An Intelligence (Arcana) or Sleight of Hand check (DC 30) can puzzle out the clues."
+    },
+    "disarm": {
+      "dc": 30,
+      "method": "Intelligence (Arcana) or Sleight of Hand",
+      "detail": "Puzzle out the clues to determine the correct order of doors."
+    },
+    "effect": "No matter what door they go through, they always come out one of the other doors in the room. The whole is an elaborate illusory trap, which ejects visitors after a few hours or with an Intelligence (Arcana) or Sleight of Hand check (DC 30) to puzzle out the clues.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "A hall of six doors",
+    "description": "This hall of six doors seems unconnected to any other part of the palace. Visitors sometimes hear a light laugh or running water.",
+    "source": "(Courts of the Shadow Fey, p.86)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Holes in the Clouds",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "A creature that walks over a hole",
+    "detection": {
+      "dc": 17,
+      "skill": "Perception",
+      "detail": "A successful DC 17 Wisdom (Perception) check reveals the danger."
+    },
+    "disarm": {
+      "dc": 20,
+      "method": "Intelligence (Arcana) check or dispel magic against DC 17",
+      "detail": "A creature can disable a hole in the floor by making a successful DC 20 Intelligence (Arcana) check, or successfully casting dispel magic against DC 17. A disabled hole fills with solid mist and becomes a normal part of the floor."
+    },
+    "effect": "A creature that walks over a hole must make a DC 15 Dexterity saving throw. On a failed save, it falls into the hole, but catches itself on the edge. While hanging, the creature has disadvantage on attack rolls, and attack rolls against it have advantage. If the saving throw fails by 5 or more, the creature falls 100 feet to the staircase leading up from the courts, takes 35 (10d6) bludgeoning damage, and lands prone.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "35 (10d6)",
+    "damage_type": "bludgeoning",
+    "area": "5 feet in diameter",
+    "description": "There are holes in the solid cloudstuff that forms the floor of the queen's audience chamber. Insubstantial mist fills the holes, blending with the surrounding tangible floor. The holes are magical traps.",
+    "source": "(Courts of the Shadow Fey, p.125)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Lantern Dragonette Nesting Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Watching the glowing brazier's light",
+    "detection": {
+      "dc": 0,
+      "skill": "Perception",
+      "detail": "Passive Perception (contested by the shadow beasts' Dexterity (Stealth) check)—The shadows you see don't come entirely from the fire and the dragonettes; the walls of the maze conceal large shadowy creatures, just barely out of sight."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Characters are immobilized and hypnotized when the shadow beasts come out of the shadows.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Clearing with a huge brass brazier",
+    "description": "A trap protecting the lantern dragonettes' nesting place, which they and their shadow beast guardians never trigger. Watching the glowing brazier's light immobilizes and hypnotizes characters when the shadow beasts emerge.",
+    "source": "(Courts of the Shadow Fey, p.127)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Pyrohypnosis Brazier",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "A humanoid that starts its turn within 30 feet of the brazier and that can see it",
+    "detection": {
+      "dc": 15,
+      "skill": "Arcana",
+      "detail": "A character who examines the brazier from afar and succeeds on a DC 15 Intelligence (Arcana) check identifies the danger."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Intelligence (Arcana)",
+      "detail": "The brazier can be disabled with a successful DC 15 Intelligence (Arcana) check, or with a successful casting of dispel magic against DC 13."
+    },
+    "effect": "A humanoid that starts its turn within 30 feet of the brazier and that can see it must succeed on a DC 14 Wisdom saving throw or be charmed until the start of its next turn. While charmed in this way, the creature is incapacitated, its speed is reduced to 0 and it can't benefit from increases to its speed, and it has disadvantage on Wisdom (Perception) checks. The effect ends early if a charmed creature takes damage.",
+    "save_dc": 14,
+    "save_ability": "Wisdom",
+    "damage": "",
+    "damage_type": "",
+    "area": "30 feet",
+    "description": "The brazier in the center of the chamber is a magical trap that charms creatures that can see it.",
+    "source": "(Courts of the Shadow Fey, p.128)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "A Floor of Honey",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "The wax floor of the tunnel is rigged to break when stepped on, trapping the feet of trespassers in a glue-like honey.",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "Spotting the trap requires a successful DC 15 Wisdom (Perception) check."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "None",
+      "detail": "The trap cannot be disabled, but it can be avoided."
+    },
+    "effect": "If the trap is triggered, the character must make a successful DC 12 Dexterity saving throw to avoid falling through and becoming grappled (escape DC 12).",
+    "save_dc": 12,
+    "save_ability": "Dexterity",
+    "damage": "",
+    "damage_type": "",
+    "area": "The wax floor of the tunnel, just 10 feet beyond the meeting room.",
+    "description": "A wax floor rigged to break when stepped on, trapping the feet of trespassers in a glue-like honey.",
+    "source": "(Tales of the Margreve, p.74)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "A Thin Floor and a Short Fall",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "The wax floor is constructed in such a way as to break when someone reaches the designated area.",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "Spotting the trap requires a DC 15 Wisdom (Perception) check."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "None",
+      "detail": "The trap cannot be disabled, but it can be avoided."
+    },
+    "effect": "Old giant bee stingers line the floor at the bottom of the pit, embedded in wax. Avoiding the stingers requires a successful DC 12 Dexterity saving throw. A character who is unable to avoid the stingers takes 3 (1d6) piercing damage and must make a DC 10 Constitution saving throw, taking 7 (2d6) poison damage on a failed save, or half as much damage on a successful one.",
+    "save_dc": 12,
+    "save_ability": "Dexterity",
+    "damage": "3 (1d6) piercing and 7 (2d6) poison",
+    "damage_type": "piercing and poison",
+    "area": "The trapped hallway.",
+    "description": "A wax floor constructed to break when someone reaches the designated area, dropping them onto old giant bee stingers embedded in wax at the bottom of a pit.",
+    "source": "(Tales of the Margreve, p.74)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Thin Wax Floor",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "The wax floor is constructed to break when someone reaches the designated area.",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "Spotting the trap and avoiding it requires a DC 15 Wisdom (Perception) check."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method specified."
+    },
+    "effect": "Those who are caught in it fall 20 feet, taking 2d6 bludgeoning damage. The soft earthen walls of the pit make getting out difficult, requiring a DC 25 Strength (Athletics) check. If the characters attempt to climb out at the corners, the DC is decreased to 20.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "2d6",
+    "damage_type": "bludgeoning",
+    "area": "Designated area of the hallway",
+    "description": "This hallway has been trapped to prevent intruders from reaching the chambers of the Honey Queen.",
+    "source": "(Tales of the Margreve, p.76)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Rusted Ladder (D1 Scrying Room)",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "The first creature to climb the ladder to E2 causes it to break.",
+    "detection": {
+      "dc": 25,
+      "skill": "Wisdom (Perception)",
+      "detail": "It takes a successful DC 25 Wisdom (Perception) check to determine that the ladder to E2 is rusted through."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method given."
+    },
+    "effect": "The ladder breaks and the creature falls, taking 1d6 bludgeoning damage from the fall unless it succeeds on a DC 17 Dexterity saving throw.",
+    "save_dc": 17,
+    "save_ability": "Dexterity",
+    "damage": "1d6",
+    "damage_type": "bludgeoning",
+    "area": "The ladder between D1 and E2.",
+    "description": "A rusted-through ladder that breaks when first climbed, causing a fall.",
+    "source": "(Tales of the Margreve, p.113)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Enchanted Mandrake Root",
+    "type": "magical",
+    "danger": "setback",
+    "trigger": "A non-plant creature comes within 20 feet of the mandrake root.",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "Once characters have encountered their first mandrake root, they can pick their way safely through the others with successful DC 15 Wisdom (Perception) checks."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "Impaling it with an iron pin",
+      "detail": "It can be disarmed by impaling it with an iron pin."
+    },
+    "effect": "A root screams (as an alarm spell) when a non-plant creature comes within 20 feet. If a mandrake root is destroyed or uprooted, it becomes the point of origin of a DC12 thunderclap spell (see Heroes Handbook).",
+    "save_dc": 12,
+    "save_ability": "Constitution",
+    "damage": "",
+    "damage_type": "thunder",
+    "area": "20-foot radius",
+    "description": "The King of Thorns' first line of defense is a scattering of enchanted mandrake roots: Tiny humanoid-like plants that shriek if anyone passes near. The mandrake roots are living plants with AC 5 and 4 hit points apiece.",
+    "source": "(Tales of the Margreve, p.144)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Door of Thorns",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Breaking the door open or dealing more than 10 damage to it.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The door is enchanted to respond to commands from the King of Thorns or his briar men."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Entry can be gained by destroying it (AC 11, 30 hit points), breaking it open (requiring a successful DC 19 Strength check), or unweaving the vines (requiring a successful DC 21 Dexterity [Sleight of Hand] check)."
+    },
+    "effect": "Thorns emerge and attack the nearest creature. The thorns are +8 to hit, deal 3d6 piercing damage on a hit, and a target hit is also grappled (escape DC 15).",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "3d6",
+    "damage_type": "piercing",
+    "area": "Nearest creature",
+    "description": "A mass of taut vines held together by a tangle of interlocked spines forms a thorny mesh door. Breaking the door open or dealing more than 10 damage to it causes thorns to emerge and attack the nearest creature.",
+    "source": "(Tales of the Margreve, p.145)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Flailing Thorns",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Entering the warded area (areas BP1, TP4, TP5)",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Flailing thorns attack creatures in the area",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Wards areas BP1, TP4, and TP5",
+    "description": "A magical trap that wards several chambers in the Briar Palace with flailing thorns.",
+    "source": "(Tales of the Margreve, p.147)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Unstable Log Trap",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "A creature enters the trapped area.",
+    "detection": {
+      "dc": 15,
+      "skill": "Wisdom (Survival)",
+      "detail": "DC 15 Wisdom (Survival) to create; presumably similar to detect."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Wisdom (Survival)",
+      "detail": "DC 15 Wisdom (Survival) to create; disarm method not specified."
+    },
+    "effect": "Target must make a DC 12 Dexterity save or be knocked prone.",
+    "save_dc": 12,
+    "save_ability": "Dexterity",
+    "damage": "",
+    "damage_type": "",
+    "area": "As constructed",
+    "description": "An unstable log trap created from fallen logs and dead saplings.",
+    "source": "(Tales of the Margreve, p.177)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "The Box's Riddle Lock",
+    "type": "magical",
+    "danger": "setback",
+    "trigger": "A character inserts an incorrect key into the lock or tries to pick the lock.",
+    "detection": {
+      "dc": 13,
+      "skill": "Intelligence (Arcana or History)",
+      "detail": "A character who succeeds on a DC 13 Intelligence (Arcana or History) check recognizes the shape of the dragon lock or the box's aquatic decorations as indicative of a bronze dragon; if a character saw someone get shocked by lightning after an incorrect guess, the DC for this check is reduced to 11. A character can make a DC 10 Intelligence check to recognize that the metallic hues of the keys and the first two lines of the riddle are talking about not just metals but also types of metallic dragons."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The correct key (the bronze key) opens the lock without triggering the trap. Inserting the incorrect key or trying to pick the lock triggers the shock."
+    },
+    "effect": "The lock emits an electric shock.",
+    "save_dc": 16,
+    "save_ability": "Dexterity",
+    "damage": "2 (1d4)",
+    "damage_type": "lightning",
+    "area": "The creature inserting the incorrect key or picking the lock",
+    "description": "A locked wooden box with four metal keys (bronze, copper, silver, gold). The lock is shaped like a dragon with a fluted crest, and the box edges are decorated with engravings of pearls and shells. The bronze key opens the lock; incorrect keys or lockpicking triggers an electric shock.",
+    "source": "(Call of the Netherdeep, p.7)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Bottle 2 (Blight Brew)",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "A character sips from this bottle.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The bottle is green and filled with blight brew."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not applicable; the bottle is simply avoided or the correct bottle is chosen."
+    },
+    "effect": "The character becomes poisoned for 1 minute, spending the time retching.",
+    "save_dc": 10,
+    "save_ability": "Constitution",
+    "damage": "",
+    "damage_type": "",
+    "area": "The creature sipping from the bottle",
+    "description": "Bottle 2 of the Bottles' Riddle is a green bottle filled with blight brew. Sipping from it requires a DC 10 Constitution saving throw or the character becomes poisoned for 1 minute, retching.",
+    "source": "(Call of the Netherdeep, p.7)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Bottle 4 (Spicy Pepper Oil)",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "A character sips from this bottle.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The bottle is white and filled with overwhelmingly spicy pepper oil."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not applicable; the bottle is simply avoided or the correct bottle is chosen."
+    },
+    "effect": "The character takes 1 fire damage from the spice.",
+    "save_dc": 10,
+    "save_ability": "Constitution",
+    "damage": "1",
+    "damage_type": "fire",
+    "area": "The creature sipping from the bottle",
+    "description": "Bottle 4 of the Bottles' Riddle is a white bottle filled with overwhelmingly spicy pepper oil. Sipping from it requires a DC 10 Constitution saving throw or the character takes 1 fire damage from the spice.",
+    "source": "(Call of the Netherdeep, p.7)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Stained-Glass Mosaic",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "A creature presses an incorrect symbol on the stained-glass mosaic.",
+    "detection": {
+      "dc": 11,
+      "skill": "Intelligence (Religion)",
+      "detail": "A character who succeeds on a DC 11 Intelligence (Religion) check recognizes the nine symbols as the symbols of evil gods."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The mosaic can be bypassed by pressing four symbols in the correct order (Spider, Bleeding Eye, Jagged Spiral, Trio of Arms), or by breaking through it with a successful DC 12 Strength check or by destroying it."
+    },
+    "effect": "A creature that presses an incorrect symbol must make a DC 16 Wisdom saving throw, taking 28 (8d6) psychic damage on a failed save, or half as much damage on a successful one. Destroying the mosaic causes the flame creatures in the hall to attack. Moreover, each creature in the hall when the mosaic breaks must make a DC 20 Wisdom saving throw unless it is a Construct, a Fiend, or an Undead. On a failed save, the creature is cursed and can't regain hit points until the effect on that creature is ended by a remove curse spell or similar magic. If destroyed, the stained-glass window repairs itself after 1 hour.",
+    "save_dc": 16,
+    "save_ability": "Wisdom",
+    "damage": "28 (8d6)",
+    "damage_type": "psychic",
+    "area": "The stained-glass mosaic is a 10-foot-wide section of wall at the north end of the basilica.",
+    "description": "A stained-glass mosaic depicting a maelstrom of color with nine symbols of evil gods. Pressing the correct sequence of four symbols opens a door; pressing an incorrect symbol triggers psychic damage.",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Chains of Darkness",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "A creature falls prone in the hall of area R10.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The chains on the floor slither toward the creature when it falls prone."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Strength (Athletics)",
+      "detail": "Any creature that is not grappled by the chains can use an action to try to free a chained creature within reach, doing so with a successful DC 15 Strength (Athletics) check. Whatever the result of the check, the creature making the attempt takes 11 (2d10) psychic damage."
+    },
+    "effect": "The creature must succeed on a DC 15 Dexterity saving throw or be grappled by the chains (escape DC 15). Until it escapes, the creature takes 5 (1d10) psychic damage at the start of each of its turns.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "5 (1d10)",
+    "damage_type": "psychic",
+    "area": "The hall of area R10, which is covered by a nest of black chains.",
+    "description": "When a creature falls prone in this hall, the chains on the floor slither toward it and attempt to grapple it, dealing psychic damage each turn.",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Wailing Statue",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Any creature within 30 feet of the statue that can hear the wailing sound coming from it",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "A detect magic spell reveals an aura of abjuration magic emanating from the iron doors in the statue's chest. Similar auras are apparent in the palms of the stone arms that are within the spell's range."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The curse can be ended by a remove curse spell or similar magic, or by entering area R16."
+    },
+    "effect": "Any creature within 30 feet of the statue that can hear the wailing sound coming from it must make a successful DC 16 Charisma saving throw or become cursed by Torog's hunger. A creature that succeeds on this saving throw is immune to the effect of the wailing statue for 24 hours. The curse has the following effects on a creature: • At the start of each of its turns, the creature must make a DC 16 Wisdom saving throw. On a failed save, the creature must use its action to harm another creature it can see, using a spell or an attack that deals the greatest amount of damage. • While the creature has fewer than half its hit points, its successful weapon attacks deal an extra 3 (1d6) psychic damage. The creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. Otherwise, the curse of Torog remains in effect on the creature until ended by a remove curse spell or similar magic, or until the creature enters area R16.",
+    "save_dc": 16,
+    "save_ability": "Charisma",
+    "damage": "3 (1d6)",
+    "damage_type": "psychic",
+    "area": "30-foot radius around the statue",
+    "description": "A statue of a tortured man that emits a hideous wailing noise, cursing those who hear it with Torog's hunger.",
+    "source": "(Call of the Netherdeep, p.70)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Arms of Torog Pustules",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Attacking or destroying the pustules on the palms of the stone arms",
+    "detection": {
+      "dc": 13,
+      "skill": "Perception",
+      "detail": "Characters who have a passive Wisdom (Perception) score of 13 or higher notice that each one of the arms bears a throbbing, purple-black pustule on its palm."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Destroying all three pustules lights up the entire triangle and unlocks the doors embedded in the statue's chest. If the pustules are all destroyed, they re-form after 1 hour, at which point the doors close and become locked again unless they are held open or are opened from the inside."
+    },
+    "effect": "Each pustule has AC 17, 25 hit points, and immunity to poison and psychic damage. When a pustule is reduced to 0 hit points, it is destroyed, and one side of the triangle engraved on the floor begins to glow white. Destroying all three pustules lights up the entire triangle and unlocks the doors embedded in the statue's chest.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Three stone arms at the points of a 40-foot triangle around the statue",
+    "description": "Three stone arms jut up from the floor, each with a throbbing purple-black pustule on its palm. Destroying all three unlocks the iron doors in the statue's chest.",
+    "source": "(Call of the Netherdeep, p.70)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "South Hallway Stone Slab",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "When one or more characters enter the hallway to the south",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The grinding noise is heard automatically when entering the hallway."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Defeating the fiendish ores in area R14 or using a knock spell or similar magic causes the slab to sink back into the floor; it can't be moved or breached otherwise."
+    },
+    "effect": "A loud grinding noise is heard as a stone slab rises from the floor to block the entrance to area R14. This slab has no handle or keyhole.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Entrance to area R14",
+    "description": "A stone slab rises to block the southern hallway, sealing off area R14 until the fiendish ores are defeated or a knock spell is used.",
+    "source": "(Call of the Netherdeep, p.70)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Lightless Labyrinth",
+    "type": "magical",
+    "danger": "setback",
+    "trigger": "Entering the labyrinth and choosing paths",
+    "detection": {
+      "dc": 14,
+      "skill": "Religion",
+      "detail": "A character who makes a successful DC 14 Intelligence (Religion) check recalls one of Torog's commandments: \"Seek and exalt places where no light touches.\" A character can guess that the darkened passages are related by making a successful DC 10 Wisdom (Insight) check."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Always take the fork shrouded in darkness. After choosing three paths, if they chose the darkened path all three times, they emerge at the opposite side from where they entered."
+    },
+    "effect": "When the characters enter the labyrinth, they're faced with a choice of three paths: one lit by violet continual flame spells, one by red continual flame spells, and one shrouded in impenetrable magical darkness. Following any of the paths leads them to another three-way fork with the same choices available, and then another. If they chose any of the illuminated paths, they emerge at the same place where they entered, and each character must succeed on a DC 15 Constitution saving throw or gain 1 level of exhaustion as the endlessly zigzagging pathways drain their resolve.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "",
+    "damage_type": "",
+    "area": "Network of 5-foot-wide, 10-foot-high tunnels",
+    "description": "A zigzagging labyrinth with three paths at each fork: violet-lit, red-lit, and magical darkness. Taking the dark path leads to the exit; taking lit paths causes exhaustion.",
+    "source": "(Call of the Netherdeep, p.70)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Blood Font of the Ruiner",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "The ores pray to Gruumsh on their first turn in combat, activating the blood font",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The pool of blood is visible in the center of the chamber."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Killing both ores or forcing open either exit causes the boiling blood to drain out of the room through holes that open in the floor, lowering the blood's depth by 5 feet per round."
+    },
+    "effect": "Stone slabs rise from the floor to block the north and south exits (unless both slabs were already closed). A knock spell or similar magic can force a slab to sink back into the floor. When both exits are sealed after the ores pray to Gruumsh, the pool of blood begins to boil and overflow. The boiling blood starts to flood the room, rising at a rate of 5 feet per minute to a maximum depth of 45 feet. A creature that ends its turn in the boiling blood takes 7 (2d6) fire damage.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "7 (2d6)",
+    "damage_type": "fire",
+    "area": "Entire chamber, flooding up to 45 feet deep",
+    "description": "A circular pool of blood that, when activated by the ores' prayer to Gruumsh, seals the exits and floods the room with boiling blood.",
+    "source": "(Call of the Netherdeep, p.70)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Vault Door Concussive Blast",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "A character forcibly pries open the vault door with a successful DC 21 Strength (Athletics) check.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "This trap can't be disarmed."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "This trap can't be disarmed."
+    },
+    "effect": "Forcing the vault open produces a loud, concussive blast of energy that fills a 15-foot cube immediately outside the vault.",
+    "save_dc": 18,
+    "save_ability": "Constitution",
+    "damage": "33 (6d10)",
+    "damage_type": "thunder",
+    "area": "15-foot cube immediately outside the vault",
+    "description": "A magical trap that triggers when the vault door is forcibly pried open, releasing a concussive blast of thunder damage.",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Lockbox Poison Gas Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Forcing open the metal lockbox (prying it open with a successful DC 16 Strength (Athletics) check) causes poison gas to spray outward.",
+    "detection": {
+      "dc": 15,
+      "skill": "Investigation",
+      "detail": "A character who makes a successful DC 15 Intelligence (Investigation) check locates the metal lockbox stowed underneath an upside-down crate in a corner of the room."
+    },
+    "disarm": {
+      "dc": 21,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "The lockbox can be opened safely by a character who makes a successful DC 21 Dexterity check using thieves' tools."
+    },
+    "effect": "Poison gas sprays outward, and the character who opened it must succeed on a DC 15 Constitution saving throw or take 22 (4d10) poison damage and be poisoned for 1 hour.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "22 (4d10)",
+    "damage_type": "poison",
+    "area": "The character who opened the box",
+    "description": "A metal lockbox hidden under an upside-down crate sprays poison gas when forced open.",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Secret Armory Glyph Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "If a creature enters the armory without first saying a prayer to Corellon",
+    "detection": {
+      "dc": 17,
+      "skill": "Investigation",
+      "detail": "A character who searches the opening for traps and succeeds on a DC 17 Intelligence (Investigation) check spots a tiny glyph inscribed along the edge of the opening, in a location that's not visible while the trapdoor is closed."
+    },
+    "disarm": {
+      "dc": 17,
+      "method": "dispel magic or mason's tools",
+      "detail": "If this glyph is dispelled with a successful casting of dispel magic (DC 17) or defaced using mason's tools or similar equipment, the following trap ceases to function."
+    },
+    "effect": "a burst of radiance flares from the chamber. Each creature in the armory and within 15 feet of the trapdoor must make a DC 18 Constitution saving throw, taking 33 (6d10) radiant damage on a failed save, or half as much damage on a successful one. This trap can be triggered only once.",
+    "save_dc": 18,
+    "save_ability": "Constitution",
+    "damage": "33 (6d10)",
+    "damage_type": "radiant",
+    "area": "Each creature in the armory and within 15 feet of the trapdoor",
+    "description": "A magical glyph trap in a secret armory that triggers a burst of radiant damage if a creature enters without praying to Corellon.",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Ruidium Tendrils",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "When all three serpentmaws in area N13 are dead, dozens of tendrils of ruidium emerge from the statues in the cavern.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection check specified; tendrils appear automatically after the serpentmaws are killed."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Each tendril can be destroyed; it is an Ooze with AC 15, 10 hit points, immunity to all damage except slashing, Strength/Dexterity/Constitution 20, Intelligence/Wisdom/Charisma 1. A tendril reduced to 0 hit points disintegrates."
+    },
+    "effect": "Any creature that enters the cavern or starts its turn there must succeed on a DC 15 Dexterity saving throw or be grappled by a tendril (escape DC 15). While grappled, the creature is also restrained. On initiative count 0, each creature grappled by a tendril takes 3 (1d6) piercing damage and 3 (1d6) psychic damage as it is flung against a ruidium spike. The creature remains grappled and must succeed on a DC 20 Charisma saving throw or gain 1 level of exhaustion. If not already suffering from ruidium corruption, it becomes corrupted when it fails the saving throw.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "3 (1d6) piercing and 3 (1d6) psychic",
+    "damage_type": "piercing and psychic",
+    "area": "The entire cavern of area N13.",
+    "description": "After the serpentmaws are slain, ruidium tendrils emerge from statues and grapple creatures in the cavern.",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "False Trapdoor Fire Ray Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Anyone who touches the trapdoor or its pull ring",
+    "detection": {
+      "dc": 17,
+      "skill": "Intelligence (Religion)",
+      "detail": "A successful DC 17 Intelligence (Religion) check enables a character to recognize the statue as a depiction of Gorm Gulthyn, the dwarven god of vigilance also known as Fire Eyes. A detect magic spell reveals an aura of evocation magic on the statue."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The trapdoor is false and can't be lifted. No disarm method is specified."
+    },
+    "effect": "Rays of magical fire spring from the statue's eyes, dealing 22 (4d10) fire damage. The trap doesn't trigger if the target has total cover.",
+    "save_dc": 18,
+    "save_ability": "Dexterity",
+    "damage": "22 (4d10)",
+    "damage_type": "fire",
+    "area": "The target touching the trapdoor or pull ring",
+    "description": "A false adamantine trapdoor set into the floor before a statue of Gorm Gulthyn. Touching it triggers fire rays from the statue's eyes.",
+    "source": "(Waterdeep: Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Cargo Elevator Trap",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "The cargo elevator platform is lowered to this area while creatures are in the 15-foot-by-10-foot space where the platform lands.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection check specified; the hazard is the moving platform itself."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method specified."
+    },
+    "effect": "Each creature in the landing space must succeed on a DC 10 Dexterity saving throw or take 11 (2d10) bludgeoning damage and be knocked prone and restrained until the platform is raised. A creature that succeeds on its saving throw moves to a space of its choice next to the elevator platform without provoking opportunity attacks.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "11 (2d10)",
+    "damage_type": "bludgeoning",
+    "area": "15-foot-by-10-foot space where the platform lands",
+    "description": "A cargo elevator platform that crushes and pins creatures when lowered onto them.",
+    "source": "(Waterdeep: Dragon Heist, p.60)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Puzzle Door",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "If wrong squares are pressed, the squares are pressed in the wrong order, or they're pressed by the wrong people, a glyph of warding on the door triggers a thunderwave spell.",
+    "detection": {
+      "dc": 13,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Finding the glyph requires a thorough search of the door and a successful DC 13 Intelligence (Investigation) check."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "A glyph of warding on the door triggers a thunderwave spell. Every creature on the ledge when the spell triggers must make a DC 13 Constitution saving throw. On a failed save, a creature takes 9 (2d8) thunder damage, is pushed 10 feet away from the door, and falls into area 6C, setting off the trap there. A creature that succeeds on the save takes half damage and is not pushed.",
+    "save_dc": 13,
+    "save_ability": "Constitution",
+    "damage": "9 (2d8)",
+    "damage_type": "thunder",
+    "area": "The ledge",
+    "description": "A wooden door at the back of the ledge has no apparent handle or latch. To open it, the four lit-up squares must be touched, in order from bottom to top, by a rider/carrier team emulating Man and Crocodile.",
+    "source": "(Tomb of Annihilation, p.45)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Ore Cart Brake Failure",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Using a faulty brake on an ore cart",
+    "detection": {
+      "dc": 10,
+      "skill": "Intelligence",
+      "detail": "Someone who inspects the brake and makes a successful DC 10 Intelligence check recognizes the risk."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "Repair with spare parts",
+      "detail": "The brake can be repaired with spare parts from the supply shed."
+    },
+    "effect": "If a brake fails, the cart races out of control round and round the pit until it smashes into the barrier at the bottom of the track. Everyone in the cart when it hits takes 1d6 bludgeoning damage per 20 vertical feet the cart descended. Those who bail out before the cart hits take half damage, based on how far the cart descended before they jumped, but each creature must also succeed on a DC 10 Dexterity saving throw or tumble over the edge of the track and plunge to the bottom of the shaft.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "1d6 per 20 vertical feet descended",
+    "damage_type": "bludgeoning",
+    "area": "The ore cart and its occupants",
+    "description": "A faulty brake on an ore cart can cause it to race out of control down the track and smash into the barrier at the bottom.",
+    "source": "(Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Boulder Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "If the kobolds hear an ore cart rumbling down the tracks, four of them race out and prepare to yank a rope, timing it so the boulder smashes down on the cart.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "The kobolds make an attack roll (+4 to hit) against the cart's AC, which depends on its speed. Rolling at top speed (no brakes), the cart has AC 16. If occupants are using the brakes to control its speed, the cart has AC 8. If the cart's occupants engage or release the brake when they see the kobolds pulling the rope, to change the cart's speed, it has AC 12. If the boulder hits, every creature in the cart takes 5 (1d10) bludgeoning damage. Roll a d6 to determine what happens to the cart and its occupants: 1-2. The cart continues down the track unhindered. 3-5. The cart derails into area 11. Each creature in the cart is thrown out, lands prone, and must succeed on a DC 12 Dexterity saving throw or take 5 (1d10) bludgeoning damage. 6. The cart tumbles off the track and falls 125 feet to area 12. A creature in the cart can make a DC 12 Dexterity saving throw to leap out before the cart goes over the edge and falls. On a successful save, the creature lands prone on the cart track. On a failed save, the creature goes over the edge with the cart and takes damage from the fall, as normal.",
+    "save_dc": 12,
+    "save_ability": "Dexterity",
+    "damage": "5 (1d10)",
+    "damage_type": "bludgeoning",
+    "area": "The cart track at this point",
+    "description": "A boulder is precariously balanced on a ledge above the cart track at this point. A rope tied round the boulder passes through an iron ring on the central pillar and through another near the kobolds' chambers.",
+    "source": "(Tomb of Annihilation, p.87)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Tripwire Alert",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "Approaching enemies trigger a tripwire around the village.",
+    "detection": {
+      "dc": 13,
+      "skill": "Perception",
+      "detail": "A successful DC 13 Wisdom (Perception) check notices the tripwires; otherwise, they're noticed by anyone with a passive Wisdom (Perception) score of 13 or higher."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "If approaching enemies are noticed by sentries or trigger a tripwire, the village goes on alert, making it impossible to sneak in.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Around the village",
+    "description": "Tripwires surround the village to alert the goblins of intruders.",
+    "source": "(Tomb of Annihilation, p.90)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Kobold Bazaar Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A tripwire or pressure plate",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "A character has a cumulative 20 percent chance of finding a trap for each minute spent searching the bazaar. When a trap is found, have the character make a DC 15 Wisdom (Perception) check. If the check succeeds, the character spots the trap (a hidden, spring-loaded catapult) and its triggering mechanism (a tripwire or pressure plate) without triggering it."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "No check required",
+      "detail": "Once spotted, the trap is easily disarmed or avoided (no check required)."
+    },
+    "effect": "A failed check indicates that the character accidentally set off the trap, which duplicates the Weapon Invention attack of a kobold inventor.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "Kobolds live in hidden cellars underneath the ruined market hall and have set six traps throughout the bazaar. The trap is a hidden, spring-loaded catapult.",
+    "source": "(Tomb of Annihilation, p.106)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Chanting Skulls",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "If combat ensues in the sacrificial chamber, the skulls start to chant in Abyssal.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The human skull in each niche radiates an aura of abjuration magic under the scrutiny of a detect magic spell."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The skulls stop chanting when they are removed from their niches or when combat ends."
+    },
+    "effect": "As long as one or more skulls are chanting, all yuan-ti in the room gain the following benefits: [benefits not fully detailed in this text chunk]",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Sacrificial chamber (area 6)",
+    "description": "The altar has six niches (one at each end and two on each long side). The human skull in each niche radiates an aura of abjuration magic under the scrutiny of a detect magic spell. If combat ensues here, the skulls start to chant in Abyssal. The skulls stop chanting when they are removed from their niches or when combat ends. Each skull has AC 9, 1 hit point, and immunity to poison and psychic damage.",
+    "source": "(Tomb of Annihilation, p.117)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "First Puzzle Door Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Placing a puzzle cube incorrectly in the cavities of the first puzzle door",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "A detect magic spell or similar effect reveals an aura of evocation magic around each of the cavities."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method specified; must place cubes correctly."
+    },
+    "effect": "Electricity erupts from the incorrectly placed cube, dealing 18 (4d8) lightning damage to any creature within 20 feet of the door. Any previously placed cubes pop out.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "18 (4d8)",
+    "damage_type": "lightning",
+    "area": "20 feet of the door",
+    "description": "A slab of worked stone with nine cube-shaped cavities arranged in three rows of three. Incorrect placement of a puzzle cube triggers an electrical discharge.",
+    "source": "(Tomb of Annihilation, p.132)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Rusty Iron Chest Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Pushing the rusty iron button on the sarcophagus lid",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Pushing the rusty iron button causes any nonmagical metal objects inside the rusty iron chest (including objects carried or worn by a creature in the chest) to corrode into worthless piles of rust. Objects partly made of metal are ruined as their metal components decay.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Nonmagical metal objects inside the rusty iron chest",
+    "description": "A trap triggered by pressing the rusty iron button on the sarcophagus lid, corroding metal objects inside the rusty iron chest.",
+    "source": "(Tomb of Annihilation, p.139)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Silver Chest Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Pushing the silver button on the sarcophagus lid",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Pushing the silver button causes any creature inside the silver chest to make a DC 15 Constitution saving throw, taking 45 (10d8) cold damage on a failed save, or half as much damage on a successful one.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "45 (10d8)",
+    "damage_type": "cold",
+    "area": "Creature inside the silver chest",
+    "description": "A trap triggered by pressing the silver button on the sarcophagus lid, affecting any creature inside the silver chest.",
+    "source": "(Tomb of Annihilation, p.139)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Salt Pentagram Wards",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Another creature attacks the slaad, enters the area of the boundary circle, or breaks any part of the circle or pentagram by sweeping or brushing away the salt.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The invisible gray slaad paces inside the salt pentagram; magical wards prevent the slaad from disturbing the salt or leaving the circle's confines."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Breaking any part of the circle or pentagram by sweeping or brushing away the salt frees the slaad."
+    },
+    "effect": "The slaad is freed. Hungry for carnage, the creature vents its rage on the characters before leaving the room in search of its control gem, not knowing that it is kept in area 28.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Salt pentagram on the floor of the chamber",
+    "description": "An invisible gray slaad is trapped inside a salt pentagram by magical wards.",
+    "source": "(Tomb of Annihilation, p.143)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Enchanted Clay Urn",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "The first creature to touch the urn or disturb its contents.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "A detect magic spell or similar effect reveals an aura of enchantment surrounding the clay urn."
+    },
+    "disarm": {
+      "dc": 18,
+      "method": "dispel magic",
+      "detail": "A successful dispel magic (DC 18) dismisses the effect on the urn, allowing it to be touched safely."
+    },
+    "effect": "The creature must succeed on a DC 21 Wisdom saving throw or be affected by an Otto's irresistible dance spell. Until the effect ends, the creature also takes 11 (2d10) psychic damage at the end of each of its turns as discordant, percussive music overwhelms its mind. Any creature under the effect of a mind blank spell or similar magic doesn't hear this music or suffer the psychic damage.",
+    "save_dc": 21,
+    "save_ability": "Wisdom",
+    "damage": "11 (2d10)",
+    "damage_type": "psychic",
+    "area": "The clay urn within the sarcophagus",
+    "description": "A varnished clay urn containing the skull and bones of a gruog is enchanted with a trap.",
+    "source": "(Tomb of Annihilation, p.143)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Jackal Mask Vision",
+    "type": "magical",
+    "danger": "setback",
+    "trigger": "Looking through the gaps between the fangs of the jackal mask",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "A huge carving of a snarling jackal's head protrudes from the wall at the end of this corridor. A chamber is visible through the gaps between its fangs."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "This view is a magical window into the past. Whoever looks through the jackal's jaws sees a vision of I'jin's tomb (area 35) as it was just before the last person entered it. After a few moments, the vision reveals a person entering the chamber. A slab of wall suddenly grinds upward to the east, and a dwarf wearing a turban and chain mail creeps into the tomb. He brandishes a shield in front of him as he treads cautiously across the floor. The magic here records the last moments of Bravus Boulderborn, hero of the Company of the Yellow Banner. The dwarf ignores any attempts by the characters to communicate with him. A loud click sounds out as the dwarf steps onto one of the floor tiles. Then a deafening buzzing rises as locusts pour out from the mouths of the sphinx statues, quickly engulfing him. He tries to fight them off, to no avail. When the cloud of insects vanishes, nothing of the dwarf remains except its bones and gear. If all the characters turn away, the vision resets. When any character next looks through the mask, the dwarf is seen entering I'jin's tomb once more.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Area 29",
+    "description": "A magical window into the past that shows the last moments of Bravus Boulderborn.",
+    "source": "(Tomb of Annihilation, p.148)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Revolving Room Effect: Soporific Gas",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Roll of 1-6 on the Revolving Room Effects table.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method specified."
+    },
+    "effect": "The demon faces exhale jets of a soporific gas that dissipates quickly. Each creature in the room that is not immune to the poisoned condition must succeed on a DC 15 Constitution saving throw or fall unconscious. An unconscious creature can repeat the saving throw each time it takes damage, ending the effect on itself on a success.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "",
+    "damage_type": "",
+    "area": "The room",
+    "description": "Soporific gas that can render creatures unconscious.",
+    "source": "(Tomb of Annihilation, p.153)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Revolving Room Effect: Sparkling Dust",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Roll of 7-12 on the Revolving Room Effects table.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method specified."
+    },
+    "effect": "The demon faces exhale jets of sparkling dust, which blind any creature in the room that does not succeed on a DC 15 Wisdom saving throw. A creature's blindness lasts until it is cured with a lesser restoration spell or similar magic.",
+    "save_dc": 15,
+    "save_ability": "Wisdom",
+    "damage": "",
+    "damage_type": "",
+    "area": "The room",
+    "description": "Sparkling dust that can blind creatures.",
+    "source": "(Tomb of Annihilation, p.153)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Revolving Room Effect: Stone Spikes",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Roll of 13-18 on the Revolving Room Effects table.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The spikes retract when the next room effect is triggered."
+    },
+    "effect": "Stone spikes 6 inches long magically protrude from the walls. Any creature that takes damage from the room at the start of its turn takes an additional 11 (2d10) piercing damage from the spikes.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "11 (2d10)",
+    "damage_type": "piercing",
+    "area": "The room",
+    "description": "Stone spikes that protrude from the walls and deal extra damage.",
+    "source": "(Tomb of Annihilation, p.153)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Revolving Room Effect: Incendiary Gas",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Roll of 19-20 on the Revolving Room Effects table.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method specified."
+    },
+    "effect": "The demon faces spew jets of an incendiary gas that promptly ignites, filling the room with fire. Each creature in the room takes 45 (10d8) fire damage.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "45 (10d8)",
+    "damage_type": "fire",
+    "area": "The room",
+    "description": "Incendiary gas that ignites and fills the room with fire.",
+    "source": "(Tomb of Annihilation, p.153)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Stone Chest Gas Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Opening the chest by any means other than the silver key.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified."
+    },
+    "disarm": {
+      "dc": 20,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "A character using thieves' tools can pick the lock with a successful DC 20 Dexterity check. However, opening the chest by any means other than the silver key releases the gas."
+    },
+    "effect": "Releases a cloud of gas that fills a 15-foot cube centered above the chest (filling the entire pit). The gas instantly corrodes and destroys all nonmagical metal that comes into contact with it, including armor and weapons. Metal objects sealed in containers are protected.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "15-foot cube centered above the chest",
+    "description": "A trapped stone chest that releases corrosive gas if opened without the key.",
+    "source": "(Tomb of Annihilation, p.153)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Wraiths from Bones",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Performing any of the ritual actions incorrectly",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Three wraiths rise from the bones on the floor. The wraiths attack until they are destroyed and pursue any characters who flee this area. When the wraiths appear, any character wearing one of the frog masks is polymorphed into a frog, as though it had failed a saving throw against the polymorph spell.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "If any of the ritual actions are performed incorrectly, three wraiths rise from the bones on the floor.",
+    "source": "(Tomb of Annihilation, p.43)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Third Curtain of the Feast",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Looking at the third curtain",
+    "detection": {
+      "dc": 0,
+      "skill": "detect magic",
+      "detail": "A detect magic spell or similar effect reveals an aura of enchantment magic radiating from the third curtain."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method specified."
+    },
+    "effect": "Any creature that looks at this curtain must succeed on a DC 14 Wisdom saving throw or be frightened of it. A frightened creature tries to leave the room as quickly as possible and cannot reenter. Once outside the room, a creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. A creature that saves against this effect is unaffected by the curtain thereafter and can reenter the room.",
+    "save_dc": 14,
+    "save_ability": "Wisdom",
+    "damage": "",
+    "damage_type": "",
+    "area": "The room containing the third curtain",
+    "description": "An enchanted curtain that frightens creatures that look upon it.",
+    "source": "(Tomb of Annihilation, p.43)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Slick Floor of the Vault",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "Stepping onto or starting a turn on the floor",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The floor is visibly polished and reflective; no check specified."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method specified."
+    },
+    "effect": "Any creature that steps onto or starts its turn on the floor must succeed on a DC 10 Dexterity saving throw or fall prone. When an untethered creature is shoved or otherwise moved across the floor, it travels in one direction and does not stop until it comes into contact with a wall or other barrier.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "",
+    "damage_type": "",
+    "area": "The floor beneath the dome in area 44B",
+    "description": "A magically slick marble floor that causes creatures to fall prone and slide uncontrollably.",
+    "source": "(Tomb of Annihilation, p.44)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Shagambi's Coffin Music Box Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Opening the coffin lid activates a music box inside the coffin.",
+    "detection": {
+      "dc": 14,
+      "skill": "Perception",
+      "detail": "Any character who succeeds on a DC 14 Wisdom (Perception) check while gently lifting the coffin lid spots the trap's trigger wire."
+    },
+    "disarm": {
+      "dc": 12,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "The trigger wire can be cut with thieves' tools and a successful DC 12 Dexterity check."
+    },
+    "effect": "The music box is activated, rousing the terracotta warriors if they can hear its haunting melody (even if the adventurers have been silent up to that point).",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "The tomb area where the terracotta warriors are stationed.",
+    "description": "Shagambi's coffin is trapped but not locked. When its lid is opened, a music box inside the coffin is activated, rousing the terracotta warriors if they can hear its haunting melody.",
+    "source": "(Tomb of Annihilation, p.148)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Sphere of Annihilation in Devil's Mouth",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Any character who stands within 5 feet of the sphere can hear a faint whisper emanating from it.",
+    "detection": {
+      "dc": 12,
+      "skill": "Perception",
+      "detail": "A successful DC 12 Wisdom (Perception) check allows a character to make out words in Abyssal that translate as follows: \"Darkness is coming for you. Your doom is at hand.\""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The sphere of annihilation can't be controlled or moved."
+    },
+    "effect": "The darkness within the mouth is a sphere of annihilation, which can't be controlled or moved.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "5 feet",
+    "description": "A green stone face of devilish countenance protrudes from the wall. The devil's mouth is agape and filled with darkness. The devil face is 6 feet tall, with a mouth 2 feet in diameter. A detect magic spell or similar effect reveals an aura of transmutation magic on the face.",
+    "source": "(Tomb of Annihilation, p.162)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Golden Sun Heat",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Whenever the sun or its chain are touched or damaged",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "A detect magic spell or similar effect reveals auras of evocation magic around the golden sun."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The sun loses its magical properties when it shoots its rays or is destroyed."
+    },
+    "effect": "The sun's smile fades to an inscrutable expression, and it emits tremendous heat in a 20-foot-radius sphere centered on itself. Any creature that starts its turn in the area takes 10 (3d6) fire damage. This effect ends if all creatures leave the affected area.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "10 (3d6)",
+    "damage_type": "fire",
+    "area": "20-foot-radius sphere centered on the sun",
+    "description": "The golden sun emits tremendous heat when touched or damaged.",
+    "source": "(Tomb of Annihilation, p.53)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Golden Sun Searing Rays",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "The first time the queen's remains or any of her treasures are removed from the sarcophagus",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "A detect magic spell or similar effect reveals auras of evocation magic around the golden sun."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The sun loses its magical properties when it shoots its rays or is destroyed."
+    },
+    "effect": "The sun's expression turns angry as it emits rays of searing light. Each creature within 30 feet of the sun that doesn't have total cover against it must succeed on a DC 14 Dexterity saving throw or be struck by a ray, which deals 42 (12d6) fire damage.",
+    "save_dc": 14,
+    "save_ability": "Dexterity",
+    "damage": "42 (12d6)",
+    "damage_type": "fire",
+    "area": "30 feet of the sun",
+    "description": "The golden sun emits rays of searing light when the queen's remains or treasures are removed.",
+    "source": "(Tomb of Annihilation, p.53)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Cursed Necklace of Fireballs",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "When any creature dons the cursed necklace",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Acererak placed a curse on the necklace, which can be revealed by an identify spell."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "A remove curse spell or similar magic removes the curse from the necklace."
+    },
+    "effect": "All its beads detonate at once. Each creature in a 20-foot-radius sphere centered on the exploding necklace must make a DC 15 Dexterity saving throw, taking 56 (16d6) fire damage on a failed save, or half as much damage on a successful one. The wearer of the necklace fails the saving throw automatically.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "56 (16d6)",
+    "damage_type": "fire",
+    "area": "20-foot-radius sphere centered on the exploding necklace",
+    "description": "A cursed necklace of fireballs that detonates when worn.",
+    "source": "(Tomb of Annihilation, p.53)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Napaka's Baleful Black Gas",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "If the scepter is removed and not immediately replaced with its nonmagical twin from area 52, or if Napaka's remains are removed from their resting place",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "The queen's corpse opens its mouth in a wide yawn and exhales a baleful black gas that fills a 15-foot cube centered on it. Each creature in the area must make a DC 18 Constitution saving throw, taking 45 (7d12) necrotic damage on a failed save, or half as much damage on a successful one.",
+    "save_dc": 18,
+    "save_ability": "Constitution",
+    "damage": "45 (7d12)",
+    "damage_type": "necrotic",
+    "area": "15-foot cube centered on the corpse",
+    "description": "Napaka's corpse exhales a baleful black gas if her scepter or remains are removed.",
+    "source": "(Tomb of Annihilation, p.53)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Rolling Doom",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "When the chest or its lid is lifted, a heavy stone ball (area 54B) tumbles down the stairs.",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "Finding the compartment requires that a character search the tunnel ceiling and succeed on a DC 15 Wisdom (Perception) check."
+    },
+    "disarm": {
+      "dc": 20,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "The hatch can be jammed with an iron spike or with a successful DC 20 Dexterity check made using thieves' tools."
+    },
+    "effect": "When released, the stone ball thunders down the stairs and tumbles into the pit at 54C. Any character on the stairs or in the tunnel below can stay ahead of the ball by running toward the pit. A character can also leap over the ball with a successful DC 15 Dexterity (Acrobatics) check. Any character who fails the check or can't move out of the ball's way is struck for 22 (4d10) bludgeoning damage and knocked prone. The ball also flattens the treasure chest (54A) as it tumbles through.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "22 (4d10)",
+    "damage_type": "bludgeoning",
+    "area": "Stairs and tunnel below, leading to pit at 54C",
+    "description": "A granite ball trap triggered by lifting a treasure chest, rolling down stairs into an acid pit.",
+    "source": "(Tomb of Annihilation, p.166)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Green Devil Face - Left Nostril Lever",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Pulling the lever in the left nostril",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Any close inspection reveals that its nostrils contain hollow cavities, each one containing a stone lever."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "A pulled lever locks into place and can't be moved until it resets. After 1 minute, the lever resets with an audible clunk."
+    },
+    "effect": "Pulling the lever in the left nostril causes the mouth of the devil face to open wide, revealing a gullet filled with impenetrable darkness that pulls in everything in the room. Initiative should be rolled for all creatures in the area. Any creature that starts its turn in the room and isn't secured in some fashion must succeed on a DC 11 Dexterity saving throw or be pulled into the gullet and destroyed. If a character fails the saving throw, another character within reach, or any character bound to the first character by a rope, can use his or her reaction to grab on and grant the first character a reroll. After 1 minute, the lever resets with an audible clunk. The gullet remains open until the lever resets. Magic has no effect on the gullet or the darkness within.",
+    "save_dc": 11,
+    "save_ability": "Dexterity",
+    "damage": "",
+    "damage_type": "",
+    "area": "The room",
+    "description": "A green devil face with a lever in its left nostril that opens a gullet of darkness pulling creatures in.",
+    "source": "(Tomb of Annihilation, p.168)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Green Devil Face - Right Nostril Lever",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Pulling the lever in the right nostril",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Any close inspection reveals that its nostrils contain hollow cavities, each one containing a stone lever."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The lever then resets."
+    },
+    "effect": "Pulling the lever in the right nostril causes the devil's eyes to glow red as all living creatures in the room (including the otyugh, if it's still alive) are teleported in front of the devil face at area 5B, along with whatever they are wearing or carrying. The lever then resets.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "The room",
+    "description": "A green devil face with a lever in its right nostril that teleports all living creatures in the room.",
+    "source": "(Tomb of Annihilation, p.168)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Iron Wall Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Pushing the red button causes a 6-inch-thick wall of iron to drop from the ceiling in the doorway, sealing off the east exit.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified; the trap is activated by pushing the red button."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method specified; the wall remains locked in place for 1 hour, after which it rises back into the ceiling on its own. It can't be lifted or pried open, though a knock spell causes it to retract into the ceiling."
+    },
+    "effect": "Any creature in the doorway when the wall drops must make a DC 15 Dexterity saving throw. On a successful save, the creature is pushed to one side of the barrier or the other (its choice). On a failed save, the creature is pinned under the wall, falls prone, and takes 44 (8d10) bludgeoning damage. A pinned creature is restrained, can't stand up, and takes 11 (2d10) bludgeoning damage at the start of each of its turns until it crawls out from under the door or another creature pulls it free, either of which requires an action and a successful DC 25 Strength (Athletics) check.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "44 (8d10)",
+    "damage_type": "bludgeoning",
+    "area": "The doorway sealing off the east exit.",
+    "description": "A red button that causes an iron wall to drop from the ceiling, potentially pinning creatures in the doorway.",
+    "source": "(Tomb of Annihilation, p.62)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Golden Mastodon Ceiling Block Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Inserting the star-shaped lever into the indentation on the back of the mastodon's head causes a thunderous trumpeting sound, a block of stone to seal off the room, and the cog to revolve.",
+    "detection": {
+      "dc": 20,
+      "skill": "Perception",
+      "detail": "A character who searches for traps in the tunnel approaching this room notices a block of stone lodged in the ceiling with a successful DC 20 Wisdom (Perception) check."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method is described in the source text."
+    },
+    "effect": "A block of stone falls from the ceiling in the hallway. Any creature under the block when it falls must make a DC 15 Dexterity saving throw. On a success, the creature moves out of the block's way in whichever direction it prefers. On a failed save, the creature takes 55 (10d10) bludgeoning damage. If this damage reduces the creature's hit points to 0, the creature is crushed to a pulp; otherwise, it is shoved into the room.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "55 (10d10)",
+    "damage_type": "bludgeoning",
+    "area": "The space in the hallway indicated on map 5.5, under the falling block.",
+    "description": "A trap in the Hall of the Golden Mastodon that drops a stone block from the ceiling when the mastodon statue is activated.",
+    "source": "(Tomb of Annihilation, p.175)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Ambassador's Chest Trap",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "Opening the chest after picking the lock without disabling the trap",
+    "detection": {
+      "dc": 14,
+      "skill": "Investigation",
+      "detail": "A successful DC 14 Intelligence (Investigation) check notices the trap."
+    },
+    "disarm": {
+      "dc": 14,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "The trap can be disabled with thieves' tools and a successful DC 14 Dexterity check."
+    },
+    "effect": "A loud shrieking noise blares for 3 rounds, alerting creatures in areas L9 and L11 if they have not already been dealt with.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Areas L9 and L11",
+    "description": "A trapped locked iron chest beneath the bed in the ambassador's bedroom.",
+    "source": "(Explorer's Guide to Wildemount, p.231)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Fire Hazards",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "Any creature that comes into contact with the brazier or the fireplace for the first time on its turn, or that starts its turn there",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Visible fire"
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Cannot be disarmed"
+    },
+    "effect": "Takes 2 (1d4) fire damage",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "2 (1d4)",
+    "damage_type": "fire",
+    "area": "Brazier or fireplace",
+    "description": "The brazier and fireplace in Tulgi's cabin are dangerous to touch or stand in.",
+    "source": "(Explorer's Guide to Wildemount, p.237)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Frigid Woe Chest Trap",
+    "type": "magical",
+    "danger": "setback",
+    "trigger": "A failed attempt to pick the chest's lock, or an attack or attempt to force the chest open",
+    "detection": {
+      "dc": 13,
+      "skill": "Perception",
+      "detail": "A character who searches the exterior of either chest and succeeds on a DC 13 Wisdom (Perception) check finds an archaic Draconic word for \"ice\" carved in tiny letters near the hinges. With a successful DC 10 Intelligence (Arcana) check, a character senses that the inscription is connected to a trap."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "Scratching out the inscription with a tool or a weapon",
+      "detail": "Scratching out the inscription with a tool or a weapon causes the trap to stop functioning on that chest."
+    },
+    "effect": "The chest shoots a beam of cold energy at the creature. The beam is +4 to hit and deals 4 (1d8) cold damage on a hit.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "4 (1d8)",
+    "damage_type": "cold",
+    "area": "One creature",
+    "description": "A magical trap on a locked stone chest that fires a beam of cold energy at anyone who fails to pick the lock or tries to force the chest open.",
+    "source": "(Explorer's Guide to Wildemount, p.245)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Frigid Woe Laboratory Table",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "A creature is forcibly moved into a table holding a working set of alchemist's supplies.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The tables and equipment are plainly visible."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm; the hazard is triggered by forced movement into the table."
+    },
+    "effect": "The delicate equipment on that table breaks and the creature must succeed on a DC 11 Constitution saving throw or contract frigid woe.",
+    "save_dc": 11,
+    "save_ability": "Constitution",
+    "damage": "",
+    "damage_type": "",
+    "area": "The table the creature is moved into.",
+    "description": "Each table in Ferol's laboratory holds a working set of alchemist's supplies that Ferol uses to experiment with frigid woe. If a creature is forcibly moved into a table, the delicate equipment breaks and the creature risks contracting frigid woe.",
+    "source": "(Explorer's Guide to Wildemount, p.268)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Rotten Floors",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "Whenever a creature standing on the floor takes damage",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "A section of the floor gives way, and the creature falls, taking 3 (1d6) bludgeoning damage.",
+    "save_dc": 12,
+    "save_ability": "Dexterity",
+    "damage": "3 (1d6)",
+    "damage_type": "bludgeoning",
+    "area": "The wooden floors of the dilapidated tower",
+    "description": "The wooden floors of the dilapidated tower are rotten and dangerous.",
+    "source": "(Explorer's Guide to Wildemount, p.255)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Toxic Toadstools",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "Any character who moves through the swamp within 40 feet of the hill must succeed on a DC 12 Dexterity (Acrobatics) check to avoid touching the large purple mushrooms. Any character who touches the mushrooms must succeed on a DC 15 Constitution saving throw.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "The character becomes poisoned until they finish a long rest.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "",
+    "damage_type": "",
+    "area": "The overgrown mushroom colony surrounding the small hill, within 40 feet of the hill",
+    "description": "The overgrown mushroom colony surrounding the small hill is noxious.",
+    "source": "(Explorer's Guide to Wildemount, p.255)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Poisoned Needle Chest Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Opening the locked wooden chest at the foot of the bed",
+    "detection": {
+      "dc": 15,
+      "skill": "Investigation",
+      "detail": "Any character who examines the chest and succeeds on a DC 15 Intelligence (Investigation) check discovers a poisoned needle hidden in the chest's lock."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity check using thieves' tools",
+      "detail": "The needle can be removed with a successful DC 15 Dexterity check using thieves' tools."
+    },
+    "effect": "On a failed check, the character attempting to remove the needle takes 1 piercing damage and 7 (2d6) poison damage, and must succeed on a DC 15 Constitution saving throw or be poisoned for 1 hour.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "1 piercing + 7 (2d6)",
+    "damage_type": "piercing and poison",
+    "area": "The chest's lock",
+    "description": "A locked wooden chest at the foot of the bed in Commander Felmont's quarters is trapped with a poisoned needle hidden in its lock.",
+    "source": "(Explorer's Guide to Wildemount, p.259)",
+    "_source_manual": "EGW"
   }
 ]

@@ -28482,7 +28482,7 @@
     "role": "Guardian of Woven Stone",
     "is_enemy": false,
     "xp_reward": 0,
-    "source": "(taldorei campaign setting reborn compress)",
+    "source": "(Tal'Dorei Campaign Setting Reborn)",
     "_source_manual": "TCSR"
   },
   {
@@ -28506,7 +28506,7 @@
     "role": "Claret Director",
     "is_enemy": false,
     "xp_reward": 0,
-    "source": "(taldorei campaign setting reborn compress, p.53)",
+    "source": "(Tal'Dorei Campaign Setting Reborn, p.53)",
     "_source_manual": "TCSR"
   },
   {
@@ -28530,7 +28530,7 @@
     "role": "Director Emeritus",
     "is_enemy": false,
     "xp_reward": 0,
-    "source": "(taldorei campaign setting reborn compress, p.53)",
+    "source": "(Tal'Dorei Campaign Setting Reborn, p.53)",
     "_source_manual": "TCSR"
   },
   {
@@ -28554,7 +28554,7 @@
     "role": "Hunter",
     "is_enemy": false,
     "xp_reward": 0,
-    "source": "(taldorei campaign setting reborn compress, p.53)",
+    "source": "(Tal'Dorei Campaign Setting Reborn, p.53)",
     "_source_manual": "TCSR"
   },
   {
@@ -28578,7 +28578,7 @@
     "role": "Ironkeeper of House Greyspine",
     "is_enemy": false,
     "xp_reward": 0,
-    "source": "(taldorei campaign setting reborn compress)",
+    "source": "(Tal'Dorei Campaign Setting Reborn)",
     "_source_manual": "TCSR"
   },
   {
@@ -28602,7 +28602,7 @@
     "role": "Overseer of House Greyspine",
     "is_enemy": false,
     "xp_reward": 0,
-    "source": "(taldorei campaign setting reborn compress)",
+    "source": "(Tal'Dorei Campaign Setting Reborn)",
     "_source_manual": "TCSR"
   },
   {
@@ -28708,7 +28708,7 @@
     "role": "Ally",
     "is_enemy": false,
     "xp_reward": 20000,
-    "source": "(taldorei campaign setting reborn compress)",
+    "source": "(Tal'Dorei Campaign Setting Reborn)",
     "_source_manual": "TCSR"
   },
   {
@@ -28830,7 +28830,7 @@
     "role": "Ally",
     "is_enemy": false,
     "xp_reward": 20000,
-    "source": "(taldorei campaign setting reborn compress, p.267)",
+    "source": "(Tal'Dorei Campaign Setting Reborn, p.267)",
     "_source_manual": "TCSR"
   },
   {
@@ -28962,7 +28962,7 @@
     "role": "Ally",
     "is_enemy": false,
     "xp_reward": 18000,
-    "source": "(taldorei campaign setting reborn compress, p.269)",
+    "source": "(Tal'Dorei Campaign Setting Reborn, p.269)",
     "_source_manual": "TCSR"
   },
   {
@@ -29094,7 +29094,7 @@
     "role": "Ally",
     "is_enemy": false,
     "xp_reward": 13000,
-    "source": "(taldorei campaign setting reborn compress, p.271)",
+    "source": "(Tal'Dorei Campaign Setting Reborn, p.271)",
     "_source_manual": "TCSR"
   },
   {
@@ -29215,7 +29215,2364 @@
     "role": "Ally",
     "is_enemy": false,
     "xp_reward": 5000,
-    "source": "(taldorei campaign setting reborn compress, p.273)",
+    "source": "(Tal'Dorei Campaign Setting Reborn, p.273)",
     "_source_manual": "TCSR"
+  },
+  {
+    "name": "Freja",
+    "race": "Umbral",
+    "class_name": "Sorcerer",
+    "subclass": "",
+    "level": 10,
+    "alignment": "",
+    "armor_class": 15,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 14,
+      "constitution": 12,
+      "intelligence": 14,
+      "wisdom": 18,
+      "charisma": 18
+    },
+    "saving_throws": {
+      "dex": 5,
+      "wis": 5,
+      "cha": 7
+    },
+    "skills": {
+      "Arcana": 4,
+      "Deception": 7,
+      "Perception": 5,
+      "Persuasion": 7,
+      "Stealth": 5
+    },
+    "features": [
+      {
+        "name": "Fey Ancestry",
+        "description": "Freja has advantage on saving throws against being charmed, and magic can't put her to sleep."
+      },
+      {
+        "name": "Innate Spellcasting",
+        "description": "Freja's innate spellcasting ability is Charisma. She can cast the following spell innately, requiring no material components. 4/day: misty step (when in shadows, dim light, or darkness only)"
+      },
+      {
+        "name": "Shapechanger",
+        "description": "Freja can use her action to polymorph into an owl, or back into her humanoid form. Her statistics, other than size, are the same in each form. Any equipment she is wearing or carrying falls to the ground, merges into her form, or is worn if the new form is capable of wearing it. She reverts to her humanoid form if she dies."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "Freja is a 10th-level spellcaster. Her spellcasting ability is Charisma (spell save DC 15, +7 to hit with spell attacks). She knows the following sorcerer spells: Cantrips (at will): blade ward, chill touch, friends, mage hand, minor illusion, ray of frost; 1st level (4 slots): mage armor, magic missile, shield; 2nd level (3 slots): blindness/deafness, gust of wind; 3rd level (3 slots): counterspell, hypnotic pattern; 4th level (3 slots): blight, confusion; 5th level (2 slots): cone of cold"
+      },
+      {
+        "name": "Sunlight Sensitivity",
+        "description": "While in sunlight, Freja has disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight."
+      },
+      {
+        "name": "Traveler in Darkness",
+        "description": "Freja has advantage on Intelligence (Arcana) checks made to know about shadow roads and shadow magic spells or items."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Rapier",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d8 + 2) piercing damage and 7 (2d6) cold damage."
+      }
+    ],
+    "equipment": [
+      "bracers of defense"
+    ],
+    "spellcasting": {
+      "ability": "Charisma",
+      "save_dc": 15,
+      "to_hit": 7,
+      "spells": {
+        "cantrips": [
+          "blade ward",
+          "chill touch",
+          "friends",
+          "mage hand",
+          "minor illusion",
+          "ray of frost"
+        ],
+        "1st": [
+          "mage armor",
+          "magic missile",
+          "shield"
+        ],
+        "2nd": [
+          "blindness/deafness",
+          "gust of wind"
+        ],
+        "3rd": [
+          "counterspell",
+          "hypnotic pattern"
+        ],
+        "4th": [
+          "blight",
+          "confusion"
+        ],
+        "5th": [
+          "cone of cold"
+        ]
+      }
+    },
+    "description": "Freja is a 10th-level sorcerer with the Shapechanger ability, able to polymorph into an owl. She has innate spellcasting and is sensitive to sunlight.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(Courts of the Shadow Fey)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Scutarius Thornwalker",
+    "race": "Sidhe",
+    "class_name": "Druid",
+    "subclass": "",
+    "level": 7,
+    "alignment": "Neutral",
+    "armor_class": 16,
+    "hit_points": "60 (7d8 + 28)",
+    "speed": "40 ft.",
+    "ability_scores": {
+      "strength": 17,
+      "dexterity": 14,
+      "constitution": 18,
+      "intelligence": 15,
+      "wisdom": 14,
+      "charisma": 16
+    },
+    "saving_throws": {
+      "str": 6,
+      "dex": 8,
+      "cha": 6
+    },
+    "skills": {
+      "Animal Handling": 4,
+      "Deception": 6,
+      "Intimidation": 6,
+      "Perception": 4
+    },
+    "features": [
+      {
+        "name": "Fey Grace",
+        "description": "Sidhe add their Charisma modifier to armor class, initiative checks, and Dexterity saving throws."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "Scutarius is a 7th-level spellcaster. His spellcasting ability is Charisma (DC 14, +6 to hit with spell attacks). He has the following druid spells prepared, plus several spells he has acquired as an initiate in the Cult of Valeresh, the elvish god of war:\nCantrips (at will): blade ward, mending, resistance, shillelagh\n1st level (4 slots): animal friendship, purify food and drink, shield, speak with animals\n2nd level (3 slots): animal messenger, heat metal, locate object, phantom steed\n3rd level (3 slots): conjure animals, haste\n4th level (1 slot): dominate beast"
+      },
+      {
+        "name": "Magic Resistance",
+        "description": "Scutarius has advantage on saving throws against spells and other magical effects."
+      },
+      {
+        "name": "Magic Weapons",
+        "description": "Scutarius's weapon attacks are magical."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Scutarius makes 2 bill-guisarme attacks."
+      },
+      {
+        "name": "Bill-Guisarme",
+        "description": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 12 (1d10 +6) piercing or slashing damage, and the target creature must succeed on a DC 15 Dexterity saving throw or be tripped and knocked prone."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "Charisma",
+      "save_dc": 14,
+      "attack_bonus": 6,
+      "level": 7,
+      "class": "Druid",
+      "cantrips": [
+        "blade ward",
+        "mending",
+        "resistance",
+        "shillelagh"
+      ],
+      "spells": {
+        "1": [
+          "animal friendship",
+          "purify food and drink",
+          "shield",
+          "speak with animals"
+        ],
+        "2": [
+          "animal messenger",
+          "heat metal",
+          "locate object",
+          "phantom steed"
+        ],
+        "3": [
+          "conjure animals",
+          "haste"
+        ],
+        "4": [
+          "dominate beast"
+        ]
+      },
+      "slots": {
+        "1": 4,
+        "2": 3,
+        "3": 3,
+        "4": 1
+      }
+    },
+    "description": "As a young page in Castle Rivenwood, Scutarius was unlike his peers. He was short and muscular, shy and soft-spoken—rather unusual and undesirable traits among the eloquent and elegant sidhe. Now, after centuries of loyal (and often bloody) service to Rivenwood, Scutarius sits as esquire to that noble house. He was the major domo of the castle staff as well as herald and master of horse and hound. A scarred and grim war dog himself, Scutarius is not one to be trifled with. While manipulating his own network of informants and agents, he continues to serve House Rivenwood loyally, though often under his own subtle terms and through his own private agendas.",
+    "role": "Esquire to House Rivenwood",
+    "is_enemy": false,
+    "xp_reward": 2300,
+    "source": "(Courts of the Shadow Fey, p.44)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Silent Billoc",
+    "race": "Goblin",
+    "class_name": "Rogue",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {
+      "Sleight of Hand": 7
+    },
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A goblin potboy and sneak thief among the many servants.",
+    "role": "Thief",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Courts of the Shadow Fey, p.62)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Kolya the Kennel Master",
+    "race": "Elf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "neutral evil",
+    "armor_class": 15,
+    "hit_points": "105 (14d8 + 42)",
+    "speed": "40 ft.",
+    "ability_scores": {
+      "strength": 19,
+      "dexterity": 15,
+      "constitution": 16,
+      "intelligence": 14,
+      "wisdom": 14,
+      "charisma": 16
+    },
+    "saving_throws": {
+      "dex": 5,
+      "con": 7,
+      "cha": 6
+    },
+    "skills": {
+      "Arcana": 5,
+      "Perception": 5,
+      "Stealth": 8,
+      "Survival": 5
+    },
+    "features": [
+      {
+        "name": "Fey Ancestry",
+        "description": "Kolya has advantage on saving throws against being charmed, and magic can't put him to sleep."
+      },
+      {
+        "name": "Innate Spellcasting",
+        "description": "Kolya's innate spellcasting ability is Charisma. He can cast the following spell innately, requiring no material components. 3/day: misty step (when in shadows, dim light, or darkness only)"
+      },
+      {
+        "name": "Sneak Attack (1/Turn)",
+        "description": "Kolya deals an extra 7 (2d6) damage when he hits a target with a weapon attack and has advantage on the attack roll, or when the target is within 5 feet of an ally of Kolya that isn't incapacitated and Kolya doesn't have disadvantage on the attack roll."
+      },
+      {
+        "name": "Sunlight Sensitivity",
+        "description": "While in sunlight, Kolya has disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight."
+      },
+      {
+        "name": "Traveler in Darkness",
+        "description": "Kolya has advantage on Intelligence (Arcana) checks made to know about shadow roads and shadow magic spells or items."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Kolya makes two attacks."
+      },
+      {
+        "name": "Rapier",
+        "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 8 (1d8 + 4) piercing damage plus 7 (2d6) poison damage."
+      },
+      {
+        "name": "Longbow",
+        "description": "Ranged Weapon Attack: +5 to hit, range 150/600 ft., one target. Hit: 6 (1d8 + 2) piercing damage plus 7 (2d6) poison damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Kolya the Kennel Master is a Medium humanoid (elf) of neutral evil alignment. He serves as the kennel master and has abilities including Fey Ancestry, Innate Spellcasting, Sneak Attack, Sunlight Sensitivity, and Traveler in Darkness.",
+    "role": "",
+    "is_enemy": false,
+    "xp_reward": 1800,
+    "source": "(Courts of the Shadow Fey, p.67)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Eracen",
+    "race": "Elf (shadow fey)",
+    "class_name": "Chief Entertainer",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Dealing with the Characters",
+        "description": "Outwardly, Eracen is humorous and gregarious. His jokes are bawdy, and his stories are gossipy. The slender elf often touches others when he talks: a soft tap on the back, a slight grip of the shoulder, a lean into the personal space of another. When spoken to, he laughs loudly at even the smallest hint of comedy, and follows it up with overzealous compliments. He fawns over the characters' accomplishments and lavishes attention on them. In other words, Eracen quickly grows annoying. He does have his uses, though. He is a storehouse of information and has no qualms about discussing the court with the characters; of course, even when he doesn't know something, he does not hesitate to offer gossip in its stead. Most important, his standing as Chief Entertainer allows him and those he vouches for access to some of the lesser functions and locales with minimal hassle. Serving as guide, informant, and confidant to the characters offers him no end of pleasure. He doesn't bother hiding this enjoyment, often speaking in a conspiratorial tone when regarding their shadowy hosts. Eracen strives to nurture a love of music, especially the violin, within the characters. He will spend time, often gossiping about the shadow fey and the court, teaching the characters how to play the violin. It is only during these lessons that Eracen displays any anger (and even then, it seems clearly a slip from his usual demeanor). He responds to repeated failure or disinterest with sharp, biting retorts, although he often apologizes profusely afterward and blames these outbursts on his passion for music."
+      },
+      {
+        "name": "Motivation",
+        "description": "Eracen's offer of friendship and aid to the characters is born out of his desperation to leave the court. He believes that if he helps the characters grow more popular than he is, he would be granted an escape from the woeful work of playing for his captors. Though he pins his hopes on teaching the characters to become musicians, Eracen takes any measure of popularity they gain in any discipline and promotes it. This could be demon fighting, dueling, arcane mastery . . . to Eracen each endeavor represents a possible escape."
+      },
+      {
+        "name": "Development",
+        "description": "Becoming too closely associated with Eracen might cost the characters something eventually; the courtesans are not fond of him, and the duelists consider him largely beneath contempt. Over time, the characters might realize that their elf guide is but a minor cog of the court—and they might abandon him as well, moving on into higher social spheres. At that point, his hopes dashed, Eracen might grow desperate enough to attempt a kidnapping or assault of some kind—and if that fails, perhaps even suicide."
+      },
+      {
+        "name": "Treasure",
+        "description": "Befriending Eracen and keeping him living in hope eventually pays off. The character who invests the most time and effort in befriending him, by playing music and such, is rewarded with the gift of an appropriate uncommon magic item. Ideally, this is a miscellaneous item related to music, rather than armor or weaponry, but the idea is simply that Eracen gives one of his greatest treasures to the characters in return for the friendship they have shown."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Eracen is a slender elf, Chief Entertainer of the shadow fey court, who is humorous, gregarious, and desperate to escape his captivity.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Courts of the Shadow Fey, p.68)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Josha Migallisti",
+    "race": "Shadow fey",
+    "class_name": "Duelist",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 17,
+    "hit_points": "117",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Parry",
+        "description": "The shadow fey duelist adds 3 to its AC against one melee attack that would hit it. To do so, it must see the attacker and be wielding a melee weapon."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Rapier",
+        "description": "+7 to hit, reach 5 ft., one target. Hit: 9 (1d8 + 5) piercing damage plus 7 (2d6) poison damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A young shadow fey duelist and member of the Ravens, a noble society of the blade, who challenges visitors to formal duels.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(Courts of the Shadow Fey, p.68)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Caleb, Celestial-Blooded Duelist",
+    "race": "Elf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "chaotic good",
+    "armor_class": 17,
+    "hit_points": "117 (18d8 + 36)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 13,
+      "dexterity": 20,
+      "constitution": 14,
+      "intelligence": 13,
+      "wisdom": 12,
+      "charisma": 16
+    },
+    "saving_throws": {
+      "dex": 8,
+      "con": 5,
+      "wis": 4,
+      "cha": 6
+    },
+    "skills": {
+      "Arcana": 4,
+      "Deception": 6,
+      "Perception": 4,
+      "Stealth": 8
+    },
+    "features": [
+      {
+        "name": "Fey Ancestry",
+        "description": "Caleb has advantage on saving throws against being charmed, and magic can’t put him to sleep."
+      },
+      {
+        "name": "Innate Spellcasting",
+        "description": "Caleb’s spellcasting ability is Charisma. He can cast the following spells requiring no material components: At will: light 3/day: misty step (when in shadows, dim light, or darkness only) 1/day: cure wounds"
+      },
+      {
+        "name": "Sunlight Sensitivity",
+        "description": "While in sunlight, Caleb has disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight."
+      },
+      {
+        "name": "Traveler in Darkness",
+        "description": "Caleb has advantage on Intelligence (Arcana) checks made to know about shadow roads and shadow magic spells or items."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Caleb is a celestial-blooded elf duelist, chaotic good, with innate spellcasting and resistance to fire and radiant damage.",
+    "role": "Challenger",
+    "is_enemy": false,
+    "xp_reward": 2300,
+    "source": "(Courts of the Shadow Fey, p.100)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "The Moonlit King",
+    "race": "Fey",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The Moonlit King makes three attacks with either his crystal staff or his moon bolt."
+      },
+      {
+        "name": "Crystal Staff",
+        "description": "Melee Weapon Attack: +9 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) bludgeoning damage plus 7 (2d6) radiant damage. A target that is struck by the staff two or more times in one turn must make a successful DC 17 Constitution saving throw or be stunned until the end of its next turn."
+      },
+      {
+        "name": "Moon Bolt",
+        "description": "Ranged Spell Attack: +11 to hit, range 150/600 ft., one target. Hit: 22 (4d10) radiant damage. If the target is a creature in a form other than its natural form, it takes an extra 22 (4d10) radiant damage and must succeed on a DC 19 Charisma saving throw or revert to its natural form. When the moon bolt hits a target, moonlight glows in a 10-foot radius from that point, creating dim light. The light is stationary and lasts until the end of the Moonlit King's next turn."
+      },
+      {
+        "name": "Fearful Shadows (Recharge 5–6)",
+        "description": "The Moonlit King magically animates the shadows of all foes within 60 feet of himself. The animated shadows attack the creatures who cast them. All affected creatures in the area take 35 (10d6) necrotic damage, or half damage with a successful DC 19 Dexterity saving throw. A creature that fails the saving throw also loses 1d4 points from its Strength score. A creature reduced to 0 Strength is unconscious until it regains at least 1 point of Strength. Strength lost in this way returns when the creature finishes a short or long rest."
+      },
+      {
+        "name": "Summon Devil (1/Day)",
+        "description": "The Moonlit King magically summons a lunar devil. The summoned devil appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other devils. It remains for 10 minutes, until its summoner dies, or until its summoner dismisses it as an action."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "The Moonlit King is a mad fey lord exiled to the Tower of the Moon.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(Courts of the Shadow Fey, p.142)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Anya Gristlegrot",
+    "race": "Ogress (green hag stats, size Large)",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Cursing Stick",
+        "description": "Cursing Stick (recharges after a long rest). Anya points a gnarled wooden stick at a single creature within 30 feet and utters a powerful curse. If the creature fails a DC 12 Wisdom saving throw, Anya polymorphs the target into a giant frog, or transforms its head into a donkey's. The target remains under the curse until it fulfills a special challenge set by Anya (e.g. stealing a leprechaun's pot of gold, winning a race with a quickling), the target drops to 0 hp or dies, or Anya's cursing stick is destroyed. The cursing stick is AC 15 and has 10 hp. It takes Anya a day to craft a replacement. The cursed creature is limited in the actions it can perform by the nature of its new form, and cannot speak.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "This nine-foot-tall ogress has greenish skin, a bulbous nose covered in pimples, and a mouth filled with crooked and broken teeth. She reeks of a heady combination of sweat and patchouli. Anya has few friends among the other revelers. She resents most fey, particularly elves, for looking down their perfectly formed noses at her, and likes nothing more than to see them taken down a peg or two. Anya hates the Holly Queen for humiliating her at the last winter revels and longs for revenge. She spends a lot of time brooding on her lowly status, and is quick to anger, but can be won over with flattery focusing on how fearsome and devious she is. Anya sometimes has potions and other minor magic items for sale. Anya has the stats of a green hag, but her size is Large.",
+    "role": "Neutral / Potential ally or antagonist",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Tales of the Margreve, p.37)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Gerribbit",
+    "race": "Elf (polymorphed into giant frog)",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Curse of the Cursing Stick",
+        "description": "Gerribbit is cursed to remain a frog until he wins a big, slobbery kiss from a hairy dwarf, half-orc, or satyr. He has had no luck so far but that doesn't stop him from leaping beside any suitable character in the hopes they will kiss him. Gerribbit tries his best to communicate with the characters but can only say \"gerribbit.\" If they are able to talk to him with speak with animals, he explains his predicament and begs for their help. If Gerribbit returns to his true form, he will tell them that events in the nearby human village of Riverbend have angered the River King, and its inhabitants may soon come under attack by the fey; see Wrath of the River King."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Until a few days ago, Gerribbit was Solanquis, a young and arrogant minor elf noble at the River King's Court. Now he is a giant frog. The foppish youth made the mistake of upsetting Anya Gristlegrot by failing to treat her with respect, and the angry ogress polymorphed the hapless elf into his present form with her cursing stick.",
+    "role": "Ally / Quest hook",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Tales of the Margreve, p.37)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Holly Queen",
+    "race": "Shadow fey",
+    "class_name": "Enchantress",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Holly Queen's Badge",
+        "description": "The winners of the dancing contest at the winter revel each get to dance with the Holly Queen in turn. As they twirl around together, she will whisper in their ear, asking them if they are willing to wear her badge. Those that say yes may find themselves performing a service for the queen in the future and may even be whisked off to spend the summer months at her castle in the Shadow Realm."
+      },
+      {
+        "name": "Pumpkin Jack's Candle",
+        "description": "The Holly Queen has been given Pumpkin Jack's candle by a pombero (see Tome of Beasts) named Gloamwalker who wanted to curry favor with her. If the characters ask her respectfully, she is willing to exchange it for a \"small service.\" The Holly Queen has heard whispers of goblin raids and kidnappings in the human village of Riverbend and would like the characters to find out what is going on; see Wrath of the River King."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "This raven-haired shadow fey enchantress (see Tome of Beasts) is a guest of honor at the winter revel, and usually attends the spring and autumn revels, but is seen at the summer revel only rarely. She wears a holly crown with bright red berries on her horned head, and dresses in long black robes adorned with winter wolf fur. A tiny robin redbreast perches on her shoulder. The Holly Queen is a loyal vassal of the Moonlit King, and is out of favor at the Courts of the Shadow Fey while the Queen of Night and Magic and her Summer Court are in the ascendant. Quiet, observant, and somewhat sorrowful, she comes to the revels to keep abreast of affairs among the elves of the Arbonesse and to gather intelligence on the River Court.",
+    "role": "Ally / Quest giver",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Tales of the Margreve, p.37)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Pumpkin Jack",
+    "race": "Fey bogeyman",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "This fey bogeyman makes his home in the Shadow Realm, venturing into the Material Plane to frighten mortals at the behest of his mistress, the Queen of Night and Magic. A terrifying figure with a grinning, evil-looking jack-o-lantern for a head and long, wicked",
+    "role": "Antagonist",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(Tales of the Margreve, p.37)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Terelsa Garlook",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Go-Between",
+        "description": "Terelsa Garlook is a go-between, an agent who knows how to hire the right people for any sort of job: domestic, dangerous, mundane, or odd. Although she avoids strictly illegal commissions, she sometimes works for less than savory characters who often want, for obvious reasons, to remain anonymous. She also does occasional work for the city government."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Terelsa Garlook is a go-between, an agent who knows how to hire the right people for any sort of job: domestic, dangerous, mundane, or odd. Although she avoids strictly illegal commissions, she sometimes works for less than savory characters who often want, for obvious reasons, to remain anonymous. She also does occasional work for the city government.",
+    "role": "Quest Giver",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Tales of the Margreve, p.70)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Baba Migori",
+    "race": "Human",
+    "class_name": "Druid",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Wild Shape (Air Elemental)",
+        "description": "She actually turns into an air elemental and flies away through the trees."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Baba Migori, also called Grandmother Migori, is a powerful druid who is very familiar with the forest. She often tests travelers for their worthiness. Uninterested in fighting, she quickly disappears in the wind if attacked.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Tales of the Margreve, p.71)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Elsee Barkcot",
+    "race": "Bearfolk",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Irrational Fear of Spiders",
+        "description": "She has an irrational fear of spiders."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Elsee Barkcot is the mother of a bearfolk family living in a small cottage just north of a clearing. Her youngest son, Obiah, is trapped in a tree by a giant spider.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Tales of the Margreve, p.71)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Frauleene",
+    "race": "Alseid",
+    "class_name": "Herbalist",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Injured Leg",
+        "description": "She is not armed and has an injured leg. She can only just keep ahead of the savage ogre that wants to torment and consume her."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Frauleene is a young, female alseid and an herbalist. She was caught off guard by an ogre while gathering plants in the forest. She knows where to find Queen's Glade and can lead the characters in that direction.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Tales of the Margreve, p.71)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Mother Babushka",
+    "race": "Unknown (appears gnome-like)",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Fortune Telling",
+        "description": "If anyone asks to have their fortune told, she has that individual drip candle wax into a bowl of cold water, then examines the shapes that form: \"I see choice, catechism, and consequences. You will pass through places that were old before iron was born, and iron will avail you little there. Knowledge of the Old Ways is better than sword or shield. I'll also say this: Not all that's devoured is dead and gone, and when offered a choice, the brave may earn a great reward by boldly saying 'All'.\""
+      },
+      {
+        "name": "Knowledge of the Challenge of the Fang",
+        "description": "She knows that the Challenge of the Fang involves a battle with the Would-Be-King of Wolves and tests in a sacred place called the Paths of Gamayun."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Mother Babushka is a woman so tiny and wrinkled that she looks like a gnome, almost buried beneath a cloak of owl feathers and layers of patterned cloth. Patches of moss and wood-like nubs mark her olive skin, a sure sign of someone who has drunk deep of the Margreve's power.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Tales of the Margreve, p.93)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Hodel Köhler",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Poor at Concealing Truth",
+        "description": "He has a –1 penalty on Charisma (Deception) checks."
+      }
+    ],
+    "actions": [],
+    "equipment": [
+      "small tin box that's warm to the touch",
+      "golden firebird feather"
+    ],
+    "spellcasting": null,
+    "description": "The tearful man is Hodel Köhler, drowning his sorrows in cheap liquor. Nervously wringing his hands, he soon approaches the party, then bursts into tears, begging for help. He says that his daughter has become lost in the forest, and no one dares go look for her.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Tales of the Margreve, p.93)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Boleslav",
+    "race": "Werewolf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Šestaci",
+        "description": "A wicked man with six fingers on each hand who can see the true form of ala and serves their evil whims."
+      },
+      {
+        "name": "Werewolf",
+        "description": "Boleslav is a werewolf."
+      }
+    ],
+    "actions": [],
+    "equipment": [
+      "amulet of lightning-struck stone in the shape of an ala (50 gp)"
+    ],
+    "spellcasting": null,
+    "description": "Their leader, Boleslav, is a werewolf and also a šestaci—a wicked man with six fingers on each hand who can see the true form of ala and serves their evil whims.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(Tales of the Margreve, p.94)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Tanya",
+    "race": "Human",
+    "class_name": "Sorcerer",
+    "subclass": "",
+    "level": 6,
+    "alignment": "chaotic neutral",
+    "armor_class": 14,
+    "hit_points": "21 (6d6)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 8,
+      "dexterity": 13,
+      "constitution": 10,
+      "intelligence": 13,
+      "wisdom": 14,
+      "charisma": 18
+    },
+    "saving_throws": {
+      "con": 3,
+      "cha": 7
+    },
+    "skills": {
+      "Arcana": 4,
+      "Deception": 7
+    },
+    "features": [
+      {
+        "name": "Subtle Spell",
+        "description": "Tanya can choose to cast a spell without the required verbal and/or somatic components.",
+        "uses": 2,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Quickened Spell",
+        "description": "When casting a spell that has a casting time of 1 action, Tanya can change the casting time to 1 bonus action for this casting.",
+        "uses": 2,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Spellcasting",
+        "description": "Tanya is a 6th-level spellcaster. Her spellcasting ability is Charisma (spell save DC 15, +7 to hit with spell attacks). She has the following spells prepared: Cantrips (at will): dancing lights, douse light (see Heroes Handbook), fire bolt, mending, prestidigitation; 1st level (4 slots): comprehend languages, identify, mage armor; 2nd level (3 slots): alter self, detect thoughts; 3rd level (3 slots): clairvoyance, fear"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Quarterstaff",
+        "description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d6 – 1) bludgeoning damage, or 3 (1d8 – 1) bludgeoning damage if wielded with two hands."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "Charisma",
+      "save_dc": 15,
+      "to_hit": 7,
+      "level": 6,
+      "spells": {
+        "cantrips": [
+          "dancing lights",
+          "douse light",
+          "fire bolt",
+          "mending",
+          "prestidigitation"
+        ],
+        "1st": [
+          "comprehend languages",
+          "identify",
+          "mage armor"
+        ],
+        "2nd": [
+          "alter self",
+          "detect thoughts"
+        ],
+        "3rd": [
+          "clairvoyance",
+          "fear"
+        ]
+      }
+    },
+    "description": "Tanya is a chaotic neutral human spellcaster.",
+    "role": "",
+    "is_enemy": false,
+    "xp_reward": 450,
+    "source": "(Tales of the Margreve, p.137)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Jędza",
+    "race": "",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Fascinate",
+        "description": "When the vila sings, all those within 60 feet of her and who can hear her must make a successful DC 14 Charisma saving throw or be stunned for 1d4 rounds. Those who succeed on the saving throw are immune to that vila's singing for 24 hours.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Forest Song",
+        "description": "The vila magically calls 2d6 wolves or 2 wampus cats (see Tome of Beasts). The called creatures arrive in 1d4 rounds, acting as allies of the vila and obeying its spoken commands. The beasts remain for 1 hour, until the vila dies, or until the vila dismisses them as a bonus action.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Jędza makes two quarterstaff attacks or two shortbow attacks."
+      },
+      {
+        "name": "+1 Quarterstaff",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) bludgeoning damage, or 6 (1d8 + 2) bludgeoning damage if wielded with two hands."
+      },
+      {
+        "name": "+1 Shortbow",
+        "description": "Ranged Weapon Attack: +9 to hit, range 80/320 ft., one target. Hit: 9 (1d6 + 6) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "",
+      "spells": [
+        "friendship",
+        "entangle",
+        "fog cloud",
+        "longstrider",
+        "calm emotions",
+        "animal messenger",
+        "hold person"
+      ],
+      "description": "1st level: friendship, entangle, fog cloud, longstrider. 2nd level (3 slots): calm emotions, animal messenger, hold person"
+    },
+    "description": "A vila (Jędza) with spellcasting and singing abilities.",
+    "role": "",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(Tales of the Margreve, p.153)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Ayojabe",
+    "race": "Water Genasi",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A water genasi (tier 1) who participates in the swimming challenge. She is impressed by courage and determination. Her stat block appears in appendix A.",
+    "role": "Contestant",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Call of the Netherdeep, p.23)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Omo",
+    "race": "Goblin",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "lawful neutral",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "An impassive, lawful neutral goblin who referees the swimming challenge.",
+    "role": "Referee",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Call of the Netherdeep, p.23)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Adan",
+    "race": "Orc",
+    "class_name": "Scout",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Lawful Good",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A horizonback tortoise trainer who supervises the transfer of young tortoises from the paddock to the open fields on the west side of the Jumble.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Call of the Netherdeep, p.25)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Belana Zolaed",
+    "race": "Drow",
+    "class_name": "Priest",
+    "subclass": "",
+    "level": 0,
+    "alignment": "neutral good",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A neutral good drow priest who maintains the Temple of the Luxon and conducts worship ceremonies.",
+    "role": "Temple Keeper",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Call of the Netherdeep, p.7)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Elder Ushru",
+    "race": "Orc",
+    "class_name": "Priest",
+    "subclass": "",
+    "level": 0,
+    "alignment": "neutral good",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A neutral good orc priest who is one of the clan elders of Jigow. He announces the final contest and chooses the two teams to compete in the grand finale.",
+    "role": "Elder",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Call of the Netherdeep, p.7)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Auntie Jaller",
+    "race": "Hobgoblin",
+    "class_name": "Druid",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Chaotic Neutral",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Old and elegant-looking, thanks to her long silver hair and deep green robes. She calls herself an \"old witch\" and spends much of her time brewing potions and inventing new tea blends.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Call of the Netherdeep, p.45)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Rohaya Tak",
+    "race": "Half-Elf",
+    "class_name": "Commoner",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Neutral Good",
+    "armor_class": 10,
+    "hit_points": "4 (1d8)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 10,
+      "constitution": 10,
+      "intelligence": 10,
+      "wisdom": 10,
+      "charisma": 10
+    },
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [
+      {
+        "name": "Club",
+        "description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d4) bludgeoning damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Rohaya Tak, a neutral good, half-elf commoner, who inherited the business from her mother two decades ago. An innovative metalworker, Rohaya combines her smithcraft with shrewd business intuition. In addition to crafting blades and tools, Rohaya uses the forge to produce cannons for use on sailing ships and skyships, modeled after the bronze cannons of her family's homeland in southern Marquet.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Call of the Netherdeep, p.89)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Carliale Kroogan",
+    "race": "Gnome",
+    "class_name": "Scholarly Excavator",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Neutral Good",
+    "armor_class": 10,
+    "hit_points": "4 (1d8)",
+    "speed": "25 ft.",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 10,
+      "constitution": 10,
+      "intelligence": 10,
+      "wisdom": 10,
+      "charisma": 10
+    },
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [
+      {
+        "name": "Club",
+        "description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d4) bludgeoning damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "The Allegiance of Allsight scholar Carliale Kroogan, a neutral good, gnome scholarly excavator (see appendix A), is currently the chief supervisor for the Life Dome. Lonely and a bit of a chatterbox, Carliale is always ready to chat about arcane theory with any individual who comes his way.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Call of the Netherdeep, p.89)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Old Man Kruuk",
+    "race": "Half-Orc",
+    "class_name": "Bandit Captain",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Neutral",
+    "armor_class": 15,
+    "hit_points": "65 (10d8+20)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 16,
+      "constitution": 14,
+      "intelligence": 14,
+      "wisdom": 11,
+      "charisma": 14
+    },
+    "saving_throws": {
+      "str": 4,
+      "dex": 5,
+      "wis": 2
+    },
+    "skills": {
+      "Athletics": 4,
+      "Deception": 4
+    },
+    "features": [],
+    "actions": [
+      {
+        "name": "Scimitar",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6+3) slashing damage."
+      },
+      {
+        "name": "Dagger",
+        "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 5 (1d4+3) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Old Man Kruuk, a neutral, half-orc bandit captain, is a mediocre baker; his pitas are tough and chewy, and the caramel of his baklava is bitter and burned. Kruuk's talent lies in his true vocation as a fence for stolen goods. After an individual gains his trust, he drops his bumbling baker facade and reveals himself to be an excellent businessperson, able to sweet-talk even the most uncompromising thieves into a favorable deal.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Call of the Netherdeep, p.89)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Sheed Caltor",
+    "race": "Orc",
+    "class_name": "Noble",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Chaotic Neutral",
+    "armor_class": 15,
+    "hit_points": "9 (2d8)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 12,
+      "constitution": 11,
+      "intelligence": 12,
+      "wisdom": 14,
+      "charisma": 16
+    },
+    "saving_throws": {},
+    "skills": {
+      "Deception": 5,
+      "Insight": 4,
+      "Persuasion": 5
+    },
+    "features": [],
+    "actions": [
+      {
+        "name": "Rapier",
+        "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 5 (1d8+1) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Sheed Caltor, a chaotic neutral, orc noble, is the suave ringmaster of the Bowl. Sheed is mostly concerned with his image, his income, and his status among the upper crust of Ank'Harel.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Call of the Netherdeep, p.89)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Adima Shemsilver",
+    "race": "Halfling",
+    "class_name": "Noble",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Chaotic Neutral",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Adima Shemsilver is a chaotic neutral halfling noble who owns and runs the casino Luck's Run. He walks with the confidence of someone twice his height. Adima secretly uses half of the casino's earnings to fund the Veil, as his family has done for generations.",
+    "role": "Casino Owner",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Amkezne",
+    "race": "Tiefling",
+    "class_name": "Mage",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Chaotic Neutral",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Amkezne is a charlatan who poses as a soothsayer at the Arcane Shop. She is a chaotic neutral tiefling mage and a Crystal Chateau dropout who makes a living defrauding wide-eyed tourists with her mystical displays and fake enchanted trinkets. Customers who see through her act but treat her with respect can purchase any spell component worth 1,000 gp or less from her. She also has a collection of fine jewelry for sale, including five gold bracelets (25 gp each), three gem-studded gold rings (250 gp each), and two jewel-encrusted necklaces and tiaras (750 gp each). An invisible stalker watches over this collection and attacks anyone who tries to steal from it.",
+    "role": "Merchant",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Nedosi Array",
+    "race": "Half-orc",
+    "class_name": "Veteran",
+    "subclass": "",
+    "level": 0,
+    "alignment": "neutral",
+    "armor_class": 17,
+    "hit_points": "45 (6d8+18)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 13,
+      "constitution": 14,
+      "intelligence": 10,
+      "wisdom": 11,
+      "charisma": 10
+    },
+    "saving_throws": {
+      "str": 5,
+      "con": 4
+    },
+    "skills": {
+      "Athletics": 5,
+      "Perception": 2
+    },
+    "features": [],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The veteran makes two longsword attacks. If it has a shortsword drawn, it can also make a shortsword attack."
+      },
+      {
+        "name": "Longsword",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8+3) slashing damage, or 8 (1d10+3) slashing damage if used with two hands."
+      },
+      {
+        "name": "Shortsword",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6+3) piercing damage."
+      },
+      {
+        "name": "Heavy Crossbow",
+        "description": "Ranged Weapon Attack: +3 to hit, range 100/400 ft., one target. Hit: 6 (1d10+1) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Security Captain Nedosi Array, a neutral, half-orc veteran, brusquely briefs the characters.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Call of the Netherdeep, p.105)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Kai",
+    "race": "Human",
+    "class_name": "Scholarly Agent",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Lawful Neutral",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A lawful neutral human guard wearing Allegiance of Allsight apparel and badges, standing outside the door to area M3. Uses the scholarly agent stat block (see appendix A).",
+    "role": "Guard",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Call of the Netherdeep, p.127)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Nadiya",
+    "race": "Halfling",
+    "class_name": "Scholarly Agent",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Lawful Good",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A lawful good halfling guard wearing Allegiance of Allsight apparel and badges, standing outside the door to area M3. Uses the scholarly agent stat block (see appendix A).",
+    "role": "Guard",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Call of the Netherdeep, p.127)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Ayo",
+    "race": "Unknown",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "dom as the spellcasting ability (spell save DC 14): l /day each: animal friendship.freedom of movement, good berry, pass without trace, protection from energy"
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Ayo issues orders to allies.",
+    "role": "",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Nat",
+    "race": "",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "One of three street urchins (noncombatants) who entered the derelict tower on a dare. See \"The Three Urchins,\" page 63.",
+    "role": "Noncombatant",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Waterdeep: Dragon Heist, p.63)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Jenks",
+    "race": "",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "One of three street urchins (noncombatants) who entered the derelict tower on a dare. See \"The Three Urchins,\" page 63.",
+    "role": "Noncombatant",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Waterdeep: Dragon Heist, p.63)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Squiddly",
+    "race": "Tiefling",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A young tiefling street urchin (noncombatant) who was kidnapped by the kenku and taken to area 03. See \"The Three Urchins,\" page 63.",
+    "role": "Noncombatant",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Waterdeep: Dragon Heist, p.63)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Niles Breakbone",
+    "race": "Chondathan human",
+    "class_name": "Noble",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Lawful Good",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "The templar in charge is a devout worshiper of Tyr named Niles Breakbone (LG male Chondathan human noble), a man who's dedicated to everything the Order of the Gauntlet represents but poorly suited to commanding a post like Camp Vengeance.",
+    "role": "Commander",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Tomb of Annihilation, p.17)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Korhie Donadrue",
+    "race": "Chondathan human",
+    "class_name": "Spy",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Lawful Good",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Chief armorer for the fort. Having spent years as an adventurer himself before becoming a smith, he enjoys having adventurers and explorers spend time in his work area, swapping tales and sharing news of the world.",
+    "role": "Merchant",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Tomb of Annihilation, p.55)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Laz Drumthunder",
+    "race": "Albino Dwarf",
+    "class_name": "Warrior",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "1",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Exhaustion",
+        "description": "Suffering from 5 levels of exhaustion."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Laz Drumthunder is an albino dwarf warrior captured by firenewts. He is wounded, starving, dehydrated, and suffering from 5 levels of exhaustion. He will recover normally with time and care, or magical healing.",
+    "role": "Prisoner",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Tomb of Annihilation, p.60)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Malkar Stonegrist",
+    "race": "Albino Dwarf",
+    "class_name": "Warrior",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "1",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Exhaustion",
+        "description": "Suffering from 5 levels of exhaustion."
+      },
+      {
+        "name": "Madness",
+        "description": "Malkar has gone mad; he shudders uncontrollably and screams nonstop if his gag is removed. A lesser restoration spell or comparable magic is needed to restore his sanity."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Malkar Stonegrist is an albino dwarf warrior captured by firenewts. He is wounded, starving, dehydrated, and suffering from 5 levels of exhaustion. He has gone mad and requires a lesser restoration spell or comparable magic to restore his sanity.",
+    "role": "Prisoner",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Tomb of Annihilation, p.60)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Athesias Uludan",
+    "race": "Human",
+    "class_name": "Archmage",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Neutral Good",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Athesias's charm and bombastic personality serve him well as a diplomat. His duty is to foster a positive relationship with people of power both within and beyond the borders of the empire. He was originally one of the most effective instructors at the Soltryce Academy, but his penchant for spectacle and his rampant narcissism made him a difficult ally to trust with state secrets. When the office of Diplomatic Union opened, he was quickly and quietly reassigned. Athesias finds great pleasure in ruining or usurping the plans of his counterpart in the Crown's employ, Emissary Lord Zeddan Graf.",
+    "role": "Archmage of Diplomatic Union",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount, p.43)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Lady Vess De Rogna",
+    "race": "Half-Elf",
+    "class_name": "Archmage",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Neutral Evil",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A public recluse for most of her life, Vess is both a brilliant mage and dedicated historian. She assumed this post after replacing her criminal predecessor, Lady Delilah Briarwood. As an instructor at the Soltryce Academy for over two decades, Vess has studied and unraveled a number of historical mysteries and pre-Calamity riddles-and hoarded some of the spoils for herself. Always eager to pursue forgotten lore and artifacts of eons past, Vess has been known to quietly vanish to Xhorhas for weeks at a time, returning with fewer guards and more uncovered secrets.",
+    "role": "Archmage of Antiquity",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount, p.43)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Headmaster Zivan Margolin",
+    "race": "Human",
+    "class_name": "Archmage",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Lawful Neutral",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Zivan Margolin inherited the position of headmaster from his father, the late Jorma Margolin. Zivan has been the headmaster of the Soltryce Academy in Rexxentrum for nearly twenty years. Calm, patient, and quietly imposing, Zivan walks the halls of the Academy with a keen eye for talent. He is in charge of the curriculum and also watches for any latent powers that may be worth grooming as future allies of the assembly, dangers to be monitored, or prospective minds for Ikithon to conscribe into the Volstrucker. Zivan has rarely had the opportunity to demonstrate his full power, for he is typically busied with keeping the peace between the feuding members of the assembly. Those who have witnessed his true might, however, now know that his words are backed by some of the most powerful magics within the Cerberus Assembly.",
+    "role": "Archmage of Conscription",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount, p.43)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Headmaster Oremid Hass",
+    "race": "Earth Genasi",
+    "class_name": "Archmage",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Lawful Neutral",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "The current headmaster of the Hall of Erudition in Zadash, Oremid is tasked with watching and grooming the next generation of mages and arcane specialists outside Rexxentrum. While he himself is a gentle soul who adores animals, he puts on the facade of a strict man with no sense of humor, which is further enhanced by the elemental influence of his earth genasi blood. He teaches students that failure is not an option, and that emotion is a barrier to one's true ability. Equally feared, respected, and privately loathed by the students (and some instructors), Oremid personally dismisses those who break under his school's curriculum and heaps joyous praise on those who endure their training.",
+    "role": "Archmage of Cultivation",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount, p.43)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Olesya Lapidus",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Neutral good",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Marquis of Port Damali. The Lapidus family's work in protecting and continuing the prosperity of the city for four generations has kept a Lapidus as Marquis of Port Damali for just as long. Olesya was raised as a boy, but quickly discovered that she identified as female and transitioned in her youth. As the fourth and current leader of Port Damali, Olesya takes pride in her charge and is respected by the rest of the concord. However, with the growing distraction of the Revelry, Olesya failed to notice the infestation of Myriad agents throughout her city and the guilds beneath her. Now realizing the dangerous web surrounding her and the interests of her city, she is seeking a way to turn the tide.",
+    "role": "Marquis of Port Damali",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount, p.43)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Zhafe Uludan",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Lawful neutral",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Marquis of Nicodranas. Zhafe is a distant relative of Lord Athesias Uludan of the Cerberus Assembly; his placement within the concord was primarily a diplomatic concession to maintain a positive relationship with the empire. However, Zhafe shuns this notion, insisting that he earned his role on his own merits, and eagerly organizing small galas and parades to ensure his popularity among the citizens of Nicodranas. Even so, he secretly fears the assembly and bows to Athesias's requests whenever they meet, making him a useful pawn.",
+    "role": "Marquis of Nicodranas",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount, p.43)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Alamads Hannot",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Neutral good",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Marquis of Port Zoon. The old, crotchety, and honorable leader of the industrial city of Port Zoon, and head of the Silverbone Smithing Guild that operates all along the coast, Alamads is widely known for his insurmountable will and strong sense of duty to his people. As a former Shore Warden and a legendary ironsmith, his skill with a hammer-both on and off the battlefield-has earned him great respect, as well as the whispered nickname of \"Ironpuss.\"",
+    "role": "Marquis of Port Zoon",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount, p.43)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Jette Brashan",
+    "race": "Half-orc",
+    "class_name": "Cleric",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Neutral",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "An elderly priest of the Raven Queen who's as revered as he is feared, Jette has a powerful will and a tactician's mind. Jette never makes direct eye contact, and it seems that his attention is scattered among a dozen points at any given time, yet his ability to read patterns and calculate the hidden nature of evil leaves his compatriots in awe. Absolutely dedicated to the eradication of fiendish influence on the mortal plane, Jette has sacrificed much in his pursuit- all who serve him suspect that, one day, he will gladly make the ultimate sacrifice.",
+    "role": "Claret Director",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount, p.55)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Regin Kavla",
+    "race": "Human",
+    "class_name": "Spy",
+    "subclass": "",
+    "level": 0,
+    "alignment": "lawful evil",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A former spy for the Myriad, trapped in the bowels of the Vergesson Sanatorium.",
+    "role": "Prisoner",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount, p.108)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Boerth",
+    "race": "Human",
+    "class_name": "Bandit",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Chaotic Neutral",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "This darkly handsome, chaotic neutral bandit is heavyset and strong, and has a keen mind for games of chance. He hails from Port Damali. Boerth doesn't trust anyone-especially his fellow Revelry sailors.",
+    "role": "Crew member of Wavechaser, secretly a Revelry pirate",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount, p.209)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Dajarkal",
+    "race": "Half-Orc",
+    "class_name": "Druid",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Lawful Neutral",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "This lawful neutral druid is soft-spoken and likes animals more than other people. She joined Wavechaser's crew a week ago in Nicodranas-as a mercenary spy for the Clovis Concord tasked with identifying Revelry pirates. She secretly casts animal messenger every evening to send reports on Wavechaser's whereabouts to her superiors.",
+    "role": "Crew",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount, p.211)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Dillyu",
+    "race": "Sea Elf",
+    "class_name": "Bandit",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Chaotic Good",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "This green-complexioned, chaotic good bandit joined the crew only a few days before. As a result, he has no idea yet that he's working on a pirate vessel. Dillyu spent most of his life in Port Zoon after losing his family to a sahuagin raid as a child, and he hates the sea devils with a passion.",
+    "role": "Crew",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount, p.211)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Heidi Axebeard",
+    "race": "Dwarf",
+    "class_name": "Acolyte",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Lawful Evil",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "This lawful evil acolyte is the ship's pilot and first mate, and she has a knack for predicting the weather. She hails from Grimgolir in the Dwendalian Empire but has spent decades navigating the sea. Heidi has fought sahuagin on multiple occasions but has never seen them wield magic like whatever caused Flora Isle to sink beneath the sea.",
+    "role": "Crew",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount, p.211)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Kijori",
+    "race": "Human",
+    "class_name": "Bandit",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Chaotic Neutral",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "This tan-skinned, chaotic neutral bandit is the ship's navigator. Despite his muscled physique, he isn't very strong. A philanderer who hails from Port Damali, Kijori is a fool and isn't suspicious of anyone.",
+    "role": "Crew",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount, p.211)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Yinra Emberwind",
+    "race": "Elf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "neutral good",
+    "armor_class": 15,
+    "hit_points": "16 (3d8 + 3)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 16,
+      "constitution": 12,
+      "intelligence": 14,
+      "wisdom": 13,
+      "charisma": 11
+    },
+    "saving_throws": {},
+    "skills": {
+      "Investigation": 4,
+      "Perception": 3,
+      "Stealth": 5
+    },
+    "features": [
+      {
+        "name": "Fey Ancestry",
+        "description": "Yinra has advantage on saving throws against being charmed, and magic can't put her to sleep."
+      },
+      {
+        "name": "Keen Hearing and Sight",
+        "description": "Yinra has advantage on Wisdom (Perception) checks that rely on hearing or sight."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Shortsword",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) piercing damage."
+      },
+      {
+        "name": "Longbow",
+        "description": "Ranged Weapon Attack: +5 to hit, range 150/600 ft., one target. Hit: 7 (1d8 + 3) piercing damage."
+      }
+    ],
+    "equipment": [
+      "studded leather"
+    ],
+    "spellcasting": null,
+    "description": "Yinra Emberwind is a gnome guard at the Firemark Facility. She does her best to shoo the adventurers away from this restricted site.",
+    "role": "Guard",
+    "is_enemy": false,
+    "xp_reward": 100,
+    "source": "(Explorer's Guide to Wildemount)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Hulil Lutan",
+    "race": "Mountain Dwarf",
+    "class_name": "Cult Fanatic",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Neutral Evil",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "15 ft.",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Darkvision",
+        "description": "Darkvision out to a range of 60 feet."
+      },
+      {
+        "name": "Dwarven Resilience",
+        "description": "Resistance to poison damage, and advantage on saving throws against poison."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A neutral evil, female mountain dwarf cult fanatic with a walking speed of 15 feet, darkvision out to a range of 60 feet, resistance to poison damage, and advantage on saving throws against poison. She is afflicted with frigid woe and is desperate for a cure.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount, p.239)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Raegrin Mau",
+    "race": "Wood Elf",
+    "class_name": "Cultist",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Neutral Evil",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Darkvision",
+        "description": "Darkvision out to a range of 60 feet."
+      },
+      {
+        "name": "Fey Ancestry",
+        "description": "Advantage on saving throws against being charmed, and immunity to magic that would put him to sleep."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A neutral evil, male wood elf cultist with darkvision out to a range of 60 feet, advantage on saving throws against being charmed, and immunity to magic that would put him to sleep. He is Hulil's apprentice and follows her every order with unshaking loyalty.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount, p.239)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Ari Bortock",
+    "race": "Mountain Dwarf",
+    "class_name": "Veteran",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Neutral Good",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A retired adventurer who runs the Jolly Dwarf inn. A gray-haired dwarf behind the bar greets you cheerfully as you enter.",
+    "role": "Innkeeper",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Irven Liel",
+    "race": "Human (Dwendalian)",
+    "class_name": "Commoner",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Neutral Good",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A traveling bookseller, husband of Fenton Tethwick, and father of Honor and Magic. He purchased a blue glass vial from Hulil Lutan, believing it to be an Aeorian relic.",
+    "role": "Merchant",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Fenton Tethwick",
+    "race": "Human (Dwendalian)",
+    "class_name": "Commoner",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Neutral Good",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A traveling bookseller, husband of Irven Liel, and father of Honor and Magic.",
+    "role": "Merchant",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Honor",
+    "race": "Tiefling",
+    "class_name": "Noncombatant",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Adopted daughter of Irven Liel and Fenton Tethwick.",
+    "role": "Noncombatant",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Magic",
+    "race": "Tiefling",
+    "class_name": "Noncombatant",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Adopted daughter of Irven Liel and Fenton Tethwick.",
+    "role": "Noncombatant",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Ferol Sal",
+    "race": "Human (undead)",
+    "class_name": "Wight",
+    "subclass": "",
+    "level": 0,
+    "alignment": "neutral evil",
+    "armor_class": 14,
+    "hit_points": "45 (6d8 + 18)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 14,
+      "constitution": 16,
+      "intelligence": 16,
+      "wisdom": 13,
+      "charisma": 15
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 3,
+      "Stealth": 4
+    },
+    "features": [
+      {
+        "name": "Sunlight Sensitivity",
+        "description": "While in sunlight, the wight has disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The wight makes two longsword attacks or two longbow attacks. It can use its Life Drain in place of one longsword attack."
+      },
+      {
+        "name": "Life Drain",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 5 (1d6 + 2) necrotic damage. The target must succeed on a DC 13 Constitution saving throw or its hit point maximum is reduced by an amount equal to the damage taken. This reduction lasts until the target finishes a long rest. The target dies if this effect reduces its hit point maximum to 0. A humanoid slain by this attack rises 24 hours later as a zombie under the wight's control, unless the humanoid is restored to life or its body is destroyed. The wight can have no more than twelve zombies under its control at one time."
+      },
+      {
+        "name": "Longsword",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 6 (1d8 + 2) slashing damage, or 7 (1d10 + 2) slashing damage if used with two hands."
+      },
+      {
+        "name": "Longbow",
+        "description": "Ranged Weapon Attack: +4 to hit, range 150/600 ft., one target. Hit: 6 (1d8 + 2) piercing damage."
+      }
+    ],
+    "equipment": [
+      "two keys (one that works all the doors in Salsvault and another that works all the chests built into the floor within the complex)"
+    ],
+    "spellcasting": null,
+    "description": "The undead Ferol Sal has worked tirelessly in the laboratory for centuries, obsessed with crafting a disease that can kill the gods. Despite having made no progress in all that time, he keeps working. Ferol is a wight with an Intelligence of 16 (+3).",
+    "role": "Enemy or potential ally",
+    "is_enemy": true,
+    "xp_reward": 700,
+    "source": "(Explorer's Guide to Wildemount, p.268)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Skr'a S'orsk",
+    "race": "Lizardfolk",
+    "class_name": "Shaman",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "Skr'a S'orsk worships the demon lord Sess'inek and has the following spells prepared:\nCantrips (at will): produce flame, resistance, thorn whip\n1st level (4 slots): entangle, fog cloud\n2nd level (3 slots): blindness/deafness, spike growth\n3rd level (2 slots): animate dead, conjure animals (reptiles only)"
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": {
+      "cantrips": [
+        "produce flame",
+        "resistance",
+        "thorn whip"
+      ],
+      "1st": [
+        "entangle",
+        "fog cloud"
+      ],
+      "2nd": [
+        "blindness/deafness",
+        "spike growth"
+      ],
+      "3rd": [
+        "animate dead",
+        "conjure animals (reptiles only)"
+      ]
+    },
+    "description": "A corrupted lizardfolk shaman who worships the demon lord Sess'inek.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount, p.254)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Commander Struther Felmont",
+    "race": "Human",
+    "class_name": "Veteran",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Lawful Neutral",
+    "armor_class": 17,
+    "hit_points": "58 (9d8+18)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 13,
+      "constitution": 14,
+      "intelligence": 10,
+      "wisdom": 11,
+      "charisma": 10
+    },
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Alarm Horn",
+        "description": "At the first sight of intruders, Felmont reaches for a horn at his side and sounds the alarm, alerting the guards outside. If Felmont sounds the horn, six Dwendalian guards arrive from the training yard within 2 rounds to fight at his side."
+      }
+    ],
+    "actions": [],
+    "equipment": [
+      "splint mail",
+      "horn",
+      "key to the main hall"
+    ],
+    "spellcasting": null,
+    "description": "A tall human clad in splint mail with a crooked scar across the left side of his face. He carries a key to the main hall (area V5). The commander is fearful but stubborn, and parleys with the characters only if his support troops have been routed and he is obviously outnumbered or outclassed.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(Explorer's Guide to Wildemount, p.259)",
+    "_source_manual": "EGW"
   }
 ]

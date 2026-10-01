@@ -40,6 +40,27 @@ DISPLAY_OVERRIDES = {
 }
 
 
+def _display_for(slug: str, fallback: str) -> str:
+    """The display name for a slug, from the APP's own map.
+
+    main._get_source_slug_map() is the authority — tests/test_manual_sources.py asserts every
+    source's display matches it. Using the raw `_book_title` here wrote titles like "Courts Shadow
+    Fey 5E" / "taldorei campaign setting reborn compress" into ~2,000 rows that the test then
+    rejected, so the app map is consulted first and DISPLAY_OVERRIDES is only a fallback.
+    """
+    try:
+        import sys as _sys
+        root = str(HERE)
+        if root not in _sys.path:
+            _sys.path.insert(0, root)
+        from main import _get_source_slug_map  # noqa: PLC0415
+        # keys are mixed case in the app map ("CotN"), while _source_manual is upper case
+        table = {str(k).upper(): (v or {}).get("display") for k, v in (_get_source_slug_map() or {}).items()}
+        return table.get(slug.upper()) or DISPLAY_OVERRIDES.get(slug) or fallback
+    except Exception:
+        return DISPLAY_OVERRIDES.get(slug) or fallback
+
+
 def _load_json(path: Path):
     try:
         with open(path) as f:
@@ -129,7 +150,7 @@ def append_extraction(slug: str, dry_run: bool = False) -> int:
         print(f"ERROR: {ext_path.name} missing or not marked _completed")
         return 1
 
-    display = DISPLAY_OVERRIDES.get(slug) or data.get("_book_title", slug)
+    display = _display_for(slug, data.get("_book_title", slug))
     added_total = 0
     per_cat_added: dict[str, int] = {}
 
@@ -209,13 +230,17 @@ def append_extraction(slug: str, dry_run: bool = False) -> int:
     pdf_map = meta.get("pdf_map")
     if not isinstance(pdf_map, dict):
         pdf_map = {}
-    # Path must be a BARE filename: _ensure_manual_cache() resolves
-    # MANUALS_DIR / path, so a nested path would double the directory.
-    pdf_map[slug] = {
-        "title": title,
-        "filename": title.replace(" ", "_") + ".pdf",
-        "path": title.replace(" ", "_") + ".pdf",
-    }
+    # NEVER clobber an existing path: the app opens the reference library with
+    # /api/reference/open/<slug>?page=N, which resolves this path, and this block used to
+    # overwrite it with `title.replace(" ", "_") + ".pdf"` — a name that need not exist on
+    # disk. Measured: ToA, EGW, WDH, GGR, CotN, XGE, DTCOE, WGE, DMPMOT and KW all lost their
+    # real `DnD-Manuals/...` path and every page link for them 404'd.
+    entry = dict(pdf_map.get(slug) or {})
+    entry["title"] = title
+    if not entry.get("path"):
+        entry["filename"] = title.replace(" ", "_") + ".pdf"
+        entry["path"] = entry["filename"]
+    pdf_map[slug] = entry
     meta["pdf_map"] = pdf_map
     meta["merged_at"] = time.time()
     _save_json(meta_path, meta)
@@ -244,7 +269,7 @@ def main() -> int:
         return 0
     if "--fix-sources" in sys.argv:
         ext = _load_json(CACHE_DIR / f"{slug}_extracted.json") or {}
-        display = DISPLAY_OVERRIDES.get(slug) or ext.get("_book_title", slug)
+        display = _display_for(slug, ext.get("_book_title", slug))
         fix_sources(slug, display, dry_run=dry_run)
         return 0
     return append_extraction(slug, dry_run=dry_run)

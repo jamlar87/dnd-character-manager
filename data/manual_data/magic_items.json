@@ -10256,7 +10256,790 @@
     "rarity": "unknown",
     "requires_attunement": false,
     "description": "When you make an attack roll, ability check, or saving throw, you can roll an additional d20. You can choose to do so after you make the attack roll, ability check, or saving throw, but before the outcome is determined. You choose which of the d20s to use for your roll. This property of the amulet can't be used again until you finish a short or long rest.",
-    "source": "(taldorei campaign setting reborn compress, p.207)",
+    "source": "(Tal'Dorei Campaign Setting Reborn, p.207)",
     "_source_manual": "TCSR"
+  },
+  {
+    "name": "Twisted Stone",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "The stone is a piece of shadowstone formed into a Moebius strip. Breaking the stone (AC 18, 15 hit points) releases this section of the Niflheim Road from its topological prison, allowing the adventurers to continue toward the Shadow Court. A successful DC 18 Intelligence (Arcana) check reveals this fact, and detect magic reveals an aura of conjuration on the stone.",
+    "source": "(Courts of the Shadow Fey, p.38)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Jeweled Cameo",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "The cameo is a mithral and onyx rendition of the Queen of Night and Magic. It is worth 7,500 gp on the Material Plane, but in the Shadow Court it could be traded for favor or Status.",
+    "source": "(Courts of the Shadow Fey, p.38)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Rivenwood Regalia",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "This large magical battle standard bears the ancient crest of House Rivenwood and has the following properties. It grants the standard bearer a +2 bonus to Armor Class and the ability to use regeneration (as the spell) once per day when the bearer is within 10 feet of the standard. All allies within 500 feet of the standard gain a +2 bonus on initiative checks and become immune to the charmed, frightened, and stunned conditions as long as Rivenwood Regalia remains visibly borne aloft. All enemies within 100 feet that can see the standard have disadvantage on initiative checks and on any checks to resist fear.",
+    "source": "(Courts of the Shadow Fey, p.45)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Bonds of Friendship",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "You swore an oath of blood and mingled tears; both of you against the injustice of the shadow fey. Goblin blood held true, a dozen years of watchful friendship and laughter behind the courtier's backs. No harm must come to your closest companion! As a reaction when a creature you can see within 30 feet targets you or an ally with a weapon attack or a spell, you can pour out the philter. The creature must succeed on a DC 15 Wisdom saving throw or choose a different target. If it can't or doesn't choose a different target, the attack or spell is wasted. A creature that can't be charmed is immune to this effect. To create this philter, a humanoid must sacrifice a happy memory of a time with a friend.",
+    "source": "(Courts of the Shadow Fey, p.45)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Coward's Shame",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "You remember how the queen banished you for your cowardice and how the court laughed. Even your mother turned her back. You could not return to the courts until she died. The target becomes frightened. While frightened in this way, it flees from you by the most direct route it can, and it can take only actions that facilitate its escape. If the creature ends its turn more than 30 feet away from you and can't see you, it can repeat the saving throw, ending the effect on a success. To create this philter, a humanoid must sacrifice a memory of a failure or embarrassment.",
+    "source": "(Courts of the Shadow Fey, p.45)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Youthful Joy",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "You remember the sunshine and the shadows of the Margreve, picking bluebells as a young girl: the laughter of a child and the boundless strength of youth. The target regains 3d8 + 6 hit points and removes one level of exhaustion. To create this philter, a humanoid must sacrifice a favored childhood memory.",
+    "source": "(Courts of the Shadow Fey, p.45)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Raging Lust",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "You tore her spider silk bridal dress in the treetops and dropped the shreds to the forest floor. You shook the leaves from the trees, and her cries set the birds to flight. You would have done anything she asked. The target is charmed by you, until you or one of your allies does something to harm the target. If you are a kind of creature the target normally finds attractive, it treats you as the object of its desire while it is charmed in this way. You can make one suggestion of the target (as if using the suggestion spell). The target can repeat the saving throw when it finishes a long rest. On a",
+    "source": "(Courts of the Shadow Fey, p.45)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Philter of Widow’s Tears",
+    "type": "Potion",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "She died in your arms, the glorious spider-maiden who spun your wedding vest and embroidered the lace you wore so proudly as the Statthalter of Corremel. Oh, that it should end thus. She was always the one who was meant to outlive your foolish plotting. A creature you can see within 30 feet is overcome by devastating grief. The target is stunned for 1 minute. It can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. To creature this philter, a humanoid must sacrifice all memory of a deceased loved one.",
+    "source": "(Courts of the Shadow Fey, p.46)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Choker of Eloquence",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": true,
+    "description": "This item is a magic necklace of uncommon rarity that requires attunement, and raises the wearer's Charisma to 19 it's not already higher than that.",
+    "source": "(Courts of the Shadow Fey, p.96)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Circlet set with two sparkling diamonds",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "A circlet set with two sparkling diamonds (worth 10,000 gp in total).",
+    "source": "(Courts of the Shadow Fey, p.107)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Shadow Censer",
+    "type": "Wondrous item",
+    "rarity": "very rare",
+    "requires_attunement": false,
+    "description": "The shadow censer here requires incense to use its dimming magic.",
+    "source": "(Courts of the Shadow Fey, p.112)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Moonlight Apple",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "These apples shine like mithral and are worth 1,000 gp each. Moonlight apples are rare wondrous items; when consumed, one grants a creature a +1 bonus to AC and saving throws and immunity to Sunlight Sensitivity for a year and a day.",
+    "source": "(Courts of the Shadow Fey, p.115)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Ceremonial Dagger",
+    "type": "Weapon (dagger)",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "Sheathed in a charcoal gray scabbard engraved with the queen's owl emblem, this jeweled dagger is an extremely well-made piece. When in shadow, this double-edged blade can be seen to be engraved with bloodred fey runes. The daggers serve as keys to the labyrinth; one can be used to unlock the gate at the bottom of the hidden stair (area 42). Once the bearer arrives at the Tower Beacon, the daggers are still worth 1,000 gp apiece, and a +2 increase to Status, if the characters decide to return to the court at a later date.",
+    "source": "(Courts of the Shadow Fey, p.124)",
+    "_source_manual": "CSF"
+  },
+  {
+    "name": "Enchanted Apple",
+    "type": "Wondrous item",
+    "rarity": "very rare",
+    "requires_attunement": false,
+    "description": "Upon her death, the Singing Tree turns bone white, resembling an ashen-faced woman of great beauty, clasping a bright red apple. The apple radiates a strong aura of enchantment magic. An identify spell does not reveal the magical property of the apple, only that it is a permanent effect. Anyone who bites the apple receives a permanent +1 increase to Charisma; after a single bite is taken, the apple withers and turns to dust. The apple cannot be preserved and will wither soon after being removed from the tree.",
+    "source": "(Tales of the Margreve, p.60)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Silver Mirror with Ebony Handle",
+    "type": "Treasure",
+    "rarity": "common",
+    "requires_attunement": false,
+    "description": "A silver mirror with an ebony handle (75 gp).",
+    "source": "(Tales of the Margreve, p.60)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Magic Honey (Potion of Greater Healing)",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "A fourth vial holds a magic honey that operates identically to a potion of greater healing.",
+    "source": "(Tales of the Margreve, p.78)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Stuhac's Enchanted Gameboard",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "This gul bara set is enchanted to assist its owner: the dice roll favorably and the pieces shift position accordingly, giving the owner advantage on Intelligence checks against an opponent. A successful DC 20 Wisdom (Perception) check is required to detect this subterfuge.",
+    "source": "(Tales of the Margreve, p.97)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Firebird Feather",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "A firebird feather gives off light as a continual flame spell. Additionally, whoever carries the feather is unaffected by temperatures as low as –50 degrees Fahrenheit. Druids and clerics can use the feather as a divine focus. If the feather is used in place of a holy symbol to turn undead, the undead have a –1 penalty on their Wisdom saving throw.",
+    "source": "(Tales of the Margreve, p.103)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Matrushka Doll",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": true,
+    "description": "A Matrushka doll consists of a wooden effigy about a hand’s span tall. The figure is hollow, and within it rest 1d3 smaller figures. Each doll is smaller than the previous one and fits neatly within the next larger one. The owner of a Matrushka doll can use her reaction to reroll a failed save. With each use, the smallest doll inside is consumed. When the last doll inside is consumed, the outer shell turns to dust.",
+    "source": "(Tales of the Margreve, p.103)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Sand Arrow",
+    "type": "Weapon (arrow)",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "The shaft of a sand arrow is made of tightly packed white sand that discorporates into a blast of grit when it strikes a target. On a successful hit, the sand catches in the fittings and joints of metal armor, imposing a 10-foot penalty to speed on the wearer until the armor can be cleaned. Additionally, creatures hit by a sand arrow are blinded until the end of their next turn unless they succeed on a DC 11 Constitution saving throw.",
+    "source": "(Tales of the Margreve, p.104)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Wolf Killer",
+    "type": "Weapon (handaxe)",
+    "rarity": "rare",
+    "requires_attunement": true,
+    "description": "This ancient silver hatchet was cast by the first woodsman to face the Challenge of the Fang. One side of the blade is engraved with a snarling wolf’s face, the other with a young child’s visage. Wolf Killer is a +1 moonsteel handaxe. The weapon deals an extra 1d6 radiant damage to any creature it hits. Additionally, any creature that is not in its true form or has the shapechanger trait must succeed on a DC 13 Charisma saving throw or be frightened until the start of its next turn, and it is forced to immediately resume its natural form. Anyone touching the axe feels a tingle of magic and the inexplicable sense that there’s a price involved in owning it. During the Challenge of the Fang, the wielder is the subject of a geas (save DC 17) urging the character to head into the deep woods and face the Would-Be-King of Wolves and is plagued by dreams and visions: fearsome wolves pursuing a red-cloaked girl, and apparitions of Wolf Killer’s many previous wielders.",
+    "source": "(Tales of the Margreve, p.104)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Worg Salve",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "Brewed by hags and lycanthropes, this oil grants you lupine features. Each pot contains enough for three applications. One application rubbed on the appropriate area grants one of the following benefits: darkvision 60 ft., advantage on Wisdom [Perception} checks that rely on scent, speed 50 ft., or a secondary attack (bite) for 5 minutes. Use all three applications at once to transform into a wolf, as the polymorph spell. Excessive use of worg salve might result in the target’s becoming a werewolf.",
+    "source": "(Tales of the Margreve, p.104)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "+1 glaive",
+    "type": "Weapon",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "Captain Thoulous wields a +1 glaive.",
+    "source": "(Tales of the Margreve, p.121)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Hungry Chest",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "This chest, an 8-foot cube, appears to be a wooden spider head from the outside. It functions as a bag of holding with a twist. When opened, it appears to be a normal empty chest, regardless of the actual contents. When an inanimate object passes over the threshold into the space, it is sucked in with great force. If you let go, the object disappears inside. You can retain your hold on the object with a successful DC 17 Strength check. On a failed check, you must succeed on a DC 17 Dexterity saving throw to avoid being sucked in with the object and suffocating after 10 minutes. When an empty hand reaches inside, the silhouettes of concealed contents—items and gasping, sucked-in creatures—become vaguely visible. The more hands reaching inside, the more real all the contents become. A full eight hands are required to withdraw an item. A sucked-in creature counts its own hands as among the eight necessary to escape. This item is a fundamental component of the spider house. If the house is destroyed, so is the hungry chest. Mavra assumes the form of a spider when she wants to extract items.",
+    "source": "(Tales of the Margreve, p.137)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Soul Jug",
+    "type": "Wondrous item",
+    "rarity": "very rare",
+    "requires_attunement": false,
+    "description": "If you unstopper the jug, your soul enters it; this effect functions as the magic jar spell with a 9-hour duration and the jug acting as the gem. Unlike the magic jar spell, the jug must remain unstoppered for you to move your soul to a nearby body, back to the jug, or back to your own body. Possessing a target is an action, and your target can foil the attempt by succeeding on a DC 16 Charisma saving throw. Only one soul can be in the jug at one time. If a soul is in the jug when the duration ends, the jug shatters.",
+    "source": "(Tales of the Margreve, p.138)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Blue Willow Cloak",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "This light cloak of fey silk is waterproof. When worn and activated in the rain, it grants invisibility to the wearer. The effect lasts for as long as it rains or 1 hour, whichever is shorter. Once used, this property cannot be used again until the next dawn.",
+    "source": "(Tales of the Margreve, p.137)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Ivy Crown of Prophecy",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": true,
+    "description": "On command, this ivy filigreed crown grants you the benefit of a divination spell. Once it is used, this property cannot be used again until the next dawn.",
+    "source": "(Tales of the Margreve, p.138)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Treebleed Bucket",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "This combination sap bucket and tap is used to extract sap from certain trees, after which the sap magically changes into a potion. The potion remains viable for 24 hours, and its type depends on the tree as follows: oak (potion of resistance), rowan (potion of healing), willow (potion of animal friendship), and holly (potion of climbing). A treebleed bucket has 20 charges. When its charges are expended, the bucket and tap become nonmagical.",
+    "source": "(Tales of the Margreve, p.138)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Living Stake",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "Fashioned from mandrake root, the living stake longs to taste the heart's blood of vampires. A successful melee attack attaches it to a vampire's chest. On the following round, roots force their way into the creature's heart, negating fast healing and preventing gaseous form. If the target is reduced to 0 hit points, it is immobilized as if it had been staked. The stake can be pulled out with a successful DC 17 Strength (Athletics) check made as an action; doing this destroys the magic item. The stake has no effect on targets other than vampires.",
+    "source": "(Tales of the Margreve, p.154)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Cap of Thorns",
+    "type": "Wondrous item",
+    "rarity": "very rare",
+    "requires_attunement": true,
+    "description": "Donning this thorny wooden circlet causes it to meld with your scalp. It can be removed only upon your death or by a remove curse spell. The cap ingests some of your blood, dealing 2d4 piercing damage. After this first feeding, the thorns feed once per day for 1d4 piercing damage. Once per day, you can sacrifice 1 hit point per level you possess to cast a special entangle spell made of thorny vines. Charisma is your spellcasting ability for this effect. Restrained creatures must make a successful Charisma save or be affected by a charm person spell as thorns pierce their body. The target can repeat the save at the end of each round, ending the effect on a success. If the target fails three consecutive saves, the thorns become deeply rooted and the effect is permanent until remove curse or similar magic is cast on the target.",
+    "source": "(Tales of the Margreve, p.154)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Half-Sword of the Margreve Knights",
+    "type": "Weapon",
+    "rarity": "unique",
+    "requires_attunement": true,
+    "description": "The story of the ill-fated Margreve Knights, adventurers who perished in the heart of the woods, is little remembered except in the name of this strange sword. To all appearances, this sword that has been shorn down the middle of the blade. It functions as a +1 longsword that's light enough to be used as a finesse weapon. The half-sword of the Margreve Knights scores a critical hit on a roll of 19–20. Legend says that the second half of the blade lies forgotten in the Margreve and, if the halves are rejoined, it becomes a vorpal blade.",
+    "source": "(Tales of the Margreve, p.154)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Thirsting Thorn",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "A memento from Catchweed's adventures in the shadow fey courts. See Items Wondrous and Strange.",
+    "source": "(Tales of the Margreve, p.147)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Ghost Thread",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "Most of this miles-long strand of enchanted silk, created by phase spiders, resides on the Ethereal Plane. Only a few inches at either end exist permanently on the Material Plane, and those may be used as any normal string would be. Creatures using it to navigate can follow the strand to its destination by running their hand along the thread, which phases into the Material Plane beneath their grasp. If dropped or severed (AC 8, 1 hit point), the thread disappears back into the Ethereal Plane in 2d6 rounds.",
+    "source": "(Tales of the Margreve, p.154)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Tree Bag",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "Treat as a bag of holding, except the bag opens into a hollow tree deep in the Margreve.",
+    "source": "(Tales of the Margreve)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Golden Hair Rope",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "A variant rope of climbing that coils into a single golden hair.",
+    "source": "(Tales of the Margreve)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Manual of Vine Golems",
+    "type": "Wondrous item",
+    "rarity": "very rare",
+    "requires_attunement": false,
+    "description": "This tome contains information and incantations necessary to make a vine golem. To decipher and use the manual, you must be a druid with at least two 3rd‑level spell slots. A creature that can’t use a manual of vine golems and attempts to read it takes 4d6 psychic damage.\n\nTo create a vine golem, you must spend 20 days working without interruption with the manual at hand and resting no more than 8 hours per day. You must also use powders made from rare plants and crushed gems worth 30,000 gp to create the vine golem, all of which are consumed in the process. Once you finish creating the vine golem, the book decays into ash. The vine golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands.",
+    "source": "(Tales of the Margreve, p.190)",
+    "_source_manual": "TMFRV"
+  },
+  {
+    "name": "Reward's Handy Spice Pouch",
+    "type": "Wondrous item",
+    "rarity": "common",
+    "requires_attunement": false,
+    "description": "This belt pouch appears empty and has 10 charges. While holding the pouch, you can use an action to expend 1 of its charges, speak the name of any nonmagical food seasoning (such as salt, pepper, saffron, or cilantro), and remove a pinch of the desired seasoning from the pouch. A pinch is enough to season a single meal. The pouch regains 1d6 + 4 expended charges daily at dawn.",
+    "source": "(Xanathar's Guide to Everything, p.137)",
+    "_source_manual": "XGE"
+  },
+  {
+    "name": "Walking Cane (common magic item)",
+    "type": "Wondrous item",
+    "rarity": "common",
+    "requires_attunement": false,
+    "description": "When you grasp this walking cane and use a bonus action to speak the command word, it transforms into an ordinary longsword and ceases to be magical.",
+    "source": "(Xanathar's Guide to Everything, p.138)",
+    "_source_manual": "XGE"
+  },
+  {
+    "name": "Mortar and Pestle of the Planes",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "instead throw out the dust or paste of something ground by the mortar and name a location on a different plane of existence or a different world on the Material Plane. If that material came from a creature native to the named plane or world, the mortar travels through an empty night sky to an unoccupied space at that destination, arriving in 1 minute. Destroying the Mortar and Pestle. The mortar and pestle are destroyed if they are crushed underfoot by the Dancing Hut of Baba Yaga or by Baba Yaga herself.",
+    "source": "(Tasha's Cauldron of Everything, p.121)",
+    "_source_manual": "DTCOE"
+  },
+  {
+    "name": "Demonomicon",
+    "type": "Wondrous item",
+    "rarity": "legendary",
+    "requires_attunement": true,
+    "description": "d the Demonomicon are on the same plane of existence, the trapped creature of the highest challenge rating within the book can attempt to possess you. You must make a DC 20 Charisma saving throw. On a failure, you are possessed by the creature, which controls you like a puppet. The possessing creature can release you as an action, appearing in the closest unoccupied space. On a successful save, the fiend can't try to possess you again for 7 days. When the tome is discovered, it has 1d4 fiends occupying its pages, typically an assortment of demons. Destroying the Demonomicon. To destroy the book, six different demon lords must each tear out a sixth of the book's pages. If this occurs, the pages reappear after 24 hours. Before all those hours pass, anyone who opens the book's remaining binding is transported to a nascent layer of the Abyss that lies hidden within the book. At the heart of this deadly, semi-sentient domain lies a long-lost artifact, Fraz-Urb'luu's Staff. If the staff is dragged from the pocket plane, the tome is reduced to a mundane and quite out-of-date copy of the Tome of Zyx, the work that served as the foundation for the Demonomicon. Once the staff emerges, the demon lord Fraz-Urb'luu instantly knows.",
+    "source": "(Tasha's Cauldron of Everything, p.125)",
+    "_source_manual": "DTCOE"
+  },
+  {
+    "name": "Eberron Dragonshard",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "Eberron dragonshards are found in shallow soil, and often encased in geode-like stone shells. Eberron shards can be found almost anywhere, but the most significant deposits have been discovered in jungle environments, notably Q'barra and the distant land of Xen'drik. In their raw form, Eberron shards are rosy crystals with crimson swirls flowing their depths. Eberron shards are the most common form of dragonshard. They are primarily refined into a glowing powder. This dragonshard dust can be used to fuel almost any act of magic. When casting a spell, you can use dragonshard dust in place of any spell component that has a cost, unless the DM says otherwise. Dragonshard dust is used in the creation of magic items, and many powerful tools—such as the lightning rail and elemental airships—require an ongoing expenditure of Eberron dragonshards to maintain their enchantments.",
+    "source": "(Wayfinder's Guide to Eberron, p.113)",
+    "_source_manual": "WGE"
+  },
+  {
+    "name": "Khyber Dragonshard",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "Khyber dragonshards are found deep in the earth, often near layers of magma. These living crystals typically grow on cavern walls, and superstition says they flourish in areas with significant activity. Khyber dragonshards are deep blue or dark violet, laced with gleaming veins. Khyber dragonshards have a affinity for binding magics. Elemental binding—which is behind airships, the lightning rail, and elemental galleons—requires a Khyber shard to hold the elemental. Khyber shards are used for phylacteries, planar binding, any other effects that trap or manipulate spirits. Khyber dragonshards are also used for many necromantic rituals.",
+    "source": "(Wayfinder's Guide to Eberron, p.113)",
+    "_source_manual": "WGE"
+  },
+  {
+    "name": "Siberys Dragonshard",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "Siberys dragonshards fall from the Ring of Siberys, the ring of crystals that encircles the world. While rare in Khorvaire, there are significant shards found in the continent of Xen'drik, and this is a potential source of great wealth for explorers. Siberys dragonshards are amber in color, with swirling golding veins gleaming within. Siberys dragonshards have a close affinity to dragonmarks and are a vital part of any dragonmark focus item. Larger shards may be required for eldritch machines or used in the creation of legendary items or artifacts.",
+    "source": "(Wayfinder's Guide to Eberron, p.113)",
+    "_source_manual": "WGE"
+  },
+  {
+    "name": "Imbued Wood Focus",
+    "type": "Arcane focus",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "An arcane focus provides a +1 bonus when you roll damage for a spell that inflicts a specific type of damage, as shown below.\n• Fernian ash: Fire damage.\n• Irian rosewood: Radiant damage.\n• Kythrian manchineel: Acid or poison damage.\n• Lamannian oak: Lightning or thunder damage.\n• Mabaran ebony: Necrotic damage.\n• Risian pine: Psychic damage.\n• Shavaran birch: Cold damage.\n• Xorian cedar: Force damage.",
+    "source": "(Wayfinder's Guide to Eberron, p.114)",
+    "_source_manual": "WGE"
+  },
+  {
+    "name": "Mabaran Resonator",
+    "type": "Wondrous item",
+    "rarity": "legendary",
+    "requires_attunement": true,
+    "description": "This horrid device draws on the power of Mabar, infusing the dead with the malign energies of the Endless Night. While it is active, any creature that dies within two miles of the resonator reanimates in one round as a zombie under the control of creature attuned to the device. At the DM's discretion, more powerful creatures can return as other forms of undead.",
+    "source": "(Wayfinder's Guide to Eberron, p.118)",
+    "_source_manual": "WGE"
+  },
+  {
+    "name": "Spell Scroll of Thunderwave",
+    "type": "Scroll",
+    "rarity": "common",
+    "requires_attunement": false,
+    "description": "A character who explores this cave discovers a vial containing a potion of healing and a soggy but usable spell scroll of thunderwave.",
+    "source": "(Call of the Netherdeep, p.31)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "+1 battleaxe",
+    "type": "Weapon (battleaxe)",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "A magic battleaxe with a +1 bonus to attack and damage rolls.",
+    "source": "(Call of the Netherdeep, p.45)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Cracked Driftglobe",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "In its damaged state, the driftglobe can be used only to cast the light spell.",
+    "source": "(Call of the Netherdeep, p.71)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Elephant Figurine (Ruidium-Corrupted)",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "This elephant figurine was infected with ruidium during its time in Cael Morrow, and that substance has warped its magical properties. When a character tries to retrieve the figurine, it reacts as if it had been activated, transforming into a crystalline version of the creature it was meant to become (use the ruidium elephant stat block earlier in the chapter). This creature can't be controlled. The figurine transforms even if the space where the elephant appears is occupied by other creatures. A creature in the space where the elephant appears must make a successful DC 13 Dexterity saving throw or take 11 (2d10) force damage and be pushed into the nearest unoccupied space. Reducing the elephant to 0 hit points causes it to transform back into a figurine, after which it can be handled and transported safely. The figurine can't transform again for seven days. If the characters keep the elephant figurine for themselves, the elephant it creates uses the ruidium elephant stat block (see earlier in the chapter) and can't be controlled. If the characters slay or redeem the Apotheon (see chapter 7), the figurine is rid of its ruidium corruption and functions like a normal figurine of wondrous power (marble elephant).",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Spell Scroll of Divination",
+    "type": "Scroll",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "A spell scroll of divination, available for purchase at the Temple of the Mentor for 125 gp.",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Spell Scroll of Commune",
+    "type": "Scroll",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "A spell scroll of commune, available for purchase at the Temple of the Mentor for 250 gp.",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Jade Dagger",
+    "type": "Weapon (dagger)",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "A ceremonial dagger made of jade, its hilt and crossguard carved to resemble two green snakes coiled around one another (250 gp).",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Potion of Healing (Superior) and Heroism Combined",
+    "type": "Potion",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "A stoppered vial containing a bubbling purple liquid that combines the beneficial effects of a potion of healing (superior) and a potion of heroism.",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Spell Scroll of Otiluke's Resilient Sphere",
+    "type": "Scroll",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "The rolled-up scroll is a spell scroll of Otiluke's resilient sphere tied with a green ribbon.",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Fragment of Abhorrence",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "Benefit. Once on each of your turns when you hit a creature with a weapon attack roll, you can force the target to move up to 10 feet away from you in a direction of your choice. A creature that can't be frightened is immune to this effect. Drawback. If you start your turn frightened, you take 2d6 psychic damage.",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Fragment of Attachment",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "Benefit. You can't be frightened while within 10 feet of an ally. If you're already frightened and move within 10 feet of an ally, the frightened condition ends on you. Drawback. You have disadvantage on Wisdom and Charisma saving throws while you aren't within 10 feet of an ally.",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Fragment of Despondence",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "Benefit. You are immune to the charmed condition. Drawback. You can't take the Help action.",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Fragment of Intransigence",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "Benefit. Another creature can't force you to move anywhere you don't want to go. Drawback. You can't take the Disengage or Dodge action.",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Fragment of Loathing",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "Benefit. When a creature damages you with a weapon attack or a spell, you can focus your hatred on that creature. Until the end of your next turn, you have advantage on attack rolls you make against the creature. You can focus your hatred on only one creature at a time. Drawback. You have disadvantage on Charisma checks.",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Fragment of Melancholy",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "Benefit. When you fail a Wisdom or Charisma saving throw, you can reroll it with advantage, potentially turning a failure into a success. After you use this benefit, you must finish a long rest before you can use it again. Drawback. If you use this fragment's benefit and it doesn't turn a failed saving throw into a success, you are incapacitated until the end of your next turn, overcome with despair.",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Fragment of Rancor",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "Benefit. When you hit a creature with an attack, you can choose to deal either an extra 2d6 psychic damage to the creature or 4d6 psychic damage to each other creature within 5 feet of it. After you use this benefit, you must finish a short or long rest before you can use it again. Drawback. Whenever you are not unconscious and fail a saving throw, you take 2d6 psychic damage.",
+    "source": "(Call of the Netherdeep)",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Lantanese Diving Suit",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "This experimental device consists of a pressure-resistant padded suit, made of canvas with iron fittings and iron gauntlets. A fishbowl helmet attaches to the suit's collar and functions as a cap of water breathing.",
+    "source": "(Waterdeep: Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Spellbook",
+    "type": "Wondrous item",
+    "rarity": "nonmagical",
+    "requires_attunement": false,
+    "description": "Manshoon's spellbook rests atop a black marble lectern protected by an invisible helmed horror.",
+    "source": "(Waterdeep: Dragon Heist, p.156)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Leather-Bound Ledger",
+    "type": "Wondrous item",
+    "rarity": "nonmagical",
+    "requires_attunement": false,
+    "description": "A leather-bound ledger that provides a paper trail implicating Manshoon in two blackmail schemes. An hour spent studying the ledger uncovers the following information: Corylus Thaon, a racist Waterdavian noble, is paying the Zhentarim not to reveal that he hired Zhent thugs to assault nonhumans. Jelenn Urmbrusk, a Waterdavian noble, receives regular payments from the Zhentarim to offset monies he loses in bad investments.",
+    "source": "(Waterdeep: Dragon Heist, p.156)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Control Amulet for a Shield Guardian",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": true,
+    "description": "The queen wears a bronze and adamantine medallion that has the word \"Vorn\" etched into it. This is the control amulet for a shield guardian (see \"Vorn,\" page 83). None of the goblins have any notion the amulet is related to the object they venerate as a minor deity.",
+    "source": "(Tomb of Annihilation, p.90)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Withers's Skeletal Songbird",
+    "type": "Wondrous item",
+    "rarity": "common",
+    "requires_attunement": false,
+    "description": "Withers's skeletal songbird is tame but cantankerous. It can't fly, but it can be sold to a buyer in Port Nyanzaru for 75 gp.",
+    "source": "(Tomb of Annihilation, p.148)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "I'jin's Golden Sarcophagus",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "I'jin's golden sarcophagus cannot be opened by any means other than stepping on eight floor tiles in the correct order. The sarcophagus is worth 7,500 gp intact but weighs 75 pounds. Removing it from the funeral barge causes four floor-to-ceiling walls of force (like those created by a wall of force spell) to surround the dais on all four sides. The walls last until destroyed or until the sarcophagus is returned to the barge.",
+    "source": "(Tomb of Annihilation, p.35)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Jeweled Cockroach Jewelry Box",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "The cockroach-shaped jewelry box is made of gold, set with precious gems (including tiny black pearls for its eyes), and worth 1,500 gp. It weighs 5 pounds and contains two items: a small jade key shaped like a crocodile (designed to fit in the keyhole in area 62B) and a necklace of fireballs with eight beads remaining.",
+    "source": "(Tomb of Annihilation, p.53)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Hornet Mask",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "A hornet mask made of painted gold (250 gp).",
+    "source": "(Tomb of Annihilation, p.53)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Golden Sun",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "A two-foot-diameter orb hanging from a chain above the sarcophagus is made of hammered gold to resemble a smiling sun. Whenever the sun or its chain are touched or damaged, the sun's smile fades to an inscrutable expression, and it emits tremendous heat in a 20-foot-radius sphere centered on itself. Any creature that starts its turn in the area takes 10 (3d6) fire damage. This effect ends if all creatures leave the affected area. The first time the queen's remains or any of her treasures are removed from the sarcophagus, the sun's expression turns angry as it emits rays of searing light. Each creature within 30 feet of the sun that doesn't have total cover against it must succeed on a DC 14 Dexterity saving throw or be struck by a ray, which deals 42 (12d6) fire damage. The sun and its chain are treated as a single Small object with AC 15; 22 hit points; and immunity to fire, poison, and psychic damage. The sun loses its magical properties when it shoots its rays or is destroyed.",
+    "source": "(Tomb of Annihilation, p.53)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Charm of Nine Lives",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "When you drop to 0 hit points as a result of taking damage, you can choose to drop to 1 hit point instead. Once used nine times, the charm goes away.",
+    "source": "(Tomb of Annihilation, p.128)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Charm of the Crystal Heart",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "This charm grants you immunity to piercing and slashing damage from nonmagical attacks, but you gain vulnerability to bludgeoning damage. These effects last for 10 days, after which the charm vanishes from you.",
+    "source": "(Tomb of Annihilation, p.128)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Charm of Treasure Sense",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "While this charm lasts, you can use an action to pinpoint, by scent, the location of precious metals and stones, such as coins and gems, within 30 feet of you. The effect lasts for 3 days, after which the charm vanishes from you.",
+    "source": "(Tomb of Annihilation, p.128)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Charm of the Swollen Hag",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "This charm allows you to spit up a frog as an action. The frog understands you and obeys your commands. Once used three times, the charm goes away.",
+    "source": "(Tomb of Annihilation, p.128)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Charm of the Maimed",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "This charm allows you to regrow a lost appendage or organ, such as an arm, a foot, or an eye. After it is used once, the charm goes away.",
+    "source": "(Tomb of Annihilation, p.128)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Charm of the Ghoul",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "This charm allows you to use an action to eat a mouthful of flesh from a humanoid that has been dead no longer than 1 day. When you do, you regain 3d8 + 3 hit points. Once used three times, the charm goes away.",
+    "source": "(Tomb of Annihilation, p.128)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Charm of Water Breathing",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "The charm allows the character to cast the water breathing spell, after which its magic fades.",
+    "source": "(Explorer's Guide to Wildemount)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Ritual Stone Fragment",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "A fragment carries a semblance of the stone's magic, allowing the character who carries it to cast the augury spell. Once used, this property of the fragment can't be used again until the next dusk. If a fragment is taken more than 10 feet from the ritual stone, its magic fades and it ceases to function after 1d3 + 1 days. A character who attempts to chip away a piece of the ritual stone in addition to the three fragments must succeed on a DC 20 Charisma saving throw or take 3 (1d6) psychic damage.",
+    "source": "(Explorer's Guide to Wildemount, p.255)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Decorative Rapier with Crystal Hilt",
+    "type": "Weapon",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "A decorative rapier with a crystal hilt (worth 50 gp).",
+    "source": "(Explorer's Guide to Wildemount, p.255)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Coin of Delving",
+    "type": "Wondrous item",
+    "rarity": "common",
+    "requires_attunement": false,
+    "description": "This scintillating copper coin sheds dim light in a 5-foot radius. If dropped a distance greater than 5 feet, the coin issues a melodious ringing sound when it hits a surface. Any creature that can hear the chime can determine the distance the coin dropped based on the tone.",
+    "source": "(Explorer's Guide to Wildemount, p.266)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Warhammer (Unnamed Artifact)",
+    "type": "Weapon (warhammer)",
+    "rarity": "artifact",
+    "requires_attunement": true,
+    "description": "ic weapon. When you hit with an attack using this warhammer, you can deal an extra 2d6 bludgeoning damage to the target. If you do, you take 1d6 psychic damage. The warhammer deals double damage to objects and structures. While holding this weapon, you have advantage on Wisdom (Insight) checks made to discern a lie spoken in a language you understand. Awakened. When the warhammer reaches an awakened state, it gains the following properties: • The weapon's bonus to attack and damage rolls increases to +2. You gain a burrowing speed equal to your walking speed. You can use your burrowing speed to move through sand, loose earth, mud, or ice, not solid rock. When a creature you can see within 30 feet of you hits you with an attack while you are wielding the warhammer, you can use your reaction to deal an amount of psychic damage to that creature equal to the damage you took from the attack. This property can't be used again until the next dawn. Exalted. When the warhammer reaches an exalted state, it gains the following properties: The weapon's bonus to attack and damage rolls increases to +3. • When you have fewer hit points than half your hit point maximum, the warhammer deals an extra 2d6 bludgeoning damage on a hit. • You can burrow through solid rock at half your burrowing speed and leave a 5-foot-diameter tunnel in your wake. As an action, you can use the warhammer to cast one of the fol lowing spells from it (save DC 17): earthquake, meld into stone, or stone shape. Once a spell has been cast using the warhammer, that spell can't be cast from the warhammer again until the next dawn.",
+    "source": "(Explorer's Guide to Wildemount, p.275)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Ace of the Black Crown",
+    "type": "Weapon (mace)",
+    "rarity": "artifact",
+    "requires_attunement": true,
+    "description": "Ace of the Black Crown. Xartaza wants to recruit more souls for Asmodeus, so the weapon pushes its wielder toward lawful evil actions by manipulating the wielder's dreams. A former Blood War general, Xartaza hates demons and relishes crafting sound battle plans in any conflict.\n\nDormant. The mace grants the following benefits in its dormant state:\n• You can speak, read, and write Infernal.\n• You gain a +1 bonus to attack and damage rolls made with this magic weapon.\n• While holding the mace, you can use a bonus action to speak its Infernal command word, causing flames to erupt from the head. These flames shed bright light in a 40-foot radius and dim light for an additional 40 feet. While the mace is ablaze, it deals an extra 1d6 fire damage to any target it hits. The flames last until you use a bonus action to speak the command word again or until you are no longer holding the mace.\n• While holding the mace, you can use an action to summon an imp. Any devil you summon with this mace is friendly to you and your companions for the duration. The imp obeys any verbal commands that you issue to it and returns to the Nine Hells 10 minutes after you summoned it. This property can't be used again until the next dawn.\n\nAwakened. When the mace reaches an awakened state, it gains the following properties:\n• The weapon's bonus to attack and damage rolls increases to +2, and the extra fire damage dealt by the weapon when it is ignited increases to 2d6.\n• The weapon's Summon Devil feature can also be used to summon a bearded devil.\n• You have resistance to poison damage while holding this weapon.\n\nExalted. When the mace reaches an exalted state, it gains the following properties:\n• The weapon's bonus to attack and damage rolls increases to +3, and the extra fire damage dealt by the weapon when it is ignited increases to 3d6. Fire damage dealt by the mace ignores resistance to fire damage.\n• The weapon's Summon Devil feature can also be used to summon a barbed devil.\n• You have resistance to fire damage while you hold this weapon.",
+    "source": "(Explorer's Guide to Wildemount, p.276)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Acid Splash Arrow",
+    "type": "Ammunition (arrow)",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "This +1 arrow's glass tip breaks on impact, releasing a magical splash of acid dealing 1d3+1 points of acid damage.",
+    "source": "(Kobold Quarterly 20, p.14)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Acid Splash Arrow, Non-Magical",
+    "type": "Ammunition (arrow)",
+    "rarity": "common",
+    "requires_attunement": false,
+    "description": "This masterwork arrow breaks on impact, releasing a dose of acid dealing 1d3 points damage.",
+    "source": "(Kobold Quarterly 20, p.14)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Acid Splash Arrow, Advanced",
+    "type": "Ammunition (arrow)",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "The head of this +1 arrow seems partly corroded. When the missile strikes it target, it deals 2d4 points of acid damage in addition to its normal arrow damage. Such arrows deal even more damage when created by high-level casters.",
+    "source": "(Kobold Quarterly 20, p.14)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Chains of Silence",
+    "type": "Weapon",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "+1 chains of silence (x4). (Note: Full description not present in this text chunk.)",
+    "source": "(Kobold Quarterly 20, p.43)",
+    "_source_manual": "KW"
+  },
+  {
+    "name": "Umbral Gossamer",
+    "type": "Wondrous item (material)",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "Spun from frost and the shadows of the towering forests in the Shadow Realm, these silky, silvery strands are woven and braided into various grades of rope and other fabrics. Umbral gossamer is strong, lightweight, and always just slightly cool to the touch. The shadow fey highly prize all goods and poisons made from it and rarely trade these goods to mortals. The raw strands are never traded, for they take enchantment very well. Some speculate that, because materials made from umbral gossamer smoke and steam in this world, the components might not survive in Midgard. This does not stop enterprising or foolish mortals from trying to bring the strands back for weaving. None have yet succeeded.",
+    "source": "(Kobold Quarterly 20, p.50)",
+    "_source_manual": "KW"
   }
 ]

@@ -1923,6 +1923,22 @@
       "requires_attunement": true,
       "description": "",
       "source": "DMG p.176"
+    },
+    {
+      "name": "Reward's Handy Spice Pouch",
+      "type": "Wondrous item",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "This belt pouch appears empty and has 10 charges. While holding the pouch, you can use an action to expend 1 of its charges, speak the name of any nonmagical food seasoning (such as salt, pepper, saffron, or cilantro), and remove a pinch of the desired seasoning from the pouch. A pinch is enough to season a single meal. The pouch regains 1d6 + 4 expended charges daily at dawn.",
+      "source": "XGE p.137"
+    },
+    {
+      "name": "Walking Cane (common magic item)",
+      "type": "Wondrous item",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "When you grasp this walking cane and use a bonus action to speak the command word, it transforms into an ordinary longsword and ceases to be magical.",
+      "source": "XGE p.138"
     }
   ],
   "equipment": [
@@ -1930,6 +1946,16 @@
       "name": "Gaming Set",
       "type": "Tool",
       "subtype": "Gaming Set",
+      "damage": "",
+      "properties": [],
+      "cost": "",
+      "weight": 0,
+      "source": "XGE"
+    },
+    {
+      "name": "Poisoner's Tools",
+      "type": "Tool",
+      "subtype": "Artisan's tools",
       "damage": "",
       "properties": [],
       "cost": "",
@@ -2086,37 +2112,29 @@
     {
       "name": "Path of the Ancestral Guardian",
       "class": "Barbarian",
-      "description": "Some barbarians hail from cultures that revere their ancestors. These tribes teach that warriors should leave this world without fear and should defend their people from harm. The barbarians who follow this path are sometimes called ancestral guardians, and they call on the spirits of their ancestors to protect their people.",
+      "description": "Some barbarians hail from cultures that revere their ancestors. These tribes teach that the warriors of the past linger in the world as mighty spirits, who can guide and protect the living. When a barbarian who follows this path rages, the barbarian contacts the spirit world and calls on these guardian spirits for aid.",
       "features": [
         {
           "name": "Ancestral Protectors",
           "level": 3,
-          "description": "Starting when you choose this path at 3rd level, spectral warriors appear when you enter your rage. While you're raging, the first"
+          "description": "Starting when you choose this path at 3rd level, spectral warriors appear when you enter your rage. While you're raging, the first creature you hit with an attack on your turn becomes the target of the warriors, which hinder its attacks. Until the start of your next turn, that target has disadvantage on any attack roll that isn't against you, and when the target hits a creature other than you with an attack, that creature has resistance to the damage dealt by the attack. The effect on the target ends early if your rage ends."
         },
         {
-          "name": "Spirit Shield (2d8)",
+          "name": "Spirit Shield",
           "level": 6,
-          "description": ""
+          "description": "Beginning at 6th level, the guardian spirits that aid you can provide supernatural protection to those you defend. If you are raging and another creature you can see within 30 feet of you takes damage, you can use your reaction to reduce that damage by 2d6.\nWhen you reach certain levels in this class, you can reduce the damage by more: by 3d6 at 10th level and by 4d6 at 14th level."
         },
         {
           "name": "Consult the Spirits",
           "level": 10,
-          "description": ""
-        },
-        {
-          "name": "Spirit Shield (3d8)",
-          "level": 10,
-          "description": ""
+          "description": "At 10th level, you gain the ability to consult with your ancestral spirits. When you do so, you cast the augury or clairvoyance spell, without using a spell slot or material components. Rather than creating a spherical sensor, this use of clairvoyance invisibly summons one of your ancestral spirits to the chosen location. Wisdom is your spellcasting ability for these spells.\nAfter you cast either spell in this way, you can't use this feature again until you finish a short or long rest.",
+          "uses": 1,
+          "recharge": "short rest"
         },
         {
           "name": "Vengeful Ancestors",
           "level": 14,
-          "description": ""
-        },
-        {
-          "name": "Spirit Shield (4d8)",
-          "level": 14,
-          "description": ""
+          "description": "At 14th level, your ancestral spirits grow powerful enough to retaliate. When you use your Spirit Shield to reduce the damage of an attack, the attacker takes an amount of force damage equal to the damage that your Spirit Shield prevents."
         }
       ],
       "source": "XGE p.9"
@@ -2689,17 +2707,24 @@
         {
           "name": "Channel Divinity",
           "level": 3,
-          "description": "When you take this oath at 3rd level, you gain the following two Channel Divinity options.\n\nEmissary of Peace. You can use your Channel Divinity to augment your presence with divine power. As a bonus action, you grant yourself a +5 bonus to Charisma (Persuasion) checks for the next 10 minutes.\n\nRebuke the Violent. You can use your Channel Divinity to rebuke those who use violence. Immediately after an attacker within 30 feet of you deals damage with an attack against a creature other than you, you can use your reaction to force the attacker to make a Wisdom saving throw. On a failed save, the attacker takes radiant damage equal to the damage it just dealt. On a successful save, it takes half as much damage."
+          "description": "When you take this oath at 3rd level, you gain the following two Channel Divinity options.\n\nEmissary of Peace. You can use your Channel Divinity to augment your presence with divine power. As a bonus action, you grant yourself a +5 bonus to Charisma (Persuasion) checks for the next 10 minutes.\n\nRebuke the Violent. You can use your Channel Divinity to rebuke those who use violence. Immediately after an attacker within 30 feet of you deals damage with an attack against a creature other than you, you can use your reaction to force the attacker to make a Wisdom saving throw. On a failed save, the attacker takes radiant damage equal to the damage it just dealt. On a successful save, it takes half as much damage.",
+          "uses": 1,
+          "recharge": "short rest"
         },
         {
-          "name": "Aura of the Guardian",
+          "name": "Aura of the Guardian (10 ft.)",
           "level": 7,
-          "description": "Starting at 7th level, you can shield others from harm at the cost of your own health. When a creature within 10 feet of you takes damage, you can use your reaction to magically take that damage, instead of that creature taking it. This feature doesn't transfer any other effects that might accompany the damage, and this damage can't be reduced in any way.\n\nAt 18th level, the range of this aura increases to 30 feet."
+          "description": "Starting at 7th level, you can shield others from harm at the cost of your own health. When a creature within 10 feet of you takes damage, you can use your reaction to magically take that damage, instead of that creature taking it. This feature doesn't transfer any other effects that might accompany the damage, and this damage can't be reduced in any way."
         },
         {
           "name": "Protective Spirit",
           "level": 15,
           "description": "Starting at 15th level, a holy presence mends your wounds in battle. You regain hit points equal to 1d6 + half your paladin level if you end your turn in combat with fewer than half of your hit points remaining and you aren't incapacitated."
+        },
+        {
+          "name": "Aura of the Guardian (30 ft.)",
+          "level": 18,
+          "description": "At 18th level, the range of your Aura of the Guardian increases to 30 feet."
         },
         {
           "name": "Emissary of Redemption",
@@ -3327,7 +3352,7 @@
       "damage": "3 (1d6)",
       "damage_type": "bludgeoning",
       "area": "10-foot-deep hole in the floor",
-      "description": "A simple pit trap consisting of a 10-foot-deep hole concealed by tattered canvas covered with leaves and dirt.",
+      "description": "A concealed pit trap that causes falling damage.",
       "source": "DMG p.122"
     },
     {
@@ -3524,13 +3549,18 @@
     }
   ],
   "_chapters_completed": [
-    "Xanathar's Guide to Everything"
+    "Xanathar's Guide to Everything",
+    "App. A: Shared Campaigns",
+    "Ch. 3: Spells",
+    "App. B: Character Names",
+    "Ch. 1: Character Options",
+    "Ch. 2: Dungeon Master's Tools"
   ],
   "_chapter_errors": {},
   "_current_chapter": "",
-  "_total_chapters": 1,
+  "_total_chapters": 5,
   "_book_slug": "XGE",
   "_book_title": "D&D 5E  Xanathar's Guide to Everything",
   "_completed": true,
-  "_timestamp": 1790280170.853464
+  "_timestamp": 1790807162.1453536
 }

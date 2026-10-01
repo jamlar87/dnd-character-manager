@@ -15528,5 +15528,1074 @@
       }
     },
     "_source_manual": "WFV"
+  },
+  {
+    "name": "Mark of Finding",
+    "source": "(Wayfinder's Guide to Eberron, p.97)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Goblin"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase (Human)",
+        "description": "As a human, your Dexterity and Wisdom scores both increase by 1. In addition, one ability score of your choice increases by 1."
+      },
+      {
+        "name": "Ability Score Increase (Half-Orc)",
+        "description": "As a half-orc, your Strength and Wisdom scores both increase by 1. In addition, one ability score of your choice increases by 1."
+      },
+      {
+        "name": "Darkvision",
+        "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+      },
+      {
+        "name": "Hunter's Intuition",
+        "description": "Your mark sharpens your senses and helps you find your prey. When you make a Wisdom (Perception) or Wisdom (Survival) check, you can roll one Intuition die, a d4, and add the number rolled to the ability check."
+      },
+      {
+        "name": "Imprint Prey",
+        "description": "As a bonus action, choose one creature you can see within 30 feet of you. The target is imprinted in your mind until it dies or you use this trait again. Alternatively, you can imprint a creature as your quarry whenever you succeed on a Wisdom (Survival) check to track it. When tracking your quarry, double the result of your Intuition die. When your quarry is within 60 feet of you, you have a sense of its location: it can't be hidden from you, gains no benefit from invisibility, and your attacks against it ignore half cover. Once you use this trait, you cannot use it again until you finish a short or long rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Nature's Voice",
+        "description": "When you reach 3rd level you gain the ability to cast locate animals or plants, but only as a ritual."
+      },
+      {
+        "name": "Languages",
+        "description": "You can speak, read, and write Common and Goblin."
+      }
+    ],
+    "subraces": [],
+    "description": "The Mark of Finding can appear on either humans or half-orcs, granting them the ability to track prey and uncover hidden things.",
+    "_effects": {
+      "Ability Score Increase (Human)": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Dexterity +1, Wisdom +1, and one other ability score of your choice +1."
+      },
+      "Ability Score Increase (Half-Orc)": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Strength +1, Wisdom +1, and one other ability score of your choice +1."
+      },
+      "Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": 60,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Hunter's Intuition": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "When making a Wisdom (Perception) or Wisdom (Survival) check, you can roll one Intuition die (d4) and add the number rolled to the ability check."
+      },
+      "Imprint Prey": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Bonus action to imprint a creature within 30 feet as quarry until it dies or you use this trait again; can also imprint via successful Wisdom (Survival) tracking check. When tracking quarry, double the Intuition die result. When quarry is within 60 feet, you sense its location: it can't be hidden from you, gains no benefit from invisibility, and your attacks against it ignore half cover. Recharges on a short or long rest."
+      },
+      "Nature's Voice": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "At 3rd level, can cast locate animals or plants as a ritual only."
+      },
+      "Languages": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can speak, read, and write Common and Goblin."
+      }
+    },
+    "_source_manual": "WGE"
+  },
+  {
+    "name": "Mark of Handling",
+    "source": "(Wayfinder's Guide to Eberron, p.98)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 1,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 1,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Goblin"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Dexterity and Wisdom scores both increase by 1. In addition, one ability score of your choice increases by 1."
+      },
+      {
+        "name": "Wild Intuition",
+        "description": "When you make a Wisdom (Animal Handling) or Intelligence (Nature) check, you can roll one Intuition die, a d4, and add the number rolled to the ability check."
+      },
+      {
+        "name": "Expert Handling",
+        "description": "You can use the Help action to aid an ally animal companion or mount within 30 feet of you, rather than 5 feet of you."
+      },
+      {
+        "name": "Primal Connection",
+        "description": "You can cast animal friendship once with this trait and regain the ability to do so when you finish a short or long rest. Wisdom is your spellcasting ability for this spell.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "The Bigger They Are",
+        "description": "When you cast a spell that targets only beasts, it also affects monstrosities with an Intelligence score of 3 or lower."
+      },
+      {
+        "name": "Nature's Voice",
+        "description": "When you reach 3rd level you gain the ability to cast speak with animals but only as a ritual."
+      },
+      {
+        "name": "Languages",
+        "description": "You can speak, read, and write Common and Goblin."
+      }
+    ],
+    "subraces": [],
+    "description": "The Mark of Handling manifests on humans, granting a powerful connection to the natural world and the ability to track and handle the wildest monstrosities.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Dexterity +1, Wisdom +1, and one other ability score of your choice +1."
+      },
+      "Wild Intuition": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "When making a Wisdom (Animal Handling) or Intelligence (Nature) check, you can roll a d4 Intuition die and add the result to the check."
+      },
+      "Expert Handling": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You can use the Help action to aid an ally animal companion or mount within 30 feet instead of 5 feet."
+      },
+      "Primal Connection": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You can cast animal friendship once, regaining the ability on a short or long rest. Wisdom is the spellcasting ability."
+      },
+      "The Bigger They Are": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Spells you cast that target only beasts also affect monstrosities with Intelligence 3 or lower."
+      },
+      "Nature's Voice": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "At 3rd level, you can cast speak with animals as a ritual."
+      },
+      "Languages": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You can speak, read, and write Common and Goblin."
+      }
+    },
+    "_source_manual": "WGE"
+  },
+  {
+    "name": "Mark of Healing",
+    "source": "(Wayfinder's Guide to Eberron, p.99)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 1,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Wisdom score increases by 1."
+      },
+      {
+        "name": "Medical Intuition",
+        "description": "When you make a Wisdom (Medicine) check, you can roll one Intuition die, a d4, and add the number rolled to the ability check."
+      },
+      {
+        "name": "Healing Touch",
+        "description": "As an action, you can draw power from your dragonmark to spend one of your Hit Dice and revitalize yourself or a creature you touch. Roll the die, add your Wisdom modifier, and the creature regains a number of hit points equal to the total. Once you use this trait, you can't use it again until you finish a short or long rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "subraces": [],
+    "description": "The Mark of Healing manifests exclusively on halflings of your character's mark of healing subrace. Healing this is your halfling subrace.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Wisdom score increases by 1."
+      },
+      "Medical Intuition": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "When making a Wisdom (Medicine) check, can roll one Intuition die (d4) and add the number rolled to the ability check."
+      },
+      "Healing Touch": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "As an action, can spend one Hit Die to heal self or a touched creature: roll the die, add Wisdom modifier, creature regains that many hit points. Recharges on a short or long rest."
+      }
+    },
+    "_source_manual": "WGE"
+  },
+  {
+    "name": "Mark of Hospitality",
+    "source": "(Wayfinder's Guide to Eberron, p.100)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Charisma score increases by 1."
+      },
+      {
+        "name": "Innkeeper's Charms",
+        "description": "You know the cantrips friends and mending. Charisma is your spellcasting ability for them."
+      },
+      {
+        "name": "Ever Hospitable",
+        "description": "When you make a Charisma (Persuasion) check or an ability check involving brewer's supplies or cook's utensils, you can roll one Intuition die (a d4) and add the number rolled to the ability check."
+      }
+    ],
+    "subraces": [],
+    "description": "The Mark of Hospitality manifests exclusively on halflings. Its bearer is sure to be rich in friends, and the magic of the mark allows the bearer to keep a place clean, and to heat, chill, and season food.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Charisma score increases by 1."
+      },
+      "Innkeeper's Charms": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Knows the friends and mending cantrips. Charisma is the spellcasting ability for them."
+      },
+      "Ever Hospitable": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "When making a Charisma (Persuasion) check or an ability check involving brewer's supplies or cook's utensils, can roll one Intuition die (d4) and add the number rolled to the ability check."
+      }
+    },
+    "_source_manual": "WGE"
+  },
+  {
+    "name": "Mark of Making",
+    "source": "(Wayfinder's Guide to Eberron, p.101)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 1,
+      "constitution": 0,
+      "intelligence": 1,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Intelligence and Dexterity scores increase by 1. Increase either Intelligence or Dexterity by an additional 1 point."
+      },
+      {
+        "name": "Artisan's Intuition",
+        "description": "When you make an ability check with artisan's tools, roll 1d4 and add it to the result."
+      },
+      {
+        "name": "Maker's Gift",
+        "description": "You know the cantrip Mending and gain proficiency with one type of artisan's tools."
+      },
+      {
+        "name": "Magecraft",
+        "description": "You can create a temporary magic item out of common materials. Choose a cantrip from the wizard spell list. Describe the item connected to it. As long as you possess the item, you know that cantrip. At the end of a long rest, you can replace it with a new item and select a new cantrip from the wizard spell list. Intelligence is your spellcasting ability for these cantrips."
+      },
+      {
+        "name": "Spellsmith",
+        "description": "You can spend one minute to weave a temporary enchantment into a nonmagical suit of armor or weapon. For the next hour the object becomes a magic item, gaining a +1 bonus to AC if it is armor or a +1 bonus to hit and damage if it is a weapon. Once you use this trait, you can't use it again until you finish a long rest.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "subraces": [],
+    "description": "The Mark of Making only manifests on humans. These traits replace the human Ability Score Increase trait in the Player's Handbook.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Intelligence +1, Dexterity +1, and either Intelligence or Dexterity +1 (total +2 to one of those two)."
+      },
+      "Artisan's Intuition": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "When making an ability check with artisan's tools, add 1d4 to the result."
+      },
+      "Maker's Gift": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [
+          "One type of artisan's tools"
+        ],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Knows the Mending cantrip."
+      },
+      "Magecraft": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can create a temporary item tied to a chosen wizard cantrip; while possessing the item, knows that cantrip. Can swap the item and cantrip at the end of a long rest. Intelligence is the spellcasting ability for these cantrips."
+      },
+      "Spellsmith": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Once per long rest, spend 1 minute to enchant a nonmagical suit of armor or weapon for 1 hour: armor gains +1 AC, weapon gains +1 to hit and damage."
+      }
+    },
+    "_source_manual": "WGE"
+  },
+  {
+    "name": "Gnome (Mark of Scribing)",
+    "source": "(Wayfinder's Guide to Eberron, p.103)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 1
+    },
+    "speed": 25,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Gnomish"
+    ],
+    "size": "Small",
+    "traits": [
+      {
+        "name": "Gifted Scribe",
+        "description": "You are proficient with calligrapher's supplies and forgery kits. When you make an ability check using either one of these tools, you can roll one Intuition die, a d4, and add the number rolled to the ability check."
+      },
+      {
+        "name": "Scribe's Insight",
+        "description": "You can cast comprehend languages once with this trait and you regain the ability to do so when you finish a short rest. Intelligence is your spellcasting ability for it.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Whispering Wind",
+        "description": "You know the cantrip message. Intelligence is your spellcasting ability when casting it."
+      },
+      {
+        "name": "Extra Language",
+        "description": "You can speak, read, and write one extra language of your choice."
+      }
+    ],
+    "subraces": [],
+    "description": "The Mark of Scribing manifests exclusively on gnomes. If your character has the Mark of Scribing, this is your gnome subrace.",
+    "_effects": {
+      "Gifted Scribe": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [
+          "Calligrapher's supplies",
+          "Forgery kit"
+        ],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "When making an ability check using calligrapher's supplies or a forgery kit, you can roll one Intuition die (d4) and add the number rolled to the ability check."
+      },
+      "Scribe's Insight": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You can cast comprehend languages once with this trait, regaining the ability to do so when you finish a short rest. Intelligence is your spellcasting ability for it."
+      },
+      "Whispering Wind": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You know the message cantrip. Intelligence is your spellcasting ability when casting it."
+      },
+      "Extra Language": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You can speak, read, and write one extra language of your choice."
+      }
+    },
+    "_source_manual": "WGE"
+  },
+  {
+    "name": "Mark of Storm",
+    "source": "(Wayfinder's Guide to Eberron, p.106)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 1,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Elvish"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Dexterity and Charisma scores both increase by 1. In addition, one ability score of your choice increases by 1."
+      },
+      {
+        "name": "Sea Monkey",
+        "description": "Your base walking speed is 30 feet, and you have a swim speed of 30 feet."
+      },
+      {
+        "name": "Windwright's Intuition",
+        "description": "When you make a Dexterity (Acrobatics) check or any ability check involving operating or maintaining a water or air vehicle, you can roll one Intuition die, a d4, and add the number rolled to the ability check."
+      },
+      {
+        "name": "Storm's Blessing",
+        "description": "You have resistance to lightning damage."
+      },
+      {
+        "name": "Headwinds",
+        "description": "You know the gust cantrip. When you reach 3rd level, you can cast the gust of wind spell once with this trait and regain the ability to do so when you finish a long rest.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Languages",
+        "description": "You can speak, read, and write Common and Elvish."
+      }
+    ],
+    "subraces": [],
+    "description": "The Mark of Storm manifests exclusively on half-elves, granting them a mystical connection to wind and water. They are agile sailors and skyfarers, often members of House Lyrandar.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Dexterity +1, Charisma +1, and one other ability score of your choice +1."
+      },
+      "Sea Monkey": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 30,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Swim speed of 30 feet."
+      },
+      "Windwright's Intuition": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can add a d4 Intuition die to Dexterity (Acrobatics) checks and ability checks involving operating or maintaining water or air vehicles."
+      },
+      "Storm's Blessing": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [
+          "Lightning"
+        ],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Headwinds": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Knows the gust cantrip. At 3rd level, can cast gust of wind once per long rest."
+      },
+      "Languages": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can speak, read, and write Common and Elvish."
+      }
+    },
+    "_source_manual": "WGE"
+  },
+  {
+    "name": "Mark of Warding",
+    "source": "(Wayfinder's Guide to Eberron, p.108)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 1,
+      "constitution": 0,
+      "intelligence": 1,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Dexterity and Intelligence scores increase by 1."
+      },
+      {
+        "name": "Master of Locks",
+        "description": "When you make an Intelligence (History), Intelligence (Investigation), or Thieves' Tools check involving lock and trap mechanisms, you can roll one Intuition die, a d4, and add the number rolled to the ability check."
+      },
+      {
+        "name": "Wards and Seals",
+        "description": "You can use your mark to cast the alarm spell as a ritual. Starting at 3rd level you can cast arcane lock once with this trait and regain the ability to do so when you finish a long rest. Intelligence is your spellcasting ability for these spells.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "subraces": [],
+    "description": "The Mark of Warding manifests exclusively on dwarves. If your character has the Mark of Warding, this is their dwarf subrace.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Dexterity +1, Intelligence +1"
+      },
+      "Master of Locks": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Add 1d4 (Intuition die) to Intelligence (History), Intelligence (Investigation), or Thieves' Tools checks involving lock and trap mechanisms"
+      },
+      "Wards and Seals": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can cast alarm as a ritual; at 3rd level can cast arcane lock once per long rest; Intelligence is spellcasting ability for these spells"
+      }
+    },
+    "_source_manual": "WGE"
+  },
+  {
+    "name": "Dragonborn Variant: Draconblood",
+    "source": "(Explorer's Guide to Wildemount, p.168)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 2,
+      "wisdom": 0,
+      "charisma": 1
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Draconic"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Intelligence score increases by 2, and your Charisma score increases by 1."
+      },
+      {
+        "name": "Darkvision",
+        "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+      },
+      {
+        "name": "Forceful Presence",
+        "description": "You can use your understanding of creative diplomacy or intimidation to guide a conversation in your favor. When you make a Charisma (Intimidation or Persuasion) check, you can do so with advantage. Once you use this trait, you can't do so again until you finish a short or long rest."
+      }
+    ],
+    "subraces": [],
+    "description": "Draconbloods possess long tails and a knack for social manipulation. They remember the days when they were once mighty conquerors.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Intelligence +2, Charisma +1"
+      },
+      "Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": 60,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Forceful Presence": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Advantage on Charisma (Intimidation or Persuasion) checks; usable once per short or long rest"
+      }
+    },
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Dragonborn Variant: Ravenite",
+    "source": "(Explorer's Guide to Wildemount, p.168)",
+    "asi": {
+      "strength": 2,
+      "dexterity": 0,
+      "constitution": 1,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Draconic"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Strength score increases by 2, and your Constitution score increases by 1."
+      },
+      {
+        "name": "Darkvision",
+        "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+      },
+      {
+        "name": "Vengeful Assault",
+        "description": "When you take damage from a creature in range of a weapon you are wielding, you can use your reaction to make an attack with the weapon against that creature. Once you use this trait, you can't do so again until you finish a short or long rest."
+      }
+    ],
+    "subraces": [],
+    "description": "Ravenites have no tails and a hearty physique. They remember the days when they were slaves to the draconblood, as well as the day when they overthrew their masters.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Strength score increases by 2, Constitution score increases by 1."
+      },
+      "Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": 60,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Vengeful Assault": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Reaction to make a weapon attack against a creature that damaged you while in range of a wielded weapon. Usable once per short or long rest."
+      }
+    },
+    "_source_manual": "EGW"
   }
 ]
