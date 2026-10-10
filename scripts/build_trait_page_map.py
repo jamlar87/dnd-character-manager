@@ -162,6 +162,30 @@ def verified_race_pages() -> dict:
     return out
 
 
+def traits_from_app_data() -> dict:
+    """trait -> race, for traits exactly ONE race owns, taken from the app's RACES.
+
+    The hand table below covers 51 traits; the app ships 231, so most trait rows had
+    no source at all. A trait two races share is left out — its page cannot be one
+    race's page (Silent Speech is Ghostwise-only, Darkvision is not).
+    """
+    import sys
+    REPO = Path("/home/james/dnd-character-manager")
+    if str(REPO) not in sys.path:
+        sys.path.insert(0, str(REPO))
+    import main            # noqa: PLC0415
+    import routes.characters  # noqa: F401,PLC0415  (runs the manual merge)
+    owners: dict[str, set] = {}
+    for race_name, race in (getattr(main, "RACES", {}) or {}).items():
+        if not isinstance(race, dict):
+            continue
+        for t in (race.get("traits") or []):
+            n = t.get("name") if isinstance(t, dict) else t
+            if n:
+                owners.setdefault(str(n).strip(), set()).add(race_name)
+    return {t: next(iter(r)) for t, r in owners.items() if len(r) == 1}
+
+
 def main():
     print("=== Building Racial Trait Page Map ===\n")
     
@@ -173,31 +197,39 @@ def main():
     if race_path.exists():
         race_map = {k.strip().lower(): v for k, v in json.loads(race_path.read_text()).items()}
     print(f"race map entries: {len(race_map)}")
+
+    # Owners: the app's own race data first (it covers 231 traits vs the hand
+    # table's 51), the hand table as a supplement for anything else.
+    owners = traits_from_app_data()
+    for trait, race in TRAIT_RACE_MAP.items():
+        owners.setdefault(trait, race)
+    print(f"traits with a single owner: {len(owners)}")
+
+    def race_source(race_name):
+        info = race_map.get(str(race_name).strip().lower())
+        if isinstance(info, dict) and (info.get("source_str") or "").strip():
+            return info["source_str"]
+        if race_name in RACE_PAGES:
+            page, prefix = RACE_PAGES[race_name]
+            return f"{prefix} p.{page}"
+        return ""
+
     results = {}
-    mapped = 0
     corrected = 0
     unmapped = []
-    
-    for trait_name, race_name in sorted(TRAIT_RACE_MAP.items()):
-        info = race_map.get(race_name.strip().lower())
-        if isinstance(info, dict) and (info.get("source_str") or "").strip():
-            entry = info["source_str"]
-            if race_name in RACE_PAGES:
-                old_page, old_prefix = RACE_PAGES[race_name]
-                if f"{old_prefix} p.{old_page}" != entry:
-                    print(f"  corrected {trait_name} ({race_name}): "
-                          f"{old_prefix} p.{old_page} -> {entry}")
-                    corrected += 1
-            results[trait_name] = entry
-            mapped += 1
-        elif race_name in RACE_PAGES:
-            page, prefix = RACE_PAGES[race_name]
-            results[trait_name] = f"{prefix} p.{page}"
-            mapped += 1
-        else:
+    for trait_name, race_name in sorted(owners.items()):
+        entry = race_source(race_name)
+        if not entry:
             unmapped.append((trait_name, race_name))
+            continue
+        if race_name in RACE_PAGES:
+            page, prefix = RACE_PAGES[race_name]
+            if f"{prefix} p.{page}" != entry:
+                corrected += 1
+        results[trait_name] = entry
     
-    print(f"Mapped traits: {mapped} ({corrected} aligned to the race map)")
+    print(f"Mapped traits: {len(results)} of {len(owners)} "
+          f"({corrected} differ from the hand table's page)")
     
     if unmapped:
         print(f"\nUnmapped traits: {len(unmapped)}")
