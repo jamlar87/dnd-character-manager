@@ -178,6 +178,15 @@ def _build_item_description(item: dict) -> str:
         parts = [f"{wcat} {wrange.lower()} weapon"]
         if dmg_dice:
             parts.append(f"{dmg_dice} {dmg_type.lower()}" if dmg_type else dmg_dice)
+        # A ranged weapon's own range lives in `range`. Melee weapons carry one too
+        # (always 5 ft) and a thrown melee weapon already prints its range through
+        # the Thrown property, so only Ranged gets the segment — otherwise a
+        # javelin would read "thrown (range 30/120)" and "range 30/120 ft" twice.
+        if wrange.strip().lower() == "ranged":
+            rng = item.get("range") or {}
+            near, far = rng.get("normal"), rng.get("long")
+            if near:
+                parts.append(f"range {near}/{far} ft" if far else f"range {near} ft")
         if prop_strs:
             parts.append(". ".join(prop_strs))
         parts.append(f"{weight} lb. {cost_str}.")

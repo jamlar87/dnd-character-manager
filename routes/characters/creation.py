@@ -154,7 +154,16 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
     race_data = RACES.get(race_name, {})
     race_asi = _race_asi(race_name, subrace, data.get("asi_picks", []), str(data.get("asi_mode") or ""))
 
-    stats = _asi(data.get("abilities", {}), race_asi)
+    # Ability scores come from the wizard's `abilities` map. The schema ALSO
+    # declares strength..charisma, so honour those too when a client posts them —
+    # they used to validate and then be silently dropped, leaving a 10/10/10
+    # character. Merged per key with `abilities` winning, so the wizard's own
+    # payload behaves exactly as before.
+    posted_top_level = {k: data[k] for k in ("strength", "dexterity", "constitution",
+                                             "intelligence", "wisdom", "charisma")
+                        if k in data and data[k] is not None}
+    posted_map = data.get("abilities")
+    stats = _asi({**posted_top_level, **(posted_map if isinstance(posted_map, dict) else {})}, race_asi)
 
     class_data = CLASSES.get(class_name, {})
     hd = class_data.get("hd", 8)
@@ -469,14 +478,19 @@ async def api_create_character(request: Request):
         raw = await request.json()
     except Exception:
         return JSONResponse({"error": "Invalid JSON"}, status_code=400)
-    # Validate core fields with Pydantic
+    # Validate core fields with Pydantic, then APPLY the validated values: the
+    # model normalises an explicit None to "" and coerces types, and the builder
+    # relies on that (a raw null used to reach the INSERT as SQL NULL). Keys the
+    # builder reads but the model does not declare (abilities, skills, equipment,
+    # features, ...) survive from the raw payload.
     from pydantic import ValidationError
     try:
-        CreateCharacter.model_validate(raw)
+        validated = CreateCharacter.model_validate(raw)
     except ValidationError as e:
         return JSONResponse({"error": str(e)}, status_code=422)
+    data = {**raw, **validated.model_dump(exclude_unset=True)}
     try:
-        char_id, name = _build_character(raw, user["id"])
+        char_id, name = _build_character(data, user["id"])
         return JSONResponse({"id": char_id, "name": name})
     except ValueError as e:
         return JSONResponse({"error": str(e)}, status_code=400)
