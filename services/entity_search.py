@@ -107,6 +107,24 @@ def _slug_page(source: str) -> tuple[str, int | None]:
     return slug_for_source(source) or "", page
 
 
+def _better_source(record_source: str, mapped: str) -> str:
+    """Prefer the mapped source only when it adds a page for the SAME book.
+
+    The SRD/manual records often carry a book-only citation ("PHB 2014") while the
+    generated page map knows the exact page ("PHB 2014 p.49"). Never trade one
+    book for another — a mismatch means the two disagree, and the record wins.
+    """
+    if not mapped:
+        return record_source
+    if not record_source:
+        return mapped
+    rslug, rpage = _slug_page(record_source)
+    mslug, mpage = _slug_page(mapped)
+    if mpage and not rpage and mslug and mslug == rslug:
+        return mapped
+    return record_source
+
+
 def _add(rows: list[dict], kind: str, name: str, *, subtitle: str = "",
          snippet: str = "", source: str = "", text: str = "", raw=None,
          dedupe_key: tuple | None = None) -> None:
@@ -146,6 +164,7 @@ def _build_index() -> list[dict]:
     # index is warmed. Import it here, then iterate a snapshot so no later merge
     # can raise mid-loop.
     import routes.characters  # noqa: F401
+    from main import _feature_page_map  # call-time import, same rule as items.py
 
     rows: list[dict] = []
 
@@ -341,14 +360,28 @@ def _build_index() -> list[dict]:
         cls = feat.get("class") or {}
         cls_name = cls.get("name") if isinstance(cls, dict) else cls
         level = feat.get("level")
-        _add(rows, "feature", feat.get("name", ""),
+        _fname = feat.get("name", "")
+        _fk = _fname.strip().lower()
+        _add(rows, "feature", _fname,
              subtitle=" · ".join(x for x in (cls_name, f"level {level}" if level else "") if x),
-             snippet=_flatten(feat.get("desc")), source=feat.get("source", ""),
+             snippet=_flatten(feat.get("desc")),
+             source=_better_source(feat.get("source", ""),
+                                   _feature_page_map.get(_fk)
+                                   or _feature_page_map.get(_fk.split(" (", 1)[0], "")),
              raw={"row": feat, "origin": "srd_feature"})
 
+    # ── Feature descriptions: class features + the big description map ──
+    # Provenance has two channels: the generated page map (registries in
+    # routes/characters/all.py plus subclass/class pages) and what the manual
+    # merge recorded as it wrote the text (data.FEATURE_SOURCES).
+    _recorded = getattr(app_data, "FEATURE_SOURCES", {}) or {}
     for fname, desc in (getattr(app_data, "FEATURE_DESCRIPTIONS", {}) or {}).items():
+        if "::" in fname:
+            continue     # "Subclass::feature" is an internal lookup key, not an entity
+        _key = fname.strip().lower()
         _add(rows, "feature", fname.title() if fname.islower() else fname,
              subtitle="Class feature", snippet=desc if isinstance(desc, str) else _flatten(desc),
+             source=_better_source(_recorded.get(_key, ""), _feature_page_map.get(_key, "")),
              raw={"row": {"name": fname, "description": desc}, "origin": "feature_desc"})
 
     return rows

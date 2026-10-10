@@ -171,6 +171,12 @@ for _key, _data in FEATS.items():
 
 # ── Feature Descriptions (PHB class features) ─────────────────────────
 
+# Where each feature's description came from, recorded by the manual merge as it
+# writes (services/data_loader.py). FEATURE_DESCRIPTIONS itself is name→text, so
+# without this the provenance of an ingested feature was unrecoverable and every
+# class-feature row in the nav search rendered with no source badge.
+FEATURE_SOURCES: dict[str, str] = {}
+
 FEATURE_DESCRIPTIONS = {
     "ability score improvement": "You can increase one ability score of your choice by 2, or two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
     "action surge": "On your turn, you can take one additional action on top of your regular action and a possible bonus action.",

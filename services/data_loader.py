@@ -14,7 +14,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-from data import FEATURE_DESCRIPTIONS, RACIAL_TRAIT_DESCS, RACIAL_TRAIT_EFFECTS
+from data import FEATURE_DESCRIPTIONS, FEATURE_SOURCES, RACIAL_TRAIT_DESCS, RACIAL_TRAIT_EFFECTS
 from services.items import _resolve_source
 from services.sources import is_placeholder_source
 
@@ -1233,6 +1233,10 @@ def load_manual_data():
                             if existing and _should_replace_description(existing, fdesc):
                                 pass  # Ingested version is better, will overwrite
                             FEATURE_DESCRIPTIONS[key] = fdesc
+                            # Record the provenance in the same guarded branch as
+                            # the text, so it always describes what is displayed.
+                            if sc_source:
+                                FEATURE_SOURCES[key] = sc_source
                         # Also store subclass-specific key for disambiguation
                         sc_key = f"{sc_name}::{key}"
                         FEATURE_DESCRIPTIONS[sc_key] = fdesc
