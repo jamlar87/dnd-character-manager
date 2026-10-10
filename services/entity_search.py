@@ -138,10 +138,19 @@ def _build_index() -> list[dict]:
     import main as app
     import data as app_data
 
+    # routes/characters/sheet.py extends ITEM_INDEX at IMPORT time (manual
+    # equipment merge) and `import main` alone never pulls it in, so a caller
+    # whose first act is this index started iterating while that module was still
+    # importing: "dictionary changed size during iteration". The web app only
+    # avoided it because the app factory imports every route module before the
+    # index is warmed. Import it here, then iterate a snapshot so no later merge
+    # can raise mid-loop.
+    import routes.characters  # noqa: F401
+
     rows: list[dict] = []
 
     # ── Items: SRD+manual item index first (it owns page numbers) ──
-    for key, item in (getattr(app, "ITEM_INDEX", {}) or {}).items():
+    for key, item in list((getattr(app, "ITEM_INDEX", {}) or {}).items()):
         if not isinstance(item, dict):
             continue
         rarity = (item.get("rarity") or "").strip()
