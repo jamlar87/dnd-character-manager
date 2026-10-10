@@ -17,7 +17,6 @@ import json
 import secrets
 import sqlite3
 
-import pytest
 
 from main import _hash
 

@@ -2,54 +2,14 @@
 
 """Character routes — create, sheet, level-up, spells, combat, relationships."""
 
-from fastapi import APIRouter, Request, Form, HTTPException, Query
-from fastapi.responses import HTMLResponse, JSONResponse, FileResponse, Response
-import sqlite3, json, math, random, re, urllib.parse, os, httpx
+import json, re
 from pathlib import Path
-from datetime import datetime
 
-from main import (
-    get_db, get_current_user, require_user, _render,
-    _user_where, _require_owned, _resolve_item_key, _resolve_armor_item,
-    _resolve_source, _build_item_description, _build_charged_item_attacks,
-    _build_inventory_attacks, _build_racial_traits, _normalize_equipped,
-    _equipped_names, _load_json_cache, _parse_enhancement, _is_admin,
-    _item_rarity_for_level, _user_filter,
-)
-from main import RACES, CLASSES, RACE_NAMES, SUBCLASS_FEATURES, LIMITED_USE
-from main import BACKGROUNDS, BACKGROUND_SOURCES, ALIGNMENTS
-from main import (
-    FLEXIBLE_ASI_RACES, SUBASIS, SRD_FEATURES, SRD_MAGIC_ITEMS,
-    ITEM_INDEX, ITEM_WEAPONS, ITEM_ARMOR, ITEM_WONDROUS, ITEM_RODS_STAVES_WANDS,
-    ITEMS_BY_RARITY, SPELL_DICE, DATA_DIR,
-)
+from main import _load_json_cache
+from main import DATA_DIR
 from main import _load_manual_json
-from main import get_racial_trait_effects, check_armor_proficiency_from_set, get_character_armor_profs
-from main import load_manual_data
-from main import SRD_LEVELS, SRD_SPELLS, _get_named_item_types, _get_source_slug_map
-from main import _manual_races_raw, _manual_races_raw as _MANUAL_RACES_RAW
+from main import _get_source_slug_map
 from services.text import alpha_key
-from data import (
-    SPELLS_KNOWN_CASTERS, RACIAL_TRAIT_EFFECTS, FEATURE_ACTION_TYPES,
-    ABILITY_NAMES, ALL_SKILLS, LANGUAGES, SKILL_ABILITIES, FEATS, FEAT_BY_NAME,
-    FEATURE_DESCRIPTIONS, DRACONIC_ANCESTRIES, PREPARED_CASTERS,
-    METAMAGIC_OPTIONS, METAMAGIC_LEVELS, METAMAGIC_PICKS,
-    INVOCATION_OPTIONS, INVOCATION_LEVELS, INVOCATION_PICKS,
-    PACT_BOON_OPTIONS, PACT_BOON_LEVELS,
-    MANEUVER_OPTIONS, MANEUVER_LEVELS,
-    TOTEM_SPIRIT_OPTIONS,
-    HUNTERS_PREY_OPTIONS,
-    FAVORED_ENEMY_OPTIONS,
-    FAVORED_TERRAIN_OPTIONS,
-    INFUSION_OPTIONS,
-    SUBCLASS_LEVELS, EXPERTISE_LEVELS, STARTING_EQUIPMENT,
-    SCALED_EQUIPMENT, RECOMMENDED_FEATS, MULTICLASS_PREREQS,
-    MULTICLASS_PROFICIENCIES, BACKGROUND_INFO,
-    ASI_LEVELS, FULL_CASTERS, HALF_CASTERS, PACT_CASTERS,
-    RACIAL_TRAIT_DESCS,
-)
-from routes.schemas import CreateCharacter, AddSpell, EditASI, ApplyLevelUp, UpdateCharacter
-from summon_templates import SUMMON_TEMPLATES
 
 MANUAL_MONSTERS: list[dict] = []
 MANUAL_TRAPS: list[dict] = []
@@ -716,7 +676,6 @@ def _display_to_slug() -> dict[str, str]:
     result rows want the slug so JSON hits line up with the PDF-text hit rows
     ("FGFD", not "(Field").
     """
-    global _DISPLAY_TO_SLUG
     if not _DISPLAY_TO_SLUG:
         try:
             for slug, info in (_get_source_slug_map() or {}).items():
@@ -881,7 +840,7 @@ def _search_data_py_feats(query: str, words: list[str], max_results: int = 20,
     if sources:
         return []  # data.py feats carry no book source — nothing to match on
     results = []
-    from data import FEATS, FEAT_BY_NAME
+    from data import FEAT_BY_NAME
 
     text_norm = query.lower().replace("\u2018", "'").replace("\u2019", "'")
 

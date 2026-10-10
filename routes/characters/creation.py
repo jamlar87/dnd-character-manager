@@ -9,10 +9,8 @@ all.py (avoids circulars).
 import json
 import re
 import random
-import sys
-from datetime import datetime
 
-from fastapi import APIRouter, Request, HTTPException, Form, Query
+from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 
 from services.reference_assets import (
@@ -23,16 +21,13 @@ from main import (
     get_db, require_user, _render, _get_source_slug_map,
     RACES, RACE_NAMES, CLASSES, BACKGROUNDS, BACKGROUND_SOURCES, ALIGNMENTS,
     FLEXIBLE_ASI_RACES, SUBASIS, SKILL_ABILITIES, ALL_SKILLS,
-    MPMM_ASI_RACES,
-    PREPARED_CASTERS, SPELLS_KNOWN_CASTERS,
-    SUBCLASS_FEATURES, SUBCLASS_FEATURE_REPLACEMENTS, STARTING_EQUIPMENT,
-    SRD_SPELLS, SPELL_DICE, EXPERTISE_LEVELS,
+    MPMM_ASI_RACES, SUBCLASS_FEATURE_REPLACEMENTS, STARTING_EQUIPMENT,
     METAMAGIC_LEVELS, METAMAGIC_PICKS, METAMAGIC_OPTIONS,
     INVOCATION_LEVELS, INVOCATION_PICKS, INVOCATION_OPTIONS,
-    PACT_BOON_LEVELS, PACT_BOON_OPTIONS, MANEUVER_LEVELS, MANEUVER_OPTIONS,
+    PACT_BOON_LEVELS, PACT_BOON_OPTIONS, MANEUVER_OPTIONS,
     TOTEM_SPIRIT_OPTIONS, HUNTERS_PREY_OPTIONS, FAVORED_ENEMY_OPTIONS,
     FAVORED_TERRAIN_OPTIONS, INFUSION_OPTIONS,
-    get_racial_trait_effects, enrich_features, get_spell_slots,
+    get_racial_trait_effects,
 )
 from services.leveling import (
     _build_racial_limited_features, _scaled_dice_display, get_class_features,
@@ -477,7 +472,7 @@ async def api_create_character(request: Request):
     # Validate core fields with Pydantic
     from pydantic import ValidationError
     try:
-        body = CreateCharacter.model_validate(raw)
+        CreateCharacter.model_validate(raw)
     except ValidationError as e:
         return JSONResponse({"error": str(e)}, status_code=422)
     try:
@@ -610,7 +605,7 @@ async def build_from_npc(request: Request):
       - gaps: fields the user needs to fill in
       - character_data: pre-filled build data ready for /api/character/create
     """
-    user = require_user(request)
+    require_user(request)
     try:
         raw = await request.json()
     except Exception:

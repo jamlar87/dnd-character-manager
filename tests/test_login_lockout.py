@@ -7,8 +7,6 @@ user could not log back in without clearing cookies by hand. Reported as
 "I can't log in now"; reproduced with a curl carrying a stale cookie.
 """
 
-import secrets
-import sqlite3
 
 from services.sessions import create_session
 

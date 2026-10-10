@@ -4,9 +4,6 @@ These use the running server (or TestClient) to hit the character sheet
 endpoint for different class/race/multiclass combinations.
 """
 
-import pytest
-import json
-
 
 class TestDashboardRenders:
     """Dashboard renders with filters + import/export UI."""

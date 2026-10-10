@@ -10,7 +10,6 @@ Expected row shape: {kind, name, subtitle, snippet, source, slug, page, score}
 
 import re
 
-import pytest
 from pathlib import Path
 
 from services.entity_search import (

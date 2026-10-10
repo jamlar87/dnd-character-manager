@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import sqlite3
 
-APP_DB = "characters.db"
 
 
 def _row(db_path, sql, params=()):

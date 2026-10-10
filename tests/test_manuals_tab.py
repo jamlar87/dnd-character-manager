@@ -6,7 +6,6 @@ Manuals/ copy for a few core books — so a naive glob listed 14 books two or
 three times (Field_Guide_to_Floral_Dragons showed up twice in the tab).
 """
 import json
-import re
 import sqlite3
 import uuid
 from collections import Counter

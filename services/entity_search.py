@@ -549,7 +549,6 @@ def _stat(label: str, value) -> dict | None:
 def _detail_stats(kind: str, row: dict) -> list[dict]:
     raw = row["raw"] or {}
     data = raw.get("row") or {}
-    origin = raw.get("origin", "")
     stats: list[dict | None] = []
 
     if kind == "item":
@@ -616,7 +615,6 @@ def _detail_stats(kind: str, row: dict) -> list[dict]:
 def _detail_body(kind: str, row: dict) -> str:
     raw = row["raw"] or {}
     data = raw.get("row") or {}
-    origin = raw.get("origin", "")
     parts: list[str] = []
 
     for field in ("description", "desc", "effect", "trigger", "detection", "disarm"):

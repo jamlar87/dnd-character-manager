@@ -1,13 +1,13 @@
 """Character management routes — package.
 
-The original monolithic file lives at routes/characters/all.py for reference.
-All functions are re-exported here for backward-compatible imports.
+`all.py` assembles the sibling route modules into one composite router and holds
+the shared PHB registries; this package re-exports the router plus the helpers
+other modules (routes/dm.py) and the tests import by name.
 """
 from routes.characters.all import (
     # Router
     router,
     # Shared globals
-    MANUAL_MONSTERS, MANUAL_TRAPS,
     # Helpers used by routes/dm.py
     _load_monster_cache,
     _call_ollama,
@@ -16,7 +16,7 @@ from routes.characters.all import (
     _xp_for_cr,
     _assign_encounter_counts,
     _search_manuals,
-    parse_source_filter, slug_for_source, source_matches,
+    parse_source_filter, source_matches,
     _monster_cr_sort_key,
     # Helper functions used by tests/test_core_functions.py
     parse_class_levels, total_level, primary_class,
@@ -26,5 +26,5 @@ from routes.characters.all import (
 )
 from routes.characters.sheet import get_spellcasting_mod
 from routes.characters.creation import (
-    _build_character, random_name, random_equipment, _normalize_recharge,
+    _build_character, random_name, random_equipment,
 )

@@ -16,8 +16,6 @@ Coverage map (plan: progression regression matrix):
 import json
 import sqlite3
 
-import pytest
-
 
 # ── Helpers ────────────────────────────────────────────────────────────────
 

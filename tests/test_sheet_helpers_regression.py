@@ -1,13 +1,8 @@
 """Regression tests for character-sheet helpers (item effects, natural attacks,
 bonus-action detection)."""
 
-import pytest
 from routes.characters.sheet import (
     _grants_bonus_action, compute_item_effects,
-)
-from services.combat import (
-    _build_racial_traits, _build_natural_weapon_attacks,
-    _build_character_attacks, _build_inventory_attacks,
 )
 
 

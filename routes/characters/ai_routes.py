@@ -2,53 +2,19 @@
 
 """Character routes — create, sheet, level-up, spells, combat, relationships."""
 
-from fastapi import APIRouter, Request, Form, HTTPException, Query
-from fastapi.responses import HTMLResponse, JSONResponse, FileResponse, Response
-import sqlite3, json, math, random, re, urllib.parse, os, httpx, asyncio
-from pathlib import Path
-from datetime import datetime
+from fastapi import APIRouter, Request
+from fastapi.responses import JSONResponse
+import json, random, os, httpx
 
 from main import (
-    get_db, get_current_user, require_user, _render,
-    _user_where, _require_owned, _resolve_item_key, _resolve_armor_item,
-    _resolve_source, _build_item_description, _build_charged_item_attacks,
-    _build_inventory_attacks, _build_racial_traits, _normalize_equipped,
-    _equipped_names, _load_json_cache, _parse_enhancement, _is_admin,
-    _item_rarity_for_level, _user_filter,
+    get_db, require_user, _require_owned,
 )
-from main import RACES, CLASSES, RACE_NAMES, SUBCLASS_FEATURES, LIMITED_USE
-from main import BACKGROUNDS, BACKGROUND_SOURCES, ALIGNMENTS
-from main import (
-    FLEXIBLE_ASI_RACES, SUBASIS, SRD_FEATURES, SRD_MAGIC_ITEMS,
-    ITEM_INDEX, ITEM_WEAPONS, ITEM_ARMOR, ITEM_WONDROUS, ITEM_RODS_STAVES_WANDS,
-    ITEMS_BY_RARITY, SPELL_DICE, DATA_DIR,
-)
-from main import _load_manual_json
-from main import get_racial_trait_effects, check_armor_proficiency_from_set, get_character_armor_profs
-from main import load_manual_data
-from main import SRD_LEVELS, SRD_SPELLS, _get_named_item_types, _get_source_slug_map
-from main import _manual_races_raw, _manual_races_raw as _MANUAL_RACES_RAW
+from main import RACES, CLASSES
+from main import BACKGROUNDS, ALIGNMENTS
+from main import get_racial_trait_effects
 from data import (
-    SPELLS_KNOWN_CASTERS, RACIAL_TRAIT_EFFECTS, FEATURE_ACTION_TYPES,
-    ABILITY_NAMES, ALL_SKILLS, LANGUAGES, SKILL_ABILITIES, FEATS, FEAT_BY_NAME,
-    FEATURE_DESCRIPTIONS, DRACONIC_ANCESTRIES, PREPARED_CASTERS,
-    METAMAGIC_OPTIONS, METAMAGIC_LEVELS, METAMAGIC_PICKS,
-    INVOCATION_OPTIONS, INVOCATION_LEVELS, INVOCATION_PICKS,
-    PACT_BOON_OPTIONS, PACT_BOON_LEVELS,
-    MANEUVER_OPTIONS, MANEUVER_LEVELS,
-    TOTEM_SPIRIT_OPTIONS,
-    HUNTERS_PREY_OPTIONS,
-    FAVORED_ENEMY_OPTIONS,
-    FAVORED_TERRAIN_OPTIONS,
-    INFUSION_OPTIONS,
-    SUBCLASS_LEVELS, EXPERTISE_LEVELS, STARTING_EQUIPMENT,
-    SCALED_EQUIPMENT, RECOMMENDED_FEATS, MULTICLASS_PREREQS,
-    MULTICLASS_PROFICIENCIES, BACKGROUND_INFO,
-    ASI_LEVELS, FULL_CASTERS, HALF_CASTERS, PACT_CASTERS,
-    RACIAL_TRAIT_DESCS,
+    ALL_SKILLS, SKILL_ABILITIES,
 )
-from routes.schemas import CreateCharacter, AddSpell, EditASI, ApplyLevelUp, UpdateCharacter
-from summon_templates import SUMMON_TEMPLATES
 
 # ── PHB grounding tables ────────────────────────────────────────────────
 # Aliases so the AI prompts can name them the way the rules text does.
@@ -215,7 +181,7 @@ async def ai_generate(request: Request):
     """Generate character flavor (name/bg/alignment/personality/backstory).
     All mechanical data is hardcoded from PHB. Only creative text is generated.
     Model chain: Gemini → OpenRouter → Ollama → deterministic fallback."""
-    user = require_user(request)
+    require_user(request)
     data = await request.json()
     race = data.get("race", "Human")
     subrace = data.get("subrace", "")
@@ -370,7 +336,7 @@ BACKGROUND_ITEM_POOL = [
 async def ai_generate_background(request: Request):
     """Generate a unique custom background based on character choices.
     Model chain: Gemini → OpenRouter → Ollama → deterministic fallback."""
-    user = require_user(request)
+    require_user(request)
     data = await request.json()
     race = data.get("race", "Human")
     subrace = data.get("subrace", "")
@@ -564,7 +530,7 @@ Fighting Style: {fighting_style.replace('_',' ').title() if fighting_style else 
     if subclass_desc:
         prompt_parts.append(f"\nSUBCLASS DESCRIPTION\n{subclass_desc[:400]}")
 
-    prompt_parts.append(f"\nABILITY SCORES\n" + ", ".join(f"{k.title()}: {v}" for k,v in abilities.items()))
+    prompt_parts.append("\nABILITY SCORES\n" + ", ".join(f"{k.title()}: {v}" for k,v in abilities.items()))
 
     if skills:
         prompt_parts.append(f"\nSkill Proficiencies: {', '.join(skills)}")
@@ -650,10 +616,6 @@ from services import ref_portraits as _ref_portraits  # noqa: E402 - marker only
 PORTRAIT_PROVIDER = os.environ.get("PORTRAIT_PROVIDER", "pollinations").strip().lower()
 
 
-
-
-
-
 @router.post("/api/ai/portrait", response_class=JSONResponse)
 async def ai_portrait(request: Request):
     """Generate a high-fantasy character portrait prompt, and attempt image generation.
@@ -663,13 +625,8 @@ async def ai_portrait(request: Request):
     user = require_user(request)
     data = await request.json()
     race = data.get("race", "Human")
-    subrace = data.get("subrace", "")
     class_name = data.get("class_name", "Fighter")
     subclass = data.get("subclass", "")
-    abilities = data.get("abilities", {})
-    background = data.get("background", "")
-    alignment = data.get("alignment", "")
-    skills = data.get("skills", [])
     gender = (data.get("gender") or "").strip().lower()
     custom_prompt = (data.get("custom_prompt") or "").strip()
     character_id = data.get("character_id")
@@ -756,7 +713,7 @@ async def save_portrait_image(request: Request):
 @router.post("/api/ai/build", response_class=JSONResponse)
 async def ai_build(request: Request):
     """Generate a complete optimized build for the given class/race/subclass/level."""
-    user = require_user(request)
+    require_user(request)
     data = await request.json()
     race = data.get("race", "Human")
     subrace = data.get("subrace", "")

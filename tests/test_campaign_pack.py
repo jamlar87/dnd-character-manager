@@ -7,7 +7,6 @@ already exists, and importing the same pack twice gives two independent campaign
 
 from __future__ import annotations
 
-import base64
 import json
 import pathlib
 import sqlite3

@@ -1,17 +1,16 @@
 """DM Tools routes — monsters, NPCs, encounters, campaigns, traps."""
 
-from fastapi import APIRouter, Request, Form, HTTPException, Query
+from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse, Response, RedirectResponse
-import sqlite3, json, math, random, re, urllib.parse
+import json, random, re
 from pathlib import Path
-from datetime import datetime
 
-from main import get_db, require_user, _render, get_current_user, _user_where, _require_owned, _is_admin, static_asset_version, STATIC, _json_list
-from routes.characters import _load_monster_cache, _call_ollama, _call_ai, _extract_json, _xp_for_cr, _assign_encounter_counts, _search_manuals, _build_character, _monster_cr_sort_key
+from main import get_db, require_user, _render, _user_where, _require_owned, _is_admin, static_asset_version, STATIC, _json_list
+from routes.characters import _load_monster_cache, _call_ai, _extract_json, _xp_for_cr, _assign_encounter_counts, _search_manuals, _build_character, _monster_cr_sort_key
 from routes.characters import parse_source_filter, source_matches
 from services.text import alpha_key
 from services.reference_assets import ensure_source_slug_map_asset
-from main import RACES, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, BACKGROUNDS, FLEXIBLE_ASI_RACES, SUBASIS, RACE_NAMES
+from main import RACES, CLASSES, FLEXIBLE_ASI_RACES, RACE_NAMES
 from main import _load_manual_json, _get_named_item_types, _get_source_slug_map, MANUALS_BASE, _scan_manual_pdfs
 from main import enrich_features, get_caster_type, get_spell_slots, MANUAL_TRAPS, get_racial_trait_effects
 from main import SRD_SPELLS
@@ -331,7 +330,7 @@ async def dm_tools(request: Request):
 @router.get("/api/dm/monster/{index}", response_class=JSONResponse)
 async def dm_monster_detail(index: str, request: Request):
     """Full monster detail from SRD cache."""
-    user = require_user(request)
+    require_user(request)
     all_monsters = _load_monster_cache()
     for m in all_monsters:
         if m.get("index", "").lower() == index.lower():
@@ -342,7 +341,7 @@ async def dm_monster_detail(index: str, request: Request):
 @router.get("/api/dm/spell/{index}", response_class=JSONResponse)
 async def dm_spell_detail(index: str, request: Request):
     """Full spell detail from the merged SRD + manual spell registry."""
-    user = require_user(request)
+    require_user(request)
     for s in SRD_SPELLS:
         if s.get("index", "").lower() == index.lower():
             return JSONResponse(_enrich_spell(s))
@@ -498,7 +497,7 @@ def _enrich_monster(m: dict) -> dict:
 @router.get("/api/dm/monsters", response_class=JSONResponse)
 async def dm_monster_list(request: Request, source: str = ""):
     """List monsters, optionally scoped to books (`source=SLUG[,SLUG]`)."""
-    user = require_user(request)
+    require_user(request)
     all_monsters = _load_monster_cache()
     src_slugs = parse_source_filter(source)
     if src_slugs:
@@ -509,7 +508,7 @@ async def dm_monster_list(request: Request, source: str = ""):
 @router.get("/api/dm/monsters/search", response_class=JSONResponse)
 async def dm_monster_search(request: Request, q: str = "", type: str = "", cr_min: float = 0, cr_max: float = 30, cr: str = "", source: str = ""):
     """Search/filter monsters by name, type, CR range and book source."""
-    user = require_user(request)
+    require_user(request)
     all_monsters = _load_monster_cache()
     src_slugs = parse_source_filter(source)
     if src_slugs:
@@ -558,7 +557,7 @@ async def dm_monster_search(request: Request, q: str = "", type: str = "", cr_mi
 @router.get("/api/dm/monsters/by-cr", response_class=JSONResponse)
 async def dm_monsters_by_cr(request: Request, source: str = ""):
     """Grouped monsters by CR tier for encounter building (`source=` scopes books)."""
-    user = require_user(request)
+    require_user(request)
     all_monsters = _load_monster_cache()
     src_slugs = parse_source_filter(source)
     if src_slugs:
@@ -849,7 +848,6 @@ async def dm_npc_delete(npc_id: int, request: Request):
 
 
 # ── Monster cards as a cacheable asset ───────────────────────────────────────
-_DM_MONSTER_VERSION: str | None = None
 _DM_LIBRARY_VERSION: str | None = None
 
 
@@ -1429,7 +1427,7 @@ def _build_party_profile(db, campaign_id: int) -> dict | None:
 async def dm_ai_party_profile(request: Request):
     """Return a combat profile summary of all characters in a campaign.
     Used by the AI Encounter Builder frontend to show party preview."""
-    user = require_user(request)
+    require_user(request)
     cid = request.query_params.get("campaign_id", "")
     if not cid:
         return JSONResponse({"profile": None})
@@ -1447,7 +1445,7 @@ async def dm_ai_build_encounter(request: Request):
     """AI-suggested encounter composition based on party size/level, environment, and difficulty.
     When campaign_id is provided, loads all party characters and tailors the encounter
     to their stats — exploiting weak saves, bypassing resistances, and countering strengths."""
-    user = require_user(request)
+    require_user(request)
     db = get_db()
     data = await request.json()
     party_level = int(data.get('party_level', 5))
@@ -1727,7 +1725,7 @@ async def dm_ai_build_encounter(request: Request):
     if party_profile:
         chars = party_profile["characters"]
         s = party_profile["summary"]
-        party_section = f"\n--- PARTY PROFILE (tailor encounter to counter these characters) ---\n"
+        party_section = "\n--- PARTY PROFILE (tailor encounter to counter these characters) ---\n"
         party_section += f"Campaign: {campaign_name}. {s['size']} characters, avg level {s['avg_level']}.\n"
         for ch in chars:
             saves_str = ", ".join(f"{k}+{v}" for k, v in sorted(ch["saves"].items()))
@@ -1964,7 +1962,7 @@ Return ONLY valid JSON:
     if ai:
         print(f"[AI Encounter] Phase 2: name={bool(ai.get('name'))} desc={bool(ai.get('description'))} tactics={bool(ai.get('tactics'))}")
     else:
-        print(f"[AI Encounter] Phase 2 FAILED, using generic flavor")
+        print("[AI Encounter] Phase 2 FAILED, using generic flavor")
 
     name = (ai.get("name") or f"{environment.title()} Encounter") if ai else f"{environment.title()} Encounter"
     desc = ((ai.get("description") or "") if ai else "") or f"A {difficulty} encounter in a {environment} setting with {monster_str}."
@@ -1999,7 +1997,7 @@ Return ONLY valid JSON:
 @router.post("/api/dm/ai/build-npc", response_class=JSONResponse)
 async def dm_ai_build_npc(request: Request):
     """AI-generated NPC with full build. Uses same PHB-grounded engine as character builder."""
-    user = require_user(request)
+    require_user(request)
     data = await request.json()
     race = data.get('race', 'Human')
     subrace = data.get('subrace', '')
@@ -2096,7 +2094,7 @@ Return: {{\"name\": \"NPC Name\", \"personality\": \"2 traits\", \"backstory\": 
 @router.post("/api/dm/ai/build-trap", response_class=JSONResponse)
 async def dm_ai_build_trap(request: Request):
     """AI-generated custom trap following DMG/UA trap creation guidelines."""
-    user = require_user(request)
+    require_user(request)
     data = await request.json()
     danger = data.get("danger", "dangerous")
     trap_type = data.get("type", "mechanical")
@@ -2166,7 +2164,7 @@ Keep within the danger level bounds — don't overpower a setback trap or underp
         "detection_skill": ai.get("detection_skill", "Perception"),
         "detection_detail": ai.get("detection_detail", ""),
         "disarm_dc": ai.get("disarm_dc", ai.get("detection_dc", 10)),
-        "disarm_method": ai.get("disarm_method", f"Dexterity (thieves' tools)"),
+        "disarm_method": ai.get("disarm_method", "Dexterity (thieves' tools)"),
         "disarm_detail": ai.get("disarm_detail", ""),
         "effect": ai.get("effect", ""),
         "save_dc": ai.get("save_dc", 15),

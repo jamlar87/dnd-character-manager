@@ -20,7 +20,7 @@ Data extracted: races, subraces, racial traits, spells, magic items,
 """
 from __future__ import annotations
 
-import json, os, re, sys, time, hashlib, subprocess, urllib.request, urllib.error
+import json, os, re, sys, time, urllib.request, urllib.error
 from pathlib import Path
 from typing import Any
 
@@ -64,7 +64,6 @@ HERE = Path(__file__).parent
 MANUALS_DIR = (HERE / "manuals").resolve()
 CACHE_DIR = HERE / "data" / "manual_cache"
 OUTPUT_DIR = HERE / "data" / "manual_data"
-STATE_FILE = HERE / 'data' / 'ingest_state.json'
 
 # Activate tee logger now that HERE is known
 _LOG_PATH = HERE / 'data' / 'ingestion.log'
@@ -124,7 +123,6 @@ TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID = _load_telegram_env()
 
 def _notify_telegram(text: str):
     """Send a Telegram message via Bot API. Logs failure but never blocks extraction."""
-    global TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         print("  (Telegram notify: not configured, skipping)")
         return
@@ -739,9 +737,9 @@ def extract_text(manual: dict) -> str | None:
                 print(f"  Text cached ({len(text):,} chars)")
                 return text
             else:
-                print(f"  Cache has no page markers (old pdftotext cache) — re-extracting with pymupdf")
+                print("  Cache has no page markers (old pdftotext cache) — re-extracting with pymupdf")
 
-    print(f"  Extracting text...")
+    print("  Extracting text...")
     text = _extract_pymupdf(str(pdf_path), str(cache_path))
     if not text:
         text = _extract_pdftotext(str(pdf_path), str(cache_path))
@@ -819,7 +817,7 @@ def _ocr_pymupdf(pdf_path: str) -> str | None:
 
 def _extract_pdftotext(pdf_path: str, cache_path: str) -> str | None:
     """Fallback: pdftotext extraction."""
-    print(f"  Extracting text via pdftotext...")
+    print("  Extracting text via pdftotext...")
     try:
         result = subprocess.run(
             ["pdftotext", "-layout", pdf_path, cache_path],
@@ -1137,7 +1135,7 @@ def extract_from_chunk(chunk: dict, book_slug: str) -> dict:
     result = _extract_json(raw)
     if result is None:
         # Try one more time with a shorter prompt on failure
-        print(f"BAD JSON, retrying... ", end="", flush=True)
+        print("BAD JSON, retrying... ", end="", flush=True)
         raw2 = _call_ollama(prompt[:len(prompt)//2] + prompt[len(prompt)//2:])
         result = _extract_json(raw2) if raw2 else None
 
@@ -2636,7 +2634,7 @@ def process_manual(manual: dict) -> dict | None:
     # Detect if old-style extraction exists (flat chunks, no chapters)
     is_old_format = "_chunks_processed" in existing and "_chapters_completed" not in existing
     if is_old_format:
-        print(f"  Old-format extraction found (flat chunks). Starting fresh with chapter mode.\n")
+        print("  Old-format extraction found (flat chunks). Starting fresh with chapter mode.\n")
         existing = {}
 
     chapters_completed = set(existing.get("_chapters_completed", []))
@@ -2983,7 +2981,7 @@ def list_manuals():
                 extra = f"{chapters_done}/{chapters_total} chapters, {total} entries"
                 if errors:
                     extra += f", {errors} errors"
-                status = f"✅ done"
+                status = "✅ done"
                 chunks = extra
             else:
                 chapters_done = len(data.get("_chapters_completed", []))
@@ -3006,7 +3004,7 @@ def list_manuals():
         print(f"{status:10s} {m['slug']:6s} {m['title'][:46]:48s} {m['size_kb']:>5} KB  {chunks}")
 
     print(f"\n{len(manuals)} manuals total")
-    print(f"Run with a manual name to ingest, or --all for all new, or --merge to rebuild merged data.")
+    print("Run with a manual name to ingest, or --all for all new, or --merge to rebuild merged data.")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

@@ -9,7 +9,6 @@ all.py (avoids circulars).
 
 import json
 import random
-import re
 import time
 import base64
 import hashlib
@@ -25,28 +24,18 @@ from main import (
     _build_character_attacks,
     _build_charged_item_attacks, _build_item_description,
     _resolve_item_key, _resolve_armor_item, _resolve_source, _parse_enhancement,
-    _item_rarity_for_level, _entry, _load_manual_json, _get_named_item_types,
+    _item_rarity_for_level, _load_manual_json, _get_named_item_types,
     _get_source_slug_map, _manual_races_raw as _MANUAL_RACES_RAW,
     static_asset_version,
-    BACKGROUND_INFO, CLASSES, DRACONIC_ANCESTRIES, EXPERTISE_LEVELS, FEATS,
-    FEATURE_ACTION_TYPES, FEATURE_DESCRIPTIONS, INVOCATION_LEVELS,
-    INVOCATION_OPTIONS, INVOCATION_PICKS, ITEMS_BY_RARITY, ITEM_ARMOR,
+    BACKGROUND_INFO, CLASSES, DRACONIC_ANCESTRIES, FEATS, ITEMS_BY_RARITY, ITEM_ARMOR,
     ITEM_INDEX, ITEM_RODS_STAVES_WANDS, ITEM_WEAPONS, ITEM_WONDROUS,
-    LIMITED_USE, MANEUVER_OPTIONS, METAMAGIC_OPTIONS, PACT_BOON_OPTIONS,
-    RACES, RACIAL_TRAIT_DESCS, SCALED_EQUIPMENT, SKILL_ABILITIES,
-    SRD_FEATURES, SRD_LEVELS, SRD_MAGIC_ITEMS, SUBASIS, SUBCLASS_FEATURES,
+    RACES, SCALED_EQUIPMENT, SKILL_ABILITIES, SRD_MAGIC_ITEMS, SUBASIS,
     check_armor_proficiency_from_set, get_character_armor_profs,
-    get_racial_trait_effects, enrich_features, get_caster_type,
+    get_racial_trait_effects,
 )
 from data import (
-    ABILITY_NAMES, ALL_SKILLS, LANGUAGES,
-    PREPARED_CASTERS, METAMAGIC_OPTIONS, INVOCATION_OPTIONS,
-    PACT_BOON_OPTIONS, MANEUVER_OPTIONS, TOTEM_SPIRIT_OPTIONS,
-    HUNTERS_PREY_OPTIONS, FAVORED_ENEMY_OPTIONS, FAVORED_TERRAIN_OPTIONS,
-    INFUSION_OPTIONS, SUBCLASS_LEVELS, STARTING_EQUIPMENT,
-    RECOMMENDED_FEATS, MULTICLASS_PREREQS, MULTICLASS_PROFICIENCIES,
-    ASI_LEVELS, FULL_CASTERS, HALF_CASTERS, PACT_CASTERS,
-    SPELLS_KNOWN_CASTERS, RIDER_CARDS,
+    METAMAGIC_OPTIONS, INVOCATION_OPTIONS,
+    PACT_BOON_OPTIONS, MANEUVER_OPTIONS, RIDER_CARDS,
 )
 from services.leveling import (
     ABILITY_PRIORITY, EXPERTISE_LEVELS, FEATURE_ACTION_TYPES,
@@ -56,7 +45,7 @@ from services.leveling import (
     get_cantrips_known_max, get_caster_type, get_expertise_count,
     get_expertise_options, get_multiclass_caster_types, get_prepared_max,
     get_spells_known_max, get_srd_spells_for_class, get_uses_for_level,
-    parse_class_levels, modifier,
+    parse_class_levels,
 )
 from routes.schemas import EditASI, UpdateCharacter
 from summon_templates import SUMMON_TEMPLATES
@@ -996,7 +985,6 @@ async def character_sheet(char_id: int, request: Request):
         has_full = types.get("full", 0) > 0
         has_half = types.get("half", 0) > 0
         has_pact = types.get("pact", 0) > 0
-        has_any = has_full or has_half or has_pact
         if has_full and (has_half or has_pact):
             caster_type = "multiclass"
         elif has_half and has_pact:
@@ -1912,7 +1900,6 @@ def allocate_ability_scores(class_name: str, race_name: str, subrace: str = "") 
     return scores
 
 
-
 def get_equipment_for_level(class_name: str, level: int) -> list[str]:
     """Get scaled equipment for this class at the closest tier."""
     if class_name not in SCALED_EQUIPMENT:
@@ -1979,7 +1966,6 @@ def pick_magic_items(class_name: str, level: int) -> list[dict]:
 # Original DMG 2014 values (cp/sp/ep/pp) converted at standard rates:
 #   100 cp = 1 gp, 10 sp = 1 gp, 2 ep = 1 gp, 1 pp = 10 gp
 # ── Treasure hoard data & helpers (moved to campaign.py to avoid circular import) ──
-from routes.characters.campaign import roll_treasure_hoard, TREASURE_HOARD_COINS, TREASURE_HOARD_TABLE, MAGIC_TABLE_POOLS, _roll_dice, _pick_magic_item
 
 # ── Feature → Defense Mappings (PHB 2014) ──
 # Maps feature names to resistances/immunities they grant.
@@ -2005,7 +1991,6 @@ ITEM_PROPERTIES: dict[str, dict] = {}
 
 def _build_item_properties():
     """Parse SRD magic items for attunement + known property patterns."""
-    global ITEM_ATTUNEMENT, ITEM_PROPERTIES
     import re
 
     # ── Attunement detection from desc ──
@@ -2229,7 +2214,7 @@ def _recalc_limited_uses(feature_data: list, class_name: str = "", level: int = 
     Needed for multiclass characters where stored feature_data was enriched
     before the class_levels fix — features like Action Surge end up with
     the wrong source class and no limited-use tracking."""
-    from main import LIMITED_USE, FEATURE_ACTION_TYPES, FEATURE_DESCRIPTIONS
+    from main import LIMITED_USE
     if not feature_data:
         return
     import re
@@ -2376,7 +2361,6 @@ def _add_reaction_type_to_features(feature_data: list[dict]) -> None:
         if feat.get("action_type"):
             continue  # already has a type
         desc = feat.get("description", "") or ""
-        name = feat.get("name", "") or ""
         # Only flag if the description explicitly says it uses a reaction
         # (avoid false positives from passing mentions)
         if _pattern.search(desc):

@@ -4,9 +4,6 @@ Tests critical API endpoints using FastAPI TestClient.
 Requires a test database with seeded data.
 """
 
-import pytest
-from main import app
-
 
 class TestHealth:
     def test_root_redirects(self, client):

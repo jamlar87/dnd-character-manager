@@ -9,15 +9,14 @@ import json
 import random
 import re
 
-from fastapi import APIRouter, Request, HTTPException
+from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 
 from main import (
-    get_db, require_user, _require_owned,
+    get_db, require_user,
     ABILITY_NAMES, ASI_LEVELS, CLASSES, EXPERTISE_LEVELS, FEATS,
-    FEAT_BY_NAME, HTTPException, INVOCATION_LEVELS, INVOCATION_OPTIONS,
-    INVOCATION_PICKS, MULTICLASS_PREREQS, PREPARED_CASTERS, SRD_LEVELS,
-    SRD_SPELLS, SUBCLASS_FEATURE_REPLACEMENTS, SUBCLASS_LEVELS,
+    FEAT_BY_NAME, HTTPException, INVOCATION_OPTIONS, MULTICLASS_PREREQS, PREPARED_CASTERS, SRD_LEVELS,
+    SRD_SPELLS, SUBCLASS_FEATURE_REPLACEMENTS,
 )
 from data import (
     ALL_SKILLS, FAVORED_ENEMY_OPTIONS, FAVORED_TERRAIN_OPTIONS,
@@ -46,7 +45,7 @@ from services.leveling import (
     # Choice-system constants (shadow data.py versions)
     METAMAGIC_LEVELS, METAMAGIC_PICKS,
     INVOCATION_LEVELS, INVOCATION_PICKS,
-    PACT_BOON_LEVELS, MANEUVER_LEVELS, CANTRIPS_PROGRESSION,
+    PACT_BOON_LEVELS, MANEUVER_LEVELS,
 )
 from routes.schemas import ApplyLevelUp
 
@@ -541,7 +540,6 @@ async def level_up_info(char_id: int, request: Request):
     new_ms_levels = [l for l in ms_levels_list if class_level < l <= new_class_level]
     if new_ms_levels:
         existing = json.loads(char.get("magical_secrets", "[]"))
-        total_picks = sum(MAGICAL_SECRETS_PICKS.get(l,0) for l in new_ms_levels)
         # Build all-spells list for cross-class picking
         all_spell_opts = []
         for cls_k in SRD_LEVELS:
@@ -1411,7 +1409,6 @@ async def apply_de_level(char_id: int, request: Request):
     old_class_level = cl.get(cls, old_level)  # level in this class before
     levels_lost = old_level - target_level
     new_class_level = max(0, old_class_level - levels_lost)  # level in this class after
-    is_multiclass = len(cl) > 1
     # Build the post-delevel class_levels dict
     new_cl = dict(cl)
     new_cl[cls] = max(0, new_cl.get(cls, 0) - levels_lost)

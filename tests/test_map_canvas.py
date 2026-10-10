@@ -12,7 +12,6 @@ import pathlib
 import re
 import sqlite3
 
-import pytest
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 VTT = REPO / "static" / "vtt.js"

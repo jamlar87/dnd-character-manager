@@ -181,7 +181,6 @@ _SOURCE_VALID_CLEAN = re.compile(r'^\([A-Za-z][^)]+\)$')
 _SOURCE_VALID_PAGE = re.compile(r'^\(([^,]+),\s*p\.(\d+)\)$')
 
 
-_SOURCE_VALID_NO_PAGE = re.compile(r'^\(([^)]+)\)$')
 
 
 def _validate_manual_sources() -> None:
@@ -189,7 +188,6 @@ def _validate_manual_sources() -> None:
     Logs warnings for bad formats, out-of-range pages, or slug mismatches.
     This does not fix — it only warns so the operator can investigate."""
     from main import DATA_DIR, _get_source_slug_map
-    from pathlib import Path
     import json
     
     data_dir = DATA_DIR / "manual_data"

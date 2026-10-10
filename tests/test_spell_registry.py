@@ -7,7 +7,6 @@ previously lacked index/desc/higher_level/component normalization, which
 rendered them as showSpell('None') cards (modal 404).
 """
 
-import json
 
 from services.data_loader import _normalize_manual_spell
 

@@ -298,7 +298,6 @@ async def available_spells(char_id: int, request: Request):
 
     # Determine max spell level this character can cast
     max_spell_level = 0
-    cantrips_ok = True
     if class_name in SPELLS_KNOWN_CASTERS or class_name in PREPARED_CASTERS or class_name == "Warlock":
         slots = get_spell_slots(class_name, level)
         if class_name == "Warlock":
@@ -311,7 +310,6 @@ async def available_spells(char_id: int, request: Request):
     seen = set()
 
     # 1. Class spell list
-    cls_spells = get_srd_spells_for_class(class_name, level)
     for spell in SRD_SPELLS:
         name = spell.get("name", "")
         if not name or name.lower() in known_names:

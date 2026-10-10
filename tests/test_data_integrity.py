@@ -5,10 +5,8 @@ LIMITED_USE, FEAT_BY_NAME, etc.) are internally consistent and well-formed.
 These tests do NOT need a database or a running server.
 """
 
-import pytest
-import re
 from main import RACES, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, FEATS, FEAT_BY_NAME
-from main import SKILL_ABILITIES, ABILITY_NAMES, BACKGROUNDS, ALIGNMENTS
+from main import ABILITY_NAMES, ALIGNMENTS
 
 # Lowercase ability names for case-insensitive checks
 ABILITY_NAMES_LOWER = {a.lower() for a in ABILITY_NAMES}

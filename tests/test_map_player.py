@@ -8,7 +8,6 @@ itself or another user's map.
 
 from __future__ import annotations
 
-import json
 import pathlib
 import re
 import sqlite3

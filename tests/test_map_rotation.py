@@ -5,7 +5,6 @@ deliberately NOT rotated - tokens, grid, fog and hit-testing all measure in worl
 cannot silently move a token off the square the DM put it on.
 """
 import pathlib
-import re
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 JS = (ROOT / "static" / "vtt.js").read_text()

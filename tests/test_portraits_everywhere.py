@@ -14,8 +14,6 @@ import json
 import re
 import sqlite3
 
-import pytest
-
 
 def make_char(seeded_db, name, user_id=1, **cols):
     cols.setdefault("race", "Human")

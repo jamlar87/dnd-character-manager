@@ -3,13 +3,12 @@
 Tests the utility/business-logic functions that don't need a running server.
 """
 
-import pytest
 from main import get_racial_trait_effects
 from routes.characters import (
     parse_class_levels, total_level, primary_class,
     get_spellcasting_mod, get_caster_type, get_prepared_max,
-    get_spells_known_max, get_cantrips_known_max,
-    random_name, random_equipment,
+    get_spells_known_max,
+    random_name,
 )
 
 
@@ -116,7 +115,6 @@ class TestCasterType:
 class TestPreparedMax:
     def test_prepared_casters(self):
         """Prepared casters max = max(1, level + mod)."""
-        from main import PREPARED_CASTERS
         for cls in ("Cleric", "Druid", "Paladin", "Wizard"):
             result = get_prepared_max(cls, 5, 3)
             assert result == 8, f"{cls}: expected 8, got {result}"

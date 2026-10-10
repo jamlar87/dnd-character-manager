@@ -25,13 +25,12 @@ from pathlib import Path
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse, Response
 
-from main import get_db, require_user, _require_owned, _is_admin, STATIC, _json_list
+from main import get_db, require_user, _require_owned, STATIC, _json_list
 
 router = APIRouter()
 
 PACK_FORMAT = "dnd-campaign-pack"
 PACK_VERSION = 1
-MAX_IMAGES = 60
 MAX_IMAGE_BYTES = 40 * 1024 * 1024        # a pack that embeds more than this is not a file anyone
 MAX_CHARACTERS = 200                      # wants to email; the images can be moved by hand
 MAX_NPCS = 500
@@ -42,7 +41,6 @@ MAP_DIR = Path(STATIC) / "maps"
 
 # Never carried in a pack: identity, ownership, tenancy, share secrets.
 _DROP = {"id", "user_id", "created_at", "player_key", "shared"}
-_EXT_BY_MEDIA = {"image/webp": ".webp", "image/png": ".png", "image/jpeg": ".jpg"}
 
 
 def _cols(db, table: str) -> list[str]:

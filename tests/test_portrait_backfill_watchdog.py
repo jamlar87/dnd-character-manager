@@ -19,7 +19,6 @@ import sys
 from contextlib import redirect_stdout
 from pathlib import Path
 
-import pytest
 
 REPO = Path(__file__).resolve().parent.parent
 SCRIPT = REPO / "scripts" / "portrait_backfill_watchdog.py"

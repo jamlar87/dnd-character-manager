@@ -1,7 +1,6 @@
 """Tests for session repository/service boundary."""
 
 import sqlite3
-from datetime import datetime, timedelta
 
 from services.sessions import create_session, get_user_by_token, invalidate_user_sessions
 

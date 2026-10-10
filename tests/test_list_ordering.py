@@ -109,7 +109,6 @@ class TestTheNpcListUsesIt:
         """A manual NPC's id is its index into the RAW npcs.json (id -1 → row 0) — the
         panel sorts a copy, so every row must still resolve to its own record."""
         client.get("/dm-tools", headers=auth_headers)
-        from services.text import alpha_key
         rows = asset_payload()["manualNpcs"]
         ids = [r["id"] for r in rows]
         assert len(set(ids)) == len(ids), "the sort duplicated a row id"

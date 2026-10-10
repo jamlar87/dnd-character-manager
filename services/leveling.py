@@ -9,9 +9,7 @@ routes.characters.* creates circulars.
 """
 
 import re
-import math
 import functools
-import json as _json
 
 from main import SRD_LEVELS, SRD_SPELLS
 from main import (
@@ -299,7 +297,6 @@ def get_class_features(class_name: str, level: int, subclass: str = "") -> list[
     """Return class features gained by this level from SRD API cache.
     Deduplicates features that differ only by use count, and replaces
     generic subclass names with real feature names from SUBCLASS_FEATURES."""
-    import re
     key = class_name.lower()
     levels = SRD_LEVELS.get(key, [])
     gained_raw = []
@@ -1078,11 +1075,6 @@ WARLOCK_EXPANDED_SPELLS_BY_LEVEL: dict[str, dict[int, list[str]]] = {
 # Pitfall-18 shape split, silent because pyflakes reports only *undefined* names.
 # One definition, in data.py, imported everywhere.
 
-CANTRIPS_PROGRESSION: dict[str, dict[int, int]] = {
-    "full": {1: 2, 4: 3, 10: 4},
-    "warlock": {1: 2, 4: 3, 10: 4},
-    "cleric": {1: 3, 4: 4, 10: 5},
-}
 
 
 # ── Ability score modifier (moved from all.py 2026-07-31) ──

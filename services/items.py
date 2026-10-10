@@ -140,13 +140,6 @@ def _build_item_description(item: dict) -> str:
         dmg_type = (dmg.get("damage_type", {}) or {}).get("name", "")
         props = [p.get("name", "") for p in item.get("properties", [])]
 
-        # Build range string
-        range_part = wrange
-        normal = item.get("range", {}).get("normal")
-        if normal:
-            long_range = item.get("range", {}).get("long", "")
-            range_part = f"Range {normal}/{long_range} ft"
-
         # Build properties string
         prop_strs = []
         for p in props:

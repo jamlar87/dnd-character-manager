@@ -13,7 +13,6 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-LAYOUT = (ROOT / "templates" / "layout.html").read_text()
 CSS = (ROOT / "static" / "layout.css").read_text()
 JS = (ROOT / "static" / "layout.js").read_text()
 

@@ -1,105 +1,42 @@
-"""Character routes — create, sheet, level-up, spells, combat, relationships."""
+"""Character routes — composite router + the shared PHB registries.
 
-from fastapi import APIRouter, Request, Form, HTTPException, Query
-from fastapi.responses import HTMLResponse, JSONResponse, FileResponse, Response
-import sqlite3, json, math, random, re, urllib.parse, os, httpx, functools
-from pathlib import Path
-from datetime import datetime
+Every route handler now lives in a sibling module (creation, sheet, leveling,
+spells, campaign, relationships, pdf, transfer, ai_routes); this module only
+assembles their routers into one `router`, and keeps the data the package
+re-exports: SUBCLASS_FEATURE_DESCRIPTIONS and CHANNEL_DIVINITY_DESCRIPTIONS
+(merged into FEATURE_DESCRIPTIONS below) plus the name-cache extension.
+Importing this module also triggers load_manual_data().
+"""
 
-from main import (
-    get_db, get_current_user, require_user, _render,
-    _user_where, _require_owned, _resolve_item_key, _resolve_armor_item,
-    _resolve_source, _build_item_description, _build_charged_item_attacks,
-    _build_inventory_attacks, _build_racial_traits, _normalize_equipped,
-    _equipped_names, _load_json_cache, _parse_enhancement, _is_admin,
-    _item_rarity_for_level, _user_filter,
-)
-from main import RACES, CLASSES, RACE_NAMES, SUBCLASS_FEATURES, LIMITED_USE, SUBCLASS_FEATURE_REPLACEMENTS
-from main import BACKGROUNDS, BACKGROUND_SOURCES, ALIGNMENTS
-from main import (
-    FLEXIBLE_ASI_RACES, SUBASIS, SRD_FEATURES, SRD_MAGIC_ITEMS,
-    ITEM_INDEX, ITEM_WEAPONS, ITEM_ARMOR, ITEM_WONDROUS, ITEM_RODS_STAVES_WANDS,
-    ITEMS_BY_RARITY, SPELL_DICE, DATA_DIR,
-)
-from main import _load_manual_json
-from main import get_racial_trait_effects, check_armor_proficiency_from_set, get_character_armor_profs
+from fastapi import APIRouter
+import json
+
+from main import RACE_NAMES
+from main import BACKGROUNDS, ALIGNMENTS
+from main import DATA_DIR
 from main import load_manual_data
-from main import SRD_LEVELS, SRD_SPELLS, _get_named_item_types, _get_source_slug_map
-from main import _manual_races_raw, _manual_races_raw as _MANUAL_RACES_RAW
 # Leveling/spell-slot helper core (extracted to services/leveling.py — re-exported
 # here so existing callers of these names keep working).
 from services.leveling import (
-    MAGIC_INITIATE_CLASSES,
-    _ordinal,
     get_spell_slots,
-    get_srd_spells_for_class,
-    _scaled_dice_display,
     # Batch 2 (progression core)
-    ABILITY_PRIORITY,
-    PROFICIENCY_BONUS,
     get_character_spell_slots,
-    has_casters,
-    SUBCLASS_PROFICIENCIES,
-    _deduplicate_multiclass_features,
-    get_class_features,
-    _GENERIC_SUBCLASS_NAMES,
-    _replace_subclass_name,
-    _build_racial_limited_features,
     parse_class_levels,
     total_level,
     primary_class,
-    meets_multiclass_prereq,
-    get_multiclass_proficiencies,
-    MULTICLASS_SPELL_SLOTS,
-    compute_multiclass_caster_level,
-    get_multiclass_spell_slots,
-    get_expertise_count,
-    get_expertise_options,
-    get_uses_for_level,
     get_caster_type,
-    get_multiclass_caster_types,
-    is_multiclass_caster,
     get_prepared_max,
     get_spells_known_max,
     get_cantrips_known_max,
-    enrich_spells,
-    get_asi_levels,
-    get_feats_for_level,
-    enrich_features,
     # Level-up data constants (moved from all.py 2026-07-31)
-    DOMAIN_SPELLS, FAVORED_ENEMY_LEVELS, FAVORED_TERRAIN_LEVELS,
-    FIGHTING_STYLES, FIGHTING_STYLE_LEVELS, FIGHTING_STYLE_OPTIONS,
-    HUNTERS_PREY_LEVELS, INFUSION_LEVELS, INFUSION_PICKS,
-    MAGICAL_SECRETS_LEVELS, MAGICAL_SECRETS_PICKS, MANEUVER_PICKS,
-    TOTEM_SPIRIT_LEVELS, TOTEM_SPIRIT_TIER_LABELS,
     WARLOCK_EXPANDED_SPELLS_BY_LEVEL,
     # Choice-system constants (shadow data.py versions)
-    METAMAGIC_LEVELS, METAMAGIC_PICKS,
-    INVOCATION_LEVELS, INVOCATION_PICKS,
-    PACT_BOON_LEVELS, MANEUVER_LEVELS, CANTRIPS_PROGRESSION,
     # Ability modifier
-    modifier,
-)
+    )
 from data import (
-    SPELLS_KNOWN_CASTERS, RACIAL_TRAIT_EFFECTS, FEATURE_ACTION_TYPES,
-    ABILITY_NAMES, ALL_SKILLS, LANGUAGES, SKILL_ABILITIES, FEATS, FEAT_BY_NAME,
-    FEATURE_DESCRIPTIONS, DRACONIC_ANCESTRIES, PREPARED_CASTERS,
-    METAMAGIC_OPTIONS,
-    INVOCATION_OPTIONS,
-    PACT_BOON_OPTIONS,
-    MANEUVER_OPTIONS,
-    TOTEM_SPIRIT_OPTIONS,
-    HUNTERS_PREY_OPTIONS,
-    FAVORED_ENEMY_OPTIONS,
-    FAVORED_TERRAIN_OPTIONS,
-    INFUSION_OPTIONS,
-    SUBCLASS_LEVELS, EXPERTISE_LEVELS, STARTING_EQUIPMENT,
-    SCALED_EQUIPMENT, RECOMMENDED_FEATS, MULTICLASS_PREREQS,
-    MULTICLASS_PROFICIENCIES, BACKGROUND_INFO,
-    ASI_LEVELS, FULL_CASTERS, HALF_CASTERS, PACT_CASTERS,
-    RACIAL_TRAIT_DESCS,
+    FEATS,
+    FEATURE_DESCRIPTIONS, EXPERTISE_LEVELS,
 )
-from routes.schemas import CreateCharacter, AddSpell, EditASI, ApplyLevelUp, UpdateCharacter
 from summon_templates import SUMMON_TEMPLATES
 
 router = APIRouter()
@@ -128,11 +65,8 @@ router = APIRouter()
 
 from routes.characters.helpers import (
     MANUAL_MONSTERS, MANUAL_TRAPS,
-    _load_monster_cache, _template_monster_entries,
-    _normalize_manual_monster, _monster_cr_sort_key,
-    _xp_for_cr, _encounter_mult, _assign_encounter_counts,
-    _format_monster_action, _ensure_manual_cache,
-    _extract_pdf, _fuzzy_variants, _search_manuals,
+    _load_monster_cache, _monster_cr_sort_key,
+    _xp_for_cr, _assign_encounter_counts, _search_manuals,
     parse_source_filter, slug_for_source, source_matches,
 )
 
@@ -213,8 +147,6 @@ if _expanded_path.exists():
 # Backgrounds and alignments are validated against PHB-approved lists.
 # Model chain: Gemini → OpenRouter (free) → Ollama (local) → deterministic
 
-PHB_BACKGROUNDS = BACKGROUNDS  # PHB p.125-141
-PHB_ALIGNMENTS = ALIGNMENTS    # PHB p.122
 
 # ── Character Build Optimization (PHB 2014) ─────────────────────────────────
 
@@ -272,7 +204,6 @@ PHB_ALIGNMENTS = ALIGNMENTS    # PHB p.122
 
 # ── Pact Boon (Warlock L3, pick 1 of 4) ──────────────────────────────
 # ── Summon Templates (imported from summon_templates.py) ─────────────────
-from summon_templates import SUMMON_TEMPLATES
 
 # ── Battle Master Maneuvers (Fighter L3/7/10/15, requires Battle Master) ──
 
@@ -429,10 +360,6 @@ CHANNEL_DIVINITY_DESCRIPTIONS: dict[str, str] = {
 # Format: subclass_name → {patron_spell_level: [spell_names]}
 
 # Flat list of all expanded spell names per subclass (for prepared/known checks)
-WARLOCK_EXPANDED_SPELLS: dict[str, list[str]] = {
-    sub: [s for spells in levels.values() for s in spells]
-    for sub, levels in WARLOCK_EXPANDED_SPELLS_BY_LEVEL.items()
-}
 
 # ── Subclass feature descriptions (PHB 2014, not in SRD) ──────
 # ── Subclass feature descriptions (PHB 2014, not in SRD) ──────
@@ -2512,7 +2439,6 @@ if not MANUAL_TRAPS:
 # Original DMG 2014 values (cp/sp/ep/pp) converted at standard rates:
 #   100 cp = 1 gp, 10 sp = 1 gp, 2 ep = 1 gp, 1 pp = 10 gp
 # ── Treasure hoard data & helpers (moved to campaign.py to avoid circular import) ──
-from routes.characters.campaign import roll_treasure_hoard, TREASURE_HOARD_COINS, TREASURE_HOARD_TABLE, MAGIC_TABLE_POOLS, _roll_dice, _pick_magic_item
 
 # ── Feature → Defense Mappings (PHB 2014) ──
 # Maps feature names to resistances/immunities they grant.
@@ -2535,11 +2461,7 @@ from routes.characters.campaign import roll_treasure_hoard, TREASURE_HOARD_COINS
 from routes.characters.ai_routes import router as _ai_router
 from routes.characters.ai_routes import (
     _call_ollama,
-    _call_ai,
-    _fetch_openrouter_image, _extract_json, _validate_and_fix,
-    _fallback_generate, _random_items, _fallback_background,
-    _fallback_portrait_prompt, _calculate_ac, _calculate_attacks,
-    _pick_skills,
+    _call_ai, _extract_json,
 )
 router.include_router(_ai_router)
 

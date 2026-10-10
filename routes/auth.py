@@ -62,7 +62,6 @@ async def register(request: Request, email: str = Form(...), password: str = For
         return _render("register.html", request=request, error="Password must be at least 6 characters")
     try:
         user_id = create_user(_db_path(), email.lower().strip(), password)
-        user = _get_user(email.lower().strip())
         token = _create_session(user_id)
         resp = RedirectResponse("/dashboard", 303)
         resp.set_cookie("dnd_token", token, httponly=True, secure=os.environ.get("APP_ENV", "development").lower() in {"production", "prod"}, max_age=60 * 60 * 24 * 30, samesite="lax", path="/")

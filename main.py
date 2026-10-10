@@ -3,18 +3,13 @@ from __future__ import annotations
 
 import json
 import os
-import asyncio
-import random
 import re
 import sqlite3
 import sys
-import functools
 import hashlib
 import secrets
 from contextlib import asynccontextmanager
-from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
 
 # ── Load .env (local config, not committed) ──────────────────────
 _env_path = Path(__file__).parent / ".env"
@@ -26,14 +21,12 @@ if _env_path.exists():
             os.environ.setdefault(_k.strip(), _v.strip())
 # ─────────────────────────────────────────────────────────────────
 
-import bcrypt
-import httpx
-from fastapi import FastAPI, Request, Form, HTTPException, Response
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse, FileResponse
 from jinja2 import Environment, FileSystemLoader
 
 from data import (
-    ABILITY_NAMES, SKILL_ABILITIES, ALL_SKILLS, LANGUAGES,
+    ABILITY_NAMES, SKILL_ABILITIES, ALL_SKILLS,
     BACKGROUNDS, BACKGROUND_INFO, ALIGNMENTS, DRACONIC_ANCESTRIES,
     STARTING_EQUIPMENT, ASI_LEVELS,
     RACES, CLASSES, RACE_NAMES,
@@ -49,8 +42,7 @@ from data import (
     FAVORED_ENEMY_OPTIONS, FAVORED_TERRAIN_OPTIONS,
     INFUSION_OPTIONS,
     MULTICLASS_PREREQS, MULTICLASS_PROFICIENCIES,
-    EXPERTISE_LEVELS,
-    RACIAL_TRAIT_EFFECTS, RACIAL_TRAIT_DESCS,
+    EXPERTISE_LEVELS, RACIAL_TRAIT_DESCS,
     RECOMMENDED_FEATS, SCALED_EQUIPMENT,
 )
 
@@ -63,12 +55,9 @@ from services.items import (
 
 # ── Combat / racial-trait helpers (extracted to services/combat.py) ────────
 from services.combat import (
-    get_racial_trait_effects, _build_racial_traits, _subrace_traits,
-    _find_weapon, _parse_enhancement, _build_attack_for_weapon,
-    _build_inventory_attacks, _build_natural_weapon_attacks,
-    _build_character_attacks, _build_charged_item_attacks, _normalize_equipped,
-    _build_named_item_types, _get_named_item_types, _equipped_names,
-    _normalize_armor_profs, get_character_armor_profs, _resolve_armor_item,
+    get_racial_trait_effects, _build_racial_traits, _subrace_traits, _parse_enhancement,
+    _build_inventory_attacks,
+    _build_character_attacks, _build_charged_item_attacks, _normalize_equipped, _get_named_item_types, _equipped_names, get_character_armor_profs, _resolve_armor_item,
     check_armor_proficiency_from_set,
 )
 
@@ -77,7 +66,6 @@ from services.combat import (
 HERE = Path(__file__).parent
 DATA_DIR = Path(os.environ.get("DND_DATA_DIR", str(HERE / "data")))
 PAGE_MAP_DIR = DATA_DIR / "page_maps"
-EXPORTS_DIR = DATA_DIR / "exports"
 DB_PATH = DATA_DIR / "characters.db"
 TEMPLATES = HERE / "templates"
 STATIC = HERE / "static"
@@ -92,9 +80,7 @@ SRD_CACHE = DATA_DIR / "srd_cache"
 # Imported before SRD_LEVELS is built below; data_loader has no module-level
 # main import, so this is safe from circulars.
 from services.data_loader import (
-    _load_srd_class_data, _load_spell_dice, _load_json_cache,
-    _count_keywords, _should_replace_description, _load_manual_json,
-    _normalize_manual_source, _validate_manual_sources, _normalize_recharge,
+    _load_srd_class_data, _load_spell_dice, _load_json_cache, _load_manual_json,
     load_manual_data,
 )
 
@@ -151,10 +137,6 @@ for f in SRD_FEATURES:
 # more D&D mechanical keywords), but keep hardcoded when it's comparable.
 
 
-
-
-
-
 # ═══════════════════════════════════════════════════════════════════════════════
 # Manual Data Loader — ingest extracted data from manual PDFs
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -163,16 +145,7 @@ MANUAL_DATA = HERE / "data" / "manual_data"
 MANUAL_TRAPS: list[dict] = []
 
 
-
-
-
 # ── Startup source validation ────────────────────────────────────────────────
-
-
-
-
-
-
 
 
 # ── Enrich spell sources with page numbers ──
@@ -198,13 +171,11 @@ except Exception as _e:
     print(f"  (spell page map unavailable: {_e})")
 
 
-
 # ═══════════════════════════════════════════════════════════════════════════════
 # ITEM INDEX — unified equipment + magic items with SRD/PHB 2014 descriptions
 # ═══════════════════════════════════════════════════════════════════════════════
 
 SRD_EQUIPMENT: list[dict] = _load_json_cache("equipment.json")
-
 
 
 # Build unified item index (equipment + magic items)
@@ -223,9 +194,6 @@ try:
         print(f"  Items with page numbers: {len(_item_page_map)}")
 except Exception as _e:
     print(f"  (item page map unavailable: {_e})")
-
-
-
 
 
 ITEM_INDEX: dict[str, dict] = {}
@@ -483,8 +451,6 @@ async def global_exception_handler(request: Request, exc: Exception):
 def get_db() -> sqlite3.Connection:
     from services.db import connect
     return connect(DB_PATH)
-
-
 
 
 def _get_user(email: str) -> dict | None:
@@ -1337,7 +1303,6 @@ SUBRACE_TRAITS = {
 # ── From data.py: DRACONIC_ANCESTRIES
 
 
-
 SUBASIS = {
     "Hill Dwarf": {"wisdom": 1},
     "Mountain Dwarf": {"strength": 2},
@@ -1705,15 +1670,7 @@ for key, entry in ITEM_INDEX.items():
                     break
 
 
-
-
-
-
-
-
-
 NAMED_ITEM_TYPES = None  # computed lazily after ITEM_INDEX is populated
-
 
 
 # ── Armor Proficiency (PHB p.144) ──
@@ -1736,14 +1693,6 @@ for _item in SRD_EQUIPMENT:
         _ARMOR_LOOKUP[_name] = _item
     if _name:
         _ARMOR_STATS[_name] = _item
-
-
-
-
-
-
-
-
 
 
 # ── Routes: Landing ───────────────────────────────────────────────────────────
@@ -1785,16 +1734,16 @@ async def dashboard(request: Request):
     admin_all = _is_admin(user) and request.query_params.get("all") in ("1", "true", "yes")
     if admin_all:
         chars = [dict(r) for r in db.execute(
-            f"SELECT c.*, u.email as owner_email FROM characters c "
-            f"LEFT JOIN users u ON c.user_id = u.id "
-            f"ORDER BY c.shared ASC, c.created_at DESC"
+            "SELECT c.*, u.email as owner_email FROM characters c "
+            "LEFT JOIN users u ON c.user_id = u.id "
+            "ORDER BY c.shared ASC, c.created_at DESC"
         ).fetchall()]
     else:
         chars = [dict(r) for r in db.execute(
-            f"SELECT c.*, u.email as owner_email FROM characters c "
-            f"LEFT JOIN users u ON c.user_id = u.id "
-            f"WHERE c.user_id = ? OR (c.shared = 1 AND c.user_id != ?) "
-            f"ORDER BY c.shared ASC, c.created_at DESC",
+            "SELECT c.*, u.email as owner_email FROM characters c "
+            "LEFT JOIN users u ON c.user_id = u.id "
+            "WHERE c.user_id = ? OR (c.shared = 1 AND c.user_id != ?) "
+            "ORDER BY c.shared ASC, c.created_at DESC",
             (user["id"], user["id"])
         ).fetchall()]
     db.close()
@@ -2250,7 +2199,7 @@ async def serve_manual_file(path: str):
 async def query_reference(request: Request):
     """Query reference manuals for PHB-grounding. Requires auth.
     Accepts: {"query": "dwarf racial traits", "source": "phb"}"""
-    user = require_user(request)
+    require_user(request)
     data = await request.json()
     query = data.get("query", "")
     source = data.get("source", "phb")  # "phb", "dmg", "xanathars", "all"
@@ -2739,7 +2688,6 @@ def _manual_titles() -> list[dict]:
         entry["match"] = sorted(aliases)
         out.append(entry)
     return sorted(out, key=lambda e: e["title"].lower())
-
 
 
 @app.get("/api/reference/open/{slug}")

@@ -4,7 +4,7 @@ main.py does heavy init at import time (loads JSON, builds indexes).
 We import it once at module scope so all tests share the initialized state.
 """
 
-import os, sys, json, sqlite3, tempfile, pytest
+import os, sqlite3, tempfile, pytest
 from pathlib import Path
 
 # Point data dir to a test copy so we don't pollute the live DB
@@ -14,9 +14,7 @@ os.environ.setdefault("DND_DATA_DIR", str(HERE / "data"))
 # Import main — triggers all the SRD loading, data enrichment, etc.
 # This takes ~0.5s and runs once per test session.
 import main as app_module
-from main import app, get_db, init_db, CLASSES, RACES
-from routes.characters import parse_class_levels
-from main import SUBCLASS_FEATURES, LIMITED_USE, FEAT_BY_NAME
+from main import app, init_db
 
 from fastapi.testclient import TestClient
 
