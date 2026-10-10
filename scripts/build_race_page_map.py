@@ -1,14 +1,21 @@
 #!/usr/bin/env python3
 """
 Build a race/subrace→page mapping for D&D 5e races.
-Uses known PHB/Volo's/MTF/SCAG/EEPC/GGR page references.
 
-Output: data/race_page_map.json
+Hand tables below give the book and page; the app's OWN records
+(data/manual_data/races.json) and the per-book extraction caches then correct any
+same-book page they disagree with. A race printed in several books keeps the map's
+own book choice — that is a choice, not an error.
+
+Output: data/page_maps/race_page_map.json
 """
 import json
+import sys
 from pathlib import Path
 
-DATA_DIR = Path("/home/james/dnd-character-manager/data")
+REPO = Path("/home/james/dnd-character-manager")
+sys.path.insert(0, str(REPO))          # slug_for_source lives in the app
+DATA_DIR = REPO / "data"
 OUTPUT_PATH = DATA_DIR / "page_maps" / "race_page_map.json"
 
 # ── PHB Races ──
@@ -103,16 +110,18 @@ GGR_RACES = {
     "goblin": (16, "GGR"),  # also in GGR
 }
 
-# ── Eberron: Rising from the Last War Races ──
+# ── Eberron races ──
+# The app ingests Wayfinder's Guide to Eberron (WGE), not ERLW, so WGE is the slug
+# that resolves; pages come from the app's own race records.
 ERLW_RACES = {
-    "changeling": (18, "ERLW"),
-    "kalashtar": (29, "ERLW"),
-    "shifter": (31, "ERLW"),
-    "warforged": (35, "ERLW"),
-    "beasthide shifter": (33, "ERLW"),
-    "longtooth shifter": (33, "ERLW"),
-    "swiftstride shifter": (33, "ERLW"),
-    "wildhunt shifter": (33, "ERLW"),
+    "changeling": (61, "WGE"),
+    "kalashtar": (63, "WGE"),
+    "shifter": (65, "WGE"),
+    "warforged": (68, "WGE"),
+    "beasthide shifter": (64, "WGE"),
+    "longtooth shifter": (64, "WGE"),
+    "swiftstride shifter": (64, "WGE"),
+    "wildhunt shifter": (67, "WGE"),
 }
 
 # ── The Tortle Package ──
@@ -131,7 +140,96 @@ EXTRA_RACES = {
     "fallen aasimar (volo's guide)": (105, "VGM"),
     "protector aasimar (volo's guide)": (105, "VGM"),
     "scourge aasimar (volo's guide)": (105, "VGM"),
+    # Monster-as-race (main.RICH_RACE_DESCS). The map used to say p.113, which is
+    # the Yuan-ti section; the VGM text has the Tlincalli entry at p.194.
+    "tlincalli": (194, "VGM"),
 }
+
+
+def prefix_of(src: str) -> str:
+    """Book code for this map, resolved by the APP's own slug table.
+
+    A hand list got this wrong (Explorer's Guide to Wildemount fell through to
+    "PHB", and "Mordenkainen Presents" matches a "mordenkainen" needle aimed at
+    MTF). slug_for_source already knows every ingested book.
+    """
+    try:
+        from routes.characters.helpers import slug_for_source
+        slug = slug_for_source(src)
+    except Exception:
+        slug = ""
+    if not slug:
+        return ""
+    return {"PHB": "PHB 2014", "DMG": "DMG 2014"}.get(slug, slug)
+
+
+def same_book_page(prior_source: str, candidates) -> int | None:
+    """The page a record gives for the SAME book the map already cites.
+
+    Only a same-book page disagreement is an error: a race printed in several
+    books (Duergar is in SCAG, MTF and MPMM) is a book choice, not a mistake, and
+    the map keeps its own choice.
+    """
+    try:
+        from routes.characters.helpers import slug_for_source
+    except Exception:
+        return None
+    want = slug_for_source(prior_source)
+    if not want:
+        return None
+    for slug, page, _src in candidates:
+        if slug == want and page:
+            return page
+    return None
+
+
+_OCR_CACHE: dict[str, dict] = {}
+
+
+def ocr_pages(book: str) -> dict:
+    """{page: text} from the ingestion's own PDF text for a book (may be empty)."""
+    if book not in _OCR_CACHE:
+        blocks = {}
+        p = DATA_DIR / "manual_cache" / f"{book}.txt"
+        if p.exists():
+            import re as _re
+            parts = _re.split(r"--- PAGE (\d+) ---", p.read_text(errors="replace"))
+            blocks = {int(parts[i]): parts[i + 1] for i in range(1, len(parts) - 1, 2)}
+        _OCR_CACHE[book] = blocks
+    return _OCR_CACHE[book]
+
+
+_GENERIC_RACE_WORDS = {"tiefling", "gnome", "elf", "dwarf", "halfling", "genasi",
+                       "shifter", "aasimar", "human", "dragonborn", "orc", "goblin"}
+
+
+def book_text_supports(book: str, name: str, page: int, tol: int = 1) -> bool | None:
+    """Is `name` visible in the book near `page`?
+
+    None = cannot tell (no OCR for that book). The PDF text is noisy enough that
+    only a grossly wrong page can be ruled out — which is exactly what is needed:
+    it rejects the Vedalken claim of GGR p.2 (the name appears nowhere near p.2)
+    while accepting Deep Gnome at EEPC p.7 and the tiefling bloodlines around
+    MTF p.22.
+
+    The full name is tried first, then its distinctive tokens: the text says
+    "Glasya", not "Glasya Tiefling", and "deep" alone would match anywhere.
+    """
+    blocks = ocr_pages(book)
+    if not blocks or not page:
+        return None
+    import re as _re
+    needles = [name.strip()]
+    needles += [w for w in name.split() if len(w) >= 5 and w.lower() not in _GENERIC_RACE_WORDS]
+    for needle in needles:
+        if not needle:
+            continue
+        pattern = _re.compile(_re.escape(needle), _re.I)
+        for pg in range(page - tol, page + tol + 1):
+            body = blocks.get(pg)
+            if body and pattern.search(body):
+                return True
+    return False
 
 
 def main():
@@ -154,53 +252,81 @@ def main():
             all_known[name] = {"page": page, "source_str": f"{prefix} p.{page}"}
         print(f"{label}: {len(d)}")
     
-    # Load manual data and patch in any remaining
-    with open(DATA_DIR / "manual_data/races.json") as f:
-        man_races = json.load(f)
-    
-    added = 0
+    # ── evidence: what the ingestion recorded for each race ──
+    # data/manual_data/races.json is what the app ships and what a race row shows;
+    # the per-book extraction caches are the same ingestion's raw claims.
     import re
-    for r in man_races:
-        name = r.get("name", "").lower()
-        if name in all_known:
+    evidence: dict[str, list] = {}
+    for r in json.loads((DATA_DIR / "manual_data" / "races.json").read_text()):
+        if isinstance(r, dict) and r.get("name") and r.get("source"):
+            src = str(r["source"]).strip()
+            m = re.search(r"\b[pP]\.?\s*(\d+)", src)
+            evidence.setdefault(r["name"].strip().lower(), []).append(
+                (prefix_of(src), int(m.group(1)) if m else None, src))
+    for f in sorted((DATA_DIR / "manual_cache").glob("*_extracted.json")):
+        try:
+            cache = json.loads(f.read_text())
+        except Exception:
             continue
-        src = r.get("source", "")
-        m = re.search(r'\b[pP]\.?\s*(\d+)', src)
-        if m:
-            page = int(m.group(1))
-            lower = src.lower()
-            if 'volo' in lower or 'vgm' in lower:
-                prefix = "VGM"
-            elif 'mordenkainen' in lower or 'mtf' in lower:
-                prefix = "MTF"
-            elif 'sword coast' in lower or 'scag' in lower:
-                prefix = "SCAG"
-            elif 'elemental evil' in lower or 'ee' in lower:
-                prefix = "EEPC"
-            elif 'ravnica' in lower or 'ggr' in lower:
-                prefix = "GGR"
-            elif 'eberron' in lower or 'erlw' in lower:
-                prefix = "ERLW"
-            elif 'tortle' in lower or 'ttp' in lower:
-                prefix = "TTP"
+        for r in (cache.get("races") or []):
+            if isinstance(r, dict) and r.get("name") and r.get("source"):
+                src = str(r["source"]).strip()
+                m = re.search(r"\b[pP]\.?\s*(\d+)", src)
+                evidence.setdefault(r["name"].strip().lower(), []).append(
+                    (prefix_of(src), int(m.group(1)) if m else None, src))
+    print(f"races with recorded evidence: {len(evidence)}")
+
+    added = corrected = rejected = stats_skipped = 0
+    for name, cands in evidence.items():
+        entry = None
+        record_slug, record_page, record_src = cands[0]      # races.json comes first
+        if name in all_known:
+            current = all_known[name]
+            cur_book = current["source_str"].rsplit(" p.", 1)[0]
+            # 1. the app's own record wins when it names a page its book backs up:
+            #    one source of truth, so a race row and its traits cannot disagree.
+            #    A book the library cannot open would render a dead badge
+            #    (see test_reference_sources), so it is never written.
+            if record_page and record_slug and book_text_supports(record_slug, name, record_page) is not False:
+                if record_slug != cur_book or record_page != current["page"]:
+                    entry = {"page": record_page, "source_str": f"{record_slug} p.{record_page}"}
+                    print(f"  corrected {name}: {current['source_str']} -> {entry['source_str']}")
+                    corrected += 1
             else:
-                prefix = "PHB 2014"
-            all_known[name] = {"page": page, "source_str": f"{prefix} p.{page}"}
-            added += 1
+                # 2. otherwise keep the map's own book and take a same-book page
+                page = same_book_page(current["source_str"], cands)
+                if page and page != current["page"]:
+                    if book_text_supports(cur_book, name, page) is False:
+                        print(f"  KEPT    {name}: {current['source_str']} "
+                              f"(record claims p.{page}; the book text has no {name} near it)")
+                        rejected += 1
+                    else:
+                        entry = {"page": page, "source_str": f"{cur_book} p.{page}"}
+                        print(f"  corrected {name}: {current['source_str']} -> {entry['source_str']}")
+                        corrected += 1
+                elif record_page and book_text_supports(record_slug, name, record_page) is False:
+                    print(f"  KEPT    {name}: {current['source_str']} "
+                          f"(record claims {record_slug} p.{record_page}; the book text has no {name} near it)")
+                    rejected += 1
         else:
-            # No page — keep bare source
-            if 'volo' in src.lower():
-                all_known[name] = {"page": None, "source_str": "VGM"}
-            elif 'mordenkainen' in src.lower():
-                all_known[name] = {"page": None, "source_str": "MTF"}
-            elif 'sword coast' in src.lower():
-                all_known[name] = {"page": None, "source_str": "SCAG"}
-            elif 'eberron' in src.lower():
-                all_known[name] = {"page": None, "source_str": "ERLW"}
-            elif 'tortle' in src.lower():
-                all_known[name] = {"page": None, "source_str": "TTP"}
+            if record_page and record_slug:
+                entry = {"page": record_page, "source_str": f"{record_slug} p.{record_page}"}
             else:
-                all_known[name] = {"page": None, "source_str": "PHB 2014"}
+                paged = next(((pg, src) for _s, pg, src in cands if pg and prefix_of(src)), None)
+                if paged:
+                    page, src = paged
+                    entry = {"page": page, "source_str": f"{prefix_of(src)} p.{page}"}
+                else:
+                    prefix = prefix_of(cands[0][2])
+                    if not prefix:
+                        # A book the library cannot open must not enter the map.
+                        stats_skipped += 1
+                        continue
+                    entry = {"page": None, "source_str": prefix}
+            added += 1
+        if entry:
+            all_known[name] = entry
+    print(f"  manual records: {added} added, {corrected} corrected, {rejected} kept (text disagrees)")
     
     print(f"Manual additions: {added}")
     

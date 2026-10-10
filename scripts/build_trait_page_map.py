@@ -124,22 +124,80 @@ TRAIT_RACE_MAP = {
 }
 
 
+def prefix_of(src: str) -> str:
+    """Short book code for this map, from a record's display source."""
+    lower = (src or "").lower()
+    for needle, prefix in (("volo", "VGM"), ("vgm", "VGM"), ("mordenkainen", "MTF"),
+                           ("mtf", "MTF"), ("sword coast", "SCAG"), ("scag", "SCAG"),
+                           ("elemental evil", "EEPC"), ("ee", "EEPC"), ("ravnica", "GGR"),
+                           ("ggr", "GGR"), ("eberron", "ERLW"), ("erlw", "ERLW"),
+                           ("tortle", "TTP"), ("ttp", "TTP")):
+        if needle in lower:
+            return prefix
+    return "PHB 2014"
+
+
+def verified_race_pages() -> dict:
+    """race -> (page, prefix) from the app's OWN race records.
+
+    RACE_PAGES above is hand-curated and disagrees with the shipped records for a
+    handful of races (Dwarven Armor Training cited PHB p.20 for Shield Dwarf, whose
+    record is SCAG p.104). The record wins: it is what the race row displays.
+    """
+    out = {}
+    path = DATA_DIR / "manual_data" / "races.json"
+    if not path.exists():
+        return out
+    import re
+    for r in json.loads(path.read_text()):
+        if not isinstance(r, dict):
+            continue
+        name = (r.get("name") or "").strip().lower()
+        src = (r.get("source") or "").strip()
+        if not name or not src:
+            continue
+        m = re.search(r"\b[pP]\.?\s*(\d+)", src)
+        if m:
+            out[name] = (int(m.group(1)), prefix_of(src))
+    return out
+
+
 def main():
     print("=== Building Racial Trait Page Map ===\n")
     
+    # Cite what the RACE map cites: a trait used to carry its own hand-curated
+    # page, so a race row and its traits could disagree (Shield Dwarf's record is
+    # SCAG p.104 while Dwarven Armor Training claimed PHB p.20).
+    race_map = {}
+    race_path = DATA_DIR / "page_maps" / "race_page_map.json"
+    if race_path.exists():
+        race_map = {k.strip().lower(): v for k, v in json.loads(race_path.read_text()).items()}
+    print(f"race map entries: {len(race_map)}")
     results = {}
     mapped = 0
+    corrected = 0
     unmapped = []
     
     for trait_name, race_name in sorted(TRAIT_RACE_MAP.items()):
-        if race_name in RACE_PAGES:
+        info = race_map.get(race_name.strip().lower())
+        if isinstance(info, dict) and (info.get("source_str") or "").strip():
+            entry = info["source_str"]
+            if race_name in RACE_PAGES:
+                old_page, old_prefix = RACE_PAGES[race_name]
+                if f"{old_prefix} p.{old_page}" != entry:
+                    print(f"  corrected {trait_name} ({race_name}): "
+                          f"{old_prefix} p.{old_page} -> {entry}")
+                    corrected += 1
+            results[trait_name] = entry
+            mapped += 1
+        elif race_name in RACE_PAGES:
             page, prefix = RACE_PAGES[race_name]
             results[trait_name] = f"{prefix} p.{page}"
             mapped += 1
         else:
             unmapped.append((trait_name, race_name))
     
-    print(f"Mapped traits: {mapped}")
+    print(f"Mapped traits: {mapped} ({corrected} aligned to the race map)")
     
     if unmapped:
         print(f"\nUnmapped traits: {len(unmapped)}")
