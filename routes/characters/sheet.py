@@ -1203,6 +1203,19 @@ async def character_sheet(char_id: int, request: Request):
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
+def _publish_change(char_id: int, kind: str = "sheet", **fields) -> None:
+    """Warn the character's table that this sheet moved. Never raises: a sheet save must not fail
+    because the feed is having a bad day. Imported inside the call — routes.table imports main and
+    this module is imported by the characters package, so a module-scope import is a cycle
+    (Pitfall 16)."""
+    try:
+        from routes.table import publish_character_state
+
+        publish_character_state(char_id, kind=kind, **fields)
+    except Exception:
+        pass
+
+
 @router.post("/api/character/{char_id}/update", response_class=JSONResponse)
 async def update_character(char_id: int, request: Request, body: UpdateCharacter):
     user = require_user(request)
@@ -1263,19 +1276,16 @@ async def update_character(char_id: int, request: Request, body: UpdateCharacter
     db.commit()
     db.close()
 
-    # Live state: if HP moved, the character's table should know without anyone polling for it.
-    # Imported inside the call — routes.table imports main, and this module is imported by the
-    # characters package, so a module-scope import here would be a cycle (Pitfall 16).
+    # Live state: the table should not have to poll to see this sheet move. The DM's tracker
+    # mirrors conditions and summons as well as HP, so those count too — a change it cannot hear
+    # about is a screen that goes stale the moment its own poll is demoted.
     if {"hp_current", "hp_max", "temp_hp"} & set(updates):
-        try:
-            from routes.table import publish_character_state
-            publish_character_state(char_id,
-                                    hp_current=updates.get("hp_current"),
-                                    hp_max=updates.get("hp_max"),
-                                    temp_hp=updates.get("temp_hp"))
-        except Exception:
-            # Saving the sheet must never fail because the feed is having a bad day.
-            pass
+        _publish_change(char_id, "hp",
+                        hp_current=updates.get("hp_current"),
+                        hp_max=updates.get("hp_max"),
+                        temp_hp=updates.get("temp_hp"))
+    elif {"conditions", "summons"} & set(updates):
+        _publish_change(char_id, "sheet")
     return JSONResponse({"ok": True})
 
 @router.post("/api/character/{char_id}/edit-asi", response_class=JSONResponse)
@@ -1453,6 +1463,7 @@ async def create_summon(char_id: int, request: Request):
                (json.dumps(summons), char_id, user["id"]))
     db.commit()
     db.close()
+    _publish_change(char_id, "sheet")            # a new summon appears in the DM's tracker
     return JSONResponse({"summon": summon, "total": len(summons)})
 
 @router.post("/api/character/{char_id}/update-summon-hp", response_class=JSONResponse)
@@ -1481,6 +1492,7 @@ async def update_summon_hp(char_id: int, request: Request):
                (json.dumps(summons), char_id, user["id"]))
     db.commit()
     db.close()
+    _publish_change(char_id, "sheet")
     return JSONResponse({"ok": True, "hp_current": summons[idx]["hp_current"]})
 
 # ── Conditions (CRUD) ─────────────────────────────────────────────
@@ -1532,6 +1544,7 @@ async def add_condition(char_id: int, request: Request):
                (json.dumps(conditions), char_id, user["id"]))
     db.commit()
     db.close()
+    _publish_change(char_id, "sheet")
     return JSONResponse({"conditions": conditions, "added": condition})
 
 @router.delete("/api/character/{char_id}/conditions", response_class=JSONResponse)
@@ -1556,6 +1569,7 @@ async def remove_condition(char_id: int, request: Request):
                (json.dumps(conditions), char_id, user["id"]))
     db.commit()
     db.close()
+    _publish_change(char_id, "sheet")
     return JSONResponse({"conditions": conditions, "removed": name})
 
 

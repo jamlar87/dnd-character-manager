@@ -6551,17 +6551,22 @@ async function initSheetRollFeed() {
     });
 
     // The stream is now the mechanism for this character's HP, with a slow safety net behind it.
-    window.RollFeed.on('hp', function (payload) {
-      if (!payload || String(payload.character_id) !== String(CHAR_ID)) return;
-      syncSheetHP();                          // reuses the tested read: HP, summons, conditions
-      const st = document.getElementById('sheet-rollfeed-status');
-      if (st) {
-        st.textContent = 'HP updated elsewhere';
-        clearTimeout(st._clear);
-        st._clear = setTimeout(function () { st.textContent = ''; }, 4000);
-      }
-    });
+    window.RollFeed.on('hp', _onSheetChanged);
+    window.RollFeed.on('sheet', _onSheetChanged);
     window.RollFeed.on('open', function () { startSheetPolling(SHEET_POLL_SAFE_MS); });
     window.RollFeed.on('error', function () { startSheetPolling(SHEET_POLL_FAST_MS); });
   } catch (e) { /* the sheet is fine without a feed */ }
+}
+
+/** A sheet event: HP moved (kind 'hp') or something a tracker mirrors did ('sheet' — conditions,
+ *  summons). Either way the honest response is the same tested read, which refreshes them all. */
+function _onSheetChanged(payload) {
+  if (!payload || String(payload.character_id) !== String(CHAR_ID)) return;
+  syncSheetHP();
+  const st = document.getElementById('sheet-rollfeed-status');
+  if (st) {
+    st.textContent = payload.kind === 'hp' ? 'HP updated elsewhere' : 'Sheet updated elsewhere';
+    clearTimeout(st._clear);
+    st._clear = setTimeout(function () { st.textContent = ''; }, 4000);
+  }
 }

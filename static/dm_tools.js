@@ -5262,6 +5262,12 @@ function combatOpenExhaustionPicker(enId) {
 
 // ── Live HP Polling ──────────────────────────────────────────────────────
 
+// The tracker's poll: 2s while nothing better exists, 30s once the campaign stream is carrying
+// sheet events, straight back to 2s if that stream drops. It only ever returns the DM's OWN
+// characters (/api/sync-combat-hp filters on user_id), so the events are what make it live for
+// a table whose players own their own sheets.
+const COMBAT_POLL_FAST_MS = 2000;
+const COMBAT_POLL_SAFE_MS = 30000;
 let _combatPollTimer = null;
 
 async function syncPlayerAndSummonHP() {
@@ -5284,10 +5290,16 @@ async function syncPlayerAndSummonHP() {
     const data = await r.json();
     const chars = data.characters || {};
 
-    // Update campaign players HP
+    // Update campaign players HP. The players panel holds no inputs — only stats — so it is safe
+    // to re-render the moment a value lands, and it has to be: this loop used to update the data
+    // without ever flagging a repaint, so the DM's panel kept showing the old number until some
+    // unrelated render happened along. (The initiative track DOES hold hp inputs, so it still
+    // waits for a participant change rather than yanking the field out from under a typing DM.)
+    let changedPlayers = false;
     for (const p of _campaignPlayers) {
       const c = chars[String(p.char_id)];
       if (c && c.hp_current !== undefined) {
+        if (p.hp_current !== c.hp_current || p.hp_max !== c.hp_max) changedPlayers = true;
         p.hp_current = c.hp_current;
         p.hp_max = c.hp_max;
       }
@@ -5326,6 +5338,7 @@ async function syncPlayerAndSummonHP() {
     }
 
     // Re-render if anything changed
+    if (changedPlayers) renderPlayersPanel();
     if (changed) {
       renderInitiativeTrack();
       renderPlayersPanel();
@@ -5333,9 +5346,9 @@ async function syncPlayerAndSummonHP() {
   } catch(e) { /* silent */ }
 }
 
-function startCombatPolling() {
+function startCombatPolling(interval) {
   stopCombatPolling();
-  _combatPollTimer = setInterval(syncPlayerAndSummonHP, 2000);
+  _combatPollTimer = setInterval(syncPlayerAndSummonHP, interval || COMBAT_POLL_FAST_MS);
 }
 
 function stopCombatPolling() {
@@ -5643,6 +5656,31 @@ function initRollFeed() {
     hidden: _rfMyRollsHidden
   });
   window.RollFeed.setFilter(r => _rfShowHidden || !r.hidden);
+
+  // The same stream carries sheet events, so the tracker stops needing its own 2s timer: a
+  // player rests, a condition lands, a summon takes damage — the tracker refreshes on the poke
+  // and the interval drops to a safety net. It comes back to 2s if the stream drops.
+  window.RollFeed.on('hp', _refreshTrackerIfTracked);
+  window.RollFeed.on('sheet', _refreshTrackerIfTracked);
+  window.RollFeed.on('open', function () { startCombatPolling(COMBAT_POLL_SAFE_MS); });
+  window.RollFeed.on('error', function () { startCombatPolling(COMBAT_POLL_FAST_MS); });
+}
+
+/** Refresh the tracker only for a character it actually shows — on whose sheet this is, or on a
+ *  summon's owner. Anything else is a request that can only return rows we do not track. */
+function _refreshTrackerIfTracked(payload) {
+  if (!payload || payload.character_id === undefined) return;
+  if (_tracksCharacter(payload.character_id)) syncPlayerAndSummonHP();
+}
+
+function _tracksCharacter(charId) {
+  const id = String(charId);
+  for (const p of _campaignPlayers) if (String(p.char_id) === id) return true;
+  for (const p of _combatParticipants) {
+    if (String(p.char_id) === id) return true;
+    if (p.owner_char_id !== undefined && p.owner_char_id !== null && String(p.owner_char_id) === id) return true;
+  }
+  return false;
 }
 
 function setRollFeedMode() {

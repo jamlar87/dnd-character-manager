@@ -868,3 +868,106 @@ def test_roll_frames_still_carry_their_id(seeded_db):
     frame = frame_for({"kind": "roll", "id": 41, "expression": "1d20", "total": 12})
     assert frame.startswith("id: 41\n")
     assert _data_of(frame).startswith('{"kind": "roll"')
+
+
+# ── Slice 6: the events a DM tracker mirrors ────────────────────────────────────────
+
+def _subscribed(seeded_db, camp_id):
+    from services import events
+
+    return events, events.subscribe(camp_id)
+
+
+def test_conditions_and_summons_publish_the_sheet_kind(seeded_db, client, auth_headers):
+    """The DM's tracker mirrors conditions and summons as well as HP: a change it cannot hear
+    about is a screen that goes stale the moment its poll is demoted."""
+    from services import events
+
+    char_id = _character(seeded_db["db_path"], 1)
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": char_id, "name": "Rowan"}])
+
+    q = events.subscribe(camp_id)
+    try:
+        assert client.post(f"/api/character/{char_id}/conditions",
+                           json={"name": "Prone"}, headers=auth_headers).status_code == 200
+        first = q.get_nowait()
+        assert first["kind"] == "sheet" and first["character_id"] == char_id
+
+        assert client.request("DELETE", f"/api/character/{char_id}/conditions",
+                              json={"name": "Prone"}, headers=auth_headers).status_code == 200
+        assert q.get_nowait()["kind"] == "sheet"
+
+        created = client.post(f"/api/character/{char_id}/summons", json={"name": "Wolf", "hp_max": 11},
+                              headers=auth_headers)
+        assert created.status_code == 200, created.text
+        assert q.get_nowait()["kind"] == "sheet"
+
+        assert client.post(f"/api/character/{char_id}/update-summon-hp",
+                           json={"summon_idx": 0, "hp_current": 4},
+                           headers=auth_headers).status_code == 200
+        event = q.get_nowait()
+        assert event["kind"] == "sheet", "summon damage is exactly what the tracker mirrors"
+
+        # a save that only touches notes still says nothing: no listener needs that
+        assert client.post(f"/api/character/{char_id}/update", json={"notes": "hi"},
+                           headers=auth_headers).status_code == 200
+        assert q.qsize() == 0
+    finally:
+        events.unsubscribe(camp_id, q)
+
+
+def test_hp_still_wins_the_kind_when_a_save_moves_both(seeded_db, client, auth_headers):
+    from services import events
+
+    char_id = _character(seeded_db["db_path"], 1)
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": char_id, "name": "Rowan"}])
+
+    q = events.subscribe(camp_id)
+    try:
+        client.post(f"/api/character/{char_id}/update",
+                    json={"hp_current": 9, "conditions": ["Prone"]}, headers=auth_headers)
+        assert q.qsize() == 1, "one save is one event, even when it moves HP and conditions"
+        assert q.get_nowait()["kind"] == "hp", "HP is the more specific kind and wins"
+    finally:
+        events.unsubscribe(camp_id, q)
+
+
+def test_a_sheet_event_carries_no_roll_id():
+    """The frame contract again, from the other side: a state event that carried an id would
+    poison Last-Event-ID and make the next reconnect replay the whole feed."""
+    import pathlib
+
+    from routes.table import frame_for
+
+    frame = frame_for({"kind": "sheet", "character_id": 7})
+    assert not frame.startswith("id:")
+    assert _data_of(frame) == '{"kind": "sheet", "character_id": 7}'
+
+
+def test_the_tracker_poll_is_demoted_and_wired_to_the_stream():
+    """Text guard: the DM tracker must take its updates from the campaign stream it already
+    opens for the roll feed, and keep a fast poll only as the fallback."""
+    import pathlib
+
+    js = (pathlib.Path(__file__).resolve().parent.parent / "static" / "dm_tools.js").read_text()
+    assert "COMBAT_POLL_FAST_MS = 2000" in js and "COMBAT_POLL_SAFE_MS = 30000" in js
+    assert "setInterval(syncPlayerAndSummonHP, 2000)" not in js, "the hard-coded 2s timer is gone"
+    assert "setInterval(syncPlayerAndSummonHP, interval || COMBAT_POLL_FAST_MS)" in js
+    assert "window.RollFeed.on('hp', _refreshTrackerIfTracked)" in js
+    assert "window.RollFeed.on('sheet', _refreshTrackerIfTracked)" in js
+    assert "on('open', function () { startCombatPolling(COMBAT_POLL_SAFE_MS); })" in js
+    assert "on('error', function () { startCombatPolling(COMBAT_POLL_FAST_MS); })" in js
+    assert "function _tracksCharacter(" in js, "the tracker must not refetch for strangers' sheets"
+
+
+def test_a_player_hp_change_repaints_the_trackers_panel():
+    """The players loop used to update its data without flagging a repaint, so the DM's panel
+    kept the old number until something unrelated re-rendered. The initiative track holds hp
+    inputs and still waits for a participant change, so the two flags stay separate."""
+    import pathlib
+
+    js = (pathlib.Path(__file__).resolve().parent.parent / "static" / "dm_tools.js").read_text()
+    assert "let changedPlayers = false;" in js
+    assert "if (changedPlayers) renderPlayersPanel();" in js
+    assert "if (changed) {\n      renderInitiativeTrack();" in js, (
+        "the initiative track must still wait for a participant change")

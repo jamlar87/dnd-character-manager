@@ -609,8 +609,15 @@ async def character_feed_stream(char_id: int, request: Request):
 # underneath the open page — the player's own second tab, a rest, a level-up. That is what
 # these events carry, so the timer can stop being the mechanism.
 
-def publish_character_state(char_id: int, *, hp_current=None, hp_max=None, temp_hp=None) -> bool:
-    """Tell the character's table that their sheet changed. No campaign means nobody listens."""
+def publish_character_state(char_id: int, *, kind: str = "hp", hp_current=None, hp_max=None,
+                            temp_hp=None) -> bool:
+    """Tell the character's table that their sheet changed. No campaign means nobody listens.
+
+    Two kinds, both "something on this sheet moved, go and read it": `hp` when hit points changed
+    and `sheet` for everything else a tracker mirrors (conditions, summons). Clients refresh the
+    same way for either — the kind is there so a listener can tell what to say out loud, not to
+    decide whether to bother reading.
+    """
     from services import events
 
     db = get_db()
@@ -624,7 +631,7 @@ def publish_character_state(char_id: int, *, hp_current=None, hp_max=None, temp_
         db.close()
 
     events.publish(camp_id, {
-        "kind": "hp",
+        "kind": kind,
         "character_id": int(char_id),
         "character_name": name,
         "hp_current": hp_current,
