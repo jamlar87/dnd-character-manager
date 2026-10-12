@@ -75,9 +75,22 @@ migrations), Jinja templates, vanilla JS assets with `static_asset_version()`.
   publishes nothing — so it is its own slice, and demoting the poll without it would freeze the
   DM's tracker exactly where the poll is doing real work. (`static/widgets.js` also has a 1 s
   `tick`, which is a local UI clock, not a fetch.)
+- **Slice 6 — DONE** (committed): the **DM's tracker** goes live too. `/api/character/{id}/update`,
+  the summon routes and the condition routes publish `sheet` (conditions/summons) alongside the
+  existing `hp`; the tracker subscribes to the campaign stream it already opens for the roll feed,
+  refreshes on the poke, and its 2 s timer becomes a 30 s safety net (back to 2 s if the stream
+  drops). Proof: 0 calls to `/api/sync-combat-hp` in a quiet 8 s window (the old timer made four),
+  one HP change = one refetch, and the DM's panel showed 44/51 with no reload.
+  Found by driving the page: the players-panel loop updated its array **without flagging a
+  repaint**, so the panel showed the old number until some unrelated render — fixed with a second
+  flag (`changedPlayers`), leaving the initiative track (which holds live hp inputs) alone.
+  **Polls now:** the app has no 2 s or 3 s fetch loops left. Both survivors are deliberate slow
+  safety nets (30 s) that widen to their old cadence the moment a stream drops.
 - **Known, unchanged:** the DM's combat tracker keeps player HP as a snapshot in
   `dm_encounters.combat_state.player_participants` and never writes `characters.hp_current`, so
-  tracker damage does not reach a player's sheet. Product decision, not a channel feature.
+  tracker damage does not reach a player's sheet. Product decision, not a channel feature. Note
+  that this is the *mirror* of what slice 6 wired: the tracker now HEARS the sheet, but nothing
+  makes the tracker write back.
 - **Task 9 — DONE**: full suite **1136 passed** (exit 0, 10:48); unique test functions
   971 → 1015, i.e. exactly the 44 added here and nothing edited in place. The route/flow
   sweep (`references/route_sweep.md`) was replaced by end-to-end HTTP exercises of every new
