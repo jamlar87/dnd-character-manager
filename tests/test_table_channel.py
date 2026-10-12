@@ -290,3 +290,166 @@ def test_a_committed_roll_is_published_to_subscribers(seeded_db, client, auth_he
     finally:
         events.unsubscribe(camp_id, q)
 
+
+# ── Slice 1e: the SSE stream ────────────────────────────────────────────────────────
+
+def _data_of(frame: str) -> str:
+    """The JSON payload line of one SSE frame."""
+    for line in frame.splitlines():
+        if line.startswith("data: "):
+            return line[6:]
+    raise AssertionError("frame carried no data line: %r" % frame)
+
+
+def _drain(agen, n: int) -> list[str]:
+    """Pull n frames from an async generator, synchronously."""
+    import asyncio
+
+    async def _go():
+        out = []
+        async for chunk in agen:
+            out.append(chunk)
+            if len(out) >= n:
+                break
+        return out
+
+    return asyncio.run(_go())
+
+
+def test_stream_replays_from_last_event_id(seeded_db):
+    """A reconnecting client gets the gap, not the whole feed and not nothing."""
+    import json as _json
+
+    from routes.table import insert_roll, stream_frames
+
+    camp_id = _campaign(seeded_db["db_path"], 1)
+    db = _db(seeded_db["db_path"])
+    try:
+        first = insert_roll(db, campaign_id=camp_id, who="dm", expression="1d20", results=[5])
+        second = insert_roll(db, campaign_id=camp_id, who="dm", expression="1d20", results=[9])
+        frames = _drain(stream_frames(camp_id, last_id=first["id"], heartbeat=0.05), 1)
+    finally:
+        db.close()
+
+    payload = _json.loads(_data_of(frames[0]))
+    assert payload["id"] == second["id"]
+    assert payload["total"] == 9
+    assert f"id: {first['id']}" not in frames[0]
+
+
+def test_a_fresh_stream_does_not_replay_history(seeded_db):
+    """No Last-Event-ID means a fresh page: history comes from /rolls, not the stream."""
+    from routes.table import insert_roll, stream_frames
+
+    camp_id = _campaign(seeded_db["db_path"], 1)
+    db = _db(seeded_db["db_path"])
+    try:
+        insert_roll(db, campaign_id=camp_id, who="dm", expression="1d20", results=[5])
+        frames = _drain(stream_frames(camp_id, last_id=0, heartbeat=0.05), 1)
+    finally:
+        db.close()
+
+    assert frames[0].strip() == ": hb"     # the first thing out is a heartbeat
+
+
+def test_stream_events_are_the_roll_rows(seeded_db):
+    from routes.table import insert_roll, recent_rolls
+
+    camp_id = _campaign(seeded_db["db_path"], 1)
+    db = _db(seeded_db["db_path"])
+    try:
+        insert_roll(db, campaign_id=camp_id, who="dm", expression="1d20+2", results=[11],
+                    label="Save")
+        rows = recent_rolls(db, camp_id, 10)
+        assert rows[0]["label"] == "Save"
+        assert rows[0]["total"] == 13
+    finally:
+        db.close()
+
+
+def _request(path: str, token: str = "", last_event_id=None):
+    """A minimal ASGI request, so a streaming route can be called without streaming it.
+
+    TestClient reads the whole body, and an event stream has no end — calling the route
+    directly is the only way to assert its contract in a unit test. Real delivery over
+    HTTP is proven in the slice verification against the deployed service.
+    """
+    from starlette.requests import Request
+
+    headers = [(b"host", b"testserver"), (b"user-agent", b"Mozilla/5.0")]
+    if token:
+        headers.append((b"cookie", ("dnd_token=%s; csrf_token=t" % token).encode()))
+    if last_event_id is not None:
+        headers.append((b"last-event-id", str(last_event_id).encode()))
+    return Request({
+        "type": "http", "http_version": "1.1", "method": "GET", "scheme": "http",
+        "path": path, "raw_path": path.encode(), "query_string": b"",
+        "headers": headers, "server": ("testserver", 80), "client": ("127.0.0.1", 12345),
+    })
+
+
+def test_stream_requires_ownership(seeded_db):
+    """No session: refused. A bystander: 404, never a 403 that confirms the campaign exists."""
+    import asyncio
+
+    from fastapi import HTTPException
+
+    from routes.table import campaign_stream
+
+    camp_id = _campaign(seeded_db["db_path"], 1)
+    path = f"/api/campaign/{camp_id}/stream"
+
+    with pytest.raises(HTTPException):
+        asyncio.run(campaign_stream(camp_id, _request(path)))
+
+    bystander = _other_user(seeded_db["db_path"])
+    resp = asyncio.run(campaign_stream(camp_id, _request(path, token=bystander)))
+    assert resp.status_code == 404
+
+
+def test_stream_response_is_an_event_stream(seeded_db):
+    """Headers matter: a cached or compressed stream arrives as one late burst."""
+    import asyncio
+
+    from routes.table import campaign_stream
+
+    camp_id = _campaign(seeded_db["db_path"], 1)
+    resp = asyncio.run(campaign_stream(
+        camp_id, _request(f"/api/campaign/{camp_id}/stream", token=seeded_db["user_token"])))
+
+    assert resp.status_code == 200
+    assert resp.media_type == "text/event-stream"
+    assert "no-cache" in resp.headers["cache-control"]
+    assert "no-transform" in resp.headers["cache-control"]
+    assert resp.headers["x-accel-buffering"] == "no"
+
+
+def test_stream_honours_last_event_id_from_the_header(seeded_db):
+    """EventSource sends Last-Event-ID on reconnect: the route must replay from it."""
+    import asyncio
+    import json as _json
+
+    from routes.table import campaign_stream, insert_roll
+
+    camp_id = _campaign(seeded_db["db_path"], 1)
+    db = _db(seeded_db["db_path"])
+    try:
+        first = insert_roll(db, campaign_id=camp_id, who="dm", expression="1d20", results=[5])
+        second = insert_roll(db, campaign_id=camp_id, who="dm", expression="1d20", results=[9])
+    finally:
+        db.close()
+
+    resp = asyncio.run(campaign_stream(
+        camp_id, _request(f"/api/campaign/{camp_id}/stream",
+                          token=seeded_db["user_token"], last_event_id=first["id"])))
+
+    async def _first_frame():
+        async for chunk in resp.body_iterator:
+            return chunk
+        return ""
+
+    frame = asyncio.run(_first_frame())
+    assert _json.loads(_data_of(frame))["id"] == second["id"]
+
+
+

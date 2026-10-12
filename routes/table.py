@@ -131,6 +131,105 @@ def recent_rolls(db, campaign_id: int, limit: int = 50, *, include_hidden: bool 
     return [row_to_dict(r) for r in db.execute(sql, params).fetchall()]
 
 
+# ── the stream ──────────────────────────────────────────────────────────────────────
+
+# A reconnect should not dump the whole feed at a client that missed a moment. Anything
+# beyond this many missed rolls means "reload the page", which reads /rolls.
+REPLAY_MAX = 200
+
+HEARTBEAT_SECONDS = 20.0
+
+
+def frame_for(roll: dict) -> str:
+    """One SSE frame. `data` is JSON built by json.dumps, so a label can never break the frame."""
+    payload = json.dumps({**roll, "kind": "roll"}, ensure_ascii=False)
+    return f"id: {roll.get('id', 0)}\nevent: roll\ndata: {payload}\n\n"
+
+
+def replay_gap(db, campaign_id: int, last_id: int, *, include_hidden: bool = True) -> list[dict]:
+    """The rolls a reconnecting client missed, oldest first."""
+    if not last_id or int(last_id) <= 0:
+        return []
+    sql = "SELECT * FROM roll_log WHERE campaign_id = ? AND id > ?"
+    params: list = [int(campaign_id), int(last_id)]
+    if not include_hidden:
+        sql += " AND hidden = 0"
+    sql += " ORDER BY id ASC LIMIT ?"
+    params.append(REPLAY_MAX)
+    return [row_to_dict(r) for r in db.execute(sql, params).fetchall()]
+
+
+async def stream_frames(campaign_id: int, *, last_id: int = 0, heartbeat: float = HEARTBEAT_SECONDS,
+                        include_hidden: bool = True, keep_alive=None):
+    """Yield SSE frames for one campaign: the missed gap first, then live events.
+
+    `keep_alive` is an optional callable returning False to stop the stream — the player
+    stream uses it to notice that its key was revoked while the connection was open.
+    """
+    import asyncio
+
+    from services import events
+
+    db = get_db()
+    try:
+        gap = replay_gap(db, campaign_id, last_id, include_hidden=include_hidden)
+    finally:
+        db.close()
+
+    q = events.subscribe(campaign_id)
+    try:
+        for roll in gap:
+            yield frame_for(roll)
+        while True:
+            if keep_alive is not None and not keep_alive():
+                return
+            try:
+                event = await asyncio.wait_for(q.get(), timeout=heartbeat)
+            except asyncio.TimeoutError:
+                # A comment frame keeps intermediaries (and Cloudflare's 100s idle timer) happy.
+                yield ": hb\n\n"
+                continue
+            if event.get("kind") != "roll":
+                continue
+            if not include_hidden and event.get("hidden"):
+                continue
+            yield frame_for(event)
+    finally:
+        events.unsubscribe(campaign_id, q)
+
+
+@router.get("/api/campaign/{camp_id}/stream")
+async def campaign_stream(camp_id: int, request: Request):
+    """The DM's live feed for one campaign (rolls and, later, state pokes)."""
+    from fastapi.responses import StreamingResponse
+
+    user = require_user(request)
+    db = get_db()
+    try:
+        if not _require_owned(db, user, "dm_campaigns", camp_id):
+            return JSONResponse({"error": "Campaign not found"}, status_code=404)
+    finally:
+        db.close()
+
+    try:
+        last_id = int(request.headers.get("last-event-id") or 0)
+    except (TypeError, ValueError):
+        last_id = 0
+
+    return StreamingResponse(
+        stream_frames(camp_id, last_id=last_id),
+        media_type="text/event-stream",
+        headers={
+            # no-transform matters: a compressing proxy would buffer the stream and the feed
+            # would arrive in bursts.
+            "Cache-Control": "no-cache, no-transform",
+            "X-Accel-Buffering": "no",
+            "Connection": "keep-alive",
+        },
+    )
+
+
+
 # ── DM side ─────────────────────────────────────────────────────────────────────────
 
 @router.post("/api/campaign/{camp_id}/roll", response_class=JSONResponse)
