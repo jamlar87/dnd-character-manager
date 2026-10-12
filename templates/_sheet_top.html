@@ -23,6 +23,29 @@
         <button class="hp-btn" onclick="resetHP()" title="Reset to full HP"
           style="background:var(--accent2);color:var(--text);border:1px solid var(--border);font-size:0.7rem;padding:0 0.5rem;width:auto">↺ Full</button>
       </div>
+      <!-- Concentration: state, not a note someone typed (PHB p.203) -->
+      <div style="margin-top:0.35rem;padding-top:0.35rem;border-top:1px solid var(--border)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem">
+          <span style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">⟲ Concentration</span>
+          <span id="conc-value" style="font-size:0.68rem;font-weight:600;color:{% if character.concentration %}#f59e0b{% else %}var(--text-muted){% endif %};{% if not character.concentration %}opacity:0.6{% endif %}">{{ character.concentration or 'None' }}</span>
+        </div>
+        <div style="display:flex;gap:0.25rem">
+          <input id="conc-input" placeholder="Spell or effect…" style="flex:1;min-width:0;padding:0.2rem 0.35rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.68rem">
+          <button onclick="setConcentration(document.getElementById('conc-input').value)" title="Concentrating on this"
+            style="font-size:0.6rem;padding:0.15rem 0.45rem;border-radius:4px;border:1px solid var(--border);background:var(--accent2);color:var(--text);cursor:pointer">Set</button>
+          <button onclick="clearConcentration()" title="Concentration ends"
+            style="font-size:0.6rem;padding:0.15rem 0.45rem;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer">Clear</button>
+        </div>
+        <div id="conc-check" style="display:none;margin-top:0.35rem;padding:0.3rem 0.4rem;border:1px solid #f59e0b;border-radius:5px;background:rgba(245,158,11,0.10)">
+          <div id="conc-check-text" style="font-size:0.68rem;color:var(--text)"></div>
+          <div style="display:flex;gap:0.25rem;margin-top:0.3rem;flex-wrap:wrap">
+            <button onclick="rollConcentrationCheck()" style="font-size:0.62rem;padding:0.15rem 0.5rem;border-radius:4px;border:none;background:var(--accent);color:#fff;cursor:pointer">Roll CON save</button>
+            <button onclick="resolveConcentration(true)" style="font-size:0.62rem;padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer">Kept it</button>
+            <button onclick="resolveConcentration(false)" style="font-size:0.62rem;padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer">Lost it</button>
+          </div>
+          <div id="conc-check-result" style="font-size:0.68rem;margin-top:0.25rem"></div>
+        </div>
+      </div>
       <!-- Conditions -->
       <div style="margin-top:0.35rem;padding-top:0.35rem;border-top:1px solid var(--border);position:relative">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem;cursor:pointer;user-select:none" onclick="toggleConditions()">

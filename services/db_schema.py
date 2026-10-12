@@ -406,6 +406,14 @@ def _migrate_npc_source_columns():
     except sqlite3.OperationalError:
         pass
 
+    # Concentration as STATE, not a note someone typed: 5e allows one at a time, damage forces a
+    # CON save (PHB p.203), and the DC depends on the damage taken — none of which a free-text
+    # condition can express.
+    try:
+        db.execute("ALTER TABLE characters ADD COLUMN concentration TEXT DEFAULT ''")
+    except sqlite3.OperationalError:
+        pass
+
     # Migration: shared flags
     for table, column in [("characters", "shared"), ("dm_encounters", "shared")]:
         try:

@@ -1073,3 +1073,155 @@ def test_the_tracker_no_longer_posts_to_a_route_that_does_not_exist():
     backend = "\n".join(f.read_text() for f in routes_src)
     for url in urls:
         assert url.strip('"') in backend or url in backend, f"{url} is not a route"
+
+
+# ── Slice 9: concentration as state, and the save damage forces (PHB p.203) ──────────
+
+def test_the_concentration_dc_follows_the_damage():
+    from routes.table import concentration_dc
+
+    assert concentration_dc(1) == 10, "a scratch is still DC 10"
+    assert concentration_dc(21) == 10, "half of 21 rounds to 10, and 10 is not higher than 10"
+    assert concentration_dc(22) == 11
+    assert concentration_dc(25) == 12
+    assert concentration_dc(44) == 22
+    assert concentration_dc(0) == 10
+
+
+def test_damage_on_a_concentrating_character_sends_the_save(seeded_db, client, auth_headers):
+    from services import events
+
+    char_id = _character(seeded_db["db_path"], 1)
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": char_id, "name": "Rowan"}])
+
+    q = events.subscribe(camp_id)          # subscribe BEFORE the writes: the bus has no memory
+    try:
+        assert client.post(f"/api/character/{char_id}/concentration", json={"spell": "Hex"},
+                           headers=auth_headers).status_code == 200
+        client.post(f"/api/character/{char_id}/update", json={"hp_current": 30}, headers=auth_headers)
+        client.post(f"/api/character/{char_id}/update", json={"hp_current": 14}, headers=auth_headers)
+
+        seen = []
+        while q.qsize():
+            seen.append(q.get_nowait())
+        damaged = [e for e in seen if e.get("damage")]
+        assert damaged, f"no damage event among {seen}"
+        ev = damaged[-1]
+        assert ev["damage"] == 16, "the damage is the difference only the write path sees"
+        assert ev["concentration_dc"] == 10
+        assert ev["concentration"] == "Hex"
+        assert all("concentration_dc" not in e for e in seen[:-1]), "only the damage asks for a save"
+    finally:
+        events.unsubscribe(camp_id, q)
+
+
+def test_a_heal_or_a_no_op_never_asks_for_a_save(seeded_db, client, auth_headers):
+    from services import events
+
+    char_id = _character(seeded_db["db_path"], 1)
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": char_id, "name": "Rowan"}])
+
+    q = events.subscribe(camp_id)
+    try:
+        client.post(f"/api/character/{char_id}/concentration", json={"spell": "Bless"}, headers=auth_headers)
+        while q.qsize():
+            q.get_nowait()                              # the concentration change itself
+
+        client.post(f"/api/character/{char_id}/update", json={"hp_current": 30}, headers=auth_headers)
+        assert q.qsize() == 1
+        healing = q.get_nowait()
+        assert healing["damage"] == 0 and "concentration_dc" not in healing
+
+        client.post(f"/api/character/{char_id}/update", json={"hp_current": 30}, headers=auth_headers)
+        assert q.qsize() == 1
+        same = q.get_nowait()
+        assert "concentration_dc" not in same, "writing the same number is not damage"
+
+        client.post(f"/api/character/{char_id}/update", json={"notes": "hello"}, headers=auth_headers)
+        assert q.qsize() == 0, "a notes save says nothing to the table"
+    finally:
+        events.unsubscribe(camp_id, q)
+
+
+def test_damage_without_concentration_asks_for_nothing(seeded_db, client, auth_headers):
+    from services import events
+
+    char_id = _character(seeded_db["db_path"], 1)
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": char_id, "name": "Rowan"}])
+
+    q = events.subscribe(camp_id)
+    try:
+        client.post(f"/api/character/{char_id}/update", json={"hp_current": 5}, headers=auth_headers)
+        ev = q.get_nowait()
+        assert ev["damage"] > 0 and "concentration_dc" not in ev
+    finally:
+        events.unsubscribe(camp_id, q)
+
+
+def test_the_dms_damage_sends_the_save_too(seeded_db, client, auth_headers):
+    """The tracker is a second writer, and the player's sheet must hear the same DC from it."""
+    from services import events
+
+    char_id = _character(seeded_db["db_path"], 2)
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": char_id, "name": "Rowan"}])
+    db = _db(seeded_db["db_path"])
+    db.execute("UPDATE characters SET hp_current=40, concentration='Spirit Guardians' WHERE id=?",
+               (char_id,))
+    db.commit()
+    db.close()
+
+    q = events.subscribe(camp_id)
+    try:
+        assert client.post("/api/dm/character-hp", json={"character_id": char_id, "hp_current": 15},
+                           headers=auth_headers).status_code == 200
+        ev = q.get_nowait()
+        assert ev["damage"] == 25 and ev["concentration_dc"] == 12 and ev["concentration"] == "Spirit Guardians"
+    finally:
+        events.unsubscribe(camp_id, q)
+
+
+def test_setting_and_clearing_concentration_is_state_and_says_so(seeded_db, client, auth_headers):
+    from services import events
+
+    char_id = _character(seeded_db["db_path"], 1)
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": char_id, "name": "Rowan"}])
+
+    q = events.subscribe(camp_id)
+    try:
+        r = client.post(f"/api/character/{char_id}/concentration", json={"spell": "Hunter's Mark"},
+                        headers=auth_headers)
+        assert r.status_code == 200 and r.json()["concentration"] == "Hunter's Mark"
+        assert q.get_nowait()["concentration"] == "Hunter's Mark"
+
+        r = client.post(f"/api/character/{char_id}/concentration", json={"spell": ""},
+                        headers=auth_headers)
+        assert r.json()["concentration"] == ""
+        assert "concentration" not in q.get_nowait(), "cleared means cleared"
+
+        db = _db(seeded_db["db_path"])
+        assert db.execute("SELECT concentration FROM characters WHERE id=?",
+                          (char_id,)).fetchone()[0] == ""
+        db.close()
+    finally:
+        events.unsubscribe(camp_id, q)
+
+
+def test_concentration_is_owner_scoped(seeded_db, client, auth_headers):
+    stranger = _character(seeded_db["db_path"], 2, "Not Mine")
+    assert client.post(f"/api/character/{stranger}/concentration", json={"spell": "Hex"},
+                       headers=auth_headers).status_code == 404
+
+
+def test_the_sheet_carries_the_concentration_card_and_the_check():
+    """Text guards: the card, the prompt, and reading the CON save the sheet already shows."""
+    import pathlib
+
+    repo = pathlib.Path(__file__).resolve().parent.parent
+    tpl = (repo / "templates" / "_sheet_top.html").read_text()
+    js = (repo / "static" / "sheet.js").read_text()
+    assert 'id="conc-value"' in tpl and 'id="conc-check"' in tpl
+    assert "character.concentration" in tpl, "the card must render the stored state"
+    assert "function showConcentrationCheck(" in js
+    assert "payload.concentration_dc" in js, "the prompt has to come from the event's DC"
+    assert "function _conSaveBonus(" in js and ".save-row" in js, "read the sheet's own CON save"
+    assert "concentration_dc" in (repo / "routes" / "table.py").read_text()

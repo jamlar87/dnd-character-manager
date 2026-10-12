@@ -6569,4 +6569,100 @@ function _onSheetChanged(payload) {
     clearTimeout(st._clear);
     st._clear = setTimeout(function () { st.textContent = ''; }, 4000);
   }
+  // Damage landed while this character holds a spell: the rules owe a save, and the server sent
+  // the DC with the event because only the write path knows the damage (PHB p.203).
+  if (payload.concentration_dc) {
+    showConcentrationCheck(payload.concentration_dc, payload.damage || 0, payload.concentration || '');
+  }
+}
+
+// ── Concentration as state, with the save the rules demand ──────────────────────────────
+
+let _concDC = 0;
+
+async function setConcentration(spell) {
+  spell = (spell || '').trim();
+  if (!spell) return clearConcentration();
+  const r = await fetch('/api/character/' + CHAR_ID + '/concentration', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({spell: spell})
+  });
+  if (!r.ok) { _concSay('Could not save concentration (' + r.status + ')'); return; }
+  _concApply(spell);
+}
+
+async function clearConcentration() {
+  const r = await fetch('/api/character/' + CHAR_ID + '/concentration', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({spell: ''})
+  });
+  if (!r.ok) return;
+  _concApply('');
+}
+
+function _concApply(spell) {
+  const v = document.getElementById('conc-value');
+  if (v) {
+    v.textContent = spell || 'None';
+    v.style.color = spell ? '#f59e0b' : 'var(--text-muted)';
+    v.style.opacity = spell ? '1' : '0.6';
+  }
+  const i = document.getElementById('conc-input');
+  if (i) i.value = '';
+}
+
+function showConcentrationCheck(dc, damage, spell) {
+  _concDC = dc;
+  const box = document.getElementById('conc-check');
+  const text = document.getElementById('conc-check-text');
+  if (!box || !text) return;
+  text.innerHTML = 'Took <strong>' + damage + '</strong> damage' + (spell ? ' while concentrating on <strong>' + spell + '</strong>' : '') +
+                   ' — Constitution save <strong>DC ' + dc + '</strong>.';
+  const res = document.getElementById('conc-check-result');
+  if (res) res.textContent = '';
+  box.style.display = '';
+}
+
+/** The sheet already shows this character's CON save; read it rather than recompute the rules. */
+function _conSaveBonus() {
+  for (const row of document.querySelectorAll('.save-row')) {
+    const name = row.querySelector('.stat-name');
+    if (name && /^CON/i.test(name.textContent.trim())) {
+      const val = row.querySelector('.stat-val');
+      const n = parseInt(((val ? val.textContent : '') || '').replace(/[^0-9-]/g, ''), 10);
+      return isNaN(n) ? 0 : n;
+    }
+  }
+  return 0;
+}
+
+async function rollConcentrationCheck() {
+  const mod = _conSaveBonus();
+  const roll = 1 + Math.floor(Math.random() * 20);
+  const total = roll + mod;
+  const ok = total >= _concDC;
+  const el = document.getElementById('conc-check-result');
+  if (el) {
+    el.innerHTML = 'd20 <strong>' + roll + '</strong> ' + (mod < 0 ? '− ' + Math.abs(mod) : '+ ' + mod) +
+                   ' = <strong>' + total + '</strong> vs DC ' + _concDC + ' — ' +
+                   (ok ? '<span style="color:#4ade80">held</span>' : '<span style="color:#f87171">lost</span>');
+  }
+  if (!ok) await clearConcentration();
+}
+
+async function resolveConcentration(kept) {
+  const el = document.getElementById('conc-check-result');
+  if (!kept) {
+    await clearConcentration();
+    if (el) el.innerHTML += ' — concentration ended.';
+  } else if (el) {
+    el.innerHTML += ' — still concentrating.';
+  }
+  const box = document.getElementById('conc-check');
+  if (box) setTimeout(function () { box.style.display = 'none'; }, 5000);
+}
+
+function _concSay(msg) {
+  const el = document.getElementById('conc-check-result');
+  if (el) el.textContent = msg;
 }

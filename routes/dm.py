@@ -3366,7 +3366,8 @@ async def dm_character_hp(request: Request):
 
     db = get_db()
     try:
-        char = db.execute("SELECT id, name, user_id FROM characters WHERE id = ?", (char_id,)).fetchone()
+        char = db.execute("SELECT id, name, user_id, hp_current, concentration FROM characters WHERE id = ?",
+                          (char_id,)).fetchone()
         if not char:
             return JSONResponse({"error": "Character not found"}, status_code=404)
         if not _is_admin(user) and char["user_id"] != user["id"]:
@@ -3381,10 +3382,11 @@ async def dm_character_hp(request: Request):
     finally:
         db.close()
 
-    # The player's sheet, and every other screen, hears about it through the channel that exists.
-    from routes.table import publish_character_state
+    # The player's sheet, and every other screen, hears about it through the channel that exists —
+    # and a concentrating character hears the DC of the save this damage just forced.
+    from routes.table import publish_hp_change
 
-    publish_character_state(char_id, kind="hp", hp_current=hp)
+    publish_hp_change(char_id, char["hp_current"], hp, concentration=char["concentration"] or "")
     return JSONResponse({"ok": True, "character_id": char_id, "hp_current": hp})
 
 

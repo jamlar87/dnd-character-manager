@@ -1289,10 +1289,18 @@ async def update_character(char_id: int, request: Request, body: UpdateCharacter
     # mirrors conditions and summons as well as HP, so those count too — a change it cannot hear
     # about is a screen that goes stale the moment its own poll is demoted.
     if {"hp_current", "hp_max", "temp_hp"} & set(updates):
-        _publish_change(char_id, "hp",
-                        hp_current=updates.get("hp_current"),
-                        hp_max=updates.get("hp_max"),
-                        temp_hp=updates.get("temp_hp"))
+        # Damage is the difference between the value before and after THIS write: only the write
+        # path can see it, and it decides whether a concentrating character owes a Constitution
+        # save (PHB p.203) — so the DC rides along with the event instead of being guessed at.
+        try:
+            from routes.table import publish_hp_change
+
+            publish_hp_change(char_id, row["hp_current"],
+                              updates.get("hp_current", row["hp_current"]),
+                              concentration=row["concentration"] or "")
+        except Exception:
+            # Saving the sheet must never fail because the feed is having a bad day.
+            pass
     elif "summons" in updates:
         # Only summons can arrive here: `conditions` is not in this route's allowed set, and the
         # condition routes publish their own change (a branch that claimed to handle it would be
@@ -1522,6 +1530,29 @@ async def get_conditions(char_id: int, request: Request):
     except (json.JSONDecodeError, TypeError):
         conditions = []
     return JSONResponse({"conditions": conditions, "char_name": row["name"]})
+
+@router.post("/api/character/{char_id}/concentration", response_class=JSONResponse)
+async def set_concentration(char_id: int, request: Request):
+    """What this character is concentrating on — one at a time, or clear it with an empty spell.
+
+    Kept as state rather than a free-text condition because the rules act on it: damage forces a
+    CON save whose DC depends on the damage, and losing it ends the spell.
+    """
+    user = require_user(request)
+    data = await request.json()
+    spell = str(data.get("spell") or "").strip()[:120]
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    if not row:
+        db.close()
+        return JSONResponse({"error": "Not found"}, status_code=404)
+    db.execute("UPDATE characters SET concentration=? WHERE id=? AND user_id=?",
+               (spell, char_id, user["id"]))
+    db.commit()
+    db.close()
+    _publish_change(char_id, "sheet", concentration=spell or None)
+    return JSONResponse({"ok": True, "concentration": spell})
+
 
 @router.post("/api/character/{char_id}/conditions", response_class=JSONResponse)
 async def add_condition(char_id: int, request: Request):

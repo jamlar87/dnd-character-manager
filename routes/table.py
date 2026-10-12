@@ -609,14 +609,42 @@ async def character_feed_stream(char_id: int, request: Request):
 # underneath the open page — the player's own second tab, a rest, a level-up. That is what
 # these events carry, so the timer can stop being the mechanism.
 
-def publish_character_state(char_id: int, *, kind: str = "hp", hp_current=None, hp_max=None,
-                            temp_hp=None) -> bool:
+def concentration_dc(damage: int) -> int:
+    """PHB p.203: DC 10 or half the damage taken, whichever is higher."""
+    return max(10, int(damage) // 2)
+
+
+def publish_hp_change(char_id: int, old_hp, new_hp, *, concentration: str = "") -> bool:
+    """Warn the table about an HP write — and, when damage lands on a concentrating character, say
+    what save it owes.
+
+    The DC only means anything if someone can compute it, and the damage is the difference between
+    the value before and after the write: that is knowledge only the write path has. Sending it
+    with the event means the player's sheet can prompt with the right number, and the rules stay on
+    one side of the wire (the client is not asked to know PHB p.203).
+    """
+    damage = 0
+    try:
+        if old_hp is not None and new_hp is not None:
+            damage = max(0, int(old_hp) - int(new_hp))
+    except (TypeError, ValueError):
+        damage = 0
+
+    fields = {"damage": damage}
+    if damage and (concentration or "").strip():
+        fields["concentration"] = concentration.strip()
+        fields["concentration_dc"] = concentration_dc(damage)
+    return publish_character_state(char_id, kind="hp", hp_current=new_hp, **fields)
+
+
+def publish_character_state(char_id: int, *, kind: str = "hp", **fields) -> bool:
     """Tell the character's table that their sheet changed. No campaign means nobody listens.
 
     Two kinds, both "something on this sheet moved, go and read it": `hp` when hit points changed
-    and `sheet` for everything else a tracker mirrors (conditions, summons). Clients refresh the
-    same way for either — the kind is there so a listener can tell what to say out loud, not to
-    decide whether to bother reading.
+    and `sheet` for everything else a tracker mirrors (conditions, summons, concentration). Clients
+    refresh the same way for either — the kind is there so a listener can tell what to say out
+    loud, not to decide whether to bother reading. Extra fields ride along for listeners that need
+    the rules rather than just the news (`damage`, `concentration_dc`).
     """
     from services import events
 
@@ -630,12 +658,7 @@ def publish_character_state(char_id: int, *, kind: str = "hp", hp_current=None, 
     finally:
         db.close()
 
-    events.publish(camp_id, {
-        "kind": kind,
-        "character_id": int(char_id),
-        "character_name": name,
-        "hp_current": hp_current,
-        "hp_max": hp_max,
-        "temp_hp": temp_hp,
-    })
+    event = {"kind": kind, "character_id": int(char_id), "character_name": name}
+    event.update({k: v for k, v in fields.items() if v is not None})
+    events.publish(camp_id, event)
     return True
