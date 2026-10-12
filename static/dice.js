@@ -8,6 +8,13 @@
  *   DiceRoller.parse(expr) -> {count, sides, mod} | null
  *   DiceRoller.roll(expr)  -> {expr, rolls, mod, total, text}
  *   DiceRoller.enhance(root) -> wraps matches in span.dice-roll, idempotent
+ *   DiceRoller.setSink(fn) -> every roll reports to fn(result), or null to detach
+ *
+ * The sink is what lets the table's shared roll feed see a roll without every roll site
+ * knowing it exists. It fires from INSIDE roll(), not from a patched DiceRoller.roll:
+ * enhance()'s click handler calls the closure-local roll, so wrapping the exported function
+ * would silently miss every click-to-roll in the app. A sink that throws is swallowed —
+ * a roll must never fail because the feed is down.
  *
  * Rules this file must keep:
  * - No code evaluation, and no HTML-string assignment of page text (build nodes with
@@ -21,6 +28,8 @@
   'use strict';
 
   var DICE_RE = /(?<![A-Za-z0-9_.])(\d{0,3})d(\d{1,3})(?:\s*([+-])\s*(\d{1,3}))?(?![A-Za-z0-9_])/gi;
+
+  var sink = null;
 
   var SKIP_TAGS = { SCRIPT: 1, STYLE: 1, TEXTAREA: 1, INPUT: 1, SELECT: 1, OPTION: 1,
                     BUTTON: 1, A: 1, CODE: 1, PRE: 1 };
@@ -54,7 +63,18 @@
     var parts = [String(rolls.join(' + '))];
     if (spec.mod) parts.push((spec.mod > 0 ? '+ ' : '- ') + Math.abs(spec.mod));
     var text = expr.trim() + ' = ' + parts.join(' ');
-    return { expr: expr.trim(), rolls: rolls, mod: spec.mod, total: total, text: text };
+    var result = { expr: expr.trim(), rolls: rolls, mod: spec.mod, total: total, text: text };
+    if (sink) {
+      // Never let the feed break the dice: a failed publish is a missing line in a log,
+      // not a roll the player did not get to make.
+      try { sink(result); } catch (e) { /* ignore */ }
+    }
+    return result;
+  }
+
+  function setSink(fn) {
+    sink = (typeof fn === 'function') ? fn : null;
+    return !!sink;
   }
 
   function ensureStyle() {
@@ -160,7 +180,7 @@
     return made;
   }
 
-  window.DiceRoller = { parse: parse, roll: roll, enhance: enhance };
+  window.DiceRoller = { parse: parse, roll: roll, enhance: enhance, setSink: setSink };
 
   if (typeof document !== 'undefined' && document.addEventListener) {
     document.addEventListener('DOMContentLoaded', function () {
