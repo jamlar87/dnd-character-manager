@@ -109,3 +109,184 @@ def test_unsubscribe_is_idempotent():
     events.unsubscribe(14, q)
     events.unsubscribe(14, q)
     assert events.subscriber_count(14) == 0
+
+
+# ── Slice 1c: the roll write path ───────────────────────────────────────────────────
+
+def _db(db_path):
+    """A row_factory connection to the test DB — the same shape get_db() hands the routes."""
+    con = sqlite3.connect(str(db_path))
+    con.row_factory = sqlite3.Row
+    return con
+
+
+def _campaign(db_path, user_id: int, name: str = "Feed test") -> int:
+    con = _db(db_path)
+    try:
+        cur = con.execute("INSERT INTO dm_campaigns (user_id, name) VALUES (?, ?)",
+                          (user_id, name))
+        con.commit()
+        return int(cur.lastrowid or 0)
+    finally:
+        con.close()
+
+
+def test_insert_roll_computes_the_total_server_side(test_db):
+    """A client may not post a total: it is derived from the dice it claims to have rolled."""
+    from routes.table import insert_roll
+
+    db = _db(test_db)
+    try:
+        row = insert_roll(db, campaign_id=1, who="dm", expression="1d20+5", results=[17])
+        assert row["total"] == 22
+        assert row["results"] == [17]
+        assert row["who"] == "dm"
+    finally:
+        db.close()
+
+
+def test_insert_roll_rejects_anything_that_is_not_a_dice_expression(test_db):
+    from routes.table import insert_roll
+
+    db = _db(test_db)
+    try:
+        for bad in ("; DROP TABLE roll_log", "1d2000", "200d6", "fireball", "", "1d20+5; --"):
+            with pytest.raises(ValueError):
+                insert_roll(db, campaign_id=1, expression=bad, results=[1])
+    finally:
+        db.close()
+
+
+def test_insert_roll_rejects_results_that_do_not_match_the_expression(test_db):
+    from routes.table import insert_roll
+
+    db = _db(test_db)
+    try:
+        with pytest.raises(ValueError):
+            insert_roll(db, campaign_id=1, expression="1d20", results=[1, 2, 3])   # too many
+        with pytest.raises(ValueError):
+            insert_roll(db, campaign_id=1, expression="2d6", results=[7, 1])       # face > sides
+        with pytest.raises(ValueError):
+            insert_roll(db, campaign_id=1, expression="1d20", results=[0])         # impossible face
+    finally:
+        db.close()
+
+
+def test_insert_roll_prunes_to_the_newest_500(test_db):
+    from routes.table import insert_roll, FEED_LIMIT
+
+    db = _db(test_db)
+    try:
+        for i in range(FEED_LIMIT + 5):
+            insert_roll(db, campaign_id=1, who="dm", expression="1d20", results=[1],
+                        label="roll %d" % i)
+        rows = db.execute("SELECT COUNT(*) FROM roll_log WHERE campaign_id=1").fetchone()[0]
+        assert rows == FEED_LIMIT
+        newest = db.execute("SELECT label FROM roll_log WHERE campaign_id=1 "
+                            "ORDER BY id DESC LIMIT 1").fetchone()[0]
+        assert newest == "roll %d" % (FEED_LIMIT + 4)
+        # another campaign's rows are untouched by the prune
+        insert_roll(db, campaign_id=2, who="dm", expression="1d20", results=[1])
+        assert db.execute("SELECT COUNT(*) FROM roll_log WHERE campaign_id=2").fetchone()[0] == 1
+    finally:
+        db.close()
+
+
+# ── Slice 1d: the DM endpoints ──────────────────────────────────────────────────────
+
+def _other_user(db_path) -> str:
+    """A third account that owns nothing — the scope probe needs a NON-admin bystander."""
+    import secrets as _secrets
+
+    token = _secrets.token_hex(32)
+    con = _db(db_path)
+    try:
+        cur = con.execute("INSERT INTO users (email, password_hash, is_admin) VALUES (?, ?, 0)",
+                          ("bystander-%s@example.com" % token[:8], "x"))
+        con.execute("INSERT INTO sessions (user_id, token) VALUES (?, ?)", (cur.lastrowid, token))
+        con.commit()
+    finally:
+        con.close()
+    return token
+
+
+def _hdr(token: str) -> dict:
+    return {"Cookie": f"dnd_token={token}; csrf_token=t", "X-CSRF-Token": "t"}
+
+
+def test_roll_endpoint_writes_the_roll_and_returns_it(seeded_db, client, auth_headers):
+    camp_id = _campaign(seeded_db["db_path"], 1)
+    resp = client.post(f"/api/campaign/{camp_id}/roll", headers=auth_headers,
+                       json={"expression": "1d20+5", "results": [17], "label": "Longsword"})
+    assert resp.status_code == 200, resp.text
+    roll = resp.json()["roll"]
+    assert roll["total"] == 22 and roll["who"] == "dm" and roll["label"] == "Longsword"
+    assert roll["hidden"] is False
+
+    hist = client.get(f"/api/campaign/{camp_id}/rolls", headers=auth_headers)
+    assert hist.status_code == 200
+    assert [r["id"] for r in hist.json()["rolls"]] == [roll["id"]]
+
+
+def test_roll_endpoint_rejects_a_bad_expression(seeded_db, client, auth_headers):
+    camp_id = _campaign(seeded_db["db_path"], 1)
+    resp = client.post(f"/api/campaign/{camp_id}/roll", headers=auth_headers,
+                       json={"expression": "1d20'; DROP TABLE roll_log; --", "results": [3]})
+    assert resp.status_code == 400
+    con = _db(seeded_db["db_path"])
+    try:
+        assert con.execute("SELECT COUNT(*) FROM roll_log").fetchone()[0] == 0
+        # the table still exists
+        assert con.execute("SELECT COUNT(*) FROM sqlite_master WHERE name='roll_log'") \
+            .fetchone()[0] == 1
+    finally:
+        con.close()
+
+
+def test_roll_endpoints_are_scoped_to_the_owning_dm(seeded_db, client, auth_headers):
+    camp_id = _campaign(seeded_db["db_path"], 1)
+    bystander = _other_user(seeded_db["db_path"])
+
+    assert client.get(f"/api/campaign/{camp_id}/rolls", headers=_hdr(bystander)) \
+        .status_code == 404
+    assert client.post(f"/api/campaign/{camp_id}/roll", headers=_hdr(bystander),
+                       json={"expression": "1d20", "results": [3]}).status_code == 404
+    con = _db(seeded_db["db_path"])
+    try:
+        assert con.execute("SELECT COUNT(*) FROM roll_log").fetchone()[0] == 0
+    finally:
+        con.close()
+
+
+def test_rolls_endpoint_returns_newest_first(seeded_db, client, auth_headers):
+    camp_id = _campaign(seeded_db["db_path"], 1)
+    ids = []
+    for i in range(3):
+        resp = client.post(f"/api/campaign/{camp_id}/roll", headers=auth_headers,
+                           json={"expression": "1d20", "results": [i + 1], "label": "r%d" % i})
+        ids.append(resp.json()["roll"]["id"])
+
+    listed = client.get(f"/api/campaign/{camp_id}/rolls", headers=auth_headers).json()["rolls"]
+    assert [r["id"] for r in listed] == list(reversed(ids))
+    # a limit is clamped, never an unbounded read
+    assert len(client.get(f"/api/campaign/{camp_id}/rolls?limit=2", headers=auth_headers)
+               .json()["rolls"]) == 2
+
+
+def test_a_committed_roll_is_published_to_subscribers(seeded_db, client, auth_headers):
+    """The push happens after the write: a subscriber sees exactly what the log holds."""
+    from services import events
+
+    camp_id = _campaign(seeded_db["db_path"], 1)
+    q = events.subscribe(camp_id)
+    try:
+        resp = client.post(f"/api/campaign/{camp_id}/roll", headers=auth_headers,
+                           json={"expression": "2d6", "results": [3, 4]})
+        assert resp.status_code == 200
+        event = q.get_nowait()
+        assert event["kind"] == "roll"
+        assert event["id"] == resp.json()["roll"]["id"]
+        assert event["total"] == 7
+    finally:
+        events.unsubscribe(camp_id, q)
+
