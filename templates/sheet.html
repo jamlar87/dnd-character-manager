@@ -38,6 +38,26 @@
         {% if character.maneuvers %}<span class="badge" style="background:rgba(178,34,34,0.12);border:1px solid #b22222;color:#f08080;font-size:0.65rem;cursor:help" title="{{ character.maneuvers|join(', ') }}">Maneuvers</span>{% endif %}
         {% if character.magical_secrets %}<span class="badge" style="background:rgba(220,20,60,0.12);border:1px solid #dc143c;color:#ff69b4;font-size:0.65rem;cursor:help" title="{{ character.magical_secrets|join(', ') }}">Magical Secrets</span>{% endif %}
         {% if character.totem_spirits %}<span class="badge" style="background:rgba(34,139,34,0.12);border:1px solid #228b22;color:#3cb371;font-size:0.65rem;cursor:help" title="{{ character.totem_spirits.values()|join(', ') }}">Totem</span>{% endif %}
+        {# XP: a fact about the character, from the server's own thresholds (services.leveling) —
+           levelling up stays the sheet's own action, this only says what is earned and what is owed #}
+        <div id="xp-row" style="display:flex;align-items:center;gap:0.4rem;margin-top:0.3rem;font-size:0.66rem;color:var(--text-muted);flex-wrap:wrap">
+          <span id="xp-total" title="Experience earned">{{ '{:,}'.format(character.xp or 0) }} XP</span>
+          <div style="width:110px;height:5px;background:var(--bg);border:1px solid var(--border);border-radius:3px;overflow:hidden;flex-shrink:0">
+            {% if xp_prog and xp_prog.next_at and xp_prog.next_at > xp_prog.prev_at %}
+            {% set pct = ((character.xp or 0) - xp_prog.prev_at) * 100 // (xp_prog.next_at - xp_prog.prev_at) %}
+            <div id="xp-bar" style="height:100%;width:{{ [0, [pct, 100]|min]|max }}%;background:var(--accent)"></div>
+            {% else %}
+            <div id="xp-bar" style="height:100%;width:100%;background:var(--accent)"></div>
+            {% endif %}
+          </div>
+          {% if xp_prog and xp_prog.capped %}
+          <span id="xp-next" style="color:var(--accent)">Level 20 — capped</span>
+          <span id="xp-ready" style="display:none"></span>
+          {% else %}
+          <span id="xp-next">{{ '{:,}'.format(xp_prog.to_next if xp_prog else 0) }} to L{{ (xp_prog.level + 1) if xp_prog else '?' }}</span>
+          <span id="xp-ready" style="{% if not (xp_prog and xp_prog.ready) %}display:none;{% endif %}color:var(--success,#4ade80);font-weight:700">★ Ready to level up</span>
+          {% endif %}
+        </div>
         {% if character.hunters_prey %}<span class="badge" style="background:rgba(0,100,0,0.12);border:1px solid #006400;color:#2e8b57;font-size:0.65rem;cursor:help" title="{{ character.hunters_prey }}">Hunter: {{ character.hunters_prey|replace('_',' ')|title }}</span>{% endif %}
         {% if character.favored_enemies %}{% set fe_list = character.favored_enemies %}{% if fe_list|length > 0 %}<span class="badge" style="background:rgba(139,69,19,0.12);border:1px solid #8b4513;color:#cd853f;font-size:0.65rem;cursor:help" title="Favored Enemy: {{ fe_list|join(', ') }}">🎯 {{ fe_list|join(', ')|replace('_',' ')|title }}</span>{% endif %}{% endif %}
         {% if character.favored_terrains %}{% set ft_list = character.favored_terrains %}{% if ft_list|length > 0 %}<span class="badge" style="background:rgba(34,139,34,0.12);border:1px solid #228b22;color:#3cb371;font-size:0.65rem;cursor:help" title="Favored Terrain: {{ ft_list|join(', ') }}">🌲 {{ ft_list|join(', ')|replace('_',' ')|title }}</span>{% endif %}{% endif %}

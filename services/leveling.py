@@ -1080,3 +1080,32 @@ WARLOCK_EXPANDED_SPELLS_BY_LEVEL: dict[str, dict[int, list[str]]] = {
 # ── Ability score modifier (moved from all.py 2026-07-31) ──
 def modifier(score: int) -> int:
     return (score - 10) // 2
+
+
+# XP required to BE each level (PHB p.15). Index 0 is level 1.
+XP_THRESHOLDS = [
+    0, 300, 900, 2700, 6500, 14000, 23000, 34000, 48000, 64000,
+    85000, 100000, 120000, 140000, 165000, 195000, 225000, 265000, 305000, 355000,
+]
+
+
+def xp_progress(xp, level: int = 1) -> dict:
+    """Where an XP total leaves a character: the level it has earned, what is still owed, and
+    whether the sheet should be saying "level up".
+
+    A total is not a level by itself — levelling is an action with consequences (HP, slots,
+    features) and the sheet owns that flow. This only reports, so the ledger can never quietly
+    rewrite a character.
+    """
+    xp = max(0, int(xp or 0))
+    earned = 1
+    for i, need in enumerate(XP_THRESHOLDS):
+        if xp >= need:
+            earned = i + 1
+    earned = max(earned, min(int(level or 1), 20))
+    if earned >= 20:
+        return {"level": 20, "next_at": None, "prev_at": XP_THRESHOLDS[19], "to_next": 0,
+                "ready": False, "capped": True}
+    next_at = XP_THRESHOLDS[earned]
+    return {"level": earned, "next_at": next_at, "prev_at": XP_THRESHOLDS[earned - 1],
+            "to_next": max(0, next_at - xp), "ready": int(level or 1) < earned, "capped": False}

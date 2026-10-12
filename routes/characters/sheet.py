@@ -1156,7 +1156,10 @@ async def character_sheet(char_id: int, request: Request):
     # (shared with the cached reference asset — see _merged_races_for_popup)
     merged_races = _merged_races_for_popup()
 
-    return _render("sheet.html", request=request, character=char, spells=spells,
+    from services.leveling import xp_progress
+
+    return _render("sheet.html", request=request, xp_prog=xp_progress(char.get("xp"), char.get("level")),
+                   character=char, spells=spells,
                    mi_spells_data=mi_spells_data,
                    dm_preview=dm_preview,
                    sheet_ref_version=ensure_sheet_reference_asset(),
@@ -1626,9 +1629,12 @@ async def sync_combat_hp(request: Request):
         return JSONResponse({"characters": {}})
     db = get_db()
     result = {}
+    from services.leveling import xp_progress
+
     for cid in char_ids:
         row = db.execute(
-            "SELECT name, hp_current, hp_max, summons, conditions FROM characters WHERE id=? AND user_id=?",
+            "SELECT name, hp_current, hp_max, summons, conditions, xp, level FROM characters "
+            "WHERE id=? AND user_id=?",
             (cid, user["id"])
         ).fetchone()
         if not row:
@@ -1647,6 +1653,12 @@ async def sync_combat_hp(request: Request):
             "hp_max": row["hp_max"],
             "summons": summons,
             "conditions": conditions,
+            # XP rides with the same read the sheet already makes when the table moves: an award
+            # published an event, and a client that could only re-read HP would sit on a stale
+            # total until the page was reloaded.
+            "xp": row["xp"] or 0,
+            "level": row["level"] or 1,
+            "progress": xp_progress(row["xp"], row["level"]),
         }
     db.close()
     return JSONResponse({"characters": result})

@@ -1235,3 +1235,179 @@ def test_the_sheet_carries_the_concentration_card_and_the_check():
     # save rolls +0 — the letters have to be extracted first
     assert ".replace(/[^A-Za-z]/g, '')" in js and "label !== 'CON'" in js
     assert "concentration_dc" in (repo / "routes" / "table.py").read_text()
+
+
+# ── Slice 10: the XP ledger ─────────────────────────────────────────────────────────
+
+def test_xp_progress_reports_what_is_earned_and_what_is_owed():
+    from services.leveling import xp_progress
+
+    assert xp_progress(0, 1)["next_at"] == 300
+    assert xp_progress(299, 1)["to_next"] == 1 and not xp_progress(299, 1)["ready"]
+    assert xp_progress(300, 1)["ready"], "300 XP at level 1 is a level up, not a level"
+    assert xp_progress(300, 1)["level"] == 2
+    assert not xp_progress(6499, 5)["ready"], "not there yet"
+    assert xp_progress(355000, 20)["capped"], "level 20 owes nothing"
+
+
+def test_awarding_xp_reaches_the_whole_roster_and_the_ledger(seeded_db, client, auth_headers):
+    import sqlite3
+
+    first = _character(seeded_db["db_path"], 1, "Rowan")
+    second = _character(seeded_db["db_path"], 1, "Bramble")
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1,
+                                    [{"id": first, "name": "Rowan"}, {"id": second, "name": "Bramble"}])
+
+    r = client.post(f"/api/dm/campaign/{camp_id}/award-xp",
+                    json={"amount": 450, "note": "goblin ambush"}, headers=auth_headers)
+    assert r.status_code == 200, r.text
+    assert r.json()["recipients"] == 2
+
+    con = sqlite3.connect(seeded_db["db_path"])
+    con.row_factory = sqlite3.Row
+    xps = [dict(x) for x in con.execute("SELECT name, xp FROM characters ORDER BY name")]
+    log = [dict(x) for x in con.execute(
+        "SELECT amount, note, recipients FROM dm_xp_log ORDER BY id DESC")]
+    con.close()
+    assert all(c["xp"] == 450 for c in xps), f"everyone gets the same: {xps}"
+    assert log[0] == {"amount": 450, "note": "goblin ambush", "recipients": 2}, log
+
+
+def test_awarding_stacks_and_publishes_to_every_recipient(seeded_db, client, auth_headers):
+    from services import events
+
+    first = _character(seeded_db["db_path"], 1, "Rowan")
+    second = _character(seeded_db["db_path"], 1, "Bramble")
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1,
+                                    [{"id": first, "name": "Rowan"}, {"id": second, "name": "Bramble"}])
+
+    q = events.subscribe(camp_id)
+    try:
+        client.post(f"/api/dm/campaign/{camp_id}/award-xp", json={"amount": 100}, headers=auth_headers)
+        client.post(f"/api/dm/campaign/{camp_id}/award-xp", json={"amount": 200}, headers=auth_headers)
+        seen = []
+        while q.qsize():
+            seen.append(q.get_nowait())
+        assert sorted(e["character_id"] for e in seen) == sorted([first, first, second, second]), (
+            "each award tells each recipient's own sheet")
+    finally:
+        events.unsubscribe(camp_id, q)
+
+
+def test_a_named_subset_is_honoured_and_a_stranger_subset_is_refused(seeded_db, client, auth_headers):
+    import sqlite3
+
+    first = _character(seeded_db["db_path"], 1, "Rowan")
+    second = _character(seeded_db["db_path"], 1, "Bramble")
+    outsider = _character(seeded_db["db_path"], 1, "Elsewhere")
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": first, "name": "Rowan"},
+                                                             {"id": second, "name": "Bramble"}])
+
+    r = client.post(f"/api/dm/campaign/{camp_id}/award-xp",
+                    json={"amount": 50, "character_ids": [second]}, headers=auth_headers)
+    assert r.status_code == 200 and r.json()["recipients"] == 1
+
+    # naming only characters this campaign does not cover must not silently award the party
+    r = client.post(f"/api/dm/campaign/{camp_id}/award-xp",
+                    json={"amount": 50, "character_ids": [outsider]}, headers=auth_headers)
+    assert r.status_code == 400
+
+    con = sqlite3.connect(seeded_db["db_path"])
+    got = dict(con.execute("SELECT id, xp FROM characters").fetchall())
+    con.close()
+    assert got[second] == 50 and got[first] == 0 and got[outsider] == 0, got
+
+
+def test_nonsense_amounts_and_strangers_are_refused(seeded_db, client, auth_headers):
+    char_id = _character(seeded_db["db_path"], 1)
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": char_id, "name": "Rowan"}])
+    other = _campaign_with_roster(seeded_db["db_path"], 2, [{"id": char_id, "name": "Rowan"}])
+
+    assert client.post(f"/api/dm/campaign/{camp_id}/award-xp", json={"amount": 0},
+                       headers=auth_headers).status_code == 400
+    assert client.post(f"/api/dm/campaign/{camp_id}/award-xp", json={"amount": "lots"},
+                       headers=auth_headers).status_code == 400
+    assert client.post(f"/api/dm/campaign/{other}/award-xp", json={"amount": 10},
+                       headers=auth_headers).status_code == 404, "someone else's campaign"
+    assert client.get(f"/api/dm/campaign/{other}/xp", headers=auth_headers).status_code == 404
+
+
+def test_the_ledger_read_returns_totals_and_history(seeded_db, client, auth_headers):
+    first = _character(seeded_db["db_path"], 1, "Rowan")
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": first, "name": "Rowan"}])
+    client.post(f"/api/dm/campaign/{camp_id}/award-xp",
+                json={"amount": 300, "note": "session 4"}, headers=auth_headers)
+
+    d = client.get(f"/api/dm/campaign/{camp_id}/xp", headers=auth_headers).json()
+    assert d["characters"][0]["xp"] == 300
+    # _character() makes a level 3 character: 300 XP is not yet a level for them
+    assert d["characters"][0]["level"] == 3
+    assert d["characters"][0]["progress"]["next_at"] == 2700
+    assert d["characters"][0]["progress"]["to_next"] == 2400
+    assert d["characters"][0]["progress"]["ready"] is False
+    assert d["log"][0]["note"] == "session 4" and d["log"][0]["amount"] == 300
+
+    client.post(f"/api/dm/campaign/{camp_id}/award-xp",
+                json={"amount": 2400, "note": "session 5"}, headers=auth_headers)
+    d = client.get(f"/api/dm/campaign/{camp_id}/xp", headers=auth_headers).json()
+    assert d["characters"][0]["xp"] == 2700
+    assert d["characters"][0]["progress"]["ready"] is True, "2700 at level 3 has earned level 4"
+    assert [e["note"] for e in d["log"]] == ["session 5", "session 4"], "newest first"
+
+
+def test_the_sheet_shows_xp_from_the_servers_own_thresholds():
+    """The sheet must not carry its own copy of what a level costs: it renders what the route
+    computed (services.leveling), on both surfaces."""
+    import pathlib
+
+    repo = pathlib.Path(__file__).resolve().parent.parent
+    tpl = (repo / "templates" / "sheet.html").read_text()
+    route = (repo / "routes" / "characters" / "sheet.py").read_text()
+    dm_js = (repo / "static" / "dm_tools.js").read_text()
+    dm_tpl = (repo / "templates" / "dm_tools.html").read_text()
+
+    assert 'id="xp-row"' in tpl and 'id="xp-ready"' in tpl and "xp_prog" in tpl
+    assert "xp_prog=xp_progress(" in route, "the route hands the template the rules' answer"
+    assert "XP_THRESHOLDS" not in tpl, "no second copy of the ladder in the template"
+    assert 'id="xpPanel"' in dm_tpl and 'id="xp-amount"' in dm_tpl
+    assert "function loadCampaignXp(" in dm_js and "function awardXp(" in dm_js
+    assert "loadCampaignXp();" in dm_js, "selecting a campaign has to load its ledger"
+    assert "Math.round((c.xp - p.prev_at)" in dm_js, "the DM's bar uses the server's range too"
+
+
+def test_the_live_sheet_route_renders_the_xp_row(seeded_db, client, auth_headers):
+    """End to end: award XP, then read the character's page and see it."""
+    import sqlite3
+
+    char_id = _character(seeded_db["db_path"], 1, "Rowan")
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": char_id, "name": "Rowan"}])
+    client.post(f"/api/dm/campaign/{camp_id}/award-xp",
+                json={"amount": 2700, "note": "session 5"}, headers=auth_headers)
+
+    page = client.get(f"/character/{char_id}", headers=auth_headers).text
+    assert 'id="xp-row"' in page
+    assert "2,700 XP" in page, "the total the ledger holds"
+    assert "★ Ready to level up" in page, "2700 at level 3 has earned level 4"
+    con = sqlite3.connect(seeded_db["db_path"])
+    assert con.execute("SELECT xp FROM characters WHERE id=?", (char_id,)).fetchone()[0] == 2700
+    con.close()
+
+
+def test_the_sheets_own_sync_carries_xp_so_an_award_needs_no_reload(seeded_db, client, auth_headers):
+    """The XP row is server-rendered, so the sheet's sync read has to carry XP too — without it an
+    award could not appear until the page was reloaded, which is what the first live probe showed."""
+    import pathlib
+
+    char_id = _character(seeded_db["db_path"], 1, "Rowan")
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": char_id, "name": "Rowan"}])
+    client.post(f"/api/dm/campaign/{camp_id}/award-xp",
+                json={"amount": 2700, "note": "session 5"}, headers=auth_headers)
+
+    d = client.post("/api/sync-combat-hp", json={"char_ids": [char_id]}, headers=auth_headers).json()
+    info = d["characters"][str(char_id)]
+    assert info["xp"] == 2700
+    assert info["progress"]["ready"] is True and info["progress"]["next_at"] == 6500
+
+    js = (pathlib.Path(__file__).resolve().parent.parent / "static" / "sheet.js").read_text()
+    assert "_renderXpRow(info);" in js, "the sync has to repaint the row it now receives"
+    assert "function _renderXpRow(" in js

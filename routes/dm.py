@@ -3431,3 +3431,122 @@ async def dm_summon_hp(request: Request):
 
     publish_character_state(char_id, kind="sheet")      # summons ride the 'sheet' kind
     return JSONResponse({"ok": True, "character_id": char_id, "summon_idx": idx, "hp_current": hp})
+
+
+# ── the XP ledger ───────────────────────────────────────────────────────────────────────
+
+def _campaign_owned(db, user, camp_id: int):
+    row = db.execute("SELECT * FROM dm_campaigns WHERE id = ? AND user_id = ?",
+                     (camp_id, user["id"])).fetchone()
+    return dict(row) if row else None
+
+
+def _campaign_roster_ids(db, camp: dict) -> list:
+    """The characters a campaign covers: the join table first, then the campaign's own list."""
+    ids = []
+    try:
+        ids = [int(r["character_id"]) for r in db.execute(
+            "SELECT character_id FROM dm_campaign_characters WHERE campaign_id = ?",
+            (camp["id"],))]
+    except Exception:
+        ids = []
+    if not ids:
+        try:
+            ids = [int(c["id"]) for c in json.loads(camp.get("characters") or "[]") if c.get("id")]
+        except (json.JSONDecodeError, TypeError, ValueError):
+            ids = []
+    return sorted(set(ids))
+
+
+@router.get("/api/dm/campaign/{camp_id}/xp", response_class=JSONResponse)
+async def campaign_xp(camp_id: int, request: Request):
+    """Who has how much, and the ledger behind it."""
+    from services.leveling import xp_progress
+
+    user = require_user(request)
+    db = get_db()
+    try:
+        camp = _campaign_owned(db, user, camp_id)
+        if not camp:
+            return JSONResponse({"error": "Not found"}, status_code=404)
+        ids = _campaign_roster_ids(db, camp)
+        characters = []
+        if ids:
+            qs = ",".join("?" * len(ids))
+            for r in db.execute(
+                    "SELECT id, name, xp, level FROM characters WHERE id IN (" + qs + ") ORDER BY name",
+                    tuple(ids)):
+                characters.append({"id": r["id"], "name": r["name"], "xp": r["xp"] or 0,
+                                   "level": r["level"] or 1,
+                                   "progress": xp_progress(r["xp"], r["level"])})
+        log = [dict(r) for r in db.execute(
+            "SELECT id, amount, note, recipients, created_at FROM dm_xp_log "
+            "WHERE campaign_id = ? ORDER BY id DESC LIMIT 20", (camp_id,))]
+        return JSONResponse({"ok": True, "characters": characters, "log": log})
+    finally:
+        db.close()
+
+
+@router.post("/api/dm/campaign/{camp_id}/award-xp", response_class=JSONResponse)
+async def award_xp(camp_id: int, request: Request):
+    """Give the party XP, and say so on every screen that shows one of them.
+
+    The whole roster by default: XP is a party thing at most tables, and a subset is a
+    `character_ids` away when one is needed. Every recipient hears about it through the same event
+    the rest of this work runs on, so a sheet open on a player's phone updates by itself.
+    """
+    user = require_user(request)
+    try:
+        data = await request.json()
+    except Exception:
+        return JSONResponse({"error": "expected a JSON body"}, status_code=400)
+    try:
+        amount = int(data.get("amount") or 0)
+    except (TypeError, ValueError):
+        return JSONResponse({"error": "amount must be a whole number"}, status_code=400)
+    if amount == 0:
+        return JSONResponse({"error": "amount must not be zero"}, status_code=400)
+    note = str(data.get("note") or "").strip()[:200]
+
+    db = get_db()
+    try:
+        camp = _campaign_owned(db, user, camp_id)
+        if not camp:
+            return JSONResponse({"error": "Not found"}, status_code=404)
+        ids = _campaign_roster_ids(db, camp)
+        wanted = data.get("character_ids")
+        if isinstance(wanted, list) and wanted:
+            keep = {int(x) for x in wanted if str(x).isdigit()}
+            chosen = [i for i in ids if i in keep]
+            if not chosen:
+                # Falling back to the whole party here would hand out XP nobody asked for: the
+                # caller named characters and none of them are on this campaign.
+                return JSONResponse({"error": "None of those characters are in this campaign"},
+                                    status_code=400)
+            ids = chosen
+        if not ids:
+            return JSONResponse({"error": "No characters in this campaign"}, status_code=400)
+
+        qs = ",".join("?" * len(ids))
+        db.execute("UPDATE characters SET xp = MAX(0, COALESCE(xp,0) + ?) WHERE id IN (" + qs + ")",
+                   tuple([amount] + ids))
+        db.execute("INSERT INTO dm_xp_log (campaign_id, user_id, amount, note, recipients) "
+                   "VALUES (?, ?, ?, ?, ?)", (camp_id, user["id"], amount, note, len(ids)))
+        db.commit()
+    finally:
+        db.close()
+
+    from routes.table import publish_character_state
+
+    for cid in ids:
+        try:
+            publish_character_state(cid, kind="sheet")      # every recipient's sheet, live
+        except Exception:
+            pass
+        try:
+            from routes.maps import poke_maps_for_character
+
+            poke_maps_for_character(cid)
+        except Exception:
+            pass
+    return JSONResponse({"ok": True, "awarded": amount, "recipients": len(ids)})

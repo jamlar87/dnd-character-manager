@@ -1129,6 +1129,23 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
     <span style="margin-left:0.5rem;font-size:0.85rem;color:var(--text-muted)" id="combatStatus"></span>
   </div>
 
+  {# ───── EXPERIENCE (the ledger) ─────
+     Awarded to the whole party by default, and every recipient's sheet hears about it through
+     the same channel the roll feed uses. The thresholds live in services/leveling.py; this panel
+     never decides what a level costs. #}
+  <section id="xpPanel" style="display:none;margin-top:0.75rem;background:var(--panel,#141418);border:1px solid var(--border);border-radius:8px;padding:0.6rem 0.75rem">
+    <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">
+      <strong style="font-size:0.8rem">★ Experience</strong>
+      <input id="xp-amount" type="number" placeholder="XP" style="width:92px;padding:0.3rem 0.45rem;background:var(--bg);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:0.8rem">
+      <input id="xp-note" placeholder="for what? (goblin ambush, session 4…)" style="flex:1;min-width:140px;padding:0.3rem 0.45rem;background:var(--bg);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:0.8rem">
+      <button class="btn btn-accent btn-sm" onclick="awardXp()">Award to party</button>
+      <button class="btn btn-outline btn-sm" onclick="loadCampaignXp()" title="Refresh">↻</button>
+      <span id="xpStatus" style="font-size:0.72rem;color:var(--text-muted)"></span>
+    </div>
+    <div id="xpRoster" style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.5rem"></div>
+    <div id="xpLog" style="margin-top:0.4rem;font-size:0.68rem;color:var(--text-muted);display:flex;flex-direction:column;gap:0.15rem"></div>
+  </section>
+
   {# ───── ROLL FEED (the table channel) ─────
      Every roll made anywhere in the app lands here, and the players' devices see the same
      feed at /table/{key}. Follows the campaign selected above: no campaign, no feed. #}

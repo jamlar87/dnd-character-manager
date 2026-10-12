@@ -500,6 +500,9 @@ async function syncSheetHP() {
       });
     }
 
+    // ── XP ── (server-rendered at load, so an award needs this to appear without a reload)
+    _renderXpRow(info);
+
     // ── Summons HP ──
     if (characterSummons && info.summons) {
       for (let i = 0; i < characterSummons.length; i++) {
@@ -6668,4 +6671,36 @@ async function resolveConcentration(kept) {
 function _concSay(msg) {
   const el = document.getElementById('conc-check-result');
   if (el) el.textContent = msg;
+}
+
+
+/** The XP row, from the server's own progress numbers — the client must not own the ladder. */
+function _renderXpRow(info) {
+  if (!info || info.xp === undefined) return;
+  const p = info.progress || {};
+  const total = document.getElementById('xp-total');
+  if (total) total.textContent = (info.xp || 0).toLocaleString() + ' XP';
+  const bar = document.getElementById('xp-bar');
+  if (bar) {
+    const pct = (!p.capped && p.next_at && p.next_at > p.prev_at)
+      ? Math.max(0, Math.min(100, Math.round((info.xp - p.prev_at) * 100 / (p.next_at - p.prev_at))))
+      : 100;
+    bar.style.width = pct + '%';
+  }
+  const next = document.getElementById('xp-next');
+  if (next) {
+    next.textContent = p.capped
+      ? 'Level 20 — capped'
+      : (((p.to_next || 0)).toLocaleString() + ' to L' + ((p.level || 1) + 1));
+  }
+  const ready = document.getElementById('xp-ready');
+  if (ready) {
+    if (p.ready && !p.capped) {
+      ready.style.display = '';
+      ready.textContent = '★ Ready to level up';
+    } else {
+      ready.style.display = 'none';
+      ready.textContent = '';
+    }
+  }
 }

@@ -5695,6 +5695,8 @@ function initRollFeed() {
   window.RollFeed.on('sheet', _refreshTrackerIfTracked);
   window.RollFeed.on('open', function () { startCombatPolling(COMBAT_POLL_SAFE_MS); });
   window.RollFeed.on('error', function () { startCombatPolling(COMBAT_POLL_FAST_MS); });
+
+  loadCampaignXp();          // the campaign's ledger, on the same selection as everything else
 }
 
 /** Refresh the tracker only for a character it actually shows — on whose sheet this is, or on a
@@ -5757,4 +5759,75 @@ function refreshRollFeed() {
   _rfCampId = null;                       // force a re-init: history is refetched
   if (window.RollFeed) window.RollFeed.disconnect();
   initRollFeed();
+}
+
+
+// ── Experience: the ledger for the selected campaign ────────────────────────────────────
+// The panel never computes a level: thresholds and progress come from /xp, which reads
+// services/leveling.py — one place decides what a level costs, on both the DM's screen and the
+// player's sheet.
+
+function loadCampaignXp() {
+  const campId = _combatCampId;
+  const panel = document.getElementById('xpPanel');
+  if (!campId) {
+    if (panel) panel.style.display = 'none';
+    return;
+  }
+  if (panel) panel.style.display = '';
+  fetch('/api/dm/campaign/' + campId + '/xp', {cache: 'no-store'})
+    .then(r => r.ok ? r.json() : null)
+    .then(d => {
+      if (!d) return;
+      const roster = document.getElementById('xpRoster');
+      if (roster) {
+        const html = (d.characters || []).map(function (c) {
+          const p = c.progress || {};
+          const ready = p.ready
+            ? ' <span style="color:var(--success,#4ade80);font-weight:700" title="Has earned level ' + p.level + '">★</span>'
+            : '';
+          const bar = (!p.capped && p.next_at && p.next_at > p.prev_at)
+            ? Math.max(0, Math.min(100, Math.round((c.xp - p.prev_at) * 100 / (p.next_at - p.prev_at))))
+            : 100;
+          return '<span style="display:inline-flex;align-items:center;gap:0.3rem;padding:0.2rem 0.45rem;border:1px solid var(--border);border-radius:12px;font-size:0.7rem" title="' + c.xp + ' XP · ' + (p.to_next || 0) + ' to the next level">'
+            + '<strong>' + c.name + '</strong> L' + c.level + ready
+            + '<span style="width:46px;height:4px;background:var(--bg);border:1px solid var(--border);border-radius:3px;overflow:hidden"><span style="display:block;height:100%;width:' + bar + '%;background:var(--accent)"></span></span>'
+            + '<span style="color:var(--text-muted)">' + c.xp + '</span></span>';
+        }).join('');
+        roster.innerHTML = html || '<span style="font-size:0.7rem;color:var(--text-muted)">No characters in this campaign</span>';
+      }
+      const log = document.getElementById('xpLog');
+      if (log) {
+        log.innerHTML = (d.log || []).slice(0, 5).map(function (e) {
+          return '<div>' + (e.amount > 0 ? '+' : '') + e.amount + ' · ' + (e.note || 'no note') +
+                 ' · ' + (e.recipients || 0) + ' PC' + (e.recipients === 1 ? '' : 's') + ' · ' + e.created_at + '</div>';
+        }).join('');
+      }
+    })
+    .catch(function () {});
+}
+
+async function awardXp() {
+  const campId = _combatCampId;
+  if (!campId) { setXpStatus('Select a campaign first'); return; }
+  const amountEl = document.getElementById('xp-amount');
+  const noteEl = document.getElementById('xp-note');
+  const amount = parseInt(((amountEl || {}).value || '').trim(), 10);
+  if (!amount) { setXpStatus('Amount must be a number'); return; }
+  setXpStatus('Awarding…');
+  const r = await fetch('/api/dm/campaign/' + campId + '/award-xp', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({amount: amount, note: ((noteEl || {}).value || '').trim()})
+  });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) { setXpStatus('⚠ ' + (d.error || ('HTTP ' + r.status))); return; }
+  if (amountEl) amountEl.value = '';
+  if (noteEl) noteEl.value = '';
+  setXpStatus('+' + d.awarded + ' XP to ' + d.recipients + ' character' + (d.recipients === 1 ? '' : 's'));
+  loadCampaignXp();
+}
+
+function setXpStatus(msg) {
+  const el = document.getElementById('xpStatus');
+  if (el) el.textContent = msg;
 }

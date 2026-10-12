@@ -414,6 +414,29 @@ def _migrate_npc_source_columns():
     except sqlite3.OperationalError:
         pass
 
+    # Experience: what the character has earned. Level stays a separate action (the sheet has its
+    # own level-up flow); XP is a fact about the character, not a trigger to rewrite one.
+    try:
+        db.execute("ALTER TABLE characters ADD COLUMN xp INTEGER DEFAULT 0")
+    except sqlite3.OperationalError:
+        pass
+
+    # The ledger, so a total is never a number nobody can explain. An encounter's budget lives on
+    # dm_encounters.xp_total; what the party was actually awarded, and why, lives here.
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS dm_xp_log (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            campaign_id INTEGER NOT NULL,
+            user_id INTEGER NOT NULL,
+            amount INTEGER NOT NULL DEFAULT 0,
+            note TEXT DEFAULT '',
+            recipients INTEGER NOT NULL DEFAULT 0,
+            created_at TEXT NOT NULL DEFAULT (datetime('now')),
+            FOREIGN KEY (campaign_id) REFERENCES dm_campaigns(id) ON DELETE CASCADE
+        )
+    """)
+    db.execute("CREATE INDEX IF NOT EXISTS idx_xp_log_campaign ON dm_xp_log(campaign_id)")
+
     # Migration: shared flags
     for table, column in [("characters", "shared"), ("dm_encounters", "shared")]:
         try:
