@@ -254,9 +254,38 @@
 
     ctx.lineWidth = Math.max(1.5, w * 0.045);
     ctx.strokeStyle = t.id === state.selected ? '#c9a227' : (t.kind === 'character' ? '#60a5fa' : (t.hidden ? '#94a3b8' : '#e5e7eb'));
+
     if (isHex) { ctx.beginPath(); ctx.arc(p[0] + w / 2, p[1] + h / 2, Math.min(w, h) / 2, 0, Math.PI * 2); }
     else { ctx.beginPath(); roundRect(p[0], p[1], w, h, Math.min(6, w * 0.12)); }
     ctx.stroke();
+
+    // Conditions on a character-linked token. The table has to see WHO is poisoned, prone or
+    // paralysed without asking the DM, and this is drawn on both screens because both get the
+    // same derivation from the character's sheet (server-side, in _decorate_tokens).
+    var conds = t.conditions || [];
+    if (conds.length && w > 20) {
+      var pillH = Math.max(9, Math.min(14, h * 0.18));
+      var px = p[0], py = p[1] - pillH - 2;
+      ctx.font = 'bold ' + Math.max(7, pillH * 0.7) + 'px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      for (var ci = 0; ci < conds.length && ci < 3; ci++) {
+        var ctxt = String(conds[ci]).slice(0, 3).toUpperCase();
+        var pw = ctx.measureText(ctxt).width + 7;
+        if (px + pw > p[0] + w + 30) break;             // do not sprawl across the map
+        ctx.beginPath(); roundRect(px, py, pw, pillH, pillH / 2);
+        ctx.fillStyle = 'rgba(245,158,11,0.95)';
+        ctx.fill();
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillText(ctxt, px + pw / 2, py + pillH / 2 + 0.5);
+        px += pw + 2;
+      }
+      if (conds.length > 3) {                            // say there are more rather than lie
+        ctx.fillStyle = '#f4f4f5';
+        ctx.font = 'bold ' + Math.max(7, pillH * 0.7) + 'px sans-serif';
+        ctx.fillText('+' + (conds.length - 3), px + 6, py + pillH / 2 + 0.5);
+      }
+    }
 
     if (w > 34 && (t.label || t.ref_name)) {
       var text = (t.label || t.ref_name);

@@ -314,3 +314,131 @@ def test_a_session_viewer_is_not_closed_by_a_key_rotation(client, seeded_db, aut
         return first
 
     assert asyncio.run(_go()).startswith("retry: 3000")
+
+
+# ── a token borrows its character's HP and conditions, live ──────────────────────────
+
+def _character(db_path, user_id, name="Rowan", hp=30, hp_max=40):
+    import sqlite3
+
+    con = sqlite3.connect(db_path)
+    try:
+        cur = con.execute(
+            "INSERT INTO characters (user_id, name, race, class_name, level, hp_current, hp_max) "
+            "VALUES (?, ?, 'Human', 'Fighter', 3, ?, ?)", (user_id, name, hp, hp_max))
+        con.commit()
+        return int(cur.lastrowid or 0)
+    finally:
+        con.close()
+
+
+def _char_token(client, headers, mid, char_id):
+    """Token rows carry their own hp columns, and nothing keeps them in step with the character."""
+    return client.post(f"/api/dm/map/{mid}/token/add",
+                       json={"kind": "character", "x": 3, "y": 3, "character_id": char_id,
+                             "label": "Rowan"}, headers=headers).json()["token"]
+
+
+def test_a_character_linked_token_borrows_hp_and_conditions(seeded_db, client, auth_headers):
+    char_id = _character(seeded_db["db_path"], 1, hp=30, hp_max=40)
+    mid, key = _map_with_key(client, auth_headers)
+    _char_token(client, auth_headers, mid, char_id)
+
+    tok = client.get(f"/api/dm/map/{mid}/state", params={"k": key}).json()["tokens"][0]
+    assert (tok["hp_current"], tok["hp_max"]) == (30, 40), (
+        "the token's own copy reads 0/0 and is not the truth about the character")
+    assert tok["conditions"] == []
+
+    assert client.post(f"/api/character/{char_id}/conditions", json={"name": "Prone"},
+                       headers=auth_headers).status_code == 200
+    tok = client.get(f"/api/dm/map/{mid}/state", params={"k": key}).json()["tokens"][0]
+    assert tok["conditions"] == ["Prone"], "the table has to see WHO is prone"
+
+
+def test_the_dms_own_view_agrees_with_the_players(seeded_db, client, auth_headers):
+    """Two surfaces, one derivation: a DM and a party member must not disagree about a character."""
+    char_id = _character(seeded_db["db_path"], 1, hp=12, hp_max=40)
+    mid, key = _map_with_key(client, auth_headers)
+    _char_token(client, auth_headers, mid, char_id)
+    client.post(f"/api/character/{char_id}/conditions", json={"name": "Poisoned"}, headers=auth_headers)
+
+    dm_tok = client.get(f"/api/dm/map/{mid}", headers=auth_headers).json()["tokens"][0]
+    player_tok = client.get(f"/api/dm/map/{mid}/state", params={"k": key}).json()["tokens"][0]
+    assert dm_tok["conditions"] == player_tok["conditions"] == ["Poisoned"]
+    assert (dm_tok["hp_current"], dm_tok["hp_max"]) == (player_tok["hp_current"], player_tok["hp_max"]) == (12, 40)
+
+
+def test_bare_string_conditions_resolve_too(seeded_db, client, auth_headers):
+    """The sheet writes dicts; rows written by older paths hold bare strings. Both must reach the
+    map — a screen that understood only one shape would silently show nothing for half a table.
+
+    Written straight to the row on purpose: `/api/character/{id}/update` does NOT accept a
+    `conditions` key (the condition routes own it), so only a legacy row can have this shape.
+    """
+    import sqlite3
+
+    char_id = _character(seeded_db["db_path"], 1)
+    mid, key = _map_with_key(client, auth_headers)
+    _char_token(client, auth_headers, mid, char_id)
+
+    con = sqlite3.connect(seeded_db["db_path"])
+    con.execute("UPDATE characters SET conditions=? WHERE id=?",
+                (json.dumps(["Prone", "Blinded"]), char_id))
+    con.commit()
+    con.close()
+
+    tok = client.get(f"/api/dm/map/{mid}/state", params={"k": key}).json()["tokens"][0]
+    assert tok["conditions"] == ["Prone", "Blinded"]
+
+
+def test_a_token_with_no_character_keeps_its_own_numbers_and_shows_nothing(
+        seeded_db, client, auth_headers):
+    """An owlbear is not a character: its HP lives on the token and it has no conditions."""
+    mid, key = _map_with_key(client, auth_headers)
+    client.post(f"/api/dm/map/{mid}/token/add",
+                json={"kind": "creature", "x": 1, "y": 1, "label": "Owlbear",
+                      "hp_current": 54, "hp_max": 59}, headers=auth_headers)
+
+    tok = client.get(f"/api/dm/map/{mid}/state", params={"k": key}).json()["tokens"][0]
+    assert (tok["hp_current"], tok["hp_max"]) == (54, 59)
+    assert tok["conditions"] == []
+
+
+def test_a_condition_on_the_sheet_pokes_the_map_showing_that_character(
+        seeded_db, client, auth_headers):
+    """The map stream listens on the MAP's scope, so a campaign event never reaches it: without
+    this poke the players' screen would hold the old conditions until some unrelated map change."""
+    from services import events
+
+    char_id = _character(seeded_db["db_path"], 1)
+    mid, _ = _map_with_key(client, auth_headers)
+    _char_token(client, auth_headers, mid, char_id)
+    other_mid, _ = _map_with_key(client, auth_headers, name="No token for them")
+
+    q = events.subscribe_map(mid)
+    other = events.subscribe_map(other_mid)
+    try:
+        assert client.post(f"/api/character/{char_id}/conditions", json={"name": "Paralyzed"},
+                           headers=auth_headers).status_code == 200
+        assert q.get_nowait()["map_id"] == mid, "the screen showing the token must be poked"
+        assert other.qsize() == 0, "and a map with no token for them must not be"
+    finally:
+        events.unsubscribe_map(mid, q)
+        events.unsubscribe_map(other_mid, other)
+
+
+def test_the_player_view_draws_condition_pills():
+    """Text guard: the client has to render what the server now sends, abbreviated."""
+    js = VTT.read_text()
+    assert "var conds = t.conditions || [];" in js
+    assert "String(conds[ci]).slice(0, 3).toUpperCase()" in js, "pills are abbreviations, not essays"
+    assert "'+'" in js and "conds.length - 3" in js, "say there are more instead of dropping them"
+
+
+def test_a_body_less_post_is_a_bad_request_not_a_crash(client, seeded_db, auth_headers):
+    """Found while probing: a POST with no body raised inside the route and answered 500, which
+    tells a caller nothing. 400 says what was wrong."""
+    mid, _ = _map_with_key(client, auth_headers)
+    r = client.post(f"/api/dm/map/{mid}/player-key", headers=auth_headers)
+    assert r.status_code == 400, r.text
+    assert "body" in r.json()["error"].lower()

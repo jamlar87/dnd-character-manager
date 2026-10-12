@@ -131,6 +131,91 @@ def _tokens_of(db, map_id: int) -> list[dict]:
         "SELECT * FROM dm_map_tokens WHERE map_id = ? ORDER BY z, id", (map_id,))]
 
 
+def _condition_names(raw, limit: int = 6) -> list[str]:
+    """Condition names off a character row, whatever shape they were stored in.
+
+    The sheet writes dicts (`{"name": "Prone", …}`) and the tracker's older paths wrote bare
+    strings, so both have to resolve to a name — a screen that only understood one shape would
+    silently show nothing for half a table.
+    """
+    try:
+        items = json.loads(raw) if isinstance(raw, str) else (raw or [])
+    except (json.JSONDecodeError, TypeError):
+        return []
+    if not isinstance(items, list):
+        return []
+    names = []
+    for c in items:
+        if isinstance(c, str):
+            name = c
+        elif isinstance(c, dict):
+            name = c.get("name") or c.get("condition") or ""
+        else:
+            name = ""
+        name = str(name).strip()
+        if name and name not in names:
+            names.append(name)
+    return names[:limit]
+
+
+def _linked_character_fields(db, tokens: list[dict]) -> dict:
+    """The truth about a character-linked token's HP and conditions.
+
+    A token copies `hp_current`/`hp_max` when it is placed and nothing keeps that copy in step —
+    a token placed months ago still reads 0/0, so a screen trusting it drew no HP bar for a
+    character standing at full health, and a condition that landed on their sheet never reached
+    the table's map at all. The character row is the source; this is one derivation used by the
+    DM's view and the players' view alike, so the two cannot disagree about the same character.
+    """
+    ids = sorted({int(t["character_id"]) for t in tokens if t.get("character_id")})
+    if not ids:
+        return {}
+    out = {}
+    qs = ",".join("?" * len(ids))
+    for r in db.execute(
+            f"SELECT id, hp_current, hp_max, temp_hp, conditions FROM characters WHERE id IN ({qs})",
+            tuple(ids)):
+        out[int(r["id"])] = {
+            "hp_current": r["hp_current"], "hp_max": r["hp_max"],
+            "temp_hp": r["temp_hp"], "conditions": _condition_names(r["conditions"]),
+        }
+    return out
+
+
+def _decorate_tokens(db, tokens: list[dict]) -> list[dict]:
+    """Fill in what a token borrows from its character. Tokens with no character keep their own."""
+    linked = _linked_character_fields(db, tokens)
+    for t in tokens:
+        cid = t.get("character_id")
+        info = linked.get(int(cid)) if cid else None
+        if info:
+            t["hp_current"] = info["hp_current"]
+            t["hp_max"] = info["hp_max"]
+            t["temp_hp"] = info["temp_hp"]
+            t["conditions"] = info["conditions"]
+        else:
+            t.setdefault("conditions", [])
+    return tokens
+
+
+def poke_maps_for_character(char_id) -> int:
+    """A character's sheet moved: poke every map showing a token for them.
+
+    Without this the players' screen would hold the old HP bar and the old conditions until some
+    unrelated map change happened along — the map stream listens on its own scope, so a campaign
+    event does not reach it. Returns how many maps were poked (0 is the common case).
+    """
+    db = get_db()
+    try:
+        ids = [r["map_id"] for r in db.execute(
+            "SELECT DISTINCT map_id FROM dm_map_tokens WHERE character_id = ?", (char_id,))]
+    finally:
+        db.close()
+    for mid in ids:
+        _poke_map(mid)
+    return len(ids)
+
+
 def _sync_tokens(db, map_id: int, posted) -> list[dict]:
     """Upsert the posted placements and delete the ones the client dropped.
 
@@ -362,7 +447,8 @@ async def dm_map_detail(map_id: int, request: Request):
         row = dict(row)
         row["fog"] = _clean_fog(_safe_json(row.get("fog"), []))
         row["draw"] = _clean_draw(_safe_json(row.get("draw_data"), []))
-        return JSONResponse({"map": row, "tokens": _tokens_of(db, map_id), "scenes": _scenes_of(db, map_id)})
+        return JSONResponse({"map": row, "tokens": _decorate_tokens(db, _tokens_of(db, map_id)),
+                             "scenes": _scenes_of(db, map_id)})
     finally:
         db.close()
 
@@ -1137,13 +1223,15 @@ def _player_state(db, map_row: dict) -> dict:
 
     Three things are withheld, and each for its own reason: the DM's drawing (it is the DM's
     notes), hidden tokens (the DM said so), and anything the fog still covers (the party has
-    not been there). HP rides along but as a bar, not a number.
+    not been there). HP rides along but as a bar, not a number, and a character-linked token
+    carries their conditions by NAME only — the table needs to see WHO is poisoned, not the
+    DM's notes about it.
     """
     fog = _clean_fog(_safe_json(map_row.get("fog"), []))
     fog_on = bool(_inum(map_row.get("fog_on"), 0, 0, 1))
     revealed = set(fog)
     tokens = []
-    for t in _tokens_of(db, map_row["id"]):
+    for t in _decorate_tokens(db, _tokens_of(db, map_row["id"])):
         if t.get("hidden"):
             continue
         if fog_on and _cell_key_of(t["x"], t["y"], map_row) not in revealed:
@@ -1152,7 +1240,7 @@ def _player_state(db, map_row: dict) -> dict:
             "id": t["id"], "x": t["x"], "y": t["y"], "w": t["w"], "h": t["h"],
             "kind": t["kind"], "ref_name": t["ref_name"], "label": t["label"],
             "hp_current": t["hp_current"], "hp_max": t["hp_max"], "z": t["z"],
-            "character_id": t["character_id"],
+            "character_id": t["character_id"], "conditions": t.get("conditions") or [],
         })
     return {
         "map": {
@@ -1320,7 +1408,12 @@ async def dm_map_player_key(map_id: int, request: Request):
 async def dm_map_player_key_set(map_id: int, request: Request):
     """Rotate the key, or revoke it (send an empty key) to close the second screen again."""
     user = require_user(request)
-    data = await request.json()
+    try:
+        data = await request.json()
+    except Exception:
+        # A POST with no JSON body is a malformed request, not a server fault: this 500'd when a
+        # probe sent the wrong verb with no body, and "Internal Server Error" told nobody why.
+        return JSONResponse({"error": "expected a JSON body"}, status_code=400)
     db = get_db()
     try:
         if not _own_map(db, user, map_id):

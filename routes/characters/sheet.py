@@ -1214,6 +1214,15 @@ def _publish_change(char_id: int, kind: str = "sheet", **fields) -> None:
         publish_character_state(char_id, kind=kind, **fields)
     except Exception:
         pass
+    try:
+        # A token on a map is a second screen showing this character, and the map stream listens on
+        # the MAP's scope, so a campaign event does not reach it: without this poke the players'
+        # screen holds the old HP bar and the old conditions until an unrelated map change.
+        from routes.maps import poke_maps_for_character
+
+        poke_maps_for_character(char_id)
+    except Exception:
+        pass
 
 
 @router.post("/api/character/{char_id}/update", response_class=JSONResponse)
@@ -1284,7 +1293,10 @@ async def update_character(char_id: int, request: Request, body: UpdateCharacter
                         hp_current=updates.get("hp_current"),
                         hp_max=updates.get("hp_max"),
                         temp_hp=updates.get("temp_hp"))
-    elif {"conditions", "summons"} & set(updates):
+    elif "summons" in updates:
+        # Only summons can arrive here: `conditions` is not in this route's allowed set, and the
+        # condition routes publish their own change (a branch that claimed to handle it would be
+        # a lie the next reader has to disprove).
         _publish_change(char_id, "sheet")
     return JSONResponse({"ok": True})
 
