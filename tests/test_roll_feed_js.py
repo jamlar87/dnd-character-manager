@@ -179,3 +179,49 @@ def test_the_feed_never_builds_markup_from_data():
     assert "innerHTML" not in code, "build rows with textContent, never innerHTML"
     assert "eval(" not in code, "no eval"
     assert "textContent" in code
+
+
+@pytest.mark.skipif(NODE is None, reason="node is not installed")
+def test_non_roll_events_reach_hooks_and_not_the_feed():
+    """The sheet's HP rides the same stream; it must not appear as a roll row."""
+    out = _run_node(
+        "R.init({ listEl: null });\n"
+        "const seen = [];\n"
+        "R.on('hp', p => seen.push(p.hp_current));\n"
+        "R.onEvent({ data: JSON.stringify({ kind:'hp', character_id: 5, hp_current: 4 }) });\n"
+        "out.hookCalls = seen.length;\n"
+        "out.hpValue = seen[0];\n"
+        "out.feedRows = R.feedRows().length;\n"
+        "R.onEvent({ data: JSON.stringify({ kind:'roll', id: 1, total: 9 }) });\n"
+        "out.feedAfterRoll = R.feedRows().length;\n"
+        "out.hookStillOnce = seen.length;\n"
+    )
+    assert out["hookCalls"] == 1 and out["hpValue"] == 4
+    assert out["feedRows"] == 0, "an HP event is not a feed row"
+    assert out["feedAfterRoll"] == 1
+    assert out["hookStillOnce"] == 1, "a roll must not be dispatched as an hp event"
+
+
+@pytest.mark.skipif(NODE is None, reason="node is not installed")
+def test_one_bad_listener_does_not_take_the_stream_down():
+    out = _run_node(
+        "R.init({ listEl: null });\n"
+        "let second = 0;\n"
+        "R.on('hp', () => { throw new Error('this listener is broken'); });\n"
+        "R.on('hp', () => { second += 1; });\n"
+        "out.returned = R.onEvent({ data: JSON.stringify({ kind:'hp', hp_current: 1 }) });\n"
+        "out.secondRan = second;\n"
+        "out.offWorks = (R.off('hp'), R.onEvent({ data: JSON.stringify({ kind:'hp' }) }), second);\n"
+    )
+    assert out["returned"] is False
+    assert out["secondRan"] == 1, "later listeners must still run"
+    assert out["offWorks"] == 1, "off() must detach the listener"
+
+
+@pytest.mark.skipif(NODE is None, reason="node is not installed")
+def test_connection_state_is_readable_and_starts_closed():
+    out = _run_node(
+        "R.init({ listEl: null });\n"
+        "out.before = R.isConnected();\n"
+    )
+    assert out["before"] is False, "no EventSource in node: not connected"

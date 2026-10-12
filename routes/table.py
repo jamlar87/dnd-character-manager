@@ -141,10 +141,15 @@ REPLAY_MAX = 200
 HEARTBEAT_SECONDS = 20.0
 
 
-def frame_for(roll: dict) -> str:
-    """One SSE frame. `data` is JSON built by json.dumps, so a label can never break the frame."""
-    payload = json.dumps({**roll, "kind": "roll"}, ensure_ascii=False)
-    return f"id: {roll.get('id', 0)}\nevent: roll\ndata: {payload}\n\n"
+def frame_for(payload: dict) -> str:
+    """One SSE frame on the DEFAULT event name, so the client dispatches on `payload.kind`.
+
+    Only rolls carry an `id:`. A state event with an id would set Last-Event-ID to a roll id
+    that never existed, and the next reconnect would replay the whole feed.
+    """
+    body = json.dumps(payload, ensure_ascii=False)
+    rid = payload.get("id") if payload.get("kind", "roll") == "roll" else None
+    return f"{'id: %s\n' % rid if rid else ''}data: {body}\n\n"
 
 
 def replay_gap(db, campaign_id: int, last_id: int, *, include_hidden: bool = True) -> list[dict]:
@@ -179,6 +184,11 @@ async def stream_frames(campaign_id: int, *, last_id: int = 0, heartbeat: float 
 
     q = events.subscribe(campaign_id)
     try:
+        # Flush a first byte immediately. Without it the client stays in CONNECTING until the
+        # first heartbeat, so `open` never fires on a quiet stream — and everything keyed off
+        # "the stream is live" (the sheet demoting its poll, a status line) silently never runs.
+        # `retry:` also tells EventSource how long to wait before reconnecting.
+        yield "retry: 3000\n: ok\n\n"
         for roll in gap:
             yield frame_for(roll)
         while True:
@@ -190,10 +200,12 @@ async def stream_frames(campaign_id: int, *, last_id: int = 0, heartbeat: float 
                 # A comment frame keeps intermediaries (and Cloudflare's 100s idle timer) happy.
                 yield ": hb\n\n"
                 continue
-            if event.get("kind") != "roll":
-                continue
-            if not include_hidden and event.get("hidden"):
-                continue
+            if event.get("kind") == "roll":
+                if not include_hidden and event.get("hidden"):
+                    continue
+            # Everything else the campaign publishes (an hp change, say) is forwarded as-is:
+            # dropping it here is how the sheet's HP silently stopped updating when its poll was
+            # demoted. There is one stream per campaign and the client dispatches on kind.
             yield frame_for(event)
     finally:
         events.unsubscribe(campaign_id, q)
@@ -588,3 +600,35 @@ async def character_feed_stream(char_id: int, request: Request):
             "Connection": "keep-alive",
         },
     )
+
+
+# ── state events ────────────────────────────────────────────────────────────────────
+# The sheet used to poll every 2 s for its own HP, because the DM's combat tracker keeps
+# player HP as a SNAPSHOT inside the encounter (combat_state.player_participants) and never
+# writes characters.hp_current. What the poll actually catches is the character row changing
+# underneath the open page — the player's own second tab, a rest, a level-up. That is what
+# these events carry, so the timer can stop being the mechanism.
+
+def publish_character_state(char_id: int, *, hp_current=None, hp_max=None, temp_hp=None) -> bool:
+    """Tell the character's table that their sheet changed. No campaign means nobody listens."""
+    from services import events
+
+    db = get_db()
+    try:
+        camp = campaign_for_character(db, char_id)
+        if not camp:
+            return False
+        camp_id = camp["id"]
+        name = roster_name(camp, char_id)
+    finally:
+        db.close()
+
+    events.publish(camp_id, {
+        "kind": "hp",
+        "character_id": int(char_id),
+        "character_name": name,
+        "hp_current": hp_current,
+        "hp_max": hp_max,
+        "temp_hp": temp_hp,
+    })
+    return True

@@ -1262,6 +1262,20 @@ async def update_character(char_id: int, request: Request, body: UpdateCharacter
                        (sp.get("slots_used", 0), sp.get("id"), char_id))
     db.commit()
     db.close()
+
+    # Live state: if HP moved, the character's table should know without anyone polling for it.
+    # Imported inside the call — routes.table imports main, and this module is imported by the
+    # characters package, so a module-scope import here would be a cycle (Pitfall 16).
+    if {"hp_current", "hp_max", "temp_hp"} & set(updates):
+        try:
+            from routes.table import publish_character_state
+            publish_character_state(char_id,
+                                    hp_current=updates.get("hp_current"),
+                                    hp_max=updates.get("hp_max"),
+                                    temp_hp=updates.get("temp_hp"))
+        except Exception:
+            # Saving the sheet must never fail because the feed is having a bad day.
+            pass
     return JSONResponse({"ok": True})
 
 @router.post("/api/character/{char_id}/edit-asi", response_class=JSONResponse)

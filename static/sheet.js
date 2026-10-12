@@ -465,6 +465,13 @@ async function importCharacterFile(file) {
 }
 
 // ── HP Sync Polling (sheet ↔ combat cross-sync) ──
+// The table channel carries the character's own HP changes, so when its stream is open the
+// timer is only insurance; without a stream (no campaign, or the feed is down) it goes back to
+// being the mechanism. 2s and 30s here are a real trade: the fast poll costs a request every
+// two seconds forever, which is what the stream exists to stop paying.
+const SHEET_POLL_FAST_MS = 2000;
+const SHEET_POLL_SAFE_MS = 30000;
+
 async function syncSheetHP() {
   try {
     const resp = await fetch('/api/sync-combat-hp', {
@@ -528,9 +535,9 @@ async function syncSheetHP() {
   } catch(e) { /* silent */ }
 }
 
-function startSheetPolling() {
+function startSheetPolling(interval) {
   stopSheetPolling();
-  _sheetPollTimer = setInterval(syncSheetHP, 2000);
+  _sheetPollTimer = setInterval(syncSheetHP, interval || SHEET_POLL_FAST_MS);
 }
 
 function stopSheetPolling() {
@@ -6542,5 +6549,19 @@ async function initSheetRollFeed() {
       source: 'sheet',
       publish: false                          // the sheet does not roll into the table feed
     });
+
+    // The stream is now the mechanism for this character's HP, with a slow safety net behind it.
+    window.RollFeed.on('hp', function (payload) {
+      if (!payload || String(payload.character_id) !== String(CHAR_ID)) return;
+      syncSheetHP();                          // reuses the tested read: HP, summons, conditions
+      const st = document.getElementById('sheet-rollfeed-status');
+      if (st) {
+        st.textContent = 'HP updated elsewhere';
+        clearTimeout(st._clear);
+        st._clear = setTimeout(function () { st.textContent = ''; }, 4000);
+      }
+    });
+    window.RollFeed.on('open', function () { startSheetPolling(SHEET_POLL_SAFE_MS); });
+    window.RollFeed.on('error', function () { startSheetPolling(SHEET_POLL_FAST_MS); });
   } catch (e) { /* the sheet is fine without a feed */ }
 }

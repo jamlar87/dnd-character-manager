@@ -27,7 +27,8 @@
     source: null,
     lastId: 0,
     connected: false,
-    filter: null
+    filter: null,
+    hooks: {}
   };
 
   function defaults() {
@@ -132,7 +133,39 @@
     } catch (e) {
       return false;
     }
+    var kind = payload.kind || 'roll';
+    if (kind !== 'roll') {
+      // Not a feed row: a surface may still be waiting for it (the sheet's HP, for one).
+      fireHooks(kind, payload);
+      return false;
+    }
     return ingest(payload);
+  }
+
+  /** Subscribe to a non-roll event kind, or to 'open' / 'error' for the connection itself.
+   *  Register AFTER init — init starts from a clean slate of hooks. */
+  function on(kind, fn) {
+    if (typeof fn !== 'function' || !kind) return false;
+    state.hooks[kind] = state.hooks[kind] || [];
+    state.hooks[kind].push(fn);
+    return true;
+  }
+
+  function off(kind) {
+    delete state.hooks[kind];
+  }
+
+  function fireHooks(kind, payload) {
+    var list = state.hooks[kind];
+    if (!list) return;
+    for (var i = 0; i < list.length; i++) {
+      // A listener that throws is its own problem: the stream keeps running for everything else.
+      try { list[i](payload); } catch (e) { /* ignore */ }
+    }
+  }
+
+  function isConnected() {
+    return !!state.connected;
   }
 
   function loadHistory() {
@@ -158,11 +191,14 @@
     state.source.addEventListener('open', function () {
       state.connected = true;
       setStatus('');
+      fireHooks('open', {});
     });
-    state.source.addEventListener('roll', onEvent);
+    state.source.addEventListener('message', onEvent);
     state.source.addEventListener('error', function () {
+      var was = state.connected;
       state.connected = false;
       setStatus('Reconnecting…');
+      if (was) fireHooks('error', {});
     });
     return state.source;
   }
@@ -207,6 +243,7 @@
     state.rows = [];
     state.lastId = 0;
     state.filter = null;
+    state.hooks = {};
 
     var history = loadHistory();
     history.then(function () { connect(); });
@@ -238,6 +275,9 @@
     installSink: installSink,
     setFilter: setFilter,
     setOptions: setOptions,
+    on: on,
+    off: off,
+    isConnected: isConnected,
     MAX_ROWS: MAX_ROWS
   };
 })();

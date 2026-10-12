@@ -6,6 +6,7 @@ timing or the edge behaviour), so what lives here is the contract: schema, bus, 
 projection and scope.
 """
 
+import json
 import sqlite3
 
 import pytest
@@ -327,11 +328,11 @@ def test_stream_replays_from_last_event_id(seeded_db):
     try:
         first = insert_roll(db, campaign_id=camp_id, who="dm", expression="1d20", results=[5])
         second = insert_roll(db, campaign_id=camp_id, who="dm", expression="1d20", results=[9])
-        frames = _drain(stream_frames(camp_id, last_id=first["id"], heartbeat=0.05), 1)
+        frames = _drain(stream_frames(camp_id, last_id=first["id"], heartbeat=0.05), 2)
     finally:
         db.close()
 
-    payload = _json.loads(_data_of(frames[0]))
+    payload = _json.loads(_data_of(frames[1]))   # frames[0] is the opening flush
     assert payload["id"] == second["id"]
     assert payload["total"] == 9
     assert f"id: {first['id']}" not in frames[0]
@@ -345,11 +346,13 @@ def test_a_fresh_stream_does_not_replay_history(seeded_db):
     db = _db(seeded_db["db_path"])
     try:
         insert_roll(db, campaign_id=camp_id, who="dm", expression="1d20", results=[5])
-        frames = _drain(stream_frames(camp_id, last_id=0, heartbeat=0.05), 1)
+        frames = _drain(stream_frames(camp_id, last_id=0, heartbeat=0.05), 2)
     finally:
         db.close()
 
-    assert frames[0].strip() == ": hb"     # the first thing out is a heartbeat
+    assert frames[0].startswith("retry: 3000")   # the opening flush, before anything else
+    assert frames[1].strip() == ": hb"           # then heartbeats while the table is quiet
+    assert "1d20" not in "".join(frames), "a fresh stream must not replay history"
 
 
 def test_stream_events_are_the_roll_rows(seeded_db):
@@ -443,13 +446,20 @@ def test_stream_honours_last_event_id_from_the_header(seeded_db):
         camp_id, _request(f"/api/campaign/{camp_id}/stream",
                           token=seeded_db["user_token"], last_event_id=first["id"])))
 
-    async def _first_frame():
+    async def _frames(n):
+        """The first n chunks off the response iterator, without waiting for the stream to end."""
+        out = []
         async for chunk in resp.body_iterator:
-            return chunk
-        return ""
+            out.append(chunk)
+            if len(out) >= n:
+                break
+        return out
 
-    frame = asyncio.run(_first_frame())
-    assert _json.loads(_data_of(frame))["id"] == second["id"]
+    frames = asyncio.run(_frames(2))
+    # frames[0] is the opening flush; the replayed roll is the first real frame after it.
+    # Matching "data: " against a whole frame never matches — chunks are frames, not lines —
+    # and the loop then spins on heartbeats forever (which hung this test once).
+    assert _json.loads(_data_of(frames[1]))["id"] == second["id"]
 
 
 # ── Slice 2: the player path (campaign key, filtered stream, player rolls) ──────────
@@ -541,8 +551,8 @@ def test_player_stream_never_carries_a_hidden_roll(seeded_db):
         db.close()
 
     # a reconnecting player would replay from here, and must still not see it
-    frames = _drain(stream_frames(camp_id, last_id=0, heartbeat=0.05, include_hidden=False), 1)
-    assert ": hb" in frames[0]
+    frames = _drain(stream_frames(camp_id, last_id=0, heartbeat=0.05, include_hidden=False), 2)
+    assert "id:" not in "".join(frames), "the hidden roll must not be replayed"
 
     # and the history projection agrees
     db = _db(seeded_db["db_path"])
@@ -565,8 +575,8 @@ def test_player_stream_drops_a_live_hidden_roll(seeded_db):
 
     async def _go():
         agen = stream_frames(camp_id, last_id=0, heartbeat=0.05, include_hidden=False)
-        first = await agen.__anext__()            # the heartbeat
-        assert ": hb" in first
+        first = await agen.__anext__()            # the opening flush
+        assert first.startswith("retry: 3000")
         events.publish(camp_id, {"kind": "roll", "id": 99, "total": 20, "hidden": True})
         events.publish(camp_id, {"kind": "roll", "id": 100, "total": 3, "hidden": False})
         second = await agen.__anext__()
@@ -638,7 +648,9 @@ def test_a_revoked_key_stops_the_player_stream(seeded_db):
         agen = stream_frames(camp_id, last_id=0, heartbeat=0.05, keep_alive=keep_alive)
         return [chunk async for chunk in agen]
 
-    assert asyncio.run(_go()) == []
+    frames = asyncio.run(_go())
+    assert frames and frames[0].startswith("retry: 3000"), "the flush happens before the check"
+    assert len(frames) == 1, "a revoked key must not receive anything else"
     assert calls["n"] >= 1
 
 
@@ -747,3 +759,112 @@ def test_the_sheet_mounts_a_read_only_feed():
     assert "sheetRollFeedCard" in html and "sheetRollFeedList" in html
     assert "initSheetRollFeed();" in js, "the sheet never mounts its feed"
     assert "publish: false" in js, "the sheet must not publish rolls into the table feed"
+
+
+# ── Slice 4: state events, so the sheet's HP poll can stop being the mechanism ──────
+
+def test_publish_character_state_reaches_the_characters_campaign(seeded_db):
+    from routes.table import publish_character_state
+    from services import events
+
+    char_id = _character(seeded_db["db_path"], 1)
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": char_id, "name": "Rowan"}])
+
+    q = events.subscribe(camp_id)
+    try:
+        assert publish_character_state(char_id, hp_current=7, hp_max=30) is True
+        event = q.get_nowait()
+        assert event["kind"] == "hp"
+        assert event["character_id"] == char_id
+        assert event["hp_current"] == 7 and event["hp_max"] == 30
+        assert event["character_name"] == "Rowan"
+    finally:
+        events.unsubscribe(camp_id, q)
+
+
+def test_publish_character_state_is_a_noop_without_a_campaign(seeded_db):
+    from routes.table import publish_character_state
+
+    char_id = _character(seeded_db["db_path"], 1, "Loner")
+    assert publish_character_state(char_id, hp_current=3) is False
+
+
+def test_changing_hp_on_the_sheet_publishes_a_state_event(seeded_db, client, auth_headers):
+    """The write that actually moves a character's HP is /update — that is what must publish."""
+    from services import events
+
+    char_id = _character(seeded_db["db_path"], 1)
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": char_id, "name": "Rowan"}])
+
+    q = events.subscribe(camp_id)
+    try:
+        resp = client.post(f"/api/character/{char_id}/update", headers=auth_headers,
+                           json={"hp_current": 4})
+        assert resp.status_code == 200, resp.text
+        event = q.get_nowait()
+        assert event["kind"] == "hp" and event["character_id"] == char_id
+        assert event["hp_current"] == 4
+
+        # a save that does not touch HP must not wake anybody up
+        assert client.post(f"/api/character/{char_id}/update", headers=auth_headers,
+                           json={"notes": "just some notes"}).status_code == 200
+        assert q.qsize() == 0
+    finally:
+        events.unsubscribe(camp_id, q)
+
+
+def test_the_sheet_poll_is_demoted_to_a_safety_net():
+    """Text-level guard: with the stream open the 2s timer must not be the mechanism."""
+    import pathlib
+
+    js = (pathlib.Path(__file__).resolve().parent.parent / "static" / "sheet.js").read_text()
+    assert "SHEET_POLL_FAST_MS = 2000" in js and "SHEET_POLL_SAFE_MS = 30000" in js
+    assert "on('open', function () { startSheetPolling(SHEET_POLL_SAFE_MS); })" in js
+    assert "on('error', function () { startSheetPolling(SHEET_POLL_FAST_MS); })" in js
+    assert "on('hp'" in js, "nothing listens for the HP event the route publishes"
+
+
+def test_every_stream_flushes_a_first_byte_before_anything_else(seeded_db):
+    """Regression: with no first byte, EventSource stays CONNECTING on a quiet stream and the
+    client's `open` never fires — which is how the sheet's poll demotion silently never ran."""
+    from routes.table import stream_frames
+
+    camp_id = _campaign(seeded_db["db_path"], 1)
+    frames = _drain(stream_frames(camp_id, last_id=0, heartbeat=5), 1)
+    assert frames[0].startswith("retry: 3000"), "the stream must flush something immediately"
+    assert frames[0].strip().endswith(": ok")
+
+
+def test_a_state_event_reaches_the_stream_without_an_id(seeded_db):
+    """Regression: dropping non-roll events in the stream made the sheet's HP go stale the
+    moment its poll was demoted. A state event must arrive AND must not carry a roll id."""
+    import asyncio
+
+    from routes.table import stream_frames
+    from services import events
+
+    camp_id = _campaign(seeded_db["db_path"], 1)
+
+    async def _go():
+        agen = stream_frames(camp_id, last_id=0, heartbeat=0.05, include_hidden=False)
+        first = await agen.__anext__()                    # the opening flush
+        assert first.startswith("retry: 3000")
+        events.publish(camp_id, {"kind": "hp", "character_id": 78, "hp_current": 37})
+        frame = await agen.__anext__()
+        await agen.aclose()
+        return first, frame
+
+    _, frame = asyncio.run(_go())
+    payload = json.loads(_data_of(frame))
+    assert payload["kind"] == "hp" and payload["hp_current"] == 37
+    assert not frame.startswith("id:"), "a state event must not set Last-Event-ID"
+    assert "id:" not in frame.split("data:")[0]
+
+
+def test_roll_frames_still_carry_their_id(seeded_db):
+    """The other half: drops of roll ids would break the reconnect replay."""
+    from routes.table import frame_for
+
+    frame = frame_for({"kind": "roll", "id": 41, "expression": "1d20", "total": 12})
+    assert frame.startswith("id: 41\n")
+    assert _data_of(frame).startswith('{"kind": "roll"')
