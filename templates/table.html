@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ campaign.name }} — Table</title>
+<style>
+  /* The players' own device: no app chrome, no login. Phone-first, because this is the
+     screen a player actually holds. One column, everything reachable with a thumb. */
+  :root{--bg:#111116;--card:#1b1b22;--border:#2e2e38;--text:#e8e8ee;--muted:#9a9aa6;
+        --accent:#c9a227;--warn:#ff9100;color-scheme:dark}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif}
+  header{padding:.7rem .9rem;border-bottom:1px solid var(--border);display:flex;
+         align-items:baseline;gap:.6rem;flex-wrap:wrap}
+  header h1{margin:0;font-size:1rem}
+  header .sub{font-size:.72rem;color:var(--muted)}
+  main{max-width:44rem;margin:0 auto;padding:.75rem}
+  .rf-panel{background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:.75rem}
+  .rf-bar{display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;border-bottom:1px solid var(--border);min-height:34px}
+  .rf-bar h3{margin:0;font-size:.85rem}
+  .rf-status{margin-left:auto;font-size:.68rem;color:var(--warn)}
+  .rf-list{max-height:20rem;overflow-y:auto;padding:.2rem 0}
+  .rf-empty{padding:.7rem .6rem;font-size:.75rem;color:var(--muted)}
+  .rf-row{display:flex;align-items:baseline;gap:.45rem;padding:.3rem .6rem;
+          border-bottom:1px solid var(--border);font-size:.8rem}
+  .rf-row:last-child{border-bottom:0}
+  .rf-who{font-weight:600;white-space:nowrap;max-width:7rem;overflow:hidden;text-overflow:ellipsis}
+  .rf-label{color:var(--muted);font-size:.72rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rf-right{margin-left:auto;display:flex;gap:.4rem;align-items:baseline;white-space:nowrap}
+  .rf-expr{color:var(--muted);font-size:.72rem}
+  .rf-faces{color:var(--muted);font-size:.68rem}
+  .rf-total{font-weight:700;font-size:.95rem;color:var(--accent)}
+  .rf-mine{color:var(--accent)}
+  .pad{display:grid;grid-template-columns:repeat(auto-fit,minmax(3.4rem,1fr));gap:.4rem;margin-bottom:.6rem}
+  .pad button{min-height:44px;font-size:.85rem;background:var(--card);color:var(--text);
+              border:1px solid var(--border);border-radius:8px;cursor:pointer}
+  .pad button:active{border-color:var(--accent)}
+  .row{display:flex;gap:.4rem;align-items:center;margin-bottom:.6rem;flex-wrap:wrap}
+  select,input{min-height:44px;background:var(--card);color:var(--text);border:1px solid var(--border);
+               border-radius:8px;padding:0 .5rem;font-size:.85rem}
+  select{max-width:100%}
+  .rollbtn{flex:1;min-height:44px;background:var(--accent);color:#1a1a1f;border:0;border-radius:8px;
+           font-weight:700;font-size:.9rem;cursor:pointer}
+  .muted{color:var(--muted);font-size:.72rem}
+</style>
+</head>
+<body>
+<header>
+  <h1>{{ campaign.name }}</h1>
+  <span class="sub">table feed · no login needed</span>
+</header>
+
+<main>
+  <div class="rf-panel">
+    <div class="rf-bar"><h3>🎲 Roll</h3><span class="rf-status" id="rfStatus"></span></div>
+    <div class="pad" id="rfPad"></div>
+    <div class="row">
+      <select id="rfCharacter" onchange="rfSaveCharacter()" title="Who you are at this table">
+        <option value="">— pick your character —</option>
+        {% for ch in roster %}
+        <option value="{{ ch.id }}">{{ ch.name }}</option>
+        {% endfor %}
+      </select>
+      <input type="number" id="rfMod" value="0" step="1" min="-20" max="20" style="width:5rem" title="Modifier">
+      <select id="rfAdv" title="Advantage / disadvantage">
+        <option value="0">normal</option>
+        <option value="1">advantage</option>
+        <option value="-1">disadvantage</option>
+      </select>
+    </div>
+    <div class="row">
+      <input type="text" id="rfLabel" placeholder="what is it? (attack, save, check…)" style="flex:1;min-width:12rem">
+    </div>
+    <div class="row"><span class="muted" id="rfHint">Pick your character, then tap a die.</span></div>
+  </div>
+
+  <div class="rf-panel">
+    <div class="rf-bar"><h3>The feed</h3><span class="rf-status" id="rfStatus"></span></div>
+    <div class="rf-list" id="rollFeedList"><div class="rf-empty">loading…</div></div>
+  </div>
+</main>
+
+<script>
+  window.TABLE_CFG = {
+    key: {{ key|tojson }},
+    campaign: {{ campaign.name|tojson }},
+    character: null,
+    streamUrl: "/api/table/{{ key }}/stream",
+    rollUrl: "/api/table/{{ key }}/roll"
+  };
+</script>
+<script src="/static/dice.js?v={{ static_asset_version('dice.js') }}"></script>
+<script src="/static/rollfeed.js?v={{ static_asset_version('rollfeed.js') }}"></script>
+<script>
+(function () {
+  'use strict';
+  var DICE = [4, 6, 8, 10, 12, 20, 100];
+
+  var pad = document.getElementById('rfPad');
+  DICE.forEach(function (sides) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = 'd' + sides;
+    b.onclick = function () { rfRoll(sides); };
+    pad.appendChild(b);
+  });
+
+  window.rfCharacter = function () {
+    var sel = document.getElementById('rfCharacter');
+    return sel.value ? parseInt(sel.value, 10) : null;
+  };
+
+  window.rfSaveCharacter = function () {
+    var id = window.rfCharacter();
+    try { localStorage.setItem('tableCharacter_' + window.TABLE_CFG.key, id || ''); } catch (e) {}
+    document.getElementById('rfHint').textContent = id
+      ? 'Rolling as ' + document.getElementById('rfCharacter').selectedOptions[0].textContent + '.'
+      : 'Pick your character, then tap a die.';
+  };
+
+  // The pad rolls REAL dice here and posts the faces: the server recomputes the total and
+  // rejects anything that does not add up, so the feed can never show a number the dice
+  // did not produce.
+  window.rfRoll = function (sides) {
+    var characterId = window.rfCharacter();
+    if (!characterId) {
+      document.getElementById('rfHint').textContent = 'Pick your character first.';
+      return;
+    }
+    var mod = parseInt(document.getElementById('rfMod').value || '0', 10) || 0;
+    var adv = parseInt(document.getElementById('rfAdv').value || '0', 10);
+    var label = (document.getElementById('rfLabel').value || '').trim() || ('d' + sides);
+
+    var expr = '1d' + sides + (mod ? (mod > 0 ? '+' + mod : mod) : '');
+    var kept, note = '';
+
+    if (adv !== 0 && sides === 20) {
+      // Advantage/disadvantage is two rolls kept as one. The log stores the die that
+      // counted and the label carries both, so the table sees the discard without the
+      // grammar having to learn a keep-highest operator.
+      var a = window.DiceRoller.roll('1d20');
+      var b = window.DiceRoller.roll('1d20');
+      var best = adv > 0 ? Math.max(a.rolls[0], b.rolls[0]) : Math.min(a.rolls[0], b.rolls[0]);
+      kept = { expr: expr, rolls: [best], mod: mod, total: best + mod, text: '' };
+      note = (adv > 0 ? 'adv' : 'dis') + ' (' + a.rolls[0] + ', ' + b.rolls[0] + ')';
+    } else {
+      kept = window.DiceRoller.roll(expr);
+    }
+    if (!kept) return;
+    window.RollFeed.setOptions({ characterId: characterId });
+
+    var shown = (mod ? kept.total : kept.rolls[0]);
+    document.getElementById('rfHint').textContent =
+      'You rolled ' + shown + (note ? ' · ' + note : '') + ' — sending…';
+
+    window.RollFeed.post(kept, {
+      label: label + (note ? ' · ' + note : ''),
+      hidden: false
+    }).then(function (res) {
+      document.getElementById('rfHint').textContent = res
+        ? 'Sent: ' + label + ' = ' + shown
+        : 'Could not send that roll — the table did not get it.';
+    });
+  };
+
+  // Restore who this device is (the same tablet is usually the same player).
+  var saved = null;
+  try { saved = localStorage.getItem('tableCharacter_' + window.TABLE_CFG.key); } catch (e) {}
+  if (saved) {
+    var sel = document.getElementById('rfCharacter');
+    sel.value = saved;
+    if (!sel.value) sel.selectedIndex = 0;
+  }
+
+  window.RollFeed.init({
+    listEl: document.getElementById('rollFeedList'),
+    statusEl: document.getElementById('rfStatus'),
+    streamUrl: window.TABLE_CFG.streamUrl,
+    rollUrl: window.TABLE_CFG.rollUrl,
+    characterId: window.rfCharacter(),
+    source: 'player-view',
+    publish: false            // the pad publishes; clicks on rules text on this page must not
+  });
+
+  document.getElementById('rfCharacter').addEventListener('change', function () {
+    window.RollFeed.setOptions({ characterId: window.rfCharacter() });
+  });
+  window.rfSaveCharacter();
+})();
+</script>
+</body>
+</html>

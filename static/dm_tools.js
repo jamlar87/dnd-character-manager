@@ -3581,6 +3581,7 @@ async function loadCombatCampaign() {
     document.getElementById('playersWaiting').innerHTML =
       '<span style="color:var(--text-muted);font-size:0.75rem;text-align:center">Select a campaign to load players</span>';
     _campaignPlayers = [];
+    initRollFeed();                 // no campaign, no feed
     return;
   }
 
@@ -3611,6 +3612,7 @@ async function loadCombatCampaign() {
   } catch(e) {}
 
   renderPlayersPanel();
+  initRollFeed();                   // follow the newly selected campaign's rolls
   // Persist encounter→campaign link so encounter auto-loads this campaign
   if (_combatEncId && _combatCampId) {
     try { localStorage.setItem('combatEncounterCampaign_' + _combatEncId, _combatCampId); } catch(e) {}
@@ -5601,4 +5603,89 @@ function cbShowSuccess(charId, name) {
         <button class="btn btn-outline" onclick="closeModal('charBuilderModal')">Close</button>
       </div>
     </div>`;
+}
+
+// ── Roll feed (the table channel) ────────────────────────────────────────────────────
+// Every roll made anywhere in the app lands in one campaign-scoped log, pushed over SSE.
+// The panel follows the campaign picked in the combat bar; the players' devices read the
+// same feed through a campaign key at /table/{key}, with hidden rolls withheld by the server.
+let _rfCampId = null;
+let _rfShowHidden = true;        // view preference for THIS screen only
+let _rfMyRollsHidden = false;    // whether the DM's own rolls go out hidden
+
+function initRollFeed() {
+  const list = document.getElementById('rollFeedList');
+  if (!window.RollFeed || !list) return;
+
+  if (!_combatCampId) {
+    _rfCampId = null;
+    window.RollFeed.disconnect();
+    // Detach too: with no campaign there is nowhere to publish a roll, and a sink that
+    // still fires would fill the console with failures.
+    if (window.DiceRoller && window.DiceRoller.setSink) window.DiceRoller.setSink(null);
+    list.textContent = '';
+    const hint = document.createElement('div');
+    hint.className = 'rf-empty';
+    hint.textContent = 'Select a campaign to follow its rolls.';
+    list.appendChild(hint);
+    return;
+  }
+  if (_rfCampId === _combatCampId) return;   // already following this one
+
+  _rfCampId = _combatCampId;
+  window.RollFeed.init({
+    listEl: list,
+    statusEl: document.getElementById('rfStatus'),
+    streamUrl: '/api/campaign/' + _rfCampId + '/stream',
+    rollsUrl: '/api/campaign/' + _rfCampId + '/rolls',
+    rollUrl: '/api/campaign/' + _rfCampId + '/roll',
+    source: 'dm-tools',
+    hidden: _rfMyRollsHidden
+  });
+  window.RollFeed.setFilter(r => _rfShowHidden || !r.hidden);
+}
+
+function setRollFeedMode() {
+  const sel = document.getElementById('rfRollMode');
+  _rfMyRollsHidden = !!(sel && sel.value === '1');
+  if (window.RollFeed) window.RollFeed.setOptions({ hidden: _rfMyRollsHidden });
+  const st = document.getElementById('rfStatus');
+  if (st) st.textContent = _rfMyRollsHidden ? 'Your rolls are hidden from the players' : '';
+}
+
+function toggleRollFeedHidden() {
+  _rfShowHidden = !_rfShowHidden;
+  const btn = document.getElementById('rfHiddenToggle');
+  if (btn) {
+    btn.textContent = _rfShowHidden ? '🙈 Hide my hidden rolls' : '👁️ Show my hidden rolls';
+  }
+  if (window.RollFeed) window.RollFeed.setFilter(r => _rfShowHidden || !r.hidden);
+}
+
+async function shareTableLink() {
+  if (!_combatCampId) return;
+  const st = document.getElementById('rfStatus');
+  try {
+    const r = await fetch('/api/campaign/' + _combatCampId + '/player-key');
+    const d = await r.json();
+    if (!d.player_key) {
+      if (st) st.textContent = 'Could not mint a player link';
+      return;
+    }
+    const url = location.origin + d.url;
+    try {
+      await navigator.clipboard.writeText(url);
+      if (st) st.textContent = 'Copied: ' + url;
+    } catch (e) {
+      window.prompt('Players\' link (copy it):', url);
+    }
+  } catch (e) {
+    if (st) st.textContent = 'Could not mint a player link';
+  }
+}
+
+function refreshRollFeed() {
+  _rfCampId = null;                       // force a re-init: history is refetched
+  if (window.RollFeed) window.RollFeed.disconnect();
+  initRollFeed();
 }

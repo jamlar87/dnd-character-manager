@@ -1129,6 +1129,29 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
     <span style="margin-left:0.5rem;font-size:0.85rem;color:var(--text-muted)" id="combatStatus"></span>
   </div>
 
+  {# ───── ROLL FEED (the table channel) ─────
+     Every roll made anywhere in the app lands here, and the players' devices see the same
+     feed at /table/{key}. Follows the campaign selected above: no campaign, no feed. #}
+  <section class="rf-panel" id="rollFeedPanel" style="margin-top:0.75rem">
+    <div class="rf-bar">
+      <h3>🎲 Roll feed</h3>
+      <select id="rfRollMode" onchange="setRollFeedMode()" title="Whether your own rolls are hidden from the players" style="padding:0.3rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.78rem;min-height:34px">
+        <option value="0">👁️ My rolls: visible</option>
+        <option value="1">🙈 My rolls: hidden</option>
+      </select>
+      <button class="btn btn-outline btn-sm" id="rfHiddenToggle" onclick="toggleRollFeedHidden()"
+              title="Whether THIS screen lists your hidden rolls — never whether players see them">🙈 Hide my hidden rolls</button>
+      <button class="btn btn-outline btn-sm" id="rfShareBtn" onclick="shareTableLink()"
+              title="Copy the players' link for this campaign">🔗 Player link</button>
+      <button class="btn btn-outline btn-sm" id="rfClearBtn" onclick="refreshRollFeed()"
+              title="Re-read the log (the feed only ever holds the newest 500 rolls)">↻ Refresh</button>
+      <span class="rf-status" id="rfStatus"></span>
+    </div>
+    <div class="rf-list" id="rollFeedList">
+      <div class="rf-empty">Select a campaign to follow its rolls.</div>
+    </div>
+  </section>
+
   <div id="combatTracker" style="display:none;margin-top:0.75rem">
     <!-- Round + Turn controls -->
     <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap">

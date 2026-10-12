@@ -16,10 +16,10 @@ import json
 import re
 import secrets
 
-from fastapi import APIRouter, Request
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import HTMLResponse, JSONResponse
 
-from main import get_db, require_user, _require_owned
+from main import get_db, require_user, _require_owned, _render
 
 router = APIRouter()
 
@@ -302,34 +302,41 @@ def campaign_by_key(db, key) -> dict | None:
     return row
 
 
+def roster_entries(camp: dict) -> list[dict]:
+    """This campaign's roster as the picker shows it, alphabetically (services.text.alpha_key
+    is the app's collation — `.lower()` sorts differently for names with punctuation)."""
+    from services.text import alpha_key
+
+    try:
+        entries = json.loads(camp.get("characters") or "[]")
+    except (TypeError, ValueError):
+        return []
+    out = []
+    for entry in entries if isinstance(entries, list) else []:
+        if not isinstance(entry, dict):
+            continue
+        try:
+            char_id = int(entry.get("id"))
+        except (TypeError, ValueError):
+            continue
+        out.append({"id": char_id, "name": str(entry.get("name") or "Unnamed")})
+    out.sort(key=lambda r: alpha_key(r["name"]))
+    return out
+
+
 def roster_ids(camp: dict) -> set[int]:
     """Character ids on this campaign's roster.
 
     Read from the campaign's own `characters` JSON, not the `dm_campaign_characters`
     join table: that table is EMPTY on the live database while campaigns are full.
     """
-    try:
-        entries = json.loads(camp.get("characters") or "[]")
-    except (TypeError, ValueError):
-        return set()
-    ids = set()
-    for entry in entries if isinstance(entries, list) else []:
-        if isinstance(entry, dict):
-            try:
-                ids.add(int(entry.get("id")))
-            except (TypeError, ValueError):
-                continue
-    return ids
+    return {row["id"] for row in roster_entries(camp)}
 
 
 def roster_name(camp: dict, character_id: int) -> str:
-    try:
-        entries = json.loads(camp.get("characters") or "[]")
-    except (TypeError, ValueError):
-        return ""
-    for entry in entries if isinstance(entries, list) else []:
-        if isinstance(entry, dict) and str(entry.get("id")) == str(character_id):
-            return str(entry.get("name") or "")
+    for row in roster_entries(camp):
+        if row["id"] == int(character_id):
+            return row["name"]
     return ""
 
 
@@ -486,3 +493,24 @@ async def table_roll(key: str, request: Request):
     events.publish(camp_id, {"kind": "roll", **row})
     return JSONResponse({"ok": True, "roll": row})
 
+
+
+@router.get("/table/{key}", response_class=HTMLResponse)
+async def table_page(key: str, request: Request):
+    """The players' surface: pick a character, roll, watch the same feed the DM sees.
+
+    Authorised by the campaign key alone — this is the tablet nobody signs into. It can read
+    the projected feed and post rolls, and nothing else.
+    """
+    db = get_db()
+    try:
+        camp = campaign_by_key(db, key)
+        if not camp:
+            raise HTTPException(status_code=404, detail="Not found")
+        roster = roster_entries(camp)
+        campaign_name = camp.get("name") or "Campaign"
+    finally:
+        db.close()
+
+    return _render("table.html", request=request, campaign={"name": campaign_name},
+                   roster=roster, key=key)

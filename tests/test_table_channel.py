@@ -644,3 +644,47 @@ def test_a_revoked_key_stops_the_player_stream(seeded_db):
 
 
 
+
+
+# ── Slice 2b: the surfaces ──────────────────────────────────────────────────────────
+
+def test_the_player_page_renders_for_a_key_and_404s_without_one(seeded_db, client):
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1,
+                                    [{"id": 42, "name": "Rowan"},
+                                     {"id": 43, "name": "Ámbar"}])
+    _set_key(seeded_db["db_path"], camp_id, "k" * 32)
+
+    ok = client.get("/table/" + "k" * 32)
+    assert ok.status_code == 200, ok.text
+    body = ok.text
+    assert "Rowan" in body and "Ámbar" in body
+    # the surface gets its own key and no campaign-wide secret beyond it
+    assert "ROLL_RE" not in body and '"player_key"' not in body
+
+    assert client.get("/table/" + "z" * 32).status_code == 404
+    assert client.get("/table/%20").status_code in (404, 422)
+
+
+def test_the_player_page_needs_no_login(seeded_db, client):
+    """The tablet at the table has no session: the key alone must open the page."""
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": 42, "name": "Rowan"}])
+    _set_key(seeded_db["db_path"], camp_id, "k" * 32)
+    resp = client.get("/table/" + "k" * 32)          # no cookies at all
+    assert resp.status_code == 200
+    assert "Cookie" not in resp.request.headers
+
+
+def test_the_dm_tools_page_mounts_the_feed_panel():
+    import pathlib
+
+    repo = pathlib.Path(__file__).resolve().parent.parent
+    html = (repo / "templates" / "dm_tools.html").read_text()
+    js = (repo / "static" / "dm_tools.js").read_text()
+    for needed in ("rollFeedPanel", "rollFeedList", "rfStatus", "rfRollMode",
+                   "rfHiddenToggle", "rfShareBtn"):
+        assert needed in html, f"the DM panel is missing {needed}"
+    assert "initRollFeed()" in js, "the panel is never mounted"
+    assert "loadCombatCampaign" in js and js.count("initRollFeed()") >= 2, (
+        "the feed has to be (re)mounted by the campaign select, including the no-campaign case")
+    # the player page must exist and be reachable
+    assert (repo / "templates" / "table.html").exists()

@@ -26,7 +26,8 @@
     rows: [],
     source: null,
     lastId: 0,
-    connected: false
+    connected: false,
+    filter: null
   };
 
   function defaults() {
@@ -79,11 +80,27 @@
     var list = state.cfg && state.cfg.listEl;
     if (!list) return;
     list.textContent = '';
-    if (!state.rows.length) {
+    var rows = state.filter ? state.rows.filter(state.filter) : state.rows;
+    if (!rows.length) {
       list.appendChild(el('div', 'rf-empty', 'No rolls yet — the table is quiet.'));
       return;
     }
-    for (var i = 0; i < state.rows.length; i++) list.appendChild(renderRow(state.rows[i]));
+    for (var i = 0; i < rows.length; i++) list.appendChild(renderRow(rows[i]));
+  }
+
+  /** A view preference for the DM's own screen. It hides nothing from anyone else: the
+   *  server decides who may see a hidden roll, this only decides what this screen shows. */
+  function setFilter(fn) {
+    state.filter = (typeof fn === 'function') ? fn : null;
+    render();
+    return !!state.filter;
+  }
+
+  /** Change one option after init (the DM switching whether their own rolls are hidden). */
+  function setOptions(opts) {
+    if (!state.cfg || !opts) return state.cfg;
+    for (var k in opts) if (Object.prototype.hasOwnProperty.call(opts, k)) state.cfg[k] = opts[k];
+    return state.cfg;
   }
 
   function setStatus(text) {
@@ -189,6 +206,7 @@
     state.cfg = merged;
     state.rows = [];
     state.lastId = 0;
+    state.filter = null;
 
     var history = loadHistory();
     history.then(function () { connect(); });
@@ -218,6 +236,8 @@
     feedRows: feedRows,
     disconnect: disconnect,
     installSink: installSink,
+    setFilter: setFilter,
+    setOptions: setOptions,
     MAX_ROWS: MAX_ROWS
   };
 })();
