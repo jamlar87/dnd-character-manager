@@ -4106,20 +4106,19 @@ async function combatResetHP(enId) {
 
 async function saveCombatHp(p, hp) {
   if (p.is_player && p.char_id) {
-    // Save to character table
+    // To the character row, through the DM route that authorises on the CAMPAIGN: the player's
+    // sheet belongs to the player, so an owner-scoped write would be refused for every player at
+    // a real table. (It used to POST /api/update, which is not a route — every damage the DM
+    // applied to a player was a silent 404 that this catch swallowed.)
     try {
-      await fetch('/api/update', {
-        method: 'POST', headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({character_id: p.char_id, hp_current: hp})
-      });
+      await postDmHp('/api/dm/character-hp', {character_id: p.char_id, hp_current: hp});
     } catch(e) {}
   } else if (p.is_summon && p.owner_char_id && p.summon_idx !== undefined) {
-    // Save summon HP back to character sheet
+    // Save summon HP back to character sheet. Same authority question as a player row: a summon
+    // on a character the DM does not own needs the DM route, not the owner's.
     try {
-      await fetch(`/api/character/${p.owner_char_id}/update-summon-hp`, {
-        method: 'POST', headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({summon_idx: p.summon_idx, hp_current: hp})
-      });
+      await postDmHp('/api/dm/summon-hp',
+                     {character_id: p.owner_char_id, summon_idx: p.summon_idx, hp_current: hp});
     } catch(e) {}
   } else if (p.en_id > 0 && _combatEncId) {
     // Save to encounter NPC table
@@ -4130,6 +4129,38 @@ async function saveCombatHp(p, hp) {
       });
     } catch(e) {}
   }
+}
+
+/** POST and INSIST on an answer. A write that fails silently is how the DM spent months healing
+ *  and wounding players in the tracker with nothing happening; a failure now says so. */
+async function postDmHp(url, body) {
+  const r = await fetch(url, {
+    method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body)
+  });
+  if (!r.ok) {
+    let detail = 'HTTP ' + r.status;
+    try { const d = await r.json(); if (d && (d.error || d.detail)) detail = d.error || d.detail; } catch(e) {}
+    reportCombatError('HP not saved: ' + detail);
+    return null;
+  }
+  return r.json().catch(() => ({}));
+}
+
+/** Say it where the DM is looking, and keep it in the console for whoever reads logs next. */
+function reportCombatError(message) {
+  try { console.warn('[combat] ' + message); } catch(e) {}
+  const bar = document.querySelector('.encounter-toolbar') || document.getElementById('initiativeTrack');
+  if (!bar) return;
+  let el = document.getElementById('combatSyncError');
+  if (!el) {
+    el = document.createElement('span');
+    el.id = 'combatSyncError';
+    el.style.cssText = 'font-size:0.7rem;color:var(--danger,#e5534b);align-self:center';
+    bar.appendChild(el);
+  }
+  el.textContent = '⚠ ' + message;
+  clearTimeout(el._clear);
+  el._clear = setTimeout(function () { el.textContent = ''; }, 6000);
 }
 
 // ── Defeated toggle ──

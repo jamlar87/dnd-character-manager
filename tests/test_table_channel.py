@@ -971,3 +971,105 @@ def test_a_player_hp_change_repaints_the_trackers_panel():
     assert "if (changedPlayers) renderPlayersPanel();" in js
     assert "if (changed) {\n      renderInitiativeTrack();" in js, (
         "the initiative track must still wait for a participant change")
+
+
+# ── Slice 7: the tracker's damage has to land on the sheet ──────────────────────────
+
+def test_a_dm_can_move_the_hp_of_a_character_in_their_campaign(seeded_db, client, auth_headers):
+    """The player's sheet belongs to the player, so the DM's authority is the campaign roster."""
+    import sqlite3
+
+    from services import events
+
+    char_id = _character(seeded_db["db_path"], 2)          # a PLAYER's character, not the DM's
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": char_id, "name": "Rowan"}])
+
+    q = events.subscribe(camp_id)
+    try:
+        r = client.post("/api/dm/character-hp", json={"character_id": char_id, "hp_current": 12},
+                        headers=auth_headers)
+        assert r.status_code == 200, r.text
+        assert r.json()["hp_current"] == 12
+
+        db = sqlite3.connect(seeded_db["db_path"])
+        db.row_factory = sqlite3.Row
+        assert db.execute("SELECT hp_current FROM characters WHERE id=?", (char_id,)).fetchone()["hp_current"] == 12
+        db.close()
+
+        event = q.get_nowait()
+        assert event["kind"] == "hp" and event["character_id"] == char_id, (
+            "the player's own sheet must hear about the damage")
+    finally:
+        events.unsubscribe(camp_id, q)
+
+
+def test_a_dm_cannot_touch_a_character_outside_their_campaigns(seeded_db, client, auth_headers):
+    import sqlite3
+
+    stranger = _character(seeded_db["db_path"], 2, "Not Mine")
+    r = client.post("/api/dm/character-hp", json={"character_id": stranger, "hp_current": 1},
+                    headers=auth_headers)
+    assert r.status_code == 404, "404, like every other ownership check: no confirming it exists"
+
+    db = sqlite3.connect(seeded_db["db_path"])
+    assert db.execute("SELECT hp_current FROM characters WHERE id=?", (stranger,)).fetchone()[0] != 1
+    db.close()
+
+
+def test_the_hp_the_dm_sends_is_bounded_and_never_negative(seeded_db, client, auth_headers):
+    char_id = _character(seeded_db["db_path"], 2)
+    _campaign_with_roster(seeded_db["db_path"], 1, [{"id": char_id, "name": "Rowan"}])
+
+    assert client.post("/api/dm/character-hp", json={"character_id": char_id, "hp_current": -50},
+                       headers=auth_headers).json()["hp_current"] == 0
+    assert client.post("/api/dm/character-hp", json={"character_id": char_id, "hp_current": "nope"},
+                       headers=auth_headers).status_code == 400
+    assert client.post("/api/dm/character-hp", json={"hp_current": 5},
+                       headers=auth_headers).status_code == 400
+
+
+def test_a_dm_can_move_a_summons_hp_in_their_campaign(seeded_db, client, auth_headers):
+    import json as _j
+    import sqlite3
+
+    char_id = _character(seeded_db["db_path"], 2)
+    _campaign_with_roster(seeded_db["db_path"], 1, [{"id": char_id, "name": "Rowan"}])
+    db = sqlite3.connect(seeded_db["db_path"])
+    db.execute("UPDATE characters SET summons=? WHERE id=?",
+               (_j.dumps([{"name": "Wolf", "hp_current": 11, "hp_max": 11}]), char_id))
+    db.commit()
+    db.close()
+
+    r = client.post("/api/dm/summon-hp",
+                    json={"character_id": char_id, "summon_idx": 0, "hp_current": 3},
+                    headers=auth_headers)
+    assert r.status_code == 200, r.text
+    db = sqlite3.connect(seeded_db["db_path"])
+    stored = _j.loads(db.execute("SELECT summons FROM characters WHERE id=?", (char_id,)).fetchone()[0])
+    db.close()
+    assert stored[0]["hp_current"] == 3, "the tracker wounding a summon must stick"
+
+    assert client.post("/api/dm/summon-hp",
+                       json={"character_id": char_id, "summon_idx": 9, "hp_current": 3},
+                       headers=auth_headers).status_code == 400
+
+
+def test_the_tracker_no_longer_posts_to_a_route_that_does_not_exist():
+    """The bug this slice exists for: `/api/update` was never a route, so every damage the DM
+    applied to a player in the tracker was a silent 404 that the client's catch swallowed."""
+    import pathlib
+
+    repo = pathlib.Path(__file__).resolve().parent.parent
+    js = (repo / "static" / "dm_tools.js").read_text()
+    assert "'/api/update'" not in js, "the dead endpoint is back"
+    assert "postDmHp('/api/dm/character-hp'" in js
+    assert "postDmHp('/api/dm/summon-hp'" in js
+    # and a failure must be LOUD: that silence is what hid this for so long
+    assert "function reportCombatError(" in js and "reportCombatError('HP not saved: '" in js
+    # every URL the tracker posts to must exist in the app
+    import re
+    urls = set(re.findall(r"postDmHp\('([^']+)'", js))
+    routes_src = (repo / "routes").glob("**/*.py")
+    backend = "\n".join(f.read_text() for f in routes_src)
+    for url in urls:
+        assert url.strip('"') in backend or url in backend, f"{url} is not a route"

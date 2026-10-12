@@ -3339,3 +3339,93 @@ async def dm_save_campaign_widgets(camp_id: int, request: Request):
     finally:
         db.close()
 
+
+
+# ── the tracker's damage has to land on the sheet ───────────────────────────────────────
+# The tracker's HP field for a player used to POST /api/update, which does not exist: every
+# damage the DM applied to a player in the tracker was a silent 404 that the client swallowed,
+# and the tracker's own sync then put the sheet's number back. Owner-scoped writes cannot fix
+# that either — a player's sheet belongs to the player, not to the DM. So this authorises on the
+# CAMPAIGN the character sits on: the DM of that campaign may move that character's hit points.
+
+@router.post("/api/dm/character-hp", response_class=JSONResponse)
+async def dm_character_hp(request: Request):
+    """Set a character's HP from the DM side, for a character their campaign holds."""
+    user = require_user(request)
+    data = await request.json()
+    try:
+        char_id = int(data.get("character_id") or 0)
+    except (TypeError, ValueError):
+        return JSONResponse({"error": "bad character_id"}, status_code=400)
+    if not char_id or data.get("hp_current") is None:
+        return JSONResponse({"error": "character_id and hp_current are required"}, status_code=400)
+    try:
+        hp = max(0, min(int(data["hp_current"]), 9999))
+    except (TypeError, ValueError):
+        return JSONResponse({"error": "bad hp_current"}, status_code=400)
+
+    db = get_db()
+    try:
+        char = db.execute("SELECT id, name, user_id FROM characters WHERE id = ?", (char_id,)).fetchone()
+        if not char:
+            return JSONResponse({"error": "Character not found"}, status_code=404)
+        if not _is_admin(user) and char["user_id"] != user["id"]:
+            # Authority the DM does have: the character is on a roster of one of their campaigns.
+            from routes.table import campaign_for_character
+
+            camp = campaign_for_character(db, char_id)
+            if not camp or camp.get("user_id") != user["id"]:
+                return JSONResponse({"error": "Character not found"}, status_code=404)
+        db.execute("UPDATE characters SET hp_current = ? WHERE id = ?", (hp, char_id))
+        db.commit()
+    finally:
+        db.close()
+
+    # The player's sheet, and every other screen, hears about it through the channel that exists.
+    from routes.table import publish_character_state
+
+    publish_character_state(char_id, kind="hp", hp_current=hp)
+    return JSONResponse({"ok": True, "character_id": char_id, "hp_current": hp})
+
+
+@router.post("/api/dm/summon-hp", response_class=JSONResponse)
+async def dm_summon_hp(request: Request):
+    """Set one of a character's summons' HP from the DM side, same campaign authority as above."""
+    user = require_user(request)
+    data = await request.json()
+    try:
+        char_id = int(data.get("character_id") or 0)
+        idx = int(data.get("summon_idx"))
+        hp = max(0, min(int(data.get("hp_current")), 99999))
+    except (TypeError, ValueError):
+        return JSONResponse({"error": "character_id, summon_idx and hp_current are required"},
+                            status_code=400)
+
+    db = get_db()
+    try:
+        char = db.execute("SELECT id, user_id, summons FROM characters WHERE id = ?",
+                          (char_id,)).fetchone()
+        if not char:
+            return JSONResponse({"error": "Character not found"}, status_code=404)
+        if not _is_admin(user) and char["user_id"] != user["id"]:
+            from routes.table import campaign_for_character
+
+            camp = campaign_for_character(db, char_id)
+            if not camp or camp.get("user_id") != user["id"]:
+                return JSONResponse({"error": "Character not found"}, status_code=404)
+        try:
+            summons = json.loads(char["summons"] or "[]")
+        except (json.JSONDecodeError, TypeError):
+            summons = []
+        if idx < 0 or idx >= len(summons):
+            return JSONResponse({"error": "Invalid summon index"}, status_code=400)
+        summons[idx]["hp_current"] = hp
+        db.execute("UPDATE characters SET summons=? WHERE id=?", (json.dumps(summons), char_id))
+        db.commit()
+    finally:
+        db.close()
+
+    from routes.table import publish_character_state
+
+    publish_character_state(char_id, kind="sheet")      # summons ride the 'sheet' kind
+    return JSONResponse({"ok": True, "character_id": char_id, "summon_idx": idx, "hp_current": hp})
