@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#1a1a2e">
+<link rel="apple-touch-icon" href="/static/icons/apple-touch-icon-180.png">
+<script src="/static/pwa.js?v={{ static_asset_version('pwa.js') }}" defer></script>
 <title>{{ campaign.name }} — Table</title>
 <style>
   /* The players' own device: no app chrome, no login. Phone-first, because this is the
@@ -47,7 +51,12 @@
 </head>
 <body>
 <header>
-  <h1>{{ campaign.name }}</h1>
+  <div id="installHint" style="display:none;align-items:center;gap:0.5rem;flex-wrap:wrap;margin:0.6rem 0;padding:0.45rem 0.6rem;background:var(--card);border:1px solid var(--border);border-radius:8px;font-size:0.78rem;color:var(--muted)">
+  <button data-install-button onclick="installApp()" style="background:var(--accent);color:#111116;border:none;border-radius:6px;padding:0.35rem 0.7rem;font-size:0.78rem;font-weight:700;cursor:pointer">📲 Install this app</button>
+  <span style="flex:1;min-width:8rem">Full screen, one tap from the home screen.</span>
+  <button onclick="dismissInstallHint()" title="Not now" style="background:none;border:none;color:var(--muted);font-size:0.9rem;cursor:pointer;padding:0.2rem 0.3rem">✕</button>
+</div>
+<h1>{{ campaign.name }}</h1>
   <span class="sub">table feed · no login needed</span>
 </header>
 

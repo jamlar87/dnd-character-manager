@@ -446,6 +446,19 @@ async def global_exception_handler(request: Request, exc: Exception):
         return JSONResponse({"error": "Internal server error"}, status_code=500)
     return HTMLResponse("Internal Server Error", status_code=500)
 
+
+@app.exception_handler(json.JSONDecodeError)
+async def bad_json_body_handler(request: Request, exc: json.JSONDecodeError):
+    """A missing or malformed JSON body is a bad request, not a server fault.
+
+    There are ~80 `await request.json()` call sites in this app and most of them do not guard the
+    call, so a body-less POST (curl, a stale page, a script) was a 500 with a traceback — the player
+    key route was still doing it. Guarding every call site is a rewrite; one handler is the root
+    fix, and it means a future route inherits the right behaviour instead of repeating the bug.
+    """
+    _log.info("Bad JSON body on %s %s: %s", request.method, request.url.path, exc)
+    return JSONResponse({"error": "expected a JSON body"}, status_code=400)
+
 # ── DB ──────────────────────────────────────────────────────────────────────
 
 def get_db() -> sqlite3.Connection:
@@ -2756,3 +2769,89 @@ if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8300, reload=os.environ.get("DND_RELOAD", "1") == "1")
 
+
+
+# ── PWA: installable, and honest about being offline ────────────────────────────────────
+# The manifest and the worker are routes rather than plain /static files on purpose:
+#   * a .webmanifest served by StaticFiles can pick up the wrong MIME type (the browser then
+#     ignores the manifest entirely), and
+#   * sw.js must never be cached by anything, including the CDN. Cloudflare caches static assets by
+#     extension, and a pinned sw.js is a service worker that can never update: the app would serve
+#     last week's shell to every device forever. no-store on a route fixes both.
+
+_PWA_MANIFEST = {
+    "name": "D&D Character Manager",
+    "short_name": "D&D Manager",
+    "description": "Characters, sheets, campaigns, maps and the table channel.",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "any",
+    "background_color": "#1a1a2e",
+    "theme_color": "#1a1a2e",
+    "icons": [
+        {"src": "/static/icons/icon-192.png", "sizes": "192x192", "type": "image/png",
+         "purpose": "any"},
+        {"src": "/static/icons/icon-512.png", "sizes": "512x512", "type": "image/png",
+         "purpose": "any"},
+        {"src": "/static/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png",
+         "purpose": "maskable"},
+    ],
+}
+
+
+@app.get("/manifest.webmanifest")
+async def pwa_manifest():
+    """The install manifest, with a MIME type browsers actually accept."""
+    return JSONResponse(_PWA_MANIFEST, media_type="application/manifest+json")
+
+
+@app.get("/sw.js")
+async def pwa_service_worker():
+    """The service worker. no-store so neither the browser nor the CDN can pin a stale one."""
+    return FileResponse(
+        STATIC / "sw.js",
+        media_type="application/javascript",
+        headers={"Cache-Control": "no-store, must-revalidate", "Service-Worker-Allowed": "/"},
+    )
+
+
+@app.get("/offline", response_class=HTMLResponse)
+async def pwa_offline():
+    """What a player sees when the wifi goes: the app, and the truth about what still works.
+
+    Deliberately not a cached copy of any real page — a stale sheet is worse than an honest notice.
+    """
+    return HTMLResponse("""<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Offline — D&D Character Manager</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#1a1a2e">
+<link rel="apple-touch-icon" href="/static/icons/apple-touch-icon-180.png">
+<style>
+  :root{--bg:#1a1a2e;--card:#16213e;--text:#e8e8ee;--muted:#9a9aa6;--accent:#e94560;
+        color-scheme:dark}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+       background:var(--bg);color:var(--text);
+       font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;padding:1.5rem}
+  .card{max-width:26rem;background:var(--card);border:1px solid #2a2a4a;border-radius:12px;
+        padding:1.4rem 1.5rem;text-align:center}
+  img{width:72px;height:72px;margin-bottom:0.6rem}
+  h1{margin:0 0 0.4rem;font-size:1.2rem}
+  p{margin:0 0 0.8rem;color:var(--muted);font-size:0.92rem}
+  button{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:0.55rem 1rem;
+         font-size:0.95rem;font-weight:600;cursor:pointer}
+  ul{text-align:left;color:var(--muted);font-size:0.85rem;margin:0.8rem 0 0;padding-left:1.1rem}
+</style></head>
+<body><div class="card">
+  <img src="/static/icons/icon-192.png" alt="">
+  <h1>You are offline</h1>
+  <p>The app opened, but the table is not reachable right now.</p>
+  <button onclick="location.reload()">Try again</button>
+  <ul>
+    <li>Rolls, sheets and the tracker need the server — nothing is queued for later.</li>
+    <li>Reconnect to wifi or mobile data and reload: the table picks up where it is.</li>
+  </ul>
+</div></body></html>""")
