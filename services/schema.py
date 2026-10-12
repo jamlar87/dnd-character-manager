@@ -14,6 +14,8 @@ REQUIRED_TABLES = {
     "dm_maps": {"id", "user_id", "name", "image_path", "grid_type", "grid_size"},
     "dm_map_tokens": {"id", "map_id", "x", "y", "kind", "ref_name"},
     "dm_map_scenes": {"id", "map_id", "name", "snapshot"},
+    # The table channel: without this a bad roll_log migration shows up as a broken feed.
+    "roll_log": {"id", "campaign_id", "who", "expression", "results", "total", "hidden"},
 }
 
 

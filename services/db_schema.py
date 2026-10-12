@@ -475,6 +475,36 @@ def _migrate_npc_source_columns():
         );
     """)
 
+    # Table channel: the shared roll feed. `roll_log` is the source of truth and the SSE streams
+    # are only its fast path, so a reconnecting client replays the gap from this table rather than
+    # depending on having been connected. Old rows are pruned on insert (newest 500 per campaign).
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS roll_log (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            campaign_id INTEGER NOT NULL,
+            character_id INTEGER,
+            character_name TEXT DEFAULT '',
+            who TEXT NOT NULL DEFAULT 'player',
+            source TEXT DEFAULT '',
+            label TEXT DEFAULT '',
+            expression TEXT NOT NULL,
+            results TEXT NOT NULL DEFAULT '[]',
+            total INTEGER NOT NULL DEFAULT 0,
+            hidden INTEGER NOT NULL DEFAULT 0,
+            created_at TEXT NOT NULL DEFAULT (datetime('now'))
+        );
+    """)
+    db.execute("CREATE INDEX IF NOT EXISTS idx_roll_log_campaign "
+               "ON roll_log(campaign_id, id DESC)")
+
+    # Migration: player table channel. A campaign-level key rather than a login, for the same
+    # reason dm_maps has one — the device at the table is often a tablet nobody signs into. It
+    # grants exactly one write (a roll) and the projected feed.
+    try:
+        db.execute("ALTER TABLE dm_campaigns ADD COLUMN player_key TEXT DEFAULT ''")
+    except sqlite3.OperationalError:
+        pass
+
     # Migration: map fog of war + freehand drawing (one row per map, both layers)
     for col, coltype in (
         ("fog", "TEXT DEFAULT '[]'"),        # revealed cell keys, "col,row" (square) or "q,r" (hex)
