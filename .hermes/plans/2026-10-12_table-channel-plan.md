@@ -35,7 +35,29 @@ migrations), Jinja templates, vanilla JS assets with `static_asset_version()`.
 
 ---
 
+## Progress (updated as work lands)
+
+- **Slice 1 — DONE** (committed): Task 1 schema (`roll_log`, `dm_campaigns.player_key`,
+  `REQUIRED_TABLES`), Task 2 bus (`services/events.py`), Task 3 write path + history,
+  Task 4 DM SSE stream. Live-verified: a roll posted through the public API appeared on the
+  public stream 0.19 s later.
+- **Slice 2 — DONE** (committed): Task 5 player key + filtered stream + player rolls (rate
+  limited, roster-checked, forced `who='player'`/`hidden=False`), Task 6 dice sink +
+  `static/rollfeed.js`/`.css`, Task 7 DM panel + `/table/{key}`. Live-verified in a real
+  browser: hidden roll never reached the player page, visible one arrived with no reload,
+  revoking the key closed a live stream in 20.2 s.
+- **Slice 3 — PARTIAL** (committed): the sheet's read-only feed is in
+  (`/api/character/{id}/feed[/stream]`, the players' projection, verified live on Garim's
+  sheet). **The poll retirement did NOT happen**, deliberately: `syncSheetHP`'s 2 s poll and
+  the map player view's 3 s poll fetch combat/HP state, which this channel does not carry, so
+  switching them off would silently stop HP syncing at the table. That needs a new `hp`/state
+  event kind published from every DM-side HP write — its own slice, with its own verification.
+- **Task 9 — DONE** except the route/flow sweep (`references/route_sweep.md`): the new routes
+  were exercised end-to-end over real HTTP instead, which covers the UnboundLocalError class
+  for these paths; run the sweep anyway on the next change that touches them.
+
 ### Task 1: Roll log schema (table + campaign key)
+
 
 **Files:**
 - Modify: `services/db_schema.py` (inside `init_db()`, next to the other `CREATE TABLE IF NOT EXISTS`)
