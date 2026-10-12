@@ -107,9 +107,12 @@ def test_both_surfaces_link_the_manifest_and_load_the_wiring():
 
 # ── the family bug the PWA probe ran into ───────────────────────────────────────────────
 
-def test_a_body_less_post_is_a_bad_request_not_a_crash(client, auth_headers):
+def test_any_json_route_answers_a_body_less_post_with_a_bad_request(client, auth_headers):
     """~80 routes call `await request.json()` unguarded. One app-level handler covers them all,
-    which is why this test asks the route that was still returning 500 (the player key)."""
+    which is why this test asks the route that was still returning 500 (the player key).
+
+    Named for the class rather than the route: test_map_stream.py already has a route-specific test
+    for the same bug, and a duplicate function name makes the unique-name audit lie."""
     r = client.post("/api/campaign/1/player-key", headers=auth_headers)
     assert r.status_code == 400, f"a body-less POST must be a bad request, got {r.status_code}"
     assert "json body" in r.json()["error"].lower()
