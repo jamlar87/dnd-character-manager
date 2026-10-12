@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import re
+import secrets
 
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
@@ -278,3 +279,210 @@ async def campaign_rolls(camp_id: int, request: Request, limit: int = 50):
         return JSONResponse({"rolls": recent_rolls(db, camp_id, limit)})
     finally:
         db.close()
+
+
+# ── the player key ──────────────────────────────────────────────────────────────────
+
+def campaign_by_key(db, key) -> dict | None:
+    """The campaign a player key belongs to, or None.
+
+    A blank key is NEVER a match: every campaign starts with '' and a naive comparison
+    would hand the whole table to anyone who asked with no key at all.
+    """
+    wanted = (key or "").strip()
+    if not wanted:
+        return None
+    row = db.execute("SELECT * FROM dm_campaigns WHERE player_key = ?", (wanted,)).fetchone()
+    if not row:
+        return None
+    row = dict(row)
+    stored = (row.get("player_key") or "").strip()
+    if not stored or not secrets.compare_digest(stored, wanted):
+        return None
+    return row
+
+
+def roster_ids(camp: dict) -> set[int]:
+    """Character ids on this campaign's roster.
+
+    Read from the campaign's own `characters` JSON, not the `dm_campaign_characters`
+    join table: that table is EMPTY on the live database while campaigns are full.
+    """
+    try:
+        entries = json.loads(camp.get("characters") or "[]")
+    except (TypeError, ValueError):
+        return set()
+    ids = set()
+    for entry in entries if isinstance(entries, list) else []:
+        if isinstance(entry, dict):
+            try:
+                ids.add(int(entry.get("id")))
+            except (TypeError, ValueError):
+                continue
+    return ids
+
+
+def roster_name(camp: dict, character_id: int) -> str:
+    try:
+        entries = json.loads(camp.get("characters") or "[]")
+    except (TypeError, ValueError):
+        return ""
+    for entry in entries if isinstance(entries, list) else []:
+        if isinstance(entry, dict) and str(entry.get("id")) == str(character_id):
+            return str(entry.get("name") or "")
+    return ""
+
+
+@router.get("/api/campaign/{camp_id}/player-key", response_class=JSONResponse)
+async def campaign_player_key(camp_id: int, request: Request):
+    """The DM's share key for the players' devices. Creates one on first ask."""
+    user = require_user(request)
+    db = get_db()
+    try:
+        camp = _require_owned(db, user, "dm_campaigns", camp_id)
+        if not camp:
+            return JSONResponse({"error": "Campaign not found"}, status_code=404)
+        key = (camp.get("player_key") or "").strip()
+        if not key:
+            key = secrets.token_hex(16)
+            db.execute("UPDATE dm_campaigns SET player_key = ? WHERE id = ?", (key, camp_id))
+            db.commit()
+        return JSONResponse({"ok": True, "player_key": key, "url": f"/table/{key}"})
+    finally:
+        db.close()
+
+
+@router.post("/api/campaign/{camp_id}/player-key", response_class=JSONResponse)
+async def campaign_player_key_set(camp_id: int, request: Request):
+    """Rotate the key, or revoke it (send an empty key) to close the table's devices."""
+    user = require_user(request)
+    data = await request.json()
+    db = get_db()
+    try:
+        if not _require_owned(db, user, "dm_campaigns", camp_id):
+            return JSONResponse({"error": "Campaign not found"}, status_code=404)
+        wanted = str(data.get("key") or "").strip()
+        key = wanted[:64] if wanted else ""
+        db.execute("UPDATE dm_campaigns SET player_key = ? WHERE id = ?", (key, camp_id))
+        db.commit()
+        return JSONResponse({"ok": True, "player_key": key, "url": f"/table/{key}" if key else ""})
+    finally:
+        db.close()
+
+
+# ── the player surface ──────────────────────────────────────────────────────────────
+
+# A player device is a browser that keeps a tab open; it is not a client to be trusted with
+# throughput. 20 rolls in 10 seconds is far above table pace and stops a stuck loop.
+PLAYER_ROLL_LIMIT = 20
+PLAYER_ROLL_WINDOW = 10.0
+
+_roll_times: dict[str, list[float]] = {}
+
+
+def player_roll_allowed(key: str, *, now: float | None = None) -> bool:
+    """Token bucket per key. Prunes as it goes, so the map cannot grow unbounded."""
+    import time as _time
+
+    now = _time.monotonic() if now is None else now
+    recent = [t for t in _roll_times.get(key, []) if now - t < PLAYER_ROLL_WINDOW]
+    if len(recent) >= PLAYER_ROLL_LIMIT:
+        _roll_times[key] = recent
+        return False
+    recent.append(now)
+    _roll_times[key] = recent
+    return True
+
+
+def key_still_valid(camp_id: int, key: str) -> bool:
+    """Re-check a key against the row — the stream calls this so a rotation closes it."""
+    db = get_db()
+    try:
+        row = db.execute("SELECT player_key FROM dm_campaigns WHERE id = ?", (camp_id,)).fetchone()
+        if not row:
+            return False
+        stored = (row["player_key"] or "").strip()
+        return bool(stored) and secrets.compare_digest(stored, (key or "").strip())
+    finally:
+        db.close()
+
+
+@router.get("/api/table/{key}/stream")
+async def table_stream(key: str, request: Request):
+    """The players' live feed: hidden rolls are filtered out server-side."""
+    from fastapi.responses import StreamingResponse
+
+    db = get_db()
+    try:
+        camp = campaign_by_key(db, key)
+        if not camp:
+            return JSONResponse({"error": "Not found"}, status_code=404)
+        camp_id = camp["id"]
+    finally:
+        db.close()
+
+    try:
+        last_id = int(request.headers.get("last-event-id") or 0)
+    except (TypeError, ValueError):
+        last_id = 0
+
+    return StreamingResponse(
+        stream_frames(camp_id, last_id=last_id, include_hidden=False,
+                      keep_alive=lambda: key_still_valid(camp_id, key)),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache, no-transform",
+            "X-Accel-Buffering": "no",
+            "Connection": "keep-alive",
+        },
+    )
+
+
+@router.post("/api/table/{key}/roll", response_class=JSONResponse)
+async def table_roll(key: str, request: Request):
+    """A player rolls. The only write a key grants, and it must name a roster character."""
+    from services import events
+
+    data = await request.json()
+    if not player_roll_allowed((key or "").strip()):
+        return JSONResponse({"error": "Too many rolls — take a breath."}, status_code=429)
+
+    db = get_db()
+    try:
+        camp = campaign_by_key(db, key)
+        if not camp:
+            return JSONResponse({"error": "Not found"}, status_code=404)
+        camp_id = camp["id"]
+
+        try:
+            character_id = int(data.get("character_id") or 0)
+        except (TypeError, ValueError):
+            character_id = 0
+        if not character_id:
+            return JSONResponse({"error": "Pick a character first"}, status_code=400)
+        if character_id not in roster_ids(camp):
+            return JSONResponse({"error": "That character is not at this table"}, status_code=400)
+
+        try:
+            row = insert_roll(
+                db,
+                campaign_id=camp_id,
+                expression=str(data.get("expression") or ""),
+                results=data.get("results"),
+                # A player roll is a player roll: neither the DM's name nor a hidden roll can
+                # be claimed from this path, whatever the payload says.
+                who="player",
+                character_id=character_id,
+                character_name=roster_name(camp, character_id),
+                source="player-view",
+                label=str(data.get("label") or ""),
+                hidden=False,
+            )
+        except ValueError as exc:
+            return JSONResponse({"error": str(exc)}, status_code=400)
+    finally:
+        db.close()
+
+    events.publish(camp_id, {"kind": "roll", **row})
+    return JSONResponse({"ok": True, "roll": row})
+

@@ -452,4 +452,195 @@ def test_stream_honours_last_event_id_from_the_header(seeded_db):
     assert _json.loads(_data_of(frame))["id"] == second["id"]
 
 
+# ── Slice 2: the player path (campaign key, filtered stream, player rolls) ──────────
+
+def _campaign_with_roster(db_path, user_id: int, characters: list) -> int:
+    import json as _json
+
+    con = _db(db_path)
+    try:
+        cur = con.execute("INSERT INTO dm_campaigns (user_id, name, characters) VALUES (?, ?, ?)",
+                          (user_id, "Roster test", _json.dumps(characters)))
+        con.commit()
+        return int(cur.lastrowid or 0)
+    finally:
+        con.close()
+
+
+def _set_key(db_path, camp_id: int, key: str) -> None:
+    """Give a campaign its share key. Routes read committed data through their own connection."""
+    con = _db(db_path)
+    try:
+        con.execute("UPDATE dm_campaigns SET player_key = ? WHERE id = ?", (key, camp_id))
+        con.commit()
+    finally:
+        con.close()
+
+
+def test_player_key_is_created_then_rotated_then_revoked(seeded_db, client, auth_headers):
+    camp_id = _campaign(seeded_db["db_path"], 1)
+
+    first = client.get(f"/api/campaign/{camp_id}/player-key", headers=auth_headers).json()
+    assert len(first["player_key"]) == 32
+    assert first["url"] == f"/table/{first['player_key']}"
+
+    # asking again returns the same key rather than minting a new one
+    assert client.get(f"/api/campaign/{camp_id}/player-key", headers=auth_headers) \
+        .json()["player_key"] == first["player_key"]
+
+    rotated = client.post(f"/api/campaign/{camp_id}/player-key", headers=auth_headers,
+                          json={"key": "a" * 32}).json()
+    assert rotated["player_key"] == "a" * 32
+
+    revoked = client.post(f"/api/campaign/{camp_id}/player-key", headers=auth_headers,
+                          json={"key": ""}).json()
+    assert revoked["player_key"] == "" and revoked["url"] == ""
+
+
+def test_player_key_endpoints_are_scoped(seeded_db, client, auth_headers):
+    camp_id = _campaign(seeded_db["db_path"], 1)
+    bystander = _other_user(seeded_db["db_path"])
+    assert client.get(f"/api/campaign/{camp_id}/player-key", headers=_hdr(bystander)) \
+        .status_code == 404
+    assert client.post(f"/api/campaign/{camp_id}/player-key", headers=_hdr(bystander),
+                       json={"key": "x"}).status_code == 404
+
+
+def test_campaign_by_key_rejects_blank_and_unknown_keys(seeded_db):
+    """A blank key must not match every campaign that has one revoked."""
+    from routes.table import campaign_by_key
+
+    camp_id = _campaign(seeded_db["db_path"], 1)
+    db = _db(seeded_db["db_path"])
+    try:
+        db.execute("UPDATE dm_campaigns SET player_key = '' WHERE id = ?", (camp_id,))
+        db.commit()
+        assert campaign_by_key(db, "") is None
+        assert campaign_by_key(db, "   ") is None
+        assert campaign_by_key(db, "0" * 32) is None
+        assert campaign_by_key(db, None) is None
+
+        db.execute("UPDATE dm_campaigns SET player_key = ? WHERE id = ?", ("k" * 32, camp_id))
+        db.commit()
+        found = campaign_by_key(db, "k" * 32)
+        assert found and found["id"] == camp_id
+    finally:
+        db.close()
+
+
+def test_player_stream_never_carries_a_hidden_roll(seeded_db):
+    """Hidden is a server-side projection, not a client-side courtesy."""
+    from routes.table import insert_roll, stream_frames
+
+    camp_id = _campaign(seeded_db["db_path"], 1)
+    db = _db(seeded_db["db_path"])
+    try:
+        insert_roll(db, campaign_id=camp_id, who="dm", expression="1d20", results=[11],
+                    label="secret", hidden=True)
+    finally:
+        db.close()
+
+    # a reconnecting player would replay from here, and must still not see it
+    frames = _drain(stream_frames(camp_id, last_id=0, heartbeat=0.05, include_hidden=False), 1)
+    assert ": hb" in frames[0]
+
+    # and the history projection agrees
+    db = _db(seeded_db["db_path"])
+    try:
+        from routes.table import recent_rolls
+        assert recent_rolls(db, camp_id, 50, include_hidden=False) == []
+        assert len(recent_rolls(db, camp_id, 50)) == 1
+    finally:
+        db.close()
+
+
+def test_player_stream_drops_a_live_hidden_roll(seeded_db):
+    """The live path filters too, not just the replay."""
+    import asyncio
+
+    from routes.table import stream_frames
+    from services import events
+
+    camp_id = _campaign(seeded_db["db_path"], 1)
+
+    async def _go():
+        agen = stream_frames(camp_id, last_id=0, heartbeat=0.05, include_hidden=False)
+        first = await agen.__anext__()            # the heartbeat
+        assert ": hb" in first
+        events.publish(camp_id, {"kind": "roll", "id": 99, "total": 20, "hidden": True})
+        events.publish(camp_id, {"kind": "roll", "id": 100, "total": 3, "hidden": False})
+        second = await agen.__anext__()
+        await agen.aclose()
+        return first, second
+
+    _, second = asyncio.run(_go())
+    assert "id: 100" in second
+    assert "id: 99" not in second
+
+
+def test_player_roll_must_name_a_character_on_the_roster(seeded_db, client):
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": 42, "name": "Rowan"}])
+    _set_key(seeded_db["db_path"], camp_id, "k" * 32)
+
+    ok = client.post("/api/table/%s/roll" % ("k" * 32),
+                     json={"expression": "1d20", "results": [4], "character_id": 42})
+    assert ok.status_code == 200, ok.text
+    assert ok.json()["roll"]["character_name"] == "Rowan" or ok.json()["roll"]["character_id"] == 42
+
+    bad = client.post("/api/table/%s/roll" % ("k" * 32),
+                      json={"expression": "1d20", "results": [4], "character_id": 7})
+    assert bad.status_code == 400
+
+    missing = client.post("/api/table/%s/roll" % ("k" * 32),
+                          json={"expression": "1d20", "results": [4]})
+    assert missing.status_code == 400
+
+
+def test_player_roll_cannot_claim_to_be_the_dm_or_hide_itself(seeded_db, client):
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": 42, "name": "Rowan"}])
+    _set_key(seeded_db["db_path"], camp_id, "k" * 32)
+
+    resp = client.post("/api/table/%s/roll" % ("k" * 32),
+                       json={"expression": "1d20", "results": [4], "character_id": 42,
+                             "who": "dm", "hidden": True})
+    assert resp.status_code == 200
+    roll = resp.json()["roll"]
+    assert roll["who"] == "player"
+    assert roll["hidden"] is False
+
+
+def test_player_roll_is_rate_limited(seeded_db, client):
+    """A stuck client must not be able to fill the log or the fan-out."""
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": 42, "name": "Rowan"}])
+    _set_key(seeded_db["db_path"], camp_id, "k" * 32)
+
+    codes = [client.post("/api/table/%s/roll" % ("k" * 32),
+                         json={"expression": "1d20", "results": [4], "character_id": 42}
+                         ).status_code for _ in range(25)]
+    assert codes.count(200) <= 20
+    assert 429 in codes
+
+
+def test_a_revoked_key_stops_the_player_stream(seeded_db):
+    """The key is re-checked while streaming, so revocation does not wait for a reload."""
+    import asyncio
+
+    from routes.table import stream_frames
+
+    camp_id = _campaign(seeded_db["db_path"], 1)
+    calls = {"n": 0}
+
+    def keep_alive():
+        calls["n"] += 1
+        return False          # the row no longer carries this key
+
+    async def _go():
+        agen = stream_frames(camp_id, last_id=0, heartbeat=0.05, keep_alive=keep_alive)
+        return [chunk async for chunk in agen]
+
+    assert asyncio.run(_go()) == []
+    assert calls["n"] >= 1
+
+
+
 
