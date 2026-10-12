@@ -86,11 +86,21 @@ migrations), Jinja templates, vanilla JS assets with `static_asset_version()`.
   flag (`changedPlayers`), leaving the initiative track (which holds live hp inputs) alone.
   **Polls now:** the app has no 2 s or 3 s fetch loops left. Both survivors are deliberate slow
   safety nets (30 s) that widen to their old cadence the moment a stream drops.
-- **Known, unchanged:** the DM's combat tracker keeps player HP as a snapshot in
-  `dm_encounters.combat_state.player_participants` and never writes `characters.hp_current`, so
-  tracker damage does not reach a player's sheet. Product decision, not a channel feature. Note
-  that this is the *mirror* of what slice 6 wired: the tracker now HEARS the sheet, but nothing
-  makes the tracker write back.
+- **Slice 7 — DONE** (committed): **the DM's damage reaches the player's sheet.** The tracker's HP
+  field for a player posted `/api/update`, which is **not a route** — every wound a DM applied from
+  the tracker was a 404 swallowed by `catch(e) {}`, and the tracker's sync then reverted the number,
+  so it read as "the tracker doesn't take player damage". Now `/api/dm/character-hp` and
+  `/api/dm/summon-hp` authorise on the **campaign roster** (a player's sheet belongs to the player,
+  so ownership would refuse every real case), write the character row, and publish the
+  `hp`/`sheet` event the channel already carries. Client failures are loud now
+  (`⚠ HP not saved: …`) and a test asserts every URL the tracker posts to exists in the backend.
+  Live proof across two users: the DM (user 4) damaged a character owned by user 19; the row
+  changed and that player's open sheet showed the new HP delivered by the event, one read, no
+  polling.
+- **Open question, still yours:** whether tracker damage *should* write through was flagged as a
+  gameplay-semantics call. It was implemented because the code plainly **intended** to ("Save to
+  character table") and pointed at a URL that never existed — this restores the intent rather than
+  inventing behaviour. One revert of commit `0893b5b` puts it back to a snapshot-only tracker.
 - **Task 9 — DONE**: full suite **1136 passed** (exit 0, 10:48); unique test functions
   971 → 1015, i.e. exactly the 44 added here and nothing edited in place. The route/flow
   sweep (`references/route_sweep.md`) was replaced by end-to-end HTTP exercises of every new
