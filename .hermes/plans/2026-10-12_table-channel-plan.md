@@ -48,10 +48,23 @@ migrations), Jinja templates, vanilla JS assets with `static_asset_version()`.
   revoking the key closed a live stream in 20.2 s.
 - **Slice 3 — PARTIAL** (committed): the sheet's read-only feed is in
   (`/api/character/{id}/feed[/stream]`, the players' projection, verified live on Garim's
-  sheet). **The poll retirement did NOT happen**, deliberately: `syncSheetHP`'s 2 s poll and
-  the map player view's 3 s poll fetch combat/HP state, which this channel does not carry, so
-  switching them off would silently stop HP syncing at the table. That needs a new `hp`/state
-  event kind published from every DM-side HP write — its own slice, with its own verification.
+  sheet). **The poll retirement did NOT happen in that slice** — see slice 4.
+- **Slice 4 — DONE** (committed): HP state events. `/api/character/{id}/update` publishes
+  `kind: 'hp'` for the character's campaign; the sheet takes it from the stream and its 2 s
+  timer is now a 30 s safety net that falls back to 2 s if the stream drops. Two real bugs were
+  found only by driving a real browser: a quiet stream flushed no first byte (so `EventSource.open`
+  never fired and the demotion never ran), and `stream_frames` dropped every non-roll event (so
+  the hp event reached nobody while the demoted poll left the sheet stale). Both fixed, both now
+  have regression guards (Pitfalls 91/92).
+  Proof on the live sheet: 0 calls to `/api/sync-combat-hp` in a quiet 7 s window, HP 51 → 23
+  delivered to the open page, exactly one read — the event handler's own.
+- **Still polling:** the map player view's 3 s interval. It is keyed by the map's `player_key`
+  and needs a map-scoped stream plus a publish on every map write — a different auth path, its
+  own slice.
+- **Found while looking (not a channel issue):** the DM's combat tracker keeps player HP as a
+  snapshot in `dm_encounters.combat_state.player_participants` and never writes
+  `characters.hp_current`, so DM damage does not reach a player's sheet. That is a product
+  decision, not a stream feature.
 - **Task 9 — DONE**: full suite **1136 passed** (exit 0, 10:48); unique test functions
   971 → 1015, i.e. exactly the 44 added here and nothing edited in place. The route/flow
   sweep (`references/route_sweep.md`) was replaced by end-to-end HTTP exercises of every new
