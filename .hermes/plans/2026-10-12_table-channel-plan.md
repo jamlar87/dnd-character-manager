@@ -97,6 +97,19 @@ migrations), Jinja templates, vanilla JS assets with `static_asset_version()`.
   Live proof across two users: the DM (user 4) damaged a character owned by user 19; the row
   changed and that player's open sheet showed the new HP delivered by the event, one read, no
   polling.
+- **Slice 8 — DONE** (committed): **conditions and real HP on the map screen.** A token's
+  `hp_current`/`hp_max` were a copy nothing kept in step (a token placed months ago reads 0/0, so
+  the players' screen drew no HP bar for a character at full health), and conditions had nowhere to
+  live. Both are now derived from the character row in `_decorate_tokens`, used by the DM's view AND
+  the players' projection so the two cannot disagree. Conditions travel as NAMES only. A sheet change
+  publishes the campaign event **and** pokes every map holding a token for that character
+  (`poke_maps_for_character`) — the map stream listens on the MAP's scope, so a campaign event never
+  reaches it. `drawToken` draws up to 3 abbreviated pills with a `+N` marker.
+  Live proof on the players' screen: **0 state reads in a quiet 9 s window**, exactly **1 read per
+  condition change** made from outside the page, and the **canvas instrumented** (`fillText`) to
+  prove it drew `GA`/`Garim` with `PRO`/`POI`/`BLI` + `+2`.
+  Also fixed in passing: a body-less POST to the player-key route answered **500**; malformed is now
+  the 400 it should have been.
 - **Open question, still yours:** whether tracker damage *should* write through was flagged as a
   gameplay-semantics call. It was implemented because the code plainly **intended** to ("Save to
   character table") and pointed at a URL that never existed — this restores the intent rather than
