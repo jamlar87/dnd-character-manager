@@ -6623,15 +6623,18 @@ function showConcentrationCheck(dc, damage, spell) {
   box.style.display = '';
 }
 
-/** The sheet already shows this character's CON save; read it rather than recompute the rules. */
+/** The sheet already shows this character's CON save; read it rather than recompute the rules.
+ *  The label carries a proficiency dot inside the same element ("●CON"), so the letters have to be
+ *  extracted before matching — matching /^CON/ silently found nothing and every save rolled +0. */
 function _conSaveBonus() {
   for (const row of document.querySelectorAll('.save-row')) {
-    const name = row.querySelector('.stat-name');
-    if (name && /^CON/i.test(name.textContent.trim())) {
-      const val = row.querySelector('.stat-val');
-      const n = parseInt(((val ? val.textContent : '') || '').replace(/[^0-9-]/g, ''), 10);
-      return isNaN(n) ? 0 : n;
-    }
+    const nameEl = row.querySelector('.stat-name');
+    if (!nameEl) continue;
+    const label = (nameEl.textContent || '').replace(/[^A-Za-z]/g, '').toUpperCase();
+    if (label !== 'CON') continue;
+    const val = row.querySelector('.stat-val');
+    const n = parseInt(((val ? val.textContent : '') || '').replace(/[^0-9-]/g, ''), 10);
+    return isNaN(n) ? 0 : n;
   }
   return 0;
 }

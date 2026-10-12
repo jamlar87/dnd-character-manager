@@ -7,6 +7,7 @@ projection and scope.
 """
 
 import json
+import re
 import sqlite3
 
 import pytest
@@ -1217,11 +1218,20 @@ def test_the_sheet_carries_the_concentration_card_and_the_check():
     import pathlib
 
     repo = pathlib.Path(__file__).resolve().parent.parent
-    tpl = (repo / "templates" / "_sheet_top.html").read_text()
+    tpl = (repo / "templates" / "sheet.html").read_text()          # the one the page renders
     js = (repo / "static" / "sheet.js").read_text()
     assert 'id="conc-value"' in tpl and 'id="conc-check"' in tpl
     assert "character.concentration" in tpl, "the card must render the stored state"
+    # _sheet_top.html looks exactly like the sheet's top block but NOTHING includes it: UI added
+    # there is invisible. This test caught that the hard way — keep the dead files dead.
+    dead = (repo / "templates" / "_sheet_top.html").read_text()
+    assert 'id="conc-value"' not in dead, "a second copy in an unincluded partial is a trap"
+    included = set(re.findall(r'{%\s*include\s+"([^"]+)"', tpl))
+    assert "_sheet_top.html" not in included
     assert "function showConcentrationCheck(" in js
     assert "payload.concentration_dc" in js, "the prompt has to come from the event's DC"
     assert "function _conSaveBonus(" in js and ".save-row" in js, "read the sheet's own CON save"
+    # the label carries the proficiency dot ("●CON"), so a /^CON/ match finds nothing and every
+    # save rolls +0 — the letters have to be extracted first
+    assert ".replace(/[^A-Za-z]/g, '')" in js and "label !== 'CON'" in js
     assert "concentration_dc" in (repo / "routes" / "table.py").read_text()
