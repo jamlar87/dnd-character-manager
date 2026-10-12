@@ -58,13 +58,26 @@ migrations), Jinja templates, vanilla JS assets with `static_asset_version()`.
   have regression guards (Pitfalls 91/92).
   Proof on the live sheet: 0 calls to `/api/sync-combat-hp` in a quiet 7 s window, HP 51 → 23
   delivered to the open page, exactly one read — the event handler's own.
-- **Still polling:** the map player view's 3 s interval. It is keyed by the map's `player_key`
-  and needs a map-scoped stream plus a publish on every map write — a different auth path, its
-  own slice.
-- **Found while looking (not a channel issue):** the DM's combat tracker keeps player HP as a
-  snapshot in `dm_encounters.combat_state.player_participants` and never writes
-  `characters.hp_current`, so DM damage does not reach a player's sheet. That is a product
-  decision, not a stream feature.
+- **Slice 5 — DONE** (committed): the players' **map screen** goes live. `services/events.py` now
+  namespaces its keys (`c:<id>`, `m:<id>`) and gained a map scope; every player-visible map write
+  pokes; `GET /api/dm/map/{id}/player/stream` (same key-or-session door as `/state`, shared via
+  `_player_access_error`) drives the refetch, so the 3 s poll is a 30 s safety net while the stream
+  is up. Poke carries **no** state — `/state` stays the only projection. Key re-checked every
+  heartbeat, so rotation closes open screens (verified live: stream closed, client fell back to
+  3 s polling, screen reported `disconnected`). Guard test enumerates every committing POST route
+  in `routes/maps.py` and fails when one goes un-pushed or unlisted.
+  Proof: 0 state fetches in a quiet 9 s window, a DM-placed token reached the open screen with one
+  fetch (the poke's own).
+  **Player-facing polls are gone** (the sheet and the map screen are push-driven with slow safety
+  nets). **One 2 s poll remains and it is NOT player-facing:** `dm_tools.js` runs
+  `syncPlayerAndSummonHP` every 2 s to refresh the DM's tracker from the character rows. Retiring
+  it needs a *summon* event too — `/api/character/{id}/update-summon-hp` is a different write that
+  publishes nothing — so it is its own slice, and demoting the poll without it would freeze the
+  DM's tracker exactly where the poll is doing real work. (`static/widgets.js` also has a 1 s
+  `tick`, which is a local UI clock, not a fetch.)
+- **Known, unchanged:** the DM's combat tracker keeps player HP as a snapshot in
+  `dm_encounters.combat_state.player_participants` and never writes `characters.hp_current`, so
+  tracker damage does not reach a player's sheet. Product decision, not a channel feature.
 - **Task 9 — DONE**: full suite **1136 passed** (exit 0, 10:48); unique test functions
   971 → 1015, i.e. exactly the 44 added here and nothing edited in place. The route/flow
   sweep (`references/route_sweep.md`) was replaced by end-to-end HTTP exercises of every new
