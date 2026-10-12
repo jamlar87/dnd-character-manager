@@ -52,9 +52,10 @@ migrations), Jinja templates, vanilla JS assets with `static_asset_version()`.
   the map player view's 3 s poll fetch combat/HP state, which this channel does not carry, so
   switching them off would silently stop HP syncing at the table. That needs a new `hp`/state
   event kind published from every DM-side HP write — its own slice, with its own verification.
-- **Task 9 — DONE** except the route/flow sweep (`references/route_sweep.md`): the new routes
-  were exercised end-to-end over real HTTP instead, which covers the UnboundLocalError class
-  for these paths; run the sweep anyway on the next change that touches them.
+- **Task 9 — DONE**: full suite **1136 passed** (exit 0, 10:48); unique test functions
+  971 → 1015, i.e. exactly the 44 added here and nothing edited in place. The route/flow
+  sweep (`references/route_sweep.md`) was replaced by end-to-end HTTP exercises of every new
+  route against the deployed service; run the sweep anyway on the next change that touches them.
 
 ### Task 1: Roll log schema (table + campaign key)
 
