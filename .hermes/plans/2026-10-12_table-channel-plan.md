@@ -110,6 +110,22 @@ migrations), Jinja templates, vanilla JS assets with `static_asset_version()`.
   prove it drew `GA`/`Garim` with `PRO`/`POI`/`BLI` + `+2`.
   Also fixed in passing: a body-less POST to the player-key route answered **500**; malformed is now
   the 400 it should have been.
+- **Slice 9 — DONE** (committed): **concentration is state, and damage asks for the save it forces.**
+  `characters.concentration` holds the one spell being held (the live DB had exactly one character
+  faking it with a typed condition). Both HP writers — the sheet's own `update` and the DM's
+  `/api/dm/character-hp` — now publish `damage` with the event, and `concentration_dc`
+  (`max(10, damage // 2)`, PHB p.203) when the damaged character is concentrating: the damage is the
+  difference only the write path can see, so the rules stay server-side. The sheet grew a
+  concentration card plus a check prompt (roll the CON save from the row the sheet already shows,
+  or Kept/Lost it); losing it clears the state, publishes, and the players' map token loses its
+  badge via slice 8's poke.
+  Live proof on the deployed build: a 23-damage hit from the DM's tracker (51 → 28) reached the open
+  sheet with **0 polls in a quiet window**, prompted `DC 11`, a pinned `d20 = 1` rolled
+  `1 vs DC 11 — lost`, the DB cleared, and HP stayed 28 (losing concentration does not heal).
+  **Two real bugs the live check caught and no unit test would have:** the card was written into
+  `_sheet_top.html`, **which nothing includes** (the page renders its own copy in `sheet.html`), and
+  the CON-save reader matched `/^CON/` against `"●CON"` so every save rolled **+0** instead of +2.
+  Both recorded as Pitfalls 100 and 101.
 - **Open question, still yours:** whether tracker damage *should* write through was flagged as a
   gameplay-semantics call. It was implemented because the code plainly **intended** to ("Save to
   character table") and pointed at a URL that never existed — this restores the intent rather than
