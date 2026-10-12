@@ -126,6 +126,22 @@ migrations), Jinja templates, vanilla JS assets with `static_asset_version()`.
   `_sheet_top.html`, **which nothing includes** (the page renders its own copy in `sheet.html`), and
   the CON-save reader matched `/^CON/` against `"●CON"` so every save rolled **+0** instead of +2.
   Both recorded as Pitfalls 100 and 101.
+- **Slice 10 — DONE** (committed): **the XP ledger.** Characters had no XP at all (only
+  `dm_encounters.xp_total`, a budget). Now `characters.xp`, `dm_xp_log` (every award with note and
+  recipient count), and `XP_THRESHOLDS` + `xp_progress` in `services/leveling.py` — the ladder in
+  one place, used by the DM's panel and the player's sheet alike. Levelling stays the sheet's own
+  action: this reports, it never rewrites a character. DM tools grew an Experience panel (amount,
+  note, Award to party; roster with bars + a star when a level is earned; last five ledger rows).
+  A subset award that names characters outside the campaign is a **400, not a silent party-wide
+  award**.
+  **One live-probe catch worth remembering:** the XP row is server-rendered, so the event fired,
+  the sheet refetched — and asked only for HP. The DB said 7,500, the screen said 6,500, every
+  unit test passed. `/api/sync-combat-hp` now carries `xp`, `level` and the server's own progress,
+  and `_renderXpRow` paints them (Pitfall 102). A second bad probe verdict came from reading a tab
+  the harness had already navigated away (Pitfall 103, now also in the live-web-verification skill).
+  Live proof: the DM's own button awarded 6,500 to three characters; an open sheet went
+  7,500 → 8,500 XP and 40,500 → 39,500 to L9 with **0 polls** and exactly **1 read**, no reload;
+  inside a band the bar tracks (38,500 at L8 → 32%).
 - **Open question, still yours:** whether tracker damage *should* write through was flagged as a
   gameplay-semantics call. It was implemented because the code plainly **intended** to ("Save to
   character table") and pointed at a URL that never existed — this restores the intent rather than
