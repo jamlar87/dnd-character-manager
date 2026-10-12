@@ -250,6 +250,7 @@ async def dm_map_align_grid(map_id: int, request: Request):
         db.execute("UPDATE dm_maps SET grid_size=?, grid_offset_x=?, grid_offset_y=?, "
                    "grid_source='user' WHERE id=?", (size, ox, oy, map_id))
         db.commit()
+        _poke_map(map_id)
         return JSONResponse({"ok": True, "grid_size": size, "offset_x": ox, "offset_y": oy,
                              "score": res["score"], "axis_agree": res["axis_agree"]})
     finally:
@@ -440,6 +441,7 @@ async def dm_map_update(map_id: int, request: Request):
         params.append(map_id)
         db.execute(f"UPDATE dm_maps SET {', '.join(sets)} WHERE id = ?", params)
         db.commit()
+        _poke_map(map_id)
         return JSONResponse({"ok": True, "map": _own_map(db, user, map_id)})
     finally:
         db.close()
@@ -458,6 +460,7 @@ async def dm_map_delete(map_id: int, request: Request):
         db.execute("DELETE FROM dm_map_scenes WHERE map_id = ?", (map_id,))
         db.execute("DELETE FROM dm_maps WHERE id = ?", (map_id,))
         db.commit()
+        _poke_map(map_id)
         _drop_map_image(db, row.get("image_path") or "")
         return JSONResponse({"ok": True})
     finally:
@@ -500,11 +503,13 @@ async def dm_map_image(map_id: int, request: Request):
         if not value:
             db.execute("UPDATE dm_maps SET image_path = '' WHERE id = ?", (map_id,))
             db.commit()
+            _poke_map(map_id)
             _drop_map_image(db, row.get("image_path") or "")
             return JSONResponse({"ok": True, "image_path": ""})
         if value.startswith("http://") or value.startswith("https://"):
             db.execute("UPDATE dm_maps SET image_path = ? WHERE id = ?", (value[:400], map_id))
             db.commit()
+            _poke_map(map_id)
             return JSONResponse({"ok": True, "image_path": value[:400], "external": True})
         if not value.startswith("data:"):
             return JSONResponse({"error": "image must be a data URL or an http(s) URL"}, status_code=400)
@@ -570,6 +575,7 @@ async def dm_map_image(map_id: int, request: Request):
                    "grid_offset_x = ?, grid_offset_y = ? WHERE id = ?",
                    (image_path, img_w, img_h, grid_size, ox, oy, map_id))
         db.commit()
+        _poke_map(map_id)
         _drop_map_image(db, row.get("image_path") or "")
         return JSONResponse({"ok": True, "image_path": image_path, "bytes": len(blob),
                              "image_w": img_w, "image_h": img_h,
@@ -592,6 +598,7 @@ async def dm_map_tokens_save(map_id: int, request: Request):
         if not _own_map(db, user, map_id):
             return JSONResponse({"error": "Not found"}, status_code=404)
         tokens = _sync_tokens(db, map_id, data.get("tokens"))
+        _poke_map(map_id)
         return JSONResponse({"ok": True, "tokens": tokens, "count": len(tokens)})
     finally:
         db.close()
@@ -624,6 +631,7 @@ async def dm_map_token_add(map_id: int, request: Request):
              clean["label"], clean["hp_current"], clean["hp_max"], clean["hidden"], clean["z"],
              clean["encounter_en_id"], clean["character_id"]))
         db.commit()
+        _poke_map(map_id)
         row = db.execute("SELECT * FROM dm_map_tokens WHERE id = ?", (cur.lastrowid,)).fetchone()
         return JSONResponse({"ok": True, "token": dict(row)})
     finally:
@@ -670,6 +678,7 @@ async def dm_map_token_update(token_id: int, request: Request):
                            "defeated = CASE WHEN ? <= 0 THEN 1 ELSE defeated END WHERE id = ?",
                            (row["hp_current"], row["hp_max"], row["hp_current"], row["encounter_en_id"]))
         db.commit()
+        _poke_map(_map_of_token(db, token_id))
         out = db.execute("SELECT * FROM dm_map_tokens WHERE id = ?", (token_id,)).fetchone()
         return JSONResponse({"ok": True, "token": dict(out)})
     finally:
@@ -681,10 +690,13 @@ async def dm_map_token_delete(token_id: int, request: Request):
     user = require_user(request)
     db = get_db()
     try:
-        if not _own_child(db, user, "dm_map_tokens", token_id):
+        row = _own_child(db, user, "dm_map_tokens", token_id)
+        if not row:
             return JSONResponse({"error": "Not found"}, status_code=404)
+        map_id = row["map_id"]                      # captured: after the delete it is gone
         db.execute("DELETE FROM dm_map_tokens WHERE id = ?", (token_id,))
         db.commit()
+        _poke_map(map_id)
         return JSONResponse({"ok": True})
     finally:
         db.close()
@@ -764,6 +776,7 @@ async def dm_map_layer_save(map_id: int, request: Request):
         params.append(map_id)
         db.execute(f"UPDATE dm_maps SET {', '.join(sets)} WHERE id = ?", params)
         db.commit()
+        _poke_map(map_id)
         row = dict(_own_map(db, user, map_id) or {})
         return JSONResponse({"ok": True,
                              "fog": _clean_fog(_safe_json(row.get("fog"), [])),
@@ -824,6 +837,7 @@ async def dm_map_scene_restore(scene_id: int, request: Request):
         if camera:
             db.execute("UPDATE dm_maps SET camera = ? WHERE id = ?", (str(camera)[:400], scene["map_id"]))
             db.commit()
+            _poke_map(scene["map_id"])
         layers = {}
         if "fog" in blob or "fog_on" in blob:
             layers["fog"] = _clean_fog(blob.get("fog"))
@@ -840,6 +854,7 @@ async def dm_map_scene_restore(scene_id: int, request: Request):
             params.append(scene["map_id"])
             db.execute(f"UPDATE dm_maps SET {', '.join(sets)} WHERE id = ?", params)
             db.commit()
+            _poke_map(scene["map_id"])
         return JSONResponse({"ok": True, "tokens": tokens, "camera": camera or "",
                              "fog": layers.get("fog", []), "fog_on": layers.get("fog_on", 0),
                              "draw": layers.get("draw", [])})
@@ -1079,6 +1094,7 @@ async def dm_map_spawn_encounter(map_id: int, request: Request):
                  _inum(part.get("hp_max"), 0, 0, 9999), 0, 0, cid))
             linked_chars += 1
         db.commit()
+        _poke_map(map_id)
         return JSONResponse({"ok": True, "added": len(placed), "skipped": skipped,
                              "party_linked": linked_chars, "tokens": _tokens_of(db, map_id)})
     finally:
@@ -1153,6 +1169,47 @@ def _player_state(db, map_row: dict) -> dict:
     }
 
 
+def _player_access_error(request: Request, row: dict, k: str) -> tuple[str, int]:
+    """Why this request may NOT see the players' projection, or ("", 0) if it may.
+
+    A map's key OR its owner's session — the same decision for the one-shot state read and for
+    the live stream, so a screen cannot become readable on one path by drifting from the other.
+    A blank key never matches, so a map with no key is owner-only.
+    """
+    key = (row.get("player_key") or "").strip()
+    if k and key and secrets.compare_digest(str(k), key):
+        return "", 0
+    user = get_current_user(request)
+    if not user:
+        return "login required", 403
+    if not _is_admin(user) and row.get("user_id") != user["id"]:
+        return "Not found", 404
+    return "", 0
+
+
+def _poke_map(map_id) -> None:
+    """Tell this map's player screens it changed. A poke carries no state — they refetch /state.
+
+    Sending the state itself would mean two projections to keep in step, and the whole point of
+    `_player_state` is that there is exactly one place that decides what a screen may see.
+    """
+    if map_id is None:
+        return
+    try:
+        from services import events
+
+        events.publish_map(int(map_id), {"kind": "map", "map_id": int(map_id)})
+    except Exception:
+        # A map save must never fail because a screen is having a bad day.
+        pass
+
+
+def _map_of_token(db, token_id: int):
+    """A token's map id, or None. Token routes are addressed by token, so they need the map."""
+    row = db.execute("SELECT map_id FROM dm_map_tokens WHERE id = ?", (token_id,)).fetchone()
+    return row["map_id"] if row else None
+
+
 @router.get("/api/dm/map/{map_id}/state", response_class=JSONResponse)
 async def dm_map_state(map_id: int, request: Request, k: str = ""):
     """The projected state a second screen renders.
@@ -1166,17 +1223,77 @@ async def dm_map_state(map_id: int, request: Request, k: str = ""):
         if not row:
             return JSONResponse({"error": "Not found"}, status_code=404)
         row = dict(row)
-        key = (row.get("player_key") or "").strip()
-        if k and key and secrets.compare_digest(str(k), key):
-            return JSONResponse(_player_state(db, row))
-        user = get_current_user(request)
-        if not user:
-            return JSONResponse({"error": "login required"}, status_code=403)
-        if not _is_admin(user) and row.get("user_id") != user["id"]:
-            return JSONResponse({"error": "Not found"}, status_code=404)
+        error, code = _player_access_error(request, row, k)
+        if error:
+            return JSONResponse({"error": error}, status_code=code)
         return JSONResponse(_player_state(db, row))
     finally:
         db.close()
+
+
+@router.get("/api/dm/map/{map_id}/player/stream")
+async def dm_map_player_stream(map_id: int, request: Request, k: str = ""):
+    """The players' screen, live: a poke per change instead of a 3 s poll.
+
+    Same auth as `/state` (key or owner session). Frames carry no map data, so this route cannot
+    leak anything `/state` would not have handed over anyway.
+    """
+    import asyncio
+
+    from fastapi.responses import StreamingResponse
+    from services import events
+
+    db = get_db()
+    try:
+        row = db.execute("SELECT * FROM dm_maps WHERE id = ?", (map_id,)).fetchone()
+        if not row:
+            return JSONResponse({"error": "Not found"}, status_code=404)
+        error, code = _player_access_error(request, dict(row), k)
+        if error:
+            return JSONResponse({"error": error}, status_code=code)
+    finally:
+        db.close()
+
+    heartbeat = 20.0
+
+    def _key_still_valid() -> bool:
+        """Re-checked every heartbeat, exactly as the campaign stream does: rotating or revoking
+        the key must close the screens that are already open, not just refuse new ones."""
+        if not k:
+            return True                      # a session viewer: the owner's own second screen
+        db2 = get_db()
+        try:
+            row = db2.execute("SELECT player_key FROM dm_maps WHERE id = ?", (map_id,)).fetchone()
+            stored = ((row["player_key"] if row else "") or "").strip()
+            return bool(stored) and secrets.compare_digest(stored, str(k))
+        finally:
+            db2.close()
+
+    async def frames():
+        q = events.subscribe_map(map_id)
+        try:
+            # Flush a first byte immediately, or the client sits in CONNECTING until the first
+            # heartbeat and its `open` handler never runs (Pitfall 91).
+            yield "retry: 3000\n: ok\n\n"
+            while True:
+                if not _key_still_valid():
+                    return                   # the key was rotated or revoked: a clean close
+                try:
+                    event = await asyncio.wait_for(q.get(), timeout=heartbeat)
+                except asyncio.TimeoutError:
+                    yield ": hb\n\n"
+                    continue
+                if event.get("kind") != "map":
+                    continue
+                yield f"data: {json.dumps(event)}\n\n"      # no id: nothing to replay
+        finally:
+            events.unsubscribe_map(map_id, q)
+
+    return StreamingResponse(frames(), media_type="text/event-stream", headers={
+        "Cache-Control": "no-cache, no-transform",
+        "X-Accel-Buffering": "no",
+        "Connection": "keep-alive",
+    })
 
 
 @router.get("/api/dm/map/{map_id}/player-key", response_class=JSONResponse)

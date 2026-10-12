@@ -1722,6 +1722,50 @@
 
   function playerFit() { fit(); }
 
+  // ── live push ─────────────────────────────────────────────────────────────────────
+  // The 3s poll is replaced by a poke from the server: the DM saves, the server publishes, the
+  // screens refetch. The poll does not go away — it drops to a slow safety net while the stream
+  // is up and returns to 3s the moment the stream drops, so a broken channel costs latency and
+  // never correctness. The poke carries no map data: state still comes from /state, which is the
+  // one place that decides what a screen may see.
+  var PLAYER_POLL_FAST_MS = 3000;
+  var PLAYER_POLL_SAFE_MS = 30000;
+  var playerRefetchTimer = null;
+
+  function playerScheduleRefetch() {
+    if (playerRefetchTimer) return;                 // a burst of saves collapses into one refetch
+    playerRefetchTimer = setTimeout(function () {
+      playerRefetchTimer = null;
+      playerFetch(false);
+    }, 120);
+  }
+
+  function playerPollAt(ms) {
+    if (player.timer) clearInterval(player.timer);
+    player.timer = setInterval(function () { playerFetch(false); }, ms);
+  }
+
+  function playerStream() {
+    if (typeof EventSource !== 'function') return;   // the poll is the fallback
+    var cfg = player.cfg || {};
+    var url = '/api/dm/map/' + cfg.id + '/player/stream' + (cfg.key ? '?k=' + encodeURIComponent(cfg.key) : '');
+    var es;
+    try {
+      es = new EventSource(url);
+    } catch (e) {
+      return;
+    }
+    player.stream = es;
+    es.addEventListener('message', function (ev) {
+      var payload;
+      try { payload = JSON.parse(ev.data); } catch (e) { return; }
+      if (payload && payload.kind === 'map') playerScheduleRefetch();
+    });
+    es.addEventListener('open', function () { playerPollAt(PLAYER_POLL_SAFE_MS); });
+    es.addEventListener('error', function () { playerPollAt(PLAYER_POLL_FAST_MS); });
+    return es;
+  }
+
   function toggleFollow() {
     player.following = !player.following;
     var b = $('followBtn');
@@ -1775,7 +1819,8 @@
       }
     } catch (e) { /* the poll is the fallback */ }
     playerFetch(true);
-    player.timer = setInterval(function () { playerFetch(false); }, 3000);
+    player.timer = setInterval(function () { playerFetch(false); }, PLAYER_POLL_FAST_MS);
+    playerStream();
   }
 
   // the player page's controls hang off the player object (its own toggle lives there, not on
