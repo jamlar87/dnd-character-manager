@@ -142,6 +142,24 @@ migrations), Jinja templates, vanilla JS assets with `static_asset_version()`.
   Live proof: the DM's own button awarded 6,500 to three characters; an open sheet went
   7,500 → 8,500 XP and 40,500 → 39,500 to L9 with **0 polls** and exactly **1 read**, no reload;
   inside a band the bar tracks (38,500 at L8 → 32%).
+- **Slice 11 — DONE** (committed): **installable, and honest offline** (gap #6). Manifest served by a
+  route with `application/manifest+json` (StaticFiles gets `.webmanifest` wrong and the manifest is
+  ignored), four real icons from `scripts/make_icons.py`, a maskable variant, both surfaces linked
+  (`table.html` is standalone — its own head, same trap as the dead partial). A service worker caches
+  the app shell only: writes untouched, `/api/` and any `stream` never intercepted, navigations
+  network-first and never cached, versioned cache identity. `/sw.js` and the manifest are routes so
+  the CDN cannot pin them (`no-store`, CF says BYPASS ✓).
+  Live: manifest parses with zero errors, icons serve, worker registers/activates/controls, it caches
+  `/offline` plus assets fetched through it (proved by caching a URL it had never seen), a live roll
+  reached a worker-controlled page, and after a restart the page asked for the new `?v` and got the
+  new bytes. **Not observable here:** cutting the worker's network (CDP page-level offline emulation
+  does not reach worker fetches) — the offline navigation is verified by its parts, and worth one
+  manual check with wifi off. Pitfalls 104–106 (a worker's `fetch()` can come from the HTTP cache —
+  fixed with `cache: 'no-store'`; cutting a worker's network in a probe; a `null` that was my own
+  syntax error).
+  Also fixed on the way: a body-less POST to `/api/campaign/{id}/player-key` was a **500** — ~80
+  routes call `await request.json()` unguarded, so one app-level `JSONDecodeError` handler makes them
+  all 400.
 - **Open question, still yours:** whether tracker damage *should* write through was flagged as a
   gameplay-semantics call. It was implemented because the code plainly **intended** to ("Save to
   character table") and pointed at a URL that never existed — this restores the intent rather than
