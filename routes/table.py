@@ -514,3 +514,77 @@ async def table_page(key: str, request: Request):
 
     return _render("table.html", request=request, campaign={"name": campaign_name},
                    roster=roster, key=key)
+
+
+# ── the sheet's own view of the feed ────────────────────────────────────────────────
+# A player holding a sheet is not the campaign's DM, so /api/campaign/{id}/stream is not
+# theirs to open. Membership is provable from their own character, so these two routes
+# authorise on the character and then project the campaign feed WITHOUT hidden rolls —
+# exactly the players' view, reached from the screen they already have open.
+
+def campaign_for_character(db, char_id: int) -> dict | None:
+    """The campaign whose roster holds this character, if any.
+
+    Mirrors /api/character/{id}/campaign: the join table first, then the campaign's own
+    `characters` JSON, because the join table is EMPTY on the live database.
+    """
+    row = db.execute(
+        "SELECT c.* FROM dm_campaigns c JOIN dm_campaign_characters cc ON cc.campaign_id = c.id "
+        "WHERE cc.character_id = ?", (int(char_id),)).fetchone()
+    if row:
+        return dict(row)
+    for camp in db.execute("SELECT * FROM dm_campaigns").fetchall():
+        camp = dict(camp)
+        if int(char_id) in roster_ids(camp):
+            return camp
+    return None
+
+
+@router.get("/api/character/{char_id}/feed", response_class=JSONResponse)
+async def character_feed(char_id: int, request: Request, limit: int = 50):
+    """The last rolls at this character's table (hidden ones are not in this projection)."""
+    user = require_user(request)
+    db = get_db()
+    try:
+        if not _require_owned(db, user, "characters", char_id):
+            return JSONResponse({"error": "Character not found"}, status_code=404)
+        camp = campaign_for_character(db, char_id)
+        if not camp:
+            return JSONResponse({"rolls": [], "campaign": None})
+        return JSONResponse({"rolls": recent_rolls(db, camp["id"], limit, include_hidden=False),
+                             "campaign": {"id": camp["id"], "name": camp.get("name") or ""}})
+    finally:
+        db.close()
+
+
+@router.get("/api/character/{char_id}/feed/stream")
+async def character_feed_stream(char_id: int, request: Request):
+    """The live feed for a character's table, authorised by the sheet's own owner."""
+    from fastapi.responses import StreamingResponse
+
+    user = require_user(request)
+    db = get_db()
+    try:
+        if not _require_owned(db, user, "characters", char_id):
+            return JSONResponse({"error": "Character not found"}, status_code=404)
+        camp = campaign_for_character(db, char_id)
+        if not camp:
+            return JSONResponse({"error": "No campaign for this character"}, status_code=404)
+        camp_id = camp["id"]
+    finally:
+        db.close()
+
+    try:
+        last_id = int(request.headers.get("last-event-id") or 0)
+    except (TypeError, ValueError):
+        last_id = 0
+
+    return StreamingResponse(
+        stream_frames(camp_id, last_id=last_id, include_hidden=False),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache, no-transform",
+            "X-Accel-Buffering": "no",
+            "Connection": "keep-alive",
+        },
+    )

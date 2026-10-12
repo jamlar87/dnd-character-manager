@@ -688,3 +688,62 @@ def test_the_dm_tools_page_mounts_the_feed_panel():
         "the feed has to be (re)mounted by the campaign select, including the no-campaign case")
     # the player page must exist and be reachable
     assert (repo / "templates" / "table.html").exists()
+
+
+def _character(db_path, user_id: int, name: str = "Rowan") -> int:
+    """A real character row: the feed routes authorise through the character's owner."""
+    con = _db(db_path)
+    try:
+        cur = con.execute("INSERT INTO characters (user_id, name, race, class_name, level) "
+                          "VALUES (?, ?, 'Human', 'Fighter', 3)", (user_id, name))
+        con.commit()
+        return int(cur.lastrowid or 0)
+    finally:
+        con.close()
+
+
+def test_the_sheet_feed_is_the_players_projection(seeded_db, client, auth_headers):
+    """The sheet reads the campaign feed through the character, with hidden rolls withheld."""
+    char_id = _character(seeded_db["db_path"], 1)
+    camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": char_id, "name": "Rowan"}])
+    from routes.table import insert_roll
+
+    db = _db(seeded_db["db_path"])
+    try:
+        insert_roll(db, campaign_id=camp_id, who="dm", expression="1d20", results=[11],
+                    label="secret", hidden=True)
+        insert_roll(db, campaign_id=camp_id, who="dm", expression="1d20", results=[3],
+                    label="open", hidden=False)
+    finally:
+        db.close()
+
+    resp = client.get(f"/api/character/{char_id}/feed", headers=auth_headers)
+    assert resp.status_code == 200, resp.text
+    data = resp.json()
+    assert data["campaign"]["id"] == camp_id
+    labels = [r["label"] for r in data["rolls"]]
+    assert labels == ["open"], "the sheet must not be shown a hidden roll"
+
+    # and the stream is scoped to the character's owner
+    bystander = _other_user(seeded_db["db_path"])
+    assert client.get(f"/api/character/{char_id}/feed", headers=_hdr(bystander)).status_code == 404
+    assert client.get(f"/api/character/{char_id}/feed/stream",
+                      headers=_hdr(bystander)).status_code == 404
+
+
+def test_the_sheet_feed_is_absent_without_a_campaign(seeded_db, client, auth_headers):
+    char_id = _character(seeded_db["db_path"], 1, "Loner")
+
+    data = client.get(f"/api/character/{char_id}/feed", headers=auth_headers).json()
+    assert data == {"rolls": [], "campaign": None}
+
+
+def test_the_sheet_mounts_a_read_only_feed():
+    import pathlib
+
+    repo = pathlib.Path(__file__).resolve().parent.parent
+    html = (repo / "templates" / "sheet.html").read_text()
+    js = (repo / "static" / "sheet.js").read_text()
+    assert "sheetRollFeedCard" in html and "sheetRollFeedList" in html
+    assert "initSheetRollFeed();" in js, "the sheet never mounts its feed"
+    assert "publish: false" in js, "the sheet must not publish rolls into the table feed"

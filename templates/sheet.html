@@ -1056,6 +1056,23 @@
             oninput="autoSaveCombatNotes()">{{ character.combat_notes or '' }}</textarea>
         </div>
       </div>
+
+      <!-- The table's roll feed (the character's campaign, hidden rolls withheld by the
+           server). Read-only here: the sheet shows what the table is doing, it does not
+           roll into it — that is the /table/{key} pad and the DM tools. -->
+      <div class="card" id="sheetRollFeedCard" style="margin-top:0.5rem;display:none">
+        <div style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none"
+             onclick="toggleSection('sheet-rollfeed-body','sheet-rollfeed-arrow')">
+          <h3 style="margin:0;font-size:0.85rem;display:flex;align-items:center;gap:0.3rem">
+            <span id="sheet-rollfeed-arrow" style="font-size:0.7rem">▾</span>
+            🎲 Table rolls <span id="sheet-rollfeed-camp" style="font-size:0.65rem;font-weight:400;color:var(--text-muted)"></span>
+          </h3>
+          <span id="sheet-rollfeed-status" style="font-size:0.65rem;color:var(--warn)"></span>
+        </div>
+        <div id="sheet-rollfeed-body" style="margin-top:0.5rem">
+          <div class="rf-list" id="sheetRollFeedList"><div class="rf-empty">loading…</div></div>
+        </div>
+      </div>
     </div>
     <!-- ✨ FEATURES TAB -->
     <div class="tab-content" id="tab-features">

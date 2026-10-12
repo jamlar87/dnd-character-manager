@@ -271,7 +271,7 @@ function initAbilityEditors() {
   observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 }
 
-document.addEventListener('DOMContentLoaded', () => { initAbilityEditors(); initEditable(); tagWeapons(); startSheetPolling(); if (!_conditionsExpanded) { document.getElementById('condition-badges').style.display = 'none'; }
+document.addEventListener('DOMContentLoaded', () => { initAbilityEditors(); initEditable(); tagWeapons(); startSheetPolling(); initSheetRollFeed(); if (!_conditionsExpanded) { document.getElementById('condition-badges').style.display = 'none'; }
   // Init core toggle UI if persistent state is on
   if (_coreOnly) {
     const spellBox = document.getElementById('core-toggle-box');
@@ -6517,3 +6517,30 @@ function addSummon() {
   saveSummons().then(() => location.reload());
 }
 
+
+// ── The table's roll feed (read-only on the sheet) ───────────────────────────────────
+// The sheet's owner is usually a player, not the campaign's DM, so this reads the
+// character-scoped feed endpoint (membership proven by their own character) rather than the
+// DM stream. Hidden rolls never arrive — the server withholds them.
+async function initSheetRollFeed() {
+  const card = document.getElementById('sheetRollFeedCard');
+  const list = document.getElementById('sheetRollFeedList');
+  if (!card || !list || !window.RollFeed) return;
+  try {
+    const r = await fetch('/api/character/' + CHAR_ID + '/feed?limit=50');
+    if (!r.ok) return;
+    const d = await r.json();
+    if (!d.campaign) return;                 // no campaign, no feed, no empty box
+    card.style.display = '';
+    const label = document.getElementById('sheet-rollfeed-camp');
+    if (label) label.textContent = '· ' + (d.campaign.name || '');
+    window.RollFeed.init({
+      listEl: list,
+      statusEl: document.getElementById('sheet-rollfeed-status'),
+      streamUrl: '/api/character/' + CHAR_ID + '/feed/stream',
+      rollsUrl: '/api/character/' + CHAR_ID + '/feed?limit=50',
+      source: 'sheet',
+      publish: false                          // the sheet does not roll into the table feed
+    });
+  } catch (e) { /* the sheet is fine without a feed */ }
+}
