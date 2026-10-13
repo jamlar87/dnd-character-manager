@@ -160,6 +160,21 @@ migrations), Jinja templates, vanilla JS assets with `static_asset_version()`.
   Also fixed on the way: a body-less POST to `/api/campaign/{id}/player-key` was a **500** — ~80
   routes call `await request.json()` unguarded, so one app-level `JSONDecodeError` handler makes them
   all 400.
+- **Slice 12 — DONE** (committed): **undo** (gap #7). The last action, put back in one tap, or
+  refused. `action_undo` records raw before/after column values per character; undo checks the row
+  still holds the `after` values and only then restores — otherwise **409 naming the field that
+  moved** (an undo that clobbers a later edit is data loss). Nothing to undo is 404. Wired into the
+  sheet save, tracker HP, summon HP, condition add/remove, and XP awards; per user, 10 deep, and the
+  event carries the restored numbers (never via `publish_hp_change`, because that path computes
+  damage and a concentration DC and an undo is not a hit). An undone award keeps its ledger row
+  marked `reversed` and struck through.
+  Live: the DM's button named the action before running it, restored the HP, re-disabled itself; an
+  open player sheet took an award + undo with **no reload, 0 polls, one read per event**; with two
+  real users the DM's undo of stale damage was refused (`now 74, expected 20`) while the player's
+  heal survived. **Two live bugs, both Pitfalls 107/108:** `action_undo.meta` was added to the CREATE
+  statement so the live table never got it (every record silently failed to insert) — and the failure
+  was invisible because five call sites wrapped the record in a bare `except: pass`, now one
+  `record_safe()` that logs.
 - **Open question, still yours:** whether tracker damage *should* write through was flagged as a
   gameplay-semantics call. It was implemented because the code plainly **intended** to ("Save to
   character table") and pointed at a URL that never existed — this restores the intent rather than
