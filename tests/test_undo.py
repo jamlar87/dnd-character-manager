@@ -349,3 +349,56 @@ def test_a_failed_record_is_logged_rather_than_hidden():
     for route in ("routes/dm.py", "routes/characters/sheet.py"):
         text = (pathlib.Path(__file__).resolve().parent.parent / route).read_text()
         assert "record_safe(" in text, f"{route} should record through the one place that logs"
+
+
+# ── "defeated" on the tracker vs the player's sheet ─────────────────────────────────────
+
+def test_a_defeated_player_goes_to_zero_hp_and_is_one_undo_away(seeded_db, client, auth_headers):
+    """The tracker could bench a player's row while their sheet still read 51/51. Marking defeated
+    now means 0 HP on the character itself — through the ordinary route, so it publishes and is
+    undoable like any other HP change."""
+    char_id = _character(seeded_db["db_path"], 1, "Rowan", hp=51)
+    _campaign(seeded_db["db_path"], 1, [{"id": char_id, "name": "Rowan"}])
+
+    assert client.post("/api/dm/character-hp", json={"character_id": char_id, "hp_current": 0},
+                       headers=auth_headers).status_code == 200
+    assert _hp(seeded_db["db_path"], char_id) == 0
+    peek = client.get("/api/undo/peek", headers=auth_headers).json()["entry"]
+    assert peek["kind"] == "hp" and "→ 0" in peek["label"], peek
+
+    assert client.post("/api/undo", headers=auth_headers).status_code == 200
+    assert _hp(seeded_db["db_path"], char_id) == 51, "one tap takes the misclick back"
+
+
+def test_the_defeat_rule_lives_in_one_place_and_never_heals_on_un_tick():
+    """Two client paths can bench a player (the row toggle and the bulk Save), so the rule is one
+    helper both call. Un-ticking a box is not a resurrection: it must not write HP at all."""
+    import pathlib
+
+    js = (pathlib.Path(__file__).resolve().parent.parent / "static" / "dm_tools.js").read_text()
+    assert "async function defeatPlayerWriteThrough(" in js
+    assert js.count("defeatPlayerWriteThrough(") >= 3, "defined once, called from both paths"
+    assert "if (!defeating" in js.replace("if (!defeating ||", "if (!defeating"), "un-defeat writes nothing"
+    body = js[js.index("async function defeatPlayerWriteThrough("):]
+    body = body[:body.index("\n}\n") + 3]
+    assert "'/api/dm/character-hp'" in body, "the same route every other HP change uses"
+    assert "!p.is_player || !p.char_id" in body, "NPCs and monsters are not characters"
+
+
+def test_the_two_warts_the_live_probe_found_stay_fixed():
+    """Both were visible only in the browser: the Undo button kept naming the PREVIOUS action after
+    the tracker created a new one, and an undo that healed a benched player left them benched (a
+    card at 51/51 wearing a skull — the same contradiction, pointing the other way)."""
+    import pathlib
+
+    js = (pathlib.Path(__file__).resolve().parent.parent / "static" / "dm_tools.js").read_text()
+
+    write_through = js[js.index("async function defeatPlayerWriteThrough("):]
+    write_through = write_through[:write_through.index("\n}\n") + 3]
+    assert "refreshUndoLabel()" in write_through, "a new undo record has to be named by the button"
+
+    undo_fn = js[js.index("async function undoLast()"):]
+    undo_fn = undo_fn[:undo_fn.index("\n}\n") + 3]
+    assert "values.hp_current" in undo_fn and "p.defeated = 0" in undo_fn, (
+        "an undo that heals a benched player takes the bench with it")
+    assert "renderInitiativeTrack()" in undo_fn and "saveCombatState()" in undo_fn

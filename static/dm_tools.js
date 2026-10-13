@@ -1355,9 +1355,16 @@ function removeNpcFromEncounter(encId, enId) {
   }).then(r => r.json()).then(() => openEncounter(encId));
 }
 
-function updateInitiatives(encId) {
+async function updateInitiatives(encId) {
   const btn = document.querySelector('.encounter-toolbar .btn-outline');
   if (btn) { btn.textContent = '⏳ Saving...'; btn.disabled = true; }
+
+  // Marking a player defeated here (the bulk save) has to do the same thing the row toggle does,
+  // or the two ways of benching someone disagree about their HP.
+  document.querySelectorAll('.participant-row.defeated').forEach(function (row) {
+    const box = row.querySelector('input[data-enid]');
+    if (box) defeatPlayerWriteThrough(parseInt(box.dataset.enid), true);
+  });
   const participants = [];
   document.querySelectorAll('.participant-row').forEach(row => {
     const initInput = row.querySelector('.init-input');
@@ -1466,6 +1473,11 @@ function toggleDefeated(encId, enId, idx) {
       btn.className = 'defeat-btn ' + (isDead ? 'alive' : 'dead');
     }
   }
+  // A player character's sheet has to agree with this row (see defeatPlayerWriteThrough)
+  defeatPlayerWriteThrough(enId, !isDead).then(function (wrote) {
+    if (wrote) renderInitiativeTrack();
+  });
+
   // Save immediately
   fetch(`/api/dm/encounter/${encId}/update-initiative`, {
     method: 'POST', headers: {'Content-Type': 'application/json'},
@@ -4170,7 +4182,12 @@ async function toggleDefeatedCombat(enId) {
   p.defeated = p.defeated ? 0 : 1;
 
   if (p.is_player && p.char_id) {
-    // Just track locally for players — no server-side defeated state on character table
+    // This branch used to do nothing at all — "just track locally for players" — which left the
+    // tracker benching a row while the player's own sheet still read 51/51: one control
+    // contradicting itself. A benched player is unconscious, so the sheet goes to 0 HP through the
+    // ordinary HP route: same authority, it publishes (their sheet hears it live), and it records
+    // the same one-tap undo. Un-benching does not heal — see defeatPlayerWriteThrough.
+    await defeatPlayerWriteThrough(enId, !!p.defeated);
   } else if (p.en_id > 0 && _combatEncId) {
     try {
       await fetch(`/api/dm/encounter/${_combatEncId}/update-initiative`, {
@@ -5881,6 +5898,25 @@ async function undoLast() {
   }
   setUndoStatus('↩ Undone: ' + (d.label || d.kind || 'last change'));
   refreshUndoLabel();
+
+  // If the undo healed a player the tracker had benched, the bench has to go with it: a card at
+  // 51/51 wearing a 💀 is the same contradiction this slice set out to remove, pointing the other
+  // way. The tracker's flag is the DM's shorthand for "down", and the sheet now says otherwise.
+  let unbenched = false;
+  (d.restored || []).forEach(function (item) {
+    const values = item.values || {};
+    if ((values.hp_current === undefined) || values.hp_current <= 0) return;
+    const p = (_combatParticipants || []).find(x => x.char_id === item.character_id);
+    if (p && p.defeated) {
+      p.defeated = 0;
+      unbenched = true;
+      _combatOrder = _combatParticipants.filter(x => !x.defeated).map(x => x.en_id);
+    }
+  });
+  if (unbenched) {
+    renderInitiativeTrack();
+    saveCombatState();
+  }
   // The publish refreshes the tracker and every player's sheet by itself; the XP panel reads on
   // demand, so ask it again.
   if (typeof loadCampaignXp === 'function' && _combatCampId) loadCampaignXp();
@@ -5903,3 +5939,31 @@ document.addEventListener('keydown', function (e) {
   e.preventDefault();
   undoLast();
 });
+
+
+// ── "Defeated" for a player character means 0 HP on their sheet ─────────────────────────
+// The tracker could bench a player's row while their sheet still said 51/51 — the same control
+// disagreeing with itself that slice 7 fixed for HP. Marking a player defeated drops them to 0 on
+// the character itself, through the ordinary HP route: same authority, same live publish (their
+// sheet hears it), and the same undo record, so a misclick is one tap from being taken back.
+//
+// Un-marking deliberately does NOT heal: un-ticking a box is not a resurrection, and the DM heals
+// normally (or undoes the defeat, which restores the exact HP that was there).
+
+async function defeatPlayerWriteThrough(enId, defeating) {
+  if (!defeating || !_combatParticipants) return false;
+  const p = _combatParticipants.find(x => x.en_id === enId);
+  if (!p || !p.is_player || !p.char_id) return false;   // NPCs and monsters live in the encounter
+  if ((p.hp_current || 0) <= 0) return false;           // already down: never write twice
+  const res = await postDmHp('/api/dm/character-hp', {character_id: p.char_id, hp_current: 0});
+  if (!res) return false;
+  p.hp_current = 0;
+  if (typeof refreshUndoLabel === 'function') refreshUndoLabel();   // it names the action it just made
+  const status = document.getElementById('combatStatus');
+  if (status) {
+    status.textContent = (p.name || 'Player') + ': defeated → 0 HP on their sheet (↩ Undo puts it back)';
+    clearTimeout(status._clear);
+    status._clear = setTimeout(function () { status.textContent = ''; }, 8000);
+  }
+  return true;
+}
