@@ -88,8 +88,14 @@ class TestKeylessProvider:
         assert "stablehorde.net/api/v2" in src
         assert "image.pollinations.ai" in src, "pollinations is still the fallback"
         assert 'if PORTRAIT_PROVIDER == "openrouter"' in src
-        if not os.environ.get("PORTRAIT_PROVIDER"):
-            assert portraits.PORTRAIT_PROVIDER == "horde", "the paid path must be opt-in"
+        # The PROVIDER follows the environment; the CODE default is the keyless public queue, and
+        # pointing a deployment at the local GPU (PORTRAIT_PROVIDER=comfy) is a deployment choice.
+        # This used to assert the ambient value == "horde", which turned a deliberate deployment
+        # decision into a red suite.
+        assert portraits.PORTRAIT_PROVIDER == (
+            os.environ.get("PORTRAIT_PROVIDER", "horde").strip().lower())
+        assert 'os.environ.get("PORTRAIT_PROVIDER", "horde")' in src, \
+            "the code default must stay the keyless queue"
 
     def test_the_horde_default_carries_the_documented_anonymous_key(self):
         """No signup, no account: the anonymous key is what keeps this provider free."""
