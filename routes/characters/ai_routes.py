@@ -351,7 +351,7 @@ def _validate_and_fix(ai: dict, race: str = "", class_name: str = "", name: str 
 async def ai_generate(request: Request):
     """Generate character flavor (name/bg/alignment/personality/backstory).
     All mechanical data is hardcoded from PHB. Only creative text is generated.
-    Model chain: Gemini → OpenRouter → Ollama → deterministic fallback."""
+    Model chain: OpenRouter → Gemini → Ollama → deterministic fallback."""
     require_user(request)
     data = await request.json()
     race = data.get("race", "Human")
@@ -393,6 +393,9 @@ Return ONLY valid JSON (no markdown, no explanation):
         ai = _validate_and_fix(ai, race, class_name, name, abilities, alignment)
     else:
         ai = _fallback_generate(race, class_name, subclass, name, abilities, skills, alignment)
+    # Say which it was. Every caller renders these as if the model wrote them, and a deterministic
+    # placeholder that reads like AI output is how a total outage went unnoticed for weeks.
+    ai["ai_generated"] = bool(text)
     return JSONResponse(ai)
 
 def _fallback_generate(race: str, class_name: str, subclass: str, name: str, abilities: dict = None, skills: list = None, alignment: str = "") -> dict:
@@ -506,7 +509,7 @@ BACKGROUND_ITEM_POOL = [
 @router.post("/api/ai/generate-background", response_class=JSONResponse)
 async def ai_generate_background(request: Request):
     """Generate a unique custom background based on character choices.
-    Model chain: Gemini → OpenRouter → Ollama → deterministic fallback."""
+    Model chain: OpenRouter → Gemini → Ollama → deterministic fallback."""
     require_user(request)
     data = await request.json()
     race = data.get("race", "Human")
@@ -536,6 +539,9 @@ Return ONLY valid JSON (no markdown, no explanation):
     text = await _call_ai(prompt, label="bg")
 
     ai = _extract_json(text) if text else None
+    # A usable answer needs name AND description; anything less substitutes the deterministic text,
+    # so the flag has to follow the branch, not merely "did the model reply".
+    ai_generated = bool(ai and ai.get("name") and ai.get("description"))
     if ai and ai.get("name") and ai.get("description"):
         # Ensure items and gp exist
         if "items" not in ai or not isinstance(ai.get("items"), list):
@@ -545,8 +551,11 @@ Return ONLY valid JSON (no markdown, no explanation):
         # Validate uniqueness — reject if it matches a PHB background name
         if ai["name"] in BACKGROUNDS:
             ai = _fallback_background(race, class_name, subclass)
+            ai_generated = False          # what is returned is not the model's text
     else:
         ai = _fallback_background(race, class_name, subclass)
+        ai_generated = False
+    ai["ai_generated"] = ai_generated
     return JSONResponse(ai)
 
 def _random_items(class_name: str) -> list:
@@ -612,7 +621,7 @@ async def generate_character_history(char_id: int, request: Request):
     """Generate a comprehensive character backstory from childhood to present.
     Weaves race, class, subclass, background, skills, feats, ASI choices,
     and any user keywords into a rich narrative history.
-    Model chain: Gemini → OpenRouter → Ollama → deterministic fallback."""
+    Model chain: OpenRouter → Gemini → Ollama → deterministic fallback."""
     user = require_user(request)
     data = await request.json()
     keywords = (data.get("keywords") or "").strip()
@@ -729,12 +738,12 @@ Fighting Style: {fighting_style.replace('_',' ').title() if fighting_style else 
     prompt = "\n".join(prompt_parts)
 
     text = await _call_ai(prompt, label="history")
-
+    ai_generated = bool(text)
     if not text:
         # Fallback
         text = _fallback_history(char, race_desc, class_desc, subclass_desc)
 
-    return JSONResponse({"backstory": text.strip()})
+    return JSONResponse({"backstory": text.strip(), "ai_generated": ai_generated})
 
 
 def _fallback_history(char: dict, race_desc: str, class_desc: str, subclass_desc: str) -> str:

@@ -5535,16 +5535,23 @@ async function saveRelationship() {
     ? `/api/character/${CHAR_ID}/relationships/${editingRelId}`
     : `/api/character/${CHAR_ID}/relationships`;
   try {
-    await fetch(url, {
+    const resp = await fetch(url, {
       method: isEdit ? 'PUT' : 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(body),
     });
+    // fetch only rejects on a network failure, so a rejected save (400/404/500) resolved normally
+    // and the modal closed as if it had saved — the relationship was silently lost.
+    if (!resp.ok) {
+      const d = await resp.json().catch(function () { return {}; });
+      alert(d.error || d.detail || ('Could not save the relationship (HTTP ' + resp.status + ')'));
+      return;
+    }
     relGeneratedData = null;
     editingRelId = null;
     closeRelModal();
     loadRelationships();
-  } catch(e) { console.error(e); }
+  } catch(e) { alert('Could not save the relationship: ' + (e.message || e)); console.error(e); }
 }
 
 async function deleteRelationship(relId) {
@@ -5649,10 +5656,17 @@ async function generateHistory() {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({keywords}),
     });
+    if (!resp.ok) {
+      alert('Could not generate history: HTTP ' + resp.status);
+      return;
+    }
     const data = await resp.json();
     if (data.backstory) {
       textarea.value = data.backstory;
       await saveBackstory();
+      if (data.ai_generated === false) {
+        alert('The AI could not be reached — this is a generic placeholder, not a generated history.');
+      }
     } else {
       alert('Failed to generate history: ' + (data.error || 'Unknown error'));
     }

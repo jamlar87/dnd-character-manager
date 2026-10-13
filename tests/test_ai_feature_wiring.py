@@ -134,3 +134,52 @@ def test_reference_art_is_verified_to_be_an_image_before_it_is_stored():
     assert "return 0" in fn, "an unusable payload must not be stored"
     assert "len(blob) < 64" in fn, "a plain sanity floor for a decodable-but-empty payload"
     assert "width < 32 or height < 32" in fn, "a 1x1 pixel is not art"
+
+
+# ── whether the model ran is data the client can act on ───────────────────────────────────
+
+def test_the_text_endpoints_report_whether_the_ai_actually_ran(client, auth_headers):
+    """With every tier unreachable (conftest closes the transport) these endpoints still answer
+    200 with deterministic text — which is exactly the case that used to be indistinguishable
+    from a successful generation."""
+    r = client.post("/api/ai/generate", json={"race": "Human", "class_name": "Fighter"},
+                    headers=auth_headers)
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body.get("ai_generated") is False, "a placeholder must not claim to be AI output"
+
+    r = client.post("/api/ai/generate-background",
+                    json={"race": "Elf", "class_name": "Wizard"}, headers=auth_headers)
+    assert r.status_code == 200, r.text
+    assert r.json().get("ai_generated") is False
+
+
+def test_every_client_that_renders_ai_text_can_tell_it_was_a_placeholder():
+    create = _read("static/create.js")
+    sheet = _read("static/sheet.js")
+    assert create.count("ai_generated === false") >= 2, "auto-fill and background"
+    assert "ai_generated === false" in sheet, "the history button"
+
+
+def test_the_silent_client_failures_are_loud():
+    """Each of these swallowed the failure with console.error (or nothing) where the user needed
+    to know: auto-fill, background, the history fetch, a relationship save, an NPC save."""
+    create = _read("static/create.js")
+    assert "Auto-fill failed:" in create
+    assert "Background generation failed:" in create
+    assert "catch(e) { console.error(e); }\n  btn.textContent = '🤖 Auto-Fill'" not in create
+
+    sheet = _read("static/sheet.js")
+    assert "Could not save the relationship" in sheet
+    assert "Could not generate history: HTTP " in sheet
+
+    dm = _read("static/dm_tools.js")
+    assert "Could not save the NPC (HTTP " in dm
+
+
+def test_the_tier_labels_in_the_route_docstrings_match_the_chain():
+    """They read "Gemini → OpenRouter → Ollama" while the code tries OpenRouter first, which sends
+    a debugger to the wrong tier."""
+    src = _read("routes/characters/ai_routes.py")
+    assert "Model chain: OpenRouter → Gemini → Ollama" in src
+    assert "Model chain: Gemini → OpenRouter" not in src

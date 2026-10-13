@@ -1694,7 +1694,15 @@ async function autoFillDetails() {
     if (data.alignment) document.getElementById('char-align').value = data.alignment;
     state.personality = data.personality || '';
     state.backstory = data.backstory || '';
-  } catch(e) { console.error(e); }
+    if (data.ai_generated === false) {
+      // The endpoint answers with deterministic text when every tier is down, and this used to be
+      // indistinguishable from a generated character: the fields simply filled in.
+      alert('The AI could not be reached — these are generic placeholder details. Try again later.');
+    }
+  } catch(e) {
+    console.error(e);
+    alert('Auto-fill failed: ' + (e.message || e) + ' — nothing was changed.');
+  }
   btn.textContent = '🤖 Auto-Fill'; btn.disabled = false;
 }
 
@@ -1731,7 +1739,13 @@ async function aiGenerateBackground() {
     // Store equipment
     state.bg_items = data.items || [];
     state.bg_gp = data.gp || 15;
-  } catch(e) { console.error(e); }
+    if (data.ai_generated === false) {
+      alert('The AI could not be reached — this background is a generic placeholder.');
+    }
+  } catch(e) {
+    console.error(e);
+    alert('Background generation failed: ' + (e.message || e) + ' — nothing was changed.');
+  }
   btn.textContent = '🤖 AI Generate'; btn.disabled = false;
 }
 

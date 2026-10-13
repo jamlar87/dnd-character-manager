@@ -1873,7 +1873,7 @@ async function saveNpc(event, id) {
   const r = await fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)});
   const result = await r.json();
   if (result.ok) { closeModal('npcModal'); location.reload(); }
-  else if (result.error) { alert(result.error); }
+  else { alert(result.error || ('Could not save the NPC (HTTP ' + r.status + ')')); }
   return false;
 }
 
