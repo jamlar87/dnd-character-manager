@@ -4,7 +4,7 @@
 
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
-import json, random, os, httpx
+import asyncio, json, random, os, time, httpx
 
 from main import (
     get_db, require_user, _require_owned,
@@ -31,118 +31,289 @@ from services.leveling import (
 router = APIRouter()
 
 # ── AI Model Config ─────────────────────────────
-# Change AI_MODEL to swap the local fallback model used when Gemini is unavailable
-AI_MODEL = "llama3.1:8b"
+# Every model id and endpoint is an env override with the measured default baked in: a provider
+# retiring a model (gemini-2.0-flash was retired under us once) must be a config change, not a
+# code edit, and the two model families here are used by other modules too.
+AI_MODEL = os.environ.get("AI_OLLAMA_MODEL", "llama3.1:8b")
+OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://192.168.1.31:11434/api/generate")
+
+# Tier 1 is PINNED, not the `openrouter/free` lottery. That router hands each request to a random
+# free model, and on this app's own trap prompt (16 keys) it measured 0/3 complete: it picked a
+# content-safety classifier (which answered "User Safety: safe") and reasoning models that spent the
+# entire token budget thinking — 900/900 and 1048/1048 reasoning tokens — and returned EMPTY content.
+# A pinned small non-reasoning model managed 2/3 on the same prompt. Ordered: first the one that
+# measured best, then the general router as a second opinion.
+OPENROUTER_MODELS = [
+    m.strip() for m in os.environ.get(
+        "AI_OPENROUTER_MODELS", "poolside/laguna-xs-2.1:free,openrouter/free"
+    ).split(",") if m.strip()
+]
+# Gemini's free quota is PER MODEL, so a 429 on one model is not a dead tier: when
+# gemini-3.6-flash answered "limit: 20 ... retry in 23h", gemini-2.5-flash on the same key
+# answered 200 with clean JSON (measured Oct 2026).
+GEMINI_MODELS = [
+    m.strip() for m in os.environ.get(
+        "AI_GEMINI_MODELS", "gemini-3.6-flash,gemini-2.5-flash"
+    ).split(",") if m.strip()
+]
+
+# One tier's own wait, and the budget for the whole chain: the Ollama tier used to allow 120s, so a
+# reachable-but-hung box could hold a request for ~160s across the three tiers before falling back.
+AI_TIER_TIMEOUT = float(os.environ.get("AI_TIER_TIMEOUT", "25"))
+AI_CHAIN_BUDGET = float(os.environ.get("AI_CHAIN_BUDGET", "70"))
+# The cap must fit the biggest thing any caller asks for: the trap prompt wants 16 keys with
+# multi-sentence values, and a reasoning model's thinking is billed against this too.
+AI_MAX_TOKENS = int(os.environ.get("AI_MAX_TOKENS", "1400"))
 # ────────────────────────────────────────────────
 
 
+def _provider_error(body: dict, raw: str) -> str:
+    """The provider's own words. A 429's message names the quota and when it resets."""
+    err = body.get("error")
+    if isinstance(err, dict):
+        return str(err.get("message") or err)[:200]
+    if isinstance(err, str):
+        return err[:200]
+    return (raw or "no body")[:200]
+
+
+async def _post_json(url: str, payload: dict, headers: dict | None = None,
+                     timeout: float = 20.0) -> tuple[int, dict, str]:
+    """The one place a tier talks HTTP, so tests can drive status/body without a network.
+
+    Status 0 means the transport failed. An HTTP error status is returned, not raised: the
+    tiers decide what a 429 or a 404 means, and the body carries the reason that used to be
+    discarded (a 429 read as `KeyError('candidates')` tells a human nothing).
+    """
+    try:
+        async with httpx.AsyncClient(timeout=timeout) as client:
+            resp = await client.post(url, json=payload, headers=headers or {})
+        try:
+            body = resp.json()
+        except Exception:
+            body = {}
+        return resp.status_code, body, resp.text[:400]
+    except Exception as exc:
+        return 0, {}, f"{type(exc).__name__}: {exc}"
+
+
 async def _call_gemini(prompt: str) -> str | None:
-    """Tier 1: Google Gemini (free). Requires GOOGLE_API_KEY."""
+    """Tier 2: Google Gemini (free). Requires GOOGLE_API_KEY.
+
+    Walks GEMINI_MODELS because the free quota is per model: a 429 names the quota and its
+    reset ("limit: 20 ... retry in 23h7m") and that is a fact about ONE model, not the tier.
+    """
     key = os.environ.get("GOOGLE_API_KEY", "")
     if not key:
         return None
-    try:
-        async with httpx.AsyncClient(timeout=20) as client:
-            resp = await client.post(
-                f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={key}",
-                json={"contents": [{"parts": [{"text": prompt}]}]},
-            )
-            result = resp.json()
-            return result["candidates"][0]["content"]["parts"][0]["text"]
-    except Exception as e:
-        print(f"[Gemini] error: {e}")
-        return None
+    for model in GEMINI_MODELS:
+        status, body, raw = await _post_json(
+            f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}",
+            {"contents": [{"parts": [{"text": prompt}]}]},
+            timeout=AI_TIER_TIMEOUT,
+        )
+        if status != 200:
+            print(f"[Gemini:{model}] HTTP {status}: {_provider_error(body, raw)}")
+            continue
+        try:
+            text = body["candidates"][0]["content"]["parts"][0]["text"]
+        except (KeyError, IndexError, TypeError):
+            print(f"[Gemini:{model}] answered without candidates: {raw[:200]}")
+            continue
+        if text and text.strip():
+            return text
+        print(f"[Gemini:{model}] empty candidate text")
+    return None
+
 
 async def _call_openrouter(prompt: str) -> str | None:
-    """Tier 1: OpenRouter free router (never charges). Requires OPENROUTER_API_KEY."""
+    """Tier 1: OpenRouter (free models only, never charges). Requires OPENROUTER_API_KEY.
+
+    Tries each configured model. Whether an answer is USABLE is decided by _call_ai, not here:
+    this function's job is to get text and to say honestly what came back (model, finish reason,
+    reasoning tokens) — the three ways this tier fails all look alike from the outside.
+    """
     key = os.environ.get("OPENROUTER_API_KEY", "")
     if not key:
         return None
-    try:
-        async with httpx.AsyncClient(timeout=20) as client:
-            resp = await client.post(
-                "https://openrouter.ai/api/v1/chat/completions",
-                headers={
-                    "Authorization": f"Bearer {key}",
-                    "Content-Type": "application/json",
-                    "HTTP-Referer": "https://characters.jamlarnet.stream",
-                    "X-OpenRouter-Title": "D&D Character Manager",
-                },
-                json={
-                    "model": "openrouter/free",
-                    "messages": [{"role": "user", "content": prompt}],
-                    "max_tokens": 300,
-                },
-            )
-            result = resp.json()
-            msg = result["choices"][0]["message"]
-            content = msg.get("content") or ""
-            reasoning = msg.get("reasoning") or ""
-            # Some free models (e.g. laguna-m.1) put output in 'reasoning'
-            # instead of 'content' — but most put chain-of-thought there.
-            # Only fall back to reasoning if it actually looks like the answer
-            # (contains a JSON object), never CoT rambling.
-            if content.strip():
-                # Free-tier routing is nondeterministic: some models echo the
-                # prompt back as CoT ("Okay, the user wants..."). If we asked
-                # for JSON and got no object, treat as failure so the chain
-                # falls through to the next tier.
-                if "{" in prompt and "{" not in content:
-                    print("[OR] content has no JSON despite JSON prompt — rejecting")
-                    return ""
-                return content
-            if reasoning.strip() and "{" in reasoning:
-                return reasoning
-            return ""
-    except Exception as e:
-        print(f"[OR] error: {e}")
-        return None
+    headers = {
+        "Authorization": f"Bearer {key}",
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://characters.jamlarnet.stream",
+        "X-OpenRouter-Title": "D&D Character Manager",
+    }
+    for model in OPENROUTER_MODELS:
+        status, body, raw = await _post_json(
+            "https://openrouter.ai/api/v1/chat/completions",
+            {"model": model, "messages": [{"role": "user", "content": prompt}],
+             "max_tokens": AI_MAX_TOKENS},
+            headers=headers, timeout=AI_TIER_TIMEOUT,
+        )
+        if status != 200:
+            print(f"[OR:{model}] HTTP {status}: {_provider_error(body, raw)}")
+            continue
+        try:
+            choice = body["choices"][0]
+            msg = choice.get("message") or {}
+        except (KeyError, IndexError, TypeError):
+            print(f"[OR:{model}] answered without choices: {raw[:200]}")
+            continue
+
+        content = (msg.get("content") or "").strip()
+        reasoning = (msg.get("reasoning") or "").strip()
+        usage = body.get("usage") or {}
+        rtok = (usage.get("completion_tokens_details") or {}).get("reasoning_tokens")
+        # Log every answer's shape: a reasoning model that spent the budget thinking and a
+        # truncation at the cap both arrive as "no content", and they need different fixes.
+        print(f"[OR:{model}] finish={choice.get('finish_reason')} "
+              f"completion={usage.get('completion_tokens')} reasoning={rtok} content={len(content)}B")
+        if content:
+            return content
+        if choice.get("finish_reason") == "length":
+            print(f"[OR:{model}] truncated at max_tokens={AI_MAX_TOKENS} "
+                  f"(reasoning used {rtok}) — no answer left")
+        elif reasoning and "{" in reasoning:
+            # Some models put the answer itself in 'reasoning' (laguna-m.1 did). Only worth
+            # taking when the text contains an object; _call_ai still has to accept it.
+            return reasoning
+        else:
+            print(f"[OR:{model}] empty content and no object in reasoning")
+    return None
+
 
 async def _call_ollama(prompt: str) -> str | None:
-    """Local Ollama model (AI_MODEL). No API key needed."""
-    try:
-        async with httpx.AsyncClient(timeout=120) as client:
-            resp = await client.post(
-                "http://192.168.1.31:11434/api/generate",
-                json={"model": AI_MODEL, "prompt": prompt, "stream": False, "temperature": 0.9, "num_predict": 1024, "seed": __import__("time").time_ns() % 1000000},
-            )
-            result = resp.json()
-            return result.get("response", "")
-    except Exception as e:
-        print(f"[Ollama] error [{type(e).__name__}]: {e}")
+    """Tier 3: the local model. No API key; dead whenever that box is off (it was, Oct 2026)."""
+    status, body, raw = await _post_json(
+        OLLAMA_URL,
+        {"model": AI_MODEL, "prompt": prompt, "stream": False, "temperature": 0.9,
+         "num_predict": AI_MAX_TOKENS, "seed": time.time_ns() % 1000000},
+        timeout=AI_TIER_TIMEOUT,
+    )
+    if status != 200:
+        print(f"[Ollama:{AI_MODEL}] unreachable (HTTP {status}): {raw[:160]}")
         return None
+    text = (body.get("response") or "").strip()
+    if not text:
+        print(f"[Ollama:{AI_MODEL}] answered with nothing")
+    return text or None
 
-async def _call_ai(prompt: str, label: str = "gen") -> str | None:
-    """Call AI model chain: OpenRouter → Gemini → Ollama. Returns first success."""
-    text = await _call_openrouter(prompt)
-    if text:
-        print(f"[AI {label}] tier=openrouter")
+async def _call_ai(prompt: str, label: str = "gen", expect_json: bool | None = None) -> str | None:
+    """OpenRouter → Gemini → Ollama, returning the first answer the CALLER can use.
+
+    "Can use" is the whole point. Every caller either parses the reply as a JSON object or (two
+    of them) takes it as prose, so a tier's answer is checked against that contract before it is
+    accepted, and a failure means the next tier runs.
+
+    This is what the chain used to get wrong: it accepted anything non-empty. Measured on this
+    app's own NPC prompt in Oct 2026, 0 of 5 calls produced usable text — the replies were a
+    chain-of-thought echo, a safety classifier's "User Safety: safe", and an answer truncated at
+    the token cap — yet four of the five were returned as tier-1 SUCCESSES, so Gemini was never
+    tried and the caller silently substituted "Human NPC" + an empty personality. A per-tier
+    rejection log now names what came back and why it was refused.
+
+    `expect_json=None` means "infer from the prompt", which is what the old brace heuristic was
+    groping for; callers that genuinely want prose pass expect_json=False.
+    """
+    if expect_json is None:
+        expect_json = "{" in (prompt or "")
+    started = time.monotonic()
+    rejects: list[str] = []
+    tiers = (("openrouter", _call_openrouter), ("gemini", _call_gemini), ("ollama", _call_ollama))
+
+    for name, fn in tiers:
+        left = AI_CHAIN_BUDGET - (time.monotonic() - started)
+        if left <= 1:
+            rejects.append(f"{name}: skipped, chain budget spent")
+            continue
+        t0 = time.monotonic()
+        try:
+            text = await asyncio.wait_for(fn(prompt), timeout=min(AI_TIER_TIMEOUT, left))
+        except asyncio.TimeoutError:
+            rejects.append(f"{name}: no answer in {min(AI_TIER_TIMEOUT, left):.0f}s")
+            print(f"[AI {label}] tier={name} TIMEOUT")
+            continue
+        except Exception as exc:                       # a tier must never break the chain
+            rejects.append(f"{name}: {type(exc).__name__}: {exc}")
+            print(f"[AI {label}] tier={name} raised {type(exc).__name__}: {exc}")
+            continue
+
+        took = time.monotonic() - t0
+        if not text:
+            rejects.append(f"{name}: empty answer")
+            if name == "openrouter":
+                print(f"[AI {label}] tier=openrouter rejected: empty answer ({len(text or '')}B)")
+            continue
+        if expect_json and _extract_json(text) is None:
+            why = "no JSON object in the answer"
+            rejects.append(f"{name}: {why} ({len(text)}B)")
+            print(f"[AI {label}] tier={name} rejected: {why} ({len(text)}B)")
+            continue
+        print(f"[AI {label}] tier={name} ok {took:.1f}s {len(text)}B")
         return text
-    text = await _call_gemini(prompt)
-    if text:
-        print(f"[AI {label}] tier=gemini")
-        return text
-    text = await _call_ollama(prompt)
-    if text:
-        print(f"[AI {label}] tier=ollama model={AI_MODEL}")
-        return text
-    print(f"[AI {label}] all tiers failed")
+
+    print(f"[AI {label}] all tiers failed | " + " | ".join(rejects))
+    return None
+
+
+def _first_json_object(text: str) -> str | None:
+    """The first balanced {...} span, aware of strings and escapes. None if there is none."""
+    start = text.find("{")
+    while start != -1:
+        depth, in_str, esc = 0, False, False
+        for i in range(start, len(text)):
+            ch = text[i]
+            if in_str:
+                if esc:
+                    esc = False
+                elif ch == "\\":
+                    esc = True
+                elif ch == '"':
+                    in_str = False
+                continue
+            if ch == '"':
+                in_str = True
+            elif ch == "{":
+                depth += 1
+            elif ch == "}":
+                depth -= 1
+                if depth == 0:
+                    return text[start:i + 1]
+        start = text.find("{", start + 1)
     return None
 
 
 def _extract_json(text: str) -> dict | None:
-    """Extract JSON from LLM response, stripping markdown wrappers."""
+    """The JSON OBJECT in an LLM response, or None — never anything else.
+
+    Two rules, both learned the hard way:
+    - **dict or nothing.** Callers immediately do `ai.get(...)`, so handing back whatever
+      json.loads produced meant a model answering a "return JSON" prompt with `[1,2,3]` (or
+      `true`, or `42`) turned into an AttributeError and a 500 instead of the caller's fallback.
+    - **find the object inside prose.** Free models write "Here is the JSON: {...}" constantly.
+      A code fence is honoured first, then the bare text, then the first balanced object, so a
+      usable answer is extracted rather than thrown away as unparseable.
+    """
     if not text:
         return None
-    if "```" in text:
-        block = text.split("```")[1]
-        if block.startswith("json"):
+    stripped = text.strip()
+    candidates = []
+    if "```" in stripped:
+        block = stripped.split("```")[1]
+        if block[:4].lower().strip() == "json":
             block = block[4:]
-        text = block
-    try:
-        return json.loads(text.strip())
-    except json.JSONDecodeError:
-        return None
+        candidates.append(block.strip())
+    candidates.append(stripped)
+    embedded = _first_json_object(stripped)
+    if embedded:
+        candidates.append(embedded)
+    for cand in candidates:
+        try:
+            obj = json.loads(cand)
+        except (json.JSONDecodeError, TypeError, ValueError):
+            continue
+        if isinstance(obj, dict):
+            return obj
+    return None
 
 def _validate_and_fix(ai: dict, race: str = "", class_name: str = "", name: str = "", abilities: dict = None, alignment: str = "") -> dict:
     """Ground AI output in PHB data. Fix hallucinations silently."""

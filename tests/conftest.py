@@ -19,6 +19,25 @@ from main import app, init_db
 from fastapi.testclient import TestClient
 
 
+@pytest.fixture(autouse=True)
+def _no_live_ai(monkeypatch):
+    """Keep the suite off the AI providers: deterministic, fast, and no quota burned.
+
+    Two tests used to POST to real AI endpoints (`build-npc`, `search-manuals/summarize`) with no
+    stub, so the suite made live network calls, consumed the free tiers' daily quota, and stayed
+    green whether or not the AI worked — the assertion only covered the deterministic fields. The
+    fix is at the transport, not per test: with the tiers unreachable every endpoint takes its own
+    documented fallback path, which is what those assertions actually describe. A test that wants
+    AI behaviour patches `_call_ai` itself (see tests/test_ai_chain.py, test_ai_encounter_prompt.py).
+    """
+    from routes.characters import ai_routes
+
+    async def _unreachable(url, payload, headers=None, timeout=20.0):
+        return 0, {}, "network disabled in tests"
+
+    monkeypatch.setattr(ai_routes, "_post_json", _unreachable)
+
+
 @pytest.fixture(scope="function")
 def test_db():
     """Create a temporary test database with schema initialized.
