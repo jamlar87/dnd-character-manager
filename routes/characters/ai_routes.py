@@ -4,7 +4,7 @@
 
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
-import asyncio, json, random, os, time, httpx
+import asyncio, json, random, re, os, time, httpx
 
 from main import (
     get_db, require_user, _require_owned,
@@ -64,7 +64,46 @@ AI_CHAIN_BUDGET = float(os.environ.get("AI_CHAIN_BUDGET", "70"))
 # The cap must fit the biggest thing any caller asks for: the trap prompt wants 16 keys with
 # multi-sentence values, and a reasoning model's thinking is billed against this too.
 AI_MAX_TOKENS = int(os.environ.get("AI_MAX_TOKENS", "1400"))
+
+# Models the provider has just refused, and the time they become worth trying again. The free
+# tiers rate-limit PER MODEL ("Quota exceeded ... limit: 20 ... retry in 23h", "Provider returned
+# error" with a 429), and a capped model otherwise costs a wasted hop on EVERY call — measured at
+# ~4s per call across three consecutive live runs of the pinned model. A cool-down respects the
+# provider's own hint when it gives one.
+AI_MODEL_COOLDOWN = float(os.environ.get("AI_MODEL_COOLDOWN", "300"))
+AI_MODEL_COOLDOWN_MAX = float(os.environ.get("AI_MODEL_COOLDOWN_MAX", str(6 * 3600)))
+_MODEL_COOLDOWN: dict[str, float] = {}
 # ────────────────────────────────────────────────
+
+
+def _retry_hint_seconds(message: str) -> float | None:
+    """Parse a provider's own 'retry in 23h7m44.2s' / 'retry in 45s' hint. None if there is none."""
+    m = re.search(r"retry in\s+([0-9hms.]+)", message or "", re.I)
+    if not m:
+        return None
+    total = 0.0
+    for value, unit in re.findall(r"([\d.]+)\s*([hms])", m.group(1)):
+        total += float(value) * {"h": 3600.0, "m": 60.0, "s": 1.0}[unit]
+    return total or None
+
+
+def _cooling(key: str) -> float:
+    """Seconds left on this model's cool-down (0 = try it)."""
+    until = _MODEL_COOLDOWN.get(key, 0.0)
+    left = until - time.monotonic()
+    if left <= 0:
+        _MODEL_COOLDOWN.pop(key, None)
+        return 0.0
+    return left
+
+
+def _cool_down(key: str, message: str) -> None:
+    """Skip this model until the provider says it is worth trying, or the default window."""
+    seconds = _retry_hint_seconds(message) or AI_MODEL_COOLDOWN
+    seconds = min(seconds, AI_MODEL_COOLDOWN_MAX)
+    _MODEL_COOLDOWN[key] = time.monotonic() + seconds
+    mins = seconds / 60
+    print(f"[cool-down] {key}: {mins:.0f} min ({message[:90]})")
 
 
 def _provider_error(body: dict, raw: str) -> str:
@@ -107,13 +146,22 @@ async def _call_gemini(prompt: str) -> str | None:
     if not key:
         return None
     for model in GEMINI_MODELS:
+        key = f"gemini/{model}"
+        left = _cooling(key)
+        if left:
+            print(f"[Gemini:{model}] skipped, cooling down for another {left/60:.0f} min")
+            continue
         status, body, raw = await _post_json(
             f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}",
             {"contents": [{"parts": [{"text": prompt}]}]},
             timeout=AI_TIER_TIMEOUT,
         )
         if status != 200:
-            print(f"[Gemini:{model}] HTTP {status}: {_provider_error(body, raw)}")
+            msg = _provider_error(body, raw)
+            print(f"[Gemini:{model}] HTTP {status}: {msg}")
+            # Only a rate limit earns a cool-down: a 500 is a blip, not a fact about the model.
+            if status == 429:
+                _cool_down(key, msg)
             continue
         try:
             text = body["candidates"][0]["content"]["parts"][0]["text"]
@@ -143,6 +191,11 @@ async def _call_openrouter(prompt: str) -> str | None:
         "X-OpenRouter-Title": "D&D Character Manager",
     }
     for model in OPENROUTER_MODELS:
+        key = f"openrouter/{model}"
+        left = _cooling(key)
+        if left:
+            print(f"[OR:{model}] skipped, cooling down for another {left/60:.0f} min")
+            continue
         status, body, raw = await _post_json(
             "https://openrouter.ai/api/v1/chat/completions",
             {"model": model, "messages": [{"role": "user", "content": prompt}],
@@ -150,7 +203,10 @@ async def _call_openrouter(prompt: str) -> str | None:
             headers=headers, timeout=AI_TIER_TIMEOUT,
         )
         if status != 200:
-            print(f"[OR:{model}] HTTP {status}: {_provider_error(body, raw)}")
+            msg = _provider_error(body, raw)
+            print(f"[OR:{model}] HTTP {status}: {msg}")
+            if status == 429:
+                _cool_down(key, msg)
             continue
         try:
             choice = body["choices"][0]

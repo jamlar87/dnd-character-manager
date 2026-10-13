@@ -17,6 +17,15 @@ sys.path.insert(0, str(REPO))
 from routes.characters import ai_routes  # noqa: E402
 
 
+@pytest.fixture(autouse=True)
+def _fresh_cooldowns():
+    """The cool-down map is module state: a test that leaves a model cooling would fail the next
+    test for the wrong reason."""
+    ai_routes._MODEL_COOLDOWN.clear()
+    yield
+    ai_routes._MODEL_COOLDOWN.clear()
+
+
 # ── _extract_json: dict or nothing ───────────────────────────────────────────────────────
 
 @pytest.mark.parametrize("text,expected", [
@@ -230,3 +239,95 @@ def test_the_chain_has_a_budget_and_the_local_tier_cannot_hold_it_open(monkeypat
     assert ai_routes.AI_TIER_TIMEOUT <= 30
     assert "192.168.1.31" not in ai_routes.OLLAMA_URL or "OLLAMA_URL" in Path(
         ai_routes.__file__).read_text()
+
+
+# ── a capped model is skipped instead of costing a hop on every call ─────────────────────
+
+def test_a_429_stops_that_model_being_tried_on_the_next_call(monkeypatch):
+    """Measured cost without this: ~4s per call, on three consecutive live runs, while the pinned
+    model was rate-limited."""
+    calls = []
+
+    async def fake_post(url, payload, headers=None, timeout=20.0):
+        calls.append(payload["model"])
+        return 429, {"error": {"message": "Provider returned error"}}, "429"
+
+    monkeypatch.setattr(ai_routes, "_post_json", fake_post)
+    monkeypatch.setenv("OPENROUTER_API_KEY", "test-key")
+    monkeypatch.setattr(ai_routes, "OPENROUTER_MODELS", ["model-a:free", "model-b:free"])
+
+    assert asyncio.run(ai_routes._call_openrouter(JSON_PROMPT)) is None
+    assert calls == ["model-a:free", "model-b:free"]
+
+    calls.clear()
+    asyncio.run(ai_routes._call_openrouter(JSON_PROMPT))
+    # Both models returned 429, so both are cooling and the tier spends NOTHING on the retry —
+    # which is the whole saving.
+    assert calls == [], "both were cooling: neither should be called again"
+    assert ai_routes._cooling("openrouter/model-a:free") > 0
+    assert ai_routes._cooling("openrouter/model-b:free") > 0
+
+
+def test_the_providers_own_retry_hint_sets_the_window(monkeypatch):
+    """Gemini says 'retry in 23h7m44.2s'; a blind 5 minutes would call it again all day."""
+    hints = [
+        ("Quota exceeded ... Please retry in 23h7m44.238006659s.", 23 * 3600 + 7 * 60 + 44.2),
+        ("Please retry in 45s.", 45),
+        ("retry in 12m", 720),
+        ("no hint here", None),
+        ("", None),
+    ]
+    for message, expected in hints:
+        got = ai_routes._retry_hint_seconds(message)
+        if expected is None:
+            assert got is None, message
+        else:
+            assert got == pytest.approx(expected, abs=1), (message, got)
+
+    monkeypatch.setattr(ai_routes, "AI_MODEL_COOLDOWN_MAX", 6 * 3600)
+    ai_routes._cool_down("gemini/gemini-3.6-flash", "quota ... retry in 23h7m44s")
+    left = ai_routes._cooling("gemini/gemini-3.6-flash")
+    assert 5.9 * 3600 < left <= 6 * 3600, f"the hint is capped, got {left}"
+
+
+def test_a_blip_does_not_cool_a_model_down(monkeypatch):
+    """A 500 is transient; only a rate limit says something about this model today."""
+    async def fake_post(url, payload, headers=None, timeout=20.0):
+        return 500, {"error": {"message": "upstream hiccup"}}, "500"
+
+    monkeypatch.setattr(ai_routes, "_post_json", fake_post)
+    monkeypatch.setenv("OPENROUTER_API_KEY", "test-key")
+    asyncio.run(ai_routes._call_openrouter(JSON_PROMPT))
+    assert all(_zero(ai_routes._cooling(k)) for k in list(ai_routes._MODEL_COOLDOWN) or
+               [f"openrouter/{m}" for m in ai_routes.OPENROUTER_MODELS]), "500 must not cool down"
+
+
+def _zero(seconds):
+    return seconds == 0
+
+
+def test_a_cool_down_expires(monkeypatch):
+    monkeypatch.setattr(ai_routes, "AI_MODEL_COOLDOWN", 30)
+    ai_routes._cool_down("openrouter/x:free", "")
+    assert ai_routes._cooling("openrouter/x:free") > 0
+    ai_routes._MODEL_COOLDOWN["openrouter/x:free"] = 0            # as if the window elapsed
+    assert ai_routes._cooling("openrouter/x:free") == 0
+    assert "openrouter/x:free" not in ai_routes._MODEL_COOLDOWN, "an expired entry is dropped"
+
+
+def test_the_chain_still_reaches_a_healthy_tier_past_cooling_models(monkeypatch):
+    """The point of the whole feature: a capped model must not block the answer."""
+    # Only the first tier is capped; the second must answer without the first being retried.
+    ai_routes._cool_down("openrouter/model-a:free", "429")
+    monkeypatch.setattr(ai_routes, "OPENROUTER_MODELS", ["model-a:free"])
+    monkeypatch.setattr(ai_routes, "GEMINI_MODELS", ["gemini-3.6-flash", "gemini-2.5-flash"])
+
+    async def fake_post(url, payload, headers=None, timeout=20.0):
+        if "generativelanguage" in url:
+            return 200, {"candidates": [{"content": {"parts": [{"text": '{"name": "Backup"}'}]}}]}, ""
+        raise AssertionError("a cooling model must not be called")
+
+    monkeypatch.setattr(ai_routes, "_post_json", fake_post)
+    monkeypatch.setenv("OPENROUTER_API_KEY", "k")
+    monkeypatch.setenv("GOOGLE_API_KEY", "k")
+    assert asyncio.run(ai_routes._call_ai(JSON_PROMPT)) == '{"name": "Backup"}'
