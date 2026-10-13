@@ -1437,6 +1437,15 @@ async function aiSelectSpells() {
   btn.textContent = '🤖 Thinking...';
   try {
     const r = await fetch('/api/character/' + CHAR_ID + '/ai-spells', { method: 'POST' });
+    if (!r.ok) {
+      // Without this, a 404 (not the owner — e.g. a DM preview) has no `added`, so the else
+      // branch renamed the button "Already full": the app told the user the opposite of what
+      // happened. FastAPI errors carry `detail`, not `error`.
+      const d = await r.json().catch(function () { return {}; });
+      btn.textContent = '⚠️ ' + (d.error || d.detail || ('HTTP ' + r.status));
+      setTimeout(function () { btn.textContent = orig; btn.disabled = false; }, 2500);
+      return;
+    }
     const data = await r.json();
     if (data.added > 0) {
       location.reload();
@@ -1662,9 +1671,14 @@ async function fetchPortraitPrompt() {
         race: SHEETCFG.charRace, subrace: SHEETCFG.charSubrace,
         class_name: SHEETCFG.charClassName, subclass: SHEETCFG.charSubclass,
         background: SHEETCFG.charBackground, alignment: SHEETCFG.charAlignment,
-        custom_prompt: custom
+        custom_prompt: custom,
+        // Prompt only: this button previews the prompt, and it used to run a full image
+        // generation (and stand the reference-art backfill down) to show text the server
+        // already had — one of the ~50/day keyless quota spent on a preview.
+        prompt_only: true
       })
     });
+    if (!r.ok) { textarea.value = '⚠️ HTTP ' + r.status; return; }
     const data = await r.json();
     textarea.value = data.prompt || '(no prompt returned)';
   } catch(e) {
@@ -1712,11 +1726,16 @@ async function regenerateSheetPortrait() {
       const sb = document.getElementById('sidebar-portrait');
       if (sb) sb.src = dataUrl;
     } else {
+      // The server returns the real reason in `error`, and this branch used to invent a quota
+      // story instead (the exact kind of copy that hid a spent provider cap) while telling the
+      // user to wait for an image that was never coming. Retry pointed at generatePortrait(),
+      // which exists only in create.js — a dead button on this page.
+      const reason = String(data.error || 'No image was returned.').replace(/</g, '&lt;');
+      const who = String(data.provider || 'unknown').replace(/</g, '&lt;');
       loading.innerHTML = '<div style="font-size:0.75rem;color:var(--text-muted);text-align:center;line-height:1.4">'
-        + '<span>⏳ Image being generated...</span><br>'
-        + '<span style="font-size:0.65rem">Free tier limited to 50 requests/day. '
-        + 'Close and re-open this modal to check.</span>'
-        + '<br><button onclick="generatePortrait()" style="margin-top:6px;padding:2px 10px;font-size:0.7rem;cursor:pointer;background:var(--accent);color:#fff;border:none;border-radius:4px">🔄 Retry</button>'
+        + '<span>⚠️ ' + reason + '</span><br>'
+        + '<span style="font-size:0.65rem">Provider: ' + who + '</span>'
+        + '<br><button onclick="regenerateSheetPortrait()" style="margin-top:6px;padding:2px 10px;font-size:0.7rem;cursor:pointer;background:var(--accent);color:#fff;border:none;border-radius:4px">🔄 Retry</button>'
         + '</div>';
     }
   } catch(e) {
@@ -5473,7 +5492,18 @@ async function generateRelationship() {
       }),
     });
     const result = await resp.json();
+    if (!resp.ok) {
+      // Reading only `result.error` meant any HTTP error whose body uses FastAPI's `detail`
+      // shape (404 not-owner, 403, 500) fell through: the name field was set to the string
+      // "undefined" and the status line said "✓ Generated!" — a failure presented as AI output.
+      alert(result.error || result.detail || ('HTTP ' + resp.status));
+      return;
+    }
     if (result.error) { alert(result.error); return; }
+    if (result.ai_generated === false) {
+      // The AI produced nothing; the server says so now instead of hardcoding ai_generated:true.
+      alert(result.error || 'The AI could not generate this NPC — the fields are a placeholder.');
+    }
     relGeneratedData = result;  // cache for Save
     document.getElementById('rel-name').value = result.name;
     document.getElementById('rel-desc').value = result.description || '';

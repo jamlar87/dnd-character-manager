@@ -1427,17 +1427,29 @@ def _build_party_profile(db, campaign_id: int) -> dict | None:
 async def dm_ai_party_profile(request: Request):
     """Return a combat profile summary of all characters in a campaign.
     Used by the AI Encounter Builder frontend to show party preview."""
-    require_user(request)
+    user = require_user(request)
     cid = request.query_params.get("campaign_id", "")
     if not cid:
         return JSONResponse({"profile": None})
     db = get_db()
-    profile = _build_party_profile(db, int(cid))
-    # Fallback: always include campaign's stored party_level/party_size
-    camp = db.execute("SELECT party_level, party_size FROM dm_campaigns WHERE id=?", (int(cid),)).fetchone()
-    fallback = {"party_level": camp["party_level"] if camp else 1, "party_size": camp["party_size"] if camp else 4}
-    db.close()
-    return JSONResponse({"profile": profile, "campaign": fallback})
+    try:
+        try:
+            cid_int = int(cid)
+        except (TypeError, ValueError):
+            return JSONResponse({"profile": None, "error": "campaign_id must be a number"},
+                                status_code=400)
+        # Ownership, not just authentication. require_user() only proves SOMEONE is logged in, and
+        # this read any campaign_id handed to it: any user could walk ids and pull another DM's
+        # whole party — names, AC/HP, saves, spells and features, serialised in the response.
+        # Every other campaign route scopes by user (_user_where / _require_owned).
+        camp = _require_owned(db, user, "dm_campaigns", cid_int, id_col="id")
+        if not camp:
+            return JSONResponse({"profile": None, "error": "campaign not found"}, status_code=404)
+        profile = _build_party_profile(db, cid_int)
+        fallback = {"party_level": camp["party_level"] or 1, "party_size": camp["party_size"] or 4}
+        return JSONResponse({"profile": profile, "campaign": fallback})
+    finally:
+        db.close()
 
 
 @router.post("/api/dm/ai/build-encounter", response_class=JSONResponse)
@@ -1445,17 +1457,37 @@ async def dm_ai_build_encounter(request: Request):
     """AI-suggested encounter composition based on party size/level, environment, and difficulty.
     When campaign_id is provided, loads all party characters and tailors the encounter
     to their stats — exploiting weak saves, bypassing resistances, and countering strengths."""
-    require_user(request)
+    user = require_user(request)
     db = get_db()
     data = await request.json()
-    party_level = int(data.get('party_level', 5))
-    party_size = int(data.get('party_size', 4))
+
+    def _as_int(value, default):
+        """A malformed number is a 400-shaped problem, not a 500: 'five' used to raise out of here,
+        and the client showed 'Failed to generate encounter. Try again.'"""
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return default
+
+    party_level = _as_int(data.get('party_level', 5), 5)
+    party_size = _as_int(data.get('party_size', 4), 4)
     environment = data.get('environment', 'dungeon')
     difficulty = data.get('difficulty', 'medium')
     theme = data.get('theme', '')
     tone = data.get('tone', '')
     target_cr_raw = data.get('target_cr', '')
     campaign_id = data.get('campaign_id', '')
+    # The campaign shapes the encounter (party stats, boss rotation), so it has to be the
+    # caller's own: this came straight from the body into _build_party_profile and the
+    # boss-rotation query, which leaked another DM's party the same way party-profile did.
+    # Unknown or unowned is treated as "no campaign", not as an error.
+    if campaign_id:
+        try:
+            if not _require_owned(db, user, "dm_campaigns", int(campaign_id), id_col="id"):
+                print(f"[AI encounter] ignoring campaign_id={campaign_id}: not owned by user {user['id']}")
+                campaign_id = ""
+        except (TypeError, ValueError):
+            campaign_id = ""
 
     # Determine effective CR range for filtering
     encounter_type = data.get('encounter_type', 'skirmish')

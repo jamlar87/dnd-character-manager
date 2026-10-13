@@ -444,3 +444,60 @@ class TestDashboardScoping:
         # the owner badge carries the owner's email; the admin's own card must not get one
         assert "badge-muted" not in card_block(mine)
         assert "badge-muted" in card_block(theirs), "which account does this character belong to?"
+
+
+class TestTheAiEndpointsScopeTheirCampaign:
+    """campaign_id came from the query string or the body with only require_user() in front of it,
+    so any logged-in user could name another DM's campaign and pull their whole party — names,
+    AC/HP, saves, spells and features — into a profile they were then shown. Every other campaign
+    route scopes by owner (_user_where / _require_owned); these two did not.
+    """
+
+    def test_party_profile_refuses_a_campaign_the_caller_does_not_own(self, seeded_db, client, auth_headers):
+        char = make_char(seeded_db, "Theirs", user_id=99)
+        camp = make_campaign(seeded_db, 99, "Someone else's campaign", [char])
+        r = client.get(f"/api/dm/ai/party-profile?campaign_id={camp}", headers=auth_headers)
+        assert r.status_code == 404, r.text
+        assert r.json()["profile"] is None
+
+    def test_party_profile_still_serves_the_callers_own_campaign(self, seeded_db, client, auth_headers):
+        char = make_char(seeded_db, "Mine", user_id=1)
+        camp = make_campaign(seeded_db, 1, "Mine", [char])
+        r = client.get(f"/api/dm/ai/party-profile?campaign_id={camp}", headers=auth_headers)
+        assert r.status_code == 200, r.text
+        assert r.json()["profile"] is not None
+
+    def test_a_malformed_campaign_id_is_a_bad_request_not_a_crash(self, seeded_db, client, auth_headers):
+        r = client.get("/api/dm/ai/party-profile?campaign_id=abc", headers=auth_headers)
+        assert r.status_code == 400
+
+    def test_build_encounter_ignores_a_campaign_the_caller_does_not_own(self, seeded_db, client, auth_headers):
+        theirs = [make_char(seeded_db, f"Their {i}", user_id=99) for i in range(3)]
+        camp = make_campaign(seeded_db, 99, "Theirs", theirs)
+        for cid in theirs:
+            link_campaign_character(seeded_db, camp, cid)
+        r = client.post("/api/dm/ai/build-encounter",
+                        json={"campaign_id": camp, "party_size": 4, "party_level": 5},
+                        headers=auth_headers)
+        assert r.status_code == 200, r.text
+        assert r.json()["party"]["size"] == 4, "another user's roster must not size this encounter"
+
+    def test_build_encounter_still_uses_the_callers_own_campaign(self, seeded_db, client, auth_headers):
+        mine = [make_char(seeded_db, f"Mine {i}", user_id=1) for i in range(2)]
+        camp = make_campaign(seeded_db, 1, "Mine", mine)
+        for cid in mine:
+            link_campaign_character(seeded_db, camp, cid)
+        r = client.post("/api/dm/ai/build-encounter",
+                        json={"campaign_id": camp, "party_size": 4, "party_level": 5},
+                        headers=auth_headers)
+        assert r.status_code == 200, r.text
+        assert r.json()["party"]["size"] == 2, "the caller's own roster still tailors the encounter"
+
+    def test_a_malformed_party_size_does_not_500(self, seeded_db, client, auth_headers):
+        """int('five') raised out of the route body, so the client showed a generic failure with no
+        hint that the payload was at fault."""
+        r = client.post("/api/dm/ai/build-encounter",
+                        json={"party_size": "four", "party_level": "five"}, headers=auth_headers)
+        assert r.status_code == 200, r.text
+        assert r.json()["party"]["size"] == 4
+        assert r.json()["party"]["level"] == 5

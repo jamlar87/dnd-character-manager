@@ -1558,6 +1558,27 @@ def save(kind: str, name: str, data_url: str) -> int:
     blob, _media = decoded
     if not blob:
         return 0
+    # Prove the payload IS an image before it is written as one. decode_data_url only splits on
+    # ',' and base64-decodes, and thumbnail_bytes returns None when Pillow cannot open the bytes —
+    # so the fallback below (`out = blob`) committed whatever arrived, verbatim, as `<slug>.webp`:
+    # an HTML error page sent with an image content-type became permanent, `have()` said True
+    # forever, nothing retried it, and the user saw a broken tile with no error anywhere.
+    from PIL import Image
+    import io as _io
+    try:
+        with Image.open(_io.BytesIO(blob)) as probe:
+            probe.verify()
+            width, height = probe.size
+    except Exception as exc:
+        print(f"[ref-art] refusing {kind}/{name}: not a usable image ({type(exc).__name__}: {exc})")
+        return 0
+    # verify() proves it decodes; these catch a payload that decodes to nothing useful. The byte
+    # floor is deliberately small: a flat 64x64 PNG is legitimately ~150 bytes, so a large floor
+    # would refuse real art to catch a case verify() already catches.
+    if len(blob) < 64 or width < 32 or height < 32:
+        print(f"[ref-art] refusing {kind}/{name}: implausible image "
+              f"({len(blob)}B, {width}x{height})")
+        return 0
     # same shrink rule as every portrait write: WebP, capped at 1024px
     thumb = thumbnail_bytes(blob, 1024)
     out = thumb[0] if thumb else blob

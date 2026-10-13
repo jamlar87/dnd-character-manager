@@ -10,7 +10,7 @@ from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import JSONResponse
 
 from main import get_db, require_user
-from routes.characters.ai_routes import _call_ai
+from routes.characters.ai_routes import _call_ai, _extract_json
 
 router = APIRouter()
 
@@ -95,13 +95,15 @@ async def generate_relationship(char_id: int, request: Request):
     name = prompt[:50]
     description = ""
     if ai_text:
-        try:
-            cleaned = ai_text.strip().removeprefix("```json").removesuffix("```").strip()
-            ai_json = json.loads(cleaned)
+        # The shared parser, not a second hand-rolled one: this copy only unwrapped a lowercase
+        # ```json at the exact edges, so ```JSON or a line of preamble silently degraded to
+        # dumping 500 characters of raw model output and still claiming ai_generated: true.
+        ai_json = _extract_json(ai_text)
+        if ai_json:
             name = ai_json.get("name", name)
             description = (ai_json.get("description", "") + "\n\n" + ai_json.get("relationship_detail", "")).strip()
             npc_data = {"race": ai_json.get("race", ""), "class": ai_json.get("class", ""), "level": npc_level, "stats": ai_json.get("stats", {})}
-        except (json.JSONDecodeError, AttributeError):
+        else:
             description = ai_text[:500]
     # Return generated data only — frontend calls /relationships to save
     return JSONResponse({
@@ -111,7 +113,11 @@ async def generate_relationship(char_id: int, request: Request):
         "prompt": prompt,
         "relationship_type": rel_type,
         "level": npc_level,
-        "ai_generated": True,
+        # This was hardcoded True, so a total AI outage answered 200 with ai_generated: true and
+        # an empty description while the sheet showed "✓ Generated!". The flag now reports what
+        # happened, and `error` gives the client something to say.
+        "ai_generated": bool(ai_text),
+        "error": "" if ai_text else "AI unavailable — the AI could not be reached, nothing was generated.",
     })
 
 @router.put("/api/character/{char_id}/relationships/{rel_id}", response_class=JSONResponse)

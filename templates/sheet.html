@@ -1796,7 +1796,7 @@
           <div style="display:flex;gap:0.25rem">
             <button class="btn btn-outline btn-sm" onclick="toggleAllSpellLevels()" id="spell-toggle-all-btn" style="font-size:0.7rem;padding:0.2rem 0.4rem">▸ All</button>
             <button class="btn btn-outline btn-sm" onclick="showAddSpell()" style="font-size:0.7rem;padding:0.2rem 0.4rem">+ Add</button>
-            <button class="btn btn-outline btn-sm" onclick="aiSelectSpells()" style="background:var(--accent2);border-color:var(--accent);font-size:0.7rem;padding:0.2rem 0.4rem">🤖 AI</button>
+            <button class="btn btn-outline btn-sm" onclick="aiSelectSpells()" title="Deterministic pick — scores the spell list for this character. No AI model is called." style="background:var(--accent2);border-color:var(--accent);font-size:0.7rem;padding:0.2rem 0.4rem">✨ Auto-pick</button>
           </div>
         </div>
         {% if spells %}

@@ -215,6 +215,12 @@ def npc_prompt(name: str, notes: str = "", race: str = "", role: str = "",
     """
     who = " ".join((name or "a mysterious figure").split()[:8])
     kind = (race or "").strip().lower()
+    # A filing label is not a species. These are what a form offers when it has nothing better,
+    # and passing one through produced exactly the generic face the docstring above measures
+    # ("a humanoid, Master Doolan Tversky"): the model falls back on its default fantasy face.
+    # The reference path refuses them; this is the interactive path, which did not.
+    if kind in {"humanoid", "any race", "any", "varies", "custom", "unknown", "n/a", "none"}:
+        kind = ""
     lead = " ".join(b for b in (gender, kind) if b)
     subject = f"a {lead}, {who}" if lead else who
     detail = (role or "").strip()

@@ -784,7 +784,12 @@ from services import ref_portraits as _ref_portraits  # noqa: E402 - marker only
 # OpenRouter path stays available (PORTRAIT_PROVIDER=openrouter) for when that
 # key has budget — it had a $0.30 cap that was fully spent, which is why every
 # portrait silently failed before this.
-PORTRAIT_PROVIDER = os.environ.get("PORTRAIT_PROVIDER", "pollinations").strip().lower()
+# The value reported to the caller must be the one that DISPATCHED the generation. This line
+# used to re-read the env with a different default ("pollinations") than services/portraits.py
+# ("horde"), so with no env var set every Horde failure was reported as a Pollinations failure —
+# the diagnosis went to the wrong host, and the test that should have caught it compared the
+# route's constant against itself. Keep the alias from services, one source of truth.
+_PORTRAIT_PROVIDER_NOTE = "reported provider == the provider that ran"
 
 
 @router.post("/api/ai/portrait", response_class=JSONResponse)
@@ -807,8 +812,12 @@ async def ai_portrait(request: Request):
 
     # Build prompt — always use fast deterministic fallback (covers all 38 races)
     if npc:
+        # The gender argument was simply not passed, so the DM's NPC path could not produce the
+        # measured-good subject ("a female gnome, ...") that the reference path produces: the
+        # pronoun is read from the notes, which is where a DM writes it.
         image_prompt = _portraits.npc_prompt(
-            npc.get("name", ""), npc.get("notes", ""), npc.get("race", ""), npc.get("role", ""))
+            npc.get("name", ""), npc.get("notes", ""), npc.get("race", ""), npc.get("role", ""),
+            gender=_ref_portraits.gender_from_text(npc.get("notes", "")))
         print(f"[AI portrait] npc {str(npc.get('name'))[:40]!r}")
     elif custom_prompt:
         clause = f", {gender} subject" if gender in {"male", "female"} else ""
@@ -823,6 +832,13 @@ async def ai_portrait(request: Request):
         # the result away — its own docstring said "updates nothing". The stored
         # prompt is the deterministic one, so it only ever burned quota.)
         print(f"[AI portrait] fallback race={race} class={class_name}")
+
+    # A prompt-only caller (the sheet's "Get Prompt" button) gets the text and nothing else: that
+    # button previews the prompt, and running the provider for it spent one of the ~50/day keyless
+    # generations and stood the reference-art backfill down — for text the server already had.
+    if data.get("prompt_only"):
+        return JSONResponse({"prompt": image_prompt, "image_url": "", "error": "",
+                             "provider": PORTRAIT_PROVIDER, "prompt_only": True})
 
     # Generate inline so the caller learns the real outcome. As a background
     # task a failure could only be logged, and the wizard then claimed

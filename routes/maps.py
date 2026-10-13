@@ -354,6 +354,7 @@ async def dm_map_thumb(map_id: int, request: Request, size: int = 96):
     """
     from fastapi.responses import Response
     from pathlib import Path as _P
+    from starlette.concurrency import run_in_threadpool
 
     from services.images import thumbnail_bytes
 
@@ -375,7 +376,11 @@ async def dm_map_thumb(map_id: int, request: Request, size: int = 96):
             return Response(cache.read_bytes(),
                             media_type="image/webp",
                             headers={"Cache-Control": "public, max-age=31536000, immutable"})
-        thumb = thumbnail_bytes(src.read_bytes(), size)
+        # Off the event loop: the app runs ONE uvicorn process, maps are the largest images in it,
+        # and the list is 689 rows — the other three image routes already await this same helper in
+        # a threadpool (ref_images, sheet portrait, dm portrait) for exactly this reason. Pillow is
+        # CPU-bound, so calling it inline stalled every other request in flight.
+        thumb = await run_in_threadpool(thumbnail_bytes, src.read_bytes(), size)
         if not thumb:
             # Pillow could not help (or would not be smaller): serve the original, but do not let a
             # year-long cache pin it, in case a later request can do better.

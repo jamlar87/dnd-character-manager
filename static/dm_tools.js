@@ -759,13 +759,23 @@ async function generateAiEncounter(event) {
   data.party_size = parseInt(data.party_size) || 4;
 
   const resultDiv = document.getElementById('aiEncounterResult');
+  const submit = document.getElementById('aiEncounterSubmit');
   resultDiv.style.display = 'block';
   resultDiv.innerHTML = '<div style="text-align:center;padding:2rem">🧙 Crafting encounter...</div>';
+  // The form (and this button) stayed live while the request was in flight, so a second click
+  // fired a second POST — and the server makes a real AI call per request.
+  if (submit) { submit.disabled = true; submit.textContent = '⏳ Crafting...'; }
 
   try {
     const r = await fetch('/api/dm/ai/build-encounter', {
       method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)
     });
+    if (!r.ok) {
+      const d = await r.json().catch(function () { return {}; });
+      resultDiv.innerHTML = '<p style="color:var(--danger)">Failed to generate encounter: '
+        + dmEsc(d.error || d.detail || ('HTTP ' + r.status)) + '</p>';
+      return;
+    }
     const enc = await r.json();
 
     const difficultyColors = {Easy: 'var(--success)', Medium: 'var(--warn)', Hard: 'var(--danger)', Deadly: 'var(--danger)'};
@@ -773,14 +783,16 @@ async function generateAiEncounter(event) {
 
     let html = `<div style="border-top:1px solid var(--border);padding-top:1rem">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem">
-        <h3 style="margin:0">${enc.name}</h3>
+        <h3 style="margin:0">${dmEsc(enc.name)}</h3>
         <div style="display:flex;gap:0.3rem;align-items:center">
           <span class="badge badge-accent">${enc.difficulty}</span>
           <span style="font-size:0.8rem;color:var(--text-muted)">L${enc.party.level} · ${plural(enc.party.size, 'player')}</span>
         </div>
       </div>`;
 
-    if (enc.description) html += `<p style="color:var(--text-muted);font-size:0.85rem;margin:0.5rem 0">${enc.description}</p>`;
+    // AI text goes through dmEsc: it is model output, and innerHTML ran it (a reply containing
+    // markup executed in the DM's session; a quote or newline in an onclick string broke Save).
+    if (enc.description) html += `<p style="color:var(--text-muted);font-size:0.85rem;margin:0.5rem 0">${dmEsc(enc.description)}</p>`;
 
     // XP breakdown
     html += `<div style="display:flex;gap:1rem;margin:0.5rem 0;font-size:0.85rem;flex-wrap:wrap">
@@ -805,22 +817,38 @@ async function generateAiEncounter(event) {
     if (enc.tactics) html += `<p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem"><strong>Tactics:</strong> ${enc.tactics}</p>`;
     if (enc.dynamic) html += `<p style="font-size:0.85rem;color:var(--accent);margin-top:0.25rem;border-left:3px solid var(--accent);padding-left:0.5rem">⚡ <strong>Dynamic:</strong> ${enc.dynamic}</p>`;
 
-    // Store composition + tactics + dynamic for saveAiEncounter
+    // Store composition + tactics + dynamic for saveAiEncounter, and the identifying fields too:
+    // the Save button used to carry them as string-interpolated onclick arguments, so a name with
+    // a double quote, a backslash or a newline broke the button and the encounter could not be
+    // saved. A fixed identifier cannot be broken by model output.
     window._aiComposition = enc.composition;
     window._aiTactics = enc.tactics || '';
     window._aiDynamic = enc.dynamic || '';
+    window._aiEncounterSave = {
+      name: enc.name || 'Encounter',
+      description: enc.description || '',
+      environment: data.environment || '',
+      difficulty: (enc.difficulty || 'medium').toLowerCase()
+    };
 
     // Save button
     html += `<div style="margin-top:1rem;display:flex;gap:0.5rem">
-      <button class="btn btn-primary" onclick="saveAiEncounter('${enc.name.replace(/'/g, "\\'")}', '${enc.description.replace(/'/g, "\\'")}', '${data.environment}', '${enc.difficulty.toLowerCase()}')">💾 Save as Encounter</button>
+      <button class="btn btn-primary" onclick="saveAiEncounterFromResult()">💾 Save as Encounter</button>
       <button class="btn btn-outline" onclick="closeModal('aiEncounterModal')">Close</button>
     </div></div>`;
 
     resultDiv.innerHTML = html;
   } catch(e) {
     resultDiv.innerHTML = '<p style="color:var(--danger)">Failed to generate encounter. Try again.</p>';
+  } finally {
+    if (submit) { submit.disabled = false; submit.textContent = '🤖 Generate Encounter'; }
   }
   return false;
+}
+
+function saveAiEncounterFromResult() {
+  const e = window._aiEncounterSave || {};
+  return saveAiEncounter(e.name, e.description, e.environment, e.difficulty);
 }
 
 async function saveAiEncounter(name, description, environment, difficulty) {
@@ -832,8 +860,13 @@ async function saveAiEncounter(name, description, environment, difficulty) {
     method: 'POST', headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({name, description, environment, difficulty, location: '', notes})
   });
-  const d = await r.json();
-  if (!d.ok) return;
+  const d = await r.json().catch(function () { return {}; });
+  if (!r.ok || !d.ok) {
+    // Silent no-op before this: the DM clicked Save, the create failed, and nothing happened
+    // with no message at all.
+    alert(d.error || ('Could not create the encounter (HTTP ' + r.status + ')'));
+    return;
+  }
   const encId = d.id;
   // Add creatures from AI composition to the encounter
   let added = 0, failed = 0, total = 0;
@@ -2040,7 +2073,9 @@ async function generateAiNpc(event) {
       alignment: result.alignment || 'True Neutral',
       faction: result.faction || '',
       notes: (result.personality ? 'Personality: ' + result.personality + '\n' : '') + (result.backstory ? 'Backstory: ' + result.backstory : ''),
-      xp_reward: build.hit_points || 0,
+      // NOT build.hit_points: that wrote a meaningless XP payout onto every AI-built NPC
+      // (a 20-HP NPC became worth 20 XP). The DM sets XP, or the encounter's own budget does.
+      xp_reward: 0,
       strength: build.ability_scores?.strength || 10,
       dexterity: build.ability_scores?.dexterity || 10,
       constitution: build.ability_scores?.constitution || 10,

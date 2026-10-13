@@ -112,6 +112,22 @@ class TestDisplayNameResolution:
 
     def test_save_rejects_junk(self):
         assert ref_portraits.save("item", "Nonsense", "not-an-image") == 0
+
+    def test_a_decodable_payload_that_is_not_an_image_is_refused(self):
+        """The case this guards: a provider error page sent with an image content-type. It
+        base64-decodes fine, so save() used to commit it verbatim as `<slug>.webp` — permanent
+        broken art that have() then reported as present, with nothing retrying it."""
+        payload = b"<html><body>502 Bad Gateway</body></html>" * 40
+        url = "data:image/png;base64," + base64.b64encode(payload).decode()
+        assert ref_portraits.save("item", "Gateway Page", url) == 0
+        assert ref_portraits.have("item", "Gateway Page") is False
+        assert ref_portraits.path_for_existing("item", "Gateway Page") is None
+
+    def test_a_truncated_image_is_refused(self):
+        good = png_data_url()
+        raw = base64.b64decode(good.split(",", 1)[1])[:120]      # cut off mid-stream
+        url = "data:image/png;base64," + base64.b64encode(raw).decode()
+        assert ref_portraits.save("item", "Truncated", url) == 0
         assert ref_portraits.have("item", "Nonsense") is False
 
     def test_stats_counts_files(self):
