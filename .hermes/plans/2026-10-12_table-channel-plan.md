@@ -175,6 +175,18 @@ migrations), Jinja templates, vanilla JS assets with `static_asset_version()`.
   statement so the live table never got it (every record silently failed to insert) — and the failure
   was invisible because five call sites wrapped the record in a bare `except: pass`, now one
   `record_safe()` that logs.
+- **Slice 13 — DONE** (committed): **a benched player is unconscious on their sheet.** The gap was in
+  the code's own words — `if (p.is_player && p.char_id) { /* Just track locally for players — no
+  server-side defeated state on character table */ }` — so the tracker could bench a row while the
+  sheet read 51/51. Defeat now writes 0 HP through the ordinary HP route (same authority, publishes,
+  one-tap undo); un-benching deliberately does not heal. The rule is one helper both client paths
+  call (card toggle + encounter bulk save).
+  Live across **two browser sessions** (player sheet + DM tracker at once): skull click → card 0/51,
+  DB 0, and the open sheet at 0 with **no reload**; undo → healed to 51, bench cleared, label reset.
+  Reads landed off the 30 s grid (polls at 164579/194579 exactly 30 s apart, the event's read at
+  203064) — that is what rules out polling. Two warts fixed from the probe: the Undo button named the
+  previous action after a new record, and an undo left the bench in place (Pitfalls 110/111).
+  The five pre-existing encounter states are untouched (the page never had an encounter id).
 - **Open question, still yours:** whether tracker damage *should* write through was flagged as a
   gameplay-semantics call. It was implemented because the code plainly **intended** to ("Save to
   character table") and pointed at a URL that never existed — this restores the intent rather than
