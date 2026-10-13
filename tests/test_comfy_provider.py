@@ -186,12 +186,19 @@ def test_an_unreachable_host_says_so_rather_than_timing_out(monkeypatch):
     assert raw is None and "unreachable" in err
 
 
-def test_comfy_is_selectable_by_name_and_is_not_the_default(monkeypatch):
-    """The default must stay a keyless hosted provider: comfy needs another machine to be awake."""
-    import importlib
-    monkeypatch.delenv("PORTRAIT_PROVIDER", raising=False)
-    importlib.reload(portraits)
-    assert portraits.PORTRAIT_PROVIDER != "comfy"
+def test_comfy_is_selectable_by_name_and_is_not_the_default():
+    """The default must stay a keyless hosted provider: comfy needs another machine to be awake.
+
+    Asserted from the SOURCE rather than from a reloaded constant. This module loads .env itself
+    (the block above PORTRAIT_PROVIDER) so a reload re-reads the deployment's file — a deployment
+    deliberately pointed at the local GPU then looks like a changed code default, which is how this
+    test went red the day PORTRAIT_PROVIDER=comfy was set (monkeypatch.delenv cannot win against the
+    module's own setdefault). The CODE default and the DEPLOYMENT choice are different claims.
+    """
+    src = Path(portraits.__file__).read_text()
+    assert 'os.environ.get("PORTRAIT_PROVIDER", "horde")' in src, "the code default"
+    assert 'os.environ.get("PORTRAIT_PROVIDER", "comfy")' not in src
+    assert '"comfy"' in src, "and it is still selectable by name"
     assert portraits.COMFY_URL.startswith("http")
 
 
