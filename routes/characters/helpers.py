@@ -493,51 +493,81 @@ def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
     mult = _encounter_mult(total_count) if total_count > 0 else 1.0
     adjusted = int(raw_xp * mult) if total_count > 0 else 0
 
-    # ── Second pass: pad if under budget ──
-    # Build pool of eligible minion/elite picks for padding
+    # ── Second pass: pad toward the budget, choosing the CLOSEST option each step ──
+    # This used to add the cheapest creature one at a time until the adjusted XP reached 85% of the
+    # budget, which overshoots badly at low levels where the granularity is coarse: an "easy"
+    # encounter for four level-3 characters is a 100 XP budget, and one minion plus the DMG
+    # multiplier can add more than the whole budget in a single step. Measured: 166% of budget,
+    # which the trim pass below never touched because it only fires past 200%. Each step now takes
+    # whichever option — any pad-eligible creature, or stopping — lands closest to the budget.
     pad_pool = [m for m in sorted_picks if m.get("role") not in ("boss",) or len(sorted_picks) == 1]
-    for _pass in range(5):
+    for _pass in range(8):
         total_count = _total()
-        if total_count >= MAX_CREATURES:
+        if total_count >= MAX_CREATURES or not pad_pool or xp_budget <= 0:
             break
-        if xp_budget > 0 and adjusted / xp_budget >= 0.85:
+        over = adjusted >= xp_budget
+        best = None
+        best_gap = abs(adjusted - xp_budget)
+        for m in pad_pool:
+            trial_adj = int((raw_xp + m["xp"]) * _encounter_mult(total_count + 1))
+            gap = abs(trial_adj - xp_budget)
+            if not over:
+                # Below budget: keep adding, preferring the step that lands closest, but never past
+                # a ceiling — overshooting the whole budget in one step is what produced 166%.
+                if trial_adj <= xp_budget * 1.25 and (best is None or gap < best_gap):
+                    best, best_gap = m, gap
+            elif gap < best_gap:
+                best, best_gap = m, gap      # at or over budget: only an improving step
+        if best is None:
+            # Nothing improves (or the ceiling blocks every step): stopping here is the closest
+            # this composition can get to the budget, which is the point.
             break
-        if not pad_pool:
-            break
-        # Pick cheapest creature to pad with
-        cheapest = min(pad_pool, key=lambda m: m["xp"])
-        extra = 1
-        existing = next((c for c in composition if c["index"] == cheapest["index"]), None)
+        existing = next((c for c in composition if c["index"] == best["index"]), None)
         if existing:
-            existing["count"] += extra
+            existing["count"] += 1
         else:
-            composition.append({**cheapest, "count": extra})
-        raw_xp += cheapest["xp"] * extra
+            composition.append({**best, "count": 1})
+        raw_xp += best["xp"]
         total_count = _total()
         mult = _encounter_mult(total_count)
         adjusted = int(raw_xp * mult)
 
-    # ── Third pass: trim if extremely over budget (>200%) — keep all AI-chosen types ──
-    if xp_budget > 0 and adjusted > xp_budget * 2.0:
+    # ── Third pass: trim duplicates when over budget — keep all chosen types ──
+    # This used to fire only past 200% and stop at 150%, so the builder's real target band was
+    # 85%-150% of the DMG budget: measured over 12 builds per difficulty, the MEDIAN landed at
+    # 166% for "easy" L3 (an easy request was a medium encounter by the book), 150% medium, 134%
+    # hard, 122% deadly. It now starts at 130% and trims toward 120%, so the difficulty parameter
+    # means what it says. The pad pass above stops at 125%, which leaves no overlap to fight over.
+    if xp_budget > 0 and adjusted > xp_budget * 1.30:
         for _ in range(50):
             if not composition:
                 break
             total_count = _total()
-            total_types = len(composition)
-            if total_count <= total_types:
-                # Keep at least 1 of each type (don't remove unique types)
-                break
-            # Reduce count of the cheapest non-boss with duplicates
+            # Reduce the count of the cheapest non-boss that has duplicates…
             non_boss = [c for c in composition if c.get("role") != "boss" and c["count"] > 1]
-            if not non_boss:
-                break
-            cheapest = min(non_boss, key=lambda c: c["xp"])
-            cheapest["count"] -= 1
-            raw_xp -= cheapest["xp"]
+            if non_boss:
+                cheapest = min(non_boss, key=lambda c: c["xp"])
+                cheapest["count"] -= 1
+                raw_xp -= cheapest["xp"]
+            else:
+                # …otherwise every kind appears exactly once. This used to break out here
+                # (`if total_count <= total_types: break`, "keep at least 1 of each type"), which
+                # meant the pass gave up on the compositions that need it most: a boss plus three
+                # unique minions, all count 1, could not be trimmed at all and came out at 182% of
+                # budget over a medium encounter. Dropping a whole minion KIND is the last resort —
+                # never the boss, never the last creature, and only when badly over.
+                if adjusted <= xp_budget * 1.60 or total_count <= 1:
+                    break
+                droppable = [c for c in composition if c.get("role") != "boss"]
+                if not droppable:
+                    break
+                dropped = min(droppable, key=lambda c: c["xp"])
+                composition.remove(dropped)
+                raw_xp -= dropped["xp"] * dropped["count"]
             total_count = _total()
             mult = _encounter_mult(total_count) if total_count > 0 else 1
             adjusted = int(raw_xp * mult) if total_count > 0 else 0
-            if adjusted <= xp_budget * 1.50:
+            if adjusted <= xp_budget * 1.20:
                 break
 
     print(f"[Counts] final: {[(c['name'], c['count']) for c in composition]} raw={raw_xp} adj={adjusted} budget={xp_budget}")

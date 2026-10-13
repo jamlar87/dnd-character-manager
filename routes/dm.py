@@ -1452,6 +1452,117 @@ async def dm_ai_party_profile(request: Request):
         db.close()
 
 
+# ── Where a monster belongs, derived from its own stat block ──────────────────────────────
+# The environment parameter did nothing: the filter's main condition short-circuited to True (see
+# the call site) and no monster carries a habitat field — measured, 0 of 2201. But every monster
+# carries a type, a speed block and damage immunities, and those say a great deal: a `swim` speed
+# means water (Aboleth, black dragons — 64 monsters), `burrow` means earth and sand (blue dragons,
+# 22), cold immunity means somewhere cold (yetis, white dragons). Derived from the whole library,
+# so a monster added tomorrow is placed without anyone editing a list.
+_HABITAT_TYPE = {
+    "aberration": {"underdark", "dungeon", "swamp"},
+    "beast": {"forest", "grassland", "mountain", "arctic", "desert", "coastal", "swamp"},
+    "celestial": {"planar", "mountain"},
+    "construct": {"dungeon", "urban"},
+    "dragon": {"mountain", "coastal", "forest", "swamp", "arctic", "desert", "underdark"},
+    "elemental": {"planar", "mountain", "coastal", "desert"},
+    "fey": {"forest", "grassland", "swamp"},
+    "fiend": {"planar", "underdark", "urban"},
+    "giant": {"mountain", "grassland", "arctic"},
+    "humanoid": {"urban", "dungeon", "grassland", "mountain", "forest", "arctic", "desert",
+                 "swamp", "coastal"},
+    "monstrosity": {"underdark", "dungeon", "forest", "mountain", "swamp", "desert", "coastal",
+                    "grassland"},
+    "ooze": {"underdark", "dungeon", "swamp"},
+    "plant": {"forest", "swamp", "grassland"},
+    "undead": {"underdark", "dungeon", "urban", "swamp", "forest", "arctic", "desert", "grassland"},
+    "swarm": {"forest", "swamp", "dungeon", "grassland", "urban"},
+}
+_HABITAT_SUBTYPE = {
+    "demon": {"planar", "underdark"},
+    "devil": {"planar", "underdark", "urban"},
+    "fiend": {"planar", "underdark"},
+    "yugoloth": {"planar", "underdark"},
+    "goblinoid": {"forest", "mountain", "grassland", "underdark"},
+    "gnoll": {"grassland", "desert"},
+    "kobold": {"dungeon", "mountain", "forest"},
+    "shapechanger": {"urban", "forest"},
+    "tit": {"mountain", "planar"},
+}
+_HABITAT_MARKERS = {
+    "arctic": ("frost", "ice", "snow", "winter", "glacial", "yeti", "rime"),
+    "coastal": ("sea", "ocean", "coral", "reef", "tide", "sahuagin", "kraken", "merrow"),
+    "desert": ("dune", "sand", "desert", "scorch", "dust"),
+    "forest": ("forest", "grove", "wood", "bark", "thorn", "treant", "dryad", "vine", "moss"),
+    "swamp": ("swamp", "marsh", "bog", "mire", "fen", "sludge"),
+    "mountain": ("mountain", "peak", "crag", "summit", "avalanche"),
+    "underdark": ("underdark", "cavern", "drow", "duergar", "myconid", "deep"),
+    "urban": ("city", "town", "street", "guild", "urchin"),
+}
+
+
+# A monster that NAMES its home or is immune to cold cannot be re-homed. The type lists above are
+# deliberately broad (dragons live "everywhere"), so they can only ever INCLUDE — they cannot rule a
+# creature out, and a bare type check put a Young White Dragon in a desert encounter. These are the
+# environments that rule each other out, and only hard evidence (a name marker, an immunity, a
+# speed) triggers the exclusion.
+_HABITAT_CONFLICTS = {
+    "desert": {"arctic", "swamp"},
+    "arctic": {"desert", "swamp"},
+    "swamp": {"desert", "arctic"},
+    "coastal": {"desert"},
+    "forest": {"desert"},
+}
+
+
+def _monster_habitat_evidence(m: dict) -> set[str]:
+    """What the monster's own mechanics and NAME say, as opposed to its broad type. Evidence, so it
+    can exclude: a cold-immune creature is not a desert encounter whatever its type allows."""
+    envs: set[str] = set()
+    speed = m.get("speed")
+    if isinstance(speed, str):
+        try:
+            speed = json.loads(speed)
+        except (ValueError, TypeError):
+            speed = {}
+    if isinstance(speed, dict):
+        keys = {str(k).lower() for k in speed}
+        if "swim" in keys:
+            envs |= {"coastal", "swamp", "underdark"}
+        if "burrow" in keys:
+            envs |= {"desert", "underdark", "mountain", "grassland"}
+        if "climb" in keys:
+            envs |= {"forest", "urban", "underdark"}
+        if "fly" in keys and "walk" not in keys:
+            envs |= {"mountain", "forest", "coastal"}
+
+    # The values are Python-repr strings ("['cold']"), so read them as text rather than parsing.
+    damage = f"{m.get('damage_immunities', '')} {m.get('damage_resistances', '')}".lower()
+    if "cold" in damage:
+        envs.add("arctic")
+    if "fire" in damage:
+        envs |= {"desert", "planar"}
+    if "acid" in damage or "poison" in damage or "necrotic" in damage:
+        envs |= {"swamp", "underdark", "forest", "dungeon"}
+
+    name = str(m.get("name", "")).lower()
+    for env, markers in _HABITAT_MARKERS.items():
+        if any(mark in name for mark in markers):
+            envs.add(env)
+    # The colour in a dragon's name is its habitat ("White" has cold immunity, which the damage
+    # line above already catches; these two catch the ones it does not).
+    if "white dragon" in name or "white wyrm" in name:
+        envs.add("arctic")
+    return envs
+
+
+def _monster_habitats(m: dict) -> set[str]:
+    """Everything a monster plausibly belongs in: the broad type/subtype plus its own evidence."""
+    envs = set(_HABITAT_TYPE.get(str(m.get("type", "")).lower(), set()))
+    envs |= _HABITAT_SUBTYPE.get(str(m.get("subtype", "")).lower(), set())
+    return envs | _monster_habitat_evidence(m)
+
+
 @router.post("/api/dm/ai/build-encounter", response_class=JSONResponse)
 async def dm_ai_build_encounter(request: Request):
     """AI-suggested encounter composition based on party size/level, environment, and difficulty.
@@ -1601,17 +1712,27 @@ async def dm_ai_build_encounter(request: Request):
                     "dragon": ["underdark", "urban", "grassland"],
                 }
                 extra = cross_env.get(m_type, [])
-                if not any(e in env_words or e in suitable or e in extra for e in env_words) and not any(kw in m_name for kw in env_words):
+                # The condition here used to read `any(e in env_words or e in suitable or e in
+                # extra for e in env_words)` — and `e in env_words` is true for every element of a
+                # non-empty list, so it short-circuited to True and filtered NOTHING (measured:
+                # 2201 of 2201 monsters accepted for forest, desert and underdark alike).
+                type_fits = any(w in suitable or w in extra for w in env_words)
+                name_fits = any(kw in m_name for kw in env_words)
+                if not (type_fits or name_fits or environment.lower() in _monster_habitats(m)):
+                    env_match = False
+                # …but a monster that carries HARD evidence of a contradicting home is out,
+                # whatever its type allows: a cold-immune creature is not a desert encounter.
+                elif _monster_habitat_evidence(m) & _HABITAT_CONFLICTS.get(environment.lower(), set()):
                     env_match = False
 
         # ── Negative environment filter: exclude clearly wrong creatures ──
         if env_match and environment.lower() not in ("any", "", "coastal", "swamp", "underdark"):
-            # For land-based environments, exclude aquatic creatures
-            aquatic_keywords = ["dolphin", "whale", "shark", "crab", "octopus", "eel", "jellyfish",
-                               "squid", "seal", "sea ", "coral", "ray ", "manta", "crocodile",
-                               "turtle", "toad", "frog", "axolot", "merfolk", "merrow", "water ",
-                               "koi", "piranha", "giant sea", "reef", "platypus", "beaver", "otter",
-                               "hippopotamus", "rhinoceros"]
+            # The list used to hold frogs, toads, turtles, crocodiles, otters, beavers and even a
+            # rhinoceros, so a Giant Frog was excluded from a FOREST — the ban was eating correct
+            # picks. These are the truly aquatic ones; amphibians and land animals are not.
+            aquatic_keywords = ["dolphin", "whale", "shark", "octopus", "eel", "jellyfish",
+                               "squid", "seal", "sea ", "coral", "manta", "merfolk", "merrow",
+                               "koi", "piranha", "reef", "sahuagin", "kraken", "water "]
             if any(kw in m_name for kw in aquatic_keywords):
                 env_match = False
 
