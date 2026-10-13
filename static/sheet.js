@@ -6724,8 +6724,10 @@ async function refreshSheetUndo() {
 
 async function undoLastSheet() {
   const btn = document.getElementById('sheetUndo');
+  // Its own element, not the feed's status: the feed writes "HP updated elsewhere" there the moment
+  // the undo's own event lands, which would wipe the confirmation the user is looking for.
   const say = function (msg) {
-    const st = document.getElementById('sheet-rollfeed-status');
+    const st = document.getElementById('sheetUndoStatus');
     if (!st) return;
     st.textContent = msg;
     clearTimeout(st._clear);
@@ -6748,6 +6750,14 @@ async function undoLastSheet() {
   }
   say('↩ Undone: ' + (d.label || d.kind || 'last change'));
   refreshSheetUndo();
-  syncSheetHP();          // the restored numbers, straight away
-  location.reload();      // and the server-rendered parts of the sheet with them
+
+  // Repaint from the sync itself — it carries HP, XP and summons, so the common undo needs no
+  // navigation and the confirmation stays on screen. Only a field it cannot draw (conditions, say)
+  // falls back to a reload, and then after the message has been readable for a moment.
+  const fields = (d.restored || []).reduce(function (acc, r) { return acc.concat(r.fields || []); }, []);
+  const paintable = ['hp_current', 'hp_max', 'temp_hp', 'xp', 'summons'];
+  syncSheetHP();
+  if (fields.some(function (f) { return paintable.indexOf(f) === -1; })) {
+    setTimeout(function () { location.reload(); }, 900);
+  }
 }
