@@ -3378,6 +3378,12 @@ async def dm_character_hp(request: Request):
             if not camp or camp.get("user_id") != user["id"]:
                 return JSONResponse({"error": "Character not found"}, status_code=404)
         db.execute("UPDATE characters SET hp_current = ? WHERE id = ?", (hp, char_id))
+        from services.undo import record_safe
+
+        record_safe(db, user["id"], "hp", f"{char['name']}: HP {char['hp_current']} → {hp}",
+                    [{"character_id": char_id,
+                      "before": {"hp_current": char["hp_current"]},
+                      "after": {"hp_current": hp}}])
         db.commit()
     finally:
         db.close()
@@ -3421,8 +3427,16 @@ async def dm_summon_hp(request: Request):
             summons = []
         if idx < 0 or idx >= len(summons):
             return JSONResponse({"error": "Invalid summon index"}, status_code=400)
+        summons_before = json.dumps(summons)
         summons[idx]["hp_current"] = hp
-        db.execute("UPDATE characters SET summons=? WHERE id=?", (json.dumps(summons), char_id))
+        summons_after = json.dumps(summons)
+        db.execute("UPDATE characters SET summons=? WHERE id=?", (summons_after, char_id))
+        from services.undo import record_safe
+
+        record_safe(db, user["id"], "summon", f"summon {idx + 1} HP → {hp}",
+                    [{"character_id": char_id,
+                      "before": {"summons": summons_before},
+                      "after": {"summons": summons_after}}])
         db.commit()
     finally:
         db.close()
@@ -3480,7 +3494,8 @@ async def campaign_xp(camp_id: int, request: Request):
                                    "level": r["level"] or 1,
                                    "progress": xp_progress(r["xp"], r["level"])})
         log = [dict(r) for r in db.execute(
-            "SELECT id, amount, note, recipients, created_at FROM dm_xp_log "
+            "SELECT id, amount, note, recipients, created_at, COALESCE(reversed,0) AS reversed "
+            "FROM dm_xp_log "
             "WHERE campaign_id = ? ORDER BY id DESC LIMIT 20", (camp_id,))]
         return JSONResponse({"ok": True, "characters": characters, "log": log})
     finally:
@@ -3528,10 +3543,22 @@ async def award_xp(camp_id: int, request: Request):
             return JSONResponse({"error": "No characters in this campaign"}, status_code=400)
 
         qs = ",".join("?" * len(ids))
+        xp_before = {r["id"]: (r["xp"] or 0) for r in db.execute(
+            "SELECT id, xp FROM characters WHERE id IN (" + qs + ")", tuple(ids))}
         db.execute("UPDATE characters SET xp = MAX(0, COALESCE(xp,0) + ?) WHERE id IN (" + qs + ")",
                    tuple([amount] + ids))
-        db.execute("INSERT INTO dm_xp_log (campaign_id, user_id, amount, note, recipients) "
-                   "VALUES (?, ?, ?, ?, ?)", (camp_id, user["id"], amount, note, len(ids)))
+        log_cur = db.execute("INSERT INTO dm_xp_log (campaign_id, user_id, amount, note, recipients) "
+                             "VALUES (?, ?, ?, ?, ?)",
+                             (camp_id, user["id"], amount, note, len(ids)))
+        from services.undo import record_safe
+
+        record_safe(db, user["id"], "xp",
+                   f"{amount:+d} XP to {len(ids)} character" + ("" if len(ids) == 1 else "s")
+                   + (f" ({note})" if note else ""),
+                   [{"character_id": cid,
+                     "before": {"xp": was},
+                     "after": {"xp": max(0, was + amount)}} for cid, was in xp_before.items()],
+                    meta={"xp_log_id": log_cur.lastrowid})
         db.commit()
     finally:
         db.close()

@@ -271,7 +271,7 @@ function initAbilityEditors() {
   observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 }
 
-document.addEventListener('DOMContentLoaded', () => { initAbilityEditors(); initEditable(); tagWeapons(); startSheetPolling(); initSheetRollFeed(); if (!_conditionsExpanded) { document.getElementById('condition-badges').style.display = 'none'; }
+document.addEventListener('DOMContentLoaded', () => { initAbilityEditors(); initEditable(); tagWeapons(); startSheetPolling(); initSheetRollFeed(); refreshSheetUndo(); if (!_conditionsExpanded) { document.getElementById('condition-badges').style.display = 'none'; }
   // Init core toggle UI if persistent state is on
   if (_coreOnly) {
     const spellBox = document.getElementById('core-toggle-box');
@@ -6703,4 +6703,51 @@ function _renderXpRow(info) {
       ready.textContent = '';
     }
   }
+}
+
+
+// ── Undo, for this player's own last change ─────────────────────────────────────────────
+// The same endpoint the DM's page uses; the record is per user, so a player can only ever put back
+// something they did themselves.
+
+async function refreshSheetUndo() {
+  const btn = document.getElementById('sheetUndo');
+  if (!btn) return;
+  try {
+    const r = await fetch('/api/undo/peek', {cache: 'no-store'});
+    if (!r.ok) return;
+    const e = (await r.json()).entry;
+    btn.title = e ? ('Put back: ' + (e.label || e.kind || '')) : 'Nothing to undo';
+    btn.style.color = e ? 'var(--text)' : 'var(--text-muted)';
+  } catch (err) { /* convenience only */ }
+}
+
+async function undoLastSheet() {
+  const btn = document.getElementById('sheetUndo');
+  const say = function (msg) {
+    const st = document.getElementById('sheet-rollfeed-status');
+    if (!st) return;
+    st.textContent = msg;
+    clearTimeout(st._clear);
+    st._clear = setTimeout(function () { st.textContent = ''; }, 6000);
+  };
+  say('Undoing…');
+  let r;
+  try {
+    r = await fetch('/api/undo', {method: 'POST', headers: {'Content-Type': 'application/json'},
+                                  body: '{}'});
+  } catch (err) {
+    say('⚠ Could not reach the server');
+    return;
+  }
+  const d = await r.json().catch(function () { return {}; });
+  if (!r.ok) {
+    say('⚠ ' + (d.error || ('HTTP ' + r.status)));
+    refreshSheetUndo();
+    return;
+  }
+  say('↩ Undone: ' + (d.label || d.kind || 'last change'));
+  refreshSheetUndo();
+  syncSheetHP();          // the restored numbers, straight away
+  location.reload();      // and the server-rendered parts of the sheet with them
 }

@@ -5697,6 +5697,7 @@ function initRollFeed() {
   window.RollFeed.on('error', function () { startCombatPolling(COMBAT_POLL_FAST_MS); });
 
   loadCampaignXp();          // the campaign's ledger, on the same selection as everything else
+  refreshUndoLabel();        // and what undo would put back, if anything
 }
 
 /** Refresh the tracker only for a character it actually shows — on whose sheet this is, or on a
@@ -5799,8 +5800,11 @@ function loadCampaignXp() {
       const log = document.getElementById('xpLog');
       if (log) {
         log.innerHTML = (d.log || []).slice(0, 5).map(function (e) {
-          return '<div>' + (e.amount > 0 ? '+' : '') + e.amount + ' · ' + (e.note || 'no note') +
-                 ' · ' + (e.recipients || 0) + ' PC' + (e.recipients === 1 ? '' : 's') + ' · ' + e.created_at + '</div>';
+          const line = (e.amount > 0 ? '+' : '') + e.amount + ' · ' + (e.note || 'no note') +
+                       ' · ' + (e.recipients || 0) + ' PC' + (e.recipients === 1 ? '' : 's') + ' · ' + e.created_at;
+          return e.reversed
+            ? '<div style="text-decoration:line-through;opacity:0.55">' + line + ' — undone</div>'
+            : '<div>' + line + '</div>';
         }).join('');
       }
     })
@@ -5831,3 +5835,71 @@ function setXpStatus(msg) {
   const el = document.getElementById('xpStatus');
   if (el) el.textContent = msg;
 }
+
+
+// ── Undo: the last thing this DM changed, put back ──────────────────────────────────────
+// The button names what it will restore before you press it (GET /api/undo/peek) and says why when
+// it refuses — an undo that silently declines would be as bad as one that clobbers.
+
+async function refreshUndoLabel() {
+  const btn = document.getElementById('btnUndo');
+  if (!btn) return;
+  try {
+    const r = await fetch('/api/undo/peek', {cache: 'no-store'});
+    if (!r.ok) return;
+    const d = await r.json();
+    const e = d.entry;
+    if (e) {
+      btn.disabled = false;
+      btn.textContent = '↩ Undo: ' + (e.label || e.kind || 'last change');
+      btn.title = 'Put back: ' + (e.label || e.kind || '');
+    } else {
+      btn.disabled = true;
+      btn.textContent = '↩ Undo';
+      btn.title = 'Nothing to undo';
+    }
+  } catch (err) { /* the button is a convenience; a failed peek must not break the page */ }
+}
+
+async function undoLast() {
+  const btn = document.getElementById('btnUndo');
+  if (btn && btn.disabled) return;
+  setUndoStatus('Undoing…');
+  let r;
+  try {
+    r = await fetch('/api/undo', {method: 'POST', headers: {'Content-Type': 'application/json'},
+                                  body: '{}'});
+  } catch (err) {
+    setUndoStatus('⚠ Could not reach the server');
+    return;
+  }
+  const d = await r.json().catch(function () { return {}; });
+  if (!r.ok) {
+    setUndoStatus('⚠ ' + (d.error || ('HTTP ' + r.status)));
+    refreshUndoLabel();
+    return;
+  }
+  setUndoStatus('↩ Undone: ' + (d.label || d.kind || 'last change'));
+  refreshUndoLabel();
+  // The publish refreshes the tracker and every player's sheet by itself; the XP panel reads on
+  // demand, so ask it again.
+  if (typeof loadCampaignXp === 'function' && _combatCampId) loadCampaignXp();
+}
+
+function setUndoStatus(msg) {
+  const el = document.getElementById('undoStatus');
+  if (el) {
+    el.textContent = msg;
+    clearTimeout(el._clear);
+    el._clear = setTimeout(function () { el.textContent = ''; }, 6000);
+  }
+}
+
+// Ctrl+Z / Cmd+Z, but never while the DM is typing into a field (that is the browser's own undo).
+document.addEventListener('keydown', function (e) {
+  if (!((e.ctrlKey || e.metaKey) && (e.key === 'z' || e.key === 'Z'))) return;
+  const t = e.target;
+  if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+  e.preventDefault();
+  undoLast();
+});

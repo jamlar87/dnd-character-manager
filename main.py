@@ -2128,6 +2128,9 @@ async def lifespan(_app):
     from routes.table import router as table_router
     if not any(r.path == "/api/campaign/{camp_id}/roll" for r in _app.routes):
         _app.include_router(table_router)
+        from routes.undo import router as undo_router
+
+        _app.include_router(undo_router)
     # Prewarm the nav search's internal entity index (~7k rows, ~0.5s) so the
     # first keystroke isn't paying for it. Non-fatal if it fails.
     try:

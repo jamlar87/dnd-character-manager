@@ -436,6 +436,37 @@ def _migrate_npc_source_columns():
         )
     """)
     db.execute("CREATE INDEX IF NOT EXISTS idx_xp_log_campaign ON dm_xp_log(campaign_id)")
+    # An award that gets undone has to say so: a ledger that contradicts the totals is worse than
+    # no ledger, and deleting the row would erase that the DM ever made the mistake.
+    try:
+        db.execute("ALTER TABLE dm_xp_log ADD COLUMN reversed INTEGER DEFAULT 0")
+    except sqlite3.OperationalError:
+        pass
+
+    # Undo: what a write changed, so the last one can be put back. `before` and `after` hold raw
+    # column values (JSON serialised) so an undo can refuse when the row has moved on since — the
+    # alternative is silently clobbering work somebody did after the action being undone.
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS action_undo (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            kind TEXT NOT NULL DEFAULT '',
+            label TEXT DEFAULT '',
+            entities TEXT NOT NULL DEFAULT '[]',
+            meta TEXT DEFAULT '',
+            created_at TEXT NOT NULL DEFAULT (datetime('now')),
+            undone_at TEXT
+        )
+    """)
+    db.execute("CREATE INDEX IF NOT EXISTS idx_action_undo_user ON action_undo(user_id, id)")
+    # A table created by an earlier deploy does NOT gain a column added to this CREATE statement —
+    # IF NOT EXISTS skips it entirely. Undo records then failed to insert and the silence was
+    # swallowed, which cost an hour of live probing: any column added after a table ships needs its
+    # own ALTER here.
+    try:
+        db.execute("ALTER TABLE action_undo ADD COLUMN meta TEXT DEFAULT ''")
+    except sqlite3.OperationalError:
+        pass
 
     # Migration: shared flags
     for table, column in [("characters", "shared"), ("dm_encounters", "shared")]:

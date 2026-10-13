@@ -1285,6 +1285,16 @@ async def update_character(char_id: int, request: Request, body: UpdateCharacter
         for sp in data["spells"]:
             db.execute("UPDATE character_spells SET slots_used=? WHERE id=? AND character_id=?",
                        (sp.get("slots_used", 0), sp.get("id"), char_id))
+    # Remember what this changed, while the connection is still open: one tap puts it back
+    # (services/undo). The pre-update row is the "before"; only restorable columns are kept, and a
+    # failure here must never cost the save that is already committed.
+    from services.undo import record_safe
+
+    record_safe(db, user["id"], "sheet",
+                "sheet: " + ", ".join(sorted(updates)[:4]),
+                [{"character_id": char_id,
+                  "before": {k: row[k] for k in updates},
+                  "after": {k: updates[k] for k in updates}}])
     db.commit()
     db.close()
 
@@ -1557,6 +1567,17 @@ async def set_concentration(char_id: int, request: Request):
     return JSONResponse({"ok": True, "concentration": spell})
 
 
+def _record_conditions(db, user_id, char_id, before_json, after_json, what: str) -> None:
+    """Conditions move as a whole blob, so that is what undo restores. Removing the wrong one is a
+    two-second mistake at a table and there was no way back from it."""
+    from services.undo import record_safe
+
+    record_safe(db, user_id, "condition", what,
+                [{"character_id": char_id,
+                  "before": {"conditions": before_json},
+                  "after": {"conditions": after_json}}])
+
+
 @router.post("/api/character/{char_id}/conditions", response_class=JSONResponse)
 async def add_condition(char_id: int, request: Request):
     """Add a condition to a character."""
@@ -1586,8 +1607,11 @@ async def add_condition(char_id: int, request: Request):
         "applied_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
     }
     conditions.append(condition)
+    before_conditions = row["conditions"] or "[]"
     db.execute("UPDATE characters SET conditions=? WHERE id=? AND user_id=?",
                (json.dumps(conditions), char_id, user["id"]))
+    _record_conditions(db, user["id"], char_id, before_conditions, json.dumps(conditions),
+                       f"add {name}")
     db.commit()
     db.close()
     _publish_change(char_id, "sheet")
@@ -1611,8 +1635,11 @@ async def remove_condition(char_id: int, request: Request):
     except (json.JSONDecodeError, TypeError):
         conditions = []
     conditions = [c for c in conditions if c.get("name","").lower() != name.lower()]
+    before_conditions = row["conditions"] or "[]"
     db.execute("UPDATE characters SET conditions=? WHERE id=? AND user_id=?",
                (json.dumps(conditions), char_id, user["id"]))
+    _record_conditions(db, user["id"], char_id, before_conditions, json.dumps(conditions),
+                       f"remove {name}")
     db.commit()
     db.close()
     _publish_change(char_id, "sheet")

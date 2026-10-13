@@ -1124,6 +1124,9 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
     <select id="combatCampaignSelect" onchange="loadCombatCampaign().then(() => saveCombatState())" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;min-width:180px">
       <option value="">— Select campaign —</option>
     </select>
+    <button class="btn btn-outline btn-sm" id="btnUndo" onclick="undoLast()" disabled
+            title="Nothing to undo">↩ Undo</button>
+    <span id="undoStatus" style="font-size:0.78rem;color:var(--text-muted)"></span>
     <button class="btn btn-accent btn-sm" id="btnRollInit" onclick="rollInitiative()">🎲 Roll Initiative</button>
     <button class="btn btn-outline btn-sm" id="btnRerollInit" onclick="rollInitiative()" style="display:none">🎲 Reroll</button>
     <span style="margin-left:0.5rem;font-size:0.85rem;color:var(--text-muted)" id="combatStatus"></span>
