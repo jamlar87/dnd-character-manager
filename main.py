@@ -390,7 +390,15 @@ async def log_requests(request: Request, call_next):
 
 # Native form posts that must never be blocked by the CSRF header requirement.
 # See security_middleware: a browser cannot set x-csrf-token on a form submit.
-CSRF_FORM_POST_PATHS = {"/login", "/register", "/reset-password"}
+#
+# "/change-password" belongs here for the same reason as the three above: its template is a
+# native <form method="post">, and the CSRF glue in static/layout.js only patches
+# window.fetch, which a native form submit never uses. Without this entry the page answered
+# 403 for every logged-in user — verified against this app before fixing. The same-origin
+# Origin check in security_middleware still applies to it (and to these paths) whenever the
+# request carries a session cookie, so the exemption is not a cross-site hole for a
+# logged-in victim; the three auth entry points above are reachable cookie-less by design.
+CSRF_FORM_POST_PATHS = {"/login", "/register", "/reset-password", "/change-password"}
 
 
 @app.middleware("http")
