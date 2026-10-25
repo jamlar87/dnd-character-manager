@@ -64,10 +64,10 @@
           <select id="vttGridType" onchange="VTT.setGridType(this.value)" title="Square 5-ft cells, or hexe">
             <option value="square">⬚ Square</option><option value="hex">⬡ Hex</option>
           </select>
-          <button class="btn btn-outline btn-sm" onclick="VTT.nudgeSize(-4)">−</button>
+          <button class="btn btn-outline btn-sm" onclick="VTT.nudgeSize(-1, event)" title="−1 px per click (Shift: −10 px)">−</button>
           <input type="number" id="vttGridSize" value="{{ the_map.grid_size }}" min="10" max="400" step="1"
-                 onchange="VTT.setGridSize(this.value)" title="Pixels per cell — one 5-ft square on the image">
-          <button class="btn btn-outline btn-sm" onclick="VTT.nudgeSize(4)">+</button>
+                 onchange="VTT.setGridSize(this.value)" title="Pixels per cell — one 5-ft square on the image. Type any whole number for exact fit">
+          <button class="btn btn-outline btn-sm" onclick="VTT.nudgeSize(1, event)" title="+1 px per click (Shift: +10 px)">+</button>
           <label class="vtt-note">cells across
             <input type="number" id="vttGridSquares" min="1" max="400" step="1" onchange="VTT.setSquaresAcross(this.value)"></label>
           <details class="vtt-sub"><summary>Align the grid</summary><div class="vtt-ctl">

@@ -68,6 +68,18 @@ def test_the_renderer_keeps_its_public_contract():
     assert "window.VTT" in src, "the renderer no longer exposes itself"
 
 
+def test_the_grid_size_stepper_steps_one_pixel_and_shift_steps_ten():
+    """The overlay sits ON printed cells, so ±4 px was too coarse to line a hex up: the DM could
+    only be 4 px wrong one way or the other. One click is now 1 px; Shift is the coarse jump."""
+    tpl = TEMPLATE.read_text()
+    src = VTT.read_text()
+    assert 'nudgeSize(-1, event)' in tpl and 'nudgeSize(1, event)' in tpl, (
+        "the grid-size buttons are not 1 px steps")
+    assert "nudgeSize(-4" not in tpl and "nudgeSize(4" not in tpl
+    assert "function nudgeSize(delta, ev)" in src, "nudgeSize does not receive the key event"
+    assert "ev.shiftKey" in src and "? 10 : 1" in src, "Shift no longer gives the coarse step"
+
+
 def test_the_renderer_saves_like_the_rest_of_the_app():
     """Same traps as the widget bar: a debounced save must flush on unload with keepalive,
     otherwise a drag during a fight is lost on refresh."""

@@ -897,9 +897,12 @@
     persistGrid();
     redraw();
   }
-  function nudgeSize(delta) {
-    // goes through setGridSize so the clamp matches the API's (10..400) and the readout follows
-    setGridSize(state.grid.size + delta);
+  function nudgeSize(delta, ev) {
+    // one click is ONE pixel, because a printed map rarely lands on a multiple of 4 — the old
+    // ±4 jump meant the overlay was either too big or too small with nothing in between. Shift
+    // keeps the coarse jump for crossing a big correction quickly.
+    var step = (ev && ev.shiftKey) ? 10 : 1;
+    setGridSize(state.grid.size + (delta > 0 ? step : -step));
   }
   function persistGrid() {
     fetch('/api/dm/map/' + window.MAP_ID + '/update', {
