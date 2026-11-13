@@ -160,9 +160,11 @@ def test_a_hanging_tier_is_abandoned_and_the_next_one_runs(monkeypatch):
 
 # ── the provider tiers: what they send, and what they report ──────────────────────────────
 
-def test_openrouter_sends_a_pinned_model_and_a_workable_token_cap(monkeypatch):
-    """`openrouter/free` is a random router (measured 0/3 on the app's trap prompt); the cap was
-    300 tokens, too small for a 16-key trap and billed against reasoning models too."""
+def test_openrouter_sends_a_live_model_and_a_workable_token_cap(monkeypatch):
+    """The pin was retired under us: poolside/laguna-xs-2.1:free answers 404 'no longer available
+    on OpenRouter' on EVERY call, and every free model still listed is a reasoning model that spent
+    the whole 1400-token cap thinking (measured 2/2 empty each, Oct 2026). A dead id in the default
+    is a wasted hop per AI call, so the default must not name one."""
     seen = {}
 
     async def fake_post(url, payload, headers=None, timeout=20.0):
@@ -178,8 +180,71 @@ def test_openrouter_sends_a_pinned_model_and_a_workable_token_cap(monkeypatch):
     out = asyncio.run(ai_routes._call_openrouter(JSON_PROMPT))
     assert out == '{"name": "x"}'
     assert seen["model"] == ai_routes.OPENROUTER_MODELS[0]
-    assert "openrouter/free" not in seen["model"], "the lottery router is a fallback, not the default"
+    assert "laguna" not in str(ai_routes.OPENROUTER_MODELS), "the retired pin must not be a default"
     assert seen["max_tokens"] == ai_routes.AI_MAX_TOKENS and seen["max_tokens"] >= 1024
+
+
+def test_a_retired_model_is_skipped_for_the_long_window_instead_of_every_call(monkeypatch):
+    """Measured: the retired pin 404'd on every trap and encounter generation. A 404 'no longer
+    available' is a config fact, so one hop per 6h, not one hop per AI call."""
+    calls = []
+
+    async def fake_post(url, payload, headers=None, timeout=20.0):
+        calls.append(payload["model"])
+        return 404, {"error": {"message": "poolside/laguna-xs-2.1:free is no longer available on "
+                                           "OpenRouter: no provider serves this model anymore."}}, "404"
+
+    monkeypatch.setattr(ai_routes, "_post_json", fake_post)
+    monkeypatch.setenv("OPENROUTER_API_KEY", "test-key")
+    monkeypatch.setattr(ai_routes, "OPENROUTER_MODELS", ["retired:free", "alive:free"])
+    monkeypatch.setattr(ai_routes, "AI_MODEL_COOLDOWN_MAX", 6 * 3600)
+
+    assert asyncio.run(ai_routes._call_openrouter(JSON_PROMPT)) is None
+    assert calls == ["retired:free", "alive:free"], "a 404 must not end the tier"
+    assert ai_routes._cooling("openrouter/retired:free") > 5 * 3600, "not the 5-minute window"
+
+    calls.clear()
+    asyncio.run(ai_routes._call_openrouter(JSON_PROMPT))
+    assert calls == ["alive:free"] or calls == [], "the retired id must not cost a hop again"
+
+
+def test_the_router_alias_gets_one_retry_before_the_next_tier(monkeypatch):
+    """`openrouter/free` re-rolls the underlying model and answered the 16-key trap 1 of 2 tries;
+    its two neighbours (gemini key invalid, ollama box off) are dead, so a retry is the cheapest
+    remaining chance at an answer."""
+    calls = []
+
+    async def fake_post(url, payload, headers=None, timeout=20.0):
+        calls.append(payload["model"])
+        if len(calls) == 1:
+            return 200, {"choices": [{"message": {"content": ""}, "finish_reason": "length"}],
+                         "usage": {"completion_tokens": 1400,
+                                   "completion_tokens_details": {"reasoning_tokens": 1400}}}, ""
+        return 200, {"choices": [{"message": {"content": '{"name": "Retry"}'},
+                                  "finish_reason": "stop"}], "usage": {}}, ""
+
+    monkeypatch.setattr(ai_routes, "_post_json", fake_post)
+    monkeypatch.setenv("OPENROUTER_API_KEY", "test-key")
+    monkeypatch.setattr(ai_routes, "OPENROUTER_MODELS", ["openrouter/free"])
+    assert ai_routes.OPENROUTER_ROUTER_ALIASES >= {"openrouter/free"}
+    assert asyncio.run(ai_routes._call_openrouter(JSON_PROMPT)) == '{"name": "Retry"}'
+    assert len(calls) == 2
+
+
+def test_a_pinned_model_is_not_retried_on_empty_content(monkeypatch):
+    """A pin would spend the same budget on the same model and come back empty again."""
+    calls = []
+
+    async def fake_post(url, payload, headers=None, timeout=20.0):
+        calls.append(payload["model"])
+        return 200, {"choices": [{"message": {"content": ""}, "finish_reason": "length"}],
+                     "usage": {}}, ""
+
+    monkeypatch.setattr(ai_routes, "_post_json", fake_post)
+    monkeypatch.setenv("OPENROUTER_API_KEY", "test-key")
+    monkeypatch.setattr(ai_routes, "OPENROUTER_MODELS", ["pinned:free"])
+    assert asyncio.run(ai_routes._call_openrouter(JSON_PROMPT)) is None
+    assert calls == ["pinned:free"]
 
 
 def test_an_openrouter_truncation_or_empty_answer_moves_to_the_next_model(monkeypatch):
@@ -197,6 +262,7 @@ def test_an_openrouter_truncation_or_empty_answer_moves_to_the_next_model(monkey
 
     monkeypatch.setattr(ai_routes, "_post_json", fake_post)
     monkeypatch.setenv("OPENROUTER_API_KEY", "test-key")
+    monkeypatch.setattr(ai_routes, "OPENROUTER_MODELS", ["model-a:free", "model-b:free"])
     assert asyncio.run(ai_routes._call_openrouter(JSON_PROMPT)) == '{"name": "Second"}'
     assert len(calls) == 2, "an unusable first model must not end the tier"
 

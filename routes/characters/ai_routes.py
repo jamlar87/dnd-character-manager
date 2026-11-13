@@ -37,17 +37,22 @@ router = APIRouter()
 AI_MODEL = os.environ.get("AI_OLLAMA_MODEL", "llama3.1:8b")
 OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://192.168.1.31:11434/api/generate")
 
-# Tier 1 is PINNED, not the `openrouter/free` lottery. That router hands each request to a random
-# free model, and on this app's own trap prompt (16 keys) it measured 0/3 complete: it picked a
-# content-safety classifier (which answered "User Safety: safe") and reasoning models that spent the
-# entire token budget thinking — 900/900 and 1048/1048 reasoning tokens — and returned EMPTY content.
-# A pinned small non-reasoning model managed 2/3 on the same prompt. Ordered: first the one that
-# measured best, then the general router as a second opinion.
+# Tier 1 order. A PIN was preferred while one measured better than the lottery, but Oct 2026
+# measurement killed that: the pinned model (poolside/laguna-xs-2.1:free) is RETIRED — OpenRouter
+# answers 404 "no longer available on OpenRouter: no provider serves this model anymore" — and every
+# free model still listed on the app's own 16-key trap prompt (gemma-4-26b, nemotron-3.5-lightning,
+# ling-3.2-flash, dots-3-note) is a REASONING model that spent all 1400 tokens thinking and returned
+# EMPTY content, twice each. `openrouter/free` answered the full 16-key object 1 of 2 tries. So the
+# lottery router is the default, and a retry (below) is worth more than a dead pin.
 OPENROUTER_MODELS = [
     m.strip() for m in os.environ.get(
-        "AI_OPENROUTER_MODELS", "poolside/laguna-xs-2.1:free,openrouter/free"
+        "AI_OPENROUTER_MODELS", "openrouter/free"
     ).split(",") if m.strip()
 ]
+# Models that are a ROUTER, not a model: a re-request may land on a different underlying model,
+# so an empty answer from one is worth one more try before spending the next tier.
+OPENROUTER_ROUTER_ALIASES = {"openrouter/free"}
+AI_OPENROUTER_EMPTY_RETRIES = int(os.environ.get("AI_OPENROUTER_EMPTY_RETRIES", "1"))
 # Gemini's free quota is PER MODEL, so a 429 on one model is not a dead tier: when
 # gemini-3.6-flash answered "limit: 20 ... retry in 23h", gemini-2.5-flash on the same key
 # answered 200 with clean JSON (measured Oct 2026).
@@ -106,6 +111,28 @@ def _cool_down(key: str, message: str) -> None:
     print(f"[cool-down] {key}: {mins:.0f} min ({message[:90]})")
 
 
+def _retired(status: int, message: str) -> bool:
+    """True when the provider says this id or credential will never work again.
+
+    A 404 'no longer available on OpenRouter: no provider serves this model anymore' and a 400/401
+    'API key not valid' are facts about config, not blips: without this, a retired model id or a
+    rotated key costs a wasted hop on EVERY AI call, forever (measured: the pinned model 404'd on
+    every trap-gen and encounter call).
+    """
+    if status in (401, 403, 404):
+        return True
+    msg = (message or "").lower()
+    return any(s in msg for s in ("no longer available", "not a valid model", "model not found",
+                                  "api key not valid", "invalid api key", "api key expired"))
+
+
+def _cool_down_retired(key: str, message: str) -> None:
+    """Skip a retired/unauthorised id for the long window: config must fix it, not a retry."""
+    _MODEL_COOLDOWN[key] = time.monotonic() + AI_MODEL_COOLDOWN_MAX
+    print(f"[cool-down] {key}: retired or unauthorised — skipping {AI_MODEL_COOLDOWN_MAX/3600:.0f}h "
+          f"({message[:90]})")
+
+
 def _provider_error(body: dict, raw: str) -> str:
     """The provider's own words. A 429's message names the quota and when it resets."""
     err = body.get("error")
@@ -146,8 +173,8 @@ async def _call_gemini(prompt: str) -> str | None:
     if not key:
         return None
     for model in GEMINI_MODELS:
-        key = f"gemini/{model}"
-        left = _cooling(key)
+        model_key = f"gemini/{model}"
+        left = _cooling(model_key)
         if left:
             print(f"[Gemini:{model}] skipped, cooling down for another {left/60:.0f} min")
             continue
@@ -161,7 +188,10 @@ async def _call_gemini(prompt: str) -> str | None:
             print(f"[Gemini:{model}] HTTP {status}: {msg}")
             # Only a rate limit earns a cool-down: a 500 is a blip, not a fact about the model.
             if status == 429:
-                _cool_down(key, msg)
+                _cool_down(model_key, msg)
+            elif _retired(status, msg):
+                # "API key not valid" is config, not a blip: it 400s on every call until replaced.
+                _cool_down_retired(model_key, msg)
             continue
         try:
             text = body["candidates"][0]["content"]["parts"][0]["text"]
@@ -191,49 +221,57 @@ async def _call_openrouter(prompt: str) -> str | None:
         "X-OpenRouter-Title": "D&D Character Manager",
     }
     for model in OPENROUTER_MODELS:
-        key = f"openrouter/{model}"
-        left = _cooling(key)
+        model_key = f"openrouter/{model}"
+        left = _cooling(model_key)
         if left:
             print(f"[OR:{model}] skipped, cooling down for another {left/60:.0f} min")
             continue
-        status, body, raw = await _post_json(
-            "https://openrouter.ai/api/v1/chat/completions",
-            {"model": model, "messages": [{"role": "user", "content": prompt}],
-             "max_tokens": AI_MAX_TOKENS},
-            headers=headers, timeout=AI_TIER_TIMEOUT,
-        )
-        if status != 200:
-            msg = _provider_error(body, raw)
-            print(f"[OR:{model}] HTTP {status}: {msg}")
-            if status == 429:
-                _cool_down(key, msg)
-            continue
-        try:
-            choice = body["choices"][0]
-            msg = choice.get("message") or {}
-        except (KeyError, IndexError, TypeError):
-            print(f"[OR:{model}] answered without choices: {raw[:200]}")
-            continue
+        # A router alias re-rolls the underlying model, so an empty answer is worth one retry; a
+        # pinned model would just spend the same budget again.
+        attempts = 1 + (AI_OPENROUTER_EMPTY_RETRIES if model in OPENROUTER_ROUTER_ALIASES else 0)
+        for attempt in range(1, attempts + 1):
+            status, body, raw = await _post_json(
+                "https://openrouter.ai/api/v1/chat/completions",
+                {"model": model, "messages": [{"role": "user", "content": prompt}],
+                 "max_tokens": AI_MAX_TOKENS},
+                headers=headers, timeout=AI_TIER_TIMEOUT,
+            )
+            if status != 200:
+                err = _provider_error(body, raw)
+                print(f"[OR:{model}] HTTP {status}: {err}")
+                if status == 429:
+                    _cool_down(model_key, err)
+                elif _retired(status, err):
+                    _cool_down_retired(model_key, err)
+                break
+            try:
+                choice = body["choices"][0]
+                msg = choice.get("message") or {}
+            except (KeyError, IndexError, TypeError):
+                print(f"[OR:{model}] answered without choices: {raw[:200]}")
+                break
 
-        content = (msg.get("content") or "").strip()
-        reasoning = (msg.get("reasoning") or "").strip()
-        usage = body.get("usage") or {}
-        rtok = (usage.get("completion_tokens_details") or {}).get("reasoning_tokens")
-        # Log every answer's shape: a reasoning model that spent the budget thinking and a
-        # truncation at the cap both arrive as "no content", and they need different fixes.
-        print(f"[OR:{model}] finish={choice.get('finish_reason')} "
-              f"completion={usage.get('completion_tokens')} reasoning={rtok} content={len(content)}B")
-        if content:
-            return content
-        if choice.get("finish_reason") == "length":
-            print(f"[OR:{model}] truncated at max_tokens={AI_MAX_TOKENS} "
-                  f"(reasoning used {rtok}) — no answer left")
-        elif reasoning and "{" in reasoning:
-            # Some models put the answer itself in 'reasoning' (laguna-m.1 did). Only worth
-            # taking when the text contains an object; _call_ai still has to accept it.
-            return reasoning
-        else:
-            print(f"[OR:{model}] empty content and no object in reasoning")
+            content = (msg.get("content") or "").strip()
+            reasoning = (msg.get("reasoning") or "").strip()
+            usage = body.get("usage") or {}
+            rtok = (usage.get("completion_tokens_details") or {}).get("reasoning_tokens")
+            # Log every answer's shape: a reasoning model that spent the budget thinking and a
+            # truncation at the cap both arrive as "no content", and they need different fixes.
+            print(f"[OR:{model}] finish={choice.get('finish_reason')} "
+                  f"completion={usage.get('completion_tokens')} reasoning={rtok} content={len(content)}B")
+            if content:
+                return content
+            if choice.get("finish_reason") == "length":
+                print(f"[OR:{model}] truncated at max_tokens={AI_MAX_TOKENS} "
+                      f"(reasoning used {rtok}) — no answer left")
+            elif reasoning and "{" in reasoning:
+                # Some models put the answer itself in 'reasoning' (laguna-m.1 did). Only worth
+                # taking when the text contains an object; _call_ai still has to accept it.
+                return reasoning
+            else:
+                print(f"[OR:{model}] empty content and no object in reasoning")
+            if attempt < attempts:
+                print(f"[OR:{model}] empty answer — retrying the router ({attempt + 1}/{attempts})")
     return None
 
 
