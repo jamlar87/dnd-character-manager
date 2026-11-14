@@ -1234,6 +1234,11 @@ def update_character(char_id: int, request: Request, body: UpdateCharacter):
     user = require_user(request)
     # Build data dict from model (extra fields pass through)
     data = body.model_dump(exclude_none=True) | (body.model_extra or {})
+    # The model allows extras, so most numeric cells reach here untyped: clamp them to the bounds
+    # the DM's NPC editor and character creation share (services/validation).
+    from services.validation import clamp_fields
+
+    data = clamp_fields(data)
 
     db = get_db()
     row = _require_owned(db, user, "characters", char_id)

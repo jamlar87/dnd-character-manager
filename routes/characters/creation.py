@@ -139,13 +139,25 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
         stats = {}
         for stat in ["strength","dexterity","constitution","intelligence","wisdom","charisma"]:
             stats[stat] = int(base.get(stat, 10) or 10) + int(bonuses.get(stat, 0) or 0)
+        # Ability scores are client-supplied here and feed HP, AC and every skill roll: the same
+        # clamp table the sheet and DM write paths use keeps a posted 9999 out of the new row.
+        from services.validation import clamp_int
+        for stat in stats:
+            stats[stat] = clamp_int(stat, stats[stat])
         return stats
 
     race_name = data.get("race", "")
     subrace = data.get("subrace", "")
     class_name = data.get("class_name", "")
     subclass = data.get("subclass", "")
-    level = max(1, int(data.get("level", 1) or 1))
+    # Level arrives from the wizard and drives HP, proficiency bonus and class features; an
+    # unbounded or non-numeric value used to 500 the whole creation (int("x")) or build a level
+    # 200 row that every later level-up/slot calculation then trusted.
+    from services.validation import clamp_int
+    try:
+        level = clamp_int("level", max(1, int(data.get("level", 1) or 1)))
+    except (TypeError, ValueError):
+        level = 1
     name = data.get("name", "").strip()
     if not name or not race_name or not class_name:
         raise ValueError("Name, race, and class required")

@@ -2,9 +2,10 @@
 
 """Character routes — create, sheet, level-up, spells, combat, relationships."""
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse
 import json
+import logging
 
 from main import (
     get_db, require_user, _require_owned, _resolve_item_key, _is_admin,
@@ -14,6 +15,60 @@ from main import SRD_MAGIC_ITEMS
 
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
+
+MAX_ITEM_NAME_LEN = 120
+MAX_ITEM_QTY = 9999
+
+
+def _parse_roster(row_characters, where: str):
+    """Decode a ``dm_campaigns.characters`` JSON roster, failing loudly on corruption.
+
+    Several routes keep that column as a JSON list of character stubs. A truncated or
+    hand-edited value used to be swallowed by ``except (json.JSONDecodeError, TypeError):
+    pass``, which silently demoted every member to "not in this campaign" — a 403 on their
+    own team pool page, and share-to-team falling through to the wrong campaign. Surface it.
+    """
+    try:
+        chars = json.loads(row_characters or "[]")
+    except (json.JSONDecodeError, TypeError):
+        logger.exception("Corrupt campaign roster in %s: %r", where, row_characters)
+        raise HTTPException(status_code=500, detail="Campaign roster data is corrupt")
+    if not isinstance(chars, list):
+        logger.error("Campaign roster in %s is %s, not a list: %r",
+                     where, type(chars).__name__, row_characters)
+        raise HTTPException(status_code=500, detail="Campaign roster data is corrupt")
+    return [c for c in chars if isinstance(c, dict)]
+
+
+def _int_field(data, key: str, default: int, lo: int, hi: int, *, label: str | None = None):
+    """Validate/clamp an integer field from a JSON body; raises ValueError when non-numeric."""
+    raw = data.get(key, default)
+    if raw is None or raw == "":
+        raw = default
+    try:
+        value = int(raw)
+    except (TypeError, ValueError):
+        raise ValueError(f"{label or key} must be an integer")
+    return max(lo, min(hi, value))
+
+
+def _pos_qty(data, key: str = "qty") -> int:
+    """A quantity that must be >= 1: raises ValueError on non-numeric or zero/negative.
+
+    Clamping to 1 is right for a stat cell, wrong for a transfer: `qty: -5` used to be accepted,
+    fell through the `qty >= current` branch, and *added* five items to the character while
+    subtracting them from the team pool — free inventory. Reject instead.
+    """
+    raw = data.get(key, 1)
+    try:
+        value = int(raw)
+    except (TypeError, ValueError):
+        raise ValueError(f"{key} must be an integer")
+    if value < 1:
+        raise ValueError(f"{key} must be at least 1")
+    return min(value, MAX_ITEM_QTY)
+
 
 # ── Treasure hoard data (DMG 2014 p.137-139) ──────────────────────────────────────
 
@@ -295,13 +350,10 @@ def character_campaign(char_id: int, request: Request):
     if not row:
         all_camps = db.execute("SELECT id, name, user_id, characters FROM dm_campaigns").fetchall()
         for c in all_camps:
-            try:
-                chars = json.loads(c["characters"] or "[]")
-                if any(ch.get("id") == char_id for ch in chars if isinstance(ch, dict)):
-                    row = (c["id"], c["name"], c["user_id"])
-                    break
-            except (json.JSONDecodeError, TypeError):
-                pass
+            chars = _parse_roster(c["characters"], f"character_campaign(campaign={c['id']})")
+            if any(ch.get("id") == char_id for ch in chars):
+                row = (c["id"], c["name"], c["user_id"])
+                break
     db.close()
     if not row:
         return JSONResponse({"campaign": None})
@@ -319,17 +371,14 @@ def campaign_team_items(camp_id: int, request: Request):
     in_json = False
     camp_row = db.execute("SELECT characters FROM dm_campaigns WHERE id=?", (camp_id,)).fetchone()
     if camp_row:
-        try:
-            chars = json.loads(camp_row["characters"] or "[]")
-            char_ids = [c.get("id") for c in chars if isinstance(c, dict)]
-            if char_ids:
-                owned = db.execute(
-                    "SELECT 1 FROM characters WHERE id IN ({}) AND user_id=?".format(','.join('?'*len(char_ids))),
-                    char_ids + [user["id"]]
-                ).fetchone()
-                in_json = bool(owned)
-        except (json.JSONDecodeError, TypeError):
-            pass
+        chars = _parse_roster(camp_row["characters"], f"campaign_team_items(campaign={camp_id})")
+        char_ids = [c.get("id") for c in chars if c.get("id") is not None]
+        if char_ids:
+            owned = db.execute(
+                "SELECT 1 FROM characters WHERE id IN ({}) AND user_id=?".format(','.join('?'*len(char_ids))),
+                char_ids + [user["id"]]
+            ).fetchone()
+            in_json = bool(owned)
     is_member = db.execute("""
         SELECT 1 FROM dm_campaign_characters cc
         JOIN characters ch ON ch.id = cc.character_id
@@ -361,8 +410,16 @@ async def campaign_add_team_item(camp_id: int, request: Request):
     name = (data.get("name") or "").strip()
     if not name:
         return JSONResponse({"error": "Item name required"}, status_code=400)
-    qty = max(1, int(data.get("qty", 1)))
-    gp_value = int(data.get("gp_value", 0))
+    if len(name) > MAX_ITEM_NAME_LEN:
+        return JSONResponse(
+            {"error": f"Item name too long (max {MAX_ITEM_NAME_LEN} characters)"},
+            status_code=400)
+    # int(...) on raw JSON used to raise ValueError -> unhandled 500 on any non-numeric qty.
+    try:
+        qty = _pos_qty(data)
+        gp_value = _int_field(data, "gp_value", 0, 0, 10_000_000)
+    except ValueError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=400)
 
     db = get_db()
     is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=?", (camp_id,)).fetchone() if _is_admin(user) else db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
@@ -390,7 +447,10 @@ async def campaign_claim_team_item(camp_id: int, item_id: int, request: Request)
     """Claim a team item — moves it to the claiming character's inventory."""
     user = require_user(request)
     data = await request.json()
-    char_id = int(data.get("character_id", 0))
+    try:
+        char_id = int(data.get("character_id") or 0)
+    except (TypeError, ValueError):
+        return JSONResponse({"error": "character_id must be an integer"}, status_code=400)
     if not char_id:
         return JSONResponse({"error": "character_id required"}, status_code=400)
 
@@ -412,11 +472,8 @@ async def campaign_claim_team_item(camp_id: int, item_id: int, request: Request)
     camp_row = db.execute("SELECT characters FROM dm_campaigns WHERE id=?", (camp_id,)).fetchone()
     in_json = False
     if camp_row:
-        try:
-            chars = json.loads(camp_row["characters"] or "[]")
-            in_json = any(c.get("id") == char_id for c in chars)
-        except (json.JSONDecodeError, TypeError):
-            pass
+        chars = _parse_roster(camp_row["characters"], f"campaign_claim_team_item(campaign={camp_id})")
+        in_json = any(c.get("id") == char_id for c in chars)
     in_table = db.execute(
         "SELECT 1 FROM dm_campaign_characters WHERE campaign_id=? AND character_id=?",
         (camp_id, char_id)
@@ -444,14 +501,26 @@ async def campaign_claim_team_item(camp_id: int, item_id: int, request: Request)
     if is_currency:
         amount = int(currency_match.group(1))
         denom = currency_match.group(2)
-        gp_conv = {"cp": 0.01, "sp": 0.1, "ep": 0.5, "gp": 1, "pp": 10}
-        gp_val = int(amount * gp_conv.get(denom, 1)) * item_qty
-        db.execute("UPDATE characters SET gp = COALESCE(gp, 0) + ? WHERE id=?", (gp_val, char_id))
+        # Work in copper. The old `int(amount * 0.01)` truncated any award below 100 cp
+        # (a "50 cp" hoard line) to zero and silently destroyed the money.
+        cp_conv = {"cp": 1, "sp": 10, "ep": 50, "gp": 100, "pp": 1000}
+        total_cp = amount * cp_conv.get(denom, 100) * max(1, int(item_qty or 1))
+        gp_add, cp_add = divmod(total_cp, 100)
+        row = db.execute(
+            "SELECT COALESCE(gp,0), COALESCE(cp,0) FROM characters WHERE id=?", (char_id,)
+        ).fetchone()
+        new_cp = int(row[1] or 0) + cp_add
+        gp_add += new_cp // 100
+        new_cp %= 100
+        db.execute("UPDATE characters SET gp = COALESCE(gp,0) + ?, cp = ? WHERE id=?",
+                   (gp_add, new_cp, char_id))
         # Delete from team pool
         db.execute("DELETE FROM campaign_team_items WHERE id=?", (item_id,))
         db.commit()
         db.close()
-        return JSONResponse({"ok": True, "added": item_name, "qty": item_qty, "currency": True, "gp_added": gp_val})
+        return JSONResponse({"ok": True, "added": item_name, "qty": item_qty, "currency": True,
+                             "gp_added": gp_add, "cp_added": total_cp - gp_add * 100,
+                             "gp_value": round(total_cp / 100, 2)})
 
     # Normal item — add to character inventory
     inv = json.loads(char[1] or "[]")
@@ -492,33 +561,57 @@ async def character_share_to_team(char_id: int, request: Request):
         db.close()
         return JSONResponse({"error": "Character not found"}, status_code=404)
 
-    # Find the campaign this character is in (check JSON field + legacy table)
+    # Only the character's owner (or an admin) may move items out of its inventory.
+    # Without this any logged-in user could strip another player's backpack by id.
+    if not _is_admin(user) and char["user_id"] != user["id"]:
+        db.close()
+        return JSONResponse({"error": "Not your character"}, status_code=403)
+
+    # Find the campaign this character is in (check legacy table + JSON field)
     camp = db.execute("SELECT campaign_id FROM dm_campaign_characters WHERE character_id=?",
                       (char_id,)).fetchone()
     camp_id = camp[0] if camp else None
     if not camp_id:
-        # Check campaigns' JSON characters field
-        all_camps = db.execute("SELECT id, characters FROM dm_campaigns").fetchall()
+        # Only campaigns the caller belongs to are scanned: a stray id in some other
+        # campaign's roster must not redirect a write into that campaign's pool.
+        if _is_admin(user):
+            all_camps = db.execute("SELECT id, characters FROM dm_campaigns").fetchall()
+        else:
+            all_camps = db.execute("""
+                SELECT c.id, c.characters FROM dm_campaigns c
+                WHERE c.user_id = ?
+                   OR EXISTS (SELECT 1 FROM dm_campaign_characters cc
+                              JOIN characters ch ON ch.id = cc.character_id
+                              WHERE cc.campaign_id = c.id AND ch.user_id = ?)
+            """, (user["id"], user["id"])).fetchall()
         for c in all_camps:
-            try:
-                chars = json.loads(c["characters"] or "[]")
-                if any(ch.get("id") == char_id for ch in chars if isinstance(ch, dict)):
-                    camp_id = c["id"]
-                    break
-            except (json.JSONDecodeError, TypeError):
-                pass
+            chars = _parse_roster(c["characters"], f"character_share_to_team(campaign={c['id']})")
+            if any(ch.get("id") == char_id for ch in chars):
+                camp_id = c["id"]
+                break
     if not camp_id:
         db.close()
         return JSONResponse({"error": "Character is not in a campaign"}, status_code=400)
 
     # Find and remove item from inventory
     inv = json.loads(char[1] or "[]")
-    qty_to_share = int(data.get("qty", 1))
+    # A missing/invalid qty used to 500; a negative one inflated the inventory while
+    # subtracting from the team pool.
+    try:
+        qty_to_share = _pos_qty(data)
+    except ValueError as exc:
+        db.close()
+        return JSONResponse({"error": str(exc)}, status_code=400)
     removed = None
     new_inv = []
     for inv_item in inv:
         if isinstance(inv_item, dict) and inv_item.get("name", "").lower() == item_name.lower():
-            current_qty = inv_item.get("qty", 1)
+            try:
+                current_qty = int(inv_item.get("qty", 1))
+            except (TypeError, ValueError):
+                current_qty = 1
+            current_qty = max(1, current_qty)
+            inv_item["qty"] = current_qty
             if qty_to_share >= current_qty:
                 removed = {"name": inv_item["name"], "qty": current_qty}
                 continue  # remove entirely
@@ -562,7 +655,11 @@ async def campaign_update_team_item_qty(camp_id: int, item_id: int, request: Req
         db.close()
         return JSONResponse({"error": "Only the DM can update team items"}, status_code=403)
     data = await request.json()
-    qty = max(1, int(data.get("qty", 1)))
+    try:
+        qty = _pos_qty(data)
+    except ValueError as exc:
+        db.close()
+        return JSONResponse({"error": str(exc)}, status_code=400)
     db.execute("UPDATE campaign_team_items SET qty=? WHERE id=? AND campaign_id=?",
                (qty, item_id, camp_id))
     db.commit()

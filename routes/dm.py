@@ -22,6 +22,7 @@ from routes.characters.sheet import allocate_ability_scores, calc_hp, get_equipm
 from routes.characters.ai_routes import _calculate_ac, _pick_skills
 from services.leveling import PROFICIENCY_BONUS, get_class_features
 from services.sources import clean_source_display
+from services.validation import clamp_int, clamp_fields
 
 router = APIRouter()
 
@@ -56,6 +57,59 @@ PARTY_PROFILE_COLS = """
 # Same list qualified with the `c` alias: `_build_party_profile` joins dm_campaign_characters, and
 # an unqualified `id` there is ambiguous (both tables have one) — sqlite answers with an error.
 PARTY_PROFILE_COLS_C = ", ".join("c." + col.strip() for col in PARTY_PROFILE_COLS.split(","))
+
+
+_MANUAL_HP_RE = re.compile(r"(\d+)")
+
+
+def _json_for_script(value) -> str:
+    """json.dumps for embedding inside a <script> block.
+
+    `{{ characters_json|safe }}` with a plain json.dumps let a character named
+    `</script><img src=x onerror=...>` close the block and run: JSON's own escaping does not
+    touch '<'. Escaping the angle brackets to \\u003c keeps the value valid JSON *and* inert in
+    HTML, which is why the template can still use |safe.
+    """
+    return (json.dumps(value)
+            .replace("<", "\\u003c")
+            .replace(">", "\\u003e")
+            .replace("\u2028", "\\u2028")
+            .replace("\u2029", "\\u2029"))
+
+
+def _npc_int(data: dict, key: str, default: int) -> int:
+    """One numeric NPC cell: coerced to int (form posts send strings) and clamped to its bounds.
+
+    `int(data.get("hp_max", 10))` raised on anything unparseable — a 500 for a typo in the DM's
+    NPC form — and let `hp_max: 1e9` through unchecked, which the initiative maths and the
+    encounter HP bar then divided by. Bounds and defaults live in services/validation.
+    """
+    try:
+        n = int(float(data.get(key, default)))
+    except (TypeError, ValueError):
+        n = default
+    return clamp_int(key, n)
+
+
+
+def _manual_npc_hp(mn: dict):
+    """Hit points for an extracted NPC, or None when the corpus gives none.
+
+    Most of npcs.json is narrative — a shopkeeper, a guard captain — and carries no stat block.
+    The old fallback invented 10 HP for every one of them, so the encounter roster shipped
+    damageable shopkeepers that could be "killed" and looted. Absent data stays absent: the
+    roster gets None, no HP bar is drawn, and the NPC cannot be added as a combatant with fake
+    hit points. Values like "18 (2d8+4)" or "unknown" parse to 18 and None respectively.
+    """
+    raw = mn.get("hp_current") or mn.get("hit_points")
+    if raw is None:
+        return None
+    m = _MANUAL_HP_RE.match(str(raw).strip())
+    if not m:
+        return None
+    hp = int(m.group(1))
+    return hp if hp > 0 else None
+
 
 
 def _campaign_characters_live(db, entries):
@@ -137,9 +191,9 @@ def dm_tools(request: Request):
         # about. scripts/generate_portraits.py skips it by name for the same reason.
         if str(mn.get("name") or "").strip() == "__sentinel__":
             continue
-        hp_raw = mn.get("hp_current") or mn.get("hit_points", "10")
-        try: hp = int(re.match(r"(\d+)", str(hp_raw)).group(1))
-        except: hp = 10
+        hp = _manual_npc_hp(mn)
+        # Kept for the narrative flag below: the raw corpus value, empty when the corpus has none.
+        hp_raw = mn.get("hp_current") or mn.get("hit_points", "")
         # Detect narrative NPCs (no combat stat block)
         scores = mn.get("ability_scores", {})
         has_stats = scores and any(v != 0 and v is not None for v in scores.values())
@@ -348,7 +402,7 @@ def dm_tools(request: Request):
                    trap_total=len(all_traps),
                    # The DM's own character roster is user data, so it stays inline here —
                    # only global reference tables may move into a cached asset.
-                   characters_json=json.dumps(characters),
+                   characters_json=_json_for_script(characters),
                    manuals_groups=manuals_groups,
                    # The spell library rides in dm-library.js too (renderSpellCards());
                    # only the count is server-rendered, so spell_total carries it.
@@ -628,6 +682,7 @@ async def dm_npc_create(request: Request):
         if err:
             return JSONResponse({"error": err}, status_code=400)
     db = get_db()
+    _hp_max = _npc_int(data, "hp_max", 10)
     cur = db.execute("""
         INSERT INTO dm_npcs (user_id, name, race, class_name, subclass, level, is_enemy, is_party_npc,
             strength, dexterity, constitution, intelligence, wisdom, charisma,
@@ -640,20 +695,20 @@ async def dm_npc_create(request: Request):
         data.get("race", "Human"),
         data.get("class_name", ""),
         data.get("subclass", ""),
-        int(data.get("level", 1)),
+        _npc_int(data, "level", 1),
         1 if data.get("is_enemy") else 0,
         1 if data.get("is_party_npc") else 0,
-        int(data.get("strength", 10)),
-        int(data.get("dexterity", 10)),
-        int(data.get("constitution", 10)),
-        int(data.get("intelligence", 10)),
-        int(data.get("wisdom", 10)),
-        int(data.get("charisma", 10)),
-        int(data.get("hp_max", 10)),
-        int(data.get("hp_current", int(data.get("hp_max", 10)))),
-        int(data.get("ac", 10)),
-        int(data.get("speed", 30)),
-        int(data.get("proficiency_bonus", 2)),
+        _npc_int(data, "strength", 10),
+        _npc_int(data, "dexterity", 10),
+        _npc_int(data, "constitution", 10),
+        _npc_int(data, "intelligence", 10),
+        _npc_int(data, "wisdom", 10),
+        _npc_int(data, "charisma", 10),
+        _hp_max,
+        _npc_int(data, "hp_current", _hp_max),
+        _npc_int(data, "ac", 10),
+        _npc_int(data, "speed", 30),
+        _npc_int(data, "proficiency_bonus", 2),
         data.get("hit_dice", "1d8"),
         json.dumps(data.get("skills", [])),
         json.dumps(data.get("features", [])),
@@ -662,7 +717,7 @@ async def dm_npc_create(request: Request):
         data.get("alignment", "True Neutral"),
         data.get("role", "NPC"),
         data.get("faction", ""),
-        int(data.get("xp_reward", 0)),
+        _npc_int(data, "xp_reward", 0),
         _portrait,
     ))
     db.commit()
@@ -705,9 +760,9 @@ def dm_npcs_list(request: Request):
         # about. scripts/generate_portraits.py skips it by name for the same reason.
         if str(mn.get("name") or "").strip() == "__sentinel__":
             continue
-        hp_raw = mn.get("hp_current") or mn.get("hit_points", "10")
-        try: hp = int(re.match(r"(\d+)", str(hp_raw)).group(1))
-        except: hp = 10
+        hp = _manual_npc_hp(mn)
+        # Kept for the narrative flag below: the raw corpus value, empty when the corpus has none.
+        hp_raw = mn.get("hp_current") or mn.get("hit_points", "")
         scores = mn.get("ability_scores", {})
         has_stats = scores and any(v != 0 and v is not None for v in scores.values())
         rows.append({
@@ -761,9 +816,9 @@ def dm_npc_detail(npc_id: int, request: Request):
             raise HTTPException(status_code=404, detail="Manual NPC not found")
         mn = manual_npcs[idx]
         scores = mn.get("ability_scores", {})
-        hp_raw = mn.get("hp_current") or mn.get("hit_points", "10")
-        try: hp = int(re.match(r"(\d+)", str(hp_raw)).group(1))
-        except: hp = 10
+        hp = _manual_npc_hp(mn)
+        # Kept for the narrative flag below: the raw corpus value, empty when the corpus has none.
+        hp_raw = mn.get("hp_current") or mn.get("hit_points", "")
         has_stats = scores and any(v != 0 and v is not None for v in scores.values())
         return JSONResponse({
             "id": npc_id,
@@ -846,6 +901,8 @@ async def dm_npc_update(npc_id: int, request: Request):
             if isinstance(v, (list, dict)):
                 v = json.dumps(v)
             updates[k] = v
+    # Same bounds as create: an HP max of 1e9 (or a negative level) must not reach the row.
+    updates = clamp_fields(updates)
 
     if "portrait_url" in updates:
         from services.images import normalize_portrait
@@ -2684,7 +2741,19 @@ async def dm_encounter_add_creature(enc_id: int, request: Request):
         db.close()
         raise HTTPException(status_code=404, detail="Encounter not found")
     init = int(data.get("initiative", 0))
-    hp = int(data.get("hp", data.get("hp_current", 10)))
+    # A narrative NPC (no stat block, no hit points) is not a combatant. int(None) here used to be
+    # unreachable because every manual NPC was given a fabricated 10 HP; now that the corpus value
+    # is honoured, refuse the add instead of inventing hit points.
+    raw_hp = data.get("hp", data.get("hp_current"))
+    if raw_hp in (None, ""):
+        db.close()
+        raise HTTPException(status_code=400,
+                            detail="This NPC has no hit points and cannot be added as a combatant")
+    try:
+        hp = int(raw_hp)
+    except (TypeError, ValueError):
+        db.close()
+        raise HTTPException(status_code=400, detail="Invalid hit points for this creature")
     hp_max = int(data.get("hp_max", hp))
     ac = int(data.get("ac", 10))
     creature_data = json.dumps({
@@ -3237,9 +3306,7 @@ async def dm_campaign_add_npc(camp_id: int, request: Request):
         idx = -npc_id - 1
         if 0 <= idx < len(manual_npcs):
             mn = manual_npcs[idx]
-            hp_raw = mn.get("hp_current") or mn.get("hit_points", "10")
-            try: hp = int(re.match(r"(\d+)", str(hp_raw)).group(1))
-            except: hp = 10
+            hp = _manual_npc_hp(mn)
             npc_data = {
                 "id": npc_id,
                 "name": mn.get("name", "Unknown"),

@@ -9,6 +9,7 @@ import pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 JS = (ROOT / "static" / "vtt.js").read_text()
+GRID = ROOT / "static" / "grid.js"
 PAGE = (ROOT / "templates" / "map.html").read_text()
 
 
@@ -26,20 +27,34 @@ def test_the_frame_transform_is_its_own_inverse():
 
 
 def test_the_lattice_maths_goes_through_the_frame():
+    """The frame transform lives in static/grid.js now, so the canvas must not reach around it."""
+    opts = JS.split("function gridMathOpts")[1].split("\n  }")[0]
+    assert "hexTurned()" in opts, "the orientation has to reach the maths"
+    assert "state.grid.size" in opts and "state.grid.ox" in opts and "state.grid.oy" in opts
+
     key = JS.split("function cellKeyFor")[1].split("function cellCentreWorld")[0]
-    assert "toHexFrame(" in key, "a world point must be mapped into lattice space before indexing"
+    assert "GridMath.hexKey(wx, wy, gridMathOpts())" in key, \
+        "a world point must be mapped into lattice space before indexing"
     centre = JS.split("function cellCentreWorld")[1].split("function hexOnPath")[0]
-    assert "fromHexFrame(" in centre, "a lattice cell must be mapped back out to be drawn"
+    assert "GridMath.hexCentre(" in centre, "a lattice cell must be mapped back out to be drawn"
     axial = JS.split("function axialToWorld")[1].split("function cellsInRect")[0]
-    assert "fromHexFrame(" in axial
+    assert "GridMath.axialToWorld(q, r, gridMathOpts())" in axial
+
+    # and the grid module must turn both directions through the same frame
+    grid = GRID.read_text()
+    assert grid.count("frame(") >= 2, "one direction would be turned and the other not"
+    assert "turned ? [y, x] : [x, y]" in grid, "a transpose, not a rotation"
 
 
 def test_the_hex_centre_respects_the_grid_offset():
     """The square branch has always added the offsets; the hex branch left them off, which put a revealed
     cell's centre somewhere other than its hex as soon as a DM nudged the grid."""
     centre = JS.split("function cellCentreWorld")[1].split("function hexOnPath")[0]
-    hex_branch = centre.split("g.type === 'hex'")[1]
-    assert "g.ox" in hex_branch and "g.oy" in hex_branch, "the hex centre must honour the grid offset"
+    assert "GridMath.hexCentre(" in centre, "the hex centre must go through the shared maths"
+    # the offsets are added AFTER the frame, in grid.js, so a turned map still honours them
+    grid = GRID.read_text()
+    body = grid.split("function axialToWorld")[1].split("function hexCentre")[0]
+    assert "opts.ox" in body and "opts.oy" in body, "the hex centre must honour the grid offset"
 
 
 def test_both_hex_shape_builders_turn_with_the_frame():

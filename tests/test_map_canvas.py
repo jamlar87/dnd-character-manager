@@ -15,6 +15,7 @@ import sqlite3
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 VTT = REPO / "static" / "vtt.js"
+GRID = REPO / "static" / "grid.js"
 TEMPLATE = REPO / "templates" / "map.html"
 
 
@@ -93,9 +94,17 @@ def test_the_renderer_saves_like_the_rest_of_the_app():
 def test_the_default_grid_and_hex_maths_are_present():
     src = VTT.read_text()
     assert "hex" in src and "square" in src
-    # the axial conversion has to use the hex radius, not the cell size, or snapping lands off-grid
-    assert "Math.sqrt(3)" in src, "pointy-top hex geometry is missing"
-    assert "cube round" in src or "var cx = q" in src, "hex rounding is missing"
+    # the axial conversion has to use the hex radius, not the cell size, or snapping lands off-grid.
+    # It lives in static/grid.js — one copy for the canvas and its Python twin — so the canvas only
+    # has to be calling it.
+    grid = GRID.read_text()
+    assert "Math.sqrt(3)" in grid, "pointy-top hex geometry is missing"
+    assert "Math.sqrt(3)" in src, "the draw loop still measures the lattice itself"
+    assert "cubeRound" in grid, "hex rounding is missing"
+    assert "R = opts.size / 2" in grid, "the radius is half the grid size, not the size"
+    for call in ("GridMath.hexSnap(", "GridMath.hexKey(", "GridMath.hexCentre(",
+                 "GridMath.axialToWorld("):
+        assert call in src, f"{call} should be the canvas' only route into the hex maths"
 
 
 def test_token_art_comes_from_the_existing_routes():
@@ -115,8 +124,11 @@ def test_the_page_stays_lightweight():
     assert len(logic) < 200, f"inline script logic belongs in the asset: {logic[:100]}"
     toolbar = (TEMPLATE.parent / "_map_toolbar.html").read_text()
     assert "vttCanvas" not in toolbar, "the toolbar partial should hold the toolbar, nothing else"
+    # the renderer's maths is a second cached asset, and it has to be parsed before the renderer
+    assert "static_asset_version('grid.js')" in page, "the grid maths would be served stale"
+    assert page.index("static/grid.js") < page.index("static/vtt.js"), "grid.js must load first"
     # counted together: splitting a file must not be a way to grow the page unnoticed
-    assert len(page) + len(toolbar) < 10000, "the map page has outgrown 'markup only'"
+    assert len(page) + len(toolbar) < 11000, "the map page has outgrown 'markup only'"
     css = re.search(r"<style>(.*?)</style>", page, re.S)
     assert css and len(css.group(1)) < 2500, "inline CSS is growing; move it to a stylesheet"
 

@@ -32,6 +32,13 @@
   function toHexFrame(x, y) { return hexTurned() ? [y, x] : [x, y]; }
   function fromHexFrame(x, y) { return hexTurned() ? [y, x] : [x, y]; }
 
+  // The lattice arithmetic itself is not in this file: static/grid.js owns it, the server's copy is
+  // services/map_grid.py, and they must answer the same for the same point. This is the one place
+  // the canvas hands that module the grid's state.
+  function gridMathOpts() {
+    return { size: state.grid.size, ox: state.grid.ox, oy: state.grid.oy, turned: hexTurned() };
+  }
+
   var state = {
     map: null,
     tokens: [],
@@ -78,16 +85,8 @@
     if (!state.snap || !state.grid.on) return [wx, wy];
     var size = state.grid.size;
     if (state.grid.type === 'hex') {
-      var R = HEX_R();
-      var hx = wx - state.grid.ox, hy = wy - state.grid.oy;
-      var q = (Math.sqrt(3) / 3 * hx - 1 / 3 * hy) / R;
-      var r = (2 / 3 * hy) / R;
-      // cube round
-      var cx = q, cz = r, cy = -cx - cz;
-      var rx = Math.round(cx), ry = Math.round(cy), rz = Math.round(cz);
-      var dx = Math.abs(rx - cx), dy = Math.abs(ry - cy), dz = Math.abs(rz - cz);
-      if (dx > dy && dx > dz) rx = -ry - rz; else if (dy > dz) ry = -rx - rz; else rz = -rx - ry;
-      return [Math.sqrt(3) * R * (rx + rz / 2) + state.grid.ox, 1.5 * R * rz + state.grid.oy];
+      // through the frame, so a dropped token lands on the hex the grid actually draws
+      return GridMath.hexSnap(wx, wy, gridMathOpts());
     }
     var col = Math.round((wx - state.grid.ox) / size - 0.5);
     var row = Math.round((wy - state.grid.oy) / size - 0.5);
@@ -316,18 +315,7 @@
   // revealed area instead of throwing it away.
   function cellKeyFor(wx, wy) {
     var g = state.grid;
-    if (g.type === 'hex') {
-      var R = g.size / 2;
-      var f = toHexFrame(wx - g.ox, wy - g.oy);
-      var hx = f[0], hy = f[1];
-      var q = (Math.sqrt(3) / 3 * hx - 1 / 3 * hy) / R;
-      var r = (2 / 3 * hy) / R;
-      var cx = q, cz = r, cy = -cx - cz;
-      var rx = Math.round(cx), ry = Math.round(cy), rz = Math.round(cz);
-      var dx = Math.abs(rx - cx), dy = Math.abs(ry - cy), dz = Math.abs(rz - cz);
-      if (dx > dy && dx > dz) rx = -ry - rz; else if (dy > dz) ry = -rx - rz; else rz = -rx - ry;
-      return rx + ',' + rz;
-    }
+    if (g.type === 'hex') return GridMath.hexKey(wx, wy, gridMathOpts());
     return Math.floor((wx - g.ox) / g.size) + ',' + Math.floor((wy - g.oy) / g.size);
   }
 
@@ -337,11 +325,8 @@
     if (isNaN(a) || isNaN(b)) return null;
     var g = state.grid;
     if (g.type === 'hex') {
-      var R = g.size / 2;
-      var w = fromHexFrame(Math.sqrt(3) * R * (a + b / 2), 1.5 * R * b);
-      // the offsets belong to the caller's frame, not the lattice's: the square branch has always added
-      // them, and leaving them off here put a revealed cell's centre somewhere other than its hex
-      return [w[0] + g.ox, w[1] + g.oy];
+      // the offsets belong to the caller's frame, not the lattice's — GridMath.axialToWorld adds them
+      return GridMath.hexCentre(key, gridMathOpts());
     }
     return [a * g.size + g.size / 2 + g.ox, b * g.size + g.size / 2 + g.oy];
   }
@@ -414,9 +399,7 @@
   // one cell radius of the marquee", the honest analogue on a honeycomb), and the circle means
   // "cells whose centre is inside the circle" on either grid — the way templates are judged.
   function axialToWorld(q, r) {
-    var R = state.grid.size / 2;
-    var w = fromHexFrame(Math.sqrt(3) * R * (q + r / 2), 1.5 * R * r);
-    return [w[0] + state.grid.ox, w[1] + state.grid.oy];
+    return GridMath.axialToWorld(q, r, gridMathOpts());
   }
 
   function cellsInRect(x0, y0, x1, y1) {

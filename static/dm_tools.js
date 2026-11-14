@@ -198,6 +198,117 @@ function dmEsc(s) {
   });
 }
 
+// ── Delegated actions for player-owned names ────────────────────────────────
+// Character and item names are player-supplied. They used to be interpolated into inline
+// handlers — onclick="previewCharSheet(${ch.id}, '${ch.name}')" — so a name containing a
+// quote closed the attribute and executed on click. Names now travel in dmEsc'd data-*
+// attributes and one listener per event type dispatches to the same functions.
+document.addEventListener('click', function(e) {
+  const actionEl = e.target.closest('[data-char-action]');
+  if (actionEl) {
+    const handlers = {
+      previewCharSheet: previewCharSheet,
+      loadCharacterSummons: loadCharacterSummons,
+      openSummonModalDM: openSummonModalDM,
+    };
+    const fn = handlers[actionEl.dataset.charAction];
+    if (fn) {
+      e.stopPropagation();
+      const args = [Number(actionEl.dataset.charId), actionEl.dataset.charName || ''];
+      if (actionEl.dataset.charLevel !== undefined) args.push(Number(actionEl.dataset.charLevel));
+      fn.apply(null, args);
+      return;
+    }
+  }
+  const npcEl = e.target.closest('[data-npc-action]');
+  if (npcEl) {
+    e.stopPropagation();
+    showNpcInfo(Number(npcEl.dataset.npcId), npcEl.dataset.npcName || '');
+    return;
+  }
+  // Monster index is a catalog slug: keep it in a data attribute so a malformed entry
+  // can't break out of a handler string.
+  const monsterEl = e.target.closest('[data-monster-action]');
+  if (monsterEl) {
+    e.stopPropagation();
+    if (monsterEl.dataset.monsterAction === 'showMonster') {
+      showMonster(monsterEl.dataset.monsterIndex || '');
+      return;
+    }
+  }
+  const addCreatureEl = e.target.closest('[data-add-creature-enc]');
+  if (addCreatureEl) {
+    e.stopPropagation();
+    addCreatureToEncounter(Number(addCreatureEl.dataset.addCreatureEnc),
+                           Number(addCreatureEl.dataset.addCreatureIdx));
+    return;
+  }
+  // Condition badges: names come from a free-text "custom condition" box, so they never
+  // travel through an inline handler. Dismiss is matched first — it sits inside the badge.
+  const condExpand = e.target.closest('[data-cond-expand-en]');
+  if (condExpand) {
+    e.stopPropagation();
+    combatToggleCondExpand(Number(condExpand.dataset.condExpandEn));
+    return;
+  }
+  const condDismiss = e.target.closest('[data-cond-dismiss-en]');
+  if (condDismiss) {
+    e.stopPropagation();
+    combatDismissCond(Number(condDismiss.dataset.condDismissEn), condDismiss.dataset.condName || '');
+    return;
+  }
+  const condEl = e.target.closest('[data-cond-en]');
+  if (condEl) {
+    e.stopPropagation();
+    combatToggleCond(e, Number(condEl.dataset.condEn), condEl.dataset.condName || '',
+                     condEl.dataset.condDesc || '', condEl);
+    return;
+  }
+  // A combatant row's detail button: no name travels, only the encounter id.
+  const detailEl = e.target.closest('.init-btn[data-en-id]');
+  if (detailEl) {
+    e.stopPropagation();
+    showCombatantDetails(Number(detailEl.dataset.enId));
+    return;
+  }
+  // Source badge anywhere in the DOM (initiative rows, library cards).
+  const srcEl = e.target.closest('.src-badge[data-src]');
+  if (srcEl) {
+    e.stopPropagation();
+    openSourceRef(srcEl.dataset.src || '');
+    return;
+  }
+  const awardEl = e.target.closest('.item-card-award[data-item-id]');
+  if (awardEl) {
+    e.stopPropagation();
+    openAwardPopover(Number(awardEl.dataset.itemId), awardEl.dataset.itemName || '',
+                     Number(awardEl.dataset.itemQty || 1));
+    return;
+  }
+  const pickerRow = e.target.closest('.picker-result-row');
+  if (pickerRow) {
+    const srcBadge = e.target.closest('.src-badge');
+    if (srcBadge) {
+      e.stopPropagation();
+      openSourceRef(srcBadge.dataset.src || '');
+      return;
+    }
+    showItemDetail(pickerRow.dataset.itemName || '');
+  }
+  // Participant row toggle: index from a data attribute, not an inline handler.
+  const participantRow = e.target.closest('[data-participant-index]');
+  if (participantRow) {
+    toggleParticipantStats(Number(participantRow.dataset.participantIndex));
+    return;
+  }
+});
+
+document.addEventListener('dragstart', function(e) {
+  const card = e.target.closest('.item-card[data-item-source="pool"]');
+  if (!card) return;
+  itemsDragStart(e, card.dataset.itemName || '', 'pool', Number(card.dataset.itemId));
+});
+
 function renderMonsterCards() {
   const grid = document.getElementById('monsterGrid');
   if (!grid || grid.dataset.rendered || !Array.isArray(window.DM_MONSTERS)) return false;
@@ -205,10 +316,10 @@ function renderMonsterCards() {
     const name = dmEsc(m.n), type = dmEsc(m.t), src = dmEsc(m.src);
     const badge = src
       ? '<div style="font-size:0.72rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer"'
-        + ' class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="' + src + '">📚 ' + src + '</div>'
+        + ' class="src-badge" data-src="' + src + '">📚 ' + src + '</div>'
       : '';
     return '<div class="monster-card" data-name="' + name.toLowerCase() + '" data-type="' + type + '"'
-      + ' data-cr="' + dmEsc(m.cr) + '" data-source="' + src + '" onclick="showMonster(\'' + dmEsc(m.i) + '\')">'
+      + ' data-cr="' + dmEsc(m.cr) + '" data-source="' + src + '" data-monster-action="showMonster" data-monster-index="' + dmEsc(m.i) + '">'
       + '<div style="display:flex;align-items:center;gap:0.4rem">'
       + charPortraitTile(null, m.n, {size: 36, src: '/api/ref-image/creature/' + encodeURIComponent(m.n) + '?size=72'})
       + '<div class="m-name">' + name + '</div></div>'
@@ -280,7 +391,7 @@ function renderSpellCards() {
     const lvl = String(s.lv) === '0' ? 'Cantrip' : 'Level ' + esc(s.lv);
     const badge = src
       ? '<div style="font-size:0.72rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer"'
-        + ' class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="' + src + '">📚 ' + src + '</div>'
+        + ' class="src-badge" data-src="' + src + '">📚 ' + src + '</div>'
       : '';
     return '<div class="monster-card" data-name="' + name.toLowerCase() + '" data-level="' + esc(s.lv) + '"'
       + ' data-school="' + esc(s.sc) + '" data-source="' + src + '" data-classes="' + esc(s.cls) + '"'
@@ -323,7 +434,7 @@ function renderTrapCards() {
     const name = esc(t.n), src = esc(t.src), type = esc(t.t), danger = esc(t.d);
     const badge = src
       ? '<div style="font-size:0.72rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer"'
-        + ' class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="' + src + '">📚 ' + src + '</div>'
+        + ' class="src-badge" data-src="' + src + '">📚 ' + src + '</div>'
       : '';
     const stats = '<span class="trap-type-badge">' + (t.t === 'magical' ? '🔮' : '⚙️') + ' ' + esc(dmCap(t.t)) + '</span>'
       + (t.sdc ? '<span class="trap-stat">DC ' + esc(t.sdc) + ' ' + esc(t.sab) + '</span>' : '')
@@ -372,7 +483,7 @@ function renderManualNpcRows() {
       : '<span style="font-size:0.8rem">HP ' + esc(n.hp) + '/' + esc(n.hpmax) + ' AC ' + esc(n.ac) + '</span>';
     const srcBadge = n.src
       ? '<span style="font-size:0.7rem;color:var(--text-muted);cursor:pointer" class="src-badge"'
-        + ' onclick="openSourceRef(this.dataset.src)" data-src="' + esc(n.src) + '">📚 ' + esc(n.src) + '</span>'
+        + ' data-src="' + esc(n.src) + '">📚 ' + esc(n.src) + '</span>'
       : '';
     const notes = n.notes
       ? '<details class="npc-desc-toggle" style="margin-top:0.3rem"><summary style="cursor:pointer;font-size:0.75rem;'
@@ -437,7 +548,7 @@ async function showMonster(index) {
 
     let html = refArtImg('creature', m.name, 300) + `<h2 style="margin:0">${m.name}</h2>
       <p style="color:var(--text-muted);margin:0.3rem 0">${m.size} ${m.type} · ${m.alignment || 'Unaligned'}</p>
-      ${m.source ? `<p style="font-size:0.75rem;color:var(--text-muted);margin:0 0 0.3rem 0;cursor:pointer" class="src-badge" onclick="openSourceRef(this.textContent.replace('📚 ',''))">📚 ${m.source}</p>` : ''}
+      ${m.source ? `<p style="font-size:0.75rem;color:var(--text-muted);margin:0 0 0.3rem 0;cursor:pointer" class="src-badge" data-src="${dmEsc(m.source)}">📚 ${m.source}</p>` : ''}
       <div style="display:flex;gap:1rem;margin:0.5rem 0;font-size:0.9rem;flex-wrap:wrap">
         <span><strong>AC</strong> ${ac}</span>
         <span><strong>HP</strong> ${m.hit_points} (${m.hit_dice})</span>
@@ -612,7 +723,7 @@ async function showSpell(index) {
 
     let html = `<h2 style="margin:0">${s.name}</h2>
       <p style="color:var(--text-muted);margin:0.3rem 0">${s.level_label === 'Cantrip' ? 'Cantrip' : 'Level ' + s.level_label} · ${s.school_name}${s.attack_summary ? ' · ' + s.attack_summary : ''}</p>
-      ${s.source ? `<p style="font-size:0.75rem;color:var(--text-muted);margin:0 0 0.3rem 0;cursor:pointer" class="src-badge" onclick="openSourceRef(this.textContent.replace('📚 ',''))">📚 ${s.source}</p>` : ''}
+      ${s.source ? `<p style="font-size:0.75rem;color:var(--text-muted);margin:0 0 0.3rem 0;cursor:pointer" class="src-badge" data-src="${dmEsc(s.source)}">📚 ${s.source}</p>` : ''}
       <div style="display:flex;gap:1rem;margin:0.5rem 0;font-size:0.9rem;flex-wrap:wrap">
         <span><strong>Casting</strong> ${s.casting_time}</span>
         <span><strong>Range</strong> ${s.range}</span>
@@ -806,7 +917,7 @@ async function generateAiEncounter(event) {
     html += `<div style="margin:0.5rem 0"><strong>Composition:</strong></div>`;
     enc.composition.forEach(m => {
       const srcBadge = m.source
-        ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${m.source.replace(/'/g, "\\'")}', '')" title="${m.source}" style="cursor:pointer;background:var(--accent2);border:1px solid var(--border);font-size:0.7rem;padding:0.1rem 0.4rem;border-radius:4px;white-space:nowrap;flex-shrink:0;color:var(--text);display:inline-flex;align-items:center;gap:0.15rem">📚</span>`
+        ? ` <span class="src-badge" data-src="${dmEsc(m.source)}" title="${m.source}" style="cursor:pointer;background:var(--accent2);border:1px solid var(--border);font-size:0.7rem;padding:0.1rem 0.4rem;border-radius:4px;white-space:nowrap;flex-shrink:0;color:var(--text);display:inline-flex;align-items:center;gap:0.15rem">📚</span>`
         : '';
       html += `<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:0.4rem 0.5rem;background:var(--bg);border-radius:4px;margin-bottom:0.3rem;flex-wrap:wrap;gap:0.3rem">
         <span style="flex:1 1 auto;min-width:0;overflow-wrap:break-word;word-break:break-word;display:flex;align-items:center;gap:0.25rem;flex-wrap:wrap"><strong>${m.count}× ${m.name}</strong>${srcBadge}<span style="color:var(--text-muted);font-size:0.8rem;white-space:nowrap">${m.size} ${m.type} · CR ${m.cr}</span></span>
@@ -1170,7 +1281,7 @@ async function openEncounter(id) {
         ? '<span class="badge badge-accent" style="font-size:0.68rem">MON</span>'
         : c.id < 0 ? '<span class="badge badge-muted" style="font-size:0.68rem">📖</span>' : '';
       const sourceBadge = c._kind === 'monster' && c._raw && c._raw.source
-        ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef('${c._raw.source.replace(/'/g, "\\'")}')" style="font-size:0.72rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${c._raw.source}">📚</span> `
+        ? `<span class="src-badge" data-src="${dmEsc(c._raw.source)}" style="font-size:0.72rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${c._raw.source}">📚</span> `
         : '';
       const tagBadge = c._kind === 'monster' && c._raw && c._raw.tags && c._raw.tags.length
         ? c._raw.tags.map(t => `<span class="badge badge-muted" style="font-size:0.65rem;opacity:0.8">${t}</span>`).join(' ')
@@ -1186,9 +1297,9 @@ async function openEncounter(id) {
         style="display:flex;align-items:center;gap:0.3rem;padding:0.35rem 0.5rem;background:var(--bg);border-radius:4px;margin-bottom:0.25rem">
         ${c._kind === 'npc' ? charPortraitTile(c.id, c.name, {size: 24, kind: 'npc', hasPortrait: c.has_portrait}) : ''}
         ${c._kind !== 'npc' ? charPortraitTile(null, c.name, {size: 24, src: '/api/ref-image/creature/' + encodeURIComponent(c.name) + '?size=48'}) : ''}
-        ${c._kind === 'monster' && c._raw && c._raw.index ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showMonster('${c._raw.index}')" title="Monster details" style="font-size:0.65rem;padding:0.15rem 0.35rem;flex-shrink:0">ℹ️</button>` : (c._kind === 'npc' ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNpcInfo(${c.id}, '${c.name.replace(/'/g, "\\'")}')" title="NPC details" style="font-size:0.65rem;padding:0.15rem 0.35rem;flex-shrink:0">ℹ️</button>` : '')}
+        ${c._kind === 'monster' && c._raw && c._raw.index ? `<button class="btn btn-outline btn-sm" data-monster-action="showMonster" data-monster-index="${dmEsc(c._raw.index)}" title="Monster details" style="font-size:0.65rem;padding:0.15rem 0.35rem;flex-shrink:0">ℹ️</button>` : (c._kind === 'npc' ? `<button class="btn btn-outline btn-sm" data-npc-action="showNpcInfo" data-npc-id="${Number(c.id)}" data-npc-name="${dmEsc(c.name || '')}" title="NPC details" style="font-size:0.65rem;padding:0.15rem 0.35rem;flex-shrink:0">ℹ️</button>` : '')}
         <span style="font-size:0.8rem;flex:1 1 auto;min-width:0;overflow-wrap:break-word;word-break:break-word">${kindBadge}${sourceBadge}${tagBadge}<strong>${c.name}</strong> <span style="color:var(--text-muted)">${detailDisplay} · ${hpDisplay}</span></span>
-        <button class="btn btn-primary btn-sm" style="flex-shrink:0" onclick="addCreatureToEncounter(${id}, ${ci})">+ Add</button>
+        <button class="btn btn-primary btn-sm" style="flex-shrink:0" data-add-creature-enc="${Number(id)}" data-add-creature-idx="${Number(ci)}">+ Add</button>
       </div>`;
     });
     html += `</div></div>
@@ -1221,7 +1332,7 @@ async function openEncounter(id) {
         const hasSpells = p.class_name && ['Bard','Cleric','Druid','Paladin','Ranger','Sorcerer','Warlock','Wizard','Artificer'].includes(p.class_name);
         const isCaster = hasSpells && Object.keys(npcSlots).length > 0;
 
-        html += `<div class="participant-row${isDefeated ? ' defeated' : ''}" id="participant-row-${p.id}" data-name="${dmEsc(p.npc_name || p.name || '')}" onclick="toggleParticipantStats(${idx})">
+        html += `<div class="participant-row${isDefeated ? ' defeated' : ''}" id="participant-row-${p.id}" data-name="${dmEsc(p.npc_name || p.name || '')}" data-participant-index="${Number(idx)}">
           <div style="flex:1;min-width:0">
             <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap">
               ${p.npc_id === -1
@@ -1244,7 +1355,7 @@ async function openEncounter(id) {
               <button class="defeat-btn ${isDefeated ? 'dead' : 'alive'}" onclick="event.stopPropagation();toggleDefeated(${id}, ${p.id}, ${idx})">${isDefeated ? '✓ Alive' : '💀 Defeat'}</button>
               <button class="btn btn-outline btn-sm p-locate" onclick="event.stopPropagation();focusTrackerRow(${idx})" title="Jump to this combatant (↑/↓ to move, Enter to open)">🎯</button>
               <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();removeNpcFromEncounter(${id}, ${p.id})" title="Remove">✕</button>
-              ${p._monster_index ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showMonster('${p._monster_index}')" title="Monster details" style="font-size:0.7rem;padding:0.15rem 0.4rem">ℹ️</button>` : (p.npc_id && p.npc_id > 0 ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNpcEditor(${p.npc_id})" title="NPC details" style="font-size:0.7rem;padding:0.15rem 0.4rem">ℹ️</button>` : '')}
+              ${p._monster_index ? `<button class="btn btn-outline btn-sm" data-monster-action="showMonster" data-monster-index="${dmEsc(p._monster_index)}" title="Monster details" style="font-size:0.7rem;padding:0.15rem 0.4rem">ℹ️</button>` : (p.npc_id && p.npc_id > 0 ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNpcEditor(${p.npc_id})" title="NPC details" style="font-size:0.7rem;padding:0.15rem 0.4rem">ℹ️</button>` : '')}
             </div>
           </div>
         </div>
@@ -2349,7 +2460,7 @@ async function openCampaign(id) {
     allChars.forEach(ch => {
       const inCamp = chars.some(c => c.id === ch.id);
       if (!inCamp) {
-        html += `<option value="${ch.id}">${ch.name} (L${ch.level} ${ch.race} ${ch.class_name})</option>`;
+        html += `<option value="${ch.id}">${dmEsc(ch.name)} (L${ch.level} ${dmEsc(ch.race)} ${dmEsc(ch.class_name)})</option>`;
       }
     });
     html += `</select>
@@ -2369,11 +2480,11 @@ async function openCampaign(id) {
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.3rem">
             <span style="display:flex;align-items:center;gap:0.45rem;min-width:0;flex-wrap:wrap">
               ${charPortraitTile(ch.id, ch.name, {size: 32, hasPortrait: ch.has_portrait})}
-              <strong style="cursor:pointer" onclick="previewCharSheet(${ch.id}, '${ch.name}')" title="View character sheet">${ch.name}</strong>
-              <span style="color:var(--text-muted);font-size:0.85rem">L${ch.level} ${ch.race}${ch.subrace ? ' (' + ch.subrace + ')' : ''} ${ch.class_name}${ch.subclass ? ' — ' + ch.subclass : ''}</span>
-              <span class="badge badge-muted" style="font-size:0.65rem">${ch.status || 'active'}</span>
+              <strong style="cursor:pointer" data-char-action="previewCharSheet" data-char-id="${ch.id}" data-char-name="${dmEsc(ch.name)}" title="View character sheet">${dmEsc(ch.name)}</strong>
+              <span style="color:var(--text-muted);font-size:0.85rem">L${ch.level} ${dmEsc(ch.race)}${ch.subrace ? ' (' + dmEsc(ch.subrace) + ')' : ''} ${dmEsc(ch.class_name)}${ch.subclass ? ' — ' + dmEsc(ch.subclass) : ''}</span>
+              <span class="badge badge-muted" style="font-size:0.65rem">${dmEsc(ch.status || 'active')}</span>
             </span>
-            <button class="btn btn-outline btn-sm" onclick="previewCharSheet(${ch.id}, '${ch.name}')" title="View sheet">📋</button>
+            <button class="btn btn-outline btn-sm" data-char-action="previewCharSheet" data-char-id="${ch.id}" data-char-name="${dmEsc(ch.name)}" title="View sheet">📋</button>
             <button class="btn btn-danger btn-sm" onclick="removeCharFromCampaign(${camp.id}, ${ch.id})">✕</button>
           </div>
           <div style="display:flex;gap:0.75rem;margin-top:0.3rem;flex-wrap:wrap;align-items:center;font-size:0.8rem">
@@ -2703,20 +2814,19 @@ function renderItemsPanel(items, chars) {
     items.forEach(item => {
       const qtyBadge = `<span class="item-qty" onclick="event.stopPropagation();dmToggleItemExpand(this.closest('.item-card').querySelector('.item-expand-btn'))" title="Click to expand" style="cursor:pointer">${item.qty}</span>`;
       const gpInfo = item.gp_value > 0 ? `<span style="font-size:0.68rem;color:#ffd700;margin-left:0.2rem">${item.gp_value}gp</span>` : '';
-      const srcBadge = item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.68rem;cursor:pointer;opacity:0.6" title="Click to open ${item.source}">📚</span>` : '';
+      const srcBadge = item.source ? ` <span class="src-badge" data-src="${dmEsc(item.source)}" style="font-size:0.68rem;cursor:pointer;opacity:0.6" title="Click to open source">📚</span>` : '';
       poolHtml += `<div class="item-card" draggable="true"
-        data-item-name="${item.name.replace(/"/g, '&quot;')}" data-item-id="${item.id}"
-        ondragstart="itemsDragStart(event, '${item.name.replace(/'/g, "\\'")}', 'pool', ${item.id})"
+        data-item-name="${dmEsc(item.name)}" data-item-id="${item.id}" data-item-source="pool"
         ondragend="itemsDragEnd(event)">
         <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();dmToggleItemExpand(this)" title="Expand">▶</button>
         <span class="drag-handle" title="Drag to award">⋮⋮</span>
         ${charPortraitTile(null, item.name, {size: 24, src: '/api/ref-image/item/' + encodeURIComponent(item.name) + '?size=48'})}
-        <span class="item-card-name" style="cursor:default">${item.name}</span>${srcBadge}${qtyBadge}${gpInfo}
+        <span class="item-card-name" style="cursor:default">${dmEsc(item.name)}</span>${srcBadge}${qtyBadge}${gpInfo}
         <span class="wpn-badge item-tag" style="display:none">⚔️</span>
         <span class="arm-badge item-tag" style="display:none">🛡️</span>
-        <button class="item-card-btn item-card-award" onclick="event.stopPropagation();openAwardPopover(${item.id}, '${item.name.replace(/'/g, "\\'")}', ${item.qty})" title="Award to character">🎁</button>
+        <button class="item-card-btn item-card-award" data-item-id="${item.id}" data-item-name="${dmEsc(item.name)}" data-item-qty="${item.qty}" title="Award to character">🎁</button>
         <button class="item-card-btn item-card-del" onclick="deleteTeamItem(${item.id})" title="Remove">✕</button>
-        <div class="item-detail" data-item-name="${item.name.replace(/"/g, '&quot;')}"></div>
+        <div class="item-detail" data-item-name="${dmEsc(item.name)}"></div>
       </div>`;
     });
     poolHtml += '</div>';
@@ -2731,13 +2841,14 @@ function renderItemsPanel(items, chars) {
     chars.forEach(ch => {
       partyHtml += `<div style="margin-bottom:0.5rem">
         <div class="party-member-label">
-          <strong>${ch.name}</strong>
-          <span style="color:var(--text-muted);font-size:0.75rem">L${ch.level} ${ch.class_name}</span>
+          <strong>${dmEsc(ch.name)}</strong>
+          <span style="color:var(--text-muted);font-size:0.75rem">L${ch.level} ${dmEsc(ch.class_name)}</span>
         </div>
         <div class="party-drop-zone"
           ondragover="itemsDragOver(event)"
           ondragleave="itemsDragLeave(event)"
-          ondrop="itemsDrop(event, ${ch.id}, '${ch.name.replace(/'/g, "\\'")}')"
+          ondrop="itemsDrop(event, ${ch.id}, this.dataset.charName)"
+          data-char-name="${dmEsc(ch.name)}"
           id="party-zone-${ch.id}">
           <span style="color:var(--text-muted);font-size:0.7rem">Drop items here to award</span>
         </div>
@@ -2941,14 +3052,14 @@ function renderPickerResults(items) {
     return;
   }
   results.innerHTML = items.map(item =>
-    `<div style="padding:0.25rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);overflow-wrap:break-word;word-break:break-word" onclick="showItemDetail('${item.name.replace(/'/g, "\\'")}')">
+    `<div class="picker-result-row" data-item-name="${dmEsc(item.name)}" style="padding:0.25rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);overflow-wrap:break-word;word-break:break-word">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem">
         ${charPortraitTile(null, item.name, {size: 28, src: '/api/ref-image/item/' + encodeURIComponent(item.name) + '?size=56'})}
-        <span style="flex:1;min-width:0;font-size:0.8rem;color:var(--text)">${item.name}${item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.72rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${item.source}">📚 ${item.source}</span>` : ''}</span>
+        <span style="flex:1;min-width:0;font-size:0.8rem;color:var(--text)">${dmEsc(item.name)}${item.source ? ` <span class="src-badge" data-src="${dmEsc(item.source)}" style="font-size:0.72rem;color:var(--text-muted);opacity:0.7;cursor:pointer">📚 ${dmEsc(item.source)}</span>` : ''}</span>
         <div style="display:flex;align-items:center;gap:0.3rem;flex-shrink:0">
-          <span style="font-size:0.7rem;color:var(--text-muted);white-space:nowrap">${item.type}${item.rarity ? ' · '+item.rarity : ''}</span>
-          ${item.dice ? `<span style="font-size:0.65rem;font-weight:600;color:var(--accent)">${item.dice}</span>` : ''}
-          <span style="font-size:0.75rem;color:var(--accent);cursor:pointer;padding:0.15rem 0.4rem;border-radius:3px;user-select:none" onclick="event.stopPropagation();event.preventDefault();showItemDetail('${item.name.replace(/'/g, "\\'")}')" onmousedown="event.stopPropagation()" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='transparent'">📖</span>
+          <span style="font-size:0.7rem;color:var(--text-muted);white-space:nowrap">${dmEsc(item.type)}${item.rarity ? ' · '+dmEsc(item.rarity) : ''}</span>
+          ${item.dice ? `<span style="font-size:0.65rem;font-weight:600;color:var(--accent)">${dmEsc(item.dice)}</span>` : ''}
+          <span style="font-size:0.75rem;color:var(--accent);cursor:pointer;padding:0.15rem 0.4rem;border-radius:3px;user-select:none" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='transparent'">📖</span>
         </div>
       </div>
     </div>`
@@ -2970,7 +3081,7 @@ async function showItemDetail(name) {
 
     let html = refArtImg('item', it.name || name, 240) + `<h2 style="margin:0">${it.name}</h2>
       <p style="color:var(--text-muted);margin:0.3rem 0">${it.type || 'Item'}${it.rarity ? ` · <span style="color:${rarityColor};font-weight:600">${it.rarity}</span>` : ''}${it.requires_attunement ? ' · <span style="color:var(--warn)">Requires Attunement</span>' : ''}</p>
-      ${it.source ? `<p style="font-size:0.75rem;color:var(--text-muted);margin:0 0 0.3rem 0;cursor:pointer" class="src-badge" onclick="openSourceRef(this.textContent.replace('📚 ',''))">📚 ${it.source}</p>` : ''}
+      ${it.source ? `<p style="font-size:0.75rem;color:var(--text-muted);margin:0 0 0.3rem 0;cursor:pointer" class="src-badge" data-src="${dmEsc(it.source)}">📚 ${it.source}</p>` : ''}
       <div style="display:flex;gap:1rem;margin:0.5rem 0;font-size:0.9rem;flex-wrap:wrap">
         ${it.cost ? `<span><strong>Cost</strong> ${it.cost}</span>` : ''}
         ${it.weight ? `<span><strong>Weight</strong> ${it.weight} lb.</span>` : ''}
@@ -3047,8 +3158,8 @@ function openAwardPopover(itemId, itemName, itemQty) {
     <div class="award-char-card" data-char-id="${c.id}" onclick="selectAwardChar(this, ${c.id})">
       <span style="font-size:1.1rem">👤</span>
       <div style="flex:1;min-width:0">
-        <div style="font-weight:600;font-size:0.85rem;overflow-wrap:break-word;word-break:break-word">${c.name}</div>
-        <div style="font-size:0.7rem;color:var(--text-muted)">L${c.level} ${c.class_name}${c.race ? ' · ' + c.race : ''}</div>
+        <div style="font-weight:600;font-size:0.85rem;overflow-wrap:break-word;word-break:break-word">${dmEsc(c.name)}</div>
+        <div style="font-size:0.7rem;color:var(--text-muted)">L${c.level} ${dmEsc(c.class_name)}${c.race ? ' · ' + dmEsc(c.race) : ''}</div>
       </div>
     </div>
   `).join('');
@@ -3178,7 +3289,7 @@ function renderLootStaging(hoard, bracket) {
         <span class="wpn-badge item-tag" style="display:none">⚔️</span>
         <span class="arm-badge item-tag" style="display:none">🛡️</span>
         <span style="font-size:0.72rem;color:var(--text-muted);margin-left:0.2rem">${m.rarity}</span>
-        ${m.source ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef('${m.source.replace(/'/g, "\\'")}')" style="font-size:0.68rem;color:var(--text-muted);opacity:0.6;margin-left:0.2rem;cursor:pointer" title="Click to open ${m.source}">📚</span>` : ''}
+        ${m.source ? `<span class="src-badge" data-src="${dmEsc(m.source)}" style="font-size:0.68rem;color:var(--text-muted);opacity:0.6;margin-left:0.2rem;cursor:pointer" title="Click to open ${m.source}">📚</span>` : ''}
         <button class="item-card-btn" style="color:var(--success)" onclick="keepLootItem('magic', ${i})" title="Keep">📥</button>
         <div class="item-detail">
           <span class="detail-label">Rarity</span> ${m.rarity}${attune ? '<br><span class="detail-label">Attunement</span>' + attune : ''}
@@ -3238,7 +3349,7 @@ async function dmToggleItemExpand(btn) {
       descHtml = `<p style="margin:0;font-size:0.7rem;line-height:1.4;white-space:normal;overflow:visible">${data.description}</p>`;
       if (data.curse) descHtml += _dmCurseSectionHtml(data.curse);
       if (data.rarity) descHtml += `<br><span class="detail-label">Rarity</span> ${data.rarity}`;
-      if (data.source) descHtml += ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${data.source.replace(/'/g, "\\'")}')" style="font-size:0.72rem;cursor:pointer;opacity:0.7" title="Click to open ${data.source}">📚 ${data.source}</span>`;
+      if (data.source) descHtml += ` <span class="src-badge" data-src="${dmEsc(data.source)}" style="font-size:0.72rem;cursor:pointer;opacity:0.7" title="Click to open ${data.source}">📚 ${data.source}</span>`;
     } else {
       descHtml = `<span class="detail-label">No description available</span>`;
     }
@@ -3694,8 +3805,8 @@ function renderPlayersPanel() {
       <div style="display:flex;align-items:center;gap:0.4rem">
         ${charPortraitTile(p.char_id, p.name, {size: 28, hasPortrait: p.has_portrait})}
         <div class="init-info" style="flex:1;min-width:0">
-          <div class="init-name">${p.name} <span class="badge" style="background:var(--accent2);color:var(--text);font-size:0.72rem;flex-shrink:0">PC</span></div>
-          <div class="init-meta">L${p.level} ${p.class_name} · AC ${p.ac}</div>
+          <div class="init-name">${dmEsc(p.name)} <span class="badge" style="background:var(--accent2);color:var(--text);font-size:0.72rem;flex-shrink:0">PC</span></div>
+          <div class="init-meta">L${p.level} ${dmEsc(p.class_name)} · AC ${p.ac}</div>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap">
@@ -3709,9 +3820,9 @@ function renderPlayersPanel() {
         </div>
         <div style="flex:1"></div>
         <button class="init-btn" onclick="addPlayerToInitiative(${p.char_id})" title="Add to initiative" style="flex-shrink:0;color:var(--accent)">➕</button>
-        <button class="init-btn" onclick="previewCharSheet(${p.char_id}, '${p.name}')" title="View sheet" style="flex-shrink:0">📋</button>
-        <button class="init-btn" onclick="loadCharacterSummons(${p.char_id}, '${p.name}')" title="Load summons into combat" style="flex-shrink:0;color:var(--warn)">🐾</button>
-        <button class="init-btn" onclick="openSummonModalDM(${p.char_id}, '${p.name}', ${p.level || 1})" title="Quick add summon mid-combat" style="flex-shrink:0;color:var(--accent)">⚡</button>
+        <button class="init-btn" data-char-action="previewCharSheet" data-char-id="${p.char_id}" data-char-name="${dmEsc(p.name)}" title="View sheet" style="flex-shrink:0">📋</button>
+        <button class="init-btn" data-char-action="loadCharacterSummons" data-char-id="${p.char_id}" data-char-name="${dmEsc(p.name)}" title="Load summons into combat" style="flex-shrink:0;color:var(--warn)">🐾</button>
+        <button class="init-btn" data-char-action="openSummonModalDM" data-char-id="${p.char_id}" data-char-name="${dmEsc(p.name)}" data-char-level="${p.level || 1}" title="Quick add summon mid-combat" style="flex-shrink:0;color:var(--accent)">⚡</button>
       </div>
     </div>`;
   }).join('');
@@ -4015,7 +4126,9 @@ function renderInitiativeTrack() {
             ? charPortraitTile(p.char_id || p.en_id, p.name, {size: 26, hasPortrait: p.has_portrait})
             : charPortraitTile(p.npc_id > 0 ? p.npc_id : null, p.name, {size: 26, kind: 'npc', hasPortrait: p.npc_has_portrait}))}
         <div class="init-name-wrap" style="min-width:0;flex:1 1 auto">
-        <div class="init-name">${p.name} ${badge} <button class="init-btn" onclick="event.stopPropagation();${p.is_player || p.char_id ? `previewCharSheet(${p.char_id || p.en_id}, '${p.name.replace(/'/g, "\\'")}')` : `showCombatantDetails(${p.en_id})`}" title="View details" style="font-size:0.65rem;padding:0 0.2rem">📋</button></div>
+        <div class="init-name">${dmEsc(p.name || '')} ${badge} <button class="init-btn" ${p.is_player || p.char_id
+          ? `data-char-action="previewCharSheet" data-char-id="${Number(p.char_id || p.en_id)}" data-char-name="${dmEsc(p.name || '')}"`
+          : `data-en-id="${Number(p.en_id)}"`} title="View details" style="font-size:0.65rem;padding:0 0.2rem">📋</button></div>
         <div class="init-meta">${cls} · AC ${p.ac}</div>
         </div>
       </div>
@@ -4034,10 +4147,10 @@ function renderInitiativeTrack() {
               const style = CONDITION_COLORS[c.name] || '';
               const bg = style ? style.split(';')[0] : 'var(--accent)';
               const fg = style ? (style.split(';')[1]||'color:#fff') : 'color:#fff';
-              return `<span class="cond-badge" style="background:${bg};${fg}" onclick="event.stopPropagation();combatToggleCond(event,${p.en_id},'${c.name}','${(c.description||'').replace(/'/g,"\\'")}')">${c.name}<span class="dismiss" onclick="event.stopPropagation();combatDismissCond(${p.en_id},'${c.name}')">✕</span></span>`;
+              return `<span class="cond-badge" style="background:${bg};${fg}" data-cond-en="${Number(p.en_id)}" data-cond-name="${dmEsc(c.name)}" data-cond-desc="${dmEsc(c.description||'')}">${dmEsc(c.name)}<span class="dismiss" data-cond-dismiss-en="${Number(p.en_id)}" data-cond-name="${dmEsc(c.name)}">✕</span></span>`;
             }).join('');
           }
-          return conds.length ? `<span class="cond-badge" style="background:var(--bg);color:var(--text-muted);border:1px dashed var(--border);cursor:pointer" onclick="event.stopPropagation();combatToggleCondExpand(${p.en_id})">${conds.length} condition${conds.length!==1?'s':''}</span>` : '';
+          return conds.length ? `<span class="cond-badge" style="background:var(--bg);color:var(--text-muted);border:1px dashed var(--border);cursor:pointer" data-cond-expand-en="${Number(p.en_id)}">${conds.length} condition${conds.length!==1?'s':''}</span>` : '';
         })()}
       </div>
       <div class="init-actions">
@@ -4930,7 +5043,7 @@ function renderBenchedNpcs() {
       style="cursor:grab;opacity:0.7;border-style:dashed">
       <div class="init-turn-marker" style="background:var(--text-muted);color:var(--bg)">⏸</div>
       <div class="init-info" style="flex:1">
-        <div class="init-name">${p.name} ${badge} <button class="init-btn" onclick="event.stopPropagation();showCombatantDetails(${p.en_id})" title="View details" style="font-size:0.65rem;padding:0 0.2rem">📋</button></div>
+        <div class="init-name">${dmEsc(p.name || '')} ${badge} <button class="init-btn" data-en-id="${Number(p.en_id)}" title="View details" style="font-size:0.65rem;padding:0 0.2rem">📋</button></div>
         <div class="init-meta">AC ${p.ac} · HP ${p.hp_current}/${p.hp_max}</div>
       </div>
       <button class="init-btn" onclick="event.stopPropagation();unbenchCombatant(${p.en_id})" title="Return to combat" style="color:var(--success)">▶</button>
@@ -5063,17 +5176,17 @@ function filterCombatCreatures() {
       detailDisplay = `${c.race || ''} L${c.level} ${c.class_name || ''}${subStr} · AC ${c.ac}`;
       hpDisplay = `HP ${c.hp_current}/${c.hp_max}`;
       sourceHtml = '';
-      infoBtn = `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();previewCharSheet(${c.char_id},'${c.name.replace(/'/g, "\\'")}')" title="View character sheet" style="font-size:0.72rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>`;
+      infoBtn = `<button class="btn btn-outline btn-sm" data-char-action="previewCharSheet" data-char-id="${Number(c.char_id)}" data-char-name="${dmEsc(c.name || '')}" title="View character sheet" style="font-size:0.72rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>`;
     } else if (c._kind === 'monster') {
       crDisplay = `CR ${c.level} · `;
       typeDisplay = c._type ? `${c._type.charAt(0).toUpperCase() + c._type.slice(1)} · ` : '';
       detailDisplay = `${crDisplay}${typeDisplay}AC ${c.ac} · ${c.race || '?'}`;
       hpDisplay = `HP ${c.hp_current}`;
       sourceHtml = c._raw?.source
-        ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${c._raw.source.replace(/'/g, "\\'")}')" style="font-size:0.68rem;cursor:pointer;opacity:0.7" title="Click to open ${c._raw.source}">📚</span>`
+        ? ` <span class="src-badge" data-src="${dmEsc(c._raw.source)}" style="font-size:0.68rem;cursor:pointer;opacity:0.7" title="Click to open ${dmEsc(c._raw.source)}">📚</span>`
         : '';
       infoBtn = c._raw?.index
-        ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showMonster('${c._raw.index}')" title="Monster details" style="font-size:0.72rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>`
+        ? `<button class="btn btn-outline btn-sm" data-monster-action="showMonster" data-monster-index="${dmEsc(c._raw.index)}" title="Monster details" style="font-size:0.72rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>`
         : '';
     } else {
       // NPC
@@ -5081,7 +5194,7 @@ function filterCombatCreatures() {
       hpDisplay = `HP ${c.hp_current}/${c.hp_max}`;
       sourceHtml = '';
       infoBtn = c.id > 0
-        ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNpcInfo(${c.id}, '${c.name.replace(/'/g, "\\'")}')" title="NPC details" style="font-size:0.72rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>`
+        ? `<button class="btn btn-outline btn-sm" data-npc-action="showNpcInfo" data-npc-id="${Number(c.id)}" data-npc-name="${dmEsc(c.name || '')}" title="NPC details" style="font-size:0.72rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>`
         : '';
     }
     html += `<div style="display:flex;align-items:center;gap:0.3rem;padding:0.3rem 0.5rem;background:var(--bg);border-radius:4px"
@@ -5299,13 +5412,27 @@ function combatToggleCondExpand(enId) {
   renderInitiativeTrack();
 }
 
-function combatToggleCond(event, enId, name, desc) {
+function combatToggleCond(event, enId, name, desc, anchorEl) {
   document.querySelectorAll('.cond-detail-popout').forEach(el => el.remove());
-  const badge = event.currentTarget;
+  const badge = anchorEl || event.currentTarget;
   const popout = document.createElement('div');
   popout.className = 'cond-popout cond-detail-popout';
   const style = CONDITION_COLORS[name] || 'var(--accent)';
-  popout.innerHTML = '<strong style="color:'+style.split(';')[0]+'">'+name+'</strong><div style="font-size:0.65rem;color:var(--text-muted);margin:0.3rem 0;line-height:1.3">'+desc+'</div><button style="display:block;margin-top:0.4rem;width:100%;padding:0.2rem;border:1px solid var(--danger);border-radius:4px;background:transparent;color:var(--danger);cursor:pointer;font-size:0.72rem" onclick="combatDismissCond('+enId+',\''+name+'\');this.parentElement.remove()">Remove</button>';
+  // Name and description are DM-typed free text ("custom condition" box): build nodes, not markup.
+  const popTitle = document.createElement('strong');
+  popTitle.style.color = style.split(';')[0];
+  popTitle.textContent = name;
+  const popDesc = document.createElement('div');
+  popDesc.style.cssText = 'font-size:0.65rem;color:var(--text-muted);margin:0.3rem 0;line-height:1.3';
+  popDesc.textContent = desc || '';
+  const popRemove = document.createElement('button');
+  popRemove.style.cssText = 'display:block;margin-top:0.4rem;width:100%;padding:0.2rem;border:1px solid var(--danger);border-radius:4px;background:transparent;color:var(--danger);cursor:pointer;font-size:0.72rem';
+  popRemove.textContent = 'Remove';
+  popRemove.addEventListener('click', function () {
+    combatDismissCond(enId, name);
+    popout.remove();
+  });
+  popout.append(popTitle, popDesc, popRemove);
   popout.style.cssText = 'position:absolute;z-index:1001;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:0.6rem;min-width:180px;max-width:250px;box-shadow:0 4px 12px rgba(0,0,0,0.3);font-size:0.7rem';
   badge.parentElement.style.position = 'relative';
   badge.parentElement.appendChild(popout);
@@ -5708,10 +5835,10 @@ function cbShowSuccess(charId, name) {
   document.getElementById('cbBody').innerHTML = `
     <div class="cb-result">
       <div class="cb-success-icon">✅</div>
-      <h3 style="margin:0.5rem 0">${name}</h3>
+      <h3 style="margin:0.5rem 0">${dmEsc(name)}</h3>
       <p style="color:var(--text-muted)">Successfully built as a full character!</p>
       <div style="display:flex;gap:0.5rem;justify-content:center;margin-top:1rem">
-        <button class="btn btn-primary" onclick="previewCharSheet(${charId}, '${name.replace(/'/g, "\\'")}')">📋 View Sheet</button>
+        <button class="btn btn-primary" data-char-action="previewCharSheet" data-char-id="${Number(charId)}" data-char-name="${dmEsc(name)}">📋 View Sheet</button>
         <button class="btn btn-outline" onclick="closeModal('charBuilderModal')">Close</button>
       </div>
     </div>`;

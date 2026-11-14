@@ -130,5 +130,6 @@
 </div>
 
 <script>window.MAP_ID = {{ the_map.id }}; window.MAP_DATA = {{ map_json|safe }};</script>
+<script src="/static/grid.js?v={{ static_asset_version('grid.js') }}"></script>
 <script src="/static/vtt.js?v={{ static_asset_version('vtt.js') }}"></script>
 {% endblock %}

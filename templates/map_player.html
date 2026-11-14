@@ -36,6 +36,7 @@
   window.MAP_ID = {{ the_map.id }};
   window.PLAYER_CFG = { id: {{ the_map.id }}, key: {{ player_key|tojson }} };
 </script>
+<script src="/static/grid.js?v={{ static_asset_version('grid.js') }}"></script>
 <script src="/static/vtt.js?v={{ static_asset_version('vtt.js') }}"></script>
 <script>VTT.playerInit(window.PLAYER_CFG);</script>
 </body>

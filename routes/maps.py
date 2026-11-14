@@ -26,6 +26,8 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from main import (get_db, require_user, get_current_user, _require_owned, _is_admin,
                   _user_where, _render, STATIC)
 from services.images import decode_data_url, fit_blob
+from services.map_grid import hex_cell_key, snap_hex
+from services.map_grid import round_half_up as _grid_round_half_up
 
 router = APIRouter()
 
@@ -983,9 +985,15 @@ def _round_half_up(value: float) -> int:
     On a cell boundary — a token at exactly x = 40 with 40px cells — that difference puts the
     server's snap in the cell BEFORE the one the canvas names, and the player projection would
     then reveal or hide the wrong cell for that token. The two implementations have to agree
-    exactly, so this is the only rounding allowed in the grid maths.
+    exactly, so this is the only rounding allowed in the grid maths. The body lives in
+    services/map_grid.py, the Python twin of static/grid.js.
     """
-    return int(math.floor(value + 0.5))
+    return _grid_round_half_up(value)
+
+
+def _hex_turned(map_row: dict) -> int:
+    """The map's hex orientation as the 0/1 flag static/grid.js takes."""
+    return _inum(map_row.get("hex_turn"), 0, 0, 1)
 
 
 def _cells_for_size(value, fallback: int = 1) -> int:
@@ -1044,28 +1052,18 @@ def _encounter_participants(db, enc_id: int) -> list[dict]:
 
 
 def _snap_to_cell(x: float, y: float, map_row: dict) -> tuple[float, float]:
-    """The centre of the cell a point falls in — the server's copy of the canvas' snapPoint.
+    """The centre of the cell a point falls in — what the canvas' snapPoint would have chosen.
 
     Square and hex both, because spawning onto a hex map with square-centre maths leaves every
-    token visibly off its hex.
+    token visibly off its hex. The hex branch is not written here at all: services/map_grid.py is
+    the single implementation, mirrored from static/grid.js, so a token lands where the canvas
+    would have put it — including on a turned grid.
     """
     size = _inum(map_row.get("grid_size"), 50, 10, 400)
     ox = _inum(map_row.get("grid_offset_x"), 0, -400, 400)
     oy = _inum(map_row.get("grid_offset_y"), 0, -400, 400)
     if str(map_row.get("grid_type")) == "hex":
-        radius = size / 2.0
-        gx, gy = x - ox, y - oy
-        q = (3 ** 0.5 / 3 * gx - gy / 3) / radius
-        r = (2 / 3 * gy) / radius
-        rx, ry, rz = _round_half_up(q), _round_half_up(-q - r), _round_half_up(r)
-        dx, dy, dz = abs(rx - q), abs(ry - (-q - r)), abs(rz - r)
-        if dx > dy and dx > dz:
-            rx = -ry - rz
-        elif dy > dz:
-            ry = -rx - rz
-        else:
-            rz = -rx - ry
-        return (3 ** 0.5 * radius * (rx + rz / 2) + ox, 1.5 * radius * rz + oy)
+        return snap_hex(x, y, size, ox, oy, _hex_turned(map_row))
     return (_round_half_up((x - ox) / size - 0.5) * size + size / 2 + ox,
             _round_half_up((y - oy) / size - 0.5) * size + size / 2 + oy)
 
@@ -1197,29 +1195,17 @@ async def dm_map_spawn_encounter(map_id: int, request: Request):
 def _cell_key_of(x: float, y: float, map_row: dict) -> str:
     """The fog cell a token's centre falls in — the same maths as the canvas, on the server.
 
-    Duplicated deliberately: the projection has to decide what the party can see, and trusting
-    the client to tell us which cell a token occupies would let a stale client leak one.
+    The projection has to decide what the party can see, and trusting the client to tell us which
+    cell a token occupies would let a stale client leak one, so the server keeps its own copy of
+    the CALL — but not of the arithmetic: services/map_grid.py is the one implementation, twin of
+    static/grid.js, and it gets the map's hex orientation so a turned grid names the same cell the
+    canvas does.
     """
     size = _inum(map_row.get("grid_size"), 50, 10, 400)
     ox = _inum(map_row.get("grid_offset_x"), 0, -400, 400)
     oy = _inum(map_row.get("grid_offset_y"), 0, -400, 400)
     if str(map_row.get("grid_type")) == "hex":
-        radius = size / 2.0
-        # the offset moves the grid over the art on a hex map too: ignoring it meant a hex
-        # battle map could not be aligned at all, while a square one could
-        gx, gy = x - ox, y - oy
-        q = (3 ** 0.5 / 3 * gx - gy / 3) / radius
-        r = (2 / 3 * gy) / radius
-        cx, cz, cy = q, r, -q - r
-        rx, ry, rz = _round_half_up(cx), _round_half_up(cy), _round_half_up(cz)
-        dx, dy, dz = abs(rx - cx), abs(ry - cy), abs(rz - cz)
-        if dx > dy and dx > dz:
-            rx = -ry - rz
-        elif dy > dz:
-            ry = -rx - rz
-        else:
-            rz = -rx - ry
-        return f"{rx},{rz}"
+        return hex_cell_key(x, y, size, ox, oy, _hex_turned(map_row))
     return f"{math.floor((x - ox) / size)},{math.floor((y - oy) / size)}"
 
 
