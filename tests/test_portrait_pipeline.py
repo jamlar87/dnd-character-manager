@@ -332,3 +332,45 @@ class TestDmToolsMonsterAsset:
             assert attr in js
         # filtering must stay scoped to the monster grid (spells share the class)
         assert "querySelectorAll('#monsterGrid .monster-card')" in js
+
+
+# ── Aggregate reads must not carry portrait bytes ────────────────────────────
+
+class TestAggregateReadsSkipPortraits:
+    """A portrait is a multi-megabyte base64 data URL. List and profile payloads must name the
+    columns they use instead of `SELECT *`, so the blob is never materialised — measured on the
+    live DB before the fix: `SELECT * FROM characters` = 19.1 MB, the profile columns = 0.01 MB.
+    The image itself still arrives from /api/character/{id}/portrait-image.
+    """
+
+    def test_party_profile_omits_portraits(self, client, seeded_db, auth_headers):
+        big = png_data_url(3000, 2000)
+        ids = [make_char(seeded_db, f"Profiled {i}", portrait_url=big) for i in range(2)]
+        con = sqlite3.connect(str(seeded_db["db_path"]))
+        con.execute("INSERT INTO dm_campaigns (user_id, name, characters) VALUES (1, 'Blob Camp', '[]')")
+        camp_id = con.execute("SELECT last_insert_rowid()").fetchone()[0]
+        con.executemany(
+            "INSERT INTO dm_campaign_characters (campaign_id, character_id, status) VALUES (?, ?, 'active')",
+            [(camp_id, cid) for cid in ids],
+        )
+        con.commit()
+        con.close()
+        r = client.get(f"/api/dm/ai/party-profile?campaign_id={camp_id}", headers=auth_headers)
+        assert r.status_code == 200
+        assert "data:image" not in r.text
+        assert len(r.content) < 100_000, f"profile payload is {len(r.content)} bytes"
+        names = sorted(c["name"] for c in r.json()["profile"]["characters"])
+        assert names == ["Profiled 0", "Profiled 1"]
+        # the fields the encounter builder reads must survive the narrower SELECT
+        first = r.json()["profile"]["characters"][0]
+        for key in ("ac", "hp", "class", "saves", "features", "spells", "scores"):
+            assert key in first, f"profile lost {key}"
+
+    def test_npc_list_never_ships_the_blob(self, client, seeded_db, auth_headers):
+        make_npc(seeded_db, "Blob Npc", portrait_url=png_data_url(3000, 2000))
+        r = client.get("/api/dm/npcs", headers=auth_headers)
+        assert r.status_code == 200
+        assert "data:image" not in r.text
+        row = next(n for n in r.json()["npcs"] if n["name"] == "Blob Npc")
+        assert row["has_portrait"] is True     # thumbnail question still answerable
+        assert row["portrait_url"] == ""       # but the bytes stay in the DB

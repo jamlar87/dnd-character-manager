@@ -26,6 +26,38 @@ from services.sources import clean_source_display
 router = APIRouter()
 
 
+# Columns every NPC list/detail read needs — everything except the portrait blob itself.
+# portrait_url can be a base64 data: URL of several megabytes (the pack portraits are), and a
+# DM Tools page load parses every NPC to build the palette; selecting and discarding that much
+# text per request is what made the page heavy. External URLs still come through so an <img>
+# can use them; `has_portrait` answers the thumbnail question without shipping the bytes —
+# the image itself is fetched from /api/dm/npc/{id}/portrait-image.
+NPC_LIST_COLS = """
+    id, user_id, name, race, class_name, subclass, level, is_enemy, is_party_npc,
+    strength, dexterity, constitution, intelligence, wisdom, charisma, hp_max, hp_current,
+    temp_hp, ac, speed, proficiency_bonus, hit_dice, hit_dice_used, skills, features,
+    inventory, notes, alignment, role, faction, xp_reward, created_at, source, source_book,
+    source_page,
+    CASE WHEN portrait_url LIKE 'data:%' THEN '' ELSE COALESCE(portrait_url, '') END AS portrait_url,
+    CASE WHEN COALESCE(portrait_url, '') <> '' THEN 1 ELSE 0 END AS has_portrait
+"""
+
+# Why the explicit list: portrait_url holds base64 JPEG/PNG for every character (up to ~3MB per
+# row here). _build_party_profile feeds an AI encounter builder, and the profile it returns never
+# includes the portrait — so selecting `c.*` shipped megabytes of discarded text on every call.
+# Keep this list in sync with the keys the profile builder reads below.
+PARTY_PROFILE_COLS = """
+    id, name, race, class_name, subclass, level, ac, hp_current, hp_max,
+    strength, dexterity, constitution, intelligence, wisdom, charisma,
+    save_proficiencies, proficiency_bonus, damage_resistances, damage_immunities,
+    damage_vulnerabilities, condition_immunities, skills, features, equipped,
+    attuned_items, asi_history
+"""
+# Same list qualified with the `c` alias: `_build_party_profile` joins dm_campaign_characters, and
+# an unqualified `id` there is ambiguous (both tables have one) — sqlite answers with an error.
+PARTY_PROFILE_COLS_C = ", ".join("c." + col.strip() for col in PARTY_PROFILE_COLS.split(","))
+
+
 def _campaign_characters_live(db, entries):
     """Live character rows for a campaign roster, including a portrait flag.
 
@@ -84,12 +116,12 @@ def dm_tools(request: Request):
 
     # Load DM's NPCs (DB)
     npcs = [dict(r) for r in db.execute(
-        "SELECT * FROM dm_npcs WHERE user_id = ? ORDER BY is_enemy DESC, name",
+        f"SELECT {NPC_LIST_COLS} FROM dm_npcs WHERE user_id = ? ORDER BY is_enemy DESC, name",
         (user["id"],)
     ).fetchall()]
     for _n in npcs:
-        # Boolean per row; the template/JS never receives the base64 blob.
-        _n["has_portrait"] = bool((_n.get("portrait_url") or "").strip())
+        # Boolean per row; the blob was never selected, so there is nothing to strip.
+        _n["has_portrait"] = bool(_n.get("has_portrait"))
     # Enemies stay grouped first (the badges say so), but each group reads in
     # alphabetical order — services.text.alpha_key, because SQLite's ORDER BY name is
     # BINARY: lowercase names filed after every capitalised one, and "Éowyn" after "Zed".
@@ -654,17 +686,15 @@ def dm_npcs_list(request: Request):
     guard = "COALESCE(name, '') <> '__sentinel__'"
     clause = f"{where} AND {guard}" if where.strip() else f"WHERE {guard}"
     rows = [dict(r) for r in db.execute(
-        f"SELECT * FROM dm_npcs {clause} ORDER BY is_enemy DESC, name", params
+        f"SELECT {NPC_LIST_COLS} FROM dm_npcs {clause} ORDER BY is_enemy DESC, name", params
     ).fetchall()]
     db.close()
     for r in rows:
         for f in ("skills", "features", "inventory"):
             try: r[f] = json.loads(r[f])
             except: r[f] = []
-        # Boolean only — the base64 blob must never travel in this payload.
-        _p = (r.get("portrait_url") or "").strip()
-        r["has_portrait"] = bool(_p)
-        r["portrait_url"] = "" if _p.startswith("data:") else _p
+        # Boolean only — the base64 blob was never selected in the first place.
+        r["has_portrait"] = bool(r.get("has_portrait"))
     # Merge manual NPCs from extracted data
     manual_npcs = _load_manual_json("npcs.json")
     for i, mn in enumerate(manual_npcs):
@@ -1300,8 +1330,8 @@ async def dm_npc_build_from_gaps(request: Request):
 def _build_party_profile(db, campaign_id: int) -> dict | None:
     """Build a combat profile of all characters in a campaign for AI counter-play.
     Returns {characters: [...], summary: {...}} or None if no characters."""
-    rows = db.execute("""
-        SELECT c.* FROM characters c
+    rows = db.execute(f"""
+        SELECT {PARTY_PROFILE_COLS_C} FROM characters c
         JOIN dm_campaign_characters cc ON cc.campaign_id = ? AND cc.character_id = c.id
         WHERE cc.status = 'active'
     """, (campaign_id,)).fetchall()
@@ -1316,7 +1346,8 @@ def _build_party_profile(db, campaign_id: int) -> dict | None:
                 if char_ids:
                     placeholders = ",".join("?" * len(char_ids))
                     rows = db.execute(
-                        f"SELECT * FROM characters WHERE id IN ({placeholders})", char_ids
+                        f"SELECT {PARTY_PROFILE_COLS_C} FROM characters c "
+                        f"WHERE c.id IN ({placeholders})", char_ids
                     ).fetchall()
             except (json.JSONDecodeError, KeyError):
                 pass
