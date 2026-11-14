@@ -473,6 +473,8 @@ const SHEET_POLL_FAST_MS = 2000;
 const SHEET_POLL_SAFE_MS = 30000;
 
 async function syncSheetHP() {
+  // Hidden tab: nothing to update on screen. The visibilitychange wire below refreshes on return.
+  if (document.hidden) return;
   try {
     const resp = await fetch('/api/sync-combat-hp', {
       method: 'POST',
@@ -542,6 +544,11 @@ function startSheetPolling(interval) {
   stopSheetPolling();
   _sheetPollTimer = setInterval(syncSheetHP, interval || SHEET_POLL_FAST_MS);
 }
+
+// A tab that regains focus syncs at once, so the "hidden" skip above cannot leave a stale HP.
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) syncSheetHP();
+});
 
 function stopSheetPolling() {
   if (_sheetPollTimer) {

@@ -5354,6 +5354,9 @@ const COMBAT_POLL_SAFE_MS = 30000;
 let _combatPollTimer = null;
 
 async function syncPlayerAndSummonHP() {
+  // A backgrounded DM tab has no one looking at it: skip the fetch entirely and let the
+  // 2s timer resume on the next visible tick (see the visibilitychange wire at the bottom).
+  if (document.hidden) return;
   // Collect unique character IDs from players and summon owners
   const charIds = new Set();
   for (const p of _campaignPlayers) {
@@ -5421,9 +5424,16 @@ async function syncPlayerAndSummonHP() {
     }
 
     // Re-render if anything changed
-    if (changedPlayers) renderPlayersPanel();
+    // `changed` implies `changedPlayers` on the HP path, so this used to rebuild the players
+    // panel twice per tick — 243 lines of innerHTML for the same data.
     if (changed) {
-      renderInitiativeTrack();
+      // renderInitiativeTrack() replaces every combatant card's innerHTML, so rebuilding it
+      // while the DM is mid-keystroke takes the focused input away. Wait for the next tick.
+      const focused = document.activeElement;
+      const typingInTrack = focused && focused.closest && focused.closest('#initiative-track');
+      if (!typingInTrack) renderInitiativeTrack();
+      renderPlayersPanel();
+    } else if (changedPlayers) {
       renderPlayersPanel();
     }
   } catch(e) { /* silent */ }
@@ -5433,6 +5443,12 @@ function startCombatPolling(interval) {
   stopCombatPolling();
   _combatPollTimer = setInterval(syncPlayerAndSummonHP, interval || COMBAT_POLL_FAST_MS);
 }
+
+// ...and a backgrounded tab catches up the moment it is looked at again, rather than showing a
+// value up to one interval stale (2s fast / 30s safe).
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) syncPlayerAndSummonHP();
+});
 
 function stopCombatPolling() {
   if (_combatPollTimer) {

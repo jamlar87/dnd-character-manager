@@ -363,13 +363,23 @@ async def campaign_pack_import(request: Request):
                         blob = b""
                     if blob:
                         digest = hashlib.sha1(blob).hexdigest()[:12]
-                        ext = Path(old_image).suffix or ".png"
-                        fname = f"map-{new_map_id}-{digest}{ext}"
-                        MAP_DIR.mkdir(parents=True, exist_ok=True)
-                        (MAP_DIR / fname).write_bytes(blob)
-                        db.execute("UPDATE dm_maps SET image_path = ? WHERE id = ?",
-                                   (f"/static/maps/{fname}", new_map_id))
-                        counts["images"] += 1
+                        # The extension comes out of the pack file, and this directory is
+                        # served by StaticFiles — a pack could otherwise write `x.html`
+                        # (or `.svg`) into /static/maps and have it served as markup from
+                        # the app's own origin. Only real image suffixes are honoured; a
+                        # refused image still leaves the map and its tokens in place.
+                        ext = Path(old_image).suffix.lower()
+                        if ext not in {".png", ".jpg", ".jpeg", ".webp", ".gif"}:
+                            warnings.append(
+                                f"map '{data.get('name')}' image has unsupported "
+                                f"extension '{ext}' — skipped")
+                        else:
+                            fname = f"map-{new_map_id}-{digest}{ext}"
+                            MAP_DIR.mkdir(parents=True, exist_ok=True)
+                            (MAP_DIR / fname).write_bytes(blob)
+                            db.execute("UPDATE dm_maps SET image_path = ? WHERE id = ?",
+                                       (f"/static/maps/{fname}", new_map_id))
+                            counts["images"] += 1
                 else:
                     warnings.append(f"map '{data.get('name')}' came without its image")
 

@@ -346,7 +346,11 @@ def _verify(password: str, hash_: str) -> bool:
     from services.auth import verify_password
     return verify_password(password, hash_)
 
-_jinja = Environment(loader=FileSystemLoader(str(TEMPLATES)))
+# autoescape is ON (Jinja's default is OFF, which is how a character named
+# `"><img src=x onerror=...>` executed in every other account's dashboard — the shared
+# characters block renders other users' names). Templates that must emit markup say so
+# with `|safe`; `|tojson` already escapes for an HTML context.
+_jinja = Environment(loader=FileSystemLoader(str(TEMPLATES)), autoescape=True)
 
 # ── App ─────────────────────────────────────────────────────────────────────
 
@@ -1827,15 +1831,26 @@ async def dashboard(request: Request):
     # shared is now the default for every account; an admin opts into the full list with ?all=1.
     # The link is rendered only for admins, and the parameter is ignored for anyone else.
     admin_all = _is_admin(user) and request.query_params.get("all") in ("1", "true", "yes")
+    # Explicit column list: `SELECT c.*` dragged every portrait blob (25 rows, ~20 MB of base64)
+    # through SQLite into Python on every dashboard render just to be blanked out below.
+    # Inline data: URLs are cut in SQL (substr reads only the 5-char prefix, not the blob);
+    # real http(s) URLs still come back so cards can point straight at them, and
+    # has_portrait tells the card whether /portrait-image will have something to serve.
+    _cols = ("c.id, c.user_id, c.name, c.race, c.subrace, c.class_name, c.subclass, c.level, "
+             "c.hp_current, c.hp_max, c.ac, c.background, c.shared, c.created_at, "
+             "c.skills, c.features, c.inventory, c.equipped, c.languages, c.conditions, "
+             "(c.portrait_url IS NOT NULL AND c.portrait_url != '') AS has_portrait, "
+             "CASE WHEN substr(c.portrait_url,1,5) = 'data:' THEN '' "
+             "ELSE COALESCE(c.portrait_url,'') END AS portrait_url")
     if admin_all:
         chars = [dict(r) for r in db.execute(
-            "SELECT c.*, u.email as owner_email FROM characters c "
+            f"SELECT {_cols}, u.email as owner_email FROM characters c "
             "LEFT JOIN users u ON c.user_id = u.id "
             "ORDER BY c.shared ASC, c.created_at DESC"
         ).fetchall()]
     else:
         chars = [dict(r) for r in db.execute(
-            "SELECT c.*, u.email as owner_email FROM characters c "
+            f"SELECT {_cols}, u.email as owner_email FROM characters c "
             "LEFT JOIN users u ON c.user_id = u.id "
             "WHERE c.user_id = ? OR (c.shared = 1 AND c.user_id != ?) "
             "ORDER BY c.shared ASC, c.created_at DESC",
@@ -1863,8 +1878,9 @@ async def dashboard(request: Request):
         # Portraits are multi-MB base64 data URLs; the card only needs to know
         # whether one exists (the tile points at /portrait-image). Keeping the
         # blob out of the template context saves tens of MB per dashboard render.
+        # has_portrait now comes from the SELECT itself; only make sure no data: URL
+        # can sneak into the template context.
         _p = (c.get("portrait_url") or "").strip()
-        c["has_portrait"] = bool(_p)
         c["portrait_url"] = "" if _p.startswith("data:") else _p
     return _render("dashboard.html", request=request, characters=chars, current_user_id=user["id"], favorites=favs,
                    all_classes=sorted({c.get("class_name") for c in chars if c.get("class_name")}),
@@ -2227,6 +2243,10 @@ app.router.lifespan_context = lifespan
 MANUALS_BASE = (DATA_DIR.parent / "manuals").resolve()
 
 
+_MANUAL_SCAN_TTL = 300.0
+_MANUAL_SCAN: tuple[float, list] | None = None
+
+
 def _scan_manual_pdfs() -> list:
     """PDFs under MANUALS_BASE — one entry per book.
 
@@ -2236,8 +2256,24 @@ def _scan_manual_pdfs() -> list:
     tab. One row per book: shallowest path wins (so core books stay in "Core
     Manuals"), then anything whose real path or filename already appeared is
     skipped.
+
+    Memoised for 5 minutes: the glob+resolve+stat walk over ~87 PDFs cost 67ms on
+    every /dm-tools render and the corpus changes when a book is ingested, not per
+    page view.
     """
+    global _MANUAL_SCAN
     import glob
+    now = _time.time()
+    base = str(MANUALS_BASE)
+    try:
+        base_mtime = MANUALS_BASE.stat().st_mtime
+    except OSError:
+        base_mtime = 0.0
+    # Keyed on the base path and its mtime as well as the clock: callers that repoint
+    # MANUALS_BASE (tests, a second library) must not see the previous tree's answer.
+    if (_MANUAL_SCAN and now - _MANUAL_SCAN[0] < _MANUAL_SCAN_TTL
+            and _MANUAL_SCAN[2] == base and _MANUAL_SCAN[3] == base_mtime):
+        return list(_MANUAL_SCAN[1])
     if not MANUALS_BASE.exists():
         return []
     paths = sorted(glob.glob(str(MANUALS_BASE / "**/*.pdf"), recursive=True))
@@ -2254,7 +2290,8 @@ def _scan_manual_pdfs() -> list:
         seen_real.add(real)
         seen_stem.add(stem)
         out.append(p)
-    return out
+    _MANUAL_SCAN = (now, out, base, base_mtime)
+    return list(out)
 
 
 @app.get("/api/reference/manuals", response_class=JSONResponse)

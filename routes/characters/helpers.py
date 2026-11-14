@@ -14,8 +14,26 @@ from services.text import alpha_key
 MANUAL_MONSTERS: list[dict] = []
 MANUAL_TRAPS: list[dict] = []
 
+# The list is rebuilt (parse 86ms + alpha_key sort 73ms) on every /dm-tools request — five
+# call sites, so one page paid it once per tab load. Memoise on the mtimes of the three files
+# that feed it: a re-ingest invalidates the cache, a page view does not.
+_MONSTER_CACHE: list[dict] | None = None
+_MONSTER_CACHE_STAMP: tuple | None = None
+
+
+def _monster_files_stamp() -> tuple:
+    from main import SRD_CACHE, MANUAL_DATA
+    paths = (SRD_CACHE / "monsters.json",
+             DATA_DIR / "page_maps" / "monster_page_map.json",
+             MANUAL_DATA / "monsters.json")
+    return tuple((str(p), p.stat().st_mtime_ns if p.exists() else 0) for p in paths)
+
+
 def _load_monster_cache() -> list[dict]:
-    global MANUAL_MONSTERS
+    global MANUAL_MONSTERS, _MONSTER_CACHE, _MONSTER_CACHE_STAMP
+    stamp = _monster_files_stamp()
+    if _MONSTER_CACHE is not None and stamp == _MONSTER_CACHE_STAMP:
+        return _MONSTER_CACHE
     base = _load_json_cache("monsters.json")
     # Load monster→page map for source badges
     _monster_page_map: dict[str, int] = {}
@@ -69,6 +87,7 @@ def _load_monster_cache() -> list[dict]:
     # key has to be what a reader calls alphabetical — see services.text.alpha_key:
     # ".lower()" alone filed every accented name after all the plain ones.
     combined.sort(key=lambda m: alpha_key(m.get("name")))
+    _MONSTER_CACHE, _MONSTER_CACHE_STAMP = combined, stamp
     return combined
 
 

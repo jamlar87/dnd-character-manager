@@ -969,9 +969,12 @@ def test_a_player_hp_change_repaints_the_trackers_panel():
 
     js = (pathlib.Path(__file__).resolve().parent.parent / "static" / "dm_tools.js").read_text()
     assert "let changedPlayers = false;" in js
-    assert "if (changedPlayers) renderPlayersPanel();" in js
-    assert "if (changed) {\n      renderInitiativeTrack();" in js, (
-        "the initiative track must still wait for a participant change")
+    # The players panel repaints on its own flag, and again inside the `changed` branch — the
+    # two used to be separate statements, which built the panel twice on the same tick.
+    assert "} else if (changedPlayers) {" in js
+    assert "if (changed) {\n" in js and "renderInitiativeTrack();" in js
+    # ...and the track only rebuilds while the DM is not typing in it.
+    assert "closest('#initiative-track')" in js
 
 
 # ── Slice 7: the tracker's damage has to land on the sheet ──────────────────────────

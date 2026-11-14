@@ -3136,9 +3136,15 @@ async def dm_campaign_add_character(camp_id: int, request: Request):
     if not camp:
         db.close()
         return JSONResponse({"error": "Campaign not found"}, status_code=404)
-    # Verify character exists (any account — DMs can add any character)
-    char_row = db.execute("SELECT id, name, class_name, level, race FROM characters WHERE id=?",
-                          (char_id,)).fetchone()
+    # A campaign may only list a character its owner has made readable to other accounts.
+    # Checking existence alone let any registered user POST a sequential victim id into their
+    # own campaign and then read the whole sheet via /character/{id}?dm_preview=1 — the campaign
+    # listing IS DM authority (`_user_dms_character`). `shared` is the owner's own "Public"
+    # toggle on the sheet; an unshared character stays private and looks nonexistent here.
+    char_row = db.execute(
+        "SELECT id, name, class_name, level, race FROM characters"
+        " WHERE id=? AND (user_id=? OR shared=1)",
+        (char_id, user["id"])).fetchone()
     if not char_row:
         db.close()
         return JSONResponse({"error": "Character not found"}, status_code=404)
