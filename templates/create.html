@@ -77,11 +77,11 @@
   <div class="wizard-step active" data-step="0">
     <h3>Choose Your Race</h3>
     <div class="opt-tools">
-      <input type="search" placeholder="🔍 Search races by name or source..." oninput="filterOptions(this, ['race-grid','subrace-grid'])"
+      <input type="search" placeholder="🔍 Search races by name or source..." data-action="filterRaceOptions" data-call='{"a":[{"e":true}]}'
              aria-label="Search races">
       <span class="option-count" id="race-count"></span>
     </div>
-    <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.72rem;color:var(--text-muted);cursor:pointer;user-select:none;margin-bottom:0.5rem" onclick="toggleCoreCreate(this)">
+    <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.72rem;color:var(--text-muted);cursor:pointer;user-select:none;margin-bottom:0.5rem" data-action="toggleCoreCreate" data-call='{&quot;a&quot;:[{&quot;e&quot;:true}]}'>
       <span class="core-create-box" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-radius:3px;text-align:center;line-height:12px;font-size:10px;background:var(--bg)">☐</span>
       Core content only
     </label>
@@ -92,18 +92,18 @@
     </div>
     <div id="race-info" class="card" style="margin-top:1rem;display:none"></div>
     <div id="ancestry-section" style="display:none;margin-top:0.5rem"></div>
-    <div class="wizard-nav"><button class="btn btn-outline btn-sm" onclick="randomizeRace()">🎲 Randomize</button><span></span><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
+    <div class="wizard-nav"><button class="btn btn-outline btn-sm" data-action="randomizeRace">🎲 Randomize</button><span></span><button class="btn btn-primary" data-action="nextStep">Next →</button></div>
   </div>
 
   <!-- Step 1: Class -->
   <div class="wizard-step" data-step="1">
     <h3>Choose Your Class</h3>
     <div class="opt-tools">
-      <input type="search" placeholder="🔍 Search classes and subclasses..." oninput="filterOptions(this, ['class-grid','subclass-grid'])"
+      <input type="search" placeholder="🔍 Search classes and subclasses..." data-action="filterClassOptions" data-call='{"a":[{"e":true}]}'
              aria-label="Search classes">
       <span class="option-count" id="class-count"></span>
     </div>
-    <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.72rem;color:var(--text-muted);cursor:pointer;user-select:none;margin-bottom:0.5rem" onclick="toggleCoreCreate(this)">
+    <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.72rem;color:var(--text-muted);cursor:pointer;user-select:none;margin-bottom:0.5rem" data-action="toggleCoreCreate" data-call='{&quot;a&quot;:[{&quot;e&quot;:true}]}'>
       <span class="core-create-box" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-radius:3px;text-align:center;line-height:12px;font-size:10px;background:var(--bg)">☐</span>
       Core content only
     </label>
@@ -113,7 +113,7 @@
       <div class="option-grid" id="subclass-grid"></div>
     </div>
     <div id="class-info" class="card" style="margin-top:1rem;display:none"></div>
-    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-outline btn-sm" onclick="randomizeClass()">🎲 Randomize</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
+    <div class="wizard-nav"><button class="btn btn-outline" data-action="prevStep">← Back</button><button class="btn btn-outline btn-sm" data-action="randomizeClass">🎲 Randomize</button><button class="btn btn-primary" data-action="nextStep">Next →</button></div>
   </div>
 
   <!-- Step 2: Abilities -->
@@ -139,42 +139,42 @@
       <p style="font-size:0.9rem;color:var(--text-muted)">Ability Score Increase — Monsters of the Multiverse gives you the choice</p>
       <div class="grid-2" style="margin-bottom:0.5rem">
         <label class="option-card" style="cursor:pointer">
-          <input type="radio" name="mpmm-mode" value="two" onchange="setMpmmMode('two')" style="pointer-events:none"> +2 to one, +1 to another
+          <input type="radio" name="mpmm-mode" value="two" data-action="setMpmmMode" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;two&quot;}]}' style="pointer-events:none"> +2 to one, +1 to another
         </label>
         <label class="option-card" style="cursor:pointer">
-          <input type="radio" name="mpmm-mode" value="three" onchange="setMpmmMode('three')" style="pointer-events:none"> +1 to three different
+          <input type="radio" name="mpmm-mode" value="three" data-action="setMpmmMode" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;three&quot;}]}' style="pointer-events:none"> +1 to three different
         </label>
       </div>
       <div id="mpmm-grids"></div>
       <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.25rem" id="mpmm-hint"></p>
     </div>
     {% endif %}
-    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-outline btn-sm" onclick="idealAbilities()">⭐ Ideal Default</button><button class="btn btn-outline btn-sm" onclick="randomizeAbilities()">🎲 Randomize</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
+    <div class="wizard-nav"><button class="btn btn-outline" data-action="prevStep">← Back</button><button class="btn btn-outline btn-sm" data-action="idealAbilities">⭐ Ideal Default</button><button class="btn btn-outline btn-sm" data-action="randomizeAbilities">🎲 Randomize</button><button class="btn btn-primary" data-action="nextStep">Next →</button></div>
   </div>
 
   <!-- Step 3: Skills -->
   <div class="wizard-step" data-step="3">
-    <h3>Choose Skills <span id="skill-count-label" style="font-size:0.85rem;color:var(--text-muted)"></span> <button class="btn btn-outline btn-sm" onclick="toggleAllSkills()" id="show-all-skills-btn" style="margin-left:0.5rem">👁 Show All</button></h3>
+    <h3>Choose Skills <span id="skill-count-label" style="font-size:0.85rem;color:var(--text-muted)"></span> <button class="btn btn-outline btn-sm" data-action="toggleAllSkills" id="show-all-skills-btn" style="margin-left:0.5rem">👁 Show All</button></h3>
     <div class="option-grid" id="skill-grid"></div>
     <div id="skill-info" class="card" style="margin-top:0.75rem;display:none;font-size:0.85rem;line-height:1.5;color:var(--text-muted)"></div>
-    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-outline btn-sm" onclick="idealSkills()">⭐ Ideal Default</button><button class="btn btn-outline btn-sm" onclick="randomizeSkills()">🎲 Randomize</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
+    <div class="wizard-nav"><button class="btn btn-outline" data-action="prevStep">← Back</button><button class="btn btn-outline btn-sm" data-action="idealSkills">⭐ Ideal Default</button><button class="btn btn-outline btn-sm" data-action="randomizeSkills">🎲 Randomize</button><button class="btn btn-primary" data-action="nextStep">Next →</button></div>
   </div>
 
   <!-- Step 4: Details -->
   <div class="wizard-step" data-step="4">
     <h3>Character Details</h3>
-    <div class="form-group"><label>Name</label><div style="display:flex;gap:0.5rem"><input type="text" id="char-name" placeholder="Character name" style="flex:1" required><button class="btn btn-outline btn-sm" onclick="randomName()" type="button">🎲 Random</button></div></div>
+    <div class="form-group"><label>Name</label><div style="display:flex;gap:0.5rem"><input type="text" id="char-name" placeholder="Character name" style="flex:1" required><button class="btn btn-outline btn-sm" data-action="randomName" type="button">🎲 Random</button></div></div>
     <div class="form-group">
       <label>Background</label>
-      <div style="display:flex;gap:0.5rem"><select id="char-bg" style="flex:1" onchange="showBgInfo(this.value)"></select><button class="btn btn-outline btn-sm" onclick="autoFillDetails()">🤖 Auto-Fill</button><button class="btn btn-outline btn-sm" onclick="aiGenerateBackground()">🤖 AI Generate</button></div>
+      <div style="display:flex;gap:0.5rem"><select id="char-bg" style="flex:1" data-action="showBgInfo" data-call='{&quot;a&quot;:[{&quot;p&quot;:&quot;value&quot;}]}'></select><button class="btn btn-outline btn-sm" data-action="autoFillDetails">🤖 Auto-Fill</button><button class="btn btn-outline btn-sm" data-action="aiGenerateBackground">🤖 AI Generate</button></div>
       <div id="bg-info" class="card" style="margin-top:0.5rem;padding:0.75rem 1rem;display:none;font-size:0.85rem;color:var(--text-muted);line-height:1.5"></div>
       <div id="custom-bg-row" style="margin-top:0.5rem;display:none">
-        <input type="text" id="custom-bg-name" placeholder="Enter your background name..." style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.95rem" oninput="state.custom_background = this.value">
+        <input type="text" id="custom-bg-name" placeholder="Enter your background name..." style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.95rem" data-action="setCustomBackground" data-call='{"a":[{"p":"value"}]}'>
       </div>
     </div>
     <div class="form-group"><label>Alignment</label><select id="char-align"></select></div>
     <div class="form-group"><label>Level</label><input type="number" id="char-level" value="1" min="1" max="20"></div>
-    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-outline btn-sm" onclick="randomizeDetails()">🎲 Randomize</button><button class="btn btn-primary" onclick="nextStep()">Review →</button></div>
+    <div class="wizard-nav"><button class="btn btn-outline" data-action="prevStep">← Back</button><button class="btn btn-outline btn-sm" data-action="randomizeDetails">🎲 Randomize</button><button class="btn btn-primary" data-action="nextStep">Review →</button></div>
   </div>
 
   <!-- Step 5: Review -->
@@ -188,12 +188,12 @@
       <div style="flex:1;min-width:200px">
         <input type="text" id="portrait-custom" placeholder="Custom portrait details (optional) — e.g. 'scarred face, stormy sky, dual-wielding'" style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;font-family:var(--font)">
       </div>
-      <button class="btn btn-outline btn-sm" onclick="regeneratePortrait()">🔄 Regenerate</button>
+      <button class="btn btn-outline btn-sm" data-action="regeneratePortrait">🔄 Regenerate</button>
     </div>
     <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.75rem">Can be regenerated at any time on the Character page</div>
     <div class="card" id="review-card"></div>
-    <div style="margin:0.5rem 0"><button class="btn btn-outline btn-sm" onclick="autoEquip()">🎒 Auto-Equipment</button> <span style="font-size:0.75rem;color:var(--text-muted)">*Add additional equipment on the Character page</span></div>
-    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-primary" id="create-btn" onclick="createCharacter()">✓ Create Character</button></div>
+    <div style="margin:0.5rem 0"><button class="btn btn-outline btn-sm" data-action="autoEquip">🎒 Auto-Equipment</button> <span style="font-size:0.75rem;color:var(--text-muted)">*Add additional equipment on the Character page</span></div>
+    <div class="wizard-nav"><button class="btn btn-outline" data-action="prevStep">← Back</button><button class="btn btn-primary" id="create-btn" data-action="createCharacter">✓ Create Character</button></div>
   </div>
 </div>
 
@@ -205,8 +205,8 @@
     <div id="bonus-picker-options" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.75rem"></div>
     <p id="bonus-picker-count" style="font-size:0.8rem;text-align:right;margin-top:0.4rem"></p>
     <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.75rem">
-      <button class="btn btn-outline" onclick="skipBonusPicker()">Skip →</button>
-      <button class="btn btn-primary" onclick="confirmBonusPicker()">Confirm</button>
+      <button class="btn btn-outline" data-action="skipBonusPicker">Skip →</button>
+      <button class="btn btn-primary" data-action="confirmBonusPicker">Confirm</button>
     </div>
   </div>
 </div>
@@ -218,7 +218,7 @@
     <p id="spell-picker-info" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem"></p>
     <input id="sp-pick-search" type="text" placeholder="Search spells..." 
       style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--accent);border-radius:6px;color:var(--text);font-size:0.85rem;outline:none;margin-bottom:0.5rem"
-      oninput="filterCreateSpells()">
+      data-action="filterCreateSpells">
     <span data-src-filter="create-spells" data-src-onchange="filterCreateSpells" style="display:block;margin-bottom:0.5rem"></span>
     <div id="sp-pick-selected" style="display:flex;flex-wrap:wrap;gap:0.25rem;margin-bottom:0.5rem;min-height:1.5rem"></div>
     <div id="sp-pick-results" style="max-height:400px;overflow-y:auto;border:1px solid var(--border);border-radius:6px">
@@ -226,8 +226,8 @@
     </div>
     <p id="sp-pick-count" style="font-size:0.8rem;text-align:right;margin-top:0.4rem"></p>
     <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.75rem">
-      <button class="btn btn-outline" onclick="skipSpellPicker()">Skip →</button>
-      <button class="btn btn-primary" onclick="confirmSpellPicker()">Confirm Spells</button>
+      <button class="btn btn-outline" data-action="skipSpellPicker">Skip →</button>
+      <button class="btn btn-primary" data-action="confirmSpellPicker">Confirm Spells</button>
     </div>
   </div>
 </div>
@@ -240,8 +240,8 @@
     <div id="expertise-picker-options" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.75rem"></div>
     <p id="expertise-picker-count" style="font-size:0.8rem;text-align:right;margin-top:0.4rem"></p>
     <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.75rem">
-      <button class="btn btn-outline" onclick="skipExpertisePicker()">Skip →</button>
-      <button class="btn btn-primary" onclick="confirmExpertisePicker()">Confirm</button>
+      <button class="btn btn-outline" data-action="skipExpertisePicker">Skip →</button>
+      <button class="btn btn-primary" data-action="confirmExpertisePicker">Confirm</button>
     </div>
   </div>
 </div>
@@ -253,8 +253,8 @@
     <p id="fighting-style-picker-info" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem">Choose your Fighting Style</p>
     <div id="fighting-style-picker-options"></div>
     <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.75rem">
-      <button class="btn btn-outline" onclick="skipFightingStylePicker()">Skip →</button>
-      <button class="btn btn-primary" onclick="confirmFightingStylePicker()">Confirm</button>
+      <button class="btn btn-outline" data-action="skipFightingStylePicker">Skip →</button>
+      <button class="btn btn-primary" data-action="confirmFightingStylePicker">Confirm</button>
     </div>
   </div>
 </div>
@@ -265,8 +265,8 @@
     <div id="infusion-picker-options"></div>
     <p id="infusion-picker-count" style="font-size:0.8rem;color:var(--text-muted)">0 / 4 selected</p>
     <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.75rem">
-      <button class="btn btn-outline" onclick="skipInfusionPicker()">Skip →</button>
-      <button class="btn btn-primary" onclick="confirmInfusionPicker()">Confirm</button>
+      <button class="btn btn-outline" data-action="skipInfusionPicker">Skip →</button>
+      <button class="btn btn-primary" data-action="confirmInfusionPicker">Confirm</button>
     </div>
   </div>
 </div>
@@ -279,8 +279,8 @@
     <div id="favored-enemy-picker-options"></div>
     <p id="favored-enemy-picker-count" style="font-size:0.8rem;color:var(--text-muted)">0 / 1 selected</p>
     <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.75rem">
-      <button class="btn btn-outline" onclick="skipFavoredEnemyPicker()">Skip →</button>
-      <button class="btn btn-primary" onclick="confirmFavoredEnemyPicker()">Confirm</button>
+      <button class="btn btn-outline" data-action="skipFavoredEnemyPicker">Skip →</button>
+      <button class="btn btn-primary" data-action="confirmFavoredEnemyPicker">Confirm</button>
     </div>
   </div>
 </div>
@@ -293,8 +293,8 @@
     <div id="favored-terrain-picker-options"></div>
     <p id="favored-terrain-picker-count" style="font-size:0.8rem;color:var(--text-muted)">0 / 1 selected</p>
     <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.75rem">
-      <button class="btn btn-outline" onclick="skipFavoredTerrainPicker()">Skip →</button>
-      <button class="btn btn-primary" onclick="confirmFavoredTerrainPicker()">Confirm</button>
+      <button class="btn btn-outline" data-action="skipFavoredTerrainPicker">Skip →</button>
+      <button class="btn btn-primary" data-action="confirmFavoredTerrainPicker">Confirm</button>
     </div>
   </div>
 </div>

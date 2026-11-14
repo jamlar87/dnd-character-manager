@@ -17,6 +17,8 @@
 <script src="/static/ui/dom.js?v={{ static_asset_version('ui/dom.js') }}"></script>
 <script src="/static/ui/api.js?v={{ static_asset_version('ui/api.js') }}"></script>
 <script src="/static/ui/source_ref.js?v={{ static_asset_version('ui/source_ref.js') }}"></script>
+<script src="/static/ui/events.js?v={{ static_asset_version('ui/events.js') }}"></script>
+<script src="/static/ui/shell.js?v={{ static_asset_version('ui/shell.js') }}"></script>
 <script src="/static/layout.js?v={{ static_asset_version('layout.js') }}"></script>
 </head>
 <body>
@@ -25,15 +27,15 @@
   {% if user %}
   <div class="nav-search" id="navSearchBar">
     <input type="text" id="manualSearchInput" placeholder="🔍 Search the Manuals..."
-           onkeydown="if(event.key==='Enter'){window.searchManuals();return false}">
-    <button type="button" class="btn btn-primary btn-sm" onclick="this.style.background='var(--success)';setTimeout(()=>this.style.background='',300);window.searchManuals();return false" title="Search" style="touch-action:manipulation">🔍</button>
-    <button type="button" class="btn btn-outline btn-sm" onclick="this.style.background='var(--success)';setTimeout(()=>this.style.background='',300);window.searchManuals(true);return false" title="AI Summarize" style="touch-action:manipulation">🤖</button>
+           data-action="searchManualsKey" data-call='{"a":[{"v":true}]}'>
+    <button type="button" class="btn btn-primary btn-sm" data-action="flashAndSearch" data-call='{"a":[{"e":true}]}' title="Search" style="touch-action:manipulation">🔍</button>
+    <button type="button" class="btn btn-outline btn-sm" data-action="flashAndSearchAll" data-call='{"a":[{"e":true}]}' title="AI Summarize" style="touch-action:manipulation">🤖</button>
     <span id="navManualFilter"></span>
     <div id="manualSearchResults" class="search-results-dropdown"></div>
   </div>
   {% endif %}
-  <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open');this.textContent=this.textContent==='☰'?'✕':'☰'" aria-label="Menu">☰</button>
-  <button id="themeToggle" class="btn btn-outline btn-sm" onclick="toggleTheme()" title="Toggle light/dark theme" style="touch-action:manipulation;margin-left:0.5rem" aria-label="Toggle theme">🌙</button>
+  <button class="hamburger" data-action="toggleNav" data-call='{"a":[{"e":true}]}' aria-label="Menu">☰</button>
+  <button id="themeToggle" class="btn btn-outline btn-sm" data-action="toggleTheme" title="Toggle light/dark theme" style="touch-action:manipulation;margin-left:0.5rem" aria-label="Toggle theme">🌙</button>
   <div class="nav-links">
     {% if user %}
     <a href="/dashboard">My Characters</a>

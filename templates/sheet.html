@@ -20,17 +20,17 @@
 <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:0.75rem">
   <div style="width:80px;flex-shrink:0">
     {% if character.portrait_url %}
-    <img src="{{ portrait_src }}" alt="Character Portrait" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--border);cursor:pointer" id="sidebar-portrait" onclick="openPortraitModal()" title="Change portrait">
+    <img src="{{ portrait_src }}" alt="Character Portrait" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--border);cursor:pointer" id="sidebar-portrait" data-action="openPortraitModal" title="Change portrait">
     {% else %}
-    <div style="width:80px;height:80px;border-radius:8px;border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:0.7rem;cursor:pointer;text-align:center" onclick="openPortraitModal()" title="Add portrait">🎨</div>
+    <div style="width:80px;height:80px;border-radius:8px;border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:0.7rem;cursor:pointer;text-align:center" data-action="openPortraitModal" title="Add portrait">🎨</div>
     {% endif %}
   </div>
   <div style="flex:1;min-width:0">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem">
       <div>
         <h1 style="margin:0;font-size:1.4rem;word-break:break-word;overflow-wrap:break-word" class="editable" data-field="name">{{ character.name }}</h1>
-        <span class="badge badge-accent">Lv<span class="editable" data-field="level" data-num="1">{{ character.level }}</span> <span class="editable badge-link" data-field="race" onclick="showDetail()">{{ character.race }}</span>{% if character.subrace %} (<span class="editable badge-link" data-field="subrace" onclick="showDetail()">{{ character.subrace }}</span>){% endif %} <span class="badge-link" onclick="showDetail()">{% if class_levels and class_levels|length > 1 %}{% for cls, lvl in class_levels.items() %}{% if not loop.first %} / {% endif %}{{ cls }} {{ lvl }}{% endfor %}{% else %}{{ character.class_name }}{% endif %}</span></span>
-        {% if character.subclass %}<span class="badge badge-muted editable badge-link" data-field="subclass" onclick="showDetail()">{{ character.subclass }}</span>{% endif %}
+        <span class="badge badge-accent">Lv<span class="editable" data-field="level" data-num="1">{{ character.level }}</span> <span class="editable badge-link" data-field="race" data-action="showDetail">{{ character.race }}</span>{% if character.subrace %} (<span class="editable badge-link" data-field="subrace" data-action="showDetail">{{ character.subrace }}</span>){% endif %} <span class="badge-link" data-action="showDetail">{% if class_levels and class_levels|length > 1 %}{% for cls, lvl in class_levels.items() %}{% if not loop.first %} / {% endif %}{{ cls }} {{ lvl }}{% endfor %}{% else %}{{ character.class_name }}{% endif %}</span></span>
+        {% if character.subclass %}<span class="badge badge-muted editable badge-link" data-field="subclass" data-action="showDetail">{{ character.subclass }}</span>{% endif %}
         {% if character.fighting_style %}<span class="badge" style="background:rgba(255,165,0,0.15);border:1px solid #ffa500;color:#ffa500;font-size:0.65rem;cursor:help" title="{{ character.fighting_style }}">{{ character.fighting_style|replace('_',' ')|title }}</span>{% endif %}
         {% if character.metamagic %}<span class="badge" style="background:rgba(138,43,226,0.12);border:1px solid #8a2be2;color:#c084fc;font-size:0.65rem;cursor:help" title="{{ character.metamagic|join(', ') }}">Metamagic</span>{% endif %}
         {% if character.invocations %}<span class="badge" style="background:rgba(139,0,139,0.12);border:1px solid #8b008b;color:#da70d6;font-size:0.65rem;cursor:help" title="{{ character.invocations|join(', ') }}">Invocations</span>{% endif %}
@@ -62,19 +62,19 @@
         {% if character.favored_enemies %}{% set fe_list = character.favored_enemies %}{% if fe_list|length > 0 %}<span class="badge" style="background:rgba(139,69,19,0.12);border:1px solid #8b4513;color:#cd853f;font-size:0.65rem;cursor:help" title="Favored Enemy: {{ fe_list|join(', ') }}">🎯 {{ fe_list|join(', ')|replace('_',' ')|title }}</span>{% endif %}{% endif %}
         {% if character.favored_terrains %}{% set ft_list = character.favored_terrains %}{% if ft_list|length > 0 %}<span class="badge" style="background:rgba(34,139,34,0.12);border:1px solid #228b22;color:#3cb371;font-size:0.65rem;cursor:help" title="Favored Terrain: {{ ft_list|join(', ') }}">🌲 {{ ft_list|join(', ')|replace('_',' ')|title }}</span>{% endif %}{% endif %}
         {% if character.infusions %}<span class="badge" style="background:rgba(184,134,11,0.12);border:1px solid #b8860b;color:#daa520;font-size:0.65rem;cursor:help" title="{{ character.infusions|join(', ') }}">Infusions</span>{% endif %}
-        {% if character.background %}<span class="badge badge-muted editable badge-link" data-field="background" style="margin-left:0.25rem" onclick="showDetail()">{{ character.background }}</span>{% endif %}
+        {% if character.background %}<span class="badge badge-muted editable badge-link" data-field="background" style="margin-left:0.25rem" data-action="showDetail">{{ character.background }}</span>{% endif %}
         {% if character.alignment %}<span class="badge badge-muted editable" data-field="alignment" style="margin-left:0.25rem">{{ character.alignment }}</span>{% endif %}
       </div>
-      {% if is_owner %}<button id="edit-toggle" onclick="toggleEditMode()">🔒 Edit</button>{% endif %}
-      <button onclick="window.open('/api/character/{{ character.id }}/pdf?_=' + Date.now(), '_blank')" style="margin-left:0.25rem;padding:0.35rem 0.8rem;background:var(--accent2);color:var(--accent);border:1px solid var(--accent);border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''" title="Generate printable character sheet PDF">📄 Make PDF</button>
+      {% if is_owner %}<button id="edit-toggle" data-action="toggleEditMode">🔒 Edit</button>{% endif %}
+      <button data-action="openCharacterPdf" data-call='{&quot;a&quot;:[{&quot;n&quot;:{{ character.id }}}]}' style="margin-left:0.25rem;padding:0.35rem 0.8rem;background:var(--accent2);color:var(--accent);border:1px solid var(--accent);border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" title="Generate printable character sheet PDF" class="hover-bright">📄 Make PDF</button>
       {% if is_owner %}
-      <button id="share-toggle-btn" onclick="toggleCharacterShare()" style="margin-left:0.25rem;padding:0.35rem 0.8rem;background:{% if character.shared %}var(--accent){% else %}var(--accent2){% endif %};color:{% if character.shared %}#fff{% else %}var(--accent){% endif %};border:1px solid var(--accent);border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''">{% if character.shared %}🌐 Public{% else %}🔒 Share{% endif %}</button>
+      <button id="share-toggle-btn" data-action="toggleCharacterShare" style="margin-left:0.25rem;padding:0.35rem 0.8rem;background:{% if character.shared %}var(--accent){% else %}var(--accent2){% endif %};color:{% if character.shared %}#fff{% else %}var(--accent){% endif %};border:1px solid var(--accent);border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" class="hover-bright">{% if character.shared %}🌐 Public{% else %}🔒 Share{% endif %}</button>
       {% endif %}
       {% if is_owner and character.level < 20 %}
-      <button id="level-up-btn" onclick="openLevelUp()" style="margin-left:0.5rem;padding:0.35rem 0.8rem;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''">⬆ Level Up</button>
+      <button id="level-up-btn" data-action="openLevelUp" style="margin-left:0.5rem;padding:0.35rem 0.8rem;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" class="hover-bright">⬆ Level Up</button>
       {% endif %}
       {% if is_owner and character.level > 1 %}
-      <button id="delevel-btn" onclick="openDeLevel()" style="margin-left:0.5rem;padding:0.35rem 0.8rem;background:var(--danger);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''">🔻 De-Level</button>
+      <button id="delevel-btn" data-action="openDeLevel" style="margin-left:0.5rem;padding:0.35rem 0.8rem;background:var(--danger);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" class="hover-bright">🔻 De-Level</button>
       {% endif %}
     </div>
     {% if character.personality %}
@@ -103,11 +103,11 @@
       <div class="hp-controls">
         <input type="number" id="hp-delta" value="1" min="1"
           style="width:5ch;text-align:center;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:4px;padding:0.3rem 0.2rem;font-size:0.95rem;-moz-appearance:textfield;appearance:textfield"
-          onfocus="this.style.outline='1px solid var(--accent)'" onblur="this.style.outline='none'">
+          class="focus-ring">
         <style>.hp-controls input[type=number]::-webkit-inner-spin-button,.hp-controls input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}</style>
-        <button class="hp-btn heal" onclick="applyHP()" title="Add HP">+</button>
-        <button class="hp-btn dmg" onclick="applyHP(-1)" title="Subtract HP">−</button>
-        <button class="hp-btn" onclick="resetHP()" title="Reset to full HP"
+        <button class="hp-btn heal" data-action="applyHP" title="Add HP">+</button>
+        <button class="hp-btn dmg" data-action="applyHP" data-call='{&quot;a&quot;:[{&quot;n&quot;:-1}]}' title="Subtract HP">−</button>
+        <button class="hp-btn" data-action="resetHP" title="Reset to full HP"
           style="background:var(--accent2);color:var(--text);border:1px solid var(--border);font-size:0.7rem;padding:0 0.5rem;width:auto">↺ Full</button>
       </div>
       <!-- Concentration: state, not a note someone typed (PHB p.203) -->
@@ -118,32 +118,32 @@
         </div>
         <div style="display:flex;gap:0.25rem">
           <input id="conc-input" placeholder="Spell or effect…" style="flex:1;min-width:0;padding:0.2rem 0.35rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.68rem">
-          <button onclick="setConcentration(document.getElementById('conc-input').value)" title="Concentrating on this"
+          <button data-action="setConcentration" data-call='{&quot;a&quot;:[{&quot;id&quot;:&quot;conc-input&quot;,&quot;p&quot;:&quot;value&quot;}]}' title="Concentrating on this"
             style="font-size:0.6rem;padding:0.15rem 0.45rem;border-radius:4px;border:1px solid var(--border);background:var(--accent2);color:var(--text);cursor:pointer">Set</button>
-          <button onclick="clearConcentration()" title="Concentration ends"
+          <button data-action="clearConcentration" title="Concentration ends"
             style="font-size:0.6rem;padding:0.15rem 0.45rem;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer">Clear</button>
         </div>
         <div id="conc-check" style="display:none;margin-top:0.35rem;padding:0.3rem 0.4rem;border:1px solid #f59e0b;border-radius:5px;background:rgba(245,158,11,0.10)">
           <div id="conc-check-text" style="font-size:0.68rem;color:var(--text)"></div>
           <div style="display:flex;gap:0.25rem;margin-top:0.3rem;flex-wrap:wrap">
-            <button onclick="rollConcentrationCheck()" style="font-size:0.62rem;padding:0.15rem 0.5rem;border-radius:4px;border:none;background:var(--accent);color:#fff;cursor:pointer">Roll CON save</button>
-            <button onclick="resolveConcentration(true)" style="font-size:0.62rem;padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer">Kept it</button>
-            <button onclick="resolveConcentration(false)" style="font-size:0.62rem;padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer">Lost it</button>
+            <button data-action="rollConcentrationCheck" style="font-size:0.62rem;padding:0.15rem 0.5rem;border-radius:4px;border:none;background:var(--accent);color:#fff;cursor:pointer">Roll CON save</button>
+            <button data-action="resolveConcentration" data-call='{&quot;a&quot;:[{&quot;g&quot;:&quot;true&quot;}]}' style="font-size:0.62rem;padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer">Kept it</button>
+            <button data-action="resolveConcentration" data-call='{&quot;a&quot;:[{&quot;g&quot;:&quot;false&quot;}]}' style="font-size:0.62rem;padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer">Lost it</button>
           </div>
           <div id="conc-check-result" style="font-size:0.68rem;margin-top:0.25rem"></div>
         </div>
       </div>
       <!-- Conditions -->
       <div style="margin-top:0.35rem;padding-top:0.35rem;border-top:1px solid var(--border);position:relative">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem;cursor:pointer;user-select:none" onclick="toggleConditions()">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem;cursor:pointer;user-select:none" data-action="toggleConditions">
           <span style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)"><span id="cond-chevron">▾</span> Conditions</span>
-          <button onclick="event.stopPropagation();openConditionPicker()" title="Add condition"
+          <button data-action="openConditionPicker" data-call='{&quot;stop&quot;:true}' title="Add condition"
             style="font-size:0.68rem;padding:0.05rem 0.4rem;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;line-height:1.5">+ Add</button>
         </div>
         <div id="condition-badges" style="display:flex;flex-wrap:wrap;gap:0.25rem">
           {% for c in (character.conditions or []) %}
           <span class="cond-badge" style="background:var(--danger);color:#fff;border-color:var(--danger)"
-            data-name="{{ c.name }}">{{ c.name }}<span class="dismiss" onclick="event.stopPropagation();dismissCondition('{{ c.name }}')">✕</span></span>
+            data-name="{{ c.name }}">{{ c.name }}<span class="dismiss" data-action="dismissCondition" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;s&quot;:&quot;{{ c.name }}&quot;}]}'>✕</span></span>
           {% endfor %}
           {% if not character.conditions %}
           <span style="font-size:0.72rem;color:var(--text-muted);opacity:0.5">None</span>
@@ -151,7 +151,7 @@
         </div>
       </div>
       <!-- Hit Dice (collapsible) -->
-      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;margin-top:0.4rem;padding-top:0.4rem;border-top:1px solid var(--border);user-select:none" onclick="toggleHitDice()">
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;margin-top:0.4rem;padding-top:0.4rem;border-top:1px solid var(--border);user-select:none" data-action="toggleHitDice">
         <span id="hd-toggle" style="font-size:0.72rem;opacity:0.5">▸</span>
         <span style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted)">Hit Dice</span>
       </div>
@@ -165,16 +165,16 @@
             Roll: <strong id="hd-die">{{ character.hit_dice.split('d')[1] if 'd' in (character.hit_dice or '') else '8' }}</strong> · Con mod: <strong id="hd-con-mod">{{ ((character.constitution or 10) - 10) // 2 }}</strong>
           </div>
           <div style="display:flex;gap:0.25rem;align-items:center;flex-wrap:wrap">
-            <button class="hp-btn heal" onclick="spendHitDice()" title="Spend one Hit Die during a Short Rest" id="hd-spend-btn"
+            <button class="hp-btn heal" data-action="spendHitDice" title="Spend one Hit Die during a Short Rest" id="hd-spend-btn"
               style="font-size:0.7rem;width:auto;padding:0.2rem 0.5rem">Spend 1 HD</button>
-            <button class="hp-btn heal" onclick="rollMax()" title="Spend one HD and take max result (feat/spell)"
+            <button class="hp-btn heal" data-action="rollMax" title="Spend one HD and take max result (feat/spell)"
               style="font-size:0.72rem;width:auto;padding:0.2rem 0.4rem;background:var(--accent2);color:var(--text);border:1px solid var(--border)">Max</button>
           </div>
           <div id="hd-result" style="display:none;font-size:0.78rem;padding:0.25rem 0.4rem;border-radius:6px;background:var(--bg);border:1px solid var(--border)"></div>
         </div>
       </div>
       <!-- Death Saves (collapsible) -->
-      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;margin-top:0.3rem;padding-top:0.3rem;border-top:1px solid var(--border);user-select:none" onclick="toggleDeathSaves()">
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;margin-top:0.3rem;padding-top:0.3rem;border-top:1px solid var(--border);user-select:none" data-action="toggleDeathSaves">
         <span id="ds-toggle" style="font-size:0.72rem;opacity:0.5">▸</span>
         <span style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted)">Death Saving Throws</span>
       </div>
@@ -183,17 +183,17 @@
           <div>
             <div style="font-size:0.68rem;color:var(--success);margin-bottom:0.15rem">Successes</div>
             <div class="ds-box">{% for i in range(3) %}
-              <div class="ds-dot{% if i < character.death_saves_success %} filled-success{% endif %}" onclick="toggleDS('success',{{ i+1 }})"></div>
+              <div class="ds-dot{% if i < character.death_saves_success %} filled-success{% endif %}" data-action="toggleDS" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;success&quot;},{&quot;n&quot;:&quot;{{ i+1 }}&quot;}]}'></div>
             {% endfor %}</div>
           </div>
           <div>
             <div style="font-size:0.68rem;color:var(--danger);margin-bottom:0.15rem">Failures</div>
             <div class="ds-box">{% for i in range(3) %}
-              <div class="ds-dot{% if i < character.death_saves_fail %} filled-fail{% endif %}" onclick="toggleDS('fail',{{ i+1 }})"></div>
+              <div class="ds-dot{% if i < character.death_saves_fail %} filled-fail{% endif %}" data-action="toggleDS" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;fail&quot;},{&quot;n&quot;:&quot;{{ i+1 }}&quot;}]}'></div>
             {% endfor %}</div>
           </div>
         </div>
-        <button class="btn btn-outline btn-sm" onclick="resetDS()">Reset</button>
+        <button class="btn btn-outline btn-sm" data-action="resetDS">Reset</button>
         <div style="font-size:0.65rem;color:var(--text-muted);line-height:1.5;margin-top:0.4rem;padding-top:0.35rem;border-top:1px solid var(--border)">
           <strong>Death Saving Throws</strong> (PHB p.197) — at 0&nbsp;HP, roll d20 at start of each turn:<br>
           •&nbsp;<strong style="color:var(--success)">10+</strong> = 1 success · <strong style="color:var(--danger)">Nat 1</strong> = 2 failures · <strong style="color:var(--success)">Nat 20</strong> = regain 1&nbsp;HP<br>
@@ -210,25 +210,25 @@
     <!-- Combat quick-stats row -->
     <div class="center-combat">
       <div class="combat-quick top-combat-grid">
-        <div class="combat-quick-item" onclick="showCombatPopup('ac')" style="cursor:pointer" title="Click for description">
+        <div class="combat-quick-item" data-action="showCombatPopup" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;ac&quot;}]}' style="cursor:pointer" title="Click for description">
           <div class="cq-label">AC</div>
           <div class="cq-value editable" data-field="ac" data-num="1">{{ character.ac or 10 }}{% if item_effects.ac_bonus %} <span style="font-size:0.68rem;color:var(--success)">(+{{ item_effects.ac_bonus }})</span>{% endif %}{% if character.armor_warnings or character.shield_warning %} <span style="color:var(--danger);font-size:0.7rem;cursor:help" title="Armor proficiency missing — see Defenses for details">⚠️</span>{% endif %}</div>
         </div>
-        <div class="combat-quick-item" onclick="showCombatPopup('initiative')" style="cursor:pointer" title="Click for description">
+        <div class="combat-quick-item" data-action="showCombatPopup" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;initiative&quot;}]}' style="cursor:pointer" title="Click for description">
           <div class="cq-label">Initiative{% if adv.initiative %}<span class="adv-badge smol" title="Advantage on initiative rolls">A</span>{% endif %}</div>
           <div class="cq-value">{% set im = character.dexterity|ability_mod %}{% if im >= 0 %}+{% endif %}{{ im }}</div>
         </div>
-        <div class="combat-quick-item" onclick="showCombatPopup('speed')" style="cursor:pointer" title="Click for description">
+        <div class="combat-quick-item" data-action="showCombatPopup" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;speed&quot;}]}' style="cursor:pointer" title="Click for description">
           <div class="cq-label">Speed</div>
           <div class="cq-value editable" data-field="speed" data-num="1">{{ character.speed or 30 }}ft</div>
         </div>
-        <div class="combat-quick-item" onclick="showCombatPopup('prof')" style="cursor:pointer" title="Click for description">
+        <div class="combat-quick-item" data-action="showCombatPopup" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;prof&quot;}]}' style="cursor:pointer" title="Click for description">
           <div class="cq-label">Prof Bonus</div>
           <div class="cq-value">+{{ prof }}</div>
         </div>
         <div class="combat-quick-item">
-          <div class="cq-label" onclick="event.stopPropagation();showCombatPopup('inspiration')" style="cursor:pointer" title="Click for description">Inspiration</div>
-          <div style="display:flex;justify-content:center;margin-top:0.1rem;cursor:pointer" onclick="event.stopPropagation();document.getElementById('insp-btn').click()">
+          <div class="cq-label" data-action="showCombatPopup" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;s&quot;:&quot;inspiration&quot;}]}' style="cursor:pointer" title="Click for description">Inspiration</div>
+          <div style="display:flex;justify-content:center;margin-top:0.1rem;cursor:pointer" data-action="noop" data-call='{&quot;stop&quot;:true,&quot;click&quot;:&quot;insp-btn&quot;}'>
             <span style="font-size:1rem">{% if character.inspiration %}⭐{% else %}☆{% endif %}</span>
           </div>
         </div>
@@ -245,7 +245,7 @@
         {% for label, stat in stats %}
         {% set score = character[stat] %}
         {% set mod = score|ability_mod %}
-        <div class="ability-box{% if stat in saves_class %} proficient{% endif %}" onclick="showAbilityPopup('{{ stat }}', '{{ label }}')" style="cursor:pointer" title="Click for description">
+        <div class="ability-box{% if stat in saves_class %} proficient{% endif %}" data-action="showAbilityPopup" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;{{ stat }}&quot;},{&quot;s&quot;:&quot;{{ label }}&quot;}]}' style="cursor:pointer" title="Click for description">
           <div class="ab-name">{{ label }}{% if stat in adv.get("ability_checks",[]) %}<span class="adv-badge" title="Advantage on {{ label }} checks{% for n in adv.notes %}{% if 'Advantage' in n and label[:3].lower() in n.lower() %}: {{ n }}{% endif %}{% endfor %}">A</span>{% endif %}</div>
           <div class="ab-mod">{% if mod >= 0 %}+{% endif %}{{ mod }}</div>
           <div class="ab-score editable" data-ability="{{ stat }}" data-label="{{ label }}">{{ score }}</div>
@@ -253,7 +253,7 @@
         {% endfor %}
       </div>
       <div class="senses-section">
-        <h4 style="cursor:pointer" onclick="toggleSensesBlurb()" title="Click for rules">Senses <span id="senses-blurb-toggle" style="font-size:0.72rem;opacity:0.5">▸</span></h4>
+        <h4 style="cursor:pointer" data-action="toggleSensesBlurb" title="Click for rules">Senses <span id="senses-blurb-toggle" style="font-size:0.72rem;opacity:0.5">▸</span></h4>
         {% set wis_mod = character.wisdom|ability_mod %}
         {% set int_mod = character.intelligence|ability_mod %}
         <div class="sense-row">
@@ -293,15 +293,15 @@
 
   <!-- Rest buttons column -->
   <div class="top-longrest">
-    <button onclick="longRestConfirm()" title="Take a long rest — full heal, recover Hit Dice, reset Death Saves"
+    <button data-action="longRestConfirm" title="Take a long rest — full heal, recover Hit Dice, reset Death Saves"
       style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.2rem;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;color:var(--text);cursor:pointer;padding:0.3rem 0.5rem;transition:all 0.15s"
-      onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+      class="hover-border">
       <span style="font-size:1.1rem">🛌</span>
       <span style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Long Rest</span>
     </button>
-    <button onclick="shortRestConfirm()" title="Take a short rest — spend Hit Dice to heal, reset short-rest features"
+    <button data-action="shortRestConfirm" title="Take a short rest — spend Hit Dice to heal, reset short-rest features"
       style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.2rem;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;color:var(--text);cursor:pointer;padding:0.3rem 0.5rem;transition:all 0.15s"
-      onmouseover="this.style.borderColor='var(--success)'" onmouseout="this.style.borderColor='var(--border)'">
+      class="hover-border-success">
       <span style="font-size:1.1rem">☕</span>
       <span style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Short Rest</span>
     </button>
@@ -315,17 +315,17 @@
   <div class="sheet-sidebar">
 
     <div class="sidebar-section">
-      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('saves-body','saves-arrow')">
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;saves-body&quot;},{&quot;s&quot;:&quot;saves-arrow&quot;}]}'>
         <span id="saves-arrow" style="font-size:0.72rem;opacity:0.5">▸</span>
         <h4 style="margin:0">Saving Throws</h4>
-        <span onclick="event.stopPropagation();toggleSavesBlurb()" title="Saving throw rules" style="cursor:pointer;font-size:0.72rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
+        <span data-action="toggleSavesBlurb" data-call='{&quot;stop&quot;:true}' title="Saving throw rules" style="cursor:pointer;font-size:0.72rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
       </div>
       <div id="saves-body" style="display:none">
       {% for label, stat in stats %}
       {% set mod = character[stat]|ability_mod %}
       {% set prof_save = stat in saves_class %}
       {% set save_val = mod + (prof if prof_save else 0) %}
-      <div class="stat-row save-row" onclick="toggleSaveProf('{{ stat }}')" style="cursor:pointer">
+      <div class="stat-row save-row" data-action="toggleSaveProf" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;{{ stat }}&quot;}]}' style="cursor:pointer">
         <span class="stat-name">{% if prof_save %}<span class="prof-dot save-dot active" data-stat="{{ stat }}">●</span>{% else %}<span class="prof-dot save-dot" data-stat="{{ stat }}">●</span>{% endif %}{{ label }}{% if stat in adv.get("saves",[]) %}<span class="adv-badge smol" title="Advantage on {{ label }} saves{% for n in adv.notes %}{% if 'Advantage' in n and label[:3].lower() in n.lower() %}: {{ n }}{% endif %}{% endfor %}">A</span>{% endif %}</span>
         <span class="stat-val" style="color:{% if prof_save %}var(--accent){% else %}var(--text-muted){% endif %}">{% if save_val >= 0 %}+{% endif %}{{ save_val }}</span>
       </div>
@@ -346,7 +346,7 @@
 
     <!-- Skills -->
     <div class="sidebar-section">
-      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('skills-body','skills-arrow')">
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;skills-body&quot;},{&quot;s&quot;:&quot;skills-arrow&quot;}]}'>
         <span id="skills-arrow" style="font-size:0.72rem;opacity:0.5">▸</span>
         <h4 style="margin:0">Skills</h4>
       </div>
@@ -356,7 +356,7 @@
       {% set has_prof = skill_name in char_skills %}
       {% set has_exp = skill_name in char_expertise %}
       {% set sk_val = ab_mod + (prof if has_prof else 0) + (prof if has_exp else 0) %}
-      <div class="stat-row" onclick="toggleSkillProf('{{ skill_name }}')" style="cursor:pointer">
+      <div class="stat-row" data-action="toggleSkillProf" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;{{ skill_name }}&quot;}]}' style="cursor:pointer">
         <span class="stat-name"><span class="prof-dot skill-dot{% if has_prof %} active{% endif %}" data-skill="{{ skill_name }}">{% if has_exp %}★{% else %}●{% endif %}</span>{{ skill_name }}{% if skill_name in adv.get("skills",[]) %}<span class="adv-badge smol" title="Advantage on {{ skill_name }} checks{% for n in adv.notes %}{% if 'Advantage' in n and skill_name in n.lower() %}: {{ n }}{% endif %}{% endfor %}">A</span>{% endif %}</span>
         <span class="stat-val" style="color:{% if has_exp %}var(--accent);font-weight:700{% elif has_prof %}var(--accent){% else %}var(--text-muted){% endif %}">
           {% if sk_val >= 0 %}+{% endif %}{{ sk_val }}
@@ -371,10 +371,10 @@
 
     <!-- Defenses -->
     <div class="sidebar-section">
-      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('defenses-body','defenses-arrow')">
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;defenses-body&quot;},{&quot;s&quot;:&quot;defenses-arrow&quot;}]}'>
         <span id="defenses-arrow" style="font-size:0.72rem;opacity:0.5">▸</span>
         <h4 style="margin:0">Defenses</h4>
-        <span onclick="event.stopPropagation();toggleDefensesBlurb()" title="Defense rules" style="cursor:pointer;font-size:0.72rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
+        <span data-action="toggleDefensesBlurb" data-call='{&quot;stop&quot;:true}' title="Defense rules" style="cursor:pointer;font-size:0.72rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
       </div>
       <div id="defenses-body" style="display:none">
       <div style="font-size:0.8rem" id="defenses-section">
@@ -443,28 +443,28 @@
       </div>
       <!-- Edit defenses -->
       <div class="edit-only-block" style="margin-top:0.5rem;font-size:0.75rem">
-        <div class="stat-row" style="margin-bottom:0.15rem;cursor:pointer" 
-             onclick="showDefensePicker('Damage Resistances', ALL_DAMAGE_TYPES, 'damage_resistances', '🛡️', 'Halves damage of this type (PHB p.197)')"
-             onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
-             onmouseleave="this.style.background='none'">
+        <div class="stat-row row-hover" style="margin-bottom:0.15rem;cursor:pointer" 
+             data-action="showDefensePicker" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;Damage Resistances&quot;},{&quot;g&quot;:&quot;ALL_DAMAGE_TYPES&quot;},{&quot;s&quot;:&quot;damage_resistances&quot;},{&quot;s&quot;:&quot;\ud83d\udee1\ufe0f&quot;},{&quot;s&quot;:&quot;Halves damage of this type (PHB p.197)&quot;}]}'
+             
+            >
           <span class="stat-name" style="font-size:0.7rem">Resistances ✎</span>
         </div>
-        <div class="stat-row" style="margin-bottom:0.15rem;cursor:pointer"
-             onclick="showDefensePicker('Damage Immunities', ALL_DAMAGE_TYPES, 'damage_immunities', '✨', 'Negates all damage of this type (PHB p.197)')"
-             onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
-             onmouseleave="this.style.background='none'">
+        <div class="stat-row row-hover" style="margin-bottom:0.15rem;cursor:pointer"
+             data-action="showDefensePicker" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;Damage Immunities&quot;},{&quot;g&quot;:&quot;ALL_DAMAGE_TYPES&quot;},{&quot;s&quot;:&quot;damage_immunities&quot;},{&quot;s&quot;:&quot;\u2728&quot;},{&quot;s&quot;:&quot;Negates all damage of this type (PHB p.197)&quot;}]}'
+             
+            >
           <span class="stat-name" style="font-size:0.7rem">Immunities ✎</span>
         </div>
-        <div class="stat-row" style="margin-bottom:0.15rem;cursor:pointer"
-             onclick="showDefensePicker('Damage Vulnerabilities', ALL_DAMAGE_TYPES, 'damage_vulnerabilities', '⚠️', 'Doubles damage of this type — rare, typically from curses or monster traits (PHB p.197)')"
-             onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
-             onmouseleave="this.style.background='none'">
+        <div class="stat-row row-hover" style="margin-bottom:0.15rem;cursor:pointer"
+             data-action="showDefensePicker" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;Damage Vulnerabilities&quot;},{&quot;g&quot;:&quot;ALL_DAMAGE_TYPES&quot;},{&quot;s&quot;:&quot;damage_vulnerabilities&quot;},{&quot;s&quot;:&quot;\u26a0\ufe0f&quot;},{&quot;s&quot;:&quot;Doubles damage of this type \u2014 rare, typically from curses or monster traits (PHB p.197)&quot;}]}'
+             
+            >
           <span class="stat-name" style="font-size:0.7rem">Vulnerabilities ✎</span>
         </div>
-        <div class="stat-row" style="cursor:pointer"
-             onclick="showDefensePicker('Condition Immunities', ALL_CONDITIONS, 'condition_immunities', '🛡️', 'Immune to this condition\'s effects — magic can\'t put an elf to sleep, poison can\'t paralyze a creature immune to the poisoned condition (PHB p.290-292)')"
-             onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
-             onmouseleave="this.style.background='none'">
+        <div class="stat-row row-hover" style="cursor:pointer"
+             data-action="showDefensePicker" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;Condition Immunities&quot;},{&quot;g&quot;:&quot;ALL_CONDITIONS&quot;},{&quot;s&quot;:&quot;condition_immunities&quot;},{&quot;s&quot;:&quot;\ud83d\udee1\ufe0f&quot;},{&quot;s&quot;:&quot;Immune to this condition&#39;s effects \u2014 magic can&#39;t put an elf to sleep, poison can&#39;t paralyze a creature immune to the poisoned condition (PHB p.290-292)&quot;}]}'
+             
+            >
           <span class="stat-name" style="font-size:0.7rem">Condition Imm. ✎</span>
         </div>
       </div>
@@ -480,10 +480,10 @@
 
     <!-- Proficiencies -->
     <div class="sidebar-section">
-      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('profs-body','profs-arrow')">
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;profs-body&quot;},{&quot;s&quot;:&quot;profs-arrow&quot;}]}'>
         <span id="profs-arrow" style="font-size:0.72rem;opacity:0.5">▸</span>
         <h4 style="margin:0">Proficiencies</h4>
-        <span onclick="event.stopPropagation();toggleProfsBlurb()" title="Proficiency rules" style="cursor:pointer;font-size:0.72rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
+        <span data-action="toggleProfsBlurb" data-call='{&quot;stop&quot;:true}' title="Proficiency rules" style="cursor:pointer;font-size:0.72rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
       </div>
       <div id="profs-body" style="display:none">
       <div style="font-size:0.8rem" id="prof-section">
@@ -521,16 +521,16 @@
         <span class="prof-display" data-field="languages" style="display:none">{{ character.languages|join(', ') if character.languages else '' }}</span>
         <!-- Edit pickers (edit mode only) -->
         <div class="edit-only-block" style="margin-top:0.5rem;font-size:0.75rem">
-          <div class="stat-row" onclick="showProfPicker('armor', 'Armor Proficiencies', ALL_ARMOR_PROFS, 'armor_proficiencies')" style="cursor:pointer;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+          <div class="stat-row row-hover" data-action="showProfPicker" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;armor&quot;},{&quot;s&quot;:&quot;Armor Proficiencies&quot;},{&quot;g&quot;:&quot;ALL_ARMOR_PROFS&quot;},{&quot;s&quot;:&quot;armor_proficiencies&quot;}]}' style="cursor:pointer;margin-bottom:0.15rem">
             <span class="stat-name" style="font-size:0.7rem">Armor ✎</span>
           </div>
-          <div class="stat-row" onclick="showProfPicker('weapon', 'Weapon Proficiencies', ALL_WEAPON_PROFS, 'weapon_proficiencies')" style="cursor:pointer;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+          <div class="stat-row row-hover" data-action="showProfPicker" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;weapon&quot;},{&quot;s&quot;:&quot;Weapon Proficiencies&quot;},{&quot;g&quot;:&quot;ALL_WEAPON_PROFS&quot;},{&quot;s&quot;:&quot;weapon_proficiencies&quot;}]}' style="cursor:pointer;margin-bottom:0.15rem">
             <span class="stat-name" style="font-size:0.7rem">Weapons ✎</span>
           </div>
-          <div class="stat-row" onclick="showProfPicker('tool', 'Tool Proficiencies', ALL_TOOL_PROFS, 'tool_proficiencies')" style="cursor:pointer;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+          <div class="stat-row row-hover" data-action="showProfPicker" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;tool&quot;},{&quot;s&quot;:&quot;Tool Proficiencies&quot;},{&quot;g&quot;:&quot;ALL_TOOL_PROFS&quot;},{&quot;s&quot;:&quot;tool_proficiencies&quot;}]}' style="cursor:pointer;margin-bottom:0.15rem">
             <span class="stat-name" style="font-size:0.7rem">Tools ✎</span>
           </div>
-          <div class="stat-row" onclick="showProfPicker('language', 'Languages', ALL_LANGUAGES, 'languages')" style="cursor:pointer" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+          <div class="stat-row row-hover" data-action="showProfPicker" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;language&quot;},{&quot;s&quot;:&quot;Languages&quot;},{&quot;g&quot;:&quot;ALL_LANGUAGES&quot;},{&quot;s&quot;:&quot;languages&quot;}]}' style="cursor:pointer">
             <span class="stat-name" style="font-size:0.7rem">Languages ✎</span>
           </div>
         </div>
@@ -547,16 +547,16 @@
 
     <!-- Summons -->
     <div class="sidebar-section" style="margin-top:0.25rem">
-      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('summons-body','summons-arrow')">
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;summons-body&quot;},{&quot;s&quot;:&quot;summons-arrow&quot;}]}'>
         <span id="summons-arrow" style="font-size:0.72rem;opacity:0.5">▾</span>
         <h4 style="margin:0;flex:1">Summons</h4>
-        <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();openSummonModal()" style="font-size:0.72rem;padding:0.1rem 0.35rem">+ Add</button>
+        <button class="btn btn-outline btn-sm" data-action="openSummonModal" data-call='{&quot;stop&quot;:true}' style="font-size:0.72rem;padding:0.1rem 0.35rem">+ Add</button>
       </div>
       <div id="summons-body">
       <div id="summons-list" style="display:flex;flex-direction:column;gap:0.25rem;margin-top:0.3rem">
         {% for s in character.summons %}
         {% set hp_pct = (s.hp_current / s.hp_max * 100)|int if s.hp_max else 0 %}
-        <div class="summon-chip" data-summon-id="{{ loop.index0 }}" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.3rem 0.4rem;cursor:pointer" onclick="toggleSummonBody(this)">
+        <div class="summon-chip" data-summon-id="{{ loop.index0 }}" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.3rem 0.4rem;cursor:pointer" data-action="toggleSummonBody" data-call='{&quot;a&quot;:[{&quot;e&quot;:true}]}'>
           <div style="display:flex;justify-content:space-between;align-items:center;gap:0.3rem">
             <span style="font-size:0.72rem;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.main_name or s.name }}{% if s.main_name and s.name %} <span style="color:var(--text-muted);font-weight:400;font-size:0.65rem">({{ s.name }})</span>{% endif %}{% if not s.main_name and s.form %} <span style="color:var(--text-muted);font-weight:400">({{ s.form }})</span>{% endif %}</span>
             <span style="font-size:0.72rem;color:var(--text-muted);white-space:nowrap">AC {{ s.ac }}</span>
@@ -568,29 +568,29 @@
             <span class="summon-hp-text" style="font-size:0.72rem;font-family:monospace;color:var(--text-muted);white-space:nowrap">{{ s.hp_current }}/{{ s.hp_max }}</span>
           </div>
           <div class="summon-body" style="display:none;margin-top:0.35rem;padding-top:0.3rem;border-top:1px solid var(--border);font-size:0.65rem;line-height:1.5;color:var(--text-muted)">
-            <div class="edit-only-block" style="display:flex;gap:0.5rem;margin-bottom:0.35rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border)" onclick="event.stopPropagation()">
+            <div class="edit-only-block" style="display:flex;gap:0.5rem;margin-bottom:0.35rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border)" data-action="noop" data-call='{&quot;stop&quot;:true}'>
               <div style="flex:1">
                 <label style="font-size:0.72rem;color:var(--text-muted)">Main Name</label>
                 <input class="summon-edit-main-name" value="{{ s.main_name or '' }}" placeholder="{{ s.name }}"
-                  onchange="saveSummonName({{ loop.index0 }})"
+                  data-action="saveSummonName" data-call='{&quot;a&quot;:[{&quot;n&quot;:&quot;{{ loop.index0 }}&quot;}]}'
                   style="width:100%;padding:0.2rem 0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.7rem">
               </div>
               <div style="flex:1">
                 <label style="font-size:0.72rem;color:var(--text-muted)">Name (creature)</label>
                 <input class="summon-edit-name" value="{{ s.name }}"
-                  onchange="saveSummonName({{ loop.index0 }})"
+                  data-action="saveSummonName" data-call='{&quot;a&quot;:[{&quot;n&quot;:&quot;{{ loop.index0 }}&quot;}]}'
                   style="width:100%;padding:0.2rem 0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.7rem">
               </div>
             </div>
-            <div class="summon-hp-controls" style="display:flex;align-items:center;gap:0.25rem;margin-bottom:0.35rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border)" onclick="event.stopPropagation()">
+            <div class="summon-hp-controls" style="display:flex;align-items:center;gap:0.25rem;margin-bottom:0.35rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border)" data-action="noop" data-call='{&quot;stop&quot;:true}'>
               <input type="number" id="summon-hp-delta-{{ loop.index0 }}" value="1" min="1"
                 style="width:3.5ch;text-align:center;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:3px;padding:0.15rem 0.1rem;font-size:0.72rem;-moz-appearance:textfield;appearance:textfield"
-                onfocus="this.style.outline='1px solid var(--accent)'" onblur="this.style.outline='none'">
+                class="focus-ring">
               <style>.summon-hp-controls input[type=number]::-webkit-inner-spin-button,.summon-hp-controls input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}</style>
-              <button class="hp-btn heal" onclick="applySummonHP({{ loop.index0 }})" title="Heal" style="font-size:0.72rem;padding:0;width:22px;height:22px;line-height:22px">+</button>
-              <button class="hp-btn dmg" onclick="applySummonHP({{ loop.index0 }}, -1)" title="Damage" style="font-size:0.72rem;padding:0;width:22px;height:22px;line-height:22px">−</button>
-              <button class="hp-btn" onclick="resetSummonHP({{ loop.index0 }})" title="Reset to full HP" style="background:var(--accent2);color:var(--text);border:1px solid var(--border);font-size:0.68rem;padding:0 0.3rem;width:auto">↺ Full</button>
-              <button class="btn btn-outline btn-sm" style="font-size:0.68rem;padding:0.1rem 0.3rem;margin-left:auto" onclick="dismissSummon({{ loop.index0 }})">✕ Dismiss</button>
+              <button class="hp-btn heal" data-action="applySummonHP" data-call='{&quot;a&quot;:[{&quot;n&quot;:&quot;{{ loop.index0 }}&quot;}]}' title="Heal" style="font-size:0.72rem;padding:0;width:22px;height:22px;line-height:22px">+</button>
+              <button class="hp-btn dmg" data-action="applySummonHP" data-call='{&quot;a&quot;:[{&quot;n&quot;:&quot;{{ loop.index0 }}&quot;},{&quot;n&quot;:-1}]}' title="Damage" style="font-size:0.72rem;padding:0;width:22px;height:22px;line-height:22px">−</button>
+              <button class="hp-btn" data-action="resetSummonHP" data-call='{&quot;a&quot;:[{&quot;n&quot;:&quot;{{ loop.index0 }}&quot;}]}' title="Reset to full HP" style="background:var(--accent2);color:var(--text);border:1px solid var(--border);font-size:0.68rem;padding:0 0.3rem;width:auto">↺ Full</button>
+              <button class="btn btn-outline btn-sm" style="font-size:0.68rem;padding:0.1rem 0.3rem;margin-left:auto" data-action="dismissSummon" data-call='{&quot;a&quot;:[{&quot;n&quot;:&quot;{{ loop.index0 }}&quot;}]}'>✕ Dismiss</button>
             </div>
             <div><strong>Size:</strong> {{ s.size }}</div>
             <div><strong>Speed:</strong> {{ s.speed }}</div>
@@ -642,18 +642,18 @@
     </div>
 
     <!-- Hidden inspiration toggle -->
-    <button id="insp-btn" class="inspiration-btn {{ 'on' if character.inspiration else 'off' }}" onclick="toggleInspiration()" style="display:none">★</button>
+    <button id="insp-btn" class="inspiration-btn {{ 'on' if character.inspiration else 'off' }}" data-action="toggleInspiration" style="display:none">★</button>
   </div>
 
   <!-- ══════ MAIN PANEL ══════ -->
   <div class="sheet-main">
     <!-- Tabs -->
     <div class="tab-bar">
-      <button class="tab-btn active" data-tab="actions" onclick="switchTab('actions')">⚔️ Actions</button>
-      <button class="tab-btn" data-tab="features" onclick="switchTab('features')">✨ Features</button>
-      <button class="tab-btn" data-tab="spells" onclick="switchTab('spells')">🔮 Spells</button>
-      <button class="tab-btn" data-tab="inventory" onclick="switchTab('inventory')">🎒 Inventory</button>
-      <button class="tab-btn" data-tab="history" onclick="switchTab('history')">📜 History</button>
+      <button class="tab-btn active" data-tab="actions" data-action="switchTab" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;actions&quot;}]}'>⚔️ Actions</button>
+      <button class="tab-btn" data-tab="features" data-action="switchTab" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;features&quot;}]}'>✨ Features</button>
+      <button class="tab-btn" data-tab="spells" data-action="switchTab" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;spells&quot;}]}'>🔮 Spells</button>
+      <button class="tab-btn" data-tab="inventory" data-action="switchTab" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;inventory&quot;}]}'>🎒 Inventory</button>
+      <button class="tab-btn" data-tab="history" data-action="switchTab" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;history&quot;}]}'>📜 History</button>
     </div>
 
     <!-- ⚔️ ACTIONS TAB -->
@@ -662,7 +662,7 @@
       <!-- Weapon Attacks (collapsible) -->
       <div id="attacks-weapons-card" class="card" style="margin-bottom:0.5rem;{% if not attacks %}display:none{% endif %}">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;cursor:pointer;user-select:none"
-             onclick="toggleSection('weapons-body','weapons-arrow')">
+             data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;weapons-body&quot;},{&quot;s&quot;:&quot;weapons-arrow&quot;}]}'>
           <h3 style="margin:0;display:flex;align-items:center;gap:0.3rem">
             <span id="weapons-arrow" style="font-size:0.7rem;transition:transform 0.2s;display:inline-block">▾</span>
             Weapon Attacks
@@ -679,8 +679,8 @@
             {% if has_mag %}data-max-charges="{{ atk.max_charges }}" data-charge-recharge="{{ atk.charge_recharge or '' }}"{% endif %}>
           <div style="display:flex;justify-content:space-between;align-items:baseline">
             <span style="display:flex;align-items:center;gap:0.3rem">
-              <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
-              <span class="atk-name">{{ atk.name }}{% if atk.qty is defined and atk.qty > 1 %} <span class="item-qty" style="font-size:0.72rem;vertical-align:middle">{{ atk.qty }}</span>{% endif %}{% if atk.enhancement %} <span class="enh-badge" style="font-size:0.9rem;padding:0 0.15rem;color:var(--accent);font-weight:700;border-radius:3px;background:var(--accent2)">+{{ atk.enhancement }}</span>{% endif %}</span>
+              <button class="item-card-btn item-expand-btn" data-action="toggleItemExpand" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;e&quot;:true}]}' title="Expand">▶</button>
+              <span class="atk-name">{{ atk.name }}{% if atk.qty is defined and atk.qty|int > 1 %} <span class="item-qty" style="font-size:0.72rem;vertical-align:middle">{{ atk.qty }}</span>{% endif %}{% if atk.enhancement %} <span class="enh-badge" style="font-size:0.9rem;padding:0 0.15rem;color:var(--accent);font-weight:700;border-radius:3px;background:var(--accent2)">+{{ atk.enhancement }}</span>{% endif %}</span>
             </span>
             <span style="font-family:monospace;font-size:0.85rem;color:var(--text-muted)">+{{ atk.attack_bonus }} to hit</span>
           </div>
@@ -696,15 +696,15 @@
           {% if has_mag %}
           <div class="magazine-bar" style="display:flex;align-items:center;gap:0.5rem;margin-top:0.4rem">
             <span class="magazine-count" style="font-family:monospace;font-size:0.8rem;color:var(--text-muted)">{{ atk.current_charges }}/{{ atk.max_charges }}</span>
-            <button class="mag-spend-btn" onclick="event.stopPropagation();spendCharge('{{ atk.name|replace("'","\\'") }}')"
+            <button class="mag-spend-btn" data-action="spendCharge" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;d&quot;:&quot;item-name&quot;}]}' data-item-name="{{ atk.name }}"
               style="padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-size:0.7rem"
               {% if atk.current_charges <= 0 %}disabled style="opacity:0.4"{% endif %}>🔫 Fire</button>
-            <button class="mag-reload-btn" onclick="event.stopPropagation();reloadCharge('{{ atk.name|replace("'","\\'") }}')"
+            <button class="mag-reload-btn" data-action="reloadCharge" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;d&quot;:&quot;item-name&quot;}]}' data-item-name="{{ atk.name }}"
               style="padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--accent);background:var(--accent2);color:var(--accent);cursor:pointer;font-size:0.7rem;font-weight:600">🔄 Reload</button>
           </div>
           {% endif %}
           {% if atk.description %}<div class="item-detail" data-loaded="true" style="margin-top:0.3rem;padding:0.5rem;background:var(--bg);border-radius:4px;font-size:0.75rem;color:var(--text-muted);line-height:1.4">{{ atk.description }}</div>{% endif %}
-          {% if atk.source %}<div style="margin-top:0.2rem;text-align:right"><span class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ atk.source }}" title="Click to open {{ atk.source }}" style="cursor:pointer;font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;background:var(--accent2);color:var(--accent)">📚 {{ atk.source }}</span></div>{% endif %}
+          {% if atk.source %}<div style="margin-top:0.2rem;text-align:right"><span class="src-badge" data-action="openSourceRef" data-call='{&quot;a&quot;:[{&quot;d&quot;:&quot;src&quot;}]}' data-src="{{ atk.source }}" title="Click to open {{ atk.source }}" style="cursor:pointer;font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;background:var(--accent2);color:var(--accent)">📚 {{ atk.source }}</span></div>{% endif %}
         </div>
         {% endfor %}
         </div><!-- /attacks-weapons-list -->
@@ -715,7 +715,7 @@
       {% set charged = charged_items or [] %}
       <div id="attacks-charged-card" class="card" style="margin-bottom:0.5rem;{% if not charged %}display:none{% endif %}">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;cursor:pointer;user-select:none"
-             onclick="toggleSection('charged-body','charged-arrow')">
+             data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;charged-body&quot;},{&quot;s&quot;:&quot;charged-arrow&quot;}]}'>
           <h3 style="margin:0;display:flex;align-items:center;gap:0.3rem">
             <span id="charged-arrow" style="font-size:0.7rem;transition:transform 0.2s;display:inline-block">▾</span>
             ⚡ Charged Items
@@ -734,14 +734,14 @@
             data-max-charges="{{ ci.max_charges }}"
             data-current-charges="{{ ci.current_charges }}"
             {% if not multi_charge and ci.current_charges > 0 %}
-            onclick="spendCharge(this.dataset.itemName, 1)"
+            data-action="spendCharge" data-call='{&quot;a&quot;:[{&quot;d&quot;:&quot;item-name&quot;},{&quot;n&quot;:1}]}'
             {% elif not multi_charge and is_reload %}
-            onclick="reloadCharge(this.dataset.itemName)"
+            data-action="reloadCharge" data-call='{&quot;a&quot;:[{&quot;d&quot;:&quot;item-name&quot;}]}'
             {% endif %}
             style="cursor:{% if ci.current_charges > 0 and not multi_charge %}pointer{% elif is_reload %}pointer{% else %}default{% endif %};{% if ci.current_charges <= 0 and not is_reload %}opacity:0.45{% endif %}">
           <div style="display:flex;justify-content:space-between;align-items:baseline">
             <span style="display:flex;align-items:center;gap:0.3rem">
-              <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
+              <button class="item-card-btn item-expand-btn" data-action="toggleItemExpand" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;e&quot;:true}]}' title="Expand">▶</button>
               <span class="atk-name">{{ ci.name }}</span>
               <span class="badge" style="font-size:0.68rem;background:var(--accent2);color:var(--accent);padding:0.05rem 0.3rem">{{ ci.type }}</span>
             </span>
@@ -750,16 +750,16 @@
             </span>
           </div>
           {% if multi_charge and ci.current_charges > 0 %}
-          <div class="charge-stepper" style="display:flex;align-items:center;gap:0.4rem;margin-top:0.3rem;justify-content:flex-end" onclick="event.stopPropagation()">
-            <button class="charge-amount-btn" onclick="chargeStep(this, -1)" style="padding:0.1rem 0.4rem;border-radius:3px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-size:0.75rem;line-height:1">−</button>
+          <div class="charge-stepper" style="display:flex;align-items:center;gap:0.4rem;margin-top:0.3rem;justify-content:flex-end" data-action="noop" data-call='{&quot;stop&quot;:true}'>
+            <button class="charge-amount-btn" data-action="chargeStep" data-call='{&quot;a&quot;:[{&quot;e&quot;:true},{&quot;n&quot;:-1}]}' style="padding:0.1rem 0.4rem;border-radius:3px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-size:0.75rem;line-height:1">−</button>
             <span class="charge-amount-display" style="font-family:monospace;font-size:0.8rem;min-width:1.2rem;text-align:center">1</span>
-            <button class="charge-amount-btn" onclick="chargeStep(this, 1)" style="padding:0.1rem 0.4rem;border-radius:3px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-size:0.75rem;line-height:1">+</button>
-            <button class="charge-spend-btn" onclick="spendCharge(this.closest('.charge-card').dataset.itemName, parseInt(this.closest('.charge-stepper').querySelector('.charge-amount-display').textContent))" style="padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--accent);background:var(--accent2);color:var(--accent);cursor:pointer;font-size:0.7rem;font-weight:600">⚡ Spend</button>
+            <button class="charge-amount-btn" data-action="chargeStep" data-call='{&quot;a&quot;:[{&quot;e&quot;:true},{&quot;n&quot;:1}]}' style="padding:0.1rem 0.4rem;border-radius:3px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-size:0.75rem;line-height:1">+</button>
+            <button class="charge-spend-btn" data-action="spendCharge" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;closest&quot;:&quot;.charge-card&quot;,&quot;d&quot;:&quot;item-name&quot;},{&quot;closest&quot;:&quot;.charge-stepper&quot;,&quot;q&quot;:&quot;.charge-amount-display&quot;,&quot;p&quot;:&quot;textContent&quot;,&quot;trim&quot;:true,&quot;int&quot;:true}]}' style="padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--accent);background:var(--accent2);color:var(--accent);cursor:pointer;font-size:0.7rem;font-weight:600">⚡ Spend</button>
           </div>
           {% endif %}
           {% if ci.current_charges <= 0 and is_reload %}
           <div style="margin-top:0.3rem;text-align:right">
-            <button class="reload-btn" onclick="event.stopPropagation();reloadCharge('{{ ci.name|replace("'","\\'") }}')"
+            <button class="reload-btn" data-action="reloadCharge" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;d&quot;:&quot;item-name&quot;}]}' data-item-name="{{ ci.name }}"
               style="padding:0.2rem 0.6rem;border-radius:4px;border:1px solid var(--accent);background:var(--accent2);color:var(--accent);cursor:pointer;font-size:0.7rem;font-weight:600">
               🔄 Reload
             </button>
@@ -803,7 +803,7 @@
         <h3 style="margin-bottom:0.5rem">Actions in Combat</h3>
         <div class="action-grid">
           {% for a in ["Attack","Dash","Disengage","Dodge","Grapple","Help","Hide","Improvise","Ready","Search","Shove","Study","Utilize"] %}
-          <div class="action-chip" onclick="showActionDetail('{{ a }}')">{{ a }}</div>
+          <div class="action-chip" data-action="showActionDetail" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;{{ a }}&quot;}]}'>{{ a }}</div>
           {% endfor %}
         </div>
         {% if feature_actions %}
@@ -818,7 +818,7 @@
           <div class="feat-action-btn{% if depleted %} depleted{% endif %}"
                data-feat-name="{{ fa.name }}"
                {% if pool %}data-pool-kind="{{ pool }}"{% endif %}
-               onclick="{% if pool %}{% elif not depleted %}useFeature('{{ fa.name }}', this){% endif %}"
+               {% if not pool and not depleted %}data-action="useFeature" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;{{ fa.name }}&quot;},{&quot;e&quot;:true}]}'{% endif %}
                style="display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0.6rem;margin-bottom:0.25rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:{% if pool or not depleted %}pointer{% else %}default{% endif %};transition:all 0.15s;{% if depleted %}opacity:0.45{% endif %};touch-action:manipulation;min-height:44px">
             <span style="display:flex;align-items:center;gap:0.4rem;flex:1;min-width:0">
               <span class="badge badge-muted" style="font-size:0.72rem;background:{% if atype=='Reaction' %}var(--danger){% elif atype=='Bonus Action' %}var(--warn){% else %}var(--accent2){% endif %};color:{% if atype=='Reaction' or atype=='Bonus Action' %}#fff{% else %}var(--accent){% endif %};padding:0.1rem 0.35rem;white-space:nowrap">{{ atype }}</span>
@@ -844,10 +844,10 @@
               <span style="color:var(--text-muted);font-size:0.72rem">{{ 'HP' if pool == 'hp' else 'pts' if pool == 'points' else 'dice' }}</span>
               <input type="number" id="action-pool-spend-{{ loop.index0 }}" min="1" max="{{ uses }}" value="1"
                 style="width:3em;padding:0.1rem 0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.65rem;text-align:center"
-                onkeydown="if(event.key==='Enter'){event.preventDefault();event.stopPropagation();spendPoolAction('{{ fa.name }}', this)}"
-                onclick="event.stopPropagation()">
-              <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();spendPoolAction('{{ fa.name }}', this.parentElement.querySelector('input'))" style="font-size:0.72rem;padding:0.08rem 0.3rem" title="Spend from pool">-</button>
-              <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();restorePoolAction('{{ fa.name }}')" style="font-size:0.72rem;padding:0.08rem 0.3rem" title="Restore full pool">↺</button>
+                data-action-map='{"keydown":"spendPoolAction","click":"noop"}'
+                data-call-map='{"keydown":{"key":"Enter","prevent":true,"stop":true,"a":[{"s":"{{ fa.name }}"},{"e":true}]},"click":{"stop":true}}'>
+              <button class="btn btn-outline btn-sm" data-action="spendPoolAction" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;s&quot;:&quot;{{ fa.name }}&quot;},{&quot;parent&quot;:true,&quot;q&quot;:&quot;input&quot;}]}' style="font-size:0.72rem;padding:0.08rem 0.3rem" title="Spend from pool">-</button>
+              <button class="btn btn-outline btn-sm" data-action="restorePoolAction" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;s&quot;:&quot;{{ fa.name }}&quot;}]}' style="font-size:0.72rem;padding:0.08rem 0.3rem" title="Restore full pool">↺</button>
             </span>
             <span class="feat-pool-max" style="font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem;white-space:nowrap">max {{ uses_max }} {{ 'HP' if pool == 'hp' else 'pts' if pool == 'points' else 'dice' }}</span>
             {% elif uses_max > 0 %}
@@ -924,7 +924,7 @@
           <div class="feat-action-btn{% if depleted %} depleted{% endif %}"
                data-feat-name="{{ fa.name }}"
                {% if pool %}data-pool-kind="{{ pool }}"{% endif %}
-               onclick="{% if pool %}{% elif not depleted %}useFeature('{{ fa.name }}', this){% endif %}"
+               {% if not pool and not depleted %}data-action="useFeature" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;{{ fa.name }}&quot;},{&quot;e&quot;:true}]}'{% endif %}
                style="display:flex;align-items:center;justify-content:space-between;padding:0.3rem 0.5rem;margin-bottom:0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:{% if pool or not depleted %}pointer{% else %}default{% endif %};transition:all 0.15s;{% if depleted %}opacity:0.45{% endif %}">
             <span style="display:flex;align-items:center;gap:0.4rem;flex:1;min-width:0">
               <span class="badge badge-muted" style="font-size:0.68rem;background:var(--warn);color:#fff;padding:0.1rem 0.3rem;white-space:nowrap">BA</span>
@@ -967,7 +967,7 @@
         <div style="margin-bottom:0.5rem">
           {% for sp in ba_spells %}
           <div class="prepared-spell-chip" style="margin-bottom:0.2rem">
-            <div class="prep-header" onclick="this.parentElement.classList.toggle('open')"
+            <div class="prep-header" data-action="noop" data-call='{&quot;toggleClass&quot;:{&quot;on&quot;:&quot;parent&quot;,&quot;cls&quot;:&quot;open&quot;}}'
                  style="display:flex;align-items:center;flex-wrap:wrap;gap:0.25rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer">
               <span class="badge badge-muted" style="font-size:0.68rem;background:var(--warn);color:#fff;padding:0.1rem 0.3rem;white-space:nowrap">BA</span>
               <strong style="font-size:0.8rem">{{ sp.spell_name }}</strong>
@@ -1015,7 +1015,7 @@
             {% if item.description %}
             <span style="font-size:0.65rem;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0">{{ item.description[:80] }}{% if item.description|length > 80 %}…{% endif %}</span>
             {% endif %}
-            <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo(this.closest('.item-card').querySelector('.item-name-display').textContent.trim())" title="Info" style="flex-shrink:0">ℹ️</button>
+            <button class="item-card-btn" data-action="showItemInfo" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;closest&quot;:&quot;.item-card&quot;,&quot;q&quot;:&quot;.item-name-display&quot;,&quot;p&quot;:&quot;textContent&quot;,&quot;trim&quot;:true}]}' title="Info" style="flex-shrink:0">ℹ️</button>
             <span class="item-name-display" style="display:none">{{ item.name if item.name is defined else item }}</span>
           </div>
           {% endfor %}
@@ -1030,7 +1030,7 @@
       <!-- Reactions Rules Reference -->
       <div class="card" style="margin-top:0.5rem">
         <h3 style="margin:0;cursor:pointer;display:flex;align-items:center;gap:0.3rem"
-            onclick="var b=document.getElementById('reactions-body');var a=this.querySelector('.toggle-arrow');if(b.style.display==='none'){b.style.display='block';a.style.transform='rotate(90deg)'}else{b.style.display='none';a.style.transform=''}">
+            data-action="toggleReactionsBody">
           <span class="toggle-arrow" style="display:inline-block;transition:transform 0.2s;font-size:0.7rem">▶</span>
           Reactions
           <span style="font-size:0.65rem;font-weight:400;color:var(--text-muted)">(PHB p.190, 193, 195)</span>
@@ -1040,7 +1040,7 @@
           {% for rf in reaction_features %}
           <div class="feat-reaction" style="background:rgba(255,23,68,0.08);border:1px solid rgba(255,23,68,0.25);border-radius:6px;font-size:0.8rem;overflow:hidden">
             <div style="display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0.5rem;cursor:pointer"
-                 onclick="var b=this.nextElementSibling;b.style.display=b.style.display==='none'?'block':'none';this.querySelector('.rx-arrow').textContent=this.querySelector('.rx-arrow').textContent==='▶'?'▼':'▶'">
+                 data-action="toggleRxArrow">
               <span class="rx-arrow" style="font-size:0.72rem;color:var(--text-muted);transition:transform 0.15s;width:1em">▶</span>
               <span style="font-weight:600;flex:1">{{ rf.name }}</span>
               <span style="font-size:0.7rem;color:var(--text-muted)">{{ rf.get('level','') }}</span>
@@ -1085,18 +1085,18 @@
       <!-- Combat Notes (collapsible) -->
       <div class="card" style="margin-top:0.5rem">
         <div style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none"
-             onclick="toggleSection('combat-notes-body','combat-notes-arrow')">
+             data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;combat-notes-body&quot;},{&quot;s&quot;:&quot;combat-notes-arrow&quot;}]}'>
           <h3 style="margin:0;font-size:0.85rem;display:flex;align-items:center;gap:0.3rem">
             <span id="combat-notes-arrow" style="font-size:0.7rem">▾</span>
             ⚔️ Combat Notes
           </h3>
-          <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();clearCombatNotes(this)" title="Clear notes"
+          <button class="btn btn-outline btn-sm" data-action="clearCombatNotes" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;e&quot;:true}]}' title="Clear notes"
             style="font-size:0.65rem;padding:0.15rem 0.5rem">🗑 Clear</button>
         </div>
         <div id="combat-notes-body" style="margin-top:0.5rem">
           <textarea id="combat-notes" placeholder="Conditions, concentration, ongoing effects, round counters…"
             style="width:100%;min-height:100px;resize:vertical;padding:0.5rem;background:var(--bg);color:var(--text);border:1px solid var(--border-color);border-radius:6px;font-size:0.8rem;line-height:1.4;font-family:inherit;box-sizing:border-box"
-            oninput="autoSaveCombatNotes()">{{ character.combat_notes or '' }}</textarea>
+            data-action="autoSaveCombatNotes">{{ character.combat_notes or '' }}</textarea>
         </div>
       </div>
 
@@ -1105,14 +1105,14 @@
            roll into it — that is the /table/{key} pad and the DM tools. -->
       <div class="card" id="sheetRollFeedCard" style="margin-top:0.5rem;display:none">
         <div style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none"
-             onclick="toggleSection('sheet-rollfeed-body','sheet-rollfeed-arrow')">
+             data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;sheet-rollfeed-body&quot;},{&quot;s&quot;:&quot;sheet-rollfeed-arrow&quot;}]}'>
           <h3 style="margin:0;font-size:0.85rem;display:flex;align-items:center;gap:0.3rem">
             <span id="sheet-rollfeed-arrow" style="font-size:0.7rem">▾</span>
             🎲 Table rolls <span id="sheet-rollfeed-camp" style="font-size:0.65rem;font-weight:400;color:var(--text-muted)"></span>
           </h3>
           <span id="sheet-rollfeed-status" style="font-size:0.65rem;color:var(--warn)"></span>
         <span id="sheetUndoStatus" style="font-size:0.62rem;color:var(--text-muted);margin-left:0.3rem"></span>
-        <button id="sheetUndo" onclick="undoLastSheet()" title="Nothing to undo"
+        <button id="sheetUndo" data-action="undoLastSheet" title="Nothing to undo"
           style="font-size:0.62rem;padding:0.1rem 0.4rem;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);cursor:pointer;margin-left:0.3rem">↩ Undo</button>
         </div>
         <div id="sheet-rollfeed-body" style="margin-top:0.5rem">
@@ -1132,7 +1132,7 @@
         {% if character.race == 'Dragonborn' or character.race == 'Dragonblood' %}
         <div class="edit-only-block" style="margin-bottom:0.5rem;font-size:0.75rem">
           <label style="color:var(--text-muted);font-size:0.7rem;display:block;margin-bottom:0.15rem">Draconic Ancestry</label>
-          <select id="dragonborn-ancestry" onchange="saveAncestry(this.value)"
+          <select id="dragonborn-ancestry" data-action="saveAncestry" data-call='{&quot;a&quot;:[{&quot;p&quot;:&quot;value&quot;}]}'
                   style="font-size:0.7rem;padding:0.2rem 0.4rem;background:var(--bg);color:var(--text);border:1px solid var(--border-color);border-radius:4px">
             <option value="" {% if not character.dragonborn_ancestry %}selected{% endif %}>— Choose ancestry —</option>
             {% for color, data in draconic_ancestries.items() %}
@@ -1144,7 +1144,7 @@
         <div class="passive-grid" style="display:flex;flex-direction:column;gap:0.3rem">
           {% for rt in racial_traits %}
           <div>
-            <div class="passive-chip" onclick="togglePassiveBody(this)" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.35rem 0.5rem;display:flex;align-items:center;gap:0.35rem;transition:border-color 0.15s">
+            <div class="passive-chip" data-action="togglePassiveBody" data-call='{&quot;a&quot;:[{&quot;e&quot;:true}]}' style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.35rem 0.5rem;display:flex;align-items:center;gap:0.35rem;transition:border-color 0.15s">
               <span style="display:flex;align-items:center;gap:0.3rem;flex:1;min-width:0">
                 <span class="collapse-arrow" style="flex-shrink:0">▶</span>
                 <span style="font-size:0.78rem;font-weight:600;overflow-wrap:break-word;word-break:break-word;line-height:1.3">{{ rt.name }}</span>
@@ -1157,7 +1157,7 @@
               {{ rt.desc }}
               <div style="margin-top:0.2rem;font-size:0.72rem;display:flex;align-items:center;gap:0.3rem">
                 {% if rt.source and rt.source != character.race and rt.source != character.subrace %}
-                <span class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ rt.source }}" title="Click to open {{ rt.source }}" style="font-size:0.68rem;color:var(--accent);opacity:0.7;cursor:pointer;padding:0.05rem 0.2rem;border:1px solid var(--border);border-radius:3px;white-space:nowrap">📚 {{ rt.source }}</span>
+                <span class="src-badge" data-action="openSourceRef" data-call='{&quot;a&quot;:[{&quot;d&quot;:&quot;src&quot;}]}' data-src="{{ rt.source }}" title="Click to open {{ rt.source }}" style="font-size:0.68rem;color:var(--accent);opacity:0.7;cursor:pointer;padding:0.05rem 0.2rem;border:1px solid var(--border);border-radius:3px;white-space:nowrap">📚 {{ rt.source }}</span>
                 {% elif rt.source %}
                 <span style="font-size:0.68rem;color:var(--text-muted);opacity:0.6">{{ rt.source }}</span>
                 {% endif %}
@@ -1173,7 +1173,7 @@
       {# ── Split into passive (no uses) vs tracked (has uses) while preserving indices ── #}
       {% set ns = namespace(feat_idx=0, passives=[], tracked=[], expertise_idx=0, asi_idx=0) %}
       {% for feat in character.feature_data %}
-        {% if feat.uses_max is defined and feat.uses_max > 0 %}
+        {% if feat.uses_max is defined and feat.uses_max|int > 0 %}
           {% set _ = ns.tracked.append((ns.feat_idx, feat)) %}
         {% else %}
           {% set _ = ns.passives.append((ns.feat_idx, feat)) %}
@@ -1188,7 +1188,7 @@
         <div class="passive-grid" style="display:flex;flex-direction:column;gap:0.3rem">
           {% for idx, feat in ns.passives %}
           <div>
-            <div class="passive-chip" data-feat-index="{{ idx }}" onclick="togglePassiveBody(this)" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.35rem 0.5rem;display:flex;align-items:center;gap:0.35rem;transition:border-color 0.15s">
+            <div class="passive-chip" data-feat-index="{{ idx }}" data-action="togglePassiveBody" data-call='{&quot;a&quot;:[{&quot;e&quot;:true}]}' style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.35rem 0.5rem;display:flex;align-items:center;gap:0.35rem;transition:border-color 0.15s">
               <span style="display:flex;align-items:center;gap:0.3rem;flex:1;min-width:0">
                 <span class="collapse-arrow" style="flex-shrink:0">▶</span>
                 <span class="feat-level" style="font-size:0.65rem;color:var(--accent);font-weight:700;min-width:1.4em">{{ feat.level }}</span>
@@ -1203,7 +1203,7 @@
                 <span style="font-size:0.65rem;color:var(--accent);font-weight:500;white-space:nowrap;flex-shrink:0">{{ character.fighting_style|replace('_',' ')|title }}</span>
                 {% endif %}
                 {% if feat.source %}
-                <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ feat.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer;max-width:8em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle" title="Source: {{ feat.source }}">📚 {{ feat.source }}</span>
+                <span class="source-badge" data-action="openSourceRef" data-call='{&quot;a&quot;:[{&quot;d&quot;:&quot;src&quot;}]}' data-src="{{ feat.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer;max-width:8em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle" title="Source: {{ feat.source }}">📚 {{ feat.source }}</span>
                 {% endif %}
                 {% if feat.recharge == "short" %}
                 <span class="badge badge-muted" style="font-size:0.68rem;background:var(--accent2);color:var(--accent);padding:0.05rem 0.25rem">SR</span>
@@ -1304,26 +1304,26 @@
               {% if feat.base_name == 'Song of Rest' and class_levels and class_levels.get('Bard') %}{% set s_lvl = class_levels.get('Bard')|int %}{% if s_lvl >= 17 %}{% set sr_die = '1d12' %}{% elif s_lvl >= 13 %}{% set sr_die = '1d10' %}{% elif s_lvl >= 9 %}{% set sr_die = '1d8' %}{% else %}{% set sr_die = '1d6' %}{% endif %}
               <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ sr_die }}</span>
               {% endif %}
-              <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.72rem;padding:0.1rem 0.3rem;flex-shrink:0">✏️</button>
+              <button class="btn btn-outline btn-sm edit-only" data-action="editFeature" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;n&quot;:&quot;{{ idx }}&quot;}]}' style="font-size:0.72rem;padding:0.1rem 0.3rem;flex-shrink:0">✏️</button>
             </div>
             <div class="passive-chip-body" style="padding:0.4rem 0.6rem;font-size:0.75rem;color:var(--text);line-height:1.4;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px">
               {% if feat.magic_initiate and feat.magic_initiate.class %}
               <div style="margin-bottom:0.3rem"><strong>{{ feat.magic_initiate.class }}</strong> — {{ feat.magic_initiate.spellcasting_ability|title }}-based</div>
               <div><strong>Cantrips:</strong> {{ feat.magic_initiate.cantrips|join(', ') }}</div>
               <div style="margin-bottom:0.4rem"><strong>1st-level:</strong> {{ feat.magic_initiate.spell }} <span style="font-size:0.7rem;color:var(--text-muted)">(1/day)</span></div>
-              <button class="btn btn-sm" onclick="toggleMagicInitiateUse({{ feat.level|replace('L','') }})" style="font-size:0.7rem;padding:0.15rem 0.5rem;background:{{ 'var(--danger)' if feat.magic_initiate.used else 'var(--success)' }};color:#fff;border:none;border-radius:4px;cursor:pointer">{{ 'Used ✓' if feat.magic_initiate.used else 'Available' }}</button>
-              <button class="btn btn-sm btn-outline" onclick="event.stopPropagation();setupMagicInitiate({{ feat.level|replace('L','') }})" style="font-size:0.65rem;padding:0.1rem 0.4rem;margin-left:0.3rem">⚙️</button>
+              <button class="btn btn-sm" data-action="toggleMagicInitiateUse" data-call='{&quot;a&quot;:[{&quot;n&quot;:&quot;{{ feat.level|replace("L","") }}&quot;}]}' style="font-size:0.7rem;padding:0.15rem 0.5rem;background:{{ 'var(--danger)' if feat.magic_initiate.used else 'var(--success)' }};color:#fff;border:none;border-radius:4px;cursor:pointer">{{ 'Used ✓' if feat.magic_initiate.used else 'Available' }}</button>
+              <button class="btn btn-sm btn-outline" data-action="setupMagicInitiate" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;n&quot;:&quot;{{ feat.level|replace("L","") }}&quot;}]}' style="font-size:0.65rem;padding:0.1rem 0.4rem;margin-left:0.3rem">⚙️</button>
               {% elif feat.feat_config and feat.asi_feat_name in ('Elemental Adept','Ley Initiate') %}
               <div>{{ feat.asi_feat_desc or feat.description }}</div>
               <div style="margin-top:0.3rem"><strong>Choice:</strong> {{ feat.feat_config.type or feat.feat_config.ability }}</div>
-              <button class="btn btn-sm btn-outline" onclick="event.stopPropagation();setupFeatConfig('{{ feat.asi_feat_name }}',{{ feat.level|replace('L','') }})" style="font-size:0.65rem;padding:0.1rem 0.4rem;margin-top:0.3rem">⚙️</button>
+              <button class="btn btn-sm btn-outline" data-action="setupFeatConfig" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;s&quot;:&quot;{{ feat.asi_feat_name }}&quot;},{&quot;n&quot;:&quot;{{ feat.level|replace("L","") }}&quot;}]}' style="font-size:0.65rem;padding:0.1rem 0.4rem;margin-top:0.3rem">⚙️</button>
               {% elif feat.feat_config and feat.asi_feat_name == 'Martial Adept' and feat.feat_config.maneuver_names %}
               <div>{{ feat.asi_feat_desc or feat.description }}</div>
               <div style="margin-top:0.3rem"><strong>Maneuvers:</strong> {{ feat.feat_config.maneuver_names|join(', ') }}</div>
-              <button class="btn btn-sm btn-outline" onclick="event.stopPropagation();setupFeatConfig('{{ feat.asi_feat_name }}',{{ feat.level|replace('L','') }})" style="font-size:0.65rem;padding:0.1rem 0.4rem;margin-top:0.3rem">⚙️</button>
+              <button class="btn btn-sm btn-outline" data-action="setupFeatConfig" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;s&quot;:&quot;{{ feat.asi_feat_name }}&quot;},{&quot;n&quot;:&quot;{{ feat.level|replace("L","") }}&quot;}]}' style="font-size:0.65rem;padding:0.1rem 0.4rem;margin-top:0.3rem">⚙️</button>
               {% elif feat.asi_feat_name in ('Elemental Adept','Ley Initiate','Magic Initiate','Martial Adept') %}
               <div>{{ feat.asi_feat_desc or feat.description }}</div>
-              <button class="btn btn-sm btn-outline" onclick="event.stopPropagation();{% if feat.asi_feat_name == 'Magic Initiate' %}setupMagicInitiate{% else %}setupFeatConfig('{{ feat.asi_feat_name }}',{{ feat.level|replace('L','') }}){% endif %}({{ feat.level|replace('L','') }})" style="font-size:0.7rem;padding:0.15rem 0.5rem;margin-top:0.3rem">Set up {{ feat.asi_feat_name }}</button>
+              <button class="btn btn-sm btn-outline" {% if feat.asi_feat_name == 'Magic Initiate' %}data-action="setupMagicInitiate" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;n&quot;:{{ feat.level|replace('L','') }}}]}'{% else %}data-action="setupFeatConfig" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;s&quot;:&quot;{{ feat.asi_feat_name }}&quot;},{&quot;n&quot;:{{ feat.level|replace('L','') }}}]}'{% endif %} style="font-size:0.7rem;padding:0.15rem 0.5rem;margin-top:0.3rem">Set up {{ feat.asi_feat_name }}</button>
               {% elif feat.name == 'Metamagic' and character.metamagic_history %}
               {% set lvl_num = feat.level|replace('L','')|int %}
               {% set ns.meta_match = None %}
@@ -1366,7 +1366,7 @@
         <h4 style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.3rem;padding:0 0.25rem;margin-top:{% if not loop.first %}0.4rem{% else %}0{% endif %}">{{ feat.level }}</h4>
         {% endif %}
           <div class="feat-card" data-feat-index="{{ idx }}">
-            <div class="feat-header" onclick="toggleFeatBody(this.parentElement)">
+            <div class="feat-header" data-action="toggleFeatBody" data-call='{&quot;a&quot;:[{&quot;parent&quot;:true}]}'>
               <span style="flex:1;min-width:0"><span class="collapse-arrow">▶</span> <span class="feat-level">{{ feat.level }}</span>{{ feat.name }}
                 {% if feat.get("action_type") == "Bonus Action" %}
                 <span class="badge" style="font-size:0.65rem;background:rgba(255,165,0,0.2);color:orange;border:1px solid rgba(255,165,0,0.3);padding:0.1rem 0.25rem">⚡ BA</span>
@@ -1406,7 +1406,7 @@
                 <span style="font-size:0.65rem;color:var(--accent);font-weight:500;margin-left:0.3rem">{% for i in character.infusions %}{% if not loop.first %}, {% endif %}{{ i|replace('_',' ')|title }}{% endfor %}</span>
                 {% endif %}
                 {% if feat.source %}
-                <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ feat.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer;max-width:8em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle" title="Source: {{ feat.source }}">📚 {{ feat.source }}</span>
+                <span class="source-badge" data-action="openSourceRef" data-call='{&quot;a&quot;:[{&quot;d&quot;:&quot;src&quot;}]}' data-src="{{ feat.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer;max-width:8em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle" title="Source: {{ feat.source }}">📚 {{ feat.source }}</span>
                 {% endif %}
                 {% if feat.recharge == "short" %}
                 <span class="badge badge-muted" style="font-size:0.72rem;background:var(--accent2);color:var(--accent);margin-left:0.3rem">SR</span>
@@ -1422,20 +1422,20 @@
                   <span style="color:var(--text-muted);font-size:0.7rem">{{ 'HP' if pool == 'hp' else 'pts' if pool == 'points' else 'dice' }}</span>
                   <input type="number" id="feat-pool-spend-{{ idx }}" min="1" max="{{ feat.uses }}" value="1"
                     style="width:3.5em;padding:0.15rem 0.25rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.7rem;text-align:center"
-                    onkeydown="if(event.key==='Enter'){event.preventDefault();spendPool({{ idx }})}">
-                  <button class="btn btn-outline btn-sm" onclick="spendPool({{ idx }})" style="font-size:0.65rem;padding:0.1rem 0.4rem" title="Spend from pool">-</button>
-                  <button class="btn btn-outline btn-sm" onclick="restorePool({{ idx }})" style="font-size:0.65rem;padding:0.1rem 0.4rem" title="Restore full pool">↺</button>
+                    data-action="spendPool" data-call='{&quot;key&quot;:&quot;Enter&quot;,&quot;prevent&quot;:true,&quot;stop&quot;:true,&quot;a&quot;:[{&quot;n&quot;:&quot;{{ idx }}&quot;}]}'>
+                  <button class="btn btn-outline btn-sm" data-action="spendPool" data-call='{&quot;a&quot;:[{&quot;n&quot;:&quot;{{ idx }}&quot;}]}' style="font-size:0.65rem;padding:0.1rem 0.4rem" title="Spend from pool">-</button>
+                  <button class="btn btn-outline btn-sm" data-action="restorePool" data-call='{&quot;a&quot;:[{&quot;n&quot;:&quot;{{ idx }}&quot;}]}' style="font-size:0.65rem;padding:0.1rem 0.4rem" title="Restore full pool">↺</button>
                 </span>
                 <span class="feat-uses-text" style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;min-width:2em;text-align:right" id="feat-uses-text-{{ idx }}">max {{ feat.uses_max }} {{ 'HP' if pool == 'hp' else 'pts' if pool == 'points' else 'dice' }}</span>
                 {% else %}
                   <span id="feat-uses-box-{{ idx }}" style="display:inline-flex;align-items:center;gap:0.25rem">
                   {% for i in range(feat.uses_max) %}
-                  <span class="feat-use-dot{% if i < feat.uses %} filled{% endif %}" data-feat-idx="{{ idx }}" data-dot-idx="{{ i }}" onclick="event.stopPropagation();toggleFeatureUse({{ idx }}, {{ i }})" title="{% if i < feat.uses %}Available — click to expend{% else %}Used — click to restore{% endif %}"></span>
+                  <span class="feat-use-dot{% if i < feat.uses %} filled{% endif %}" data-feat-idx="{{ idx }}" data-dot-idx="{{ i }}" data-action="toggleFeatureUse" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;n&quot;:&quot;{{ idx }}&quot;},{&quot;n&quot;:&quot;{{ i }}&quot;}]}' title="{% if i < feat.uses %}Available — click to expend{% else %}Used — click to restore{% endif %}"></span>
                   {% endfor %}
                   </span>
                   <span class="feat-uses-text" style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;min-width:2em;text-align:right" id="feat-uses-text-{{ idx }}">{{ feat.uses }}/{{ feat.uses_max }}</span>
                 {% endif %}
-                <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.7rem;padding:0.15rem 0.4rem">✏️</button>
+                <button class="btn btn-outline btn-sm edit-only" data-action="editFeature" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;n&quot;:&quot;{{ idx }}&quot;}]}' style="font-size:0.7rem;padding:0.15rem 0.4rem">✏️</button>
               </span>
             </div>
             <div class="feat-body">
@@ -1487,7 +1487,7 @@
         <p style="font-size:0.85rem;color:var(--accent);margin:0.25rem 0 0.5rem 0">{{ character.spell_slot_data.note }}</p>
         <!-- Pact Magic explainer -->
         <div id="pact-rules-toggle" style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none;margin-bottom:0.3rem"
-             onclick="toggleSection('pact-rules-body','pact-rules-arrow')">
+             data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;pact-rules-body&quot;},{&quot;s&quot;:&quot;pact-rules-arrow&quot;}]}'>
           <span id="pact-rules-arrow" style="font-size:0.65rem">▸</span>
           <span style="font-size:0.75rem;color:var(--text-muted)">How Pact Magic works <span style="font-size:0.72rem;opacity:0.6">(PHB p.107)</span></span>
         </div>
@@ -1502,7 +1502,7 @@
         <!-- Full caster explainer -->
         {% if caster_type == "full" %}
         <div id="full-caster-toggle" style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none;margin-bottom:0.3rem"
-             onclick="toggleSection('full-caster-body','full-caster-arrow')">
+             data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;full-caster-body&quot;},{&quot;s&quot;:&quot;full-caster-arrow&quot;}]}'>
           <span id="full-caster-arrow" style="font-size:0.65rem">▸</span>
           <span style="font-size:0.75rem;color:var(--text-muted)">How Full Casting works <span style="font-size:0.72rem;opacity:0.6">(PHB Ch.10)</span></span>
         </div>
@@ -1516,7 +1516,7 @@
         <!-- Half caster explainer -->
         {% if caster_type == "half" %}
         <div id="half-caster-toggle" style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none;margin-bottom:0.3rem"
-             onclick="toggleSection('half-caster-body','half-caster-arrow')">
+             data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;half-caster-body&quot;},{&quot;s&quot;:&quot;half-caster-arrow&quot;}]}'>
           <span id="half-caster-arrow" style="font-size:0.65rem">▸</span>
           <span style="font-size:0.75rem;color:var(--text-muted)">How Half Casting works <span style="font-size:0.72rem;opacity:0.6">(PHB p.164)</span></span>
         </div>
@@ -1530,7 +1530,7 @@
         <!-- Multiclass caster explainer -->
         {% if caster_type == "multiclass" %}
         <div id="multi-caster-toggle" style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none;margin-bottom:0.3rem"
-             onclick="toggleSection('multi-caster-body','multi-caster-arrow')">
+             data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;multi-caster-body&quot;},{&quot;s&quot;:&quot;multi-caster-arrow&quot;}]}'>
           <span id="multi-caster-arrow" style="font-size:0.65rem">▸</span>
           <span style="font-size:0.75rem;color:var(--text-muted)">How Multiclass Casting works <span style="font-size:0.72rem;opacity:0.6">(PHB p.164-165)</span></span>
         </div>
@@ -1563,7 +1563,7 @@
 
         <!-- Spellcasting rules subtext -->
         <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none;margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid var(--border-color)"
-             onclick="toggleSection('spell-rules-body','spell-rules-arrow')">
+             data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;spell-rules-body&quot;},{&quot;s&quot;:&quot;spell-rules-arrow&quot;}]}'>
           <span id="spell-rules-arrow" style="font-size:0.65rem">▸</span>
           <span style="font-size:0.75rem;color:var(--text-muted)">Spellcasting Rules <span style="font-size:0.72rem;opacity:0.6">(PHB Ch.10)</span></span>
         </div>
@@ -1597,7 +1597,7 @@
             <div class="slot-label">Level {{ lvl }} ({{ slots }} slot{{ 's' if slots != 1 }})</div>
             <div class="slot-tracker" id="slots-lvl-1">
               {% for i in range(slots) %}
-              <div class="slot-box{% if i < used_count %} used{% endif %}" onclick="toggleSpellSlot(1,{{ i+1 }},{{ slots }})"></div>
+              <div class="slot-box{% if i < used_count %} used{% endif %}" data-action="toggleSpellSlot" data-call='{&quot;a&quot;:[{&quot;n&quot;:1},{&quot;n&quot;:&quot;{{ i+1 }}&quot;},{&quot;n&quot;:&quot;{{ slots }}&quot;}]}'></div>
               {% endfor %}
             </div>
           </div>
@@ -1611,7 +1611,7 @@
           <div class="slot-tracker" id="slots-lvl-{{ lvl }}">
             {% for i in range(slots) %}
             {% set used_count = character.spell_slots_used.get(lvl|string, 0) or character.spell_slots_used.get(lvl, 0) %}
-            <div class="slot-box{% if i < used_count %} used{% endif %}" onclick="toggleSpellSlot({{ lvl }},{{ i+1 }},{{ slots }})"></div>
+            <div class="slot-box{% if i < used_count %} used{% endif %}" data-action="toggleSpellSlot" data-call='{&quot;a&quot;:[{&quot;n&quot;:&quot;{{ lvl }}&quot;},{&quot;n&quot;:&quot;{{ i+1 }}&quot;},{&quot;n&quot;:&quot;{{ slots }}&quot;}]}'></div>
             {% endfor %}
           </div>
         </div>
@@ -1625,23 +1625,23 @@
       {% set learned_cantrips = spells|selectattr("spell_level","eq",0)|list %}
       <div class="card" style="margin-bottom:0.75rem;border-color:var(--accent2)">
         <h3 style="margin:0 0 0.5rem 0;cursor:pointer;display:flex;align-items:center;gap:0.4rem"
-            onclick="const b=this.nextElementSibling;b.style.display=b.style.display==='none'?'':'none';this.querySelector('.lc-arrow').classList.toggle('rotated')">
+            data-action="toggleLocArrow">
           <span class="lc-arrow" style="font-size:0.7rem;transition:transform 0.2s">▶</span>
           ✨ Learned Cantrips
           <span style="font-size:0.75rem;color:var(--text-muted);font-weight:normal">
             (<span id="cantrips-known-count2">{{ learned_cantrips|length }}</span>{% if cantrips_max > 0 %}/{{ cantrips_max }}{% endif %})
           </span>
-          <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showAddSpell()" style="font-size:0.65rem;padding:0.1rem 0.35rem;margin-left:auto">+ Add</button>
+          <button class="btn btn-outline btn-sm" data-action="showAddSpell" data-call='{&quot;stop&quot;:true}' style="font-size:0.65rem;padding:0.1rem 0.35rem;margin-left:auto">+ Add</button>
         </h3>
         <div>
         {% if learned_cantrips %}
         {% for sp in learned_cantrips %}
         <div class="prepared-spell-chip" id="prep-spell-{{ sp.id }}" style="margin-bottom:0.2rem">
-          <div class="prep-header" onclick="this.parentElement.classList.toggle('open')"
+          <div class="prep-header" data-action="noop" data-call='{&quot;toggleClass&quot;:{&quot;on&quot;:&quot;parent&quot;,&quot;cls&quot;:&quot;open&quot;}}'
                style="display:flex;align-items:center;flex-wrap:wrap;gap:0.3rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer">
             <strong>{{ sp.spell_name }}</strong>
             {% if sp.srd and sp.srd.source %}
-            <span class="source-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ sp.srd.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
+            <span class="source-badge" data-action="openSourceRef" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;d&quot;:&quot;src&quot;}]}' data-src="{{ sp.srd.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
             {% endif %}
             {% if sp.srd and sp.srd.school %}
             <span class="badge badge-muted" style="font-size:0.68rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
@@ -1664,7 +1664,7 @@
             {% endif %}
             {% endif %}
             <button class="btn btn-outline btn-sm" style="font-size:0.72rem;padding:0.1rem 0.3rem;line-height:1;color:var(--danger);opacity:0.6"
-                    onclick="event.stopPropagation();unlearnSpell({{ sp.id }}, '{{ sp.spell_name|e }}')"
+                    data-action="unlearnSpell" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;n&quot;:&quot;{{ sp.id }}&quot;},{&quot;s&quot;:&quot;{{ sp.spell_name|e }}&quot;}]}'
                     title="Unlearn this cantrip">🗑</button>
             <span style="font-size:0.65rem;color:var(--text-muted);margin-left:auto;transition:transform 0.2s" class="prep-arrow">▶</span>
           </div>
@@ -1712,7 +1712,7 @@
         {% if level_prepared|length > 0 %}
         {% set level_label = "1st Level" if lvl == 1 else ("2nd Level" if lvl == 2 else ("3rd Level" if lvl == 3 else lvl|string + "th Level")) %}
         <div class="spell-level-section">
-          <div class="spell-level-header open" onclick="toggleSpellLevel(this)" data-level="prep-{{ lvl }}">
+          <div class="spell-level-header open" data-action="toggleSpellLevel" data-call='{&quot;a&quot;:[{&quot;e&quot;:true}]}' data-level="prep-{{ lvl }}">
             <span class="sl-arrow">▶</span>
             <span class="sl-label">{{ level_label }}</span>
             <span class="sl-count">{{ level_prepared|length }} spell{{ 's' if level_prepared|length != 1 }}</span>
@@ -1720,11 +1720,11 @@
           <div class="spell-level-body open">
           {% for sp in level_prepared %}
           <div class="prepared-spell-chip" id="prep-spell-{{ sp.id }}" style="margin-bottom:0.2rem">
-            <div class="prep-header" onclick="this.parentElement.classList.toggle('open')"
+            <div class="prep-header" data-action="noop" data-call='{&quot;toggleClass&quot;:{&quot;on&quot;:&quot;parent&quot;,&quot;cls&quot;:&quot;open&quot;}}'
                  style="display:flex;align-items:center;flex-wrap:wrap;gap:0.3rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer">
               <strong>{{ sp.spell_name }}</strong>
               {% if sp.srd and sp.srd.source %}
-              <span class="source-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ sp.srd.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
+              <span class="source-badge" data-action="openSourceRef" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;d&quot;:&quot;src&quot;}]}' data-src="{{ sp.srd.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
               {% endif %}
               {% if sp.srd and sp.srd.school %}
               <span class="badge badge-muted" style="font-size:0.68rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
@@ -1747,7 +1747,7 @@
               {% endif %}
               {% endif %}
               <button class="btn btn-outline btn-sm" style="font-size:0.72rem;padding:0.1rem 0.3rem;line-height:1"
-                      onclick="event.stopPropagation();togglePrepared({{ sp.id }}, this)" data-checked="true" title="Unprepare">✕</button>
+                      data-action="togglePrepared" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;n&quot;:&quot;{{ sp.id }}&quot;},{&quot;e&quot;:true}]}' data-checked="true" title="Unprepare">✕</button>
               <span style="font-size:0.65rem;color:var(--text-muted);margin-left:auto;transition:transform 0.2s" class="prep-arrow">▶</span>
             </div>
             <div class="prep-body" style="display:none;padding:0.5rem 0.6rem;background:var(--bg);border:1px solid var(--accent2);border-top:none;border-radius:0 0 4px 4px;font-size:0.8rem">
@@ -1772,7 +1772,7 @@
               {% else %}
               <p style="color:var(--text-muted);font-size:0.78rem">No SRD data available.</p>
               {% endif %}
-              <a href="#spell-row-{{ sp.id }}" onclick="event.stopPropagation()" style="font-size:0.65rem;color:var(--accent);text-decoration:none;display:inline-block;margin-top:0.3rem">📖 View in Spellbook</a>
+              <a href="#spell-row-{{ sp.id }}" data-action="noop" data-call='{&quot;stop&quot;:true}' style="font-size:0.65rem;color:var(--accent);text-decoration:none;display:inline-block;margin-top:0.3rem">📖 View in Spellbook</a>
             </div>
           </div>
           {% endfor %}
@@ -1794,9 +1794,9 @@
             {% if character.class_name in ("Cleric","Druid","Paladin","Wizard") %}📖 Spellbook{% elif character.class_name in ("Bard","Ranger","Sorcerer","Warlock") %}Known Spells{% else %}Spells{% endif %}
           </h3>
           <div style="display:flex;gap:0.25rem">
-            <button class="btn btn-outline btn-sm" onclick="toggleAllSpellLevels()" id="spell-toggle-all-btn" style="font-size:0.7rem;padding:0.2rem 0.4rem">▸ All</button>
-            <button class="btn btn-outline btn-sm" onclick="showAddSpell()" style="font-size:0.7rem;padding:0.2rem 0.4rem">+ Add</button>
-            <button class="btn btn-outline btn-sm" onclick="aiSelectSpells()" title="Deterministic pick — scores the spell list for this character. No AI model is called." style="background:var(--accent2);border-color:var(--accent);font-size:0.7rem;padding:0.2rem 0.4rem">✨ Auto-pick</button>
+            <button class="btn btn-outline btn-sm" data-action="toggleAllSpellLevels" id="spell-toggle-all-btn" style="font-size:0.7rem;padding:0.2rem 0.4rem">▸ All</button>
+            <button class="btn btn-outline btn-sm" data-action="showAddSpell" style="font-size:0.7rem;padding:0.2rem 0.4rem">+ Add</button>
+            <button class="btn btn-outline btn-sm" data-action="aiSelectSpells" title="Deterministic pick — scores the spell list for this character. No AI model is called." style="background:var(--accent2);border-color:var(--accent);font-size:0.7rem;padding:0.2rem 0.4rem">✨ Auto-pick</button>
           </div>
         </div>
         {% if spells %}
@@ -1806,7 +1806,7 @@
         {% if level_spells|length > 0 %}
         {% set level_label = "Cantrips" if lvl == 0 else ("1st Level" if lvl == 1 else ("2nd Level" if lvl == 2 else ("3rd Level" if lvl == 3 else lvl|string + "th Level"))) %}
         <div class="spell-level-section">
-          <div class="spell-level-header{% if lvl <= 1 or (character.spell_slot_data and character.spell_slot_data.by_level and character.spell_slot_data.by_level.get(lvl|string, 0) > 0) %} open{% endif %}" onclick="toggleSpellLevel(this)" data-level="{{ lvl }}">
+          <div class="spell-level-header{% if lvl <= 1 or (character.spell_slot_data and character.spell_slot_data.by_level and character.spell_slot_data.by_level.get(lvl|string, 0) > 0) %} open{% endif %}" data-action="toggleSpellLevel" data-call='{&quot;a&quot;:[{&quot;e&quot;:true}]}' data-level="{{ lvl }}">
             <span class="sl-arrow">▶</span>
             <span class="sl-label">{{ level_label }}</span>
             <span class="sl-count">{{ level_spells|length }} spell{{ 's' if level_spells|length != 1 }}</span>
@@ -1814,14 +1814,14 @@
           <div class="spell-level-body{% if lvl <= 1 or (character.spell_slot_data and character.spell_slot_data.by_level and character.spell_slot_data.by_level.get(lvl|string, 0) > 0) %} open{% endif %}">
           {% for sp in level_spells %}
           <div class="spell-row" id="spell-row-{{ sp.id }}" style="display:block;padding:0;border:none">
-            <div class="spell-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"
+            <div class="spell-header" data-action="noop" data-call='{&quot;toggleClass&quot;:{&quot;on&quot;:&quot;next&quot;,&quot;cls&quot;:&quot;open&quot;}}'
                  style="display:flex;align-items:center;flex-wrap:wrap;gap:0.35rem;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:border-color 0.15s;margin-bottom:0.15rem">
               <strong style="flex:1 1 auto;min-width:10ch;font-size:0.85rem;overflow-wrap:break-word;word-break:break-word">{{ sp.spell_name }}</strong>
               {% if sp.source == "Expanded Spell List" %}
               <span class="badge" style="font-size:0.65rem;background:rgba(147,51,234,0.2);color:#a78bfa;border:1px solid rgba(147,51,234,0.3);padding:0.1rem 0.3rem">Patron</span>
               {% endif %}
               {% if sp.srd and sp.srd.source %}
-              <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ sp.srd.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
+              <span class="source-badge" data-action="openSourceRef" data-call='{&quot;a&quot;:[{&quot;d&quot;:&quot;src&quot;}]}' data-src="{{ sp.srd.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
               {% endif %}
               {% if sp.srd and sp.srd.school %}
               <span class="badge badge-muted" style="font-size:0.72rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
@@ -1848,7 +1848,7 @@
               {% endif %}
               {% if use_prepared and sp.spell_level > 0 %}
               <button class="btn btn-outline btn-sm prep-toggle-btn" style="font-size:0.65rem;padding:0.1rem 0.35rem;line-height:1;flex-shrink:0;{% if sp.prepared %}color:var(--danger){% else %}color:var(--success){% endif %}"
-                      onclick="event.stopPropagation();togglePrepared({{ sp.id }}, this)"
+                      data-action="togglePrepared" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;n&quot;:&quot;{{ sp.id }}&quot;},{&quot;e&quot;:true}]}'
                       data-checked="{% if sp.prepared %}true{% else %}false{% endif %}"
                       title="{% if sp.prepared %}Unprepare{% else %}Prepare{% endif %}">{% if sp.prepared %}✕{% else %}+{% endif %}</button>
               {% endif %}
@@ -2039,7 +2039,7 @@
             {% endif %}
           </div>
         </div>
-        <button class="btn btn-sm" onclick="toggleMagicInitiateUse({{ mi_spells|length }})" style="font-size:0.75rem;padding:0.2rem 0.6rem;background:{{ 'var(--danger)' if mi.used else 'var(--success)' }};color:#fff;border:none;border-radius:4px;cursor:pointer">
+        <button class="btn btn-sm" data-action="toggleMagicInitiateUse" data-call='{&quot;a&quot;:[{&quot;n&quot;:&quot;{{ mi_spells|length }}&quot;}]}' style="font-size:0.75rem;padding:0.2rem 0.6rem;background:{{ 'var(--danger)' if mi.used else 'var(--success)' }};color:#fff;border:none;border-radius:4px;cursor:pointer">
           {{ 'Used ✓' if mi.used else 'Available' }}
         </button>
       </div>
@@ -2051,17 +2051,17 @@
     <div class="tab-content" id="tab-inventory">
       <!-- EQUIPMENT CARD (drop zone for unequip + team claims) -->
       <div class="card drop-zone" id="inv-card"
-           ondragover="handleDragOver(event, 'inventory')"
-           ondragleave="handleDragLeave(event)"
-           ondrop="handleDrop(event, 'inventory')">
+           data-action="handleDragOver" data-call='{&quot;a&quot;:[{&quot;v&quot;:true},{&quot;s&quot;:&quot;inventory&quot;}]}'
+           data-action="handleDragLeave" data-call='{&quot;a&quot;:[{&quot;v&quot;:true}]}'
+           data-action="handleDrop" data-call='{&quot;a&quot;:[{&quot;v&quot;:true},{&quot;s&quot;:&quot;inventory&quot;}]}'>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
           <h3 style="margin:0">🎒 Inventory</h3>
           <div style="display:flex;align-items:center;gap:0.5rem">
-            <label style="display:flex;align-items:center;gap:0.25rem;font-size:0.65rem;color:var(--text-muted);cursor:pointer;user-select:none;white-space:nowrap" onclick="event.stopPropagation();_coreOnly=!_coreOnly;localStorage.setItem('coreOnly',_coreOnly);this.style.color=_coreOnly?'var(--accent)':'var(--text-muted)';this.querySelector('span').textContent=_coreOnly?'☑':'☐';syncCoreToSpellToggle();">
+            <label style="display:flex;align-items:center;gap:0.25rem;font-size:0.65rem;color:var(--text-muted);cursor:pointer;user-select:none;white-space:nowrap" data-action="toggleCoreOnlyFilter" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;e&quot;:true}]}'>
               <span style="display:inline-block;width:12px;height:12px;border:1.5px solid var(--border);border-radius:2px;text-align:center;line-height:10px;font-size:9px;background:var(--bg)">☐</span>
               Core only
             </label>
-            <button class="btn btn-outline btn-sm" onclick="openItemPicker()">+ Add</button>
+            <button class="btn btn-outline btn-sm" data-action="openItemPicker">+ Add</button>
           </div>
         </div>
         <div id="inv-list" style="display:flex;flex-wrap:wrap;gap:0.35rem;min-height:2.5rem;align-items:flex-start">
@@ -2073,27 +2073,27 @@
           <div class="item-card" draggable="true"
                data-item-name="{{ item_name }}"
                data-enhancement="{{ item_enh }}"
-               ondragstart="handleDragStart(event, this.dataset.itemName, 'inventory', {{ item_qty }})"
-               ondragend="handleDragEnd(event)">
+               data-action="handleDragStart" data-call='{&quot;a&quot;:[{&quot;v&quot;:true},{&quot;d&quot;:&quot;item-name&quot;},{&quot;s&quot;:&quot;inventory&quot;},{&quot;n&quot;:{{ item_qty }}}]}'
+               data-action="handleDragEnd" data-call='{&quot;a&quot;:[{&quot;v&quot;:true}]}'>
             <span class="drag-handle" title="Drag to move">⋮⋮</span>
             {{ char_portrait(0, item_name, 1, 28, src_override='/api/ref-image/item/' ~ (item_name|urlencode) ~ '?size=56') }}
-            <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
+            <button class="item-card-btn item-expand-btn" data-action="toggleItemExpand" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;e&quot;:true}]}' title="Expand">▶</button>
             <input type="text" value="{{ item_name }}" class="item-card-name"
-                   onchange="autoSaveInventory();tagWeapons()"
-                   onfocus="this.closest('.item-card').classList.add('editing')"
-                   onblur="this.closest('.item-card').classList.remove('editing')">
-            {% if item_qty > 1 %}<span class="item-qty" onclick="event.stopPropagation();toggleItemExpand(this.closest('.item-card').querySelector('.item-expand-btn'))" title="Click to expand" style="cursor:pointer">{{ item_qty }}</span>{% endif %}
+                   data-action="autoSaveInventory" data-call='{&quot;calls&quot;:[{&quot;n&quot;:&quot;autoSaveInventory&quot;,&quot;a&quot;:[]},{&quot;n&quot;:&quot;tagWeapons&quot;,&quot;a&quot;:[]}]}'
+                  
+                  >
+            {% if item_qty|int > 1 %}<span class="item-qty" data-action="toggleItemExpand" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;closest&quot;:&quot;.item-card&quot;,&quot;q&quot;:&quot;.item-expand-btn&quot;}]}' title="Click to expand" style="cursor:pointer">{{ item_qty }}</span>{% endif %}
             {% if item.concentration %}<span class="conc-badge" style="font-size:0.65rem;font-weight:600;color:#f59e0b;background:rgba(245,158,11,0.12);padding:0.05rem 0.2rem;border-radius:3px;flex-shrink:0;line-height:1.4">⟲</span>{% endif %}
-            <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo(this.closest('.item-card').querySelector('.item-card-name').value)" title="Info">ℹ️</button>
+            <button class="item-card-btn" data-action="showItemInfo" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;closest&quot;:&quot;.item-card&quot;,&quot;q&quot;:&quot;.item-card-name&quot;,&quot;p&quot;:&quot;value&quot;}]}' title="Info">ℹ️</button>
             <span class="wpn-badge item-tag" style="display:none">⚔️</span>
             <span class="arm-badge item-tag" style="display:none">🛡️</span>
             {% if item.dice %}<span class="item-dice-badge" style="font-size:0.68rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">{{ item.dice }}</span>{% endif %}
             {% set item_enh2 = item.enhancement|default(0) %}
-            <span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)">+{{ item_enh2 }}</span>
-            {% if campaign_info %}<button class="item-card-btn" onclick="shareToTeam(this.closest('.item-card').querySelector('.item-card-name').value, {{ item_qty }})" title="Share to team">↗</button>{% endif %}
-            <button class="item-card-btn" onclick="quickEquip(this.closest('.item-card').querySelector('.item-card-name').value, {{ item_qty }})" title="Equip">⬆️</button>
-            <button class="item-card-btn item-card-del" onclick="deleteInventoryItem(this.closest('.item-card').querySelector('.item-card-name').value)" title="Delete">✕</button>
-            {% if item.source %}<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ item.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer;flex-shrink:0" title="Click to open {{ item.source }}">📚</span>{% endif %}
+            <span class="enh-badge" data-action="cycleEnhancement" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;e&quot;:true}]}'>+{{ item_enh2 }}</span>
+            {% if campaign_info %}<button class="item-card-btn" data-action="shareToTeam" data-call='{&quot;a&quot;:[{&quot;closest&quot;:&quot;.item-card&quot;,&quot;q&quot;:&quot;.item-card-name&quot;,&quot;p&quot;:&quot;value&quot;},{&quot;n&quot;:&quot;{{ item_qty }}&quot;}]}' title="Share to team">↗</button>{% endif %}
+            <button class="item-card-btn" data-action="quickEquip" data-call='{&quot;a&quot;:[{&quot;closest&quot;:&quot;.item-card&quot;,&quot;q&quot;:&quot;.item-card-name&quot;,&quot;p&quot;:&quot;value&quot;},{&quot;n&quot;:&quot;{{ item_qty }}&quot;}]}' title="Equip">⬆️</button>
+            <button class="item-card-btn item-card-del" data-action="deleteInventoryItem" data-call='{&quot;a&quot;:[{&quot;closest&quot;:&quot;.item-card&quot;,&quot;q&quot;:&quot;.item-card-name&quot;,&quot;p&quot;:&quot;value&quot;}]}' title="Delete">✕</button>
+            {% if item.source %}<span class="src-badge" data-action="openSourceRef" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;d&quot;:&quot;src&quot;}]}' data-src="{{ item.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer;flex-shrink:0" title="Click to open {{ item.source }}">📚</span>{% endif %}
             <div class="item-detail" data-item-name="{{ item_name }}"></div>
           </div>
           {% endfor %}
@@ -2104,9 +2104,9 @@
 
       <!-- EQUIPPED CARD (drop zone for equipping) -->
       <div class="card drop-zone" id="equipped-card" style="margin-top:0.75rem"
-           ondragover="handleDragOver(event, 'equipped')"
-           ondragleave="handleDragLeave(event)"
-           ondrop="handleDrop(event, 'equipped')">
+           data-action="handleDragOver" data-call='{&quot;a&quot;:[{&quot;v&quot;:true},{&quot;s&quot;:&quot;equipped&quot;}]}'
+           data-action="handleDragLeave" data-call='{&quot;a&quot;:[{&quot;v&quot;:true}]}'
+           data-action="handleDrop" data-call='{&quot;a&quot;:[{&quot;v&quot;:true},{&quot;s&quot;:&quot;equipped&quot;}]}'>
         <h3 style="margin:0 0 0.5rem 0">⬆️ Equipped</h3>
         <div id="equipped-list" style="display:flex;flex-wrap:wrap;gap:0.35rem;min-height:2.5rem;align-items:flex-start">
           {% if character.equipped %}
@@ -2117,27 +2117,27 @@
           <div class="item-card equipped-card" draggable="true"
                data-item-name="{{ eq_name }}"
                data-enhancement="{{ eq_enh }}"
-               ondragstart="handleDragStart(event, this.dataset.itemName, 'equipped', {{ eq_qty }})"
-               ondragend="handleDragEnd(event)">
+               data-action="handleDragStart" data-call='{&quot;a&quot;:[{&quot;v&quot;:true},{&quot;d&quot;:&quot;item-name&quot;},{&quot;s&quot;:&quot;equipped&quot;},{&quot;n&quot;:{{ eq_qty }}}]}'
+               data-action="handleDragEnd" data-call='{&quot;a&quot;:[{&quot;v&quot;:true}]}'>
             <span class="drag-handle" title="Drag to unequip">⋮⋮</span>
             {{ char_portrait(0, eq_name, 1, 28, src_override='/api/ref-image/item/' ~ (eq_name|urlencode) ~ '?size=56') }}
-            <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
+            <button class="item-card-btn item-expand-btn" data-action="toggleItemExpand" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;e&quot;:true}]}' title="Expand">▶</button>
             <span class="item-card-name" style="cursor:default">{{ eq_name }}</span>
-            {% if eq_qty > 1 %}<span class="item-qty" style="cursor:default">{{ eq_qty }}</span>{% endif %}
+            {% if eq_qty|int > 1 %}<span class="item-qty" style="cursor:default">{{ eq_qty }}</span>{% endif %}
             {% if eq.concentration %}<span class="conc-badge" style="font-size:0.65rem;font-weight:600;color:#f59e0b;background:rgba(245,158,11,0.12);padding:0.05rem 0.2rem;border-radius:3px;flex-shrink:0;line-height:1.4">⟲</span>{% endif %}
-            <span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)">+{{ eq_enh }}</span>
+            <span class="enh-badge" data-action="cycleEnhancement" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;e&quot;:true}]}'>+{{ eq_enh }}</span>
             <span class="wpn-badge item-tag" style="display:none">⚔️</span>
             <span class="arm-badge item-tag" style="display:none">🛡️</span>
             {% if eq.dice %}<span class="item-dice-badge" style="font-size:0.68rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">{{ eq.dice }}</span>{% endif %}
             {% if eq_name in item_attunement_dict %}
               {% if eq_name in character.attuned_items %}
-              <span class="item-attune-badge attuned" onclick="toggleAttune(this.closest('.item-card').querySelector('.item-card-name').textContent)" title="Attuned — click to break">◆</span>
+              <span class="item-attune-badge attuned" data-action="toggleAttune" data-call='{&quot;a&quot;:[{&quot;closest&quot;:&quot;.item-card&quot;,&quot;q&quot;:&quot;.item-card-name&quot;,&quot;p&quot;:&quot;textContent&quot;}]}' title="Attuned — click to break">◆</span>
               {% else %}
-              <span class="item-attune-badge" onclick="toggleAttune(this.closest('.item-card').querySelector('.item-card-name').textContent)" title="Needs attunement — click to attune">◇</span>
+              <span class="item-attune-badge" data-action="toggleAttune" data-call='{&quot;a&quot;:[{&quot;closest&quot;:&quot;.item-card&quot;,&quot;q&quot;:&quot;.item-card-name&quot;,&quot;p&quot;:&quot;textContent&quot;}]}' title="Needs attunement — click to attune">◇</span>
               {% endif %}
             {% endif %}
-            <button class="item-card-btn" onclick="quickUnequip(this.closest('.item-card').querySelector('.item-card-name').textContent, {{ eq_qty }})" title="Unequip">⬇️</button>
-            {% if eq.source %}<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ eq.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer;flex-shrink:0" title="Click to open {{ eq.source }}">📚</span>{% endif %}
+            <button class="item-card-btn" data-action="quickUnequip" data-call='{&quot;a&quot;:[{&quot;closest&quot;:&quot;.item-card&quot;,&quot;q&quot;:&quot;.item-card-name&quot;,&quot;p&quot;:&quot;textContent&quot;},{&quot;n&quot;:&quot;{{ eq_qty }}&quot;}]}' title="Unequip">⬇️</button>
+            {% if eq.source %}<span class="src-badge" data-action="openSourceRef" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;d&quot;:&quot;src&quot;}]}' data-src="{{ eq.source }}" style="font-size:0.65rem;color:var(--text-muted);opacity:0.6;cursor:pointer;flex-shrink:0" title="Click to open {{ eq.source }}">📚</span>{% endif %}
             <div class="item-detail" data-item-name="{{ eq_name }}"></div>
           </div>
           {% endfor %}
@@ -2170,19 +2170,19 @@
       <div class="card" id="gp-card" style="margin-top:0.75rem">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem">
           <h3 style="margin:0;flex:none;white-space:nowrap">🪙 Gold</h3>
-          <span id="gp-display" onclick="openGpPopup()" style="font-size:1.2rem;font-weight:700;color:#ffd700;cursor:pointer;border-bottom:1px dashed #ffd700;flex:none;white-space:nowrap">{{ character.gp|default(0) }}</span>
+          <span id="gp-display" data-action="openGpPopup" style="font-size:1.2rem;font-weight:700;color:#ffd700;cursor:pointer;border-bottom:1px dashed #ffd700;flex:none;white-space:nowrap">{{ character.gp|default(0) }}</span>
           <div style="display:flex;gap:0.3rem;align-items:center;flex:none">
-            <button class="btn btn-outline btn-sm" onclick="adjustGp(-10)" style="font-size:0.65rem;padding:0.15rem 0.45rem">−10</button>
-            <button class="btn btn-outline btn-sm" onclick="adjustGp(-1)" style="font-size:0.65rem;padding:0.15rem 0.45rem">−1</button>
-            <button class="btn btn-outline btn-sm" onclick="adjustGp(1)" style="font-size:0.65rem;padding:0.15rem 0.45rem">+1</button>
-            <button class="btn btn-outline btn-sm" onclick="adjustGp(10)" style="font-size:0.65rem;padding:0.15rem 0.45rem">+10</button>
-            <button class="btn btn-outline btn-sm" onclick="openGpPopup()" style="font-size:0.65rem;padding:0.15rem 0.45rem">⋯</button>
+            <button class="btn btn-outline btn-sm" data-action="adjustGp" data-call='{&quot;a&quot;:[{&quot;n&quot;:-10}]}' style="font-size:0.65rem;padding:0.15rem 0.45rem">−10</button>
+            <button class="btn btn-outline btn-sm" data-action="adjustGp" data-call='{&quot;a&quot;:[{&quot;n&quot;:-1}]}' style="font-size:0.65rem;padding:0.15rem 0.45rem">−1</button>
+            <button class="btn btn-outline btn-sm" data-action="adjustGp" data-call='{&quot;a&quot;:[{&quot;n&quot;:1}]}' style="font-size:0.65rem;padding:0.15rem 0.45rem">+1</button>
+            <button class="btn btn-outline btn-sm" data-action="adjustGp" data-call='{&quot;a&quot;:[{&quot;n&quot;:10}]}' style="font-size:0.65rem;padding:0.15rem 0.45rem">+10</button>
+            <button class="btn btn-outline btn-sm" data-action="openGpPopup" style="font-size:0.65rem;padding:0.15rem 0.45rem">⋯</button>
           </div>
         </div>
       </div>
 
       <!-- GP Popup -->
-      <div id="gp-popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:200;align-items:center;justify-content:center" onclick="if(event.target===this)closeGpPopup()">
+      <div id="gp-popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:200;align-items:center;justify-content:center" data-action="closeGpPopup" data-call='{&quot;ifTarget&quot;:true}'>
         <div class="card" style="max-width:320px;width:90%">
           <h3 style="margin:0 0 0.75rem 0">🪙 Gold Pieces</h3>
           <div style="font-size:1.8rem;font-weight:700;color:#ffd700;text-align:center;margin-bottom:0.75rem" id="gp-popup-total">0</div>
@@ -2190,25 +2190,25 @@
             <input type="number" id="gp-amount" placeholder="Amount" min="1" style="flex:1;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem;outline:none">
            </div>
           <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.75rem">
-            <button class="btn btn-primary btn-sm" onclick="adjustGpPopup('add')" style="flex:1">+ Add</button>
-            <button class="btn btn-outline btn-sm" onclick="adjustGpPopup('sub')" style="flex:1">− Subtract</button>
+            <button class="btn btn-primary btn-sm" data-action="adjustGpPopup" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;add&quot;}]}' style="flex:1">+ Add</button>
+            <button class="btn btn-outline btn-sm" data-action="adjustGpPopup" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;sub&quot;}]}' style="flex:1">− Subtract</button>
           </div>
           {% if campaign_info %}
-          <button class="btn btn-outline btn-sm" onclick="giftGpToTeam()" style="width:100%;margin-bottom:0.5rem">🎁 Gift to Party Pool</button>
+          <button class="btn btn-outline btn-sm" data-action="giftGpToTeam" style="width:100%;margin-bottom:0.5rem">🎁 Gift to Party Pool</button>
           {% endif %}
-          <button class="btn btn-outline btn-sm" onclick="closeGpPopup()" style="width:100%">Close</button>
+          <button class="btn btn-outline btn-sm" data-action="closeGpPopup" style="width:100%">Close</button>
         </div>
       </div>
 
       {% if campaign_info %}
       <!-- TEAM ITEMS CARD (drop zone for sharing) -->
       <div class="card drop-zone" id="team-card" style="margin-top:0.75rem"
-           ondragover="handleDragOver(event, 'team')"
-           ondragleave="handleDragLeave(event)"
-           ondrop="handleDrop(event, 'team')">
+           data-action="handleDragOver" data-call='{&quot;a&quot;:[{&quot;v&quot;:true},{&quot;s&quot;:&quot;team&quot;}]}'
+           data-action="handleDragLeave" data-call='{&quot;a&quot;:[{&quot;v&quot;:true}]}'
+           data-action="handleDrop" data-call='{&quot;a&quot;:[{&quot;v&quot;:true},{&quot;s&quot;:&quot;team&quot;}]}'>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
           <h3 style="margin:0">📦 Team <span style="font-size:0.65rem;color:var(--text-muted);font-weight:400">{{ campaign_info.name }}</span></h3>
-          <button class="btn btn-outline btn-sm" onclick="loadTeamItems()">🔄</button>
+          <button class="btn btn-outline btn-sm" data-action="loadTeamItems">🔄</button>
         </div>
         <div id="team-items-list" style="display:flex;flex-wrap:wrap;gap:0.35rem;min-height:2.5rem;align-items:flex-start">
           <span style="color:var(--text-muted);font-size:0.8rem">Loading...</span>
@@ -2219,8 +2219,8 @@
       <!-- NOTES CARD -->
       <div class="card" style="margin-top:0.75rem" id="notes-card">
         <h3 style="margin-bottom:0.5rem">Notes</h3>
-        <textarea id="notes" style="width:100%;min-height:100px;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:0.5rem;border-radius:6px;font-family:var(--font);font-size:0.9rem" onblur="saveNotes()">{{ character.notes or '' }}</textarea>
-        <button class="btn btn-outline btn-sm" onclick="saveNotes()" style="margin-top:0.25rem">Save Notes</button>
+        <textarea id="notes" style="width:100%;min-height:100px;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:0.5rem;border-radius:6px;font-family:var(--font);font-size:0.9rem" data-action="saveNotes">{{ character.notes or '' }}</textarea>
+        <button class="btn btn-outline btn-sm" data-action="saveNotes" style="margin-top:0.25rem">Save Notes</button>
       </div>
     </div>
 
@@ -2230,7 +2230,7 @@
         <h3 style="margin:0 0 0.5rem 0;flex-shrink:0">Add Spell</h3>
         <div id="spell-source-info" style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.5rem;flex-shrink:0">Loading available spells...</div>
         <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.35rem">
-          <label id="core-toggle-label" style="display:flex;align-items:center;gap:0.3rem;font-size:0.68rem;color:var(--text-muted);cursor:pointer;user-select:none" onclick="toggleCoreOnly()">
+          <label id="core-toggle-label" style="display:flex;align-items:center;gap:0.3rem;font-size:0.68rem;color:var(--text-muted);cursor:pointer;user-select:none" data-action="toggleCoreOnly">
             <span id="core-toggle-box" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-radius:3px;text-align:center;line-height:12px;font-size:10px;background:var(--bg)">☐</span>
             Core content only
           </label>
@@ -2239,7 +2239,8 @@
         <div style="position:relative;margin-bottom:0.5rem;flex:1;overflow-y:auto;min-height:0">
           <input type="text" id="spell-search" placeholder="Search spells..." autocomplete="off"
             style="width:100%;padding:0.5rem 0.75rem;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:6px;font-size:0.9rem;outline:none"
-            oninput="filterSpellResults()" onkeydown="handleSpellKey(event)">
+            data-action-map='{"input":"filterSpellResults","keydown":"handleSpellKey"}'
+            data-call-map='{"input":null,"keydown":{"a":[{"v":true}]}}'>
           <div id="spell-results" style="margin-top:0.25rem"></div>
         </div>
         <div id="spell-detail" style="display:none;font-size:0.78rem;color:var(--text-muted);background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.5rem;margin-bottom:0.5rem;line-height:1.4;max-height:120px;overflow-y:auto;flex-shrink:0"></div>
@@ -2248,19 +2249,19 @@
         <input type="hidden" id="spell-name" value="">
         <input type="hidden" id="spell-level" value="0">
         <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.5rem;flex-shrink:0">
-          <button class="btn btn-outline btn-sm" onclick="closeAddSpell()">Cancel</button>
-          <button class="btn btn-primary btn-sm" onclick="addSpell()">Add</button>
+          <button class="btn btn-outline btn-sm" data-action="closeAddSpell">Cancel</button>
+          <button class="btn btn-primary btn-sm" data-action="addSpell">Add</button>
         </div>
       </div>
     </div>
 <!-- 📜 HISTORY & RELATIONSHIPS TAB -->
 <div class="tab-content" id="tab-history">
   <div class="card" style="margin-bottom:1rem">
-    <h3 style="margin:0 0 0.5rem 0;font-size:1rem">Character History <span id="history-lock-btn" onclick="toggleHistoryLock()" style="cursor:pointer;font-size:0.9rem;user-select:none" title="Click to lock/unlock editing">🔓</span></h3>
-    <textarea id="history-backstory" onchange="saveBackstory()" style="width:100%;min-height:160px;padding:0.75rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;font-family:var(--font);resize:vertical;line-height:1.5">{{ character.backstory or '' }}</textarea>
+    <h3 style="margin:0 0 0.5rem 0;font-size:1rem">Character History <span id="history-lock-btn" data-action="toggleHistoryLock" style="cursor:pointer;font-size:0.9rem;user-select:none" title="Click to lock/unlock editing">🔓</span></h3>
+    <textarea id="history-backstory" data-action="saveBackstory" style="width:100%;min-height:160px;padding:0.75rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;font-family:var(--font);resize:vertical;line-height:1.5">{{ character.backstory or '' }}</textarea>
     <div id="history-tools" style="display:flex;gap:0.5rem;align-items:center;margin-top:0.5rem;flex-wrap:wrap">
       <input id="history-keywords" type="text" placeholder="Keywords or flavor text (optional) — e.g. 'orphaned by dragon, raised by monks'" style="flex:1;min-width:200px;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;font-family:var(--font)">
-      <button class="btn btn-outline btn-sm" onclick="generateHistory()" id="history-gen-btn" style="font-size:0.8rem;white-space:nowrap">✨ AI Generate</button>
+      <button class="btn btn-outline btn-sm" data-action="generateHistory" id="history-gen-btn" style="font-size:0.8rem;white-space:nowrap">✨ AI Generate</button>
       <span id="history-loading" style="display:none;font-size:0.8rem;color:var(--text-muted)">Generating...</span>
     </div>
   </div>
@@ -2268,14 +2269,14 @@
   <!-- Journal Card -->
   <div class="card" style="margin-bottom:1rem">
     <h3 style="margin:0 0 0.5rem 0;font-size:1rem">📖 Journal</h3>
-    <textarea id="journal-text" onchange="saveJournal()" style="width:100%;min-height:120px;padding:0.75rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;font-family:var(--font);resize:vertical;line-height:1.5">{{ character.journal or '' }}</textarea>
+    <textarea id="journal-text" data-action="saveJournal" style="width:100%;min-height:120px;padding:0.75rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;font-family:var(--font);resize:vertical;line-height:1.5">{{ character.journal or '' }}</textarea>
     <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.3rem">Campaign notes, session logs, and personal reflections — saved automatically.</div>
   </div>
 
   <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
       <h3 style="margin:0;font-size:1rem">Relationships</h3>
-      <button class="btn btn-outline btn-sm" onclick="openAddRelationship()" style="font-size:0.8rem">+ Add NPC</button>
+      <button class="btn btn-outline btn-sm" data-action="openAddRelationship" style="font-size:0.8rem">+ Add NPC</button>
     </div>
     <div id="relationships-list" style="display:flex;flex-direction:column;gap:0.5rem">
       <div style="color:var(--text-muted);font-size:0.85rem;text-align:center;padding:1rem">Loading...</div>
@@ -2283,8 +2284,8 @@
   </div>
 
   <!-- Add Relationship Modal -->
-  <div id="rel-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:600;align-items:center;justify-content:center" onclick="if(event.target===this)closeRelModal()">
-    <div class="card" style="max-width:500px;width:90%;max-height:85vh;display:flex;flex-direction:column" onclick="event.stopPropagation()">
+  <div id="rel-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:600;align-items:center;justify-content:center" data-action="closeRelModal" data-call='{&quot;ifTarget&quot;:true}'>
+    <div class="card" style="max-width:500px;width:90%;max-height:85vh;display:flex;flex-direction:column" data-action="noop" data-call='{&quot;stop&quot;:true}'>
       <h3 id="rel-modal-title" style="margin-bottom:1rem;flex-shrink:0">Add Relationship</h3>
       <div style="flex:1;overflow-y:auto;min-height:0">
       <div class="form-group">
@@ -2306,7 +2307,7 @@
       </div>
       <div style="margin-bottom:1rem">
         <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;font-size:0.85rem">
-          <input type="checkbox" id="rel-use-ai" onchange="toggleRelAIMode()">
+          <input type="checkbox" id="rel-use-ai" data-action="toggleRelAIMode">
           🤖 AI-generate from description
         </label>
       </div>
@@ -2316,21 +2317,21 @@
         <div style="display:flex;gap:0.5rem;align-items:center;margin-top:0.5rem">
           <label style="font-size:0.8rem;white-space:nowrap">Level:</label>
           <input type="number" id="rel-npc-level" value="{{ character.level }}" min="1" max="20" style="width:60px;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;text-align:center">
-          <button class="btn btn-primary btn-sm" onclick="generateRelationship()" style="font-size:0.8rem">🪄 Generate NPC</button>
+          <button class="btn btn-primary btn-sm" data-action="generateRelationship" style="font-size:0.8rem">🪄 Generate NPC</button>
           <span id="rel-gen-status" style="font-size:0.75rem;color:var(--text-muted);margin-left:0.5rem"></span>
         </div>
       </div>
       </div>
       <div style="display:flex;gap:0.5rem;justify-content:flex-end;flex-shrink:0">
-        <button class="btn btn-outline btn-sm" onclick="closeRelModal()">Cancel</button>
-        <button class="btn btn-primary btn-sm" id="rel-save-btn" onclick="saveRelationship()">Save</button>
+        <button class="btn btn-outline btn-sm" data-action="closeRelModal">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="rel-save-btn" data-action="saveRelationship">Save</button>
       </div>
     </div>
   </div>
 
 <!-- Personality Section -->
 <div class="card" style="margin-bottom:1rem;margin-top:0.5rem">
-  <div onclick="togglePersonalitySection()" style="cursor:pointer;display:flex;align-items:center;gap:0.4rem;user-select:none;margin-bottom:0">
+  <div data-action="togglePersonalitySection" style="cursor:pointer;display:flex;align-items:center;gap:0.4rem;user-select:none;margin-bottom:0">
     <span id="personality-arrow" style="font-size:0.7rem;transition:transform 0.2s;display:inline-block">▸</span>
     <h3 style="margin:0;font-size:1rem">Personality & Appearance</h3>
   </div>
@@ -2338,50 +2339,50 @@
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-bottom:0.75rem">
     <div>
       <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Age</label>
-      <input type="text" class="personality-input" data-field="age" value="{{ character.personality_data.get('age','') }}" onchange="savePersonalityField('age',this.value)" style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+      <input type="text" class="personality-input" data-field="age" value="{{ character.personality_data.get('age','') }}" data-action="savePersonalityField" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;age&quot;},{&quot;p&quot;:&quot;value&quot;}]}' style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
     </div>
     <div>
       <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Height</label>
-      <input type="text" class="personality-input" data-field="height" value="{{ character.personality_data.get('height','') }}" onchange="savePersonalityField('height',this.value)" style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+      <input type="text" class="personality-input" data-field="height" value="{{ character.personality_data.get('height','') }}" data-action="savePersonalityField" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;height&quot;},{&quot;p&quot;:&quot;value&quot;}]}' style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
     </div>
     <div>
       <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Weight</label>
-      <input type="text" class="personality-input" data-field="weight" value="{{ character.personality_data.get('weight','') }}" onchange="savePersonalityField('weight',this.value)" style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+      <input type="text" class="personality-input" data-field="weight" value="{{ character.personality_data.get('weight','') }}" data-action="savePersonalityField" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;weight&quot;},{&quot;p&quot;:&quot;value&quot;}]}' style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
     </div>
     <div>
       <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Eyes</label>
-      <input type="text" class="personality-input" data-field="eyes" value="{{ character.personality_data.get('eyes','') }}" onchange="savePersonalityField('eyes',this.value)" style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+      <input type="text" class="personality-input" data-field="eyes" value="{{ character.personality_data.get('eyes','') }}" data-action="savePersonalityField" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;eyes&quot;},{&quot;p&quot;:&quot;value&quot;}]}' style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
     </div>
     <div>
       <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Skin</label>
-      <input type="text" class="personality-input" data-field="skin" value="{{ character.personality_data.get('skin','') }}" onchange="savePersonalityField('skin',this.value)" style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+      <input type="text" class="personality-input" data-field="skin" value="{{ character.personality_data.get('skin','') }}" data-action="savePersonalityField" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;skin&quot;},{&quot;p&quot;:&quot;value&quot;}]}' style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
     </div>
     <div>
       <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Hair</label>
-      <input type="text" class="personality-input" data-field="hair" value="{{ character.personality_data.get('hair','') }}" onchange="savePersonalityField('hair',this.value)" style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+      <input type="text" class="personality-input" data-field="hair" value="{{ character.personality_data.get('hair','') }}" data-action="savePersonalityField" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;hair&quot;},{&quot;p&quot;:&quot;value&quot;}]}' style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
     </div>
   </div>
   <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem">
     <div>
       <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Personality Traits</label>
-      <textarea class="personality-input" data-field="traits" onchange="savePersonalityField('traits',this.value)" style="width:100%;min-height:70px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('traits','') }}</textarea>
+      <textarea class="personality-input" data-field="traits" data-action="savePersonalityField" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;traits&quot;},{&quot;p&quot;:&quot;value&quot;}]}' style="width:100%;min-height:70px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('traits','') }}</textarea>
     </div>
     <div>
       <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Ideals</label>
-      <textarea class="personality-input" data-field="ideals" onchange="savePersonalityField('ideals',this.value)" style="width:100%;min-height:70px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('ideals','') }}</textarea>
+      <textarea class="personality-input" data-field="ideals" data-action="savePersonalityField" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;ideals&quot;},{&quot;p&quot;:&quot;value&quot;}]}' style="width:100%;min-height:70px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('ideals','') }}</textarea>
     </div>
     <div>
       <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Bonds</label>
-      <textarea class="personality-input" data-field="bonds" onchange="savePersonalityField('bonds',this.value)" style="width:100%;min-height:70px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('bonds','') }}</textarea>
+      <textarea class="personality-input" data-field="bonds" data-action="savePersonalityField" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;bonds&quot;},{&quot;p&quot;:&quot;value&quot;}]}' style="width:100%;min-height:70px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('bonds','') }}</textarea>
     </div>
     <div>
       <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Flaws</label>
-      <textarea class="personality-input" data-field="flaws" onchange="savePersonalityField('flaws',this.value)" style="width:100%;min-height:70px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('flaws','') }}</textarea>
+      <textarea class="personality-input" data-field="flaws" data-action="savePersonalityField" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;flaws&quot;},{&quot;p&quot;:&quot;value&quot;}]}' style="width:100%;min-height:70px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('flaws','') }}</textarea>
     </div>
   </div>
   <div style="margin-top:0.75rem">
     <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Allies & Organizations</label>
-    <textarea class="personality-input" data-field="allies" onchange="savePersonalityField('allies',this.value)" style="width:100%;min-height:80px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('allies','') }}</textarea>
+    <textarea class="personality-input" data-field="allies" data-action="savePersonalityField" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;allies&quot;},{&quot;p&quot;:&quot;value&quot;}]}' style="width:100%;min-height:80px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('allies','') }}</textarea>
   </div>
 </div>
 </div>
@@ -2393,13 +2394,13 @@
 </div>
 
 <!-- Item Picker Popup -->
-<div id="item-picker-popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:250;align-items:center;justify-content:center" onclick="if(event.target===this)closeItemPicker()">
+<div id="item-picker-popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:250;align-items:center;justify-content:center" data-action="closeItemPicker" data-call='{&quot;ifTarget&quot;:true}'>
   <div class="card" style="max-width:420px;width:90%;max-height:80vh;display:flex;flex-direction:column">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
       <h3 style="margin:0;font-size:1rem">🔍 Find Item</h3>
-      <button onclick="closeItemPicker()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.2rem">&times;</button>
+      <button data-action="closeItemPicker" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.2rem">&times;</button>
     </div>
-    <input type="text" id="item-picker-search" placeholder="Search 600+ items..." oninput="searchPickerItems(this.value)"
+    <input type="text" id="item-picker-search" placeholder="Search 600+ items..." data-action="searchPickerItems" data-call='{&quot;a&quot;:[{&quot;p&quot;:&quot;value&quot;}]}'
       style="width:100%;padding:0.5rem 0.7rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem;outline:none;margin-bottom:0.5rem;flex-shrink:0">
     <span data-src-filter="sheet-items" data-src-onchange="refreshSheetItemPicker" style="display:block;margin-bottom:0.5rem;flex-shrink:0"></span>
     <div id="item-picker-results" style="overflow-y:auto;flex:1;min-height:0;max-height:50vh;border:1px solid var(--border);border-radius:6px;background:var(--bg)">
@@ -2409,16 +2410,16 @@
 </div>
 
 <!-- Detail Popup -->
-<div id="detail-popup" onclick="if(event.target===this)this.style.display='none'">
+<div id="detail-popup" data-action="noop" data-call='{&quot;ifTarget&quot;:true,&quot;hideSelf&quot;:true}'>
   <div class="popup-card">
-    <button class="popup-close" onclick="document.getElementById('detail-popup').style.display='none'">✕</button>
+    <button class="popup-close" data-action="noop" data-call='{&quot;hide&quot;:&quot;detail-popup&quot;}'>✕</button>
     <h3 id="popup-title"></h3>
     <div id="popup-body"></div>
   </div>
 </div>
 
 <!-- Portrait Edit Modal -->
-<div id="portrait-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:200;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
+<div id="portrait-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:200;align-items:center;justify-content:center" data-action="noop" data-call='{&quot;ifTarget&quot;:true,&quot;hideSelf&quot;:true}'>
   <div class="card" style="max-width:480px;width:90%;max-height:90vh;display:flex;flex-direction:column">
     <h3 style="margin-bottom:0.5rem;flex-shrink:0">Character Portrait</h3>
     <div style="flex:1;overflow-y:auto;min-height:0">
@@ -2434,16 +2435,16 @@
     <div id="prompt-display" style="display:none;margin-bottom:0.75rem">
       <label style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.25rem;display:block">AI Image Prompt:</label>
       <textarea id="prompt-text" readonly style="width:100%;height:60px;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.72rem;font-family:var(--font);resize:vertical"></textarea>
-      <button class="btn btn-outline btn-sm" onclick="copyPrompt()" style="margin-top:0.25rem;font-size:0.7rem">📋 Copy</button>
+      <button class="btn btn-outline btn-sm" data-action="copyPrompt" style="margin-top:0.25rem;font-size:0.7rem">📋 Copy</button>
       <span id="prompt-copied" style="display:none;color:var(--success);font-size:0.7rem;margin-left:0.5rem">Copied!</span>
     </div>
 
     <!-- Upload section (hidden until Upload clicked) -->
     <div id="upload-section" style="display:none;margin-bottom:0.75rem;padding:0.75rem;background:var(--bg);border:1px dashed var(--border);border-radius:6px">
       <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.5rem">Upload your own image:</label>
-      <input type="file" id="upload-file" accept="image/*" onchange="previewUpload()" style="width:100%;margin-bottom:0.5rem;color:var(--text);font-size:0.8rem">
+      <input type="file" id="upload-file" accept="image/*" data-action="previewUpload" style="width:100%;margin-bottom:0.5rem;color:var(--text);font-size:0.8rem">
       <img id="upload-preview" src="" alt="Preview" style="max-width:100%;max-height:180px;border-radius:4px;border:1px solid var(--border);margin-bottom:0.5rem;display:none">
-      <button class="btn btn-primary btn-sm" onclick="saveUploadedPortrait()" style="font-size:0.75rem">💾 Save as Portrait</button>
+      <button class="btn btn-primary btn-sm" data-action="saveUploadedPortrait" style="font-size:0.75rem">💾 Save as Portrait</button>
       <span id="upload-status" style="font-size:0.7rem;color:var(--text-muted);margin-left:0.5rem"></span>
     </div>
 
@@ -2454,20 +2455,20 @@
     <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.75rem">Can be regenerated at any time</div>
     </div>
     <div style="display:flex;gap:0.5rem;justify-content:flex-end;flex-wrap:wrap;flex-shrink:0">
-      <button class="btn btn-outline btn-sm" onclick="document.getElementById('portrait-modal').style.display='none'">Cancel</button>
-      <button class="btn btn-outline btn-sm" onclick="fetchPortraitPrompt()">📋 Get Prompt</button>
-      <button class="btn btn-outline btn-sm" onclick="toggleUpload()">📤 Upload</button>
-      <button class="btn btn-primary btn-sm" onclick="regenerateSheetPortrait()">🔄 Regenerate</button>
+      <button class="btn btn-outline btn-sm" data-action="noop" data-call='{&quot;hide&quot;:&quot;portrait-modal&quot;}'>Cancel</button>
+      <button class="btn btn-outline btn-sm" data-action="fetchPortraitPrompt">📋 Get Prompt</button>
+      <button class="btn btn-outline btn-sm" data-action="toggleUpload">📤 Upload</button>
+      <button class="btn btn-primary btn-sm" data-action="regenerateSheetPortrait">🔄 Regenerate</button>
     </div>
   </div>
 </div>
 
 <!-- Level-Up Modal -->
-<div id="levelup-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:500;align-items:center;justify-content:center" onclick="if(event.target===this)closeLevelUp()">
-<div class="card" style="max-width:520px;width:90%;max-height:85vh;display:flex;flex-direction:column" onclick="event.stopPropagation()">
+<div id="levelup-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:500;align-items:center;justify-content:center" data-action="closeLevelUp" data-call='{&quot;ifTarget&quot;:true}'>
+<div class="card" style="max-width:520px;width:90%;max-height:85vh;display:flex;flex-direction:column" data-action="noop" data-call='{&quot;stop&quot;:true}'>
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
     <h2 style="margin:0;font-size:1.2rem" id="lu-title">⬆ Level Up — L1 → L2</h2>
-    <button onclick="closeLevelUp()" style="background:none;border:none;color:var(--text-muted);font-size:1.3rem;cursor:pointer">✕</button>
+    <button data-action="closeLevelUp" style="background:none;border:none;color:var(--text-muted);font-size:1.3rem;cursor:pointer">✕</button>
   </div>
   <!-- Step dots -->
   <div id="lu-steps" style="display:flex;gap:0.3rem;margin-bottom:1rem;flex-wrap:wrap"></div>
@@ -2475,20 +2476,20 @@
   <div id="lu-content" style="min-height:150px;max-height:55vh;overflow-y:auto;-webkit-overflow-scrolling:touch"></div>
   <!-- Navigation -->
   <div id="lu-nav" style="display:flex;justify-content:space-between;margin-top:1rem;gap:0.5rem">
-    <button id="lu-back" class="btn btn-outline btn-sm" style="display:none" onclick="levelUpStep(-1)">← Back</button>
+    <button id="lu-back" class="btn btn-outline btn-sm" style="display:none" data-action="levelUpStep" data-call='{&quot;a&quot;:[{&quot;n&quot;:-1}]}'>← Back</button>
     <div style="flex:1"></div>
-    <button id="lu-next" class="btn btn-primary btn-sm" onclick="levelUpStep(1)">Next →</button>
-    <button id="lu-confirm" class="btn btn-primary btn-sm" style="display:none" onclick="applyLevelUp()">✅ Confirm Level Up</button>
+    <button id="lu-next" class="btn btn-primary btn-sm" data-action="levelUpStep" data-call='{&quot;a&quot;:[{&quot;n&quot;:1}]}'>Next →</button>
+    <button id="lu-confirm" class="btn btn-primary btn-sm" style="display:none" data-action="applyLevelUp">✅ Confirm Level Up</button>
   </div>
 </div>
 </div>
 
 <!-- De-Level Modal -->
-<div id="delevel-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:501;align-items:center;justify-content:center" onclick="if(event.target===this)closeDeLevel()">
-<div class="card" style="max-width:520px;width:90%;max-height:85vh;display:flex;flex-direction:column" onclick="event.stopPropagation()">
+<div id="delevel-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:501;align-items:center;justify-content:center" data-action="closeDeLevel" data-call='{&quot;ifTarget&quot;:true}'>
+<div class="card" style="max-width:520px;width:90%;max-height:85vh;display:flex;flex-direction:column" data-action="noop" data-call='{&quot;stop&quot;:true}'>
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
     <h2 style="margin:0;font-size:1.2rem" id="dl-title">🔻 Level Down</h2>
-    <button onclick="closeDeLevel()" style="background:none;border:none;color:var(--text-muted);font-size:1.3rem;cursor:pointer">✕</button>
+    <button data-action="closeDeLevel" style="background:none;border:none;color:var(--text-muted);font-size:1.3rem;cursor:pointer">✕</button>
   </div>
   <!-- Step dots -->
   <div id="dl-steps" style="display:flex;gap:0.3rem;margin-bottom:1rem;flex-wrap:wrap"></div>
@@ -2496,43 +2497,43 @@
   <div id="dl-content" style="min-height:150px;max-height:55vh;overflow-y:auto;-webkit-overflow-scrolling:touch"></div>
   <!-- Navigation -->
   <div id="dl-nav" style="display:flex;justify-content:space-between;margin-top:1rem;gap:0.5rem">
-    <button id="dl-back" class="btn btn-outline btn-sm" style="display:none" onclick="deLevelStep(-1)">← Back</button>
+    <button id="dl-back" class="btn btn-outline btn-sm" style="display:none" data-action="deLevelStep" data-call='{&quot;a&quot;:[{&quot;n&quot;:-1}]}'>← Back</button>
     <div style="flex:1"></div>
-    <button id="dl-next" class="btn btn-primary btn-sm" onclick="deLevelStep(1)">Next →</button>
-    <button id="dl-confirm" class="btn btn-primary btn-sm" style="display:none" onclick="applyDeLevel()">✅ Confirm De-Level</button>
+    <button id="dl-next" class="btn btn-primary btn-sm" data-action="deLevelStep" data-call='{&quot;a&quot;:[{&quot;n&quot;:1}]}'>Next →</button>
+    <button id="dl-confirm" class="btn btn-primary btn-sm" style="display:none" data-action="applyDeLevel">✅ Confirm De-Level</button>
   </div>
 </div>
 </div>
 
 <!-- ASI / Feat Edit Modal (edit mode) -->
-<div id="asi-edit-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center" onclick="if(event.target===this)closeAsiEdit()">
-<div class="card" style="max-width:480px;width:90%;max-height:85vh;overflow-y:auto" onclick="event.stopPropagation()">
+<div id="asi-edit-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center" data-action="closeAsiEdit" data-call='{&quot;ifTarget&quot;:true}'>
+<div class="card" style="max-width:480px;width:90%;max-height:85vh;overflow-y:auto" data-action="noop" data-call='{&quot;stop&quot;:true}'>
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
     <h2 style="margin:0;font-size:1.1rem">✏️ Edit ASI / Feat Choice</h2>
-    <button onclick="closeAsiEdit()" style="background:none;border:none;color:var(--text-muted);font-size:1.3rem;cursor:pointer">✕</button>
+    <button data-action="closeAsiEdit" style="background:none;border:none;color:var(--text-muted);font-size:1.3rem;cursor:pointer">✕</button>
   </div>
   <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1rem" id="asi-edit-level"></p>
   <div id="asi-edit-body"></div>
   <div style="display:flex;gap:0.5rem;margin-top:1rem;justify-content:flex-end">
-    <button class="btn btn-outline btn-sm" onclick="closeAsiEdit()">Cancel</button>
-    <button class="btn btn-primary btn-sm" onclick="saveAsiEdit()">💾 Save & Reload</button>
+    <button class="btn btn-outline btn-sm" data-action="closeAsiEdit">Cancel</button>
+    <button class="btn btn-primary btn-sm" data-action="saveAsiEdit">💾 Save & Reload</button>
   </div>
 </div>
 </div>
 
 <!-- ── Expertise Edit Modal ── -->
-<div id="exp-edit-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center" onclick="if(event.target===this)closeExpertiseEdit()">
-<div class="card" style="max-width:480px;width:90%;max-height:85vh;overflow-y:auto" onclick="event.stopPropagation()">
+<div id="exp-edit-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center" data-action="closeExpertiseEdit" data-call='{&quot;ifTarget&quot;:true}'>
+<div class="card" style="max-width:480px;width:90%;max-height:85vh;overflow-y:auto" data-action="noop" data-call='{&quot;stop&quot;:true}'>
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
     <h2 style="margin:0;font-size:1.1rem">⭐ Edit Expertise</h2>
-    <button onclick="closeExpertiseEdit()" style="background:none;border:none;color:var(--text-muted);font-size:1.3rem;cursor:pointer">✕</button>
+    <button data-action="closeExpertiseEdit" style="background:none;border:none;color:var(--text-muted);font-size:1.3rem;cursor:pointer">✕</button>
   </div>
   <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.75rem">Select <strong id="exp-edit-count">0</strong> skills to double your proficiency bonus.</p>
   <div id="exp-edit-body" style="display:flex;flex-direction:column;gap:0.4rem;max-height:50vh;overflow-y:auto"></div>
   <p id="exp-edit-selected" style="font-size:0.75rem;color:var(--text-muted);text-align:right;margin-top:0.5rem">0 / 0 selected</p>
   <div style="display:flex;gap:0.5rem;margin-top:0.75rem;justify-content:flex-end">
-    <button class="btn btn-outline btn-sm" onclick="closeExpertiseEdit()">Cancel</button>
-    <button class="btn btn-primary btn-sm" onclick="saveExpertiseEdit()">💾 Save & Reload</button>
+    <button class="btn btn-outline btn-sm" data-action="closeExpertiseEdit">Cancel</button>
+    <button class="btn btn-primary btn-sm" data-action="saveExpertiseEdit">💾 Save & Reload</button>
   </div>
 </div>
 </div>

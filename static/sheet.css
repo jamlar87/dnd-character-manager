@@ -400,3 +400,12 @@
   .modal-overlay.open { padding: 0.5rem; align-items: flex-start; }
   .modal-content { max-height: 85vh; padding: 1rem; border-radius: 8px; }
 }
+
+/* Affordances that used to live in inline onmouseover/onfocus handlers. */
+.focus-ring:focus { outline: 1px solid var(--accent); }
+.hover-border:hover { border-color: var(--accent); }
+.hover-border-success:hover { border-color: var(--success); }
+.hover-bright:hover { filter: brightness(1.2); }
+.row-hover { transition: background 0.12s; }
+.edit-mode .row-hover:hover { background: rgba(255, 255, 255, 0.03); }
+.item-card:focus-within { border-color: var(--accent); }

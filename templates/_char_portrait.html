@@ -27,14 +27,14 @@
      class="char-portrait cp-clickable" style="--cp-size:{{ px }}px;--cp-size-mobile:{{ (px * 0.86)|round|int }}px"
      data-cp-fallback="{{ (name or '?')[:1]|upper }}" data-full="{{ src_override }}"
      data-label="{{ name }}" title="Click to view full size"
-     onclick="openPortraitFull(event, this)" onerror="charPortraitFallback(this)">
+     data-action="openPortraitFull" data-call='{&quot;a&quot;:[{&quot;v&quot;:true},{&quot;e&quot;:true}]}' onerror="charPortraitFallback(this)">
 {%- elif has_portrait -%}
 <img src="{{ url }}?size={{ px * 2 }}" alt="{{ name }} portrait"
      loading="lazy" decoding="async" class="char-portrait cp-clickable"
      style="--cp-size:{{ px }}px;--cp-size-mobile:{{ (px * 0.86)|round|int }}px"
      data-cp-fallback="{{ (name or '?')[:1]|upper }}" data-full="{{ url }}?size={{ px * 2 }}"
      data-label="{{ name }}" title="Click to view full size"
-     onclick="openPortraitFull(event, this)" onerror="charPortraitFallback(this)">
+     data-action="openPortraitFull" data-call='{&quot;a&quot;:[{&quot;v&quot;:true},{&quot;e&quot;:true}]}' onerror="charPortraitFallback(this)">
 {%- else -%}
 <span class="char-portrait char-portrait-empty" style="--cp-size:{{ px }}px;--cp-size-mobile:{{ (px * 0.86)|round|int }}px;font-size:{{ (px * 0.42)|round|int }}px" aria-hidden="true">{{ (name or '?')[:1]|upper }}</span>
 {%- endif -%}

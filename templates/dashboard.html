@@ -43,7 +43,7 @@
   <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
     <label class="btn btn-outline" style="cursor:pointer;margin:0" title="Import a character from an exported JSON file">
       ⬆️ Import
-      <input type="file" accept=".json,application/json" style="display:none" onchange="importCharacterFile(this.files[0]);this.value=''">
+      <input type="file" accept=".json,application/json" style="display:none" data-action="importCharacterFromInput" data-call='{"a":[{"e":true}]}'>
     </label>
     <a href="/create" class="btn btn-primary">+ Create Character</a>
   </div>
@@ -51,18 +51,18 @@
 
 {% if characters %}
 <div class="card filter-bar collapsed" style="padding:0.75rem 1rem;margin-bottom:1rem">
-  <button type="button" class="filter-head btn btn-outline btn-sm" onclick="this.parentElement.classList.toggle('collapsed')"
+  <button type="button" class="filter-head btn btn-outline btn-sm" data-action="toggleParentCollapsed" data-call='{"a":[{"e":true}]}'
           aria-expanded="false" title="Show or hide the filters">
     <span>🔍 Filters</span><span id="filterCount">25 shown</span>
   </button>
   <div class="filter-body">
-    <input type="text" id="charSearch" placeholder="🔍 Search name, race, class..." oninput="filterChars()"
+    <input type="text" id="charSearch" placeholder="🔍 Search name, race, class..." data-action="filterChars"
       style="flex:1;min-width:160px;padding:0.45rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem;outline:none">
-    <select id="classFilter" onchange="filterChars()" style="padding:0.45rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem">
+    <select id="classFilter" data-action="filterChars" style="padding:0.45rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem">
       <option value="">All Classes</option>
       {% for cls in all_classes %}<option value="{{ cls }}">{{ cls }}</option>{% endfor %}
     </select>
-    <select id="levelFilter" onchange="filterChars()" style="padding:0.45rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem">
+    <select id="levelFilter" data-action="filterChars" style="padding:0.45rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem">
       <option value="">All Levels</option>
       {% for lv in range(1, 21) %}<option value="{{ lv }}">Lv {{ lv }}</option>{% endfor %}
     </select>
@@ -80,7 +80,7 @@
 <div class="char-grid">
 {% for c in characters %}
 {% set is_fav = c.id in favorites %}
-<div id="char-card-{{ c.id }}" class="card char-card-inner" style="cursor:pointer" onclick="location.href='/character/{{ c.id }}'"
+<div id="char-card-{{ c.id }}" class="card char-card-inner" style="cursor:pointer" data-action="openCharacter" data-call='{"a":[{"n":{{ c.id }}}]}'
   data-name="{{ c.name|lower }}" data-class="{{ c.class_name|lower }}" data-level="{{ c.level }}">
   <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
     <div style="display:flex;align-items:center;gap:0.5rem;min-width:0">
@@ -88,7 +88,7 @@
       {{ char_portrait(c.id, c.name, c.has_portrait, 56, c.portrait_url) }}
       <span class="fav-star" data-char-id="{{ c.id }}"
             style="cursor:pointer;font-size:1.2rem;flex-shrink:0;{% if is_fav %}color:#ffd700{% else %}color:var(--text-muted);opacity:0.3{% endif %}"
-            onclick="event.stopPropagation();toggleFav({{ c.id }}, this)"
+            data-action="toggleFav" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;n&quot;:&quot;{{ c.id }}&quot;},{&quot;e&quot;:true}]}'
             title="{{ 'Remove from favorites' if is_fav else 'Add to favorites' }}">★</span>
       <div>
       <strong style="font-size:1.15rem;overflow-wrap:break-word;word-break:break-word">{{ c.name }}</strong>
@@ -110,8 +110,8 @@
         </div>
       </div>
       {% if c.user_id == current_user_id %}
-      <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();toggleShare({{ c.id }}, {{ 'true' if c.shared else 'false' }})" title="{{ 'Unshare' if c.shared else 'Share publicly' }}" style="font-size:0.65rem">{{ '🔓 Public' if c.shared else '🔒 Share' }}</button>
-      <button class="btn btn-sm char-del" onclick="event.stopPropagation();deleteChar({{ c.id }})"
+      <button class="btn btn-outline btn-sm" data-action="toggleShare" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;n&quot;:&quot;{{ c.id }}&quot;},{&quot;n&quot;:&quot;{{ 'true' if c.shared else 'false' }}&quot;}]}' title="{{ 'Unshare' if c.shared else 'Share publicly' }}" style="font-size:0.65rem">{{ '🔓 Public' if c.shared else '🔒 Share' }}</button>
+      <button class="btn btn-sm char-del" data-action="deleteChar" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;n&quot;:&quot;{{ c.id }}&quot;}]}'
               title="Delete this character" aria-label="Delete {{ c.name }}">🗑 Delete</button>
       {% endif %}
     </div>

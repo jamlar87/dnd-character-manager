@@ -49,7 +49,8 @@ class TestThemeToggle:
         resp = client.get("/dashboard", headers=auth_headers)
         assert resp.status_code == 200
         assert 'id="themeToggle"' in resp.text
-        assert 'onclick="toggleTheme()"' in resp.text
+        assert 'data-action="toggleTheme"' in resp.text
+        assert 'onclick="toggleTheme()"' not in resp.text
         # the toggle's own code is the shared layout asset now (it was inline in the template, so
         # the theme values and the function body only exist there)
         from pathlib import Path

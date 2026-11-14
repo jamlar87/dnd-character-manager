@@ -2,17 +2,17 @@
   <div class="sheet-sidebar">
 
     <div class="sidebar-section">
-      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('saves-body','saves-arrow')">
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;saves-body&quot;},{&quot;s&quot;:&quot;saves-arrow&quot;}]}'>
         <span id="saves-arrow" style="font-size:0.6rem;opacity:0.5">▸</span>
         <h4 style="margin:0">Saving Throws</h4>
-        <span onclick="event.stopPropagation();toggleSavesBlurb()" title="Saving throw rules" style="cursor:pointer;font-size:0.6rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
+        <span data-action="toggleSavesBlurb" data-call='{&quot;stop&quot;:true}' title="Saving throw rules" style="cursor:pointer;font-size:0.6rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
       </div>
       <div id="saves-body" style="display:none">
       {% for label, stat in stats %}
       {% set mod = character[stat]|ability_mod %}
       {% set prof_save = stat in saves_class %}
       {% set save_val = mod + (prof if prof_save else 0) %}
-      <div class="stat-row save-row" onclick="toggleSaveProf('{{ stat }}')" style="cursor:pointer">
+      <div class="stat-row save-row" data-action="toggleSaveProf" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;{{ stat }}&quot;}]}' style="cursor:pointer">
         <span class="stat-name">{% if prof_save %}<span class="prof-dot save-dot active" data-stat="{{ stat }}">●</span>{% else %}<span class="prof-dot save-dot" data-stat="{{ stat }}">●</span>{% endif %}{{ label }}{% if stat in adv.get("saves",[]) %}<span class="adv-badge smol" title="Advantage on {{ label }} saves{% for n in adv.notes %}{% if 'Advantage' in n and label[:3].lower() in n.lower() %}: {{ n }}{% endif %}{% endfor %}">A</span>{% endif %}</span>
         <span class="stat-val" style="color:{% if prof_save %}var(--accent){% else %}var(--text-muted){% endif %}">{% if save_val >= 0 %}+{% endif %}{{ save_val }}</span>
       </div>
@@ -33,7 +33,7 @@
 
     <!-- Skills -->
     <div class="sidebar-section">
-      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('skills-body','skills-arrow')">
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;skills-body&quot;},{&quot;s&quot;:&quot;skills-arrow&quot;}]}'>
         <span id="skills-arrow" style="font-size:0.6rem;opacity:0.5">▸</span>
         <h4 style="margin:0">Skills</h4>
       </div>
@@ -43,7 +43,7 @@
       {% set has_prof = skill_name in char_skills %}
       {% set has_exp = skill_name in char_expertise %}
       {% set sk_val = ab_mod + (prof if has_prof else 0) + (prof if has_exp else 0) %}
-      <div class="stat-row" onclick="toggleSkillProf('{{ skill_name }}')" style="cursor:pointer">
+      <div class="stat-row" data-action="toggleSkillProf" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;{{ skill_name }}&quot;}]}' style="cursor:pointer">
         <span class="stat-name"><span class="prof-dot skill-dot{% if has_prof %} active{% endif %}" data-skill="{{ skill_name }}">{% if has_exp %}★{% else %}●{% endif %}</span>{{ skill_name }}{% if skill_name in adv.get("skills",[]) %}<span class="adv-badge smol" title="Advantage on {{ skill_name }} checks{% for n in adv.notes %}{% if 'Advantage' in n and skill_name in n.lower() %}: {{ n }}{% endif %}{% endfor %}">A</span>{% endif %}</span>
         <span class="stat-val" style="color:{% if has_exp %}var(--accent);font-weight:700{% elif has_prof %}var(--accent){% else %}var(--text-muted){% endif %}">
           {% if sk_val >= 0 %}+{% endif %}{{ sk_val }}
@@ -58,10 +58,10 @@
 
     <!-- Defenses -->
     <div class="sidebar-section">
-      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('defenses-body','defenses-arrow')">
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;defenses-body&quot;},{&quot;s&quot;:&quot;defenses-arrow&quot;}]}'>
         <span id="defenses-arrow" style="font-size:0.6rem;opacity:0.5">▸</span>
         <h4 style="margin:0">Defenses</h4>
-        <span onclick="event.stopPropagation();toggleDefensesBlurb()" title="Defense rules" style="cursor:pointer;font-size:0.6rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
+        <span data-action="toggleDefensesBlurb" data-call='{&quot;stop&quot;:true}' title="Defense rules" style="cursor:pointer;font-size:0.6rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
       </div>
       <div id="defenses-body" style="display:none">
       <div style="font-size:0.8rem" id="defenses-section">
@@ -130,28 +130,28 @@
       </div>
       <!-- Edit defenses -->
       <div class="edit-only-block" style="margin-top:0.5rem;font-size:0.75rem">
-        <div class="stat-row" style="margin-bottom:0.15rem;cursor:pointer" 
-             onclick="showDefensePicker('Damage Resistances', ALL_DAMAGE_TYPES, 'damage_resistances', '🛡️', 'Halves damage of this type (PHB p.197)')"
-             onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
-             onmouseleave="this.style.background='none'">
+        <div class="stat-row row-hover" style="margin-bottom:0.15rem;cursor:pointer" 
+             data-action="showDefensePicker" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;Damage Resistances&quot;},{&quot;g&quot;:&quot;ALL_DAMAGE_TYPES&quot;},{&quot;s&quot;:&quot;damage_resistances&quot;},{&quot;s&quot;:&quot;\ud83d\udee1\ufe0f&quot;},{&quot;s&quot;:&quot;Halves damage of this type (PHB p.197)&quot;}]}'
+             
+            >
           <span class="stat-name" style="font-size:0.7rem">Resistances ✎</span>
         </div>
-        <div class="stat-row" style="margin-bottom:0.15rem;cursor:pointer"
-             onclick="showDefensePicker('Damage Immunities', ALL_DAMAGE_TYPES, 'damage_immunities', '✨', 'Negates all damage of this type (PHB p.197)')"
-             onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
-             onmouseleave="this.style.background='none'">
+        <div class="stat-row row-hover" style="margin-bottom:0.15rem;cursor:pointer"
+             data-action="showDefensePicker" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;Damage Immunities&quot;},{&quot;g&quot;:&quot;ALL_DAMAGE_TYPES&quot;},{&quot;s&quot;:&quot;damage_immunities&quot;},{&quot;s&quot;:&quot;\u2728&quot;},{&quot;s&quot;:&quot;Negates all damage of this type (PHB p.197)&quot;}]}'
+             
+            >
           <span class="stat-name" style="font-size:0.7rem">Immunities ✎</span>
         </div>
-        <div class="stat-row" style="margin-bottom:0.15rem;cursor:pointer"
-             onclick="showDefensePicker('Damage Vulnerabilities', ALL_DAMAGE_TYPES, 'damage_vulnerabilities', '⚠️', 'Doubles damage of this type — rare, typically from curses or monster traits (PHB p.197)')"
-             onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
-             onmouseleave="this.style.background='none'">
+        <div class="stat-row row-hover" style="margin-bottom:0.15rem;cursor:pointer"
+             data-action="showDefensePicker" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;Damage Vulnerabilities&quot;},{&quot;g&quot;:&quot;ALL_DAMAGE_TYPES&quot;},{&quot;s&quot;:&quot;damage_vulnerabilities&quot;},{&quot;s&quot;:&quot;\u26a0\ufe0f&quot;},{&quot;s&quot;:&quot;Doubles damage of this type \u2014 rare, typically from curses or monster traits (PHB p.197)&quot;}]}'
+             
+            >
           <span class="stat-name" style="font-size:0.7rem">Vulnerabilities ✎</span>
         </div>
-        <div class="stat-row" style="cursor:pointer"
-             onclick="showDefensePicker('Condition Immunities', ALL_CONDITIONS, 'condition_immunities', '🛡️', 'Immune to this condition\'s effects — magic can\'t put an elf to sleep, poison can\'t paralyze a creature immune to the poisoned condition (PHB p.290-292)')"
-             onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
-             onmouseleave="this.style.background='none'">
+        <div class="stat-row row-hover" style="cursor:pointer"
+             data-action="showDefensePicker" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;Condition Immunities&quot;},{&quot;g&quot;:&quot;ALL_CONDITIONS&quot;},{&quot;s&quot;:&quot;condition_immunities&quot;},{&quot;s&quot;:&quot;\ud83d\udee1\ufe0f&quot;},{&quot;s&quot;:&quot;Immune to this condition&#39;s effects \u2014 magic can&#39;t put an elf to sleep, poison can&#39;t paralyze a creature immune to the poisoned condition (PHB p.290-292)&quot;}]}'
+             
+            >
           <span class="stat-name" style="font-size:0.7rem">Condition Imm. ✎</span>
         </div>
       </div>
@@ -167,10 +167,10 @@
 
     <!-- Proficiencies -->
     <div class="sidebar-section">
-      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('profs-body','profs-arrow')">
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;profs-body&quot;},{&quot;s&quot;:&quot;profs-arrow&quot;}]}'>
         <span id="profs-arrow" style="font-size:0.6rem;opacity:0.5">▸</span>
         <h4 style="margin:0">Proficiencies</h4>
-        <span onclick="event.stopPropagation();toggleProfsBlurb()" title="Proficiency rules" style="cursor:pointer;font-size:0.6rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
+        <span data-action="toggleProfsBlurb" data-call='{&quot;stop&quot;:true}' title="Proficiency rules" style="cursor:pointer;font-size:0.6rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
       </div>
       <div id="profs-body" style="display:none">
       <div style="font-size:0.8rem" id="prof-section">
@@ -208,16 +208,16 @@
         <span class="prof-display" data-field="languages" style="display:none">{{ character.languages|join(', ') if character.languages else '' }}</span>
         <!-- Edit pickers (edit mode only) -->
         <div class="edit-only-block" style="margin-top:0.5rem;font-size:0.75rem">
-          <div class="stat-row" onclick="showProfPicker('armor', 'Armor Proficiencies', ALL_ARMOR_PROFS, 'armor_proficiencies')" style="cursor:pointer;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+          <div class="stat-row row-hover" data-action="showProfPicker" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;armor&quot;},{&quot;s&quot;:&quot;Armor Proficiencies&quot;},{&quot;g&quot;:&quot;ALL_ARMOR_PROFS&quot;},{&quot;s&quot;:&quot;armor_proficiencies&quot;}]}' style="cursor:pointer;margin-bottom:0.15rem">
             <span class="stat-name" style="font-size:0.7rem">Armor ✎</span>
           </div>
-          <div class="stat-row" onclick="showProfPicker('weapon', 'Weapon Proficiencies', ALL_WEAPON_PROFS, 'weapon_proficiencies')" style="cursor:pointer;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+          <div class="stat-row row-hover" data-action="showProfPicker" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;weapon&quot;},{&quot;s&quot;:&quot;Weapon Proficiencies&quot;},{&quot;g&quot;:&quot;ALL_WEAPON_PROFS&quot;},{&quot;s&quot;:&quot;weapon_proficiencies&quot;}]}' style="cursor:pointer;margin-bottom:0.15rem">
             <span class="stat-name" style="font-size:0.7rem">Weapons ✎</span>
           </div>
-          <div class="stat-row" onclick="showProfPicker('tool', 'Tool Proficiencies', ALL_TOOL_PROFS, 'tool_proficiencies')" style="cursor:pointer;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+          <div class="stat-row row-hover" data-action="showProfPicker" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;tool&quot;},{&quot;s&quot;:&quot;Tool Proficiencies&quot;},{&quot;g&quot;:&quot;ALL_TOOL_PROFS&quot;},{&quot;s&quot;:&quot;tool_proficiencies&quot;}]}' style="cursor:pointer;margin-bottom:0.15rem">
             <span class="stat-name" style="font-size:0.7rem">Tools ✎</span>
           </div>
-          <div class="stat-row" onclick="showProfPicker('language', 'Languages', ALL_LANGUAGES, 'languages')" style="cursor:pointer" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+          <div class="stat-row row-hover" data-action="showProfPicker" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;language&quot;},{&quot;s&quot;:&quot;Languages&quot;},{&quot;g&quot;:&quot;ALL_LANGUAGES&quot;},{&quot;s&quot;:&quot;languages&quot;}]}' style="cursor:pointer">
             <span class="stat-name" style="font-size:0.7rem">Languages ✎</span>
           </div>
         </div>
@@ -234,16 +234,16 @@
 
     <!-- Summons -->
     <div class="sidebar-section" style="margin-top:0.25rem">
-      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('summons-body','summons-arrow')">
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" data-action="toggleSection" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;summons-body&quot;},{&quot;s&quot;:&quot;summons-arrow&quot;}]}'>
         <span id="summons-arrow" style="font-size:0.6rem;opacity:0.5">▾</span>
         <h4 style="margin:0;flex:1">Summons</h4>
-        <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();openSummonModal()" style="font-size:0.6rem;padding:0.1rem 0.35rem">+ Add</button>
+        <button class="btn btn-outline btn-sm" data-action="openSummonModal" data-call='{&quot;stop&quot;:true}' style="font-size:0.6rem;padding:0.1rem 0.35rem">+ Add</button>
       </div>
       <div id="summons-body">
       <div id="summons-list" style="display:flex;flex-direction:column;gap:0.25rem;margin-top:0.3rem">
         {% for s in character.summons %}
         {% set hp_pct = (s.hp_current / s.hp_max * 100)|int if s.hp_max else 0 %}
-        <div class="summon-chip" data-summon-id="{{ loop.index0 }}" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.3rem 0.4rem;cursor:pointer" onclick="toggleSummonBody(this)">
+        <div class="summon-chip" data-summon-id="{{ loop.index0 }}" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.3rem 0.4rem;cursor:pointer" data-action="toggleSummonBody" data-call='{&quot;a&quot;:[{&quot;e&quot;:true}]}'>
           <div style="display:flex;justify-content:space-between;align-items:center;gap:0.3rem">
             <span style="font-size:0.72rem;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.main_name or s.name }}{% if s.main_name and s.name %} <span style="color:var(--text-muted);font-weight:400;font-size:0.65rem">({{ s.name }})</span>{% endif %}{% if not s.main_name and s.form %} <span style="color:var(--text-muted);font-weight:400">({{ s.form }})</span>{% endif %}</span>
             <span style="font-size:0.6rem;color:var(--text-muted);white-space:nowrap">AC {{ s.ac }}</span>
@@ -255,29 +255,29 @@
             <span class="summon-hp-text" style="font-size:0.6rem;font-family:monospace;color:var(--text-muted);white-space:nowrap">{{ s.hp_current }}/{{ s.hp_max }}</span>
           </div>
           <div class="summon-body" style="display:none;margin-top:0.35rem;padding-top:0.3rem;border-top:1px solid var(--border);font-size:0.65rem;line-height:1.5;color:var(--text-muted)">
-            <div class="edit-only-block" style="display:flex;gap:0.5rem;margin-bottom:0.35rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border)" onclick="event.stopPropagation()">
+            <div class="edit-only-block" style="display:flex;gap:0.5rem;margin-bottom:0.35rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border)" data-action="noop" data-call='{&quot;stop&quot;:true}'>
               <div style="flex:1">
                 <label style="font-size:0.6rem;color:var(--text-muted)">Main Name</label>
                 <input class="summon-edit-main-name" value="{{ s.main_name or '' }}" placeholder="{{ s.name }}"
-                  onchange="saveSummonName({{ loop.index0 }})"
+                  data-action="saveSummonName" data-call='{&quot;a&quot;:[{&quot;n&quot;:&quot;{{ loop.index0 }}&quot;}]}'
                   style="width:100%;padding:0.2rem 0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.7rem">
               </div>
               <div style="flex:1">
                 <label style="font-size:0.6rem;color:var(--text-muted)">Name (creature)</label>
                 <input class="summon-edit-name" value="{{ s.name }}"
-                  onchange="saveSummonName({{ loop.index0 }})"
+                  data-action="saveSummonName" data-call='{&quot;a&quot;:[{&quot;n&quot;:&quot;{{ loop.index0 }}&quot;}]}'
                   style="width:100%;padding:0.2rem 0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.7rem">
               </div>
             </div>
-            <div class="summon-hp-controls" style="display:flex;align-items:center;gap:0.25rem;margin-bottom:0.35rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border)" onclick="event.stopPropagation()">
+            <div class="summon-hp-controls" style="display:flex;align-items:center;gap:0.25rem;margin-bottom:0.35rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border)" data-action="noop" data-call='{&quot;stop&quot;:true}'>
               <input type="number" id="summon-hp-delta-{{ loop.index0 }}" value="1" min="1"
                 style="width:3.5ch;text-align:center;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:3px;padding:0.15rem 0.1rem;font-size:0.6rem;-moz-appearance:textfield;appearance:textfield"
-                onfocus="this.style.outline='1px solid var(--accent)'" onblur="this.style.outline='none'">
+                class="focus-ring">
               <style>.summon-hp-controls input[type=number]::-webkit-inner-spin-button,.summon-hp-controls input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}</style>
-              <button class="hp-btn heal" onclick="applySummonHP({{ loop.index0 }})" title="Heal" style="font-size:0.6rem;padding:0;width:22px;height:22px;line-height:22px">+</button>
-              <button class="hp-btn dmg" onclick="applySummonHP({{ loop.index0 }}, -1)" title="Damage" style="font-size:0.6rem;padding:0;width:22px;height:22px;line-height:22px">−</button>
-              <button class="hp-btn" onclick="resetSummonHP({{ loop.index0 }})" title="Reset to full HP" style="background:var(--accent2);color:var(--text);border:1px solid var(--border);font-size:0.55rem;padding:0 0.3rem;width:auto">↺ Full</button>
-              <button class="btn btn-outline btn-sm" style="font-size:0.55rem;padding:0.1rem 0.3rem;margin-left:auto" onclick="dismissSummon({{ loop.index0 }})">✕ Dismiss</button>
+              <button class="hp-btn heal" data-action="applySummonHP" data-call='{&quot;a&quot;:[{&quot;n&quot;:&quot;{{ loop.index0 }}&quot;}]}' title="Heal" style="font-size:0.6rem;padding:0;width:22px;height:22px;line-height:22px">+</button>
+              <button class="hp-btn dmg" data-action="applySummonHP" data-call='{&quot;a&quot;:[{&quot;n&quot;:&quot;{{ loop.index0 }}&quot;},{&quot;n&quot;:-1}]}' title="Damage" style="font-size:0.6rem;padding:0;width:22px;height:22px;line-height:22px">−</button>
+              <button class="hp-btn" data-action="resetSummonHP" data-call='{&quot;a&quot;:[{&quot;n&quot;:&quot;{{ loop.index0 }}&quot;}]}' title="Reset to full HP" style="background:var(--accent2);color:var(--text);border:1px solid var(--border);font-size:0.55rem;padding:0 0.3rem;width:auto">↺ Full</button>
+              <button class="btn btn-outline btn-sm" style="font-size:0.55rem;padding:0.1rem 0.3rem;margin-left:auto" data-action="dismissSummon" data-call='{&quot;a&quot;:[{&quot;n&quot;:&quot;{{ loop.index0 }}&quot;}]}'>✕ Dismiss</button>
             </div>
             <div><strong>Size:</strong> {{ s.size }}</div>
             <div><strong>Speed:</strong> {{ s.speed }}</div>
@@ -329,5 +329,5 @@
     </div>
 
     <!-- Hidden inspiration toggle -->
-    <button id="insp-btn" class="inspiration-btn {{ 'on' if character.inspiration else 'off' }}" onclick="toggleInspiration()" style="display:none">★</button>
+    <button id="insp-btn" class="inspiration-btn {{ 'on' if character.inspiration else 'off' }}" data-action="toggleInspiration" style="display:none">★</button>
   </div>

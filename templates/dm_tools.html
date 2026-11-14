@@ -401,7 +401,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 </div>
 
 <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:0.5rem">
-  <label id="dm-core-toggle" style="display:flex;align-items:center;gap:0.3rem;font-size:0.72rem;color:var(--text-muted);cursor:pointer;user-select:none" onclick="toggleCoreDM()">
+  <label id="dm-core-toggle" style="display:flex;align-items:center;gap:0.3rem;font-size:0.72rem;color:var(--text-muted);cursor:pointer;user-select:none" data-action="toggleCoreDM">
     <span id="dm-core-box" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-radius:3px;text-align:center;line-height:12px;font-size:10px;background:var(--bg)">☐</span>
     Core content only
   </label>
@@ -428,7 +428,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <option value="square">Square grid</option>
       <option value="hex">Hex grid</option>
     </select>
-    <button class="btn btn-primary btn-sm" onclick="createMap()">🗺️ Create map</button>
+    <button class="btn btn-primary btn-sm" data-action="createMap">🗺️ Create map</button>
     <span style="font-size:.75rem;color:var(--text-muted)">Battle maps with tokens, grid and saved setups. Token art comes from your monster/NPC/character art.</span>
   </div>
   <div id="mapList"><p style="font-size:.85rem;color:var(--text-muted)">Loading maps…</p></div>
@@ -437,13 +437,13 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {# ───── MONSTERS PANEL ───── #}
 <div class="dm-panel" id="panel-monsters">
   <div class="search-bar">
-    <input type="text" id="monsterSearch" placeholder="Search monsters..." style="flex:1;min-width:200px" oninput="filterMonsters()">
+    <input type="text" id="monsterSearch" placeholder="Search monsters..." style="flex:1;min-width:200px" data-action="filterMonsters">
     <span id="monsterSrcFilter"></span>
-    <select id="monsterTypeFilter" onchange="filterMonsters()">
+    <select id="monsterTypeFilter" data-action="filterMonsters">
       <option value="">All Types</option>
       {% for t in monster_types %}<option value="{{ t }}">{{ t|capitalize }}</option>{% endfor %}
     </select>
-    <select id="monsterCrFilter" onchange="filterMonsters()">
+    <select id="monsterCrFilter" data-action="filterMonsters">
       <option value="">All CR</option>
       <option value="0-0.25">CR 0–¼ (Trivial)</option>
       <option value="0.5-2">CR ½–2 (Low)</option>
@@ -466,18 +466,18 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {# ───── SPELLS PANEL ───── #}
 <div class="dm-panel" id="panel-spells">
   <div class="search-bar">
-    <input type="text" id="spellSearch" placeholder="Search spells..." style="flex:1;min-width:200px" oninput="filterSpells()">
+    <input type="text" id="spellSearch" placeholder="Search spells..." style="flex:1;min-width:200px" data-action="filterSpells">
     <span id="spellSrcFilter"></span>
-    <select id="spellLevelFilter" onchange="filterSpells()">
+    <select id="spellLevelFilter" data-action="filterSpells">
       <option value="">All Levels</option>
       <option value="0">Cantrip</option>
       {% for lv in range(1, 10) %}<option value="{{ lv }}">Level {{ lv }}</option>{% endfor %}
     </select>
-    <select id="spellSchoolFilter" onchange="filterSpells()">
+    <select id="spellSchoolFilter" data-action="filterSpells">
       <option value="">All Schools</option>
       {% for sc in spell_schools %}<option value="{{ sc|lower }}">{{ sc }}</option>{% endfor %}
     </select>
-    <select id="spellClassFilter" onchange="filterSpells()">
+    <select id="spellClassFilter" data-action="filterSpells">
       <option value="">All Classes</option>
       {% for cl in spell_classes %}<option value="{{ cl|lower }}">{{ cl }}</option>{% endfor %}
     </select>
@@ -497,9 +497,9 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {# ───── ENCOUNTERS PANEL ───── #}
 <div class="dm-panel" id="panel-encounters">
   <div class="toolbar">
-    <button class="btn btn-primary" onclick="showCreateEncounter()">+ New Encounter</button>
-    <button class="btn btn-outline" onclick="showAiEncounterBuilder()">🤖 AI Encounter</button>
-    <select id="encounterFilter" onchange="filterEncounters()" style="padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text)">
+    <button class="btn btn-primary" data-action="showCreateEncounter">+ New Encounter</button>
+    <button class="btn btn-outline" data-action="showAiEncounterBuilder">🤖 AI Encounter</button>
+    <select id="encounterFilter" data-action="filterEncounters" style="padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text)">
       <option value="">All Encounters</option>
       <option value="planned">Planned</option>
       <option value="active">Active</option>
@@ -520,23 +520,23 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         </div>
         <div style="display:flex;gap:0.3rem;align-items:center">
           {% if enc.is_owner %}
-          <button class="btn btn-outline btn-sm" onclick="toggleShareEncounter('{{ enc.id }}', {{ 'true' if enc.shared else 'false' }})" title="{{ 'Unshare' if enc.shared else 'Share with everyone' }}" style="font-size:0.65rem">{{ '🔓 Shared' if enc.shared else '🔒 Share' }}</button>
+          <button class="btn btn-outline btn-sm" data-action="toggleShareEncounter" data-id="{{ enc.id }}" data-shared="{{ 'true' if enc.shared else 'false' }}" title="{{ 'Unshare' if enc.shared else 'Share with everyone' }}" style="font-size:0.65rem">{{ '🔓 Shared' if enc.shared else '🔒 Share' }}</button>
           {% endif %}
-          <button class="btn btn-outline btn-sm" onclick="copyEncounter('{{ enc.id }}')" title="Make a copy" style="font-size:0.65rem">📋 Copy</button>
-          <button class="btn btn-outline btn-sm" onclick="openEncounter('{{ enc.id }}')">Open</button>
+          <button class="btn btn-outline btn-sm" data-action="copyEncounter" data-id="{{ enc.id }}" title="Make a copy" style="font-size:0.65rem">📋 Copy</button>
+          <button class="btn btn-outline btn-sm" data-action="openEncounter" data-id="{{ enc.id }}">Open</button>
         </div>
       </div>
       {% if enc.description %}<p style="font-size:0.85rem;color:var(--text-muted);margin:0.3rem 0">{{ enc.description }}</p>{% endif %}
       {% if enc.notes %}<details style="margin:0.3rem 0"><summary style="font-size:0.75rem;color:var(--accent);cursor:pointer">📋 Tactics</summary><p style="font-size:0.8rem;color:var(--text-muted);margin:0.15rem 0 0 0.5rem;border-left:2px solid var(--accent);padding-left:0.4rem;max-height:4em;overflow:hidden">{{ enc.notes }}</p></details>{% endif %}
       {% if enc.location %}<p style="font-size:0.8rem;color:var(--text-muted)">📍 {{ enc.location }}</p>{% endif %}
       <div style="display:flex;justify-content:flex-end;margin-top:0.5rem">
-        {% if enc.is_owner %}<button class="btn btn-danger btn-sm" onclick="deleteEncounter('{{ enc.id }}')">✕ Delete</button>{% endif %}
+        {% if enc.is_owner %}<button class="btn btn-danger btn-sm" data-action="deleteEncounter" data-id="{{ enc.id }}">✕ Delete</button>{% endif %}
       </div>
     </div>
     {% else %}
     <div class="empty-state">
       <p>No encounters yet</p>
-      <button class="btn btn-primary" onclick="showCreateEncounter()">Create Your First Encounter</button>
+      <button class="btn btn-primary" data-action="showCreateEncounter">Create Your First Encounter</button>
     </div>
     {% endfor %}
   </div>
@@ -545,9 +545,9 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {# ───── NPCS PANEL ───── #}
 <div class="dm-panel" id="panel-npcs">
   <div class="toolbar">
-    <button class="btn btn-primary" onclick="showCreateNpc()">+ New NPC</button>
-    <button class="btn btn-outline" onclick="showAiNpcWizard()">🤖 AI Build NPC</button>
-    <input type="text" id="npcSearch" placeholder="Search NPCs..." style="padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text)" oninput="filterNpcs()">
+    <button class="btn btn-primary" data-action="showCreateNpc">+ New NPC</button>
+    <button class="btn btn-outline" data-action="showAiNpcWizard">🤖 AI Build NPC</button>
+    <input type="text" id="npcSearch" placeholder="Search NPCs..." style="padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text)" data-action="filterNpcs">
     <span id="npcSrcFilter"></span>
   </div>
 
@@ -572,7 +572,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         {% else %}
         <span style="font-size:0.8rem">HP {{ npc.hp_current }}/{{ npc.hp_max }} AC {{ npc.ac }}</span>
         {% endif %}
-        {% if npc.get('source') %}<span style="font-size:0.7rem;color:var(--text-muted);cursor:pointer" class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ npc.source }}">📚 {{ npc.source }}</span>{% endif %}
+        {% if npc.get('source') %}<span style="font-size:0.7rem;color:var(--text-muted);cursor:pointer" class="src-badge" data-action="openSourceRef" data-src="{{ npc.source }}">📚 {{ npc.source }}</span>{% endif %}
         {% if npc.get('notes') %}
         <details class="npc-desc-toggle" style="margin-top:0.3rem">
           <summary style="cursor:pointer;font-size:0.75rem;color:var(--accent);user-select:none">📝 Description</summary>
@@ -581,12 +581,12 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         {% endif %}
       </div>
       <div class="npc-actions">
-        <button class="btn btn-accent btn-sm" onclick="buildNpcToCharacter({{ npc.id }}, '{{ npc.name|replace("'", "\\'") }}')" title="Build full character sheet from this NPC">🛠️ Build</button>
+        <button class="btn btn-accent btn-sm" data-action="buildNpcToCharacter" data-id="{{ npc.id }}" data-name="{{ npc.name }}" title="Build full character sheet from this NPC">🛠️ Build</button>
         {% if npc.get('_manual') %}
         <span style="font-size:0.7rem;color:var(--text-muted)">read-only</span>
         {% else %}
-        <button class="btn btn-outline btn-sm" onclick="editNpc({{ npc.id }})">✏️</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteNpc({{ npc.id }})">✕</button>
+        <button class="btn btn-outline btn-sm" data-action="editNpc" data-id="{{ npc.id }}">✏️</button>
+        <button class="btn btn-danger btn-sm" data-action="deleteNpc" data-id="{{ npc.id }}">✕</button>
         {% endif %}
       </div>
     </div>
@@ -598,7 +598,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
     <div id="manualNpcList"></div>
     <div class="empty-state" id="npcEmptyState"{% if npcs %} style="display:none"{% endif %}>
       <p>No NPCs yet</p>
-      <button class="btn btn-primary" onclick="showCreateNpc()">Create Your First NPC</button>
+      <button class="btn btn-primary" data-action="showCreateNpc">Create Your First NPC</button>
     </div>
   </div>
 </div>
@@ -606,11 +606,11 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {# ───── CAMPAIGN PANEL ───── #}
 <div class="dm-panel" id="panel-campaigns">
   <div class="toolbar">
-    <button class="btn btn-primary" onclick="showCreateCampaign()">+ New Campaign</button>
-    <button class="btn btn-outline" onclick="document.getElementById('packFileTools').click()"
+    <button class="btn btn-primary" data-action="showCreateCampaign">+ New Campaign</button>
+    <button class="btn btn-outline" data-action="triggerFileInput" data-target="packFileTools"
             title="Import a campaign pack as a NEW campaign">📥 Import pack</button>
     <input type="file" id="packFileTools" accept="application/json,.json" style="display:none"
-           onchange="importCampaignPack(this)">
+           data-action="importCampaignPack">
     <span style="font-size:.75rem;color:var(--text-muted)">A pack carries a campaign's characters, NPCs, maps and encounters — export one from a campaign page.</span>
   </div>
 
@@ -634,7 +634,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         <strong style="font-size:0.75rem;color:var(--text-muted)">Party:</strong>
         <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.2rem">
           {% for ch in camp.characters %}
-          <span class="char-portrait-chip" title="L{{ ch.level }} {{ ch.race }} {{ ch.class_name }} · Click to view sheet" onclick="previewCharSheet({{ ch.id }}, '{{ ch.name }}')">
+          <span class="char-portrait-chip" title="L{{ ch.level }} {{ ch.race }} {{ ch.class_name }} · Click to view sheet" data-action="previewCharSheet" data-id="{{ ch.id }}" data-name="{{ ch.name }}">
             {{ char_portrait(ch.id, ch.name, ch.has_portrait, 26) }}
             {{ ch.name }}{% if ch.hp_max %} <span style="font-weight:400;color:var(--text-muted)">({{ ch.hp_current or 0 }}/{{ ch.hp_max }})</span>{% endif %}
           </span>
@@ -646,15 +646,15 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <textarea id="campNotes-{{ camp.id }}" rows="3" style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);margin-top:0.5rem;font-size:0.8rem;resize:vertical" placeholder="Campaign notes…">{{ camp.notes or '' }}</textarea>
       <div class="camp-actions">
         <a href="/campaign/{{ camp.id }}" class="btn btn-outline btn-sm">Open</a>
-        <button class="btn btn-outline btn-sm" onclick="saveCampNotes({{ camp.id }}, 'campNotes-{{ camp.id }}')">💾 Save</button>
-        <button class="btn btn-outline btn-sm char-del" onclick="deleteCampaign({{ camp.id }})"
+        <button class="btn btn-outline btn-sm" data-action="saveCampNotes" data-id="{{ camp.id }}">💾 Save</button>
+        <button class="btn btn-outline btn-sm char-del" data-action="deleteCampaign" data-id="{{ camp.id }}"
                 title="Delete this campaign" aria-label="Delete {{ camp.name }}">🗑 Delete</button>
       </div>
     </div>
     {% else %}
     <div class="empty-state" style="grid-column:1/-1">
       <p>No campaigns yet</p>
-      <button class="btn btn-primary" onclick="showCreateCampaign()">Create Your First Campaign</button>
+      <button class="btn btn-primary" data-action="showCreateCampaign">Create Your First Campaign</button>
     </div>
     {% endfor %}
   </div>
@@ -663,7 +663,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {# ───── MONSTER DETAIL MODAL ───── #}
 <div class="modal-overlay" id="monsterModal" style="z-index:1100">
   <div class="modal-content">
-    <button class="modal-close" onclick="closeModal('monsterModal')">✕</button>
+    <button class="modal-close" data-action="closeModal" data-modal="monsterModal">✕</button>
     <div id="monsterDetail"></div>
   </div>
 </div>
@@ -671,7 +671,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {# ───── SPELL DETAIL MODAL ───── #}
 <div class="modal-overlay" id="spellModal" style="z-index:1100">
   <div class="modal-content">
-    <button class="modal-close" onclick="closeModal('spellModal')">✕</button>
+    <button class="modal-close" data-action="closeModal" data-modal="spellModal">✕</button>
     <div id="spellDetail"></div>
   </div>
 </div>
@@ -679,17 +679,17 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {# ───── ITEM DETAIL MODAL ───── #}
 <div class="modal-overlay" id="itemModal" style="z-index:1100">
   <div class="modal-content">
-    <button class="modal-close" onclick="closeModal('itemModal')">✕</button>
+    <button class="modal-close" data-action="closeModal" data-modal="itemModal">✕</button>
     <div id="itemDetail"></div>
   </div>
 </div>
 
 {# ───── CHARACTER SHEET PREVIEW MODAL ───── #}
-<div class="modal-overlay" id="charSheetModal" onclick="if(event.target===this)closeModal('charSheetModal')" style="z-index:1100">
+<div class="modal-overlay" id="charSheetModal" data-action="closeModalIfSelf" data-modal="charSheetModal" style="z-index:1100">
   <div class="modal-content" style="max-width:1100px;width:95vw;height:90vh;padding:0;overflow:hidden;display:flex;flex-direction:column">
     <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 1rem;border-bottom:1px solid var(--border);flex-shrink:0">
       <span style="font-weight:600" id="charSheetTitle">Character Sheet</span>
-      <button class="modal-close" onclick="closeModal('charSheetModal')" style="position:static">✕</button>
+      <button class="modal-close" data-action="closeModal" data-modal="charSheetModal" style="position:static">✕</button>
     </div>
     <iframe id="charSheetFrame" src="" style="flex:1;width:100%;border:none" title="Character Sheet Preview"></iframe>
   </div>
@@ -698,7 +698,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {# ───── CREATE ENCOUNTER MODAL ───── #}
 <div class="modal-overlay" id="encounterModal">
   <div class="modal-content" style="max-width:1200px">
-    <button class="modal-close" onclick="closeModal('encounterModal')">✕</button>
+    <button class="modal-close" data-action="closeModal" data-modal="encounterModal">✕</button>
     <div id="encounterDetail">
       <div style="text-align:center;padding:2rem">Loading...</div>
     </div>
@@ -708,7 +708,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {# ───── NPC EDITOR MODAL ───── #}
 <div class="modal-overlay" id="npcModal" style="z-index:1100">
   <div class="modal-content" style="max-width:700px">
-    <button class="modal-close" onclick="closeModal('npcModal')">✕</button>
+    <button class="modal-close" data-action="closeModal" data-modal="npcModal">✕</button>
     <div id="npcEditor"></div>
   </div>
 </div>
@@ -733,15 +733,15 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 </style>
 <div class="modal-overlay" id="charBuilderModal" style="z-index:1200">
   <div class="modal-content" style="max-width:650px">
-    <button class="modal-close" onclick="closeModal('charBuilderModal')">✕</button>
+    <button class="modal-close" data-action="closeModal" data-modal="charBuilderModal">✕</button>
     <div id="charBuilderContent">
       <div class="cb-wizard">
         <h2 id="cbTitle">🛠️ Character Builder</h2>
         <div id="cbBody"><p style="text-align:center;padding:2rem;color:var(--text-muted)">Loading...</p></div>
         <div id="cbNav" style="display:none;margin-top:1rem" class="wizard-nav">
-          <button id="cbBack" class="btn btn-outline btn-sm" onclick="cbPrevStep()" style="display:none">← Back</button>
+          <button id="cbBack" class="btn btn-outline btn-sm" data-action="cbPrevStep" style="display:none">← Back</button>
           <span></span>
-          <button id="cbNext" class="btn btn-primary btn-sm" onclick="cbNextStep()">Next →</button>
+          <button id="cbNext" class="btn btn-primary btn-sm" data-action="cbNextStep">Next →</button>
         </div>
       </div>
     </div>
@@ -751,14 +751,14 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {# ───── AI ENCOUNTER BUILDER MODAL ───── #}
 <div class="modal-overlay" id="aiEncounterModal">
   <div class="modal-content" style="max-width:650px">
-    <button class="modal-close" onclick="closeModal('aiEncounterModal')">✕</button>
+    <button class="modal-close" data-action="closeModal" data-modal="aiEncounterModal">✕</button>
     <div id="aiEncounterBuilder">
       <h2 style="margin:0 0 1rem 0">🤖 AI Encounter Builder</h2>
       <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1rem">Generates a balanced encounter with all monsters filtered by environment. Select a campaign to tailor the encounter to your party's stats.</p>
-      <form id="aiEncounterForm" onsubmit="return generateAiEncounter(event)">
+      <form id="aiEncounterForm" data-action="generateAiEncounter">
         <div class="form-group" style="margin-bottom:0.75rem">
           <label>Campaign <span style="color:var(--text-muted);font-size:0.7rem">(loads party for counter-play)</span></label>
-          <select name="campaign_id" id="aiCampaignSelect" onchange="onAiCampaignChange()" style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+          <select name="campaign_id" id="aiCampaignSelect" data-action="onAiCampaignChange" style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
             <option value="">— Manual party level/size —</option>
           </select>
           <span id="aiPartyPreview" style="display:none;font-size:0.75rem;color:var(--accent);margin-top:0.25rem"></span>
@@ -840,7 +840,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         </div>
         <div style="display:flex;gap:0.5rem;margin-top:1rem">
           <button type="submit" id="aiEncounterSubmit" class="btn btn-primary">🤖 Generate Encounter</button>
-          <button type="button" class="btn btn-outline" onclick="closeModal('aiEncounterModal')">Cancel</button>
+          <button type="button" class="btn btn-outline" data-action="closeModal" data-modal="aiEncounterModal">Cancel</button>
         </div>
       </form>
       <div id="aiEncounterResult" style="display:none;margin-top:1rem"></div>
@@ -851,7 +851,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {# ───── CUSTOM TRAP MODAL ───── #}
 <div class="modal-overlay" id="trapModal" style="z-index:1100">
   <div class="modal-content" style="max-width:700px">
-    <button class="modal-close" onclick="closeModal('trapModal')">✕</button>
+    <button class="modal-close" data-action="closeModal" data-modal="trapModal">✕</button>
     <h2 style="margin:0 0 0.5rem 0" id="trapModalTitle">⚙️ Create Custom Trap</h2>
     <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:1rem">
       Design traps following DMG/UA guidelines. Select a danger level for suggested DCs and damage.
@@ -871,7 +871,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       </div>
     </details>
 
-    <form id="trapForm" onsubmit="return saveTrap(event)">
+    <form id="trapForm" data-action="saveTrap">
       <input type="hidden" id="trapEditId" value="">
 
       <div class="form-row">
@@ -884,7 +884,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <div class="form-row">
         <div class="form-group">
           <label>Danger Level</label>
-          <select id="trapDanger" onchange="onTrapDangerChange()" style="width:100%">
+          <select id="trapDanger" data-action="onTrapDangerChange" style="width:100%">
             <option value="setback">Setback (minor inconvenience)</option>
             <option value="dangerous" selected>Dangerous (likely to injure)</option>
             <option value="deadly">Deadly (could kill)</option>
@@ -959,9 +959,9 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 
       <div style="display:flex;gap:0.5rem;margin-top:1rem">
         <button type="submit" class="btn btn-primary">💾 Save Trap</button>
-        <button type="button" class="btn btn-outline" onclick="closeModal('trapModal')">Cancel</button>
+        <button type="button" class="btn btn-outline" data-action="closeModal" data-modal="trapModal">Cancel</button>
         <span style="flex:1"></span>
-        <button type="button" class="btn btn-accent btn-sm" onclick="generateAiTrap()" id="btnAiTrap" style="flex-shrink:0">🤖 AI Generate</button>
+        <button type="button" class="btn btn-accent btn-sm" data-action="generateAiTrap" id="btnAiTrap" style="flex-shrink:0">🤖 AI Generate</button>
       </div>
       <div id="aiTrapStatus" style="display:none;margin-top:0.5rem;font-size:0.75rem;color:var(--accent);text-align:right">Generating...</div>
     </form>
@@ -971,25 +971,25 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {# ───── ITEMS PANEL ───── #}
 <div class="dm-panel" id="panel-items">
   <div class="toolbar" style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
-    <select id="itemsCampaignSelect" onchange="loadItemsPanel()" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;min-width:200px">
+    <select id="itemsCampaignSelect" data-action="loadItemsPanel" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;min-width:200px">
       <option value="">— Select campaign —</option>
     </select>
-    <button class="btn btn-primary btn-sm" onclick="addTeamItem()">+ Add Item</button>
+    <button class="btn btn-primary btn-sm" data-action="addTeamItem">+ Add Item</button>
     <select id="lootCrBracket" style="padding:0.35rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem">
       <option value="0-4">CR 0–4</option>
       <option value="5-10">CR 5–10</option>
       <option value="11-16">CR 11–16</option>
       <option value="17+">CR 17+</option>
     </select>
-    <button class="btn btn-accent btn-sm" id="btnRollLoot" onclick="rollLoot()">🎲 Roll Loot</button>
-    <button class="btn btn-accent btn-sm" id="btnRerollLoot" onclick="rerollLoot()" style="display:none">🎲 Reroll Loot</button>
-    <button class="btn btn-outline btn-sm" onclick="addDiamond()" title="Add a 500gp diamond for resurrection spells">💎 Diamond (500gp)</button>
-    <button class="btn btn-outline btn-sm" onclick="loadItemsPanel()">🔄 Refresh</button>
+    <button class="btn btn-accent btn-sm" id="btnRollLoot" data-action="rollLoot">🎲 Roll Loot</button>
+    <button class="btn btn-accent btn-sm" id="btnRerollLoot" data-action="rerollLoot" style="display:none">🎲 Reroll Loot</button>
+    <button class="btn btn-outline btn-sm" data-action="addDiamond" title="Add a 500gp diamond for resurrection spells">💎 Diamond (500gp)</button>
+    <button class="btn btn-outline btn-sm" data-action="loadItemsPanel">🔄 Refresh</button>
   </div>
   <div id="lootStaging" style="display:none;margin-bottom:0.75rem;padding:0.75rem;background:var(--card-bg);border:1px solid var(--accent);border-radius:8px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
       <strong id="lootStagingLabel">🎲 Loot Staging</strong>
-      <button class="btn btn-sm btn-primary" onclick="keepAllLoot()">📥 Keep All</button>
+      <button class="btn btn-sm btn-primary" data-action="keepAllLoot">📥 Keep All</button>
     </div>
     <div id="lootStagingItems" style="display:flex;flex-wrap:wrap;gap:0.35rem;min-height:2rem"></div>
   </div>
@@ -1001,31 +1001,31 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
     <div class="award-popover-card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
         <strong id="awardPopoverTitle" style="font-size:0.9rem">Award item</strong>
-        <button onclick="closeAwardPopover()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.1rem">&times;</button>
+        <button data-action="closeAwardPopover" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.1rem">&times;</button>
       </div>
       <div id="awardPopoverChars" style="display:flex;flex-direction:column;gap:0.4rem;max-height:280px;overflow-y:auto;margin-bottom:0.75rem"></div>
       <div style="display:flex;gap:0.5rem;justify-content:flex-end">
-        <button class="btn btn-outline btn-sm" onclick="closeAwardPopover()">Cancel</button>
-        <button class="btn btn-primary btn-sm" id="awardConfirmBtn" onclick="confirmAwardItem()" disabled>✅ Award</button>
+        <button class="btn btn-outline btn-sm" data-action="closeAwardPopover">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="awardConfirmBtn" data-action="confirmAwardItem" disabled>✅ Award</button>
       </div>
     </div>
   </div>
   <!-- Item Picker Popup (Add Item) -->
-  <div id="itemPickerPopup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:250;align-items:center;justify-content:center" onclick="if(event.target===this)closeItemPicker()">
+  <div id="itemPickerPopup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:250;align-items:center;justify-content:center" data-action="closeItemPickerIfSelf">
     <div class="card" style="max-width:420px;width:90%;max-height:80vh;display:flex;flex-direction:column">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
         <h3 style="margin:0;font-size:1rem">🔍 Find Item</h3>
-        <button onclick="closeItemPicker()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.2rem">&times;</button>
+        <button data-action="closeItemPicker" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.2rem">&times;</button>
       </div>
-      <input type="text" id="itemPickerSearch" placeholder="Search 600+ items by name, type, rarity..." oninput="searchItemPicker(this.value)"
+      <input type="text" id="itemPickerSearch" placeholder="Search 600+ items by name, type, rarity..." data-action="searchItemPicker"
         style="width:100%;padding:0.5rem 0.7rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem;outline:none;margin-bottom:0.5rem;flex-shrink:0">
       <span id="itemPickerSrcFilter" style="display:block;margin-bottom:0.5rem;flex-shrink:0"></span>
       <div style="display:flex;gap:0.4rem;margin-bottom:0.5rem;flex-shrink:0">
-        <select id="itemPickerType" onchange="searchItemPicker(document.getElementById('itemPickerSearch').value)" style="flex:1;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem">
+        <select id="itemPickerType" data-action="searchItemPicker" style="flex:1;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem">
           <option value="">All Types</option>
           {% for t in item_picker_types %}<option value="{{ t }}">{{ t }}</option>{% endfor %}
         </select>
-        <select id="itemPickerRarity" onchange="searchItemPicker(document.getElementById('itemPickerSearch').value)" style="flex:1;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem">
+        <select id="itemPickerRarity" data-action="searchItemPicker" style="flex:1;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem">
           <option value="">All Rarities</option>
           {% for r in item_picker_rarities %}<option value="{{ r }}">{{ r }}</option>{% endfor %}
         </select>
@@ -1040,21 +1040,21 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {# ───── TRAPS PANEL ───── #}
 <div class="dm-panel" id="panel-traps">
   <div class="search-bar">
-    <input type="text" id="trapSearch" placeholder="Search traps..." style="flex:1;min-width:200px;padding:0.5rem 0.75rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem" oninput="filterTraps()">
+    <input type="text" id="trapSearch" placeholder="Search traps..." style="flex:1;min-width:200px;padding:0.5rem 0.75rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem" data-action="filterTraps">
     <span id="trapSrcFilter"></span>
-    <select id="trapTypeFilter" onchange="filterTraps()" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+    <select id="trapTypeFilter" data-action="filterTraps" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
       <option value="">All Types</option>
       <option value="mechanical">Mechanical</option>
       <option value="magical">Magical</option>
     </select>
-    <select id="trapDangerFilter" onchange="filterTraps()" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+    <select id="trapDangerFilter" data-action="filterTraps" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
       <option value="">All Danger</option>
       <option value="setback">Setback</option>
       <option value="dangerous">Dangerous</option>
       <option value="deadly">Deadly</option>
     </select>
     <span style="color:var(--text-muted);font-size:0.85rem" id="trapCount">{{ trap_total|default(traps|length) }} traps</span>
-    <button class="btn btn-primary btn-sm" onclick="showCreateTrap()" style="flex-shrink:0">+ Create Trap</button>
+    <button class="btn btn-primary btn-sm" data-action="showCreateTrap" style="flex-shrink:0">+ Create Trap</button>
   </div>
 
   <div class="trap-grid" id="trapGrid">
@@ -1073,7 +1073,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         {% if t.damage %}<span class="trap-stat">{{ t.damage_type|capitalize }}</span>{% endif %}
       </div>
       {% if t.source %}
-      <div style="font-size:0.72rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer" class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ t.source }}">📚 {{ t.source }}</div>
+      <div style="font-size:0.72rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer" class="src-badge" data-action="openSourceRef" data-src="{{ t.source }}">📚 {{ t.source }}</div>
       {% endif %}
       {% if t.get('_custom') %}
       <div style="font-size:0.72rem;color:var(--accent);opacity:0.8;margin-top:0.15rem">✨ Custom Trap</div>
@@ -1088,10 +1088,10 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         {% if t.area %}<div class="trap-section"><strong style="color:var(--text)">Area:</strong> {{ t.area }}</div>{% endif %}
       </div>
       <div style="display:flex;gap:0.3rem;align-items:center;margin-top:0.4rem">
-        <button class="trap-expand-btn" onclick="event.stopPropagation();toggleTrapDetail(this)" style="font-size:0.7rem;color:var(--accent);background:none;border:none;cursor:pointer;padding:0">▶ Expand</button>
+        <button class="trap-expand-btn" data-action="toggleTrapDetail" style="font-size:0.7rem;color:var(--accent);background:none;border:none;cursor:pointer;padding:0">▶ Expand</button>
         {% if t.get('_custom') %}
-        <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();editTrap({{ t._custom_id }})" style="font-size:0.72rem;padding:0.1rem 0.4rem;margin-left:auto">✏️ Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteTrap({{ t._custom_id }})" style="font-size:0.72rem;padding:0.1rem 0.4rem">✕ Delete</button>
+        <button class="btn btn-outline btn-sm" data-action="editTrap" data-id="{{ t._custom_id }}" style="font-size:0.72rem;padding:0.1rem 0.4rem;margin-left:auto">✏️ Edit</button>
+        <button class="btn btn-danger btn-sm" data-action="deleteTrap" data-id="{{ t._custom_id }}" style="font-size:0.72rem;padding:0.1rem 0.4rem">✕ Delete</button>
         {% endif %}
       </div>
     </div>
@@ -1118,17 +1118,17 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {# ───── COMBAT PANEL ───── #}
 <div class="dm-panel" id="panel-combat">
   <div class="toolbar" style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
-    <select id="combatEncounterSelect" onchange="loadCombatEncounter()" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;min-width:200px">
+    <select id="combatEncounterSelect" data-action="loadCombatEncounter" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;min-width:200px">
       <option value="">— Select encounter —</option>
     </select>
-    <select id="combatCampaignSelect" onchange="loadCombatCampaign().then(() => saveCombatState())" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;min-width:180px">
+    <select id="combatCampaignSelect" data-action="loadCombatCampaignThenSave" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;min-width:180px">
       <option value="">— Select campaign —</option>
     </select>
-    <button class="btn btn-outline btn-sm" id="btnUndo" onclick="undoLast()" disabled
+    <button class="btn btn-outline btn-sm" id="btnUndo" data-action="undoLast" disabled
             title="Nothing to undo">↩ Undo</button>
     <span id="undoStatus" style="font-size:0.78rem;color:var(--text-muted)"></span>
-    <button class="btn btn-accent btn-sm" id="btnRollInit" onclick="rollInitiative()">🎲 Roll Initiative</button>
-    <button class="btn btn-outline btn-sm" id="btnRerollInit" onclick="rollInitiative()" style="display:none">🎲 Reroll</button>
+    <button class="btn btn-accent btn-sm" id="btnRollInit" data-action="rollInitiative">🎲 Roll Initiative</button>
+    <button class="btn btn-outline btn-sm" id="btnRerollInit" data-action="rollInitiative" style="display:none">🎲 Reroll</button>
     <span style="margin-left:0.5rem;font-size:0.85rem;color:var(--text-muted)" id="combatStatus"></span>
   </div>
 
@@ -1141,8 +1141,8 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <strong style="font-size:0.8rem">★ Experience</strong>
       <input id="xp-amount" type="number" placeholder="XP" style="width:92px;padding:0.3rem 0.45rem;background:var(--bg);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:0.8rem">
       <input id="xp-note" placeholder="for what? (goblin ambush, session 4…)" style="flex:1;min-width:140px;padding:0.3rem 0.45rem;background:var(--bg);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:0.8rem">
-      <button class="btn btn-accent btn-sm" onclick="awardXp()">Award to party</button>
-      <button class="btn btn-outline btn-sm" onclick="loadCampaignXp()" title="Refresh">↻</button>
+      <button class="btn btn-accent btn-sm" data-action="awardXp">Award to party</button>
+      <button class="btn btn-outline btn-sm" data-action="loadCampaignXp" title="Refresh">↻</button>
       <span id="xpStatus" style="font-size:0.72rem;color:var(--text-muted)"></span>
     </div>
     <div id="xpRoster" style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.5rem"></div>
@@ -1155,15 +1155,15 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   <section class="rf-panel" id="rollFeedPanel" style="margin-top:0.75rem">
     <div class="rf-bar">
       <h3>🎲 Roll feed</h3>
-      <select id="rfRollMode" onchange="setRollFeedMode()" title="Whether your own rolls are hidden from the players" style="padding:0.3rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.78rem;min-height:34px">
+      <select id="rfRollMode" data-action="setRollFeedMode" title="Whether your own rolls are hidden from the players" style="padding:0.3rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.78rem;min-height:34px">
         <option value="0">👁️ My rolls: visible</option>
         <option value="1">🙈 My rolls: hidden</option>
       </select>
-      <button class="btn btn-outline btn-sm" id="rfHiddenToggle" onclick="toggleRollFeedHidden()"
+      <button class="btn btn-outline btn-sm" id="rfHiddenToggle" data-action="toggleRollFeedHidden"
               title="Whether THIS screen lists your hidden rolls — never whether players see them">🙈 Hide my hidden rolls</button>
-      <button class="btn btn-outline btn-sm" id="rfShareBtn" onclick="shareTableLink()"
+      <button class="btn btn-outline btn-sm" id="rfShareBtn" data-action="shareTableLink"
               title="Copy the players' link for this campaign">🔗 Player link</button>
-      <button class="btn btn-outline btn-sm" id="rfClearBtn" onclick="refreshRollFeed()"
+      <button class="btn btn-outline btn-sm" id="rfClearBtn" data-action="refreshRollFeed"
               title="Re-read the log (the feed only ever holds the newest 500 rolls)">↻ Refresh</button>
       <span class="rf-status" id="rfStatus"></span>
     </div>
@@ -1176,13 +1176,13 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
     <!-- Round + Turn controls -->
     <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap">
       <div style="display:flex;align-items:center;gap:0.4rem">
-        <button class="btn btn-outline btn-sm" onclick="prevTurn()" title="Previous turn">◀</button>
+        <button class="btn btn-outline btn-sm" data-action="prevTurn" title="Previous turn">◀</button>
         <span id="combatRoundLabel" style="font-size:1rem;font-weight:700">Round 1</span>
-        <button class="btn btn-outline btn-sm" onclick="nextTurn()" title="Next turn">▶</button>
+        <button class="btn btn-outline btn-sm" data-action="nextTurn" title="Next turn">▶</button>
       </div>
       <span id="combatTurnLabel" style="font-size:0.85rem;color:var(--text-muted)">Turn 0/0</span>
       <div style="flex:1"></div>
-      <button class="btn btn-sm" id="btnEndCombat" onclick="endCombat()" style="background:var(--danger);color:#fff">End Combat</button>
+      <button class="btn btn-sm" id="btnEndCombat" data-action="endCombat" style="background:var(--danger);color:#fff">End Combat</button>
     </div>
 
     <!-- Main combat layout: initiative track + players panel -->
@@ -1194,8 +1194,8 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         <!-- Benched NPCs (dragged out of combat) -->
         <h4 style="margin:0.75rem 0 0.5rem 0;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted)">🛑 Benched</h4>
         <div id="benchedNpcs" style="display:flex;flex-direction:column;gap:0.35rem;min-height:2rem;padding:0.5rem;background:var(--bg);border:1px dashed var(--border);border-radius:8px"
-          ondragover="event.preventDefault(); event.dataTransfer.dropEffect='move'"
-          ondrop="dropOnBenched(event)">
+          data-action-map='{"dragover":"noop","drop":"dropOnBenched"}'
+          data-call-map='{"dragover":{"prevent":true}}'>
           <span style="color:var(--text-muted);font-size:0.7rem;text-align:center">Drag NPCs here to remove from combat</span>
         </div>
       </div>
@@ -1204,8 +1204,8 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <div style="width:300px;flex-shrink:0" id="playersPanel">
         <h4 style="margin:0 0 0.5rem 0;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted)">👤 Players</h4>
         <div id="playersWaiting" style="display:flex;flex-direction:column;gap:0.35rem;min-height:3rem;padding:0.5rem;background:var(--bg);border:1px dashed var(--border);border-radius:8px"
-          ondragover="event.preventDefault(); event.dataTransfer.dropEffect='move'"
-          ondrop="dropOnPlayersPanel(event)">
+          data-action-map='{"dragover":"noop","drop":"dropOnPlayersPanel"}'
+          data-call-map='{"dragover":{"prevent":true}}'>
           <span style="color:var(--text-muted);font-size:0.75rem;text-align:center">Select a campaign to load players</span>
         </div>
       </div>
@@ -1217,20 +1217,20 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <div style="display:flex;gap:0.4rem;margin-bottom:0.5rem;flex-wrap:wrap">
         <input type="text" id="combatCreatureSearch" placeholder="Search NPCs or monsters..."
           style="flex:1;min-width:180px;padding:0.35rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem"
-          oninput="filterCombatCreatures()">
+          data-action="filterCombatCreatures">
         <span id="combatSrcFilter"></span>
-        <select id="combatCreatureKind" onchange="toggleCombatFilters();filterCombatCreatures()"
+        <select id="combatCreatureKind" data-action="toggleCombatFiltersThenFilter"
           style="padding:0.35rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem">
           <option value="all">All</option>
           <option value="character">Characters</option>
           <option value="npc">NPCs</option>
           <option value="monster">Monsters</option>
         </select>
-        <select id="combatCreatureType" onchange="filterCombatCreatures()"
+        <select id="combatCreatureType" data-action="filterCombatCreatures"
           style="padding:0.35rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem;display:none">
           <option value="all">All Types</option>
         </select>
-        <select id="combatCreatureCr" onchange="filterCombatCreatures()"
+        <select id="combatCreatureCr" data-action="filterCombatCreatures"
           style="padding:0.35rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem;display:none">
           <option value="all">All CR</option>
           <option value="0">CR 0</option>
@@ -1257,7 +1257,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {# ───── CAMPAIGN MODAL ───── #}
 <div class="modal-overlay" id="campaignModal">
   <div class="modal-content" style="max-width:700px">
-    <button class="modal-close" onclick="closeModal('campaignModal')">✕</button>
+    <button class="modal-close" data-action="closeModal" data-modal="campaignModal">✕</button>
     <div id="campaignDetail"></div>
   </div>
 </div>
@@ -1275,5 +1275,6 @@ const COMBAT_CHARACTERS = {{ characters_json|safe }};
 </script>
 <script src="/static/widgets.js?v={{ static_asset_version('widgets.js') }}"></script>
 <script src="/static/data/conditions.js?v={{ static_asset_version('data/conditions.js') }}"></script>
+<script src="/static/dm/actions.js?v={{ static_asset_version('dm/actions.js') }}"></script>
 <script src="/static/dm_tools.js?v={{ dm_tools_js_version }}"></script>
 {% endblock %}

@@ -323,9 +323,11 @@ def test_the_import_control_is_on_both_pages_and_defined_once():
     detail = (REPO / "templates" / "campaign_detail.html").read_text()
     tools = (REPO / "templates" / "dm_tools.html").read_text()
     layout = (REPO / "static" / "layout.js").read_text()
-    assert "importCampaignPack(this)" in detail, "a campaign page must offer the import"
-    assert "importCampaignPack(this)" in tools, (
+    # The control is declarative now: one delegated listener calls the handler and
+    # passes the element, so the markup carries no inline JS.
+    assert 'data-action="importCampaignPack"' in detail, "a campaign page must offer the import"
+    assert 'data-action="importCampaignPack"' in tools, (
         "a DM with no campaigns yet still needs somewhere to import one")
     assert layout.count("window.importCampaignPack =") == 1, (
         "the import helper must be defined exactly once")
-    assert "include the CSRF" in layout or "CSRF" in layout
+    assert "CSRF" in layout

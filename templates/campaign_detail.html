@@ -31,12 +31,12 @@
       <a href="/dm-tools" class="btn btn-outline btn-sm">← Back</a>
       <a href="/api/dm/campaign/{{ camp.id }}/export" class="btn btn-outline btn-sm" download
          title="Download this campaign (characters, NPCs, maps, encounters and images) as one file">📦 Export pack</a>
-      <button class="btn btn-outline btn-sm" onclick="document.getElementById('packFile').click()"
+      <button class="btn btn-outline btn-sm" data-action="triggerFileInput" data-target="packFile"
               title="Import a campaign pack as a NEW campaign">📥 Import pack</button>
       <input type="file" id="packFile" accept="application/json,.json" style="display:none"
-             onchange="importCampaignPack(this)">
-      <button class="btn btn-primary btn-sm" onclick="editCampaignMeta({{ camp.id }})">✏️ Edit</button>
-      <button class="btn btn-danger btn-sm" onclick="deleteFromPage({{ camp.id }})">🗑️ Delete</button>
+             data-action="importCampaignPack">
+      <button class="btn btn-primary btn-sm" data-action="editCampaignMeta" data-id="{{ camp.id }}">✏️ Edit</button>
+      <button class="btn btn-danger btn-sm" data-action="deleteFromPage" data-id="{{ camp.id }}">🗑️ Delete</button>
     </div>
   </div>
 
@@ -57,7 +57,7 @@
           {% endif %}
           {% endfor %}
         </select>
-        <button class="btn btn-primary btn-sm" onclick="addCharToCampaign({{ camp.id }})">+ Add</button>
+        <button class="btn btn-primary btn-sm" data-action="addCharToCampaign" data-id="{{ camp.id }}">+ Add</button>
       </div>
     </div>
     {% if chars %}
@@ -74,8 +74,8 @@
         <span class="stat-tag">❤️ {{ ch.hp_current }}/{{ ch.hp_max }}</span>
         <span class="stat-tag">🛡️ AC {{ ch.ac }}</span>
         <span class="stat-tag">⚡ {{ ch.speed or 30 }}ft</span>
-        <button class="btn btn-outline btn-sm" onclick="previewCharSheet({{ ch.id }}, '{{ ch.name|e }}')" title="View sheet">📋</button>
-        <button class="btn btn-danger btn-sm" onclick="removeCharFromCampaign({{ camp.id }}, {{ ch.id }})">✕</button>
+        <button class="btn btn-outline btn-sm" data-action="previewCharSheet" data-id="{{ ch.id }}" data-name="{{ ch.name }}" title="View sheet">📋</button>
+        <button class="btn btn-danger btn-sm" data-action="removeCharFromCampaign" data-id="{{ camp.id }}" data-char-id="{{ ch.id }}">✕</button>
       </div>
     </div>
     {% endfor %}
@@ -88,7 +88,7 @@
   <div class="camp-section">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.3rem">
       <h3 style="margin:0">🧑 NPCs ({{ npcs|length }})</h3>
-      <button class="btn btn-primary btn-sm" onclick="showNpcPicker({{ camp.id }})">+ Add NPC</button>
+      <button class="btn btn-primary btn-sm" data-action="showNpcPicker" data-id="{{ camp.id }}">+ Add NPC</button>
     </div>
     {% if npcs %}
     {% for n in npcs %}
@@ -102,11 +102,11 @@
       <div style="display:flex;gap:0.3rem;align-items:center;flex-wrap:wrap">
         <span class="stat-tag">❤️ {{ n.hp_current or 0 }}/{{ n.hp_max or 0 }}</span>
         <span class="stat-tag">🛡️ AC {{ n.ac or 10 }}</span>
-        <button class="btn btn-danger btn-sm" onclick="removeNpcFromCampaign({{ camp.id }}, {{ n.id }})">✕</button>
+        <button class="btn btn-danger btn-sm" data-action="removeNpcFromCampaign" data-id="{{ camp.id }}" data-npc-id="{{ n.id }}">✕</button>
       </div>
       <div style="width:100%;margin-top:0.3rem">
         <textarea id="npcNotes-{{ camp.id }}-{{ n.id }}" rows="2" style="width:100%;padding:0.3rem 0.5rem;background:var(--card-bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.75rem;resize:vertical" placeholder="DM notes…">{{ n.notes or '' }}</textarea>
-        <button class="btn btn-outline btn-sm" style="margin-top:0.2rem;font-size:0.7rem" onclick="saveNpcNotes({{ camp.id }}, {{ n.id }}, 'npcNotes-{{ camp.id }}-{{ n.id }}')">💾 Save</button>
+        <button class="btn btn-outline btn-sm" style="margin-top:0.2rem;font-size:0.7rem" data-action="saveNpcNotes" data-id="{{ camp.id }}" data-npc-id="{{ n.id }}" data-notes="npcNotes-{{ camp.id }}-{{ n.id }}">💾 Save</button>
       </div>
     </div>
     {% endfor %}
@@ -120,13 +120,13 @@
     <div class="camp-section">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.3rem">
         <h3 style="margin:0">📋 Quests ({{ quests|length }})</h3>
-        <button class="btn btn-outline btn-sm" onclick="addQuest({{ camp.id }})">+ Add</button>
+        <button class="btn btn-outline btn-sm" data-action="addQuest" data-id="{{ camp.id }}">+ Add</button>
       </div>
       {% if quests %}
       {% for q in quests %}
       <div class="quest-row">
         <span>{{ q.name }}{% if q.status %} <span class="badge badge-{{ 'accent' if q.status == 'completed' else 'muted' }}">{{ q.status }}</span>{% endif %}</span>
-        <button class="btn btn-danger btn-sm" onclick="removeQuest({{ camp.id }}, {{ loop.index0 }})">✕</button>
+        <button class="btn btn-danger btn-sm" data-action="removeQuest" data-id="{{ camp.id }}" data-index="{{ loop.index0 }}">✕</button>
       </div>
       {% endfor %}
       {% else %}
@@ -137,13 +137,13 @@
     <div class="camp-section">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.3rem">
         <h3 style="margin:0">📍 Locations ({{ locations|length }})</h3>
-        <button class="btn btn-outline btn-sm" onclick="addLocation({{ camp.id }})">+ Add</button>
+        <button class="btn btn-outline btn-sm" data-action="addLocation" data-id="{{ camp.id }}">+ Add</button>
       </div>
       {% if locations %}
       {% for l in locations %}
       <div class="loc-row">
         <span>{{ l.name }}{% if l.type %} <span class="badge badge-muted">{{ l.type }}</span>{% endif %}</span>
-        <button class="btn btn-danger btn-sm" onclick="removeLocation({{ camp.id }}, {{ loop.index0 }})">✕</button>
+        <button class="btn btn-danger btn-sm" data-action="removeLocation" data-id="{{ camp.id }}" data-index="{{ loop.index0 }}">✕</button>
       </div>
       {% endfor %}
       {% else %}
@@ -156,7 +156,7 @@
   <div class="camp-section">
     <h3>📝 Campaign Notes</h3>
     <textarea id="campNotes" rows="4" style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);margin-bottom:0.5rem;resize:vertical">{{ camp.notes or '' }}</textarea>
-    <button class="btn btn-outline" onclick="saveCampNotes({{ camp.id }})">💾 Save Notes</button>
+    <button class="btn btn-outline" data-action="saveCampNotes" data-id="{{ camp.id }}">💾 Save Notes</button>
   </div>
 
   <!-- Session Notes -->
@@ -168,11 +168,11 @@
   {% endif %}
 
   <!-- Character sheet preview modal -->
-  <div class="modal-overlay" id="charSheetModal" style="z-index:1100" onclick="if(event.target===this)closeModal('charSheetModal')">
+  <div class="modal-overlay" id="charSheetModal" style="z-index:1100" data-action="closeModalIfSelf" data-modal="charSheetModal">
     <div class="modal-content" style="max-width:1100px;width:95vw;height:90vh;padding:0;overflow:hidden;display:flex;flex-direction:column">
       <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 1rem;border-bottom:1px solid var(--border);flex-shrink:0">
         <span style="font-weight:600" id="charSheetTitle">Character Sheet</span>
-        <button class="modal-close" onclick="closeModal('charSheetModal')" style="position:static">✕</button>
+        <button class="modal-close" data-action="closeModal" data-modal="charSheetModal" style="position:static">✕</button>
       </div>
       <iframe id="charSheetFrame" src="" style="flex:1;width:100%;border:none"></iframe>
     </div>
@@ -180,6 +180,7 @@
 </div>
 {% endblock %}
 {% block scripts %}
+<script src="/static/dm/actions.js?v={{ static_asset_version('dm/actions.js') }}"></script>
 <script>
 const CAMP_ID = {{ camp.id }};
 

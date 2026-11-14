@@ -144,7 +144,8 @@ class TestTheCreateWizardRidesInAssetsToo:
         # every global in here must be one of the reference tables — no user rows, no
         # per-request state (the class descriptions legitimately contain the word "characters")
         names = re.findall(r"^window\.([A-Za-z_]\w*) = ", first, re.M)
-        assert len(names) == 40, names
+        assert len(names) == 41, names
+        assert "DRACONIC_ANCESTRIES" in names, names
         assert all(n.upper() == n for n in names), names
         for forbidden in ("portrait_url", "dnd_token", "dm_campaigns", "user_id", "password"):
             assert forbidden not in first
