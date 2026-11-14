@@ -51,6 +51,15 @@ from services.leveling import (
 from routes.schemas import EditASI, UpdateCharacter
 from summon_templates import SUMMON_TEMPLATES
 
+#: NOTE on `portrait_url`: the sheet looks tempting to optimise (it holds a multi-MB base64 data
+#: URL) but measured, `SELECT *` wins here. Per sheet render, fresh connection: `SELECT *` 7.5 ms vs
+#: explicit 80-column list 6.9 ms — and that 0.6 ms is only reachable by dropping the portrait
+#: entirely, which the header needs (it branches on "is there a portrait" and "is it a `data:` URL",
+#: and `portrait_url` defaults to `''`, not NULL, so `IS NOT NULL` would render a broken <img>).
+#: Answering either question in SQL means SQLite materialises the 3.3 MB value anyway, so an exact
+#: marker cost 9.5 ms — slower than `SELECT *`. Revisit only if the column gets a maintained
+#: `has_portrait`/`portrait_kind` flag that can be read without touching the blob.
+
 router = APIRouter()
 _INVOCATION_NAMES: set[str] = {
     "Agonizing Blast", "Armor of Shadows", "Ascendant Step", "Beast Speech",
@@ -481,6 +490,8 @@ def character_sheet(char_id: int, request: Request):
     db = get_db()
     if _is_admin(user) or (dm_preview and _user_dms_character(db, user, char_id)):
         # Admin, or the DM of a campaign that lists this character
+        # `SELECT *` on purpose: see the note at the top of this module — an explicit list with an
+        # exact portrait marker measured slower than copying the row.
         row = db.execute("SELECT * FROM characters WHERE id = ?",
                          (char_id,)).fetchone()
     else:

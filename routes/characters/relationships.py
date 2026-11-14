@@ -58,7 +58,8 @@ async def generate_relationship(char_id: int, request: Request):
     user = require_user(request)
     data = await request.json()
     db = get_db()
-    row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
+    # Only these four fields feed the generation prompt — keep the multi-MB portrait_url out.
+    row = db.execute("SELECT name, race, class_name, level FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
     if not row:
         db.close()
         raise HTTPException(status_code=404, detail="Character not found")

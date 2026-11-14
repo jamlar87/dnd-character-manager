@@ -105,6 +105,10 @@ def _insert_row(db, table: str, data: dict) -> int:
 def campaign_export(camp_id: int, request: Request, images: str = "embed"):
     """Download the campaign as a pack. `?images=skip` leaves the map images out."""
     from routes.characters.transfer import build_character_payload   # function-local: see Pitfall 16
+    # `SELECT *` is correct here: a pack carries the character's portrait, and build_character_payload
+    # exports every column in transfer._CHAR_FIELDS (portrait_url among them) — nothing in this row is
+    # unused, so the multi-MB blob is the payload, not waste. (An explicit list would also break on
+    # databases that have grown extra columns since the export whitelist was written.)
 
     user = require_user(request)
     db = get_db()

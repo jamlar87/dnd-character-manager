@@ -1011,18 +1011,24 @@ def _search_manuals(query: str, max_results: int = 20,
         word_line_map[word] = per_label
 
     # ── Step 2: per-book AND scoring ─────────────────────────────────────
-    # Pre-read each book into memory for fast snippet extraction
+    # Read a book's lines lazily: only the books that actually match every
+    # query word are ever opened. The eager readlines() sweep here touched all
+    # 91 files (33.5 MB, ~640 ms) on every query, whatever the query was.
     book_text: dict[str, list[str]] = {}
-    for label, p in cached.items():
-        try:
-            with open(p) as f:
-                book_text[label] = f.readlines()
-        except Exception:
-            book_text[label] = []
+
+    def _book_lines(label: str) -> list[str]:
+        lines = book_text.get(label)
+        if lines is None:
+            try:
+                with open(cached[label]) as f:
+                    lines = f.readlines()
+            except Exception:
+                lines = []
+            book_text[label] = lines
+        return lines
 
     for label in cached:
         source_w = SOURCE_WEIGHT.get(label, 0.50)
-        lines = book_text.get(label, [])
 
         # Gather each word's line numbers for this book
         word_lines: dict[str, set[int]] = {}
@@ -1035,6 +1041,8 @@ def _search_manuals(query: str, max_results: int = 20,
             pass  # all words have matches — proceed
         if not word_lines or any(len(ls) == 0 for ls in word_lines.values()):
             continue
+
+        lines = _book_lines(label)
 
         all_line_nums = sorted(set().union(*word_lines.values()))
         # ── cluster by proximity ──
@@ -1112,7 +1120,7 @@ def _search_manuals(query: str, max_results: int = 20,
             if not all_lines:
                 continue
             source_w = SOURCE_WEIGHT.get(label, 0.50)
-            lines = book_text.get(label, [])
+            lines = _book_lines(label)
             sorted_lines = sorted(all_lines)
             clusters = []
             cur = [sorted_lines[0]]

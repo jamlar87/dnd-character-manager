@@ -49,6 +49,25 @@ from services.leveling import (
 )
 from routes.schemas import ApplyLevelUp
 
+#: Every `characters` column EXCEPT the portrait blob (`portrait_url`, a multi-MB base64 data URL)
+#: and the two columns only the sheet reads (`personality_data`, `advantage_map` — recomputed there,
+#: never touched by a level-up path). `SELECT *` copied the blob into memory on every request:
+#: measured 10.97 -> 5.88 ms per query, 3.4 MB -> 13.8 KB per row.
+_CHAR_COLS_NO_PORTRAIT = (
+    "id, user_id, name, race, subrace, class_name, subclass, level, background, alignment,"
+    "personality, backstory, strength, dexterity, constitution, intelligence, wisdom, charisma,"
+    "hp_max, hp_current, temp_hp, ac, speed, proficiency_bonus, hit_dice, hit_dice_used,"
+    "class_levels, death_saves_success, death_saves_fail, skills, tool_proficiencies,"
+    "weapon_proficiencies, armor_proficiencies, languages, features, inventory, equipped, notes,"
+    "cp, gp, created_at, feature_data, attacks_data, spell_slot_data, passive_perception,"
+    "inspiration, exhaustion, portrait_prompt, save_proficiencies, damage_resistances,"
+    "damage_immunities, damage_vulnerabilities, condition_immunities, background_data,"
+    "spell_slots_used, attuned_items, dragonborn_ancestry, favored_enemies, favored_terrains,"
+    "expertise_skills, fighting_style, metamagic, invocations, pact_boon, maneuvers,"
+    "magical_secrets, totem_spirits, hunters_prey, infusions, asi_history, metamagic_history,"
+    "summons, conditions, journal, combat_notes, concentration, xp, shared"
+)
+
 router = APIRouter()
 def _meets_feat_prereq(prereq: str, char: dict, abilities: dict, feat_name: str = "") -> tuple[bool, str]:
     """Check if character meets a feat prerequisite. Returns (met, reason)."""
@@ -212,7 +231,7 @@ def level_up_info(char_id: int, request: Request):
     """Return everything needed for the level-up wizard. Supports multi-level via ?target=N."""
     user = require_user(request)
     db = get_db()
-    row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
+    row = db.execute(f"SELECT {_CHAR_COLS_NO_PORTRAIT} FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
     if not row:
         db.close()
         raise HTTPException(status_code=404, detail="Character not found")
@@ -730,7 +749,7 @@ def apply_level_up(char_id: int, request: Request, body: ApplyLevelUp):
     user = require_user(request)
     data = body.model_dump(exclude_none=True) | (body.model_extra or {})
     db = get_db()
-    row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
+    row = db.execute(f"SELECT {_CHAR_COLS_NO_PORTRAIT} FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
     if not row:
         db.close()
         raise HTTPException(status_code=404, detail="Character not found")
@@ -1272,7 +1291,7 @@ def de_level_info(char_id: int, request: Request):
     """
     user = require_user(request)
     db = get_db()
-    row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
+    row = db.execute(f"SELECT {_CHAR_COLS_NO_PORTRAIT} FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
     if not row:
         db.close()
         raise HTTPException(status_code=404, detail="Character not found")
@@ -1394,7 +1413,7 @@ async def apply_de_level(char_id: int, request: Request):
     user = require_user(request)
     data = await request.json()
     db = get_db()
-    row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
+    row = db.execute(f"SELECT {_CHAR_COLS_NO_PORTRAIT} FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
     if not row:
         db.close()
         raise HTTPException(status_code=404, detail="Character not found")

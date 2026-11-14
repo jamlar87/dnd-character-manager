@@ -1412,6 +1412,19 @@ def _build_party_profile(db, campaign_id: int) -> dict | None:
     if not rows:
         return None
 
+    # One lookup for every member's prepared spells, keyed by character id —
+    # this used to run one SELECT inside the per-member loop (N+1).
+    spells_by_char: dict[int, list[str]] = {}
+    _member_ids = [r["id"] for r in rows]
+    if _member_ids:
+        for sr in db.execute(
+            "SELECT character_id, spell_name FROM character_spells "
+            "WHERE prepared=1 AND character_id IN ({}) ORDER BY rowid".format(
+                ",".join("?" * len(_member_ids))),
+            _member_ids,
+        ).fetchall():
+            spells_by_char.setdefault(sr["character_id"], []).append(sr["spell_name"])
+
     chars = []
     total_level = 0
     ability_mods = {"STR": [], "DEX": [], "CON": [], "INT": [], "WIS": [], "CHA": []}
@@ -1466,11 +1479,7 @@ def _build_party_profile(db, campaign_id: int) -> dict | None:
         all_cond_immunities.update(cond_imm)
 
         # Spellcasting check
-        spells = db.execute(
-            "SELECT spell_name, spell_level FROM character_spells WHERE character_id=? AND prepared=1",
-            (c["id"],)
-        ).fetchall()
-        spell_names = [s[0] for s in spells] if spells else []
+        spell_names = spells_by_char.get(c["id"], [])
 
         chars.append({
             "name": c.get("name", ""),
@@ -2429,8 +2438,11 @@ async def dm_search_manuals(request: Request):
     if not query or len(query) < 2:
         return JSONResponse({"results": [], "error": "Query too short"})
 
-    results = _search_manuals(query, max_results=25,
-                              sources=parse_source_filter(data.get("source")))
+    # rg + file reads are synchronous: run them off the event loop, or one
+    # search stalls every request in the app for ~1 s.
+    from starlette.concurrency import run_in_threadpool
+    results = await run_in_threadpool(_search_manuals, query, 25,
+                                      sources=parse_source_filter(data.get("source")))
     return JSONResponse({"results": results, "query": query, "total": len(results),
                          "sources": sorted(parse_source_filter(data.get("source")))})
 
@@ -2444,8 +2456,11 @@ async def dm_search_manuals_summarize(request: Request):
     if not query or len(query) < 2:
         return JSONResponse({"summary": "", "error": "Query too short"})
 
-    results = _search_manuals(query, max_results=30,
-                              sources=parse_source_filter(data.get("source")))
+    # rg + file reads are synchronous: run them off the event loop, or one
+    # search stalls every request in the app for ~1 s.
+    from starlette.concurrency import run_in_threadpool
+    results = await run_in_threadpool(_search_manuals, query, 30,
+                                      sources=parse_source_filter(data.get("source")))
 
     if not results:
         return JSONResponse({"summary": "No matches found across any reference manuals.", "results": []})
@@ -3084,25 +3099,44 @@ def dm_campaigns_list(request: Request):
         f"SELECT * FROM dm_campaigns {where} ORDER BY created_at DESC", params
     ).fetchall()]
 
-    # Enrich each campaign's characters with live data from the characters table
+    # Parse every roster first, then resolve all the members in ONE query — this
+    # used to issue a SELECT per character, per campaign (N+1).
+    rosters = []
+    all_ids = set()
     for camp in rows:
         try:
             char_ids = json.loads(camp.get("characters") or "[]")
         except (json.JSONDecodeError, TypeError):
             camp["characters"] = []
             continue
+        rosters.append((camp, char_ids))
+        for entry in char_ids:
+            cid = entry.get("id") if isinstance(entry, dict) else entry
+            if cid is not None:
+                all_ids.add(cid)
 
+    chars_by_id: dict = {}
+    if all_ids:
+        id_list = list(all_ids)
+        for r in db.execute(f"""
+            SELECT id, name, race, subrace, class_name, subclass, level,
+                   hp_current, hp_max, temp_hp, ac, strength, dexterity, constitution,
+                   intelligence, wisdom, charisma, proficiency_bonus, speed,
+                   inspiration, exhaustion, passive_perception, hit_dice, hit_dice_used,
+                   (portrait_url IS NOT NULL AND portrait_url != '') AS has_portrait
+            FROM characters WHERE id IN ({",".join("?" * len(id_list))})
+        """, id_list).fetchall():
+            chars_by_id[r["id"]] = r
+            # `id = ?` used to accept a roster id stored as a string (column affinity
+            # coerced it); a dict lookup must do that coercion itself.
+            chars_by_id[str(r["id"])] = r
+
+    # Enrich each campaign's characters with live data from the characters table
+    for camp, char_ids in rosters:
         enriched = []
         for entry in char_ids:
             cid = entry.get("id") if isinstance(entry, dict) else entry
-            row = db.execute("""
-                SELECT id, name, race, subrace, class_name, subclass, level,
-                       hp_current, hp_max, temp_hp, ac, strength, dexterity, constitution,
-                       intelligence, wisdom, charisma, proficiency_bonus, speed,
-                       inspiration, exhaustion, passive_perception, hit_dice, hit_dice_used,
-                       (portrait_url IS NOT NULL AND portrait_url != '') AS has_portrait
-                FROM characters WHERE id=?
-            """, (cid,)).fetchone()
+            row = chars_by_id.get(cid)
             if row:
                 ch = dict(row)
                 # Compute modifiers
