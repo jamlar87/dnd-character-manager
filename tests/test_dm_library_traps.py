@@ -11,6 +11,7 @@ import json
 import re
 import sqlite3
 from pathlib import Path
+from js_bundle import read_js
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -32,7 +33,7 @@ class TestReferenceTrapsRideInTheAsset:
     def test_trap_cards_are_not_server_rendered(self, client, seeded_db, auth_headers):
         html = client.get("/dm-tools", headers=auth_headers).text
         assert 'id="trapGrid"' in html
-        assert "renderTrapCards" in (ROOT / "static" / "dm_tools.js").read_text()
+        assert "renderTrapCards" in read_js("dm_tools.js")
         # a card is the .trap-card div; with no custom traps the HTML must carry none
         assert html.count('class="trap-card"') == 0
         # The libraries and constant tables are cached-asset data now; a jump back over this
@@ -65,12 +66,12 @@ class TestASplashOfUserDataStaysServerRendered:
         m = re.search(r'id="trapCount">([\d,]+) traps', html)
         assert m, "the trap count element vanished"
         assert int(m.group(1).replace(",", "")) >= len(payload["traps"])
-        assert "filterTraps();" in (ROOT / "static" / "dm_tools.js").read_text()
+        assert "filterTraps();" in read_js("dm_tools.js")
 
     def test_the_js_renderer_runs_before_the_source_filter_mounts(self):
         """SourceFilter.init() snapshots the source options in the DOM, so the trap
         cards (and their data-source values) must exist first — same rule as monsters."""
-        js = (ROOT / "static" / "dm_tools.js").read_text()
+        js = read_js("dm_tools.js")
         assert "function renderTrapCards(" in js
         assert "window.DM_TRAPS" in js
         for attr in ("data-name=", "data-type=", "data-danger=", "data-source="):

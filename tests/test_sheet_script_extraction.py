@@ -23,7 +23,9 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 TEMPLATE = REPO / "templates" / "_sheet_scripts.html"
-STATIC_JS = REPO / "static" / "sheet.js"
+from js_bundle import read_js  # noqa: E402
+
+STATIC_JS = REPO / "static" / "sheet.js"  # entry part; read_js() gives the whole bundle
 REF_JS = REPO / "static" / "sheet-ref.js"
 
 
@@ -67,7 +69,7 @@ class TestTemplateIsConfigOnly:
 
 class TestStaticFiles:
     def test_sheet_js_is_substantial_and_jinja_free(self):
-        js = STATIC_JS.read_text()
+        js = read_js("sheet.js")
         assert len(js) > 100_000, "sheet.js looks truncated"
         assert "{{" not in js and "{%" not in js, "unrendered Jinja in sheet.js"
         assert "function togglePassiveBody" in js
@@ -88,7 +90,7 @@ class TestConfigContract:
         assert "{{" not in html, "unrendered Jinja in the sheet page"
         block = config_block(html)
 
-        js = STATIC_JS.read_text()
+        js = read_js("sheet.js")
         cfg_used = set(re.findall(r"SHEETCFG\.([A-Za-z_][A-Za-z0-9_]*)", js))
         ref_used = set(re.findall(r"SHEETREF\.([A-Za-z_][A-Za-z0-9_]*)", js))
         cfg_keys = set(re.findall(r"^\s*([A-Za-z_][A-Za-z0-9_]*):", block, re.M))
@@ -166,12 +168,17 @@ class TestStaticAssetsAreCacheable:
 
     def test_sheet_js_url_matches_the_file_on_disk(self, client, seeded_db, auth_headers):
         import hashlib
-        from routes.characters.sheet import sheet_asset_version
+        from core.http import SHEET_JS_PARTS, static_bundle_version
         cid = make_char(seeded_db, "Hash Probe")
         html = client.get(f"/character/{cid}", headers=auth_headers).text
-        want = sheet_asset_version("sheet.js")
+        want = static_bundle_version("sheet.js", SHEET_JS_PARTS)
         assert f"/static/sheet.js?v={want}" in html
-        assert hashlib.sha1(STATIC_JS.read_bytes()).hexdigest()[:10] == want
+        digest = hashlib.sha1()
+        for name in ("sheet.js", *SHEET_JS_PARTS):
+            digest.update((REPO / "static" / name).read_bytes())
+        assert digest.hexdigest()[:10] == want, "the ?v= must cover every part, not just the entry"
+        for name in SHEET_JS_PARTS:
+            assert f"/static/{name}?v={want}" in html, f"{name} is never loaded by the sheet"
 
 
 class TestConfigValuesAreJsonEncoded:

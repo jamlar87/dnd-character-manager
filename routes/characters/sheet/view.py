@@ -31,7 +31,7 @@ from core.features import (
     get_character_armor_profs,
     get_racial_trait_effects,
 )
-from core.http import _render, static_asset_version
+from core.http import SHEET_JS_PARTS, _render, static_asset_version, static_bundle_version
 from core.security import require_user
 from data import INVOCATION_OPTIONS, MANEUVER_OPTIONS, METAMAGIC_OPTIONS, PACT_BOON_OPTIONS
 from fastapi import APIRouter, HTTPException, Request
@@ -818,7 +818,8 @@ def character_sheet(char_id: int, request: Request):
                    mi_spells_data=mi_spells_data,
                    dm_preview=dm_preview,
                    sheet_ref_version=ensure_sheet_reference_asset(),
-                   sheet_js_version=sheet_asset_version("sheet.js"),
+                   sheet_js_version=static_bundle_version("sheet.js", SHEET_JS_PARTS),
+                   sheet_js_parts=SHEET_JS_PARTS,
                    skill_abilities=SKILL_ABILITIES, classes=CLASSES, races=merged_races,
                    bg_info=BACKGROUND_INFO, saves_class=saves_class, attacks=all_attacks,
                    charged_items=charged_items,

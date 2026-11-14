@@ -11,6 +11,7 @@ from __future__ import annotations
 import pathlib
 import re
 import sqlite3
+from js_bundle import read_js
 
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
@@ -165,7 +166,7 @@ def test_the_canvas_is_sized_from_its_host():
 def test_the_dm_tools_tab_lists_and_opens_maps():
     """A canvas nobody can find is not a feature: the tab is the only entry point."""
     page = (REPO / "templates" / "dm_tools.html").read_text()
-    jsrc = (REPO / "static" / "dm_tools.js").read_text()
+    jsrc = read_js("dm_tools.js")
     assert 'data-tab="maps"' in page and 'id="panel-maps"' in page
     assert "renderMaps" in jsrc and "createMap" in jsrc and "deleteMap" in jsrc
     valid = jsrc.split("const validTabs")[1][:260]

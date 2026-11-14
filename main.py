@@ -210,7 +210,7 @@ async def security_middleware(request: Request, call_next):
     return response
 
 # ── Compression ───────────────────────────────────────────────────────────────
-# The front-end ships ~600KB of un-minified JS (sheet.js 317KB, dm_tools.js 291KB) and the
+# The front-end ships ~600KB of un-minified JS across the sheet and dm-tools bundles and the
 # origin sent it raw: `curl -I /static/sheet.js` answered content-length 324864 with no
 # Content-Encoding. Cloudflare compresses for the browser, so the cost landed on LAN clients
 # and on every cache-MISS fetch, where the whole payload crossed the wire.

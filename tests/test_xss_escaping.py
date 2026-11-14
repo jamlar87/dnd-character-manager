@@ -20,7 +20,9 @@ from pathlib import Path
 import pytest
 
 STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
-STATIC_JS = STATIC_DIR / "dm_tools.js"
+from js_bundle import read_js  # noqa: E402
+
+STATIC_JS = read_js("dm_tools.js")
 
 EVIL = "</script><img src=x onerror=alert(1)>"
 
@@ -72,7 +74,7 @@ def test_dm_tools_page_does_not_emit_a_raw_closing_script_tag(client, seeded_db,
 
 @pytest.fixture(scope="module")
 def js_source():
-    return STATIC_JS.read_text(encoding="utf-8")
+    return STATIC_JS
 
 
 def test_shared_escape_html_covers_every_metacharacter():

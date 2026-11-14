@@ -10,6 +10,7 @@ stay identical, because filterSpells() matches on them.
 import json
 import re
 from pathlib import Path
+from js_bundle import read_js
 
 ROOT = Path(__file__).resolve().parent.parent
 #: The page's byte budget. Tight on purpose: the libraries and constant tables are cached-asset
@@ -37,7 +38,7 @@ class TestTheSpellLibraryRidesInTheAsset:
     def test_spell_cards_are_not_server_rendered(self, client, seeded_db, auth_headers):
         html = client.get("/dm-tools", headers=auth_headers).text
         assert 'id="spellGrid"' in html
-        assert "renderSpellCards" in (ROOT / "static" / "dm_tools.js").read_text()
+        assert "renderSpellCards" in read_js("dm_tools.js")
         # monsters, spells and traps are all client-rendered now: the HTML must carry no
         # .monster-card at all (spells reuse that class), and no reference trap card
         assert html.count('class="monster-card"') == 0
@@ -65,7 +66,7 @@ class TestTheRendererKeepsTheFiltersWorking:
     def test_the_renderer_runs_before_the_source_filter_mounts(self):
         """SourceFilter.init() snapshots the sources present in the DOM, and filterSpells()
         reads the data-* attributes, so the cards have to exist first."""
-        js = (ROOT / "static" / "dm_tools.js").read_text()
+        js = read_js("dm_tools.js")
         assert "function renderSpellCards(" in js
         assert "window.DM_SPELLS" in js
         for attr in ("data-name=", "data-level=", "data-school=", "data-classes=", "data-source="):
@@ -75,7 +76,7 @@ class TestTheRendererKeepsTheFiltersWorking:
         assert render < js.index("if (renderedSpells) filterSpells();")
 
     def test_filter_spells_still_scopes_to_its_own_grid(self):
-        js = (ROOT / "static" / "dm_tools.js").read_text()
+        js = read_js("dm_tools.js")
         assert "querySelectorAll('#spellGrid .monster-card')" in js
         # the monster renderer must not adopt the spell grid (spells share .monster-card)
         assert "document.getElementById('monsterGrid')" in js

@@ -12,6 +12,7 @@ import pathlib
 
 import pytest
 from PIL import Image
+from js_bundle import read_js
 
 APP = pathlib.Path(__file__).resolve().parent.parent
 
@@ -92,7 +93,7 @@ def test_the_size_parameter_is_bounded(client, seeded_db, auth_headers):
 def test_the_client_loads_thumbs_lazily():
     """The list is the one screen that scales without limit: without lazy loading, opening a
     93-map group would fetch 93 images at once on a phone."""
-    js = (APP / "static" / "dm_tools.js").read_text()
+    js = read_js("dm_tools.js")
     assert "function mapThumb(" in js
     assert 'loading="lazy"' in js and 'decoding="async"' in js
     assert "/thumb?size=" in js

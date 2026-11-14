@@ -54,3 +54,8 @@ window.SHEETCFG = {
 </script>
 <script src="/static/data/conditions.js?v={{ static_asset_version('data/conditions.js') }}"></script>
 <script src="/static/sheet.js?v={{ sheet_js_version }}"></script>
+{# Parts of the same classic-script bundle: they run after sheet.js and share its
+   window scope. Order matters — later parts use consts declared earlier. #}
+{% for part in sheet_js_parts %}
+<script src="/static/{{ part }}?v={{ sheet_js_version }}"></script>
+{% endfor %}

@@ -18,6 +18,7 @@ import main
 from main import app
 from core.data import _scan_manual_pdfs
 import core.data as core_data  # MANUALS_BASE lives in core/data.py now
+from js_bundle import read_js
 
 DB_PATH = Path(__file__).parent.parent / "data" / "characters.db"
 
@@ -123,7 +124,7 @@ def test_manuals_tab_lists_each_book_once(client, dm_headers):
     assert len(names) == len(set(names))
 
     # the row markup (📄 + title attribute) still comes from the renderer
-    js = (Path(__file__).parent.parent / "static" / "dm_tools.js").read_text()
+    js = read_js("dm_tools.js")
     assert '>📄</span>' in js and 'title="' in js
 
 

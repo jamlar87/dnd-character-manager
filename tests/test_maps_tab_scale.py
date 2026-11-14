@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import pathlib
 import re
+from js_bundle import read_js
 
 APP = pathlib.Path(__file__).resolve().parent.parent
 
@@ -36,7 +37,7 @@ def test_the_list_still_reports_token_and_scene_counts(client, seeded_db, auth_h
 
 
 def test_the_tab_renders_collapsed_groups_rather_than_every_row():
-    js = (APP / "static" / "dm_tools.js").read_text()
+    js = read_js("dm_tools.js")
     assert "function renderMapList(" in js
     assert "_openBooks" in js, "sections must be collapsed by default, not all open"
     assert "function filterMaps(" in js, "689 maps need a filter"
@@ -56,7 +57,7 @@ def test_showing_the_maps_tab_is_what_loads_it():
     and back fired the handler, which is why that worked. Loading now belongs to activateTab, so every
     path in (restore, click, anything later) behaves the same.
     """
-    js = (APP / "static" / "dm_tools.js").read_text()
+    js = read_js("dm_tools.js")
     activate = js.split("function activateTab(")[1].split("\n}")[0]
     assert "if (tabName === 'maps') renderMaps();" in activate, (
         "showing the maps tab must load it, not only clicking it")
@@ -85,7 +86,7 @@ def test_the_book_group_handler_does_not_embed_escaped_text():
 
     Handlers now pass an index into the rendered order, so no name is ever quoted into JS.
     """
-    js = (APP / "static" / "dm_tools.js").read_text()
+    js = read_js("dm_tools.js")
     offenders = [ln.strip()[:90] for ln in js.splitlines()
                  if 'onclick="' in ln and "dmEsc(" in ln and "'${" in ln]
     assert not offenders, f"escaped text interpolated into an inline handler: {offenders}"
@@ -96,7 +97,7 @@ def test_the_book_group_handler_does_not_embed_escaped_text():
 
 def test_deleting_a_map_does_not_quote_its_name_into_the_handler():
     """Same defect one step away: a map named "The King's Road" would break its own delete button."""
-    js = (APP / "static" / "dm_tools.js").read_text()
+    js = read_js("dm_tools.js")
     assert 'onclick="deleteMap(${m.id})"' in js
     assert "async function deleteMap(id) {" in js
     assert "(_mapsCache || []).find(x => x.id === id)" in js
@@ -107,7 +108,7 @@ def test_the_source_link_is_visible_and_its_absence_is_stated():
     source link was invisible: reported as "I don't see the source links on the map tab". It gets the
     theme's link colour, an underline, and its own line, and a map with no recorded source says so
     rather than showing nothing."""
-    js = (APP / "static" / "dm_tools.js").read_text()
+    js = read_js("dm_tools.js")
     row = js.split("function mapRow(")[1].split(".join('')")[0]
     assert "color:var(--accent)" in row, "the source link must use the theme's link colour"
     assert "text-decoration:underline" in row, "a link that is not underlined reads as metadata"
@@ -117,6 +118,6 @@ def test_the_source_link_is_visible_and_its_absence_is_stated():
 
 
 def test_a_deleted_map_does_not_linger_in_the_cached_list():
-    js = (APP / "static" / "dm_tools.js").read_text()
+    js = read_js("dm_tools.js")
     delete_fn = js.split("async function deleteMap(")[1].split("function toggleShareEncounter")[0]
     assert "_mapsCache = null" in delete_fn, "the list is cached; deleting must drop the cache"

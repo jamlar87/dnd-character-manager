@@ -19,6 +19,7 @@ import sqlite3
 from pathlib import Path
 
 import pytest
+from js_bundle import read_js
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -193,8 +194,8 @@ class TestNpcWritesAreUnified:
     def test_both_editors_share_the_browser_downscaler(self):
         helper = (ROOT / "static" / "char-portrait.js").read_text()
         assert "function downscaleImageFile(" in helper
-        assert "downscaleImageFile(" in (ROOT / "static" / "sheet.js").read_text()
-        assert "downscaleImageFile(" in (ROOT / "static" / "dm_tools.js").read_text()
+        assert "downscaleImageFile(" in read_js("sheet.js")
+        assert "downscaleImageFile(" in read_js("dm_tools.js")
 
 
 # ── Read side: the image routes ──────────────────────────────────────────────
@@ -308,7 +309,7 @@ class TestDmToolsMonsterAsset:
         """~400 manual NPC rows (one with a 433 KB description) move to the asset."""
         html = client.get("/dm-tools", headers=auth_headers).text
         assert "id=\"manualNpcList\"" in html
-        assert "renderManualNpcRows" in (ROOT / "static" / "dm_tools.js").read_text()
+        assert "renderManualNpcRows" in read_js("dm_tools.js")
         # the manual rows themselves must be absent from the HTML
         assert html.count('class="npc-row') == 0
 
@@ -328,7 +329,7 @@ class TestDmToolsMonsterAsset:
             assert secret not in asset
 
     def test_renderer_carries_the_filter_attributes(self):
-        js = (ROOT / "static" / "dm_tools.js").read_text()
+        js = read_js("dm_tools.js")
         assert "function renderMonsterCards(" in js
         for attr in ("data-name=", "data-type=", "data-cr=", "data-source="):
             assert attr in js

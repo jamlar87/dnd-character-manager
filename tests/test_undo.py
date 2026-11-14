@@ -10,6 +10,7 @@ import json
 import sqlite3
 
 import pytest
+from js_bundle import read_js
 
 
 def _db(path):
@@ -276,9 +277,9 @@ def test_both_surfaces_offer_the_undo_and_name_it_first():
 
     repo = pathlib.Path(__file__).resolve().parent.parent
     dm_tpl = (repo / "templates" / "dm_tools.html").read_text()
-    dm_js = (repo / "static" / "dm_tools.js").read_text()
+    dm_js = read_js("dm_tools.js")
     sheet_tpl = (repo / "templates" / "sheet.html").read_text()
-    sheet_js = (repo / "static" / "sheet.js").read_text()
+    sheet_js = read_js("sheet.js")
 
     assert 'id="btnUndo"' in dm_tpl and 'id="undoStatus"' in dm_tpl
     assert "function refreshUndoLabel(" in dm_js and "function undoLast(" in dm_js
@@ -376,7 +377,7 @@ def test_the_defeat_rule_lives_in_one_place_and_never_heals_on_un_tick():
     helper both call. Un-ticking a box is not a resurrection: it must not write HP at all."""
     import pathlib
 
-    js = (pathlib.Path(__file__).resolve().parent.parent / "static" / "dm_tools.js").read_text()
+    js = read_js("dm_tools.js")
     assert "async function defeatPlayerWriteThrough(" in js
     assert js.count("defeatPlayerWriteThrough(") >= 3, "defined once, called from both paths"
     assert "if (!defeating" in js.replace("if (!defeating ||", "if (!defeating"), "un-defeat writes nothing"
@@ -392,7 +393,7 @@ def test_the_two_warts_the_live_probe_found_stay_fixed():
     card at 51/51 wearing a skull — the same contradiction, pointing the other way)."""
     import pathlib
 
-    js = (pathlib.Path(__file__).resolve().parent.parent / "static" / "dm_tools.js").read_text()
+    js = read_js("dm_tools.js")
 
     write_through = js[js.index("async function defeatPlayerWriteThrough("):]
     write_through = write_through[:write_through.index("\n}\n") + 3]

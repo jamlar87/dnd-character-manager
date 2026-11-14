@@ -9,6 +9,7 @@ same markup, because toggleCollapse() and the group counts hang off those classe
 import json
 import re
 from pathlib import Path
+from js_bundle import read_js
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -35,7 +36,7 @@ class TestTheManualTreeRidesInTheAsset:
         panel = html[html.index('id="panel-manuals"'):html.index('id="panel-combat"')]
         assert "📄" not in panel, "manual rows are still server-rendered"
         assert "collapse-header" not in panel
-        assert "renderManualGroups" in (ROOT / "static" / "dm_tools.js").read_text()
+        assert "renderManualGroups" in read_js("dm_tools.js")
 
     def test_every_row_keeps_its_open_link(self, client, seeded_db, auth_headers):
         client.get("/dm-tools", headers=auth_headers)
@@ -58,7 +59,7 @@ class TestTheManualTreeRidesInTheAsset:
         assert int(m.group(2).replace(",", "")) == total
 
     def test_the_renderer_keeps_toggle_collapse_hooked_up(self):
-        js = (ROOT / "static" / "dm_tools.js").read_text()
+        js = read_js("dm_tools.js")
         assert "function renderManualGroups(" in js
         assert 'onclick="toggleCollapse(this)"' in js
         assert 'class="collapse-arrow"' in js and 'class="collapse-body"' in js

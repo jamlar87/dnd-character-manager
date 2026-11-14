@@ -1277,4 +1277,8 @@ const COMBAT_CHARACTERS = {{ characters_json|safe }};
 <script src="/static/data/conditions.js?v={{ static_asset_version('data/conditions.js') }}"></script>
 <script src="/static/dm/actions.js?v={{ static_asset_version('dm/actions.js') }}"></script>
 <script src="/static/dm_tools.js?v={{ dm_tools_js_version }}"></script>
+{# Same classic-script bundle, split by concern; order matters. #}
+{% for part in dm_tools_js_parts %}
+<script src="/static/{{ part }}?v={{ dm_tools_js_version }}"></script>
+{% endfor %}
 {% endblock %}

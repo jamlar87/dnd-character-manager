@@ -18,6 +18,43 @@ _jinja = Environment(loader=FileSystemLoader(str(TEMPLATES)), autoescape=True)
 
 _STATIC_ASSET_VERSIONS: dict[str, str] = {}
 
+# A few front-end features outgrew one file but still load as ordered classic scripts
+# sharing window scope (functions cross-reference across the whole bundle, and the
+# templates were written against that). The entry file stays the same name so templates
+# and tests keep addressing /static/sheet.js; the parts load right after it. A bundle's
+# ?v= is the hash of every part, so editing any part busts the cache for all of them.
+SHEET_JS_PARTS: tuple[str, ...] = (
+    "sheet/status.js",
+    "sheet/spells.js",
+    "sheet/popups.js",
+    "sheet/edit.js",
+    "sheet/features.js",
+    "sheet/inventory.js",
+    "sheet/equip.js",
+    "sheet/inventory-ui.js",
+    "sheet/levelup.js",
+    "sheet/story.js",
+    "sheet/summons.js",
+    "sheet/live.js",
+)
+
+DM_TOOLS_JS_PARTS: tuple[str, ...] = (
+    "dm/reference.js",
+    "dm/encounters.js",
+    "dm/maps.js",
+    "dm/encounter-open.js",
+    "dm/npcs.js",
+    "dm/traps.js",
+    "dm/campaigns.js",
+    "dm/items.js",
+    "dm/loot.js",
+    "dm/combat.js",
+    "dm/combat-ui.js",
+    "dm/combat-conditions.js",
+    "dm/builder.js",
+    "dm/rollfeed.js",
+)
+
 
 def static_asset_version(filename: str) -> str:
     """Content hash of a static asset, for ?v= cache busting.
@@ -34,6 +71,20 @@ def static_asset_version(filename: str) -> str:
             digest = "1"
         _STATIC_ASSET_VERSIONS[filename] = digest
     return _STATIC_ASSET_VERSIONS[filename]
+
+
+def static_bundle_version(entry: str, parts: tuple[str, ...]) -> str:
+    """Content hash over an entry script and the parts that load after it."""
+    key = "\x00".join((entry, *parts))
+    if key not in _STATIC_ASSET_VERSIONS:
+        digest = hashlib.sha1()
+        for name in (entry, *parts):
+            try:
+                digest.update((STATIC / name).read_bytes())
+            except Exception:  # pragma: no cover - defensive
+                digest.update(b"missing")
+        _STATIC_ASSET_VERSIONS[key] = digest.hexdigest()[:10]
+    return _STATIC_ASSET_VERSIONS[key]
 
 
 

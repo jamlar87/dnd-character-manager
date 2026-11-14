@@ -13,6 +13,7 @@ import io
 import json
 import re
 import sqlite3
+from js_bundle import read_js
 
 
 def make_char(seeded_db, name, user_id=1, **cols):
@@ -142,7 +143,7 @@ class TestCampaignApiExposesTheFlag:
 class TestBrowserRenderedListsUseTheSharedTile:
     def test_dm_tools_js_wires_the_tile_into_every_character_list(self):
         from pathlib import Path
-        js = (Path(__file__).resolve().parent.parent / "static" / "dm_tools.js").read_text()
+        js = read_js("dm_tools.js")
         # players panel, encounter participant rows, initiative track, picker, campaign list
         assert js.count("charPortraitTile(") >= 5
         assert "hasPortrait: p.has_portrait" in js
@@ -152,7 +153,7 @@ class TestBrowserRenderedListsUseTheSharedTile:
     def test_dm_tools_js_is_syntactically_consistent(self):
         """A stray backtick/brace in a template literal would kill the whole file."""
         from pathlib import Path
-        js = (Path(__file__).resolve().parent.parent / "static" / "dm_tools.js").read_text()
+        js = read_js("dm_tools.js")
         assert js.count("`") % 2 == 0, "unbalanced backticks in dm_tools.js"
         # every call must be used as a value — inside a template literal
         # (${ ... charPortraitTile(, incl. ternaries) or a plain assignment.

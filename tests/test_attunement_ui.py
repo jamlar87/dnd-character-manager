@@ -15,7 +15,9 @@ import sqlite3
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-SHEET_JS = REPO / "static" / "sheet.js"
+from js_bundle import read_js  # noqa: E402
+
+SHEET_JS = read_js("sheet.js")
 
 CFG_RE = re.compile(r"itemNeedsAttunement:\s*(\{.*?\})\s*,", re.S)
 SLOT_RE = re.compile(r'font-weight:600">(\d)/3</span>')
@@ -180,7 +182,7 @@ class TestClientMirror:
     """Sheet JS guards — the badge and the slots must both derive from ATTUNED_ITEMS."""
 
     def setup_method(self):
-        self.src = SHEET_JS.read_text()
+        self.src = SHEET_JS
 
     def test_toggle_updates_the_client_mirror(self):
         body = self.src.split("async function toggleAttune(", 1)[1].split("\n}", 1)[0]

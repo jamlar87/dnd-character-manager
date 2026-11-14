@@ -20,6 +20,7 @@ import sqlite3
 import pytest
 
 import routes.characters.ai_routes as ai
+from js_bundle import read_js
 
 
 def png_data_url(w=1200, h=900, color=(90, 60, 30)):
@@ -355,9 +356,7 @@ class TestGenderAndNpcMode:
         assert _time.time() - started < 0.2
 
     def test_npc_editor_offers_generation(self):
-        import pathlib
-
-        src = pathlib.Path("static/dm_tools.js").read_text()
+        src = read_js("dm_tools.js")
         assert "npcPortraitGenerate()" in src, "the NPC editor needs a Generate button"
         assert "npc: {name: name" in src, "and it must use the endpoint's npc mode"
         assert "data.image_url" in src

@@ -8,11 +8,16 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 
+from js_bundle import read_js  # noqa: E402
+
 
 def _read(rel):
     if rel == "static/create.js":
         # the wizard JS was split into static/create-*.js parts (same global scope, loaded in order)
         return "\n".join(p.read_text() for p in sorted((REPO / "static").glob("create-*.js")))
+    if rel in ("static/sheet.js", "static/dm_tools.js"):
+        # split into ordered part files that share window scope; read the whole bundle
+        return read_js(rel.split("/", 1)[1])
     return (REPO / rel).read_text()
 
 

@@ -11,6 +11,7 @@ import re
 import sqlite3
 
 import pytest
+from js_bundle import read_js
 
 
 # ── Slice 1a: schema ────────────────────────────────────────────────────────────────
@@ -697,7 +698,7 @@ def test_the_dm_tools_page_mounts_the_feed_panel():
 
     repo = pathlib.Path(__file__).resolve().parent.parent
     html = (repo / "templates" / "dm_tools.html").read_text()
-    js = (repo / "static" / "dm_tools.js").read_text()
+    js = read_js("dm_tools.js")
     for needed in ("rollFeedPanel", "rollFeedList", "rfStatus", "rfRollMode",
                    "rfHiddenToggle", "rfShareBtn"):
         assert needed in html, f"the DM panel is missing {needed}"
@@ -761,7 +762,7 @@ def test_the_sheet_mounts_a_read_only_feed():
 
     repo = pathlib.Path(__file__).resolve().parent.parent
     html = (repo / "templates" / "sheet.html").read_text()
-    js = (repo / "static" / "sheet.js").read_text()
+    js = read_js("sheet.js")
     assert "sheetRollFeedCard" in html and "sheetRollFeedList" in html
     assert "initSheetRollFeed();" in js, "the sheet never mounts its feed"
     assert "publish: false" in js, "the sheet must not publish rolls into the table feed"
@@ -823,7 +824,7 @@ def test_the_sheet_poll_is_demoted_to_a_safety_net():
     """Text-level guard: with the stream open the 2s timer must not be the mechanism."""
     import pathlib
 
-    js = (pathlib.Path(__file__).resolve().parent.parent / "static" / "sheet.js").read_text()
+    js = read_js("sheet.js")
     assert "SHEET_POLL_FAST_MS = 2000" in js and "SHEET_POLL_SAFE_MS = 30000" in js
     assert "on('open', function () { startSheetPolling(SHEET_POLL_SAFE_MS); })" in js
     assert "on('error', function () { startSheetPolling(SHEET_POLL_FAST_MS); })" in js
@@ -955,7 +956,7 @@ def test_the_tracker_poll_is_demoted_and_wired_to_the_stream():
     opens for the roll feed, and keep a fast poll only as the fallback."""
     import pathlib
 
-    js = (pathlib.Path(__file__).resolve().parent.parent / "static" / "dm_tools.js").read_text()
+    js = read_js("dm_tools.js")
     assert "COMBAT_POLL_FAST_MS = 2000" in js and "COMBAT_POLL_SAFE_MS = 30000" in js
     assert "setInterval(syncPlayerAndSummonHP, 2000)" not in js, "the hard-coded 2s timer is gone"
     assert "setInterval(syncPlayerAndSummonHP, interval || COMBAT_POLL_FAST_MS)" in js
@@ -972,7 +973,7 @@ def test_a_player_hp_change_repaints_the_trackers_panel():
     inputs and still waits for a participant change, so the two flags stay separate."""
     import pathlib
 
-    js = (pathlib.Path(__file__).resolve().parent.parent / "static" / "dm_tools.js").read_text()
+    js = read_js("dm_tools.js")
     assert "let changedPlayers = false;" in js
     # The players panel repaints on its own flag, and again inside the `changed` branch — the
     # two used to be separate statements, which built the panel twice on the same tick.
@@ -1069,7 +1070,7 @@ def test_the_tracker_no_longer_posts_to_a_route_that_does_not_exist():
     import pathlib
 
     repo = pathlib.Path(__file__).resolve().parent.parent
-    js = (repo / "static" / "dm_tools.js").read_text()
+    js = read_js("dm_tools.js")
     assert "'/api/update'" not in js, "the dead endpoint is back"
     assert "postDmHp('/api/dm/character-hp'" in js
     assert "postDmHp('/api/dm/summon-hp'" in js
@@ -1227,7 +1228,7 @@ def test_the_sheet_carries_the_concentration_card_and_the_check():
 
     repo = pathlib.Path(__file__).resolve().parent.parent
     tpl = (repo / "templates" / "sheet.html").read_text()          # the one the page renders
-    js = (repo / "static" / "sheet.js").read_text()
+    js = read_js("sheet.js")
     assert 'id="conc-value"' in tpl and 'id="conc-check"' in tpl
     assert "character.concentration" in tpl, "the card must render the stored state"
     # _sheet_top.html looks exactly like the sheet's top block but NOTHING includes it: UI added
@@ -1373,7 +1374,7 @@ def test_the_sheet_shows_xp_from_the_servers_own_thresholds():
     from support_source import route_source
 
     route = route_source("routes/characters/sheet.py")
-    dm_js = (repo / "static" / "dm_tools.js").read_text()
+    dm_js = read_js("dm_tools.js")
     dm_tpl = (repo / "templates" / "dm_tools.html").read_text()
 
     assert 'id="xp-row"' in tpl and 'id="xp-ready"' in tpl and "xp_prog" in tpl
@@ -1418,6 +1419,6 @@ def test_the_sheets_own_sync_carries_xp_so_an_award_needs_no_reload(seeded_db, c
     assert info["xp"] == 2700
     assert info["progress"]["ready"] is True and info["progress"]["next_at"] == 6500
 
-    js = (pathlib.Path(__file__).resolve().parent.parent / "static" / "sheet.js").read_text()
+    js = read_js("sheet.js")
     assert "_renderXpRow(info);" in js, "the sync has to repaint the row it now receives"
     assert "function _renderXpRow(" in js

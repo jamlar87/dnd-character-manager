@@ -7,7 +7,7 @@ import core.data as _core_data  # MANUALS_BASE is read live: tests repoint it
 from pathlib import Path
 from core.config import STATIC
 from core.security import require_user
-from core.http import _render, static_asset_version
+from core.http import DM_TOOLS_JS_PARTS, _render, static_asset_version, static_bundle_version
 from core.db import get_db
 from routes.characters import _load_monster_cache
 from services.text import alpha_key
@@ -314,7 +314,8 @@ def dm_tools(request: Request):
                        summon_templates=SUMMON_TEMPLATES,
                        # ~87 manual rows: a global tree, so it rides in the asset too.
                        manual_groups=manuals_groups),
-                   dm_tools_js_version=static_asset_version("dm_tools.js"),
+                   dm_tools_js_version=static_bundle_version("dm_tools.js", DM_TOOLS_JS_PARTS),
+                   dm_tools_js_parts=DM_TOOLS_JS_PARTS,
                    source_slug_map_version=ensure_source_slug_map_asset(_get_source_slug_map()),
                    cr_ranges=cr_ranges,
                    npcs=[n for n in npcs if not n.get("_manual")],

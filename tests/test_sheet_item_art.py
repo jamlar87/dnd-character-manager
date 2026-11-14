@@ -21,8 +21,10 @@ from pathlib import Path
 
 import pytest
 
-SHEET_JS = Path(__file__).resolve().parent.parent / "static" / "sheet.js"
-DM_TOOLS_JS = Path(__file__).resolve().parent.parent / "static" / "dm_tools.js"
+from js_bundle import read_js  # noqa: E402
+
+SHEET_JS = read_js("sheet.js")
+DM_TOOLS_JS = read_js("dm_tools.js")
 PORTRAIT_JS = Path(__file__).resolve().parent.parent / "static" / "char-portrait.js"
 
 
@@ -44,7 +46,7 @@ def _fn_body(src: str, name: str) -> str:
 
 @pytest.fixture(scope="module")
 def sheet_js() -> str:
-    return SHEET_JS.read_text()
+    return SHEET_JS
 
 
 class TestItemPopoutArt:
@@ -103,11 +105,11 @@ class TestNoDriftFromWorkingExample:
     """The DM-tools twins are the reference implementation — they must keep art."""
 
     def test_dm_tools_item_detail_still_has_art(self):
-        body = _fn_body(DM_TOOLS_JS.read_text(), "showItemDetail")
+        body = _fn_body(DM_TOOLS_JS, "showItemDetail")
         assert "refArtImg('item'" in body
 
     def test_dm_tools_picker_still_has_art(self):
-        body = _fn_body(DM_TOOLS_JS.read_text(), "renderPickerResults")
+        body = _fn_body(DM_TOOLS_JS, "renderPickerResults")
         assert "charPortraitTile(" in body and "/api/ref-image/item/" in body
 
     def test_both_renderers_still_exist_in_char_portrait_js(self):
