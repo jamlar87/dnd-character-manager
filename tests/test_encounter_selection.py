@@ -100,11 +100,9 @@ def test_the_aquatic_ban_does_not_eat_correct_land_picks():
     a Giant Frog could not appear in a forest — a false positive is worse than a miss, because it
     throws away a pick that was right."""
     import re
-    from pathlib import Path
+    from support_source import route_source
 
-    import routes.dm as dm_routes
-
-    src = Path(dm_routes.__file__).read_text()
+    src = route_source("routes/dm.py")
     ban = re.search(r"aquatic_keywords = \[(.*?)\]", src, re.S)
     assert ban, "the aquatic ban moved; this test needs updating"
     for wrong in ("frog", "toad", "turtle", "crocodile", "otter", "beaver", "rhinoceros"):

@@ -79,9 +79,10 @@ def test_blob_thumbs_are_cached_in_memory(monkeypatch):
 def test_no_route_re_encodes_a_thumbnail_per_request():
     """The regression guard: every image route must go through the cached helpers. A fresh
     `thumbnail_bytes(...)` call inside a route is the bug this whole module exists for."""
+    from support_source import route_sources
+
     offenders = []
-    for rel in ("routes/ref_images.py", "routes/dm.py", "routes/characters/sheet.py"):
-        text = (APP / rel).read_text()
+    for rel, text in route_sources("routes/ref_images.py", "routes/dm.py", "routes/characters/sheet.py"):
         for i, line in enumerate(text.splitlines(), 1):
             stripped = line.strip()
             if stripped.startswith("thumb = thumbnail_bytes(") or "= thumbnail_bytes(blob, size)" in line:

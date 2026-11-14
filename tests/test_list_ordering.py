@@ -165,9 +165,11 @@ class TestTheSpellLibraryUsesIt:
 
 def test_no_plain_lower_sort_is_left_on_a_browsable_name_list():
     """The defect class: `.lower()` used as a sort key for a list a human scans."""
+    from support_source import route_source
+
     offenders = []
     for rel in ("routes/characters/helpers.py", "routes/dm.py"):
-        for lineno, line in enumerate((ROOT / rel).read_text().splitlines(), 1):
+        for lineno, line in enumerate(route_source(rel).splitlines(), 1):
             if re.search(r'sort\(key=lambda .*name.*\.lower\(\)', line):
                 offenders.append(f"{rel}:{lineno}")
     assert offenders == [], f"use services.text.alpha_key: {offenders}"

@@ -1370,7 +1370,9 @@ def test_the_sheet_shows_xp_from_the_servers_own_thresholds():
 
     repo = pathlib.Path(__file__).resolve().parent.parent
     tpl = (repo / "templates" / "sheet.html").read_text()
-    route = (repo / "routes" / "characters" / "sheet.py").read_text()
+    from support_source import route_source
+
+    route = route_source("routes/characters/sheet.py")
     dm_js = (repo / "static" / "dm_tools.js").read_text()
     dm_tpl = (repo / "templates" / "dm_tools.html").read_text()
 

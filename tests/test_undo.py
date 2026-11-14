@@ -344,11 +344,12 @@ def test_a_failed_record_is_logged_rather_than_hidden():
     """The swallow that hid the missing column stayed, but it no longer hides the reason."""
     import pathlib
 
+    from support_source import route_source
+
     src = (pathlib.Path(__file__).resolve().parent.parent / "services" / "undo.py").read_text()
     assert "def record_safe(" in src and "logging.getLogger(__name__).warning" in src
     for route in ("routes/dm.py", "routes/characters/sheet.py"):
-        text = (pathlib.Path(__file__).resolve().parent.parent / route).read_text()
-        assert "record_safe(" in text, f"{route} should record through the one place that logs"
+        assert "record_safe(" in route_source(route), f"{route} should record through the one place that logs"
 
 
 # ── "defeated" on the tracker vs the player's sheet ─────────────────────────────────────

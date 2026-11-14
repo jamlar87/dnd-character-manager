@@ -49,7 +49,9 @@ def test_docs_and_openapi_are_not_public():
 
 def test_sync_combat_hp_does_not_block_the_loop():
     """The batch HP poll must hand its sqlite loop to a worker thread."""
-    src = (ROOT / "routes/characters/sheet.py").read_text()
+    from support_source import route_source
+
+    src = route_source("routes/characters/sheet.py")
     tree = ast.parse(src)
     fn = next(n for n in ast.walk(tree)
               if isinstance(n, ast.AsyncFunctionDef) and n.name == "sync_combat_hp")

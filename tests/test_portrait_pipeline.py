@@ -137,7 +137,9 @@ class TestCharacterWritesAreUnified:
         # upload route, AI background task (and the build path lives in dm.py)
         assert src.count("normalize_portrait") >= 2
         assert "UPDATE characters SET portrait_url=?" in src
-        dm_src = (ROOT / "routes" / "dm.py").read_text()
+        from support_source import route_source
+
+        dm_src = route_source("routes/dm.py")
         assert "normalize_portrait" in dm_src
 
     def test_npc_to_character_build_carries_the_portrait(self, seeded_db):
