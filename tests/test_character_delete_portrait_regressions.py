@@ -18,7 +18,7 @@ import secrets
 import sqlite3
 
 
-from main import _hash
+from core.security import _hash
 
 PORTRAIT_MARKER = "AUDITPORTRAITMARKER"
 DATA_URL = "data:image/png;base64," + base64.b64encode(PORTRAIT_MARKER.encode()).decode()

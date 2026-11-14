@@ -39,7 +39,7 @@ def cache_info():
 
 def _load_srd_class_data() -> tuple[dict, dict]:
     """Load cached SRD class levels and metadata."""
-    from main import SRD_CACHE
+    from core.config import SRD_CACHE
     try:
         with open(SRD_CACHE / "class_levels.json") as f:
             levels = json.load(f)
@@ -51,7 +51,7 @@ def _load_srd_class_data() -> tuple[dict, dict]:
 
 
 def _load_spell_dice() -> dict[str, dict]:
-    from main import DATA_DIR
+    from core.config import DATA_DIR
     try:
         with open(DATA_DIR / "spell_dice.json") as f:
             return json.load(f)
@@ -60,7 +60,7 @@ def _load_spell_dice() -> dict[str, dict]:
 
 
 def _load_json_cache(filename: str) -> list[dict]:
-    from main import SRD_CACHE
+    from core.config import SRD_CACHE
     try:
         with open(SRD_CACHE / filename) as f:
             return json.load(f)
@@ -110,7 +110,7 @@ def _should_replace_description(existing: str, new: str) -> bool:
 
 
 def _load_manual_json(filename: str) -> list[dict]:
-    from main import MANUAL_DATA
+    from core.config import MANUAL_DATA
     result = load_json(str(MANUAL_DATA), filename)
     return result if isinstance(result, list) else result
 
@@ -152,7 +152,7 @@ def _normalize_manual_source(source: str, source_manual: str, meta: dict) -> str
     Handles bare page references like 'Page 9', 'p.141', 'page 20-21' by
     reconstructing them as '{display_name} p.{page}' using _source_manual metadata.
     """
-    from main import _get_source_slug_map
+    from core.data import _get_source_slug_map
     source = (source or "").strip()
     if not source_manual:
         return source
@@ -187,7 +187,8 @@ def _validate_manual_sources() -> None:
     """Check all manual data files for clean source format at startup.
     Logs warnings for bad formats, out-of-range pages, or slug mismatches.
     This does not fix — it only warns so the operator can investigate."""
-    from main import DATA_DIR, _get_source_slug_map
+    from core.config import DATA_DIR
+    from core.data import _get_source_slug_map
     import json
     
     data_dir = DATA_DIR / "manual_data"
@@ -350,7 +351,8 @@ def _normalize_manual_spell(spell: dict) -> dict:
 
 def load_manual_data():
     """Merge extracted manual data into runtime structures. Called at startup."""
-    from main import SRD_SPELLS, SRD_MAGIC_ITEMS, RACES, FEATS, FEAT_BY_NAME, BACKGROUNDS, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, ITEM_INDEX, SUBRACE_TRAITS, SUBASIS, BACKGROUND_SOURCES, SUBRACE_SOURCES, MANUAL_TRAPS, RICH_RACE_DESCS, RICH_SUBRACE_DESCS, _GENERIC_TRAITS, _background_page_map, _spell_page_map, PAGE_MAP_DIR, DATA_DIR
+    from core.config import PAGE_MAP_DIR, DATA_DIR
+    from core.data import SRD_SPELLS, SRD_MAGIC_ITEMS, RACES, FEATS, FEAT_BY_NAME, BACKGROUNDS, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, ITEM_INDEX, SUBRACE_TRAITS, SUBASIS, BACKGROUND_SOURCES, SUBRACE_SOURCES, MANUAL_TRAPS, RICH_RACE_DESCS, RICH_SUBRACE_DESCS, _GENERIC_TRAITS, _background_page_map, _spell_page_map
 
     _loader_start = _time.time()
 

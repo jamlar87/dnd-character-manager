@@ -13,7 +13,7 @@ from types import SimpleNamespace
 import pytest
 
 import routes.auth as auth_routes
-from main import _hash
+from core.security import _hash
 from services import login_guard
 
 PASSWORD = "testpass"

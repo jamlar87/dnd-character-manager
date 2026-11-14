@@ -7,11 +7,10 @@ from fastapi.responses import JSONResponse
 import json
 import logging
 
-from main import (
-    get_db, require_user, _require_owned, _resolve_item_key, _is_admin,
-    _user_dms_character,
-)
-from main import SRD_MAGIC_ITEMS
+from core.security import require_user, _require_owned, _is_admin, _user_dms_character
+from core.db import get_db
+from core.features import _resolve_item_key
+from core.data import SRD_MAGIC_ITEMS
 from services.campaign_access import is_dm_of_campaign
 
 

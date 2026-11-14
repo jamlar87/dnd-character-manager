@@ -5,10 +5,10 @@
 import json, re
 from pathlib import Path
 
-from main import _load_json_cache
-from main import DATA_DIR
-from main import _load_manual_json
-from main import _get_source_slug_map
+from core.data import _load_json_cache
+from core.config import DATA_DIR
+from core.data import _load_manual_json
+from core.data import _get_source_slug_map
 from services.text import alpha_key
 from services.users import is_admin
 
@@ -23,7 +23,7 @@ _MONSTER_CACHE_STAMP: tuple | None = None
 
 
 def _monster_files_stamp() -> tuple:
-    from main import SRD_CACHE, MANUAL_DATA
+    from core.config import SRD_CACHE, MANUAL_DATA
     paths = (SRD_CACHE / "monsters.json",
              DATA_DIR / "page_maps" / "monster_page_map.json",
              MANUAL_DATA / "monsters.json")

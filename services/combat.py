@@ -30,7 +30,7 @@ def get_racial_trait_effects(race_name: str, subrace: str = "", ancestry: str = 
     Callers should merge these into DB-stored values for display (render-time)
     and into the character record at creation time.
     """
-    from main import SUBRACE_TRAITS
+    from core.data import SUBRACE_TRAITS
     result = {
         "armor_profs": [],
         "weapon_profs": [],
@@ -91,7 +91,7 @@ def get_racial_trait_effects(race_name: str, subrace: str = "", ancestry: str = 
 
 def _build_racial_traits(char: dict) -> list:
     """Build a list of {name, desc, source} for the character's race and subrace traits."""
-    from main import SUBRACE_TRAITS, _TRAIT_DICE, _trait_page_map
+    from core.data import SUBRACE_TRAITS, _TRAIT_DICE, _trait_page_map
     result = []
     race_name = char.get("race", "")
     subrace = char.get("subrace", "")
@@ -169,7 +169,7 @@ def _build_natural_weapon_attacks(character: dict) -> list:
     race_data = RACES.get(race_name, {})
     trait_names = list(race_data.get("traits", []))
     if subrace:
-        from main import SUBRACE_TRAITS
+        from core.data import SUBRACE_TRAITS
         trait_names.extend(SUBRACE_TRAITS.get(subrace, []))
     # Normalize dict-style trait entries to their names
     names = [t if isinstance(t, str) else (t.get("name", "") if isinstance(t, dict) else "")
@@ -220,7 +220,7 @@ def _build_natural_weapon_attacks(character: dict) -> list:
 
 def _subrace_traits(manual_entry: dict) -> list[str]:
     """Extract subrace-specific trait names, filtering out generic ones."""
-    from main import _GENERIC_TRAITS
+    from core.data import _GENERIC_TRAITS
     traits = []
     for t in manual_entry.get("traits", []):
         name = t.get("name", "")
@@ -231,7 +231,7 @@ def _subrace_traits(manual_entry: dict) -> list[str]:
 
 def _find_weapon(item_name: str) -> dict | None:
     """Match an inventory item name to a known SRD weapon. Fuzzy match."""
-    from main import ITEM_INDEX, WEAPONS
+    from core.data import ITEM_INDEX, WEAPONS
     name = item_name.lower().strip()
     # Strip leading quantity (e.g., "2 Handaxes" → "Handaxes")
     import re
@@ -452,7 +452,7 @@ def _normalize_equipped(equipped: list) -> list:
 
 def _build_named_item_types() -> dict:
     """Build {name_lower: 'wpn'|'arm'} map from ITEM_INDEX for frontend badge detection."""
-    from main import ITEM_INDEX, SRD_MAGIC_ITEMS, WEAPONS
+    from core.data import ITEM_INDEX, SRD_MAGIC_ITEMS, WEAPONS
     result = {}
     wpn_names = [w for w in WEAPONS if w not in ("unarmed strike",)]
     for key, entry in ITEM_INDEX.items():
@@ -588,7 +588,7 @@ def get_character_armor_profs(char: dict, class_levels: dict = None) -> set[str]
 
 def _resolve_armor_item(eq_lower: str) -> dict | None:
     """Look up armor item in SRD equipment data, with longest-substring fallback for magic variants."""
-    from main import _ARMOR_LOOKUP, _ARMOR_STATS
+    from core.data import _ARMOR_LOOKUP, _ARMOR_STATS
     item = _ARMOR_STATS.get(eq_lower)
     if item:
         ec = (item.get("equipment_category") or {}).get("name", "")
@@ -606,7 +606,7 @@ def _resolve_armor_item(eq_lower: str) -> dict | None:
 
 def check_armor_proficiency_from_set(profs: set[str], armor_category: str) -> dict:
     """Check if proficient with given armor category. Returns {proficient, penalty, source}."""
-    from main import ARMOR_PROFICIENCY_MAP
+    from core.data import ARMOR_PROFICIENCY_MAP
     if not armor_category:
         return {"proficient": True, "penalty": None, "source": ""}
     if armor_category == "Shield":

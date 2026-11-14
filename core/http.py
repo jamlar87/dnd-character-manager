@@ -1,0 +1,58 @@
+"""Jinja environment, the HTML render helper and static-asset cache busting."""
+from __future__ import annotations
+
+import hashlib
+
+from fastapi import Request
+from fastapi.responses import HTMLResponse
+from jinja2 import Environment, FileSystemLoader
+
+from core.config import STATIC, TEMPLATES
+from core.security import get_current_user
+
+# autoescape is ON (Jinja's default is OFF, which is how a character named
+# `"><img src=x onerror=...>` executed in every other account's dashboard — the shared
+# characters block renders other users' names). Templates that must emit markup say so
+# with `|safe`; `|tojson` already escapes for an HTML context.
+_jinja = Environment(loader=FileSystemLoader(str(TEMPLATES)), autoescape=True)
+
+_STATIC_ASSET_VERSIONS: dict[str, str] = {}
+
+
+def static_asset_version(filename: str) -> str:
+    """Content hash of a static asset, for ?v= cache busting.
+
+    Hand-bumped ?v=N numbers go stale the moment someone edits the file; a hash
+    of the bytes on disk can't. Memoized per process — assets only change on
+    deploy, which restarts the process. Lives here so the sheet routes and the
+    DM tools routes share one implementation.
+    """
+    if filename not in _STATIC_ASSET_VERSIONS:
+        try:
+            digest = hashlib.sha1((STATIC / filename).read_bytes()).hexdigest()[:10]
+        except Exception:  # pragma: no cover - defensive
+            digest = "1"
+        _STATIC_ASSET_VERSIONS[filename] = digest
+    return _STATIC_ASSET_VERSIONS[filename]
+
+
+
+# Hand-pinned ?v= numbers go stale silently: the file changes, the URL does not, so
+# the browser AND Cloudflare keep serving the old script — that is how char-portrait.js
+# sat at ?v=1 across several edits and the new tile never reached a browser. Templates
+# call static_asset_version('file.js'), which hashes the content.
+_jinja.globals["static_asset_version"] = static_asset_version
+
+# Templates used to hand-roll `{% set mod = (character[stat] - 10) // 2 %}` in a
+# dozen includes; one filter instead, sharing services/rules.ability_mod.
+from services.rules import ability_mod as _ability_mod
+_jinja.filters["ability_mod"] = _ability_mod
+
+def _render(template: str, request: Request | None = None, **ctx) -> HTMLResponse:
+    user = get_current_user(request) if request else None
+    content = _jinja.get_template(template).render(
+        user=user,
+        request=request,
+        **ctx
+    )
+    return HTMLResponse(content)

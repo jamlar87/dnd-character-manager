@@ -53,7 +53,7 @@ def test_thrown_melee_weapon_does_not_print_its_range_twice():
 
 def test_real_longbow_in_the_item_index_keeps_its_range():
     """End-to-end: ITEM_INDEX precomputes each description with this builder."""
-    from main import ITEM_INDEX
+    from core.constants import ITEM_INDEX
     entry = next((v for k, v in ITEM_INDEX.items()
                   if isinstance(v, dict) and v.get("name") == "Longbow"), None)
     if not entry:
@@ -63,7 +63,7 @@ def test_real_longbow_in_the_item_index_keeps_its_range():
 
 
 def test_real_melee_weapon_in_the_item_index_has_no_range_segment():
-    from main import ITEM_INDEX
+    from core.constants import ITEM_INDEX
     entry = next((v for k, v in ITEM_INDEX.items()
                   if isinstance(v, dict) and v.get("name") == "Longsword"), None)
     if not entry:

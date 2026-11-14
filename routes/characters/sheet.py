@@ -21,22 +21,12 @@ from routes.characters.helpers import load_character
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse, Response, RedirectResponse
 
-from main import (
-    get_db, require_user, _render, _is_admin, _require_owned,
-    _user_dms_character, STATIC,
-    _normalize_equipped, _equipped_names, _build_racial_traits,
-    _build_character_attacks,
-    _build_charged_item_attacks, _build_item_description,
-    _resolve_item_key, _resolve_armor_item, _resolve_source, _parse_enhancement,
-    _item_rarity_for_level, _load_manual_json, _get_named_item_types,
-    _get_source_slug_map, _manual_races_raw as _MANUAL_RACES_RAW,
-    static_asset_version,
-    BACKGROUND_INFO, CLASSES, DRACONIC_ANCESTRIES, FEATS, ITEMS_BY_RARITY, ITEM_ARMOR,
-    ITEM_INDEX, ITEM_RODS_STAVES_WANDS, ITEM_WEAPONS, ITEM_WONDROUS,
-    RACES, SCALED_EQUIPMENT, SKILL_ABILITIES, SRD_MAGIC_ITEMS, SUBASIS,
-    check_armor_proficiency_from_set, get_character_armor_profs,
-    get_racial_trait_effects,
-)
+from core.config import STATIC
+from core.security import require_user, _is_admin, _require_owned, _user_dms_character
+from core.http import _render, static_asset_version
+from core.db import get_db
+from core.features import _build_racial_traits, _build_character_attacks, _build_charged_item_attacks, _build_item_description, _resolve_item_key, _resolve_armor_item, _resolve_source, _parse_enhancement, _item_rarity_for_level, check_armor_proficiency_from_set, get_character_armor_profs, get_racial_trait_effects
+from core.data import _normalize_equipped, _equipped_names, _load_manual_json, _get_named_item_types, _get_source_slug_map, _manual_races_raw, BACKGROUND_INFO, CLASSES, DRACONIC_ANCESTRIES, FEATS, ITEMS_BY_RARITY, ITEM_ARMOR, ITEM_INDEX, ITEM_RODS_STAVES_WANDS, ITEM_WEAPONS, ITEM_WONDROUS, RACES, SCALED_EQUIPMENT, SKILL_ABILITIES, SRD_MAGIC_ITEMS, SUBASIS
 from data import (
     METAMAGIC_OPTIONS, INVOCATION_OPTIONS,
     PACT_BOON_OPTIONS, MANEUVER_OPTIONS, RIDER_CARDS,
@@ -404,7 +394,7 @@ def _merged_races_for_popup() -> dict:
         "hobbit of the shire": "Hobbit of the Shire",
         "high elves of rivendell": "High Elf of Rivendell",
     }
-    for _mr in _MANUAL_RACES_RAW:
+    for _mr in _manual_races_raw:
         merged_races[_mr["name"]] = {
             "desc": _mr.get("description", ""),
             "source": _mr.get("source", ""),
@@ -2332,7 +2322,7 @@ def _recalc_limited_uses(feature_data: list, class_name: str = "", level: int = 
     Needed for multiclass characters where stored feature_data was enriched
     before the class_levels fix — features like Action Surge end up with
     the wrong source class and no limited-use tracking."""
-    from main import LIMITED_USE
+    from core.data import LIMITED_USE
     if not feature_data:
         return
     import re

@@ -9,7 +9,8 @@ import json
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import JSONResponse
 
-from main import get_db, require_user
+from core.security import require_user
+from core.db import get_db
 from routes.characters.ai_routes import _call_ai, _extract_json
 
 router = APIRouter()

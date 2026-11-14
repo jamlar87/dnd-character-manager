@@ -44,7 +44,7 @@ def test_merged_index_all_rarities_standard(client):
     """Every non-empty rarity in the merged index is a canonical 5e value."""
     import main
     import routes.characters.all  # trigger manual merge
-    from main import ITEM_INDEX
+    from core.constants import ITEM_INDEX
     std = {"common", "uncommon", "rare", "very rare", "legendary", "artifact", "varies", "unknown"}
     weird = [(v["name"], v.get("rarity")) for v in ITEM_INDEX.values()
              if v.get("rarity") and str(v.get("rarity")).lower() not in std]
@@ -55,7 +55,7 @@ def test_merged_index_all_items_describable(client, auth_headers):
     """Every item in the merged index resolves through the describe endpoint."""
     import main
     import routes.characters.all
-    from main import ITEM_INDEX
+    from core.constants import ITEM_INDEX
     from urllib.parse import quote
     fails = []
     for v in ITEM_INDEX.values():
@@ -69,7 +69,7 @@ def test_merged_index_exact_name_search_returns_item_first(client, auth_headers)
     """Every item is findable by its exact name as the top search result."""
     import main
     import routes.characters.all
-    from main import ITEM_INDEX
+    from core.constants import ITEM_INDEX
     from urllib.parse import quote
     misses = []
     for v in ITEM_INDEX.values():

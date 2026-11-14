@@ -15,7 +15,9 @@ import pytest
 from fastapi.testclient import TestClient
 
 import main
-from main import app, _scan_manual_pdfs
+from main import app
+from core.data import _scan_manual_pdfs
+import core.data as core_data  # MANUALS_BASE lives in core/data.py now
 
 DB_PATH = Path(__file__).parent.parent / "data" / "characters.db"
 
@@ -66,7 +68,7 @@ def test_scan_manual_pdfs_dedupes_symlink_and_nested_copy(tmp_path, monkeypatch)
     (root / "library").symlink_to(lib, target_is_directory=True)
     (root / "Book_Two.pdf").symlink_to(lib / "Book_Two.pdf")  # alias of same file
 
-    monkeypatch.setattr(main, "MANUALS_BASE", root)
+    monkeypatch.setattr(core_data, "MANUALS_BASE", root)
     found = _scan_manual_pdfs()
     names = sorted(p.stem for p in found)
     assert names == ["Book_One", "Book_Two"], names
@@ -82,12 +84,12 @@ def test_scan_manual_pdfs_keeps_distinct_books(tmp_path, monkeypatch):
     (root / "b").mkdir(parents=True)
     (root / "a" / "Alpha.pdf").write_bytes(b"%PDF-1.4")
     (root / "b" / "Beta.pdf").write_bytes(b"%PDF-1.4")
-    monkeypatch.setattr(main, "MANUALS_BASE", root)
+    monkeypatch.setattr(core_data, "MANUALS_BASE", root)
     assert sorted(p.stem for p in _scan_manual_pdfs()) == ["Alpha", "Beta"]
 
 
 def test_scan_manual_pdfs_missing_base_is_empty(tmp_path, monkeypatch):
-    monkeypatch.setattr(main, "MANUALS_BASE", tmp_path / "nope")
+    monkeypatch.setattr(core_data, "MANUALS_BASE", tmp_path / "nope")
     assert _scan_manual_pdfs() == []
 
 

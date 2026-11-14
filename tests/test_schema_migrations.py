@@ -27,7 +27,7 @@ def test_required_schema_objects_exist(test_db):
 
 
 def test_schema_migration_is_idempotent(test_db):
-    from main import init_db
+    from services.db_schema import init_db
     init_db()
     init_db()
     db = sqlite3.connect(test_db)

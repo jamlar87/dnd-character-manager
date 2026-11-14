@@ -115,7 +115,7 @@ class TestConfigContract:
         src = REF_JS.read_text()
         start = src.index("window.SHEETREF = ") + len("window.SHEETREF = ")
         payload = json.loads(src[start:src.index(";\n", start)])
-        from main import CLASSES, RACES
+        from core.constants import CLASSES, RACES
         assert set(payload) == {"classes", "races", "bgInfo", "summonTemplates",
                                 "sourceSlugMap", "namedItemTypes", "featDetails",
                                 "knownFeats", "maneuverOptions", "skillAbMap"}

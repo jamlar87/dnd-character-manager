@@ -52,7 +52,7 @@ def _get_spell_cache():
     # data/spells.json + class/school backfill at app startup. Using it
     # avoids the hardcoded campaign-expert path and duplicate loading.
     try:
-        from main import SRD_SPELLS
+        from core.data import SRD_SPELLS
         for s in SRD_SPELLS:
             _SPELL_CACHE[s.get("name", "").lower()] = s
     except Exception:
@@ -173,7 +173,8 @@ def _get_item_description(item_name):
     if _ITEM_INDEX is None:
         try:
             sys.path.insert(0, "/home/james/dnd-character-manager")
-            from main import ITEM_INDEX, _resolve_item_key
+            from core.features import _resolve_item_key
+            from core.data import ITEM_INDEX
             _ITEM_INDEX = ITEM_INDEX
             _GET_ITEM_RESOLVER = _resolve_item_key
         except Exception:
@@ -182,7 +183,7 @@ def _get_item_description(item_name):
     else:
         try:
             sys.path.insert(0, "/home/james/dnd-character-manager")
-            from main import _resolve_item_key as _GET_ITEM_RESOLVER
+            from core.features import _resolve_item_key
         except Exception:
             _GET_ITEM_RESOLVER = lambda n: None
     # Use the same fuzzy resolution as the rest of the app

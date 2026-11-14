@@ -49,7 +49,7 @@ def make_char(seeded_db, name, user_id=1, **cols):
 
 def add_user(seeded_db, email, is_admin=0):
     """Create a non-admin user (with session) and return (user_id, token)."""
-    from main import _hash
+    from core.security import _hash
     token = secrets.token_hex(32)
     con = _connect(seeded_db)
     con.execute(

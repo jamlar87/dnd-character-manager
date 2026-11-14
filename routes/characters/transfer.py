@@ -9,7 +9,8 @@ characters-table columns are accepted, user_id is always the importer.
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import JSONResponse, Response
 
-from main import get_db, require_user, _require_owned
+from core.security import require_user, _require_owned
+from core.db import get_db
 
 router = APIRouter()
 

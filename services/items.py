@@ -13,7 +13,7 @@ import re
 def _resolve_item_key(item_name: str):
     """Look up an item in ITEM_INDEX, handling SRD reference format.
     'Flavor Name (SRD: Reference)' → extracts Reference for the lookup."""
-    from main import ITEM_INDEX
+    from core.data import ITEM_INDEX
     if not item_name:
         return None
     key = item_name.strip().lower()
@@ -401,7 +401,7 @@ def _build_item_type(item: dict) -> str:
 
 def _resolve_source(item_key: str, fallback: str) -> str:
     """Return source string with page number from map, or fallback."""
-    from main import _item_page_map
+    from core.data import _item_page_map
     mapped = _item_page_map.get(item_key.lower())
     if mapped:
         # Don't replace if fallback already has better info (e.g., specific adventure page)

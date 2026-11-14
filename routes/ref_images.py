@@ -29,7 +29,7 @@ router = APIRouter()
 
 @router.get("/api/ref-image/{kind}/{name}")
 async def ref_image(kind: str, name: str, request: Request, size: int = 0):
-    from main import require_user
+    from core.security import require_user
 
     require_user(request)                     # any signed-in user; the library is shared
     if kind not in ref_portraits.KINDS:
@@ -76,6 +76,6 @@ async def ref_image(kind: str, name: str, request: Request, size: int = 0):
 @router.get("/api/ref-image-stats")
 def ref_image_stats(request: Request):
     from fastapi.responses import JSONResponse
-    from main import require_user
+    from core.security import require_user
     require_user(request)
     return JSONResponse(ref_portraits.stats())

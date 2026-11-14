@@ -6,13 +6,12 @@ from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 import asyncio, json, random, re, os, time, httpx
 
-from main import (
-    get_db, require_user, _require_owned,
-)
-from main import RACES, CLASSES
+from core.security import require_user, _require_owned
+from core.db import get_db
+from core.data import RACES, CLASSES
 from services.schema import hydrate_json_columns
-from main import BACKGROUNDS, ALIGNMENTS
-from main import get_racial_trait_effects
+from core.data import BACKGROUNDS, ALIGNMENTS
+from core.features import get_racial_trait_effects
 from data import (
     ALL_SKILLS, SKILL_ABILITIES,
 )

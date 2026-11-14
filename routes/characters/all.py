@@ -11,10 +11,10 @@ Importing this module also triggers load_manual_data().
 from fastapi import APIRouter
 import json
 
-from main import RACE_NAMES
-from main import BACKGROUNDS, ALIGNMENTS
-from main import DATA_DIR
-from main import load_manual_data
+from core.data import RACE_NAMES
+from core.data import BACKGROUNDS, ALIGNMENTS
+from core.config import DATA_DIR
+from core.data import load_manual_data
 # Leveling/spell-slot helper core (extracted to services/leveling.py — re-exported
 # here so existing callers of these names keep working).
 from services.leveling import (

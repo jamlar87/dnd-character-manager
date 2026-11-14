@@ -7,7 +7,8 @@ import math
 import sqlite3
 import os
 
-from main import _verify, _get_user, _create_session, _render, get_current_user
+from core.security import _verify, _get_user, _create_session, get_current_user
+from core.http import _render
 from services import login_guard
 from services.sessions import invalidate_user_sessions
 from services.users import create_user, update_password
@@ -26,8 +27,8 @@ REGISTER_IP_LIMIT = 20
 
 
 def _db_path():
-    import main
-    return main.DB_PATH
+    from core.config import DB_PATH
+    return DB_PATH
 
 
 def _drop_dead_session_cookie(request: Request, resp):

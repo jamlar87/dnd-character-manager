@@ -11,14 +11,14 @@ from pathlib import Path
 
 
 def _static_dir() -> Path:
-    from main import STATIC  # late: main imports the route modules
+    from core.config import STATIC
 
     return STATIC
 
 
 def write_static_asset(name: str, body: str) -> str:
     """Write static/<name> when the bytes differ, then return its ?v= version."""
-    from main import static_asset_version  # late: main imports the route modules
+    from core.http import static_asset_version
 
     try:
         target = _static_dir() / name

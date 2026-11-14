@@ -36,7 +36,7 @@ def test_roll_log_schema_and_campaign_key(test_db):
 
 def test_roll_log_survives_reinit(test_db):
     """init_db() runs on every boot: a second run must not fail or duplicate."""
-    from main import init_db
+    from services.db_schema import init_db
     import main as app_module
 
     con = sqlite3.connect(str(test_db))

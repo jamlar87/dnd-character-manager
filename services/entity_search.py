@@ -11,9 +11,10 @@ those files and returns manual-shaped text snippets (``page: 0``), so internal
 hits rendered as dead rows with no type and no link. This module returns typed,
 linkable rows instead: ``{kind, name, subtitle, snippet, source, slug, page, score}``.
 
-Import rule (same as ``services/items.py``): ``main`` is imported lazily INSIDE
-``_build_index()`` — module-scope ``from main import ...`` here would re-enter a
-partially initialised ``main`` when main imports this module.
+Import rule: the tables come from ``core.data``, which imports nothing from
+``main``.  Reading them lazily inside ``_build_index()`` is still deliberate —
+the index is built after ``routes.characters`` has merged its manual equipment
+into ``ITEM_INDEX``.
 """
 
 from __future__ import annotations
@@ -153,18 +154,18 @@ def _add(rows: list[dict], kind: str, name: str, *, subtitle: str = "",
 # ── index ──────────────────────────────────────────────────────────────────
 
 def _build_index() -> list[dict]:
-    import main as app
+    import core.data as app
     import data as app_data
 
     # routes/characters/sheet.py extends ITEM_INDEX at IMPORT time (manual
-    # equipment merge) and `import main` alone never pulls it in, so a caller
-    # whose first act is this index started iterating while that module was still
-    # importing: "dictionary changed size during iteration". The web app only
-    # avoided it because the app factory imports every route module before the
-    # index is warmed. Import it here, then iterate a snapshot so no later merge
-    # can raise mid-loop.
+    # equipment merge) and importing core.data alone never pulls it in, so a
+    # caller whose first act is this index started iterating while that module
+    # was still importing: "dictionary changed size during iteration". The web
+    # app only avoided it because the app factory imports every route module
+    # before the index is warmed. Import it here, then iterate a snapshot so no
+    # later merge can raise mid-loop.
     import routes.characters  # noqa: F401
-    from main import _feature_page_map  # call-time import, same rule as items.py
+    from core.data import _feature_page_map
 
     rows: list[dict] = []
 
@@ -412,7 +413,7 @@ def iter_entities(kind: str | None = None):
     warm the app first and rebuild if it trips. Inside the app (built from
     lifespan, after the loaders settle) this is a no-op.
     """
-    import main as app                                   # noqa: F401  (warms loaders)
+    import core.data  # noqa: F401  (warms the manual-data loaders)
     rows = None
     for attempt in range(3):
         try:

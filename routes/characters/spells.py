@@ -11,10 +11,9 @@ import json
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import JSONResponse
 
-from main import (
-    get_db, require_user, _require_owned, _equipped_names, _normalize_equipped,
-    PREPARED_CASTERS, SPELL_DICE, SRD_SPELLS, SUBCLASS_FEATURES, _json_list,
-)
+from core.security import require_user, _require_owned
+from core.db import get_db, _json_list
+from core.data import _equipped_names, _normalize_equipped, PREPARED_CASTERS, SPELL_DICE, SRD_SPELLS, SUBCLASS_FEATURES
 from data import SPELLS_KNOWN_CASTERS
 from services.rules import ability_mod
 from routes.schemas import AddSpell

@@ -25,7 +25,9 @@ from pathlib import Path
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse, Response
 
-from main import get_db, require_user, _require_owned, STATIC, _json_list
+from core.config import STATIC
+from core.security import require_user, _require_owned
+from core.db import get_db, _json_list
 
 router = APIRouter()
 

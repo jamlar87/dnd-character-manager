@@ -18,18 +18,11 @@ from services.reference_assets import (
 )
 from services.rules import ability_mod, proficiency_bonus
 
-from main import (
-    get_db, require_user, _render, _get_source_slug_map,
-    RACES, RACE_NAMES, CLASSES, BACKGROUNDS, BACKGROUND_SOURCES, ALIGNMENTS,
-    FLEXIBLE_ASI_RACES, SUBASIS, SKILL_ABILITIES, ALL_SKILLS,
-    MPMM_ASI_RACES, SUBCLASS_FEATURE_REPLACEMENTS, STARTING_EQUIPMENT,
-    METAMAGIC_LEVELS, METAMAGIC_PICKS, METAMAGIC_OPTIONS,
-    INVOCATION_LEVELS, INVOCATION_PICKS, INVOCATION_OPTIONS,
-    PACT_BOON_LEVELS, PACT_BOON_OPTIONS, MANEUVER_OPTIONS,
-    TOTEM_SPIRIT_OPTIONS, HUNTERS_PREY_OPTIONS, FAVORED_ENEMY_OPTIONS,
-    FAVORED_TERRAIN_OPTIONS, INFUSION_OPTIONS,
-    get_racial_trait_effects,
-)
+from core.security import require_user
+from core.http import _render
+from core.db import get_db
+from core.features import get_racial_trait_effects
+from core.data import _get_source_slug_map, RACES, RACE_NAMES, CLASSES, BACKGROUNDS, BACKGROUND_SOURCES, ALIGNMENTS, FLEXIBLE_ASI_RACES, SUBASIS, SKILL_ABILITIES, ALL_SKILLS, MPMM_ASI_RACES, SUBCLASS_FEATURE_REPLACEMENTS, STARTING_EQUIPMENT, METAMAGIC_LEVELS, METAMAGIC_PICKS, METAMAGIC_OPTIONS, INVOCATION_LEVELS, INVOCATION_PICKS, INVOCATION_OPTIONS, PACT_BOON_LEVELS, PACT_BOON_OPTIONS, MANEUVER_OPTIONS, TOTEM_SPIRIT_OPTIONS, HUNTERS_PREY_OPTIONS, FAVORED_ENEMY_OPTIONS, FAVORED_TERRAIN_OPTIONS, INFUSION_OPTIONS
 from services.leveling import (
     _build_racial_limited_features, _scaled_dice_display, get_class_features,
     get_spell_slots, enrich_features, _manual_races_raw,

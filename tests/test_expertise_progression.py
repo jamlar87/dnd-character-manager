@@ -19,7 +19,7 @@ import sqlite3
 
 import pytest
 
-from main import EXPERTISE_LEVELS
+from core.constants import EXPERTISE_LEVELS
 from services.leveling import get_expertise_count, get_expertise_options
 
 

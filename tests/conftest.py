@@ -46,9 +46,13 @@ def test_db():
     os.close(db_fd)
     db_path = Path(db_path)
     
-    # Monkey-patch the app's DB_PATH to use our temp file
+    # Monkey-patch the app's DB_PATH to use our temp file. The helpers live in
+    # core/ now and read core.config.DB_PATH at call time, so keep both in sync.
+    from core import config as core_config
     old_db_path = app_module.DB_PATH
     app_module.DB_PATH = db_path
+    old_core_db_path = core_config.DB_PATH
+    core_config.DB_PATH = db_path
     
     # Init schema
     init_db()
@@ -57,6 +61,7 @@ def test_db():
     
     # Cleanup
     app_module.DB_PATH = old_db_path
+    core_config.DB_PATH = old_core_db_path
     db_path.unlink(missing_ok=True)
 
 
@@ -77,7 +82,7 @@ def seeded_db(test_db):
     con.execute("PRAGMA foreign_keys=ON")
     
     # Create test user
-    from main import _hash
+    from core.security import _hash
     con.execute(
         "INSERT INTO users (email, password_hash, is_admin) VALUES (?, ?, ?)",
         ("test@test.com", _hash("testpass"), 0)

@@ -9,7 +9,8 @@ from __future__ import annotations
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 
-from main import get_db, require_user
+from core.security import require_user
+from core.db import get_db
 
 router = APIRouter()
 

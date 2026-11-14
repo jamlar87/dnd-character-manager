@@ -3,7 +3,7 @@
 Tests the utility/business-logic functions that don't need a running server.
 """
 
-from main import get_racial_trait_effects
+from core.features import get_racial_trait_effects
 from routes.characters import (
     parse_class_levels, total_level, primary_class,
     get_spellcasting_mod, get_caster_type, get_prepared_max,

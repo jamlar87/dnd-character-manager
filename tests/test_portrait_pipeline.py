@@ -69,7 +69,7 @@ def stored_portrait(seeded_db, table, row_id):
 def thirds(seeded_db, user_id):
     """Session headers for a different user (non-owner auth check)."""
     import secrets
-    from main import _hash
+    from core.security import _hash
     con = sqlite3.connect(str(seeded_db["db_path"]))
     con.execute("INSERT INTO users (email, password_hash, is_admin) VALUES (?, ?, 0)",
                 (f"other{user_id}@test.com", _hash("x")))

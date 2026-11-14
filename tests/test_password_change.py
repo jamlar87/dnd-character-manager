@@ -16,7 +16,7 @@ def test_authenticated_user_can_change_password(client, seeded_db, auth_headers)
     assert response.status_code == 200
     assert "changed" in response.text.lower()
 
-    from main import _get_user, _verify
+    from core.security import _get_user, _verify
     user = _get_user("test@test.com")
     assert _verify("stronger-password", user["password_hash"])
 
@@ -45,5 +45,5 @@ def test_password_change_invalidates_old_session(client, seeded_db, auth_headers
         headers=auth_headers,
     )
     assert response.status_code == 200
-    from main import _get_user_by_token
+    from core.security import _get_user_by_token
     assert _get_user_by_token(seeded_db["user_token"]) is None

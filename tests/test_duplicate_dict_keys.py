@@ -65,7 +65,9 @@ def test_no_duplicate_dict_keys():
 
 
 def _chapter_aliases() -> dict:
-    src = (REPO / "main.py").read_text()
+    # Lives in core/data.py: the manual-source aliases moved out of main.py with
+    # the rest of the shared data loaders (main.py no longer holds data tables).
+    src = (REPO / "core" / "data.py").read_text()
     for node in ast.walk(ast.parse(src)):
         value = getattr(node, "value", None)
         if (

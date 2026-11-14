@@ -5,19 +5,24 @@ from fastapi.responses import HTMLResponse, JSONResponse, Response, RedirectResp
 import json, random, re
 from pathlib import Path
 
-from main import get_db, require_user, _render, _user_where, _require_owned, _is_admin, static_asset_version, STATIC, _json_list
+from core.config import STATIC
+from core.security import require_user, _user_where, _require_owned, _is_admin
+from core.http import _render, static_asset_version
+from core.db import get_db, _json_list
 from routes.characters import _load_monster_cache, _call_ai, _extract_json, _xp_for_cr, _assign_encounter_counts, _search_manuals, _build_character, _monster_cr_sort_key
 from routes.characters import parse_source_filter, source_matches
 from services.text import alpha_key
 from services.reference_assets import ensure_source_slug_map_asset
-from main import RACES, CLASSES, FLEXIBLE_ASI_RACES, RACE_NAMES
-from main import _load_manual_json, _get_named_item_types, _get_source_slug_map, MANUALS_BASE, _scan_manual_pdfs
-from main import enrich_features, get_caster_type, get_spell_slots, MANUAL_TRAPS, get_racial_trait_effects
-from main import SRD_SPELLS
-from main import SRD_MAGIC_ITEMS, ITEM_INDEX
+from core.data import RACES, CLASSES, FLEXIBLE_ASI_RACES, RACE_NAMES
+from core.data import _load_manual_json, _get_named_item_types, _get_source_slug_map, _scan_manual_pdfs
+import core.data as _core_data  # MANUALS_BASE is read live: tests repoint it
+from core.features import enrich_features, get_caster_type, get_spell_slots, get_racial_trait_effects
+from core.data import MANUAL_TRAPS
+from core.data import SRD_SPELLS
+from core.data import SRD_MAGIC_ITEMS, ITEM_INDEX
 from data import SUBCLASS_LEVELS
 from summon_templates import SUMMON_TEMPLATES
-from main import ALIGNMENTS
+from core.data import ALIGNMENTS
 from routes.characters.sheet import allocate_ability_scores, calc_hp, get_equipment_for_level, get_spells_for_level
 from routes.characters.ai_routes import _calculate_ac, _pick_skills
 from services.leveling import PROFICIENCY_BONUS, get_class_features
@@ -326,7 +331,7 @@ def dm_tools(request: Request):
     # Scan DnD-Manuals for the 📚 Manuals tab — grouped by folder.
     # _scan_manual_pdfs() dedupes: the tree reaches one book through the
     # top-level symlink, the DnD-Manuals symlink and a nested Manuals/ copy.
-    dn_dir = MANUALS_BASE
+    dn_dir = _core_data.MANUALS_BASE
     pdfs = [str(p) for p in _scan_manual_pdfs()]
     slug_map = _get_source_slug_map()
     # Build reverse slug→path mapping

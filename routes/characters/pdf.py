@@ -7,7 +7,9 @@ from main only — never from all.py (avoids circulars).
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import Response
 
-from main import get_db, require_user, _require_owned, _build_racial_traits, _build_character_attacks
+from core.security import require_user, _require_owned
+from core.db import get_db
+from core.features import _build_racial_traits, _build_character_attacks
 
 router = APIRouter()
 

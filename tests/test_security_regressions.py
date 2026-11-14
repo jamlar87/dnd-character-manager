@@ -15,7 +15,7 @@ def test_expired_session_is_rejected(seeded_db):
     db.commit()
     db.close()
 
-    from main import _get_user_by_token
+    from core.security import _get_user_by_token
     assert _get_user_by_token(seeded_db["user_token"]) is None
 
 
@@ -27,8 +27,8 @@ def test_reset_password_does_not_change_password(client, seeded_db):
     assert response.status_code == 200
     assert "unavailable" in response.text.lower()
 
-    from main import _get_user
-    from main import _verify
+    from core.security import _get_user
+    from core.security import _verify
     user = _get_user("test@test.com")
     assert user is not None
     assert _verify("testpass", user["password_hash"])

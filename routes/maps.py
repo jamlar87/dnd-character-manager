@@ -23,8 +23,10 @@ from pathlib import Path
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 
-from main import (get_db, require_user, get_current_user, _require_owned, _is_admin,
-                  _user_where, _render, STATIC)
+from core.config import STATIC
+from core.security import require_user, get_current_user, _require_owned, _is_admin, _user_where
+from core.http import _render
+from core.db import get_db
 from services.images import decode_data_url, fit_blob
 from services.map_grid import hex_cell_key, snap_hex
 from services.map_grid import round_half_up as _grid_round_half_up

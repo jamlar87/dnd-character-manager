@@ -9,7 +9,8 @@ from __future__ import annotations
 import sqlite3
 
 def init_db():
-    from main import DATA_DIR, SESSION_TTL_DAYS, get_db
+    from core.config import DATA_DIR, SESSION_TTL_DAYS
+    from core.db import get_db
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     db = get_db()
     db.executescript("""
@@ -377,7 +378,7 @@ def init_db():
 
 def _migrate_npc_source_columns():
     """Add source tracking columns to dm_npcs if they don't exist."""
-    from main import get_db
+    from core.db import get_db
     db = get_db()
     try:
         cols = {r[1] for r in db.execute("PRAGMA table_info(dm_npcs)")}
