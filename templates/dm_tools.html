@@ -1270,9 +1270,8 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
    inline: that is the DM's own roster. #}
 <script src="/static/source-slug-map.js?v={{ source_slug_map_version }}"></script>
 <script src="/static/dm-library.js?v={{ dm_library_version }}"></script>
-<script>
-const COMBAT_CHARACTERS = {{ characters_json|safe }};
-</script>
+<script type="application/json" id="combat-characters-data">{{ characters_json|safe }}</script>
+<script src="/static/dm/bootstrap.js?v={{ static_asset_version('dm/bootstrap.js') }}"></script>
 <script src="/static/widgets.js?v={{ static_asset_version('widgets.js') }}"></script>
 <script src="/static/data/conditions.js?v={{ static_asset_version('data/conditions.js') }}"></script>
 <script src="/static/dm/actions.js?v={{ static_asset_version('dm/actions.js') }}"></script>

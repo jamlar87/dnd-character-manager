@@ -152,8 +152,17 @@ async function saveCampNotes(id) {
   } catch (err) { fail(err); }
 }
 
+// static/dm/actions.js owns the arg specs for two overlay/pack actions: the file
+// input spec clicks the target itself and returns null (spec owns the behaviour),
+// and the overlay spec hands over the modal id only when the overlay itself was
+// clicked. So only the overlay needs a handler here, taking that resolved id.
+function closeModalIfSelf(modalId) {
+  if (modalId) closeModal(modalId);
+}
+
 window.Actions.provide({
   closeModal,
+  closeModalIfSelf,
   previewCharSheet,
   editCampaignMeta,
   deleteFromPage,

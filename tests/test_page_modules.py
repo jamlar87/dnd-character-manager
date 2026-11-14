@@ -80,6 +80,23 @@ def test_every_data_action_on_the_page_is_published_by_the_module():
     assert not (names - actions), "module publishes handlers the page never uses: %s" % sorted(names - actions)
 
 
+def test_overlay_close_takes_the_id_the_shared_spec_resolves():
+    """dm/actions.js owns closeModalIfSelf's arg spec: it returns [modalId] only
+    when the overlay itself was clicked, and triggerFileInput clicks the target
+    and returns null so the spec alone owns the behaviour. A page handler with
+    an (el, ev) signature therefore never fires -- it receives the id string."""
+    module = _text(MODULE)
+    m = re.search(r"function closeModalIfSelf\(([^)]*)\)", module)
+    assert m, "the campaign page must publish closeModalIfSelf"
+    params = [p.strip() for p in m.group(1).split(",") if p.strip()]
+    assert params == ["modalId"], "closeModalIfSelf must take the spec-resolved id, got %s" % params
+    # a duplicate implementation of the file-input spec would shadow nothing and rot
+    assert "function triggerFileInput" not in module
+    specs = (REPO / "static" / "dm" / "actions.js").read_text()
+    assert "closeModalIfSelf: function (el, ev)" in specs
+    assert "ev.target === el ? [el.dataset.modal] : null" in specs
+
+
 def test_the_module_uses_the_shared_api_wrapper():
     """Raw fetch in a page module re-decides CSRF and error handling every time."""
     module = _text(MODULE)
@@ -191,3 +208,94 @@ def test_the_page_renders_its_config_and_module(client, seeded_db, auth_headers)
     assert cfg["id"] == campaign_id
     assert cfg["name"] == "Module test campaign"
     assert cfg["party_level"] == 5
+
+
+# --- dashboard + DM tools: the last two pages that still shipped inline script ---
+
+DASHBOARD = REPO / "templates" / "dashboard.html"
+DASHBOARD_JS = REPO / "static" / "pages" / "dashboard.js"
+DM_TOOLS = REPO / "templates" / "dm_tools.html"
+DM_BOOT = REPO / "static" / "dm" / "bootstrap.js"
+
+
+def _inline_scripts(html):
+    return re.findall(r"<script(?![^>]*\bsrc=)(?![^>]*application/json)[^>]*>", html)
+
+
+def test_the_dashboard_loads_its_list_behaviour_from_a_module():
+    html = _text(DASHBOARD)
+    assert not _inline_scripts(html), "dashboard.html must not carry inline <script>"
+    assert "/static/pages/dashboard.js" in html
+    assert "type=\"module\"" in html
+    module = _text(DASHBOARD_JS)
+    actions = set(re.findall(r'data-action="([A-Za-z0-9_]+)"', html))
+    published = re.search(r"Actions\.provide\(\{(.*?)\}\);", module, re.S)
+    assert published, "dashboard.js must publish its handlers with Actions.provide()"
+    names = {n.strip() for n in published.group(1).split(",") if n.strip()}
+    shared = _js_definitions()
+    missing = sorted(a for a in actions if a not in names and a not in shared)
+    assert not missing, "dashboard data-action with no handler anywhere: %s" % missing
+    # shell.js (classic script, every page) calls this one by bare name
+    assert "window.importCharacterFile = importCharacterFile" in module
+
+
+def test_the_dashboard_module_is_valid_es_syntax(tmp_path):
+    node = shutil.which("node")
+    if not node:
+        pytest.skip("node not installed")
+    tmp = tmp_path / "dashboard.mjs"
+    tmp.write_text(_text(DASHBOARD_JS))
+    res = subprocess.run([node, "--check", str(tmp)], capture_output=True, text=True)
+    assert res.returncode == 0, res.stderr
+
+
+def test_the_dm_page_ships_its_roster_as_data_not_as_inline_code():
+    html = _text(DM_TOOLS)
+    assert not _inline_scripts(html), "dm_tools.html must not carry inline <script>"
+    assert 'id="combat-characters-data"' in html
+    assert 'type="application/json"' in html.split('id="combat-characters-data"')[0][-120:]
+    assert "/static/dm/bootstrap.js" in html
+    # bootstrap has to run before the dm bundles that read the global
+    assert html.index("dm/bootstrap.js") < html.index("dm_tools_js_parts")
+
+
+def test_bootstrap_lifts_the_roster_onto_window(tmp_path):
+    node = shutil.which("node")
+    if not node:
+        pytest.skip("node not installed")
+    harness = tmp_path / "boot.js"
+    harness.write_text(
+        """
+const fs = require('fs');
+const vm = require('vm');
+const nodes = {
+  'combat-characters-data': { textContent: JSON.stringify([{ id: 7, name: 'Brannor' }]) },
+};
+const document = { getElementById: function (id) { return nodes[id] || null; } };
+const window = {};
+const ctx = { window: window, document: document, console: console };
+vm.createContext(ctx);
+vm.runInContext(fs.readFileSync(process.argv[2], 'utf8'), ctx);
+if (!Array.isArray(window.COMBAT_CHARACTERS) || window.COMBAT_CHARACTERS[0].name !== 'Brannor') {
+  throw new Error('bootstrap did not publish the roster: ' + JSON.stringify(window.COMBAT_CHARACTERS));
+}
+// a broken payload must not take the page down
+nodes['combat-characters-data'].textContent = '{not json';
+vm.runInContext(fs.readFileSync(process.argv[2], 'utf8'), ctx);
+if (!Array.isArray(window.COMBAT_CHARACTERS) || window.COMBAT_CHARACTERS.length !== 0) {
+  throw new Error('malformed payload must degrade to an empty roster');
+}
+console.log('ok');
+"""
+    )
+    res = subprocess.run([node, str(harness), str(DM_BOOT)], capture_output=True, text=True)
+    assert res.returncode == 0, res.stderr
+    assert res.stdout.strip() == "ok"
+
+
+def test_dm_tools_renders_a_parseable_roster(client, seeded_db, auth_headers):
+    html = client.get("/dm-tools", headers=auth_headers).text
+    assert not _inline_scripts(html), "rendered DM page still carries inline <script>"
+    blob = re.search(r'<script type="application/json" id="combat-characters-data">(.*?)</script>', html, re.S)
+    assert blob, "roster JSON block missing from the rendered page"
+    assert isinstance(json.loads(blob.group(1)), list)
