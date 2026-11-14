@@ -354,6 +354,8 @@ app = FastAPI(title="D&D Character Manager")
 
 # ── Static files ──────────────────────────────────────────────────────────────
 from starlette.staticfiles import StaticFiles
+from starlette.datastructures import Headers
+from starlette.middleware.gzip import GZipMiddleware
 app.mount("/static", StaticFiles(directory=str(STATIC)), name="static")
 
 # ── Logging ───────────────────────────────────────────────────────────────────
@@ -379,7 +381,13 @@ async def log_requests(request: Request, call_next):
     try:
         response = await call_next(request)
         elapsed = _time.time() - start
-        _log.info("%s %s %s %.0fms", request.method, request.url.path, response.status_code, elapsed * 1000)
+        # The client address rides on every line because uvicorn's own access log is disabled
+        # (it printed the same request a second time, ~1800 duplicate lines/hour from the
+        # combat-HP poll alone). cf-connecting-ip is the real address behind Cloudflare.
+        client_ip = (request.headers.get("cf-connecting-ip")
+                     or (request.headers.get("x-forwarded-for", "").split(",")[0].strip())
+                     or (request.client.host if request.client else "-"))
+        _log.info("%s %s %s %.0fms ip=%s", request.method, request.url.path, response.status_code, elapsed * 1000, client_ip)
         response.headers.setdefault("X-Request-ID", req_id)
         return response
     except Exception as e:
@@ -439,6 +447,12 @@ async def security_middleware(request: Request, call_next):
         # Short max-age plus must-revalidate means a conditional request, so an unchanged file still
         # answers 304 and costs almost nothing.
         response.headers.setdefault("Cache-Control", "public, max-age=300, must-revalidate")
+    elif request.url.path == "/api/health":
+        # A liveness probe has no browser and no forms, so the CSRF cookie it used to mint was
+        # pure noise — and a Set-Cookie makes a response uncacheable for Cloudflare, which would
+        # freeze a stale "degraded" verdict if anything ever cached it. no-store states the
+        # intent: a health answer is only true for the moment it was measured.
+        response.headers.setdefault("Cache-Control", "no-store")
     elif not csrf_cookie:
         response.set_cookie("csrf_token", secrets.token_urlsafe(32), httponly=False, secure=APP_ENV in {"production", "prod"}, samesite="lax", path="/")
     response.headers.setdefault("X-Content-Type-Options", "nosniff")
@@ -446,6 +460,27 @@ async def security_middleware(request: Request, call_next):
     response.headers.setdefault("Referrer-Policy", "same-origin")
     response.headers.setdefault("Content-Security-Policy", "frame-ancestors 'none'")
     return response
+
+# ── Compression ───────────────────────────────────────────────────────────────
+# The front-end ships ~600KB of un-minified JS (sheet.js 317KB, dm_tools.js 291KB) and the
+# origin sent it raw: `curl -I /static/sheet.js` answered content-length 324864 with no
+# Content-Encoding. Cloudflare compresses for the browser, so the cost landed on LAN clients
+# and on every cache-MISS fetch, where the whole payload crossed the wire.
+#
+# Range requests are excluded on purpose: a 206 carries byte offsets into the UNCOMPRESSED
+# body, so compressing it would hand the client a file the range does not describe.
+# text/event-stream is already excluded inside Starlette (the live table channel is SSE).
+class _CompressibleGZip(GZipMiddleware):
+    async def __call__(self, scope, receive, send):
+        if scope["type"] == "http" and Headers(scope=scope).get("range"):
+            await self.app(scope, receive, send)
+            return
+        await super().__call__(scope, receive, send)
+
+
+# Last added = outermost, so this wraps the security middleware and the request logger too.
+app.add_middleware(_CompressibleGZip, minimum_size=1024, compresslevel=6)
+
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
@@ -1728,6 +1763,33 @@ for _item in SRD_EQUIPMENT:
         _ARMOR_STATS[_name] = _item
 
 
+# ── Health ────────────────────────────────────────────────────────────────────
+# No monitoring endpoint existed: GET /api/health answered 404, so an uptime check had to
+# fetch `/` and infer health from a 200. This answers the one question that matters — is the
+# process up and can it reach its database — without touching auth or user data.
+
+_APP_STARTED = _time.time()
+
+
+@app.get("/api/health", response_class=JSONResponse)
+async def api_health():
+    db_state, status = "ok", 200
+    try:
+        conn = get_db()
+        try:
+            conn.execute("SELECT 1").fetchone()
+        finally:
+            conn.close()
+    except Exception as exc:                       # noqa: BLE001 - any failure means degraded
+        db_state, status = f"{type(exc).__name__}: {exc}", 503
+    return JSONResponse(
+        {"status": "ok" if status == 200 else "degraded",
+         "db": db_state,
+         "uptime_s": int(_time.time() - _APP_STARTED)},
+        status_code=status,
+    )
+
+
 # ── Routes: Landing ───────────────────────────────────────────────────────────
 
 @app.get("/", response_class=HTMLResponse)
@@ -2778,7 +2840,14 @@ async def open_manual(slug: str, page: int = 0):
 # ── Run ─────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8300, reload=os.environ.get("DND_RELOAD", "1") == "1")
+    # access_log stays off: log_requests already prints method, path, status, ms and the
+    # client IP for every request, so uvicorn's line was pure duplication. Set
+    # DND_ACCESS_LOG=1 only when debugging uvicorn itself.
+    uvicorn.run(
+        "main:app", host="0.0.0.0", port=8300,
+        reload=os.environ.get("DND_RELOAD", "1") == "1",
+        access_log=os.environ.get("DND_ACCESS_LOG", "0") == "1",
+    )
 
 
 
