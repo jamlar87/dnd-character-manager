@@ -71,8 +71,10 @@ class TestTheDmOnlyTablesMoveWithTheLibrary:
         html = client.get("/dm-tools", headers=auth_headers).text
         for var in ("NAMED_ITEM_TYPES", "SUMMON_TEMPLATES", "SOURCE_SLUG_MAP"):
             assert f"const {var}" not in html, f"{var} is still inline"
-        # the DM's own roster is user data and has to stay in the page
-        assert "COMBAT_CHARACTERS" in html
+        # the DM's own roster is user data and has to stay in the page -- still per
+        # request, but as a JSON block the CSP allows instead of a const assignment
+        assert 'id="combat-characters-data"' in html
+        assert html.index("dm/bootstrap.js?v=") < html.index("dm_tools.js?v=")
         # and both assets must load before the script that reads them
         assert html.index("source-slug-map.js") < html.index("dm-library.js") < html.index("dm_tools.js")
 

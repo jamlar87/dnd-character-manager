@@ -4,6 +4,9 @@ These use the running server (or TestClient) to hit the character sheet
 endpoint for different class/race/multiclass combinations.
 """
 
+import re
+from pathlib import Path
+
 
 class TestDashboardRenders:
     """Dashboard renders with filters + import/export UI."""
@@ -31,8 +34,12 @@ class TestDashboardRenders:
         # Import button present
         assert "Import" in resp.text
         assert 'accept=".json,application/json"' in resp.text
-        # filterChars defined
-        assert "function filterChars" in resp.text
+        # the filter logic is a module now: the page carries no inline script, so the
+        # handlers live in the asset the page loads
+        assert re.search(r'/static/pages/dashboard\.js\?v=\w+', resp.text)
+        js = (Path(__file__).resolve().parent.parent / "static" / "pages" / "dashboard.js").read_text()
+        assert "function filterChars" in js
+        assert "function toggleShare" in js
 
     def test_dashboard_empty(self, client, auth_headers):
         resp = client.get("/dashboard", headers=auth_headers)
