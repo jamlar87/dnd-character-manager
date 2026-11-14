@@ -212,7 +212,7 @@ async def stream_frames(campaign_id: int, *, last_id: int = 0, heartbeat: float 
 
 
 @router.get("/api/campaign/{camp_id}/stream")
-async def campaign_stream(camp_id: int, request: Request):
+def campaign_stream(camp_id: int, request: Request):
     """The DM's live feed for one campaign (rolls and, later, state pokes)."""
     from fastapi.responses import StreamingResponse
 
@@ -281,7 +281,7 @@ async def campaign_roll(camp_id: int, request: Request):
 
 
 @router.get("/api/campaign/{camp_id}/rolls", response_class=JSONResponse)
-async def campaign_rolls(camp_id: int, request: Request, limit: int = 50):
+def campaign_rolls(camp_id: int, request: Request, limit: int = 50):
     """Feed history — what a fresh page or a resynced client reads."""
     user = require_user(request)
     db = get_db()
@@ -353,7 +353,7 @@ def roster_name(camp: dict, character_id: int) -> str:
 
 
 @router.get("/api/campaign/{camp_id}/player-key", response_class=JSONResponse)
-async def campaign_player_key(camp_id: int, request: Request):
+def campaign_player_key(camp_id: int, request: Request):
     """The DM's share key for the players' devices. Creates one on first ask."""
     user = require_user(request)
     db = get_db()
@@ -427,7 +427,7 @@ def key_still_valid(camp_id: int, key: str) -> bool:
 
 
 @router.get("/api/table/{key}/stream")
-async def table_stream(key: str, request: Request):
+def table_stream(key: str, request: Request):
     """The players' live feed: hidden rolls are filtered out server-side."""
     from fastapi.responses import StreamingResponse
 
@@ -508,7 +508,7 @@ async def table_roll(key: str, request: Request):
 
 
 @router.get("/table/{key}", response_class=HTMLResponse)
-async def table_page(key: str, request: Request):
+def table_page(key: str, request: Request):
     """The players' surface: pick a character, roll, watch the same feed the DM sees.
 
     Authorised by the campaign key alone — this is the tablet nobody signs into. It can read
@@ -553,7 +553,7 @@ def campaign_for_character(db, char_id: int) -> dict | None:
 
 
 @router.get("/api/character/{char_id}/feed", response_class=JSONResponse)
-async def character_feed(char_id: int, request: Request, limit: int = 50):
+def character_feed(char_id: int, request: Request, limit: int = 50):
     """The last rolls at this character's table (hidden ones are not in this projection)."""
     user = require_user(request)
     db = get_db()
@@ -570,7 +570,7 @@ async def character_feed(char_id: int, request: Request, limit: int = 50):
 
 
 @router.get("/api/character/{char_id}/feed/stream")
-async def character_feed_stream(char_id: int, request: Request):
+def character_feed_stream(char_id: int, request: Request):
     """The live feed for a character's table, authorised by the sheet's own owner."""
     from fastapi.responses import StreamingResponse
 

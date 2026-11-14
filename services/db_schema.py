@@ -556,6 +556,9 @@ def _migrate_npc_source_columns():
             created_at TEXT NOT NULL DEFAULT (datetime('now'))
         );
     """)
+    db.execute("CREATE INDEX IF NOT EXISTS idx_maps_user ON dm_maps(user_id)")
+    db.execute("CREATE INDEX IF NOT EXISTS idx_map_tokens_map ON dm_map_tokens(map_id)")
+    db.execute("CREATE INDEX IF NOT EXISTS idx_map_scenes_map ON dm_map_scenes(map_id)")
     db.execute("CREATE INDEX IF NOT EXISTS idx_roll_log_campaign "
                "ON roll_log(campaign_id, id DESC)")
 

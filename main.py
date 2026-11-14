@@ -354,7 +354,10 @@ _jinja = Environment(loader=FileSystemLoader(str(TEMPLATES)), autoescape=True)
 
 # ── App ─────────────────────────────────────────────────────────────────────
 
-app = FastAPI(title="D&D Character Manager")
+# /docs, /redoc and /openapi.json are off: the schema is unauthenticated and enumerates every
+# route and parameter shape to anyone who can reach :8300, which is a free map for the IDOR and
+# upload probes. Nothing in the app or its tests reads them; re-enable behind auth if ever needed.
+app = FastAPI(title="D&D Character Manager", docs_url=None, redoc_url=None, openapi_url=None)
 
 # ── Static files ──────────────────────────────────────────────────────────────
 from starlette.staticfiles import StaticFiles
@@ -1776,7 +1779,7 @@ _APP_STARTED = _time.time()
 
 
 @app.get("/api/health", response_class=JSONResponse)
-async def api_health():
+def api_health():
     db_state, status = "ok", 200
     try:
         conn = get_db()
@@ -1797,7 +1800,7 @@ async def api_health():
 # ── Routes: Landing ───────────────────────────────────────────────────────────
 
 @app.get("/", response_class=HTMLResponse)
-async def landing(request: Request):
+def landing(request: Request):
     user = get_current_user(request)
     if user:
         return RedirectResponse("/dashboard", 303)
@@ -1822,7 +1825,7 @@ async def landing(request: Request):
 # ── Routes: Dashboard ───────────────────────────────────────────────────────
 
 @app.get("/dashboard", response_class=HTMLResponse)
-async def dashboard(request: Request):
+def dashboard(request: Request):
     user = require_user(request)
     db = get_db()
     # An admin CAN see every character in the database, but the dashboard is their own workspace
@@ -1889,7 +1892,7 @@ async def dashboard(request: Request):
 
 # ── Toggle favorite ────────────────────────────────────────────────────
 @app.post("/api/characters/{char_id}/favorite")
-async def toggle_favorite(char_id: int, request: Request):
+def toggle_favorite(char_id: int, request: Request):
     user = require_user(request)
     db = get_db()
     try:
@@ -1913,7 +1916,7 @@ async def toggle_favorite(char_id: int, request: Request):
 # ── Custom trap CRUD ──────────────────────────────────────────────────────────
 
 @app.get("/api/dm/traps", response_class=JSONResponse)
-async def dm_list_traps(request: Request):
+def dm_list_traps(request: Request):
     """List all traps — manual data + custom user traps."""
     user = require_user(request)
     db = get_db()
@@ -2028,7 +2031,7 @@ async def dm_update_trap(trap_id: int, request: Request):
 
 
 @app.post("/api/dm/traps/{trap_id}/delete", response_class=JSONResponse)
-async def dm_delete_trap(trap_id: int, request: Request):
+def dm_delete_trap(trap_id: int, request: Request):
     """Delete a custom trap."""
     user = require_user(request)
     db = get_db()
@@ -2044,7 +2047,7 @@ async def dm_delete_trap(trap_id: int, request: Request):
 # ── Item search & description endpoints ──────────────────────────────────────
 
 @app.get("/api/items/search", response_class=JSONResponse)
-async def search_items(q: str = "", limit: int = 0, type: str = "", rarity: str = "",
+def search_items(q: str = "", limit: int = 0, type: str = "", rarity: str = "",
                        source: str = ""):
     """Search equipment + magic items by name, type, rarity, and description.
 
@@ -2147,7 +2150,7 @@ async def search_items(q: str = "", limit: int = 0, type: str = "", rarity: str 
 
 
 @app.get("/api/items/describe", response_class=JSONResponse)
-async def describe_item(name: str = ""):
+def describe_item(name: str = ""):
     """Get full description and metadata for a single item."""
     if not name or not name.strip():
         return JSONResponse({"error": "No item name provided"}, status_code=400)
@@ -2191,6 +2194,13 @@ def get_spell_slots(*args, **kwargs):
 @asynccontextmanager
 async def lifespan(_app):
     init_db()
+    # Expired rows are swept once at start and then lazily (see services.sessions) instead of
+    # writing a DELETE+COMMIT on every authenticated request.
+    try:
+        from services.sessions import sweep_expired_sessions
+        sweep_expired_sessions(DB_PATH, force=True)
+    except Exception as exc:  # pragma: no cover - never block startup on cleanup
+        print(f"[sessions] startup sweep failed: {exc}")
     # Register route modules (deferred to avoid circular imports)
     from routes.auth import router as auth_router
     if not any(r.path == "/login" for r in _app.routes):
@@ -2317,7 +2327,7 @@ def list_manuals():
 
 
 @app.get("/api/reference/manual-file/{path:path}")
-async def serve_manual_file(path: str):
+def serve_manual_file(path: str):
     """Serve a PDF from the DnD-Manuals directory by relative path.
     Path is relative to MANUALS_BASE (e.g. 'Manuals/D&D 5E - Monster Manual.pdf').
     """
@@ -2574,13 +2584,13 @@ def _get_source_slug_map() -> dict[str, dict]:
 
 
 @app.get("/api/reference/source-map", response_class=JSONResponse)
-async def source_map():
+def source_map():
     """Return slug→display_name map so the frontend can resolve source strings."""
     return JSONResponse(_get_source_slug_map())
 
 
 @app.get("/api/reference/manual-titles", response_class=JSONResponse)
-async def manual_titles():
+def manual_titles():
     """Real manuals only, with clean titles — the "filter by manual" picker list.
 
     Unlike /api/reference/source-map (which must resolve every source alias),
@@ -2595,7 +2605,7 @@ async def manual_titles():
 # traits/spells alongside manual page hits. Index lives in services/entity_search.py.
 
 @app.get("/api/reference/entities", response_class=JSONResponse)
-async def reference_entities(request: Request, q: str = "", source: str = "",
+def reference_entities(request: Request, q: str = "", source: str = "",
                              kind: str = "", limit: int = 0, per_kind: int = 3,
                              offset: int = 0):
     """Internal-entity hits for `q`, optionally scoped to books.
@@ -2644,7 +2654,7 @@ async def reference_entities(request: Request, q: str = "", source: str = "",
 
 
 @app.get("/api/reference/entity", response_class=JSONResponse)
-async def reference_entity(request: Request, kind: str = "", name: str = ""):
+def reference_entity(request: Request, kind: str = "", name: str = ""):
     """Detail payload for one internal entity — powers the nav search modal."""
     require_user(request)
     from services.entity_search import KIND_META, entity_detail
@@ -2830,7 +2840,7 @@ def _manual_titles() -> list[dict]:
 
 
 @app.get("/api/reference/open/{slug}")
-async def open_manual(slug: str, page: int = 0):
+def open_manual(slug: str, page: int = 0):
     """Serve a reference manual PDF.
 
     Slug is the pdf_map key (e.g. 'PHB', 'DMG', 'XGE').
@@ -2918,13 +2928,13 @@ _PWA_MANIFEST = {
 
 
 @app.get("/manifest.webmanifest")
-async def pwa_manifest():
+def pwa_manifest():
     """The install manifest, with a MIME type browsers actually accept."""
     return JSONResponse(_PWA_MANIFEST, media_type="application/manifest+json")
 
 
 @app.get("/sw.js")
-async def pwa_service_worker():
+def pwa_service_worker():
     """The service worker. no-store so neither the browser nor the CDN can pin a stale one."""
     return FileResponse(
         STATIC / "sw.js",
@@ -2934,7 +2944,7 @@ async def pwa_service_worker():
 
 
 @app.get("/offline", response_class=HTMLResponse)
-async def pwa_offline():
+def pwa_offline():
     """What a player sees when the wifi goes: the app, and the truth about what still works.
 
     Deliberately not a cached copy of any real page — a stale sheet is worse than an honest notice.

@@ -102,7 +102,7 @@ def _insert_row(db, table: str, data: dict) -> int:
 # ── export ─────────────────────────────────────────────────────────────────────────────
 
 @router.get("/api/dm/campaign/{camp_id}/export", response_class=Response)
-async def campaign_export(camp_id: int, request: Request, images: str = "embed"):
+def campaign_export(camp_id: int, request: Request, images: str = "embed"):
     """Download the campaign as a pack. `?images=skip` leaves the map images out."""
     from routes.characters.transfer import build_character_payload   # function-local: see Pitfall 16
 

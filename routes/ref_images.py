@@ -74,7 +74,7 @@ async def ref_image(kind: str, name: str, request: Request, size: int = 0):
 
 
 @router.get("/api/ref-image-stats")
-async def ref_image_stats(request: Request):
+def ref_image_stats(request: Request):
     from fastapi.responses import JSONResponse
     from main import require_user
     require_user(request)

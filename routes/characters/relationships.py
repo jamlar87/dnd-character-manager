@@ -16,7 +16,7 @@ router = APIRouter()
 
 
 @router.get("/api/character/{char_id}/relationships", response_class=JSONResponse)
-async def get_relationships(char_id: int, request: Request):
+def get_relationships(char_id: int, request: Request):
     user = require_user(request)
     db = get_db()
     rows = db.execute(
@@ -145,7 +145,7 @@ async def update_relationship(char_id: int, rel_id: int, request: Request):
     return JSONResponse(rel_row)
 
 @router.delete("/api/character/{char_id}/relationships/{rel_id}", response_class=JSONResponse)
-async def delete_relationship(char_id: int, rel_id: int, request: Request):
+def delete_relationship(char_id: int, rel_id: int, request: Request):
     user = require_user(request)
     db = get_db()
     db.execute("DELETE FROM character_relationships WHERE id = ? AND character_id = ? AND user_id = ?",

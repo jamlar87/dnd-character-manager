@@ -264,7 +264,7 @@ def _scenes_of(db, map_id: int) -> list[dict]:
 # ── maps ───────────────────────────────────────────────────────────────────────────────
 
 @router.get("/api/dm/maps", response_class=JSONResponse)
-async def dm_maps_list(request: Request, campaign_id: str = ""):
+def dm_maps_list(request: Request, campaign_id: str = ""):
     """The user's maps, newest first. `campaign_id` narrows to one campaign."""
     user = require_user(request)
     db = get_db()
@@ -436,7 +436,7 @@ async def dm_map_create(request: Request):
 
 
 @router.get("/api/dm/map/{map_id}", response_class=JSONResponse)
-async def dm_map_detail(map_id: int, request: Request):
+def dm_map_detail(map_id: int, request: Request):
     """One map with everything needed to draw it.
 
     The two overlay layers come back parsed (`fog` = revealed cell keys, `draw` = strokes)
@@ -539,7 +539,7 @@ async def dm_map_update(map_id: int, request: Request):
 
 
 @router.post("/api/dm/map/{map_id}/delete", response_class=JSONResponse)
-async def dm_map_delete(map_id: int, request: Request):
+def dm_map_delete(map_id: int, request: Request):
     """Delete a map and everything placed on it."""
     user = require_user(request)
     db = get_db()
@@ -777,7 +777,7 @@ async def dm_map_token_update(token_id: int, request: Request):
 
 
 @router.post("/api/dm/map/token/{token_id}/delete", response_class=JSONResponse)
-async def dm_map_token_delete(token_id: int, request: Request):
+def dm_map_token_delete(token_id: int, request: Request):
     user = require_user(request)
     db = get_db()
     try:
@@ -909,7 +909,7 @@ async def dm_map_snapshot(map_id: int, request: Request):
 
 
 @router.post("/api/dm/map/scene/{scene_id}/restore", response_class=JSONResponse)
-async def dm_map_scene_restore(scene_id: int, request: Request):
+def dm_map_scene_restore(scene_id: int, request: Request):
     """Put a snapshot back: placements and camera."""
     user = require_user(request)
     db = get_db()
@@ -954,7 +954,7 @@ async def dm_map_scene_restore(scene_id: int, request: Request):
 
 
 @router.post("/api/dm/map/scene/{scene_id}/delete", response_class=JSONResponse)
-async def dm_map_scene_delete(scene_id: int, request: Request):
+def dm_map_scene_delete(scene_id: int, request: Request):
     user = require_user(request)
     db = get_db()
     try:
@@ -1304,7 +1304,7 @@ def _map_of_token(db, token_id: int):
 
 
 @router.get("/api/dm/map/{map_id}/state", response_class=JSONResponse)
-async def dm_map_state(map_id: int, request: Request, k: str = ""):
+def dm_map_state(map_id: int, request: Request, k: str = ""):
     """The projected state a second screen renders.
 
     Authorised either by the owner's session or by the map's player key (`?k=`), so a TV or a
@@ -1390,7 +1390,7 @@ async def dm_map_player_stream(map_id: int, request: Request, k: str = ""):
 
 
 @router.get("/api/dm/map/{map_id}/player-key", response_class=JSONResponse)
-async def dm_map_player_key(map_id: int, request: Request):
+def dm_map_player_key(map_id: int, request: Request):
     """The DM's share key for the second screen. Creates one on first ask."""
     user = require_user(request)
     db = get_db()
@@ -1434,7 +1434,7 @@ async def dm_map_player_key_set(map_id: int, request: Request):
 
 
 @router.get("/dm-map/{map_id}/player", response_class=HTMLResponse)
-async def dm_map_player_page(map_id: int, request: Request, k: str = ""):
+def dm_map_player_page(map_id: int, request: Request, k: str = ""):
     """The second screen: full-bleed canvas, no toolbar, no DM notes."""
     db = get_db()
     try:
@@ -1457,7 +1457,7 @@ async def dm_map_player_page(map_id: int, request: Request, k: str = ""):
 # ── the map page itself ────────────────────────────────────────────────────────────────
 
 @router.get("/dm-map/{map_id}", response_class=HTMLResponse)
-async def dm_map_page(map_id: int, request: Request):
+def dm_map_page(map_id: int, request: Request):
     """The canvas. The map's data is fetched by static/vtt.js from /api/dm/map/{id} so the
     page shell stays cacheable and the canvas can re-read after a snapshot restore."""
     user = require_user(request)

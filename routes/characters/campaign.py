@@ -277,7 +277,7 @@ def roll_treasure_hoard(cr_bracket: str) -> dict:
 # ── Routes: Campaign Team Items ─────────────────────────────────────────────
 
 @router.get("/api/character/{char_id}/campaign", response_class=JSONResponse)
-async def character_campaign(char_id: int, request: Request):
+def character_campaign(char_id: int, request: Request):
     """Get the campaign this character belongs to (if any)."""
     user = require_user(request)
     db = get_db()
@@ -309,7 +309,7 @@ async def character_campaign(char_id: int, request: Request):
 
 
 @router.get("/api/campaign/{camp_id}/team-items", response_class=JSONResponse)
-async def campaign_team_items(camp_id: int, request: Request):
+def campaign_team_items(camp_id: int, request: Request):
     """List all team items for a campaign (any campaign member can view)."""
     user = require_user(request)
     db = get_db()
@@ -571,7 +571,7 @@ async def campaign_update_team_item_qty(camp_id: int, item_id: int, request: Req
 
 
 @router.delete("/api/campaign/{camp_id}/team-items/{item_id}", response_class=JSONResponse)
-async def campaign_delete_team_item(camp_id: int, item_id: int, request: Request):
+def campaign_delete_team_item(camp_id: int, item_id: int, request: Request):
     """Remove a team item (DM only)."""
     user = require_user(request)
     db = get_db()

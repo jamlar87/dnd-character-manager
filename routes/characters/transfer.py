@@ -39,7 +39,7 @@ _EXPORT_VERSION = 1
 
 
 @router.get("/api/character/{char_id}/export", response_class=Response)
-async def character_export(char_id: int, request: Request):
+def character_export(char_id: int, request: Request):
     """Full character JSON: sheet fields + spells + relationships."""
     user = require_user(request)
     db = get_db()

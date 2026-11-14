@@ -26,7 +26,7 @@ from services.leveling import (
 
 router = APIRouter()
 @router.post("/api/character/{char_id}/add-spell", response_class=JSONResponse)
-async def add_spell(char_id: int, request: Request, body: AddSpell):
+def add_spell(char_id: int, request: Request, body: AddSpell):
     """Add a spell to a character's spell list."""
     user = require_user(request)
     db = get_db()
@@ -43,7 +43,7 @@ async def add_spell(char_id: int, request: Request, body: AddSpell):
 
 # ── Magic Initiate feat configuration ──────────────────────────────────────
 @router.get("/api/character/{char_id}/magic-initiate", response_class=JSONResponse)
-async def get_magic_initiate(char_id: int, request: Request):
+def get_magic_initiate(char_id: int, request: Request):
     """Return Magic Initiate configuration: class, spells, usage state."""
     user = require_user(request)
     db = get_db()
@@ -146,7 +146,7 @@ async def save_combat_notes(char_id: int, request: Request):
 
 
 @router.post("/api/character/{char_id}/magic-initiate/use", response_class=JSONResponse)
-async def toggle_magic_initiate_use(char_id: int, request: Request):
+def toggle_magic_initiate_use(char_id: int, request: Request):
     """Toggle the 1/day Magic Initiate spell usage."""
     user = require_user(request)
     db = get_db()
@@ -176,7 +176,7 @@ async def toggle_magic_initiate_use(char_id: int, request: Request):
 
 
 @router.post("/api/character/{char_id}/magic-initiate/reset", response_class=JSONResponse)
-async def reset_magic_initiate_use(char_id: int, request: Request):
+def reset_magic_initiate_use(char_id: int, request: Request):
     """Reset all Magic Initiate 1/day uses to available (called on long rest)."""
     user = require_user(request)
     db = get_db()
@@ -271,7 +271,7 @@ async def save_feat_config(char_id: int, request: Request):
 
 
 @router.get("/api/character/{char_id}/available-spells", response_class=JSONResponse)
-async def available_spells(char_id: int, request: Request):
+def available_spells(char_id: int, request: Request):
     """Return spells this character can learn — filtered by class, level, race, subclass.
     Excludes spells already known."""
     import re
@@ -455,7 +455,7 @@ async def available_spells(char_id: int, request: Request):
 
 
 @router.post("/api/character/{char_id}/ai-spells", response_class=JSONResponse)
-async def ai_select_spells(char_id: int, request: Request):
+def ai_select_spells(char_id: int, request: Request):
     """AI-assisted spell selection — auto-picks optimal spells based on
     class, subclass, level, and race. Respects preparation limits for
     prepared casters and spells-known limits for known casters."""
@@ -769,7 +769,7 @@ async def unlearn_spell(char_id: int, request: Request):
 
 
 @router.get("/api/character/{char_id}/gp", response_class=JSONResponse)
-async def get_character_gp(char_id: int, request: Request):
+def get_character_gp(char_id: int, request: Request):
     """Return just the gp value for a character (lightweight)."""
     user = require_user(request)
     db = get_db()

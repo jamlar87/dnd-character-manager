@@ -13,7 +13,7 @@ router = APIRouter()
 
 
 @router.get("/api/character/{char_id}/pdf")
-async def character_pdf(char_id: int, request: Request):
+def character_pdf(char_id: int, request: Request):
     """Generate a printable D&D character sheet PDF."""
     user = require_user(request)
     db = get_db()

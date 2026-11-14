@@ -41,7 +41,7 @@ def _publish(restored: list) -> None:
 
 
 @router.get("/api/undo/peek", response_class=JSONResponse)
-async def undo_peek(request: Request):
+def undo_peek(request: Request):
     """What would be undone, so the button can name it instead of saying "undo"."""
     from services.undo import peek
 
@@ -55,7 +55,7 @@ async def undo_peek(request: Request):
 
 
 @router.post("/api/undo", response_class=JSONResponse)
-async def do_undo(request: Request):
+def do_undo(request: Request):
     """Put the newest action back.
 
     409 when the row has moved on since (the honest answer: undoing would overwrite newer work) and

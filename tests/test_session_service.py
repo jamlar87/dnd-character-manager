@@ -2,7 +2,9 @@
 
 import sqlite3
 
-from services.sessions import create_session, get_user_by_token, invalidate_user_sessions
+import services.sessions as sessions_mod
+from services.sessions import (create_session, get_user_by_token, invalidate_user_sessions,
+                               sweep_expired_sessions)
 
 
 def db_with_schema(tmp_path):
@@ -40,6 +42,28 @@ def test_expired_session_is_rejected_and_cleaned(tmp_path):
     db = sqlite3.connect(path)
     assert db.execute("SELECT COUNT(*) FROM sessions").fetchone()[0] == 0
     db.close()
+
+
+def test_sweep_is_throttled_so_reads_stay_read_only(tmp_path):
+    """Authenticated GETs must not write: the sweep runs at most once per interval."""
+    path = db_with_schema(tmp_path)
+    token = create_session(path, 1, 30)          # login sweeps (force) and stamps the throttle
+    db = sqlite3.connect(path)
+    db.execute("INSERT INTO sessions(user_id, token, expires_at) VALUES (1, 'stale', datetime('now', '-1 day'))")
+    db.commit(); db.close()
+
+    row = get_user_by_token(path, token)
+    assert row is not None and row["email"] == "one@example.com"
+
+    db = sqlite3.connect(path)
+    assert db.execute("SELECT COUNT(*) FROM sessions WHERE token='stale'").fetchone()[0] == 1
+    db.close()
+
+    sweep_expired_sessions(path, force=True)     # startup / explicit sweep does the write
+    db = sqlite3.connect(path)
+    assert db.execute("SELECT COUNT(*) FROM sessions WHERE token='stale'").fetchone()[0] == 0
+    db.close()
+    assert sessions_mod._SWEEP_INTERVAL >= 30
 
 
 def test_invalidate_user_sessions(tmp_path):

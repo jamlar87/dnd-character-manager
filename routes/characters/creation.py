@@ -46,7 +46,7 @@ from routes.characters.ai_routes import _calculate_attacks
 
 router = APIRouter()
 @router.get("/create", response_class=HTMLResponse)
-async def create_character_page(request: Request):
+def create_character_page(request: Request):
     require_user(request)
     # The wizard's reference tables ride in a cached asset, not in the page: they were 39
     # inline `const NAME = {{ x | tojson }}` lines (~240 KB) re-sent on every load and
@@ -735,7 +735,7 @@ async def build_from_npc(request: Request):
 
 
 @router.get("/api/spells/starting", response_class=JSONResponse)
-async def starting_spells(request: Request, class_name: str = "", level: int = 1):
+def starting_spells(request: Request, class_name: str = "", level: int = 1):
     """Return L1+spells available to a class at a given level. Public — no auth needed."""
     if class_name not in SPELLS_KNOWN_CASTERS and class_name not in PREPARED_CASTERS:
         return JSONResponse([])

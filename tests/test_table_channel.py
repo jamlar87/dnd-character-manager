@@ -404,10 +404,12 @@ def test_stream_requires_ownership(seeded_db):
     path = f"/api/campaign/{camp_id}/stream"
 
     with pytest.raises(HTTPException):
-        asyncio.run(campaign_stream(camp_id, _request(path)))
+        # campaign_stream is a plain def now (blocking work belongs in the threadpool);
+        # only the response body iterator is async.
+        campaign_stream(camp_id, _request(path))
 
     bystander = _other_user(seeded_db["db_path"])
-    resp = asyncio.run(campaign_stream(camp_id, _request(path, token=bystander)))
+    resp = campaign_stream(camp_id, _request(path, token=bystander))
     assert resp.status_code == 404
 
 
@@ -415,11 +417,14 @@ def test_stream_response_is_an_event_stream(seeded_db):
     """Headers matter: a cached or compressed stream arrives as one late burst."""
     import asyncio
 
+    from starlette.responses import StreamingResponse
+
     from routes.table import campaign_stream
 
     camp_id = _campaign(seeded_db["db_path"], 1)
-    resp = asyncio.run(campaign_stream(
-        camp_id, _request(f"/api/campaign/{camp_id}/stream", token=seeded_db["user_token"])))
+    resp = campaign_stream(
+        camp_id, _request(f"/api/campaign/{camp_id}/stream", token=seeded_db["user_token"]))
+    assert isinstance(resp, StreamingResponse)  # narrowing for the body_iterator read below
 
     assert resp.status_code == 200
     assert resp.media_type == "text/event-stream"
@@ -443,9 +448,9 @@ def test_stream_honours_last_event_id_from_the_header(seeded_db):
     finally:
         db.close()
 
-    resp = asyncio.run(campaign_stream(
+    resp = campaign_stream(
         camp_id, _request(f"/api/campaign/{camp_id}/stream",
-                          token=seeded_db["user_token"], last_event_id=first["id"])))
+                          token=seeded_db["user_token"], last_event_id=first["id"]))
 
     async def _frames(n):
         """The first n chunks off the response iterator, without waiting for the stream to end."""

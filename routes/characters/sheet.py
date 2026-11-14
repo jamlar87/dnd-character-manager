@@ -14,6 +14,7 @@ import base64
 import hashlib
 from datetime import datetime
 
+import anyio
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse, Response, RedirectResponse
 
@@ -474,7 +475,7 @@ def ensure_sheet_reference_asset() -> str:
 
 
 @router.get("/character/{char_id}", response_class=HTMLResponse)
-async def character_sheet(char_id: int, request: Request):
+def character_sheet(char_id: int, request: Request):
     user = require_user(request)
     dm_preview = request.query_params.get("dm_preview", "0") == "1"
     db = get_db()
@@ -1229,7 +1230,7 @@ def _publish_change(char_id: int, kind: str = "sheet", **fields) -> None:
 
 
 @router.post("/api/character/{char_id}/update", response_class=JSONResponse)
-async def update_character(char_id: int, request: Request, body: UpdateCharacter):
+def update_character(char_id: int, request: Request, body: UpdateCharacter):
     user = require_user(request)
     # Build data dict from model (extra fields pass through)
     data = body.model_dump(exclude_none=True) | (body.model_extra or {})
@@ -1322,7 +1323,7 @@ async def update_character(char_id: int, request: Request, body: UpdateCharacter
     return JSONResponse({"ok": True})
 
 @router.post("/api/character/{char_id}/edit-asi", response_class=JSONResponse)
-async def edit_asi_choice(char_id: int, request: Request, body: EditASI):
+def edit_asi_choice(char_id: int, request: Request, body: EditASI):
     """Edit a past ASI/feat choice for a given level."""
     user = require_user(request)
     if body.entry is None:
@@ -1422,7 +1423,7 @@ async def edit_expertise_choice(char_id: int, request: Request):
     return JSONResponse({"ok": True, "expertise_skills": unique_skills})
 
 @router.get("/api/character/{char_id}/attacks", response_class=JSONResponse)
-async def get_attacks(char_id: int, request: Request):
+def get_attacks(char_id: int, request: Request):
     """Return current weapon attacks for Actions tab refresh."""
     user = require_user(request)
     db = get_db()
@@ -1444,7 +1445,7 @@ async def get_attacks(char_id: int, request: Request):
     return JSONResponse({"attacks": attacks})
 
 @router.get("/api/character/{char_id}/summons", response_class=JSONResponse)
-async def get_summons(char_id: int, request: Request):
+def get_summons(char_id: int, request: Request):
     """Return character's active summons for combat tab integration."""
     user = require_user(request)
     db = get_db()
@@ -1530,7 +1531,7 @@ async def update_summon_hp(char_id: int, request: Request):
 
 # ── Conditions (CRUD) ─────────────────────────────────────────────
 @router.get("/api/character/{char_id}/conditions", response_class=JSONResponse)
-async def get_conditions(char_id: int, request: Request):
+def get_conditions(char_id: int, request: Request):
     """Get active conditions for a character."""
     user = require_user(request)
     db = get_db()
@@ -1646,6 +1647,48 @@ async def remove_condition(char_id: int, request: Request):
     return JSONResponse({"conditions": conditions, "removed": name})
 
 
+def _sync_combat_hp_impl(user: dict, char_ids: list) -> dict:
+    """Blocking half of /api/sync-combat-hp — runs in a worker thread so the
+    sqlite reads + xp_progress math never stall the event loop."""
+    db = get_db()
+    result = {}
+    from services.leveling import xp_progress
+
+    try:
+        for cid in char_ids:
+            row = db.execute(
+                "SELECT name, hp_current, hp_max, summons, conditions, xp, level FROM characters "
+                "WHERE id=? AND user_id=?",
+                (cid, user["id"])
+            ).fetchone()
+            if not row:
+                continue
+            try:
+                summons = json.loads(row["summons"] or "[]")
+            except (json.JSONDecodeError, TypeError):
+                summons = []
+            try:
+                conditions = json.loads(row["conditions"] or "[]")
+            except (json.JSONDecodeError, TypeError):
+                conditions = []
+            result[str(cid)] = {
+                "name": row["name"],
+                "hp_current": row["hp_current"],
+                "hp_max": row["hp_max"],
+                "summons": summons,
+                "conditions": conditions,
+                # XP rides with the same read the sheet already makes when the table moves: an award
+                # published an event, and a client that could only re-read HP would sit on a stale
+                # total until the page was reloaded.
+                "xp": row["xp"] or 0,
+                "level": row["level"] or 1,
+                "progress": xp_progress(row["xp"], row["level"]),
+            }
+    finally:
+        db.close()
+    return result
+
+
 @router.post("/api/sync-combat-hp", response_class=JSONResponse)
 async def sync_combat_hp(request: Request):
     """Batch fetch HP + summons for characters in combat. Takes {char_ids: [...]}."""
@@ -1654,40 +1697,7 @@ async def sync_combat_hp(request: Request):
     char_ids = data.get("char_ids", [])
     if not char_ids:
         return JSONResponse({"characters": {}})
-    db = get_db()
-    result = {}
-    from services.leveling import xp_progress
-
-    for cid in char_ids:
-        row = db.execute(
-            "SELECT name, hp_current, hp_max, summons, conditions, xp, level FROM characters "
-            "WHERE id=? AND user_id=?",
-            (cid, user["id"])
-        ).fetchone()
-        if not row:
-            continue
-        try:
-            summons = json.loads(row["summons"] or "[]")
-        except (json.JSONDecodeError, TypeError):
-            summons = []
-        try:
-            conditions = json.loads(row["conditions"] or "[]")
-        except (json.JSONDecodeError, TypeError):
-            conditions = []
-        result[str(cid)] = {
-            "name": row["name"],
-            "hp_current": row["hp_current"],
-            "hp_max": row["hp_max"],
-            "summons": summons,
-            "conditions": conditions,
-            # XP rides with the same read the sheet already makes when the table moves: an award
-            # published an event, and a client that could only re-read HP would sit on a stale
-            # total until the page was reloaded.
-            "xp": row["xp"] or 0,
-            "level": row["level"] or 1,
-            "progress": xp_progress(row["xp"], row["level"]),
-        }
-    db.close()
+    result = await anyio.to_thread.run_sync(_sync_combat_hp_impl, user, char_ids)
     return JSONResponse({"characters": result})
 
 @router.post("/api/character/{char_id}/spend-charge", response_class=JSONResponse)
@@ -1785,7 +1795,7 @@ async def reload_charge(char_id: int, request: Request):
     return JSONResponse({"charged_items": charged, "item_name": item_name})
 
 @router.post("/api/character/{char_id}/delete", response_class=JSONResponse)
-async def delete_character(char_id: int, request: Request):
+def delete_character(char_id: int, request: Request):
     user = require_user(request)
     db = get_db()
     row = _require_owned(db, user, "characters", char_id)
@@ -2101,7 +2111,6 @@ ITEM_PROPERTIES: dict[str, dict] = {}
 
 def _build_item_properties():
     """Parse SRD magic items for attunement + known property patterns."""
-    import re
 
     # ── Attunement detection from desc ──
     for item in SRD_MAGIC_ITEMS:

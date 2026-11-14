@@ -208,7 +208,7 @@ def _meets_feat_prereq(prereq: str, char: dict, abilities: dict, feat_name: str 
 
 
 @router.get("/api/character/{char_id}/level-up-info", response_class=JSONResponse)
-async def level_up_info(char_id: int, request: Request):
+def level_up_info(char_id: int, request: Request):
     """Return everything needed for the level-up wizard. Supports multi-level via ?target=N."""
     user = require_user(request)
     db = get_db()
@@ -725,7 +725,7 @@ def _spellcasting_ability(class_name: str) -> str:
 
 
 @router.post("/api/character/{char_id}/apply-level-up", response_class=JSONResponse)
-async def apply_level_up(char_id: int, request: Request, body: ApplyLevelUp):
+def apply_level_up(char_id: int, request: Request, body: ApplyLevelUp):
     """Apply all level-up choices across potentially multiple levels."""
     user = require_user(request)
     data = body.model_dump(exclude_none=True) | (body.model_extra or {})
@@ -1263,7 +1263,7 @@ async def apply_level_up(char_id: int, request: Request, body: ApplyLevelUp):
 # ── De-Level (rollback) ──────────────────────────────────────────────
 
 @router.get("/api/character/{char_id}/de-level-info", response_class=JSONResponse)
-async def de_level_info(char_id: int, request: Request):
+def de_level_info(char_id: int, request: Request):
     """Return what the character would look like at a lower level.
     
     For multiclass characters, accepts an optional ``class_name`` query param.

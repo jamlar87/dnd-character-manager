@@ -70,7 +70,7 @@ def _campaign_characters_live(db, entries):
 
 
 @router.get("/dm-tools", response_class=HTMLResponse)
-async def dm_tools(request: Request):
+def dm_tools(request: Request):
     """DM Tools main page — encounter builder, NPC manager, monster lookup."""
     user = require_user(request)
     db = get_db()
@@ -328,7 +328,7 @@ async def dm_tools(request: Request):
 
 
 @router.get("/api/dm/monster/{index}", response_class=JSONResponse)
-async def dm_monster_detail(index: str, request: Request):
+def dm_monster_detail(index: str, request: Request):
     """Full monster detail from SRD cache."""
     require_user(request)
     all_monsters = _load_monster_cache()
@@ -339,7 +339,7 @@ async def dm_monster_detail(index: str, request: Request):
 
 
 @router.get("/api/dm/spell/{index}", response_class=JSONResponse)
-async def dm_spell_detail(index: str, request: Request):
+def dm_spell_detail(index: str, request: Request):
     """Full spell detail from the merged SRD + manual spell registry."""
     require_user(request)
     for s in SRD_SPELLS:
@@ -495,7 +495,7 @@ def _enrich_monster(m: dict) -> dict:
 
 
 @router.get("/api/dm/monsters", response_class=JSONResponse)
-async def dm_monster_list(request: Request, source: str = ""):
+def dm_monster_list(request: Request, source: str = ""):
     """List monsters, optionally scoped to books (`source=SLUG[,SLUG]`)."""
     require_user(request)
     all_monsters = _load_monster_cache()
@@ -506,7 +506,7 @@ async def dm_monster_list(request: Request, source: str = ""):
 
 
 @router.get("/api/dm/monsters/search", response_class=JSONResponse)
-async def dm_monster_search(request: Request, q: str = "", type: str = "", cr_min: float = 0, cr_max: float = 30, cr: str = "", source: str = ""):
+def dm_monster_search(request: Request, q: str = "", type: str = "", cr_min: float = 0, cr_max: float = 30, cr: str = "", source: str = ""):
     """Search/filter monsters by name, type, CR range and book source."""
     require_user(request)
     all_monsters = _load_monster_cache()
@@ -555,7 +555,7 @@ async def dm_monster_search(request: Request, q: str = "", type: str = "", cr_mi
 
 
 @router.get("/api/dm/monsters/by-cr", response_class=JSONResponse)
-async def dm_monsters_by_cr(request: Request, source: str = ""):
+def dm_monsters_by_cr(request: Request, source: str = ""):
     """Grouped monsters by CR tier for encounter building (`source=` scopes books)."""
     require_user(request)
     all_monsters = _load_monster_cache()
@@ -639,7 +639,7 @@ async def dm_npc_create(request: Request):
     return JSONResponse({"id": npc_id, "ok": True})
 
 @router.get("/api/dm/npcs", response_class=JSONResponse)
-async def dm_npcs_list(request: Request):
+def dm_npcs_list(request: Request):
     """List all DM's NPCs."""
     user = require_user(request)
     db = get_db()
@@ -719,7 +719,7 @@ async def dm_npcs_list(request: Request):
 
 
 @router.get("/api/dm/npc/{npc_id}", response_class=JSONResponse)
-async def dm_npc_detail(npc_id: int, request: Request):
+def dm_npc_detail(npc_id: int, request: Request):
     """Full NPC detail — DB NPCs and manual extracted NPCs."""
     user = require_user(request)
 
@@ -834,7 +834,7 @@ async def dm_npc_update(npc_id: int, request: Request):
 
 
 @router.post("/api/dm/npc/{npc_id}/delete", response_class=JSONResponse)
-async def dm_npc_delete(npc_id: int, request: Request):
+def dm_npc_delete(npc_id: int, request: Request):
     """Delete an NPC."""
     user = require_user(request)
     db = get_db()
@@ -1205,7 +1205,7 @@ def _apply_portrait_to_built_character(char_id: int, portrait_url) -> bool:
 
 
 @router.post("/api/dm/npc/{npc_id}/build-to-character", response_class=JSONResponse)
-async def dm_npc_build_to_character(npc_id: int, request: Request):
+def dm_npc_build_to_character(npc_id: int, request: Request):
     """Build a full player character from an NPC. Detects gaps and returns them."""
     user = require_user(request)
     npc = None
@@ -1424,7 +1424,7 @@ def _build_party_profile(db, campaign_id: int) -> dict | None:
 
 
 @router.get("/api/dm/ai/party-profile", response_class=JSONResponse)
-async def dm_ai_party_profile(request: Request):
+def dm_ai_party_profile(request: Request):
     """Return a combat profile summary of all characters in a campaign.
     Used by the AI Encounter Builder frontend to show party preview."""
     user = require_user(request)
@@ -2448,7 +2448,7 @@ async def dm_encounter_create(request: Request):
 
 
 @router.post("/api/dm/encounter/{enc_id}/copy", response_class=JSONResponse)
-async def dm_encounter_copy(enc_id: int, request: Request):
+def dm_encounter_copy(enc_id: int, request: Request):
     """Deep copy an encounter (shared or own) — creates a new encounter with unique name."""
     user = require_user(request)
     db = get_db()
@@ -2511,7 +2511,7 @@ async def dm_encounter_copy(enc_id: int, request: Request):
 
 
 @router.get("/api/dm/encounters", response_class=JSONResponse)
-async def dm_encounters_list(request: Request):
+def dm_encounters_list(request: Request):
     """List all encounters — own encounters + shared encounters from other users."""
     user = require_user(request)
     db = get_db()
@@ -2541,7 +2541,7 @@ async def dm_encounters_list(request: Request):
 
 
 @router.get("/api/dm/encounter/{enc_id}", response_class=JSONResponse)
-async def dm_encounter_detail(enc_id: int, request: Request):
+def dm_encounter_detail(enc_id: int, request: Request):
     """Full encounter detail with NPC participants."""
     user = require_user(request)
     db = get_db()
@@ -2782,7 +2782,7 @@ async def dm_encounter_update_init(enc_id: int, request: Request):
 
 
 @router.post("/api/dm/encounter/{enc_id}/roll-initiative", response_class=JSONResponse)
-async def dm_encounter_roll_initiative(enc_id: int, request: Request):
+def dm_encounter_roll_initiative(enc_id: int, request: Request):
     """Roll d20 + DEX modifier for all encounter participants. PHB p.189."""
     import random
     user = require_user(request)
@@ -2931,7 +2931,7 @@ async def dm_encounter_update(enc_id: int, request: Request):
 
 
 @router.post("/api/dm/encounter/{enc_id}/delete", response_class=JSONResponse)
-async def dm_encounter_delete(enc_id: int, request: Request):
+def dm_encounter_delete(enc_id: int, request: Request):
     """Delete an encounter."""
     user = require_user(request)
     db = get_db()
@@ -2975,7 +2975,7 @@ async def dm_campaign_create(request: Request):
 
 
 @router.get("/api/dm/campaigns", response_class=JSONResponse)
-async def dm_campaigns_list(request: Request):
+def dm_campaigns_list(request: Request):
     """List all campaigns with live character stats."""
     user = require_user(request)
     db = get_db()
@@ -3109,7 +3109,7 @@ async def dm_campaign_update(camp_id: int, request: Request):
 
 
 @router.post("/api/dm/campaign/{camp_id}/delete", response_class=JSONResponse)
-async def dm_campaign_delete(camp_id: int, request: Request):
+def dm_campaign_delete(camp_id: int, request: Request):
     """Delete a campaign."""
     user = require_user(request)
     db = get_db()
@@ -3293,7 +3293,7 @@ async def dm_campaign_update_npc_notes(camp_id: int, request: Request):
 
 
 @router.get("/api/dm/user-characters", response_class=JSONResponse)
-async def dm_user_characters(request: Request):
+def dm_user_characters(request: Request):
     """List user's characters (for campaign party picker)."""
     user = require_user(request)
     db = get_db()
@@ -3306,7 +3306,7 @@ async def dm_user_characters(request: Request):
 
 
 @router.get("/api/dm/characters-for-combat", response_class=JSONResponse)
-async def dm_characters_for_combat(request: Request):
+def dm_characters_for_combat(request: Request):
     """List all characters with full combat stats for Quick Add."""
     user = require_user(request)
     db = get_db()
@@ -3321,7 +3321,7 @@ async def dm_characters_for_combat(request: Request):
 
 
 @router.get("/campaign/{camp_id}", response_class=HTMLResponse)
-async def campaign_detail(camp_id: int, request: Request):
+def campaign_detail(camp_id: int, request: Request):
     """Server-rendered campaign detail page."""
     user = require_user(request)
     db = get_db()
@@ -3446,7 +3446,7 @@ def _save_widgets(db, table: str, row_id: int, data: dict) -> list[dict]:
 
 
 @router.get("/api/dm/encounter/{enc_id}/widgets", response_class=JSONResponse)
-async def dm_encounter_widgets(enc_id: int, request: Request):
+def dm_encounter_widgets(enc_id: int, request: Request):
     """The widgets on one encounter."""
     user = require_user(request)
     db = get_db()
@@ -3473,7 +3473,7 @@ async def dm_save_encounter_widgets(enc_id: int, request: Request):
 
 
 @router.get("/api/dm/campaign/{camp_id}/widgets", response_class=JSONResponse)
-async def dm_campaign_widgets(camp_id: int, request: Request):
+def dm_campaign_widgets(camp_id: int, request: Request):
     """The widgets on one campaign."""
     user = require_user(request)
     db = get_db()
@@ -3632,7 +3632,7 @@ def _campaign_roster_ids(db, camp: dict) -> list:
 
 
 @router.get("/api/dm/campaign/{camp_id}/xp", response_class=JSONResponse)
-async def campaign_xp(camp_id: int, request: Request):
+def campaign_xp(camp_id: int, request: Request):
     """Who has how much, and the ledger behind it."""
     from services.leveling import xp_progress
 
