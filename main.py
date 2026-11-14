@@ -557,30 +557,9 @@ def _user_where(user: dict, column: str = "user_id") -> tuple[str, tuple]:
     return (f"WHERE {column} = ?", (user["id"],))
 
 def _user_dms_character(db, user: dict, char_id: int) -> bool:
-    """True when `user` DM-owns a campaign that lists this character.
-
-    Campaign membership lives in two places (legacy join table + the
-    dm_campaigns.characters JSON blob), so both are checked — same lookup the
-    character-campaign route performs.
-    """
-    row = db.execute(
-        """SELECT 1 FROM dm_campaign_characters cc
-           JOIN dm_campaigns c ON c.id = cc.campaign_id
-           WHERE cc.character_id = ? AND c.user_id = ? LIMIT 1""",
-        (char_id, user["id"]),
-    ).fetchone()
-    if row:
-        return True
-    for camp in db.execute("SELECT characters FROM dm_campaigns WHERE user_id = ?",
-                           (user["id"],)):
-        try:
-            chars = json.loads(camp["characters"] or "[]")
-        except (ValueError, TypeError):
-            continue
-        for ch in chars or []:
-            if (isinstance(ch, dict) and ch.get("id") == char_id) or ch == char_id:
-                return True
-    return False
+    """True when `user` DM-owns a campaign that lists this character."""
+    from services.campaign_access import user_dms_character
+    return user_dms_character(db, user, char_id)
 
 
 def _require_owned(db, user: dict, table: str, item_id: int, id_col: str = "id") -> dict | None:
@@ -621,6 +600,12 @@ def static_asset_version(filename: str) -> str:
 # sat at ?v=1 across several edits and the new tile never reached a browser. Templates
 # call static_asset_version('file.js'), which hashes the content.
 _jinja.globals["static_asset_version"] = static_asset_version
+
+# Templates used to hand-roll `{% set mod = (character[stat] - 10) // 2 %}` in a
+# dozen includes; one filter instead, sharing services/rules.ability_mod.
+from services.rules import ability_mod as _ability_mod
+from services.schema import HAS_PORTRAIT_SQL, hydrate_json_columns
+_jinja.filters["ability_mod"] = _ability_mod
 
 
 def _json_list(value, default=None):
@@ -1842,7 +1827,7 @@ def dashboard(request: Request):
     _cols = ("c.id, c.user_id, c.name, c.race, c.subrace, c.class_name, c.subclass, c.level, "
              "c.hp_current, c.hp_max, c.ac, c.background, c.shared, c.created_at, "
              "c.skills, c.features, c.inventory, c.equipped, c.languages, c.conditions, "
-             "(c.portrait_url IS NOT NULL AND c.portrait_url != '') AS has_portrait, "
+             f"{HAS_PORTRAIT_SQL}, "
              "CASE WHEN substr(c.portrait_url,1,5) = 'data:' THEN '' "
              "ELSE COALESCE(c.portrait_url,'') END AS portrait_url")
     if admin_all:
@@ -1873,11 +1858,7 @@ def dashboard(request: Request):
     other_chars.sort(key=lambda c: c.get("created_at", "") or "", reverse=True)
     chars = fav_chars + other_chars
     for c in chars:
-        for f in ("skills","features","inventory","equipped","languages"):
-            try:
-                c[f] = json.loads(c[f])
-            except (json.JSONDecodeError, TypeError):
-                c[f] = []
+        hydrate_json_columns(c)
         # Portraits are multi-MB base64 data URLs; the card only needs to know
         # whether one exists (the tile points at /portrait-image). Keeping the
         # blob out of the template context saves tens of MB per dashboard render.

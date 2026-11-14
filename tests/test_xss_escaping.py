@@ -19,7 +19,8 @@ from pathlib import Path
 
 import pytest
 
-STATIC_JS = Path(__file__).resolve().parent.parent / "static" / "dm_tools.js"
+STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
+STATIC_JS = STATIC_DIR / "dm_tools.js"
 
 EVIL = "</script><img src=x onerror=alert(1)>"
 
@@ -74,15 +75,26 @@ def js_source():
     return STATIC_JS.read_text(encoding="utf-8")
 
 
-def test_dmesc_covers_every_html_metacharacter(js_source):
-    """dmEsc is the only escaper in this file — a missing char is an exploitable hole."""
-    m = re.search(r"function dmEsc\(s\)\s*\{(.*?)\n\}", js_source, re.S)
-    assert m, "dmEsc is gone; user names are no longer escaped"
+def test_shared_escape_html_covers_every_metacharacter():
+    """escapeHtml is the one escaper in the app (static/ui/dom.js) — a missing
+    character is an exploitable hole, and dm_tools.js calls this exact function."""
+    src = (STATIC_DIR / "ui" / "dom.js").read_text(encoding="utf-8")
+    m = re.search(r"function escapeHtml\(value\)\s*\{(.*?)\n\}", src, re.S)
+    assert m, "the shared escapeHtml is gone; user names are no longer escaped"
     body = m.group(1)
 
     for char, entity in [("&", "&amp;"), ("<", "&lt;"), (">", "&gt;"),
                          ('"', "&quot;"), ("'", "&#39;")]:
-        assert entity in body, f"dmEsc does not escape {char!r}"
+        assert entity in body, f"escapeHtml does not escape {char!r}"
+
+    assert "window.escapeHtml = escapeHtml" in src, "consumers cannot reach it"
+
+
+def test_dm_tools_has_no_private_escaper_copy(js_source):
+    """One escaper, not two: dm_tools must not grow a local dmEsc again."""
+    assert not re.search(r"function\s+(dmEsc|escapeHtml|esc)\s*\(", js_source), \
+        "dm_tools.js redeclared a local escaper instead of using the shared one"
+    assert "escapeHtml" in js_source, "dm_tools.js stopped escaping user names"
 
 
 def test_no_inline_handler_interpolates_a_user_name(js_source):

@@ -15,6 +15,9 @@ import hashlib
 from datetime import datetime
 
 import anyio
+from services.rules import ability_mod
+from services.schema import hydrate_json_columns
+from routes.characters.helpers import load_character
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse, Response, RedirectResponse
 
@@ -488,28 +491,17 @@ def character_sheet(char_id: int, request: Request):
     user = require_user(request)
     dm_preview = request.query_params.get("dm_preview", "0") == "1"
     db = get_db()
-    if _is_admin(user) or (dm_preview and _user_dms_character(db, user, char_id)):
-        # Admin, or the DM of a campaign that lists this character
-        # `SELECT *` on purpose: see the note at the top of this module — an explicit list with an
-        # exact portrait marker measured slower than copying the row.
-        row = db.execute("SELECT * FROM characters WHERE id = ?",
-                         (char_id,)).fetchone()
-    else:
-        row = db.execute("SELECT * FROM characters WHERE id = ? AND (user_id = ? OR shared = 1)",
-                         (char_id, user["id"])).fetchone()
+    # Admin, the owner, anyone on a shared sheet — and, for ?dm_preview=1, the DM
+    # of a campaign that lists this character. `SELECT *` on purpose: see the
+    # note at the top of this module — an explicit list with an exact portrait
+    # marker measured slower than copying the row.
+    row = load_character(db, user, char_id, "dm" if dm_preview else "shared")
     if not row:
         db.close()
         raise HTTPException(status_code=404, detail="Character not found")
 
     char = dict(row)
-    for f in ("skills","features","inventory","equipped","languages","tool_proficiencies","weapon_proficiencies","armor_proficiencies",
-              "save_proficiencies","damage_resistances","damage_immunities","damage_vulnerabilities","condition_immunities",
-              "expertise_skills", "asi_history", "metamagic_history",
-              "metamagic", "invocations", "maneuvers", "magical_secrets", "infusions", "summons", "conditions", "favored_enemies", "favored_terrains"):
-        try:
-            char[f] = json.loads(char[f])
-        except (json.JSONDecodeError, TypeError):
-            char[f] = []
+    hydrate_json_columns(char)
     # totem_spirits is a dict, not a list
     try:
         char["totem_spirits"] = json.loads(char.get("totem_spirits", "{}"))
@@ -559,17 +551,14 @@ def character_sheet(char_id: int, request: Request):
         eq_item["bonus_action"] = _grants_bonus_action(_desc_ba_eq)
         # Flag items that require concentration
         eq_item["concentration"] = "concentration" in _desc_ba_eq
-    # Load attuned_items
-    try:
-        char["attuned_items"] = json.loads(char.get("attuned_items") or "[]")
-    except (json.JSONDecodeError, TypeError):
+    # attuned_items already hydrated by hydrate_json_columns above (it is in
+    # HYDRATE_JSON_FIELDS) — re-parsing here would hit an already-parsed list,
+    # raise TypeError and silently reset every attuned item to []. Keep only a
+    # shape guard so a malformed row still yields a list.
+    if not isinstance(char.get("attuned_items"), list):
         char["attuned_items"] = []
     # Load enriched build data
-    for f in ("feature_data", "attacks_data", "spell_slot_data"):
-        try:
-            char[f] = json.loads(char[f] or "[]")
-        except (json.JSONDecodeError, TypeError):
-            char[f] = [] if f != "spell_slot_data" else {}
+    hydrate_json_columns(char, ("feature_data", "attacks_data", "spell_slot_data"))
     # Enrich existing feature_data with Channel Divinity sub-options and source (rebuild-safe)
     # First: normalize string-format features to dicts (legacy characters)
     if char["feature_data"] and isinstance(char["feature_data"][0], str):
@@ -577,7 +566,7 @@ def character_sheet(char_id: int, request: Request):
             char["feature_data"],
             class_name=char.get("class_name", ""),
             level=char.get("level", 1),
-            mods={s: (char.get(s, 10) - 10) // 2 for s in ("strength","dexterity","constitution","intelligence","wisdom","charisma")},
+            mods={s: ability_mod(char.get(s, 10)) for s in ("strength","dexterity","constitution","intelligence","wisdom","charisma")},
             subclass=char.get("subclass", ""),
         )
     else:
@@ -590,7 +579,7 @@ def character_sheet(char_id: int, request: Request):
         _recalc_limited_uses(char.get("feature_data", []),
                              class_name=char.get("class_name", ""),
                              level=char.get("level", 1),
-                             mods={s: (char.get(s, 10) - 10) // 2 for s in ("strength","dexterity","constitution","intelligence","wisdom","charisma")},
+                             mods={s: ability_mod(char.get(s, 10)) for s in ("strength","dexterity","constitution","intelligence","wisdom","charisma")},
                              class_levels=_cls_data if len(_cls_data) > 1 else None,
                              subclass=char.get("subclass", ""))
     _add_cd_sub_options(char["feature_data"])
@@ -753,7 +742,7 @@ def character_sheet(char_id: int, request: Request):
                 # Special case: Divine Sense adds CHA mod
                 if _fname_lower == "divine sense":
                     _cha = char.get("charisma", 10)
-                    _cha_mod = (_cha - 10) // 2
+                    _cha_mod = ability_mod(_cha)
                     _feat["uses_max"] = max(1, _feat["uses_max"] + _cha_mod)
                     _feat["uses"] = max(1, _feat.get("uses", 0) + _cha_mod)
         # Enrich racial traits missing uses_max (set from uses if present)
@@ -880,7 +869,7 @@ def character_sheet(char_id: int, request: Request):
 
     # Compute modifiers
     for stat in ["strength","dexterity","constitution","intelligence","wisdom","charisma"]:
-        char[f"{stat}_mod"] = (char[stat] - 10) // 2
+        char[f"{stat}_mod"] = ability_mod(char[stat])
 
     # Recalculate AC for natural armor races (Tortle, Lizardfolk, etc.)
     racial_effects = get_racial_trait_effects(
@@ -1292,10 +1281,10 @@ def update_character(char_id: int, request: Request, body: UpdateCharacter):
     if updates:
         sets = ", ".join(f"{k}=?" for k in updates)
         vals = list(updates.values())
-        if _is_admin(user):
+        # Only the owner (or an admin) may write; everyone else's old
+        # `WHERE id=? AND user_id=?` was a silent no-op, so it stays one.
+        if load_character(db, user, char_id, "owner", columns="id"):
             db.execute(f"UPDATE characters SET {sets} WHERE id=?", vals + [char_id])
-        else:
-            db.execute(f"UPDATE characters SET {sets} WHERE id=? AND user_id=?", vals + [char_id, user["id"]])
 
     # Spell slot updates
     if "spells" in data:
@@ -1868,15 +1857,9 @@ async def character_portrait_image(char_id: int, request: Request, size: int | N
     """
     user = require_user(request)
     db = get_db()
-    row = db.execute("SELECT user_id, portrait_url, shared FROM characters WHERE id = ?",
-                     (char_id,)).fetchone()
-    if not row:
-        db.close()
-        raise HTTPException(status_code=404, detail="Character not found")
-    allowed = (_is_admin(user) or row["user_id"] == user["id"] or bool(row["shared"])
-               or _user_dms_character(db, user, char_id))
+    row = load_character(db, user, char_id, "dm", columns="user_id, portrait_url, shared")
     db.close()
-    if not allowed:
+    if not row:
         raise HTTPException(status_code=404, detail="Character not found")
 
     src = (row["portrait_url"] or "").strip()
@@ -2546,7 +2529,7 @@ def _build_rider_cards(feature_data: list[dict], char: dict, class_levels: dict)
     emitted for every registry entry the character actually has. Level-scaled
     tokens ({ds_dice}, {bc_tag}, {pb_dice}, {init}) are filled from class_levels
     and ability scores."""
-    _mod = lambda _s: (_s - 10) // 2 if isinstance(_s, int) else 0
+    _mod = lambda _s: ability_mod(_s) if isinstance(_s, int) else 0
     _cl = {k: int(v) for k, v in (class_levels or {}).items() if str(v).isdigit()}
     _base_names = {}
     for _feat in feature_data:

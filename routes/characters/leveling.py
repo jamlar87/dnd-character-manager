@@ -48,6 +48,7 @@ from services.leveling import (
     PACT_BOON_LEVELS, MANEUVER_LEVELS,
 )
 from routes.schemas import ApplyLevelUp
+from services.rules import ability_mod
 
 #: Every `characters` column EXCEPT the portrait blob (`portrait_url`, a multi-MB base64 data URL)
 #: and the two columns only the sheet reads (`personality_data`, `advantage_map` — recomputed there,
@@ -293,7 +294,7 @@ def level_up_info(char_id: int, request: Request):
     
     # HP info (new class HD + CON mod)
     hd = CLASSES.get(cls, {}).get("hd", 8)
-    con_mod = (char.get("constitution", 10) - 10) // 2
+    con_mod = ability_mod(char.get("constitution", 10))
     avg_hp = (hd // 2) + 1 + con_mod
     hp_options = {"hit_die": f"d{hd}", "con_mod": con_mod, "average": avg_hp, "max_roll": hd + con_mod}
     
@@ -804,7 +805,7 @@ def apply_level_up(char_id: int, request: Request, body: ApplyLevelUp):
 
     total_hp_gain = 0
     retro_hp = 0
-    last_con_mod = (char.get("constitution", 10) - 10) // 2
+    last_con_mod = ability_mod(char.get("constitution", 10))
     hd = CLASSES.get(class_to_level, {}).get("hd", 8)
     
     for offset in range(levels_gained):
@@ -841,7 +842,7 @@ def apply_level_up(char_id: int, request: Request, body: ApplyLevelUp):
                             updates[chosen_abi.lower()] = cumulative[ab_tc]
         
         # Now compute HP with current CON (includes this level's ASI if any)
-        con_mod = (cumulative.get("Constitution", 10) - 10) // 2
+        con_mod = ability_mod(cumulative.get("Constitution", 10))
         # Retroactive CON HP (PHB p.177): when CON mod rises at this level,
         # every PRIOR level gains the delta (not just levels before the jump).
         if con_mod > last_con_mod:
@@ -866,7 +867,7 @@ def apply_level_up(char_id: int, request: Request, body: ApplyLevelUp):
     if retro_hp > 0:
         updates["hp_max"] += retro_hp
         updates["hp_current"] += retro_hp
-        changes.append(f"CON mod +{(cumulative.get('Constitution', 10) - 10) // 2 - (char.get('constitution', 10) - 10) // 2}: +{retro_hp} HP (retroactive)")
+        changes.append(f"CON mod +{ability_mod(cumulative.get('Constitution', 10)) - ability_mod(char.get('constitution', 10))}: +{retro_hp} HP (retroactive)")
     
     # Tough feat: +2 HP per character level (PHB p.170)
     tough_level = None
@@ -955,7 +956,7 @@ def apply_level_up(char_id: int, request: Request, body: ApplyLevelUp):
     updates["features"] = json.dumps(all_feature_names)
     
     # Enriched feature_data
-    mods = {a: (cumulative.get(a, 10) - 10) // 2 for a in ABILITY_NAMES}
+    mods = {a: ability_mod(cumulative.get(a, 10)) for a in ABILITY_NAMES}
     eff_subclass = updates.get("subclass", char.get("subclass", ""))
     enriched = enrich_features(all_feature_names, class_name=class_to_level, level=target_level, mods=mods, class_levels=new_cl, subclass=eff_subclass)
     updates["feature_data"] = json.dumps(enriched)
@@ -1332,7 +1333,7 @@ def de_level_info(char_id: int, request: Request):
         return JSONResponse({"error": f"Cannot de-level {cls} below level 1 — it's the only class."}, status_code=400)
     
     hd = CLASSES.get(cls, {}).get("hd", 8)
-    con_mod = (char.get("constitution", 10) - 10) // 2
+    con_mod = ability_mod(char.get("constitution", 10))
     avg_hp = (hd // 2) + 1 + con_mod
     
     # Features lost (at current but not at target)
@@ -1439,7 +1440,7 @@ async def apply_de_level(char_id: int, request: Request):
     
     # HP: use user-provided value or estimate
     hd = CLASSES.get(cls, {}).get("hd", 8)
-    con_mod = (char.get("constitution", 10) - 10) // 2
+    con_mod = ability_mod(char.get("constitution", 10))
     avg_hp = (hd // 2) + 1 + con_mod
     estimated_hp = max(1, char.get("hp_max", 10) - (old_level - target_level) * avg_hp)
     new_hp = int(data.get("hp_max", estimated_hp))
@@ -1651,7 +1652,7 @@ async def apply_de_level(char_id: int, request: Request):
     for a in ABILITY_NAMES:
         key = a.lower()
         val = updates.get(key, char.get(key, 10))
-        final_mods[a] = (val - 10) // 2
+        final_mods[a] = ability_mod(val)
     eff_sub = updates.get("subclass", char.get("subclass", ""))
     enriched = enrich_features(all_feature_names, class_name=cls, level=target_level, mods=final_mods, subclass=eff_sub)
     updates["feature_data"] = json.dumps(enriched)

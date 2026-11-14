@@ -16,6 +16,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from services.reference_assets import (
     ensure_create_consts_asset, ensure_source_slug_map_asset,
 )
+from services.rules import ability_mod, proficiency_bonus
 
 from main import (
     get_db, require_user, _render, _get_source_slug_map,
@@ -179,11 +180,11 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
 
     class_data = CLASSES.get(class_name, {})
     hd = class_data.get("hd", 8)
-    hp = hd + (stats["constitution"] - 10) // 2
-    hp_max = hp + (hd // 2 + 1 + (stats["constitution"] - 10) // 2) * (level - 1)
+    hp = hd + ability_mod(stats["constitution"])
+    hp_max = hp + (hd // 2 + 1 + ability_mod(stats["constitution"])) * (level - 1)
 
-    prof_bonus = 2 + (level - 1) // 4
-    ac_base = 10 + (stats["dexterity"] - 10) // 2
+    prof_bonus = proficiency_bonus(level)
+    ac_base = 10 + ability_mod(stats["dexterity"])
 
     # Generate build data (features, attacks, spell slots)
     build_features = get_class_features(class_name, level, subclass)
@@ -238,7 +239,7 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
         except Exception:
             pass
     build_features.extend(racial_features)
-    enriched = enrich_features(build_features, class_name=class_name, level=level, mods={a: (stats[a] - 10) // 2 for a in stats}, subclass=subclass)
+    enriched = enrich_features(build_features, class_name=class_name, level=level, mods={a: ability_mod(stats[a]) for a in stats}, subclass=subclass)
     # Patch descriptions for homebrew features (from NPC data or manual races)
     # Always override SRD enrichment — homebrew source data is authoritative for
     # manual races and NPC-original features (SRD may match wrong features like
@@ -249,7 +250,7 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
             if _name in _homebrew_feature_descs:
                 _ef["description"] = _homebrew_feature_descs[_name]
     build_attacks = _calculate_attacks(class_name, level,
-        {a: (stats[a] - 10) // 2 for a in stats}, prof_bonus,
+        {a: ability_mod(stats[a]) for a in stats}, prof_bonus,
         data.get("equipment", []))
 
     # Spell slots from SRD data
@@ -257,7 +258,7 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
 
     # Passive perception: 10 + WIS mod + proficiency if Perception proficient
     skills_list = data.get("skills", [])
-    wis_mod = (stats["wisdom"] - 10) // 2
+    wis_mod = ability_mod(stats["wisdom"])
     passive = 10 + wis_mod + (prof_bonus if "Perception" in skills_list else 0)
 
     # Starting proficiencies from class (PHB 2014)
@@ -325,7 +326,7 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
         # If armor allows DEX bonus (like Lizardfolk 13+DEX)
         max_dex = natural_armor.get("max_dex")
         if max_dex is not None:
-            ac_base += min((stats["dexterity"] - 10) // 2, max_dex)
+            ac_base += min(ability_mod(stats["dexterity"]), max_dex)
 
     # Merge background items into inventory (normalize to {name, qty} dicts)
     def _parse_item(item):

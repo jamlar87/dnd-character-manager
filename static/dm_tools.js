@@ -8,63 +8,8 @@ function plural(n, word) {
 
 // ── Source reference: click 📚 badge → open PDF ──
 /* SOURCE_SLUG_MAP and NAMED_ITEM_TYPES set by template */  // server-side weapon/armor classification
-const _missingSourceAlerted = new Set();
-// Sources openSourceRef() stays quiet about. It was seeded with ~200 hand-added
-// strings from an earlier data cleanup ("page 157", "unknown page", ...); all of them
-// went stale on 2026-09-24, when every reference source that could not name a real book
-// was attributed or removed. Keep it empty unless a genuinely unopenable source
-// reappears — openSourceRef alerts once per source, which is the honest behaviour.
-const _knownMissingSources = new Set([]);
-function openSourceRef(src, slug) {
-  if (!src || src.startsWith('SRD')) return;
-  if (_knownMissingSources.has(src.toLowerCase().trim())) return;
-  const pageMatch = src.match(/\b[pP]\.?\s*(\d+)/);
-  const page = pageMatch ? parseInt(pageMatch[1]) : 0;
-  // If we have a direct slug, use it immediately — no matching needed
-  if (slug) {
-    window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
-    return;
-  }
-  let bookPart = src.replace(/\s+[pP]\.?\s*\d+.*$/, '').replace(/\s+\d{4}$/, '').trim();
-  // Try slug match first (e.g., "PHB", "DMG")
-  for (const [slug, info] of Object.entries(SOURCE_SLUG_MAP)) {
-    if (slug.toLowerCase() === bookPart.toLowerCase()) {
-      window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
-      return;
-    }
-  }
-  // Try display name match
-  for (const [slug, info] of Object.entries(SOURCE_SLUG_MAP)) {
-    if (info.display.toLowerCase() === bookPart.toLowerCase()) {
-      window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
-      return;
-    }
-  }
-  // Fallback: substring match
-  for (const [slug, info] of Object.entries(SOURCE_SLUG_MAP)) {
-    const d = info.display.toLowerCase();
-    const b = bookPart.toLowerCase();
-    if (d.includes(b) || b.includes(d)) {
-      window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
-      return;
-    }
-  }
-  // Last resort: normalized match (strip all non-alphanumeric)
-  const norm = s => s.replace(/[^a-z0-9]/g, '');
-  const bNorm = norm(bookPart);
-  for (const [slug, info] of Object.entries(SOURCE_SLUG_MAP)) {
-    const dNorm = norm(info.display);
-    if (dNorm.includes(bNorm) || bNorm.includes(dNorm)) {
-      window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
-      return;
-    }
-  }
-  // No match found — alert once per source instead of spamming
-  if (!_missingSourceAlerted.has(src)) {
-    _missingSourceAlerted.add(src);
-    alert(`📚 Could not find the source book for:\n"${src}"\n\nIt may reference a book not in the library.`);
-  }
-}
+// openSourceRef() lives in static/ui/source_ref.js. It reads window.SOURCE_SLUG_MAP,
+// matches exact slug → display name → substring, and alerts once per unknown source.
 
 // ── Tab switching (persisted to localStorage) ──
 function activateTab(tabName) {
@@ -192,11 +137,8 @@ function _srcOk(src, key) {
 // tools load (~3 MB of HTML); the cards now come from /static/dm-monsters.js,
 // which the browser and the edge cache. Markup + data-* attributes match what
 // the template used to emit, so filterMonsters() is unchanged.
-function dmEsc(s) {
-  return String(s === null || s === undefined ? '' : s).replace(/[&<>"']/g, function(c) {
-    return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c];
-  });
-}
+// Shared implementation in static/ui/dom.js — one escaper for the app.
+var dmEsc = window.escapeHtml;
 
 // ── Delegated actions for player-owned names ────────────────────────────────
 // Character and item names are player-supplied. They used to be interpolated into inline
@@ -791,12 +733,9 @@ async function showSpell(index) {
 function showCreateEncounter() {
   const name = prompt('Encounter name:');
   if (!name) return;
-  fetch('/api/dm/encounter/create', {
-    method: 'POST', headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({name, description: '', location: '', environment: '', difficulty: 'medium'})
-  }).then(r => r.json()).then(d => {
-    if (d.ok) location.reload();
-  });
+  api('/api/dm/encounter/create', { body: {name, description: '', location: '', environment: '', difficulty: 'medium'} })
+    .then(d => { if (d.ok) location.reload(); })
+    .catch(e => alert('Could not create the encounter: ' + e.message));
 }
 
 // ── AI Encounter Builder ──
@@ -967,17 +906,18 @@ async function saveAiEncounter(name, description, environment, difficulty) {
   const dynamic = window._aiDynamic || '';
   // Append dynamic element to notes
   const notes = dynamic ? (tactics + '\n⚡ Dynamic: ' + dynamic) : tactics;
-  const r = await fetch('/api/dm/encounter/create', {
-    method: 'POST', headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({name, description, environment, difficulty, location: '', notes})
-  });
-  const d = await r.json().catch(function () { return {}; });
-  if (!r.ok || !d.ok) {
+  let d;
+  try {
+    d = await api('/api/dm/encounter/create', {
+      body: {name, description, environment, difficulty, location: '', notes}
+    });
+  } catch (e) {
     // Silent no-op before this: the DM clicked Save, the create failed, and nothing happened
     // with no message at all.
-    alert(d.error || ('Could not create the encounter (HTTP ' + r.status + ')'));
+    alert(e.message);
     return;
   }
+  if (!d.ok) { alert(d.error || 'Could not create the encounter'); return; }
   const encId = d.id;
   // Add creatures from AI composition to the encounter
   let added = 0, failed = 0, total = 0;
@@ -986,16 +926,15 @@ async function saveAiEncounter(name, description, environment, difficulty) {
       total += m.count || 1;
       for (let i = 0; i < (m.count || 1); i++) {
         try {
-          const ar = await fetch(`/api/dm/encounter/${encId}/add-creature`, {
-            method: 'POST', headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
+          const ar = await api(`/api/dm/encounter/${encId}/add-creature`, {
+            body: {
               name: m.name, race: m.type || '', class_name: '', level: 1,
               hp: m.hp || 10, hp_max: m.hp || 10, ac: m.ac || 10,
               is_enemy: 1, role: `${m.size || ''} ${m.type || ''}`.trim(),
               xp_reward: m.xp || 0, _monster_index: m.index || '',
-            })
+            }
           });
-          const ad = await ar.json();
+          const ad = ar;
           if (ad.ok) added++;
           else failed++;
         } catch(e) { failed++; }
@@ -1197,19 +1136,19 @@ async function deleteMap(id) {
   const m = (_mapsCache || []).find(x => x.id === id);
   const name = m ? m.name : 'this map';
   if (!confirm('Delete the map "' + name + '" and everything placed on it?')) return;
-  const r = await fetch('/api/dm/map/' + id + '/delete', {method: 'POST'});
-  const d = await r.json();
-  if (d && d.ok) { _mapsCache = null; renderMaps(); }   // the cached list still holds the deleted row
+  try {
+    const d = await api('/api/dm/map/' + id + '/delete', { method: 'POST' });
+    if (d && d.ok) { _mapsCache = null; renderMaps(); }   // the cached list still holds the deleted row
+  } catch (e) {
+    alert('Could not delete the map: ' + e.message);
+  }
 }
 
 function toggleShareEncounter(encId, currentlyShared) {
   const newState = !currentlyShared;
-  fetch(`/api/dm/encounter/${encId}/share`, {
-    method: 'POST', headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({shared: newState})
-  }).then(r => r.json()).then(d => {
-    if (d.ok) location.reload();
-  }).catch(() => {});
+  api(`/api/dm/encounter/${encId}/share`, { body: {shared: newState} })
+    .then(d => { if (d.ok) location.reload(); })
+    .catch(e => alert('Could not update sharing: ' + e.message));
 }
 
 function copyEncounter(encId) {
@@ -1526,10 +1465,7 @@ async function updateInitiatives(encId) {
       participants.push(entry);
     }
   });
-  fetch(`/api/dm/encounter/${encId}/update-initiative`, {
-    method: 'POST', headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({participants})
-  }).then(r => r.json()).then(data => {
+  api(`/api/dm/encounter/${encId}/update-initiative`, { body: {participants} }).then(data => {
     if (btn) {
       btn.textContent = '✅ Saved!';
       btn.style.background = 'var(--success)'; btn.style.color = '#fff'; btn.style.borderColor = 'var(--success)';
@@ -5330,46 +5266,9 @@ async function endCombat() {
 
 // ── Combat Conditions ────────────────────────────────────────────────────
 const _combatCondExpanded = new Set();
-const CONDITION_COLORS = {
-  Blinded:'#6a0dad;color:#fff',Charmed:'#e75480;color:#fff',Deafened:'#5c6bc0;color:#fff',
-  Frightened:'#7b1fa2;color:#fff',Grappled:'#bf360c;color:#fff',Incapacitated:'#b71c1c;color:#fff',
-  Invisible:'#1e88e5;color:#fff',Paralyzed:'#880e4f;color:#fff',Petrified:'#4e342e;color:#fff',
-  Poisoned:'#2e7d32;color:#fff',Prone:'#e65100;color:#fff',Restrained:'#c62828;color:#fff',
-  Stunned:'#d84315;color:#fff',Unconscious:'#37474f;color:#fff',Exhaustion:'#827717;color:#fff',
-  Concentration:'#6a1b9a;color:#fff',Blessed:'#f9a825;color:#333',Haste:'#00acc1;color:#fff',
-  Baned:'#8b0000;color:#fff',
-  Raging:'#e8590c;color:#fff',
-};
-const STANDARD_CONDITIONS = [
-  {name:'Blinded',desc:"Can't see. Auto-fails ability checks requiring sight. Attack rolls against you have advantage. Your attacks have disadvantage."},
-  {name:'Charmed',desc:"Can't attack the charmer or target them with harmful abilities. Charmer has advantage on social checks against you."},
-  {name:'Deafened',desc:"Can't hear. Auto-fails ability checks requiring hearing."},
-  {name:'Frightened',desc:"Disadvantage on ability checks and attack rolls while source of fear is in sight. Can't willingly move closer to the source."},
-  {name:'Grappled',desc:"Speed becomes 0. Grappler can release at any time. Ends if grappler is incapacitated or you're moved out of reach."},
-  {name:'Incapacitated',desc:"Can't take actions or reactions."},
-  {name:'Invisible',desc:"Impossible to see without magic. Attack rolls against you have disadvantage. Your attacks have advantage."},
-  {name:'Paralyzed',desc:"Can't move or speak. Auto-fails STR/DEX saves. Attackers have advantage; hits within 5 ft are critical."},
-  {name:'Petrified',desc:"Transformed to solid stone. Incapacitated, can't move or speak. Resistant to all damage. Immune to poison and disease."},
-  {name:'Poisoned',desc:"Disadvantage on attack rolls and ability checks."},
-  {name:'Prone',desc:"Crawling unless you stand up. Disadvantage on attacks. Attackers within 5 ft have advantage; farther have disadvantage."},
-  {name:'Restrained',desc:"Speed becomes 0. Disadvantage on attack rolls and DEX saves. Attackers have advantage on attacks against you."},
-  {name:'Stunned',desc:"Incapacitated, can't move, speak falteringly. Auto-fails STR/DEX saves. Attackers have advantage."},
-  {name:'Unconscious',desc:"Incapacitated, can't move or speak, unaware. Auto-fails STR/DEX saves. Attackers have advantage; hits within 5 ft are critical."},
-  {name:'Exhaustion',desc:"6 levels. 1: disadv ability checks. 2: speed halved. 3: disadv atk/saves. 4: HP max halved. 5: speed 0. 6: death."},
-  {name:'Concentration',desc:"Maintaining a spell. CON save on damage (DC 10 or half damage, whichever higher) or lose spell."},
-  {name:'Blessed',desc:"+1d4 to attack rolls and saving throws (Bless spell)."},
-  {name:'Haste',desc:"Speed doubled, +2 AC, adv DEX saves, extra action (Attack/Dash/Disengage/Hide/Use Object)."},
-  {name:'Baned',desc:"Subtract 1d4 from attack rolls and saving throws (Bane spell)."},
-  {name:'Raging',desc:"Adv on STR checks/saves. +melee damage. Resistant to B/P/S. Can't cast or concentrate. Ends if no attack or damage taken in a round."},
-];
-const EXHAUSTION_LEVELS = [
-  {level:1, desc:'Disadvantage on ability checks.'},
-  {level:2, desc:'Speed halved.'},
-  {level:3, desc:'Disadvantage on attack rolls and saving throws.'},
-  {level:4, desc:'Hit point maximum halved.'},
-  {level:5, desc:'Speed reduced to 0.'},
-  {level:6, desc:'Death.'},
-];
+const CONDITION_COLORS = window.DND_CONDITIONS.colors;
+const STANDARD_CONDITIONS = window.DND_CONDITIONS.list;
+const EXHAUSTION_LEVELS = window.DND_CONDITIONS.exhaustionLevels;
 
 function combatAddCondition(enId, name, desc) {
   if (!name) return;
@@ -5380,9 +5279,8 @@ function combatAddCondition(enId, name, desc) {
   p.conditions.push({name:name, description:desc||'', source:''});
   // If it's a PC, also save to character DB
   if (p.char_id && p.is_player) {
-    fetch('/api/character/'+p.char_id+'/conditions', {
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({name:name,description:desc||'',source:''})
+    api('/api/character/'+p.char_id+'/conditions', {
+      body: {name:name, description:desc||'', source:''}
     }).catch(()=>{});
   }
   renderInitiativeTrack();
@@ -5394,9 +5292,9 @@ async function combatDismissCond(enId, name) {
   if (!p) return;
   p.conditions = (p.conditions||[]).filter(c => c.name.toLowerCase() !== name.toLowerCase());
   if (p.char_id && p.is_player) {
-    fetch('/api/character/'+p.char_id+'/conditions', {
-      method:'DELETE',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({name:name})
+    api('/api/character/'+p.char_id+'/conditions', {
+      method:'DELETE',
+      body: {name:name}
     }).catch(()=>{});
   }
   renderInitiativeTrack();
@@ -5496,11 +5394,9 @@ async function syncPlayerAndSummonHP() {
   if (charIds.size === 0) return;
 
   try {
-    const r = await fetch('/api/sync-combat-hp', {
-      method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({char_ids: Array.from(charIds)})
+    const data = await api('/api/sync-combat-hp', {
+      body: {char_ids: Array.from(charIds)}
     });
-    const data = await r.json();
     const chars = data.characters || {};
 
     // Update campaign players HP. The players panel holds no inputs — only stats — so it is safe
@@ -6014,12 +5910,15 @@ async function awardXp() {
   const amount = parseInt(((amountEl || {}).value || '').trim(), 10);
   if (!amount) { setXpStatus('Amount must be a number'); return; }
   setXpStatus('Awarding…');
-  const r = await fetch('/api/dm/campaign/' + campId + '/award-xp', {
-    method: 'POST', headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({amount: amount, note: ((noteEl || {}).value || '').trim()})
-  });
-  const d = await r.json().catch(() => ({}));
-  if (!r.ok) { setXpStatus('⚠ ' + (d.error || ('HTTP ' + r.status))); return; }
+  let d;
+  try {
+    d = await api('/api/dm/campaign/' + campId + '/award-xp', {
+      body: {amount: amount, note: ((noteEl || {}).value || '').trim()}
+    });
+  } catch (e) {
+    setXpStatus('⚠ ' + e.message);
+    return;
+  }
   if (amountEl) amountEl.value = '';
   if (noteEl) noteEl.value = '';
   setXpStatus('+' + d.awarded + ' XP to ' + d.recipients + ' character' + (d.recipients === 1 ? '' : 's'));

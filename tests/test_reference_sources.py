@@ -163,13 +163,17 @@ def test_treasure_record_names_its_book():
     assert rec["_source_manual"] == "RoT"
 
 
-def test_suppression_list_does_not_shadow_a_live_source():
-    """_knownMissingSources silences a badge click without a word, so it must never name a
-    source that exists in the data — that would hide a click that actually works."""
-    js = (REPO / "static/dm_tools.js").read_text()
-    m = re.search(r"const _knownMissingSources = new Set\(\[(.*?)\]\);", js, re.S)
-    assert m, "_knownMissingSources not found in static/dm_tools.js"
-    entries = {e.lower().strip() for e in re.findall(r"'([^']*)'", m.group(1))}
+def test_source_resolver_keeps_no_suppression_list():
+    """A hardcoded list of "known missing" sources silences a badge click without a word,
+    which hides the clicks that actually work. The resolver now alerts once per unknown
+    source instead, so the invariant is: no literal source-name list anywhere in it."""
+    js = (REPO / "static/ui/source_ref.js").read_text()
+    assert "function openSourceRef" in js, "openSourceRef must live in static/ui/source_ref.js"
+    assert "_missingSourceAlerted" in js, "the alert-once set disappeared"
+    # No `new Set([...])` / array literal carrying source names in the resolver.
+    assert not re.search(r"new Set\(\s*\[[^\]]*[a-zA-Z]", js), (
+        "static/ui/source_ref.js grew a hardcoded suppression list again")
+
     live = set()
     for path in MANUAL.glob("*.json"):
         try:
@@ -180,8 +184,9 @@ def test_suppression_list_does_not_shadow_a_live_source():
         for rec in records:
             if isinstance(rec, dict) and rec.get("source"):
                 live.add(str(rec["source"]).lower().strip())
-    shadowing = sorted(entries & live)
-    assert shadowing == [], f"suppression list hides real sources: {shadowing[:5]}"
+    # The resolver must not name any live source verbatim (that would be a silent skip).
+    shadowing = sorted(s for s in live if "'" + s + "'" in js.lower() or '"' + s + '"' in js.lower())
+    assert shadowing == [], f"resolver hardcodes live sources: {shadowing[:5]}"
 
 
 # Empty: every source in data/manual_data now resolves to a book the app can open. The

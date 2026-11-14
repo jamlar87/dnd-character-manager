@@ -10,6 +10,7 @@ from main import DATA_DIR
 from main import _load_manual_json
 from main import _get_source_slug_map
 from services.text import alpha_key
+from services.users import is_admin
 
 MANUAL_MONSTERS: list[dict] = []
 MANUAL_TRAPS: list[dict] = []
@@ -1184,3 +1185,52 @@ def _search_manuals(query: str, max_results: int = 20,
 
     return final[:max_results]
 
+
+# ── Character access ───────────────────────────────────────────────────
+def load_character(db, user: dict, char_id: int, mode: str = "owner",
+                   columns: str = "*"):
+    """Fetch ``char_id`` if `user` may see it under `mode`; else ``None``.
+
+    The three rules this replaces had drifted apart:
+
+    * ``owner``  — your character, or an admin's. Used by the sheet save path,
+      which used to rely on ``UPDATE ... AND user_id=?`` silently matching no
+      row for everyone else.
+    * ``shared`` — the above, plus anyone when the character's share toggle is
+      on. Used by the sheet page and the portrait endpoint.
+    * ``dm``     — the above, plus a campaign DM whose roster lists the
+      character. The sheet page passes this only for ``?dm_preview=1``.
+
+    Admins pass every mode, as they did in each of the old branches. Callers
+    keep their own not-found behaviour (404 here, redirect there), so nothing
+    is raised on a miss.
+
+    ``columns`` exists because ``SELECT *`` copies a multi-MB base64 portrait:
+    pages want the whole row, the save path only wants proof of ownership.
+    """
+    if mode not in ("owner", "shared", "dm"):
+        raise ValueError(f"unknown character access mode: {mode!r}")
+    if columns.strip() != "*":
+        # The access checks below read user_id/shared, so a caller that only wants
+        # `id` (the save path) must still get the columns the checks need. Without
+        # this, `columns="id"` made every non-admin owner fail the owner test and
+        # the save became a silent no-op.
+        wanted = [c.strip() for c in columns.split(",") if c.strip()]
+        for required in ("id", "user_id") + (() if mode == "owner" else ("shared",)):
+            if required not in wanted:
+                wanted.append(required)
+        columns = ", ".join(wanted)
+    row = db.execute(f"SELECT {columns} FROM characters WHERE id = ?", (char_id,)).fetchone()
+    if not row:
+        return None
+    char = dict(row)
+    if is_admin(user) or char.get("user_id") == user["id"]:
+        return char
+    if mode == "owner":
+        return None
+    if char.get("shared"):
+        return char
+    if mode == "shared":
+        return None
+    from services.campaign_access import user_dms_character
+    return char if user_dms_character(db, user, char_id) else None

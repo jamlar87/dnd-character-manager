@@ -21,6 +21,8 @@ from main import ALIGNMENTS
 from routes.characters.sheet import allocate_ability_scores, calc_hp, get_equipment_for_level, get_spells_for_level
 from routes.characters.ai_routes import _calculate_ac, _pick_skills
 from services.leveling import PROFICIENCY_BONUS, get_class_features
+from services.rules import ability_mod
+from services.schema import HAS_PORTRAIT_SQL, hydrate_json_columns
 from services.sources import clean_source_display
 from services.validation import clamp_int, clamp_fields
 
@@ -125,10 +127,10 @@ def _campaign_characters_live(db, entries):
         cid = entry.get("id") if isinstance(entry, dict) else entry
         if not cid:
             continue
-        row = db.execute("""
+        row = db.execute(f"""
             SELECT id, name, race, subrace, class_name, subclass, level,
                    hp_current, hp_max, ac,
-                   (portrait_url IS NOT NULL AND portrait_url != '') AS has_portrait
+                   {HAS_PORTRAIT_SQL}
             FROM characters WHERE id=?
         """, (cid,)).fetchone()
         if row:
@@ -254,9 +256,7 @@ def dm_tools(request: Request):
 
     # Parse JSON fields
     for npc in npcs:
-        for f in ("skills", "features", "inventory"):
-            try: npc[f] = json.loads(npc[f])
-            except (json.JSONDecodeError, TypeError): npc[f] = []
+        hydrate_json_columns(npc)
     for c in campaigns:
         for f in ("quests", "locations", "characters"):
             try: c[f] = json.loads(c[f])
@@ -314,11 +314,11 @@ def dm_tools(request: Request):
 
     # Load characters for Quick Add in combat
     db3 = get_db()
-    characters = [dict(r) for r in db3.execute("""
+    characters = [dict(r) for r in db3.execute(f"""
         SELECT id, name, race, subrace, class_name, level, subclass,
                hp_max, hp_current, ac, strength, dexterity, constitution,
                intelligence, wisdom, charisma, speed, proficiency_bonus,
-               (portrait_url IS NOT NULL AND portrait_url != '') AS has_portrait
+               {HAS_PORTRAIT_SQL}
         FROM characters WHERE user_id = ? ORDER BY name
     """, (user["id"],)).fetchall()]
     db3.close()
@@ -550,7 +550,7 @@ def _enrich_monster(m: dict) -> dict:
                            "INT":"intelligence","WIS":"wisdom","CHA":"charisma"}
             for save_name, stat_key in save_stats.items():
                 stat_val = m.get(stat_key, 10)
-                save_bonus = (stat_val - 10) // 2
+                save_bonus = ability_mod(stat_val)
                 m["proficiencies"].append({
                     "proficiency": {"name": f"Saving Throw: {save_name}"},
                     "value": save_bonus
@@ -745,9 +745,7 @@ def dm_npcs_list(request: Request):
     ).fetchall()]
     db.close()
     for r in rows:
-        for f in ("skills", "features", "inventory"):
-            try: r[f] = json.loads(r[f])
-            except: r[f] = []
+        hydrate_json_columns(r)
         # Boolean only — the base64 blob was never selected in the first place.
         r["has_portrait"] = bool(r.get("has_portrait"))
     # Merge manual NPCs from extracted data
@@ -865,9 +863,7 @@ def dm_npc_detail(npc_id: int, request: Request):
     if not row:
         raise HTTPException(status_code=404, detail="NPC not found")
     npc = dict(row)
-    for f in ("skills", "features", "inventory"):
-        try: npc[f] = json.loads(npc[f])
-        except: npc[f] = []
+    hydrate_json_columns(npc)
     # The editor needs a boolean + (for external links) the URL — never the
     # multi-MB base64 blob, which would ride along in every editor open.
     _p = (npc.get("portrait_url") or "").strip()
@@ -1436,15 +1432,7 @@ def _build_party_profile(db, campaign_id: int) -> dict | None:
     for r in rows:
         c = dict(r)
         # Parse JSON fields
-        for f in ("skills", "features", "equipped", "attuned_items",
-                   "save_proficiencies", "damage_resistances", "damage_immunities",
-                   "damage_vulnerabilities", "condition_immunities", "asi_history"):
-            val = c.get(f)
-            if isinstance(val, str) and val:
-                try: c[f] = json.loads(val)
-                except: pass
-            if c.get(f) is None:
-                c[f] = []
+        hydrate_json_columns(c)
 
         ac = c.get("ac", 10)
         hp = c.get("hp_current", c.get("hp_max", 10)) or c.get("hp_max", 10)
@@ -1456,7 +1444,7 @@ def _build_party_profile(db, campaign_id: int) -> dict | None:
             "CON": c.get("constitution", 10), "INT": c.get("intelligence", 10),
             "WIS": c.get("wisdom", 10), "CHA": c.get("charisma", 10),
         }
-        mods = {k: (v - 10) // 2 for k, v in scores.items()}
+        mods = {k: ability_mod(v) for k, v in scores.items()}
 
         for ab in ability_mods:
             ability_mods[ab].append(mods[ab])
@@ -2277,7 +2265,7 @@ async def dm_ai_build_npc(request: Request):
 
     # Use the same build engine as PCs
     abilities = allocate_ability_scores(class_name, race, subrace)
-    mods = {ability: (abilities[ability] - 10) // 2 for ability in abilities}
+    mods = {ability: ability_mod(abilities[ability]) for ability in abilities}
     pb = PROFICIENCY_BONUS.get(level, 2)
     con_mod = mods["constitution"]
     hp = calc_hp(class_name, level, con_mod)
@@ -2937,7 +2925,7 @@ def dm_encounter_roll_initiative(enc_id: int, request: Request):
 
     results = []
     for p in participants:
-        dex_mod = (p.get("dexterity", 10) - 10) // 2
+        dex_mod = ability_mod(p.get("dexterity", 10))
         roll = random.randint(1, 20)
         total = roll + dex_mod
         results.append({
@@ -3123,7 +3111,7 @@ def dm_campaigns_list(request: Request):
                    hp_current, hp_max, temp_hp, ac, strength, dexterity, constitution,
                    intelligence, wisdom, charisma, proficiency_bonus, speed,
                    inspiration, exhaustion, passive_perception, hit_dice, hit_dice_used,
-                   (portrait_url IS NOT NULL AND portrait_url != '') AS has_portrait
+                   {HAS_PORTRAIT_SQL}
             FROM characters WHERE id IN ({",".join("?" * len(id_list))})
         """, id_list).fetchall():
             chars_by_id[r["id"]] = r
@@ -3140,7 +3128,7 @@ def dm_campaigns_list(request: Request):
             if row:
                 ch = dict(row)
                 # Compute modifiers
-                mods = {s: (ch[s] - 10) // 2 for s in
+                mods = {s: ability_mod(ch[s]) for s in
                         ["strength","dexterity","constitution","intelligence","wisdom","charisma"]}
                 ch["modifiers"] = mods
                 ch["status"] = entry.get("status", "active") if isinstance(entry, dict) else "active"
@@ -3474,11 +3462,11 @@ def campaign_detail(camp_id: int, request: Request):
     enriched = []
     for entry in camp.get("characters", []):
         cid = entry.get("id") if isinstance(entry, dict) else entry
-        row = db.execute("""
+        row = db.execute(f"""
             SELECT id, name, race, subrace, class_name, subclass, level,
                    hp_current, hp_max, temp_hp, ac, strength, dexterity, constitution,
                    intelligence, wisdom, charisma, proficiency_bonus, speed,
-                   (portrait_url IS NOT NULL AND portrait_url != '') AS has_portrait
+                   {HAS_PORTRAIT_SQL}
             FROM characters WHERE id=?
         """, (cid,)).fetchone()
         if row:
@@ -3490,10 +3478,10 @@ def campaign_detail(camp_id: int, request: Request):
         nid = entry.get("id") if isinstance(entry, dict) else entry
         # Explicit columns + a portrait flag: SELECT * would drag the base64
         # portrait blob into memory for every NPC on the page.
-        row = db.execute("""
+        row = db.execute(f"""
             SELECT id, name, race, class_name, subclass, level, hp_current, hp_max,
                    ac, is_enemy, role, alignment, faction, xp_reward, notes, source,
-                   (portrait_url IS NOT NULL AND portrait_url != '') AS has_portrait
+                   {HAS_PORTRAIT_SQL}
             FROM dm_npcs WHERE id=?
         """, (nid,)).fetchone()
         if row:

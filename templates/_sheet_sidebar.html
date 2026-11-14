@@ -9,7 +9,7 @@
       </div>
       <div id="saves-body" style="display:none">
       {% for label, stat in stats %}
-      {% set mod = (character[stat] - 10) // 2 %}
+      {% set mod = character[stat]|ability_mod %}
       {% set prof_save = stat in saves_class %}
       {% set save_val = mod + (prof if prof_save else 0) %}
       <div class="stat-row save-row" onclick="toggleSaveProf('{{ stat }}')" style="cursor:pointer">
@@ -39,7 +39,7 @@
       </div>
       <div id="skills-body" style="display:none">
       {% for skill_name, skill_ab in skill_abilities.items()|sort %}
-      {% set ab_mod = (character[skill_ab] - 10) // 2 %}
+      {% set ab_mod = character[skill_ab]|ability_mod %}
       {% set has_prof = skill_name in char_skills %}
       {% set has_exp = skill_name in char_expertise %}
       {% set sk_val = ab_mod + (prof if has_prof else 0) + (prof if has_exp else 0) %}

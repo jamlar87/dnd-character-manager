@@ -12,6 +12,7 @@ from main import (
     _user_dms_character,
 )
 from main import SRD_MAGIC_ITEMS
+from services.campaign_access import is_dm_of_campaign
 
 
 router = APIRouter()
@@ -366,7 +367,7 @@ def campaign_team_items(camp_id: int, request: Request):
     user = require_user(request)
     db = get_db()
     # Verify user is in this campaign — DM, JSON characters, or legacy table
-    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=?", (camp_id,)).fetchone() if _is_admin(user) else db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+    is_dm = is_dm_of_campaign(db, user, camp_id)
     # Check JSON characters field for membership
     in_json = False
     camp_row = db.execute("SELECT characters FROM dm_campaigns WHERE id=?", (camp_id,)).fetchone()
@@ -422,7 +423,7 @@ async def campaign_add_team_item(camp_id: int, request: Request):
         return JSONResponse({"error": str(exc)}, status_code=400)
 
     db = get_db()
-    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=?", (camp_id,)).fetchone() if _is_admin(user) else db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+    is_dm = is_dm_of_campaign(db, user, camp_id)
     is_member = db.execute("""
         SELECT 1 FROM dm_campaign_characters cc
         JOIN characters ch ON ch.id = cc.character_id
@@ -650,7 +651,7 @@ async def campaign_update_team_item_qty(camp_id: int, item_id: int, request: Req
     """Update team item quantity (DM only)."""
     user = require_user(request)
     db = get_db()
-    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=?", (camp_id,)).fetchone() if _is_admin(user) else db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+    is_dm = is_dm_of_campaign(db, user, camp_id)
     if not is_dm:
         db.close()
         return JSONResponse({"error": "Only the DM can update team items"}, status_code=403)
@@ -672,7 +673,7 @@ def campaign_delete_team_item(camp_id: int, item_id: int, request: Request):
     """Remove a team item (DM only)."""
     user = require_user(request)
     db = get_db()
-    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=?", (camp_id,)).fetchone() if _is_admin(user) else db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+    is_dm = is_dm_of_campaign(db, user, camp_id)
     if not is_dm:
         db.close()
         return JSONResponse({"error": "Only the DM can remove team items"}, status_code=403)
@@ -687,7 +688,7 @@ async def campaign_roll_loot(camp_id: int, request: Request):
     """Roll a treasure hoard (DMG 2014 p.137-139) and return results. Items are NOT auto-added to pool — the DM picks which to keep."""
     user = require_user(request)
     db = get_db()
-    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=?", (camp_id,)).fetchone() if _is_admin(user) else db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+    is_dm = is_dm_of_campaign(db, user, camp_id)
     if not is_dm:
         db.close()
         return JSONResponse({"error": "Only the DM can roll loot"}, status_code=403)

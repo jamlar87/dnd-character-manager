@@ -155,45 +155,41 @@ async function importCharacterFile(file) {
   try { data = JSON.parse(text); } catch (e) { alert('Not valid JSON'); return; }
   if (!data.character) { alert('Not a character export file'); return; }
   if (!confirm('Import "' + (data.character.name || 'character') + '" as a new character?')) return;
-  const r = await fetch('/api/character/import', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  });
-  const res = await r.json().catch(() => ({}));
-  if (r.ok && res.id) {
+  try {
+    const res = await api('/api/character/import', { method: 'POST', body: data });
     alert('Imported "' + res.name + '"');
     location.href = '/character/' + res.id;
-  } else {
-    alert('Import failed: ' + (res.error || r.status));
+  } catch (e) {
+    alert('Import failed: ' + e.message);
   }
 }
 
 async function toggleShare(id, currentlyShared) {
   const newState = !currentlyShared;
-  const r = await fetch('/api/character/' + id + '/toggle-share', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ shared: newState })
-  });
-  if (r.ok) location.reload();
-  else alert('Failed to update sharing');
+  try {
+    await api('/api/character/' + id + '/toggle-share', { method: 'POST', body: { shared: newState } });
+    location.reload();
+  } catch (e) {
+    alert('Failed to update sharing: ' + e.message);
+  }
 }
 async function deleteChar(id) {
   if (!confirm('Permanently delete this character?')) return;
-  const r = await fetch('/api/character/' + id + '/delete', { method: 'POST' });
-  if (r.ok) {
+  try {
+    await api('/api/character/' + id + '/delete', { method: 'POST' });
     const card = document.getElementById('char-card-' + id);
     if (card) card.remove();
     if (!document.querySelector('.char-card-inner')) location.reload();
-  } else {
-    alert('Delete failed');
+  } catch (e) {
+    alert('Delete failed: ' + e.message);
   }
 }
 async function toggleFav(id, el) {
-  const r = await fetch('/api/characters/' + id + '/favorite', { method: 'POST' });
-  if (r.ok) {
+  try {
+    await api('/api/characters/' + id + '/favorite', { method: 'POST' });
     location.reload();
+  } catch (e) {
+    alert('Could not update favourite: ' + e.message);
   }
 }
 </script>

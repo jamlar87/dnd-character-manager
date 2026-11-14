@@ -10,6 +10,7 @@ from main import (
     get_db, require_user, _require_owned,
 )
 from main import RACES, CLASSES
+from services.schema import hydrate_json_columns
 from main import BACKGROUNDS, ALIGNMENTS
 from main import get_racial_trait_effects
 from data import (
@@ -730,13 +731,7 @@ async def generate_character_history(char_id: int, request: Request):
     db.close()
 
     # Parse JSON fields
-    for f in ("skills","features","expertise_skills","asi_history","metamagic_history",
-              "metamagic","invocations","maneuvers","magical_secrets","infusions",
-              "feature_data"):
-        try:
-            char[f] = json.loads(char[f])
-        except (json.JSONDecodeError, TypeError):
-            char[f] = [] if f != "feature_data" else []
+    hydrate_json_columns(char)
 
     race = char.get("race","")
     subrace = char.get("subrace","")

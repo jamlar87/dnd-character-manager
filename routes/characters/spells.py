@@ -16,6 +16,7 @@ from main import (
     PREPARED_CASTERS, SPELL_DICE, SRD_SPELLS, SUBCLASS_FEATURES, _json_list,
 )
 from data import SPELLS_KNOWN_CASTERS
+from services.rules import ability_mod
 from routes.schemas import AddSpell
 from services.leveling import (
     MAGIC_INITIATE_CLASSES,
@@ -483,9 +484,9 @@ def ai_select_spells(char_id: int, request: Request):
         return JSONResponse({"added": 0, "message": f"{class_name} is not a spellcaster"})
 
     is_prepared = caster_class in PREPARED_CASTERS
-    sc_mod = max(1, ((char.get("wisdom", 10) - 10) // 2) if caster_class in ("Cleric", "Druid") else
-                    ((char.get("charisma", 10) - 10) // 2) if caster_class in ("Paladin",) else
-                    ((char.get("intelligence", 10) - 10) // 2))  # Wizard
+    sc_mod = max(1, ability_mod(char.get("wisdom", 10)) if caster_class in ("Cleric", "Druid") else
+                    ability_mod(char.get("charisma", 10)) if caster_class in ("Paladin",) else
+                    ability_mod(char.get("intelligence", 10)))  # Wizard
 
     # Calculate limits
     if is_prepared:

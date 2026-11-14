@@ -106,7 +106,7 @@
         </div>
         <div class="combat-quick-item" onclick="showCombatPopup('initiative')" style="cursor:pointer" title="Click for description">
           <div class="cq-label">Initiative{% if adv.initiative %}<span class="adv-badge smol" title="Advantage on initiative rolls">A</span>{% endif %}</div>
-          <div class="cq-value">{% set im = (character.dexterity - 10) // 2 %}{% if im >= 0 %}+{% endif %}{{ im }}</div>
+          <div class="cq-value">{% set im = character.dexterity|ability_mod %}{% if im >= 0 %}+{% endif %}{{ im }}</div>
         </div>
         <div class="combat-quick-item" onclick="showCombatPopup('speed')" style="cursor:pointer" title="Click for description">
           <div class="cq-label">Speed</div>
@@ -134,7 +134,7 @@
         ] %}
         {% for label, stat in stats %}
         {% set score = character[stat] %}
-        {% set mod = (score - 10) // 2 %}
+        {% set mod = score|ability_mod %}
         <div class="ability-box{% if stat in saves_class %} proficient{% endif %}" onclick="showAbilityPopup('{{ stat }}', '{{ label }}')" style="cursor:pointer" title="Click for description">
           <div class="ab-name">{{ label }}{% if stat in adv.get("ability_checks",[]) %}<span class="adv-badge" title="Advantage on {{ label }} checks{% for n in adv.notes %}{% if 'Advantage' in n and label[:3].lower() in n.lower() %}: {{ n }}{% endif %}{% endfor %}">A</span>{% endif %}</div>
           <div class="ab-mod">{% if mod >= 0 %}+{% endif %}{{ mod }}</div>
@@ -144,8 +144,8 @@
       </div>
       <div class="senses-section">
         <h4 style="cursor:pointer" onclick="toggleSensesBlurb()" title="Click for rules">Senses <span id="senses-blurb-toggle" style="font-size:0.6rem;opacity:0.5">▸</span></h4>
-        {% set wis_mod = (character.wisdom - 10) // 2 %}
-        {% set int_mod = (character.intelligence - 10) // 2 %}
+        {% set wis_mod = character.wisdom|ability_mod %}
+        {% set int_mod = character.intelligence|ability_mod %}
         <div class="sense-row">
           <span class="sense-label">Passive Perception</span>
           <span class="sense-val editable" data-field="passive_perception" data-num="1">{{ 10 + wis_mod + (prof if 'Perception' in char_skills else 0) + (prof if 'Perception' in char_expertise else 0) }}</span>

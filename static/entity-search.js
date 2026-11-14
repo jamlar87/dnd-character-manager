@@ -28,11 +28,8 @@ window.EntitySearch = (function () {
 
   // ── helpers ──────────────────────────────────────────────────────────────
 
-  function esc(s) {
-    var d = document.createElement('div');
-    d.textContent = s == null ? '' : String(s);
-    return d.innerHTML;
-  }
+  // Shared implementation in static/ui/dom.js.
+  var esc = window.escapeHtml;
 
   function slugs() {
     try {

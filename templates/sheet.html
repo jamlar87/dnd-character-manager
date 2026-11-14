@@ -216,7 +216,7 @@
         </div>
         <div class="combat-quick-item" onclick="showCombatPopup('initiative')" style="cursor:pointer" title="Click for description">
           <div class="cq-label">Initiative{% if adv.initiative %}<span class="adv-badge smol" title="Advantage on initiative rolls">A</span>{% endif %}</div>
-          <div class="cq-value">{% set im = (character.dexterity - 10) // 2 %}{% if im >= 0 %}+{% endif %}{{ im }}</div>
+          <div class="cq-value">{% set im = character.dexterity|ability_mod %}{% if im >= 0 %}+{% endif %}{{ im }}</div>
         </div>
         <div class="combat-quick-item" onclick="showCombatPopup('speed')" style="cursor:pointer" title="Click for description">
           <div class="cq-label">Speed</div>
@@ -244,7 +244,7 @@
         ] %}
         {% for label, stat in stats %}
         {% set score = character[stat] %}
-        {% set mod = (score - 10) // 2 %}
+        {% set mod = score|ability_mod %}
         <div class="ability-box{% if stat in saves_class %} proficient{% endif %}" onclick="showAbilityPopup('{{ stat }}', '{{ label }}')" style="cursor:pointer" title="Click for description">
           <div class="ab-name">{{ label }}{% if stat in adv.get("ability_checks",[]) %}<span class="adv-badge" title="Advantage on {{ label }} checks{% for n in adv.notes %}{% if 'Advantage' in n and label[:3].lower() in n.lower() %}: {{ n }}{% endif %}{% endfor %}">A</span>{% endif %}</div>
           <div class="ab-mod">{% if mod >= 0 %}+{% endif %}{{ mod }}</div>
@@ -254,8 +254,8 @@
       </div>
       <div class="senses-section">
         <h4 style="cursor:pointer" onclick="toggleSensesBlurb()" title="Click for rules">Senses <span id="senses-blurb-toggle" style="font-size:0.72rem;opacity:0.5">▸</span></h4>
-        {% set wis_mod = (character.wisdom - 10) // 2 %}
-        {% set int_mod = (character.intelligence - 10) // 2 %}
+        {% set wis_mod = character.wisdom|ability_mod %}
+        {% set int_mod = character.intelligence|ability_mod %}
         <div class="sense-row">
           <span class="sense-label">Passive Perception</span>
           <span class="sense-val editable" data-field="passive_perception" data-num="1">{{ 10 + wis_mod + (prof if 'Perception' in char_skills else 0) + (prof if 'Perception' in char_expertise else 0) }}</span>
@@ -322,7 +322,7 @@
       </div>
       <div id="saves-body" style="display:none">
       {% for label, stat in stats %}
-      {% set mod = (character[stat] - 10) // 2 %}
+      {% set mod = character[stat]|ability_mod %}
       {% set prof_save = stat in saves_class %}
       {% set save_val = mod + (prof if prof_save else 0) %}
       <div class="stat-row save-row" onclick="toggleSaveProf('{{ stat }}')" style="cursor:pointer">
@@ -352,7 +352,7 @@
       </div>
       <div id="skills-body" style="display:none">
       {% for skill_name, skill_ab in skill_abilities.items()|sort %}
-      {% set ab_mod = (character[skill_ab] - 10) // 2 %}
+      {% set ab_mod = character[skill_ab]|ability_mod %}
       {% set has_prof = skill_name in char_skills %}
       {% set has_exp = skill_name in char_expertise %}
       {% set sk_val = ab_mod + (prof if has_prof else 0) + (prof if has_exp else 0) %}
@@ -887,7 +887,7 @@
 
       <!-- 💀 Death Strike callout (Assassin L17 — surprise hits force CON save or double damage) -->
       {% if character.subclass and 'assassin' in (character.subclass|lower) and class_levels and class_levels.get('Rogue') and class_levels.get('Rogue')|int >= 17 %}
-      {% set ds_dc = 8 + ((character.dexterity - 10) // 2) + prof %}
+      {% set ds_dc = 8 + (character.dexterity|ability_mod) + prof %}
       <div class="card" style="margin-top:0.5rem">
         <h3 style="margin-bottom:0.4rem">💀 Death Strike <span style="font-size:0.7rem;color:var(--warn);font-weight:600;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">L17</span></h3>
         <div style="font-size:0.75rem;color:var(--text-muted);line-height:1.4">
@@ -1286,7 +1286,7 @@
               {% if feat.base_name == 'Divine Smite' %}
               <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">+1d8 vs undead</span>
               {% endif %}
-              {% if feat.base_name == 'Breath Weapon' %}{% set con_mod = (character.constitution - 10) // 2 %}{% set breath_dc = 8 + con_mod + character.proficiency_bonus %}{% set cl = character.level %}{% if cl >= 16 %}{% set bw_dice = '5d6' %}{% elif cl >= 11 %}{% set bw_dice = '4d6' %}{% elif cl >= 6 %}{% set bw_dice = '3d6' %}{% else %}{% set bw_dice = '2d6' %}{% endif %}
+              {% if feat.base_name == 'Breath Weapon' %}{% set con_mod = character.constitution|ability_mod %}{% set breath_dc = 8 + con_mod + character.proficiency_bonus %}{% set cl = character.level %}{% if cl >= 16 %}{% set bw_dice = '5d6' %}{% elif cl >= 11 %}{% set bw_dice = '4d6' %}{% elif cl >= 6 %}{% set bw_dice = '3d6' %}{% else %}{% set bw_dice = '2d6' %}{% endif %}
               <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ bw_dice }}, DC {{ breath_dc }}</span>
               {% endif %}
               {% if feat.base_name == 'Brutal Critical' and class_levels and class_levels.get('Barbarian') %}{% set b_lvl = class_levels.get('Barbarian')|int %}{% if b_lvl >= 17 %}{% set bc_dice = '3 dice' %}{% elif b_lvl >= 13 %}{% set bc_dice = '2 dice' %}{% else %}{% set bc_dice = '1 die' %}{% endif %}
@@ -1943,7 +1943,7 @@
       {% for mi in mi_spells %}
       {% set mi_ability = mi.spellcasting_ability %}
       {% set mi_ability_score = character[mi_ability] if mi_ability in character else 10 %}
-      {% set mi_mod = ((mi_ability_score - 10) // 2) %}
+      {% set mi_mod = mi_ability_score|ability_mod %}
       {% set mi_save_dc = 8 + character.proficiency_bonus + mi_mod %}
       <div class="card" id="mi-spells-card" style="margin-bottom:0.75rem;border-color:var(--accent);border-width:2px">
         <h3 style="margin:0 0 0.3rem 0">✨ Magic Initiate — {{ mi.class }}</h3>

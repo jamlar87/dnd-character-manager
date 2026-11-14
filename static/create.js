@@ -338,56 +338,8 @@ function _srcBadge(src, slug) {
   return `<span class="src-badge" onclick="openSourceRef(this.dataset.src, this.dataset.slug)" data-src="${src}" data-slug="${slug||''}" title="Click to open ${src}">📚 ${short}</span>`;
 }
 
-function openSourceRef(src, slug) {
-  if (!src || src.startsWith('SRD')) return;
-  const pageMatch = src.match(/\b[pP]\.?\s*(\d+)/);
-  const page = pageMatch ? parseInt(pageMatch[1]) : 0;
-  // If we have a direct slug, use it immediately — no matching needed
-  if (slug) {
-    window.open(`/api/reference/open/${slug}${page ? '?page='+page+'#page='+page : ''}`, '_blank');
-    return;
-  }
-  // Fallback: match source string to known displays
-  let bookPart = src.replace(/\s+[pP]\.?\s*\d+.*$/, '').replace(/\s+\d{4}$/, '').trim();
-  if (!SOURCE_SLUG_MAP) return;
-  // Try slug match first (e.g., "PHB", "DMG")
-  for (const [slug, info] of Object.entries(SOURCE_SLUG_MAP)) {
-    if (slug.toLowerCase() === bookPart.toLowerCase()) {
-      const url = `/api/reference/open/${slug}${page ? '?page='+page+'#page='+page : ''}`;
-      window.open(url, '_blank');
-      return;
-    }
-  }
-  // Find slug by matching display name
-  for (const [slug, info] of Object.entries(SOURCE_SLUG_MAP)) {
-    if (info.display.toLowerCase() === bookPart.toLowerCase()) {
-      const url = `/api/reference/open/${slug}${page ? '?page='+page+'#page='+page : ''}`;
-      window.open(url, '_blank');
-      return;
-    }
-  }
-  // Fuzzy: check if display contains bookPart or vice versa
-  for (const [slug, info] of Object.entries(SOURCE_SLUG_MAP)) {
-    const d = info.display.toLowerCase();
-    const b = bookPart.toLowerCase();
-    if (d.includes(b) || b.includes(d)) {
-      const url = `/api/reference/open/${slug}${page ? '?page='+page+'#page='+page : ''}`;
-      window.open(url, '_blank');
-      return;
-    }
-  }
-  // Last resort: normalized match (strip all non-alphanumeric)
-  const norm = s => s.replace(/[^a-z0-9]/g, '');
-  const bNorm = norm(bookPart);
-  for (const [slug, info] of Object.entries(SOURCE_SLUG_MAP)) {
-    const dNorm = norm(info.display);
-    if (dNorm.includes(bNorm) || bNorm.includes(dNorm)) {
-      const url = `/api/reference/open/${slug}${page ? '?page='+page+'#page='+page : ''}`;
-      window.open(url, '_blank');
-      return;
-    }
-  }
-}
+// openSourceRef() lives in static/ui/source_ref.js.
+
 
 // ── Step 0: Race ──
 let _coreOnlyCreate = localStorage.getItem('coreOnly') === 'true';

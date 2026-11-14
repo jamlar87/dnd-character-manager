@@ -41,35 +41,10 @@ function _srcBadge(src) {
   if (!src) return '';
   // Keep the full source text including page number for accuracy
   const short = src.length > 30 ? src.replace(/\s+\d{4}$/, '').trim() : src;
-  return `<span class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="${src.replace(/"/g, '&quot;')}" title="Click to open ${src}">📚 ${short}</span>`;
+  return `<span class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="${escapeAttr(src)}" title="Click to open ${escapeAttr(src)}">📚 ${escapeHtml(short)}</span>`;
 }
-function openSourceRef(src) {
-  if (!src || src.startsWith('SRD')) return;
-  const pageMatch = src.match(/\b[pP]\.?\s*(\d+)/);
-  const page = pageMatch ? parseInt(pageMatch[1]) : 0;
-  let bookPart = src.replace(/\s+[pP]\.?\s*\d+.*$/, '').replace(/\s+\d{4}$/, '').trim();
-  // Try slug match first (e.g., "PHB", "DMG")
-  for (const [slug, info] of Object.entries(SOURCE_SLUG_MAP)) {
-    if (slug.toLowerCase() === bookPart.toLowerCase()) {
-      window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
-      return;
-    }
-  }
-  // Try display name match
-  for (const [slug, info] of Object.entries(SOURCE_SLUG_MAP)) {
-    if (info.display.toLowerCase() === bookPart.toLowerCase()) {
-      window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
-      return;
-    }
-  }
-  // Fallback: substring match
-  for (const [slug, info] of Object.entries(SOURCE_SLUG_MAP)) {
-    if (info.display.toLowerCase().includes(bookPart.toLowerCase()) || bookPart.toLowerCase().includes(info.display.toLowerCase())) {
-      window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
-      return;
-    }
-  }
-}
+// openSourceRef() lives in static/ui/source_ref.js; the slug map comes from SHEETREF.
+
 
 // ── Ability score recalculation data ───────────────────────────────────
 const SKILL_AB_MAP = SHEETREF.skillAbMap;
@@ -169,7 +144,7 @@ function showAbilityEditor(statKey, statLabel, currentScore) {
       ABILITY_SCORES[statKey] = score;
       recalcAllDerived();
       // Persist to server
-      try { await api('/update', { [statKey]: score }); } catch(e) { console.error(e); }
+      try { await sheetApi('/update', { [statKey]: score }); } catch(e) { console.error(e); }
       overlay.remove();
     };
   }
@@ -338,20 +313,17 @@ const ALL_DAMAGE_TYPES = [
   'Lightning', 'Necrotic', 'Piercing', 'Poison', 'Psychic',
   'Radiant', 'Slashing', 'Thunder'
 ];
-const ALL_CONDITIONS = [
-  'Blinded', 'Charmed', 'Deafened', 'Exhaustion', 'Frightened',
-  'Grappled', 'Incapacitated', 'Invisible', 'Paralyzed', 'Petrified',
-  'Poisoned', 'Prone', 'Restrained', 'Stunned', 'Unconscious'
-];
+const ALL_CONDITIONS = window.DND_CONDITIONS.names;
 
-function api(path, data) {
-  return fetch('/api/character/' + CHAR_ID + path, {
-    method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data)
-  });
+/* Every sheet write goes POST /api/character/<id>/<path>. This keeps that URL
+   shape in one place and hands the request to the shared api() helper in
+   static/ui/api.js (CSRF header, JSON body, throws with the server message). */
+function sheetApi(path, data) {
+  return api('/api/character/' + CHAR_ID + path, { method: 'POST', body: data });
 }
 
 async function saveAncestry(ancestry) {
-  await api('/update', { dragonborn_ancestry: ancestry });
+  await sheetApi('/update', { dragonborn_ancestry: ancestry });
   location.reload();
 }
 
@@ -406,7 +378,7 @@ async function applyHP(sign) {
       document.getElementById('ds-toggle').textContent = '▾';
     }
   }
-  await api('/update', { hp_current: hp });
+  await sheetApi('/update', { hp_current: hp });
 }
 
 async function resetHP() {
@@ -420,7 +392,7 @@ async function resetHP() {
       bar.classList.remove('danger', 'warn');
     }
   });
-  await api('/update', { hp_current: hp });
+  await sheetApi('/update', { hp_current: hp });
 }
 
 // ── Export / Import JSON (backup + transfer) ──
@@ -559,46 +531,9 @@ function stopSheetPolling() {
 
 // ── Conditions ──
 let _conditionsExpanded = true;
-const CONDITION_COLORS = {
-  Blinded: '#6a0dad;color:#fff', Charmed: '#e75480;color:#fff', Deafened: '#5c6bc0;color:#fff',
-  Frightened: '#7b1fa2;color:#fff', Grappled: '#bf360c;color:#fff', Incapacitated: '#b71c1c;color:#fff',
-  Invisible: '#1e88e5;color:#fff', Paralyzed: '#880e4f;color:#fff', Petrified: '#4e342e;color:#fff',
-  Poisoned: '#2e7d32;color:#fff', Prone: '#e65100;color:#fff', Restrained: '#c62828;color:#fff',
-  Stunned: '#d84315;color:#fff', Unconscious: '#37474f;color:#fff', Exhaustion: '#827717;color:#fff',
-  Concentration: '#6a1b9a;color:#fff', Blessed: '#f9a825;color:#333', Haste: '#00acc1;color:#fff',
-  Baned: '#8b0000;color:#fff',
-  Raging: '#e8590c;color:#fff',
-};
-const STANDARD_CONDITIONS = [
-  {name:'Blinded',desc:'Can\'t see. Auto-fails ability checks requiring sight. Attack rolls against you have advantage. Your attack rolls have disadvantage.'},
-  {name:'Charmed',desc:'Can\'t attack the charmer or target them with harmful abilities. Charmer has advantage on social checks against you.'},
-  {name:'Deafened',desc:'Can\'t hear. Auto-fails ability checks requiring hearing.'},
-  {name:'Frightened',desc:'Disadvantage on ability checks and attack rolls while source of fear is in sight. Can\'t willingly move closer to the source.'},
-  {name:'Grappled',desc:'Speed becomes 0. Grappler can release at any time. Ends if grappler is incapacitated or you\'re moved out of reach.'},
-  {name:'Incapacitated',desc:'Can\'t take actions or reactions.'},
-  {name:'Invisible',desc:'Impossible to see without magic or special senses. Attack rolls against you have disadvantage. Your attacks have advantage.'},
-  {name:'Paralyzed',desc:'Can\'t move or speak. Auto-fails STR/DEX saves. Attackers have advantage and hit within 5 ft is a critical.'},
-  {name:'Petrified',desc:'Transformed to solid stone. Incapacitated, can\'t move or speak. Resistant to all damage. Immune to poison and disease.'},
-  {name:'Poisoned',desc:'Disadvantage on attack rolls and ability checks.'},
-  {name:'Prone',desc:'Crawling unless you stand up. Disadvantage on attack rolls. Attackers within 5 ft have advantage; farther have disadvantage.'},
-  {name:'Restrained',desc:'Speed becomes 0. Disadvantage on attack rolls and DEX saves. Attackers have advantage on attacks against you.'},
-  {name:'Stunned',desc:'Incapacitated, can\'t move, speak falteringly. Auto-fails STR/DEX saves. Attackers have advantage.'},
-  {name:'Unconscious',desc:'Incapacitated, can\'t move or speak, unaware of surroundings. Auto-fails STR/DEX saves. Attackers have advantage; hits within 5 ft are critical.'},
-  {name:'Exhaustion',desc:'6 levels. 1: disadv on ability checks. 2: speed halved. 3: disadv on atk/saves. 4: HP max halved. 5: speed 0. 6: death.'},
-  {name:'Concentration',desc:'Maintaining a spell. Must make CON save on taking damage (DC 10 or half damage, whichever is higher) or lose the spell.'},
-  {name:'Blessed',desc:'+1d4 to attack rolls and saving throws (Bless spell).'},
-  {name:'Haste',desc:'Speed doubled, +2 AC, adv on DEX saves, extra action (Attack/Dash/Disengage/Hide/Use Object).'},
-  {name:'Baned',desc:'Subtract 1d4 from attack rolls and saving throws (Bane spell).'},
-  {name:'Raging',desc:'Adv on STR checks/saves. +melee damage. Resistant to bludgeoning/piercing/slashing. Can\'t cast or concentrate. Ends if no attack or damage taken in a round.'},
-];
-const EXHAUSTION_LEVELS = [
-  {level:1, desc:'Disadvantage on ability checks.'},
-  {level:2, desc:'Speed halved.'},
-  {level:3, desc:'Disadvantage on attack rolls and saving throws.'},
-  {level:4, desc:'Hit point maximum halved.'},
-  {level:5, desc:'Speed reduced to 0.'},
-  {level:6, desc:'Death.'},
-];
+const CONDITION_COLORS = window.DND_CONDITIONS.colors;
+const STANDARD_CONDITIONS = window.DND_CONDITIONS.list;
+const EXHAUSTION_LEVELS = window.DND_CONDITIONS.exhaustionLevels;
 
 function openConditionPicker() {
   let html = '<div class="cond-popout" id="cond-picker" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2000;width:380px;max-width:92vw;max-height:75vh;overflow-y:auto;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:0.8rem;box-shadow:0 4px 12px rgba(0,0,0,0.4)">';
@@ -856,7 +791,7 @@ async function spendHitDice() {
   if (remainEl) remainEl.textContent = HD_TOTAL - hdUsed;
 
   // API call
-  await api('/update', { hp_current: hp, hit_dice_used: hdUsed });
+  await sheetApi('/update', { hp_current: hp, hit_dice_used: hdUsed });
 
   showHDResult(`Rolled ${roll} on d${HD_DIE} + ${CON_MOD} = ${heal} HP regained (${remaining - 1} HD remaining)`, true);
 }
@@ -886,7 +821,7 @@ async function rollMax() {
   const remainEl = document.getElementById('hd-remaining');
   if (remainEl) remainEl.textContent = HD_TOTAL - hdUsed;
 
-  await api('/update', { hp_current: hp, hit_dice_used: hdUsed });
+  await sheetApi('/update', { hp_current: hp, hit_dice_used: hdUsed });
 
   showHDResult(`Max roll on d${HD_DIE} + ${CON_MOD} = ${heal} HP regained (${remaining - 1} HD remaining)`, true);
 }
@@ -979,7 +914,7 @@ async function executeLongRest() {
   // We track it in the DB update below
 
   // API: update HP, hit_dice_used, death saves reset, spell slots, exhaustion
-  await api('/update', {
+  await sheetApi('/update', {
     hp_current: hp,
     hit_dice_used: hdUsed,
     death_saves_success: 0,
@@ -989,7 +924,7 @@ async function executeLongRest() {
   });
 
   // Save reset feature uses to DB separately
-  await api('/update', { feature_data: JSON.stringify(featureData) });
+  await sheetApi('/update', { feature_data: JSON.stringify(featureData) });
 
   // Reset Magic Initiate 1/day uses — update DOM directly so it reflects immediately
   try {
@@ -1221,8 +1156,8 @@ async function doShortRest(healed, rolls) {
   }
 
   // API: save HP, hit_dice_used, and feature_data
-  await api('/update', Object.assign({ hp_current: newHp, hit_dice_used: hdUsed }, spellUpdate));
-  await api('/update', { feature_data: JSON.stringify(featureData) });
+  await sheetApi('/update', Object.assign({ hp_current: newHp, hit_dice_used: hdUsed }, spellUpdate));
+  await sheetApi('/update', { feature_data: JSON.stringify(featureData) });
 
   // Show result
   const hdResult = document.getElementById('hd-result');
@@ -1241,11 +1176,11 @@ async function doShortRest(healed, rolls) {
 }
 
 async function toggleDS(type, n) {
-  await api('/update', { death_saves_success: type==='success' ? n : 0, death_saves_fail: type==='fail' ? n : 0 });
+  await sheetApi('/update', { death_saves_success: type==='success' ? n : 0, death_saves_fail: type==='fail' ? n : 0 });
   location.reload();
 }
 async function resetDS() {
-  await api('/update', { death_saves_success: 0, death_saves_fail: 0 });
+  await sheetApi('/update', { death_saves_success: 0, death_saves_fail: 0 });
   location.reload();
 }
 
@@ -1258,7 +1193,7 @@ async function toggleInspiration() {
   // Also update sidebar icon
   const sidebarIcon = document.querySelector('.combat-quick-item span[style*="font-size:1rem"]');
   if (sidebarIcon) sidebarIcon.textContent = !on ? '⭐' : '☆';
-  await api('/update', { inspiration: on ? 0 : 1 });
+  await sheetApi('/update', { inspiration: on ? 0 : 1 });
 }
 
 // ── Spell Slots ──
@@ -1266,14 +1201,14 @@ async function toggleSpellSlot(lvl, n, max) {
   const boxes = document.querySelectorAll(`#slots-lvl-${lvl} .slot-box`);
   const used = boxes[n-1].classList.contains('used') ? n-1 : n;
   boxes.forEach((b, i) => b.classList.toggle('used', i < used));
-  await api('/update', { spell_slots_used: JSON.stringify({ [lvl]: used }) });
+  await sheetApi('/update', { spell_slots_used: JSON.stringify({ [lvl]: used }) });
 }
 
 async function toggleSpellSlotById(spellId, n, max) {
   const boxes = document.querySelectorAll(`#sp-slots-${spellId} .slot-box`);
   const used = boxes[n-1].classList.contains('used') ? n-1 : n;
   boxes.forEach((b, i) => b.classList.toggle('used', i < used));
-  await api('/update', { spells: [{ id: spellId, slots_used: used }] });
+  await sheetApi('/update', { spells: [{ id: spellId, slots_used: used }] });
 }
 
 // ── Add Spell (searchable dropdown) ──
@@ -1600,7 +1535,7 @@ let notesTimer;
 function saveNotes() {
   clearTimeout(notesTimer);
   notesTimer = setTimeout(async () => {
-    await api('/update', { notes: document.getElementById('notes').value });
+    await sheetApi('/update', { notes: document.getElementById('notes').value });
   }, 500);
 }
 
@@ -2145,10 +2080,10 @@ function makeEditable(el, field, isNum, isList) {
       if (isList) {
         const arr = val.split(',').map(s => s.trim()).filter(Boolean);
         el.textContent = arr.join(', ') || 'None';
-        try { await api('/update', { [field]: JSON.stringify(arr) }); } catch(e) { console.error(e); }
+        try { await sheetApi('/update', { [field]: JSON.stringify(arr) }); } catch(e) { console.error(e); }
       } else {
         el.textContent = isNum ? val : val || '—';
-        try { await api('/update', { [field]: isNum ? val : val }); } catch(e) { console.error(e); }
+        try { await sheetApi('/update', { [field]: isNum ? val : val }); } catch(e) { console.error(e); }
       }
     };
     input.addEventListener('blur', save);
@@ -2337,7 +2272,7 @@ async function toggleProfItem(cb, field, type) {
   // Update badges
   updateProfBadges(field);
   // Save
-  await api('/update', { [field]: JSON.stringify(profs) });
+  await sheetApi('/update', { [field]: JSON.stringify(profs) });
   // Refresh proficiency-based UI
   if (field === 'weapon_proficiencies') tagWeapons();
   if (field === 'armor_proficiencies') { tagArmor(); updateAcWarning(); }
@@ -2347,7 +2282,7 @@ async function clearAllProfs(field, type) {
   const displayEl = document.querySelector(`.prof-display[data-field="${field}"]`);
   if (displayEl) displayEl.textContent = '';
   updateProfBadges(field);
-  await api('/update', { [field]: JSON.stringify([]) });
+  await sheetApi('/update', { [field]: JSON.stringify([]) });
   if (field === 'weapon_proficiencies') tagWeapons();
   if (field === 'armor_proficiencies') { tagArmor(); updateAcWarning(); }
   const overlay = document.querySelector('.prof-picker-overlay');
@@ -2363,7 +2298,7 @@ async function selectAllProfs(field, type) {
   const displayEl = document.querySelector(`.prof-display[data-field="${field}"]`);
   if (displayEl) displayEl.textContent = master.join(', ');
   updateProfBadges(field);
-  await api('/update', { [field]: JSON.stringify(master) });
+  await sheetApi('/update', { [field]: JSON.stringify(master) });
   if (field === 'weapon_proficiencies') tagWeapons();
   if (field === 'armor_proficiencies') { tagArmor(); updateAcWarning(); }
   const overlay = document.querySelector('.prof-picker-overlay');
@@ -2460,7 +2395,7 @@ async function toggleDefenseItem(cb, field, icon) {
   // Update display
   displayEl.textContent = items.join(', ') || '—';
   // Save to server
-  await api('/update', { [field]: JSON.stringify(items) });
+  await sheetApi('/update', { [field]: JSON.stringify(items) });
   // Refresh the defense badge area (reload page or update inline)
   refreshDefenseBadges();
 }
@@ -2468,7 +2403,7 @@ async function toggleDefenseItem(cb, field, icon) {
 async function clearAllDefenses(field) {
   const displayEl = document.querySelector(`.defense-display[data-field="${field}"]`);
   if (displayEl) displayEl.textContent = '—';
-  await api('/update', { [field]: JSON.stringify([]) });
+  await sheetApi('/update', { [field]: JSON.stringify([]) });
   refreshDefenseBadges();
   document.querySelector('.defense-picker-overlay')?.remove();
 }
@@ -2480,7 +2415,7 @@ async function selectAllDefenses(field) {
   else master = ALL_DAMAGE_TYPES;
   const displayEl = document.querySelector(`.defense-display[data-field="${field}"]`);
   if (displayEl) displayEl.textContent = master.join(', ');
-  await api('/update', { [field]: JSON.stringify(master) });
+  await sheetApi('/update', { [field]: JSON.stringify(master) });
   refreshDefenseBadges();
   document.querySelector('.defense-picker-overlay')?.remove();
 }
@@ -2609,7 +2544,7 @@ async function toggleSaveProf(stat) {
   const dot = document.querySelector(`.save-dot[data-stat="${stat}"]`);
   if (!dot.classList.contains('active')) active.push(stat);
   
-  await api('/update', { save_proficiencies: JSON.stringify(active) });
+  await sheetApi('/update', { save_proficiencies: JSON.stringify(active) });
   location.reload();
 }
 
@@ -2622,7 +2557,7 @@ async function toggleSkillProf(skillName) {
   const dot = document.querySelector(`.skill-dot[data-skill="${skillName}"]`);
   if (!dot.classList.contains('active')) active.push(skillName);
   
-  await api('/update', { skills: JSON.stringify(active) });
+  await sheetApi('/update', { skills: JSON.stringify(active) });
   location.reload();
 }
 
@@ -2776,10 +2711,9 @@ function closeExpertiseEdit() {
 
 async function saveExpertiseEdit() {
   try {
-    const r = await api('/edit-expertise', { expertise_skills: _expPicks });
-    if (r.ok) { location.reload(); }
-    else { const err = await r.json(); alert('Failed: ' + (err.error || 'Unknown error')); }
-  } catch(e) { alert('Error saving: ' + e.message); }
+    await sheetApi('/edit-expertise', { expertise_skills: _expPicks });
+    location.reload();
+  } catch(e) { alert('Failed: ' + e.message); }
 }
 
 // ── Feat browser helpers ──
@@ -2822,10 +2756,9 @@ async function saveAsiEdit() {
   }
   
   try {
-    const r = await api('/edit-asi', {level: _asiEditLevel, entry});
-    if (r.ok) { location.reload(); }
-    else { alert('Failed to save. Try again.'); }
-  } catch(e) { alert('Error saving: ' + e.message); }
+    await sheetApi('/edit-asi', {level: _asiEditLevel, entry});
+    location.reload();
+  } catch(e) { alert('Failed to save: ' + e.message); }
 }
 
 // ── Collapse Toggle for Feature Descriptions ──
@@ -2891,7 +2824,7 @@ async function saveFeature(idx) {
   if (!ta) return;
   const val = ta.value.trim();
   featureData[idx].description = val;
-  await api('/update', { feature_data: JSON.stringify(featureData) });
+  await sheetApi('/update', { feature_data: JSON.stringify(featureData) });
   // If feature has sub_options, reload to re-render; otherwise update inline
   if (featureData[idx].sub_options && featureData[idx].sub_options.length) {
     location.reload();
@@ -3120,7 +3053,7 @@ async function toggleFeatureUse(idx, dotIdx) {
   renderFeatureDots(idx);
   // Sync actions tab button
   if (feat.action_type) syncActionButton(feat.name, feat.uses, feat.uses_max);
-  await api('/update', { feature_data: JSON.stringify(featureData) });
+  await sheetApi('/update', { feature_data: JSON.stringify(featureData) });
 }
 
 function renderFeatureDots(idx) {
@@ -3164,7 +3097,7 @@ async function spendPool(idx) {
   if (parseInt(input.value) > feat.uses) input.value = feat.uses || 1;
   renderFeatureDots(idx);
   if (feat.action_type) syncActionButton(feat.name, feat.uses, feat.uses_max);
-  await api('/update', { feature_data: JSON.stringify(featureData) });
+  await sheetApi('/update', { feature_data: JSON.stringify(featureData) });
 }
 
 async function restorePool(idx) {
@@ -3175,7 +3108,7 @@ async function restorePool(idx) {
   if (input) input.max = feat.uses;
   renderFeatureDots(idx);
   if (feat.action_type) syncActionButton(feat.name, feat.uses, feat.uses_max);
-  await api('/update', { feature_data: JSON.stringify(featureData) });
+  await sheetApi('/update', { feature_data: JSON.stringify(featureData) });
 }
 
 function resetAllFeatureUses() {
@@ -3251,7 +3184,7 @@ async function spendPoolAction(name, inputEl) {
   // Update features tab
   const idx = featureData.indexOf(feat);
   if (idx >= 0) renderFeatureDots(idx);
-  await api('/update', { feature_data: JSON.stringify(featureData) });
+  await sheetApi('/update', { feature_data: JSON.stringify(featureData) });
 }
 
 async function restorePoolAction(name) {
@@ -3261,7 +3194,7 @@ async function restorePoolAction(name) {
   syncActionButton(name, feat.uses, feat.uses_max);
   const idx = featureData.indexOf(feat);
   if (idx >= 0) renderFeatureDots(idx);
-  await api('/update', { feature_data: JSON.stringify(featureData) });
+  await sheetApi('/update', { feature_data: JSON.stringify(featureData) });
 }
 
 // Reset only short-rest features (for short rest action)
@@ -3620,7 +3553,7 @@ async function saveEquippedFromDOM() {
 
 async function saveEquipped() {
   console.log('saveEquipped: equippedItems =', JSON.stringify(equippedItems));
-  await api('/update', { equipped: JSON.stringify(equippedItems) });
+  await sheetApi('/update', { equipped: JSON.stringify(equippedItems) });
   console.log('saveEquipped: api call done, calling renderEquipped');
   renderEquipped();
   refreshAttacksTab();
@@ -3699,8 +3632,7 @@ async function refreshAttacksTab() {
 // ── Feature Action (use limited-use feature from Actions in Combat) ──
 async function useFeature(name, btn) {
   try {
-    const resp = await api('/use-feature', { name });
-    const data = await resp.json();
+    const data = await sheetApi('/use-feature', { name });
     if (!data.ok) return;
     // Update client-side featureData
     const feat = featureData.find(f => f.name === name);
@@ -4165,9 +4097,10 @@ async function _flushInventory() {
   const emptyEl = document.getElementById('inv-empty');
   if (emptyEl) emptyEl.style.display = items.length === 0 ? 'block' : 'none';
   console.log('Saving inventory:', JSON.stringify(items));
-  const resp = await api('/update', { inventory: JSON.stringify(items) });
-  if (!resp.ok) {
-    console.error('Inventory save failed:', resp.status, await resp.text().catch(()=>''));
+  try {
+    await sheetApi('/update', { inventory: JSON.stringify(items) });
+  } catch (e) {
+    console.error('Inventory save failed:', e.status, e.message);
     return;
   }
   console.log('Inventory save OK');

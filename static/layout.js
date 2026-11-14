@@ -134,12 +134,6 @@ async function searchManuals(summarize = false) {
   }
 }
 
-function escapeHtml(str) {
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
-
 async function downloadAiSummaryPdf(data) {
   try {
     const r = await fetch('/api/ai/summary/pdf', {

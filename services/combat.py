@@ -14,6 +14,7 @@ from data import (
     RACIAL_TRAIT_EFFECTS,
 )
 from services.items import _resolve_item_key
+from services.rules import ability_mod
 
 NAMED_ITEM_TYPES: dict | None = None  # computed lazily on first _get_named_item_types() call
 
@@ -188,7 +189,7 @@ def _build_natural_weapon_attacks(character: dict) -> list:
             continue
         seen.add(tname)
 
-        str_mod = (abilities.get("strength", 10) - 10) // 2
+        str_mod = ability_mod(abilities.get("strength", 10))
         attack_bonus = prof_bonus + str_mod
 
         if spec.get("no_damage_mod"):
@@ -306,7 +307,7 @@ def _build_attack_for_weapon(item_name: str, weapon_data: dict, abilities: dict,
     else:
         ability = "strength"
 
-    ab_mod = (abilities.get(ability, 10) - 10) // 2
+    ab_mod = ability_mod(abilities.get(ability, 10))
     attack_bonus = ab_mod + prof_bonus + enhancement
 
     # Damage string

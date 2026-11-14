@@ -22,8 +22,8 @@ function charPortraitTile(charId, name, opts) {
   const style = `--cp-size:${size}px;--cp-size-mobile:${mobile}px`;
   const label = String(name == null ? '?' : name);
   const initial = label.trim().charAt(0).toUpperCase() || '?';
-  const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  // Shared implementation in static/ui/dom.js.
+  const esc = window.escapeHtml;
   // Reference art (shared library: monsters/items/NPCs). The caller passes the
   // full URL; a 404 (image not generated yet) falls back to the initial tile,
   // which is exactly the lazy-fill UX.

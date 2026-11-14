@@ -13,6 +13,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.utils import simpleSplit
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+from services.rules import ability_mod
 
 # Register Cinzel Bold for D&D title font
 _FONTS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -318,7 +319,7 @@ def build_char_data(row, db_cursor=None, racial_traits=None):
 
 
 def mod_int(score):
-    return (score - 10) // 2
+    return ability_mod(score)
 
 
 def _build_condensed_features(d):
@@ -1780,7 +1781,7 @@ def fill_official_sheet(char_data, output_path=None):
               "INT": "intelligence", "WIS": "wisdom", "CHA": "charisma"}
     for abbr, attr in ab_map.items():
         score = d.get(attr, 10)
-        mod = (score - 10) // 2
+        mod = ability_mod(score)
         fields[abbr] = str(score)
         # Template uses CHamod (lowercase 'a') not CHAmod
         mod_field = "CHamod" if abbr == "CHA" else f"{abbr}mod"
@@ -1800,7 +1801,7 @@ def fill_official_sheet(char_data, output_path=None):
     _SAVE_TO_ABBR = {"strength": "STR", "dexterity": "DEX", "constitution": "CON",
                      "intelligence": "INT", "wisdom": "WIS", "charisma": "CHA"}
     for abbr, attr in ab_map.items():
-        base_mod = (d.get(attr, 10) - 10) // 2
+        base_mod = ability_mod(d.get(attr, 10))
         save_name = attr
         is_prof = save_name in save_profs or abbr.lower() in save_profs
         save_mod = base_mod + pb if is_prof else base_mod
@@ -1837,7 +1838,7 @@ def fill_official_sheet(char_data, output_path=None):
     for skill_name, abbr in skill_ability_map.items():
         attr = ab_map[abbr]  # "DEX" → "dexterity"
         ab_score = d.get(attr, 10)
-        ab_mod = (ab_score - 10) // 2
+        ab_mod = ability_mod(ab_score)
         prof_val = skill_profs.get(skill_name.lower(), 0)
         if isinstance(prof_val, str):
             prof_val = 2 if prof_val.lower() in ("proficient", "expertise") else 0
@@ -1853,7 +1854,7 @@ def fill_official_sheet(char_data, output_path=None):
 
     # Combat stats
     fields["AC"] = str(d.get("ac", 10))
-    fields["Initiative"] = _mod_str(d.get("initiative", (d.get("dexterity", 10) - 10) // 2))
+    fields["Initiative"] = _mod_str(d.get("initiative", ability_mod(d.get("dexterity", 10))))
     fields["Speed"] = str(d.get("speed", 30))
     fields["HPMax"] = str(d.get("hp_max", d.get("hp", 1)))
     fields["HPCurrent"] = str(d.get("hp_current", d.get("hp", 1)))
