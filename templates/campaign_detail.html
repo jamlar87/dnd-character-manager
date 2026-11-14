@@ -181,110 +181,11 @@
 {% endblock %}
 {% block scripts %}
 <script src="/static/dm/actions.js?v={{ static_asset_version('dm/actions.js') }}"></script>
-<script>
-const CAMP_ID = {{ camp.id }};
-
-function openModal(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.classList.add('open');
-}
-function closeModal(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.classList.remove('open');
-}
-function previewCharSheet(id, name) {
-  document.getElementById('charSheetTitle').textContent = name;
-  document.getElementById('charSheetFrame').src = '/character/' + id;
-  openModal('charSheetModal');
-}
-
-function editCampaignMeta(id) {
-  const name = prompt('Campaign name:', {{ camp.name|tojson }});
-  if (!name) return;
-  const pl = prompt('Party level:', '{{ camp.party_level }}') || '1';
-  const ps = prompt('Party size:', '{{ camp.party_size }}') || '4';
-  fetch('/api/dm/campaign/' + id + '/update', {
-    method: 'POST', headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({name, party_level: parseInt(pl), party_size: parseInt(ps)})
-  }).then(r => r.json()).then(() => location.reload());
-}
-function deleteFromPage(id) {
-  if (!confirm('Delete this campaign?')) return;
-  fetch('/api/dm/campaign/' + id + '/delete', {method: 'POST'}).then(r => r.json()).then(() => {
-    window.location.href = '/dm-tools';
-  });
-}
-function addCharToCampaign(campId) {
-  const sel = document.getElementById('charPicker');
-  const charId = parseInt(sel.value);
-  if (!charId) return;
-  fetch('/api/dm/campaign/' + campId + '/add-character', {
-    method: 'POST', headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({character_id: charId})
-  }).then(r => r.json()).then(() => location.reload());
-}
-function removeCharFromCampaign(campId, charId) {
-  if (!confirm('Remove this character from the campaign?')) return;
-  fetch('/api/dm/campaign/' + campId + '/remove-character', {
-    method: 'POST', headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({character_id: charId})
-  }).then(r => r.json()).then(() => location.reload());
-}
-function showNpcPicker(campId) { /* stub — redirect to DM Tools NPC tab */ window.location.href = '/dm-tools'; }
-function removeNpcFromCampaign(campId, npcId) {
-  if (!confirm('Remove this NPC from the campaign?')) return;
-  fetch('/api/dm/campaign/' + campId + '/remove-npc', {
-    method: 'POST', headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({npc_id: npcId})
-  }).then(r => r.json()).then(() => location.reload());
-}
-function saveNpcNotes(campId, npcId, elementId) {
-  const notes = document.getElementById(elementId).value;
-  fetch('/api/dm/campaign/' + campId + '/update-npc-notes', {
-    method: 'POST', headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({npc_id: npcId, notes})
-  }).then(r => r.json()).then(() => { /* silent */ });
-}
-function addQuest(id) {
-  const qName = prompt('Quest name:');
-  if (!qName) return;
-  const status = prompt('Status (active/completed):', 'active') || 'active';
-  fetch('/api/dm/campaign/' + id + '/update', {
-    method: 'POST', headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({addQuest: JSON.stringify({name: qName, status})})
-  }).then(r => r.json()).then(() => location.reload());
-}
-function removeQuest(campId, idx) {
-  if (!confirm('Remove quest?')) return;
-  fetch('/api/dm/campaign/' + campId + '/update', {
-    method: 'POST', headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({removeQuest: idx})
-  }).then(r => r.json()).then(() => location.reload());
-}
-function addLocation(id) {
-  const lName = prompt('Location name:');
-  if (!lName) return;
-  const type = prompt('Type (city/dungeon/forest/etc):', '') || '';
-  fetch('/api/dm/campaign/' + id + '/update', {
-    method: 'POST', headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({addLocation: JSON.stringify({name: lName, type})})
-  }).then(r => r.json()).then(() => location.reload());
-}
-function removeLocation(campId, idx) {
-  if (!confirm('Remove location?')) return;
-  fetch('/api/dm/campaign/' + campId + '/update', {
-    method: 'POST', headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({removeLocation: idx})
-  }).then(r => r.json()).then(() => location.reload());
-}
-function saveCampNotes(id) {
-  const notes = document.getElementById('campNotes').value;
-  fetch('/api/dm/campaign/' + id + '/update', {
-    method: 'POST', headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({notes})
-  }).then(r => r.json()).then(() => alert('Saved!'));
-}
-</script>
+<script type="application/json" id="campaign-detail-config">{{ {
+  'id': camp.id,
+  'name': camp.name,
+  'party_level': camp.party_level,
+  'party_size': camp.party_size
+} | tojson }}</script>
+<script type="module" src="/static/pages/campaign-detail.js?v={{ static_asset_version('pages/campaign-detail.js') }}"></script>
 {% endblock %}

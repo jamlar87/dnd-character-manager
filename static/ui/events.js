@@ -36,6 +36,11 @@
   'use strict';
 
   var REGISTRY = Object.create(null);
+  // Handler implementations registered by ES modules. Classic scripts still put
+  // their handlers on window and stay resolvable; this map is the path that
+  // lets a `type="module"` page publish data-action handlers without leaking
+  // them onto the global object, and without depending on script order.
+  var HANDLERS = Object.create(null);
   // focusin/focusout (not focus/blur) because those do not bubble.
   var TYPES = ['click', 'change', 'input', 'submit', 'dragover', 'drop',
                'dragstart', 'dragend', 'dragleave', 'keydown',
@@ -105,8 +110,17 @@
     return true;
   }
 
+  // Module-registered handlers win over window globals of the same name: a
+  // type="module" page owns its own version of a shared name (closeModal, say)
+  // without stomping the classic-script one the rest of the app relies on.
+  function handler(name) {
+    if (typeof name !== 'string') return null;
+    var fn = HANDLERS[name];
+    return typeof fn === 'function' ? fn : window[name];
+  }
+
   function callOne(name, args, el, ev) {
-    var fn = typeof name === 'string' ? window[name] : null;
+    var fn = handler(name);
     if (typeof fn !== 'function') {
       console.warn('[actions] no handler on window for "' + name + '"');
       return;
@@ -207,8 +221,8 @@
     // A registry spec may own the whole behaviour (it returns null after doing
     // the work), so it outranks the window lookup instead of following it.
     var named = REGISTRY[action];
-    var fn = window[action];
-    if (!named && typeof fn !== 'function') {
+    var fn = handler(action);
+    if (!fn && !named) {
       console.warn('[actions] no handler for data-action="' + action + '"');
       return;
     }
@@ -237,7 +251,22 @@
     });
   }
 
-  window.Actions = {register: register, dispatch: dispatch};
+  // ES modules publish their data-action handlers here instead of assigning to
+  // window: `provide({saveCampNotes})` from a type="module" entry point.
+  function provide(map) {
+    Object.keys(map || {}).forEach(function (name) {
+      var fn = map[name];
+      if (typeof fn === 'function') HANDLERS[name] = fn;
+      else console.warn('[actions] provide("' + name + '") is not a function');
+    });
+  }
+
+  window.Actions = {
+    register: register,
+    provide: provide,
+    handler: handler,
+    dispatch: dispatch
+  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init, {once: true});
