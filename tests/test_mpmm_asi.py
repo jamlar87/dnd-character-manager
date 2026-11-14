@@ -16,8 +16,10 @@ from routes.characters.creation import _race_asi
 
 REPO = Path(__file__).resolve().parent.parent
 CREATE_HTML = (REPO / "templates" / "create.html").read_text()
-#: the wizard's JS moved out of the template into a versioned static asset
-CREATE_JS = (REPO / "static" / "create.js").read_text()
+#: the wizard's JS moved out of the template into versioned static assets, now split by step
+CREATE_JS = "\n".join(
+    p.read_text() for p in sorted((REPO / "static").glob("create-*.js"))
+)
 
 
 # ── the flag itself ──────────────────────────────────────────────────────────

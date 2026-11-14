@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parent.parent
 #: Pages that used to inline the map, with an anchor that only exists after it is in scope.
 #: /create's consumer (openSourceRef, the 📚 badge handler) moved into its own static asset, so
 #: the anchor there is the wizard script tag itself.
-MAP_CONSUMERS = (("/dm-tools", "dm_tools.js"), ("/create", "/static/create.js"))
+MAP_CONSUMERS = (("/dm-tools", "dm_tools.js"), ("/create", "/static/create-core.js"))
 
 
 def static_asset(name: str) -> str:
@@ -114,8 +114,8 @@ class TestTheCreateWizardRidesInAssetsToo:
         assert not re.search(r"\{\{ *(races|classes|all_skills|mpmm_asi_races) *\| tojson", html)
         assert re.search(r'/static/create-consts\.js\?v=\w+', html)
         # the wizard JS is a static file now, loaded after the data it reads
-        assert re.search(r'/static/create\.js\?v=\w+', html)
-        assert html.index("/static/create-consts.js?v=") < html.index("/static/create.js?v=")
+        assert re.search(r'/static/create-core\.js\?v=\w+', html)
+        assert html.index("/static/create-consts.js?v=") < html.index("/static/create-core.js?v=")
         # the wizard's own markup still ships (it is per-user HTML, not reference data)
         assert "const SKILL_DESCS" not in html
 

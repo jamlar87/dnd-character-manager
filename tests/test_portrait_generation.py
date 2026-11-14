@@ -215,7 +215,7 @@ class TestHonestFailure:
         read it there — and the template too, which only matches if someone re-inlines it."""
         from pathlib import Path
         root = Path(__file__).resolve().parent.parent
-        js = (root / "static" / "create.js").read_text()
+        js = "\n".join(p.read_text() for p in sorted((root / "static").glob("create-*.js")))
         html = (root / "templates" / "create.html").read_text()
         for source in (js, html):
             assert "Free tier ~50/day" not in source

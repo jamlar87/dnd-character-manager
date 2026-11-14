@@ -10,6 +10,9 @@ REPO = Path(__file__).resolve().parent.parent
 
 
 def _read(rel):
+    if rel == "static/create.js":
+        # the wizard JS was split into static/create-*.js parts (same global scope, loaded in order)
+        return "\n".join(p.read_text() for p in sorted((REPO / "static").glob("create-*.js")))
     return (REPO / rel).read_text()
 
 

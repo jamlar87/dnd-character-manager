@@ -310,5 +310,7 @@
    uncacheable). It is global reference data, so it rides in that versioned asset. #}
 {# The wizard's JS rode inline here (~90 KB of template literals and functions, plus a
    ~61 KB render of the server's race-name pools). It is a versioned static asset now. #}
-<script src="/static/create.js?v={{ static_asset_version('create.js') }}"></script>
+{% for _create_part in ['create-core.js', 'create-raceclass.js', 'create-abilities.js', 'create-skills.js', 'create-spells.js', 'create-pickers.js', 'create-submit.js', 'create-portrait.js'] %}
+<script src="/static/{{ _create_part }}?v={{ static_asset_version(_create_part) }}"></script>
+{% endfor %}
 {% endblock %}
