@@ -5,39 +5,98 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ the_map.name }} — Player view</title>
 <style>
-  /* The second screen: full-bleed, dark, no app chrome. It is often a TV across the room, so
-     the only controls are a faint bar that brightens on hover. */
-  :root{color-scheme:dark}
-  html,body{margin:0;height:100%;background:#08080b;color:#e5e7eb;font-family:system-ui,-apple-system,sans-serif;overflow:hidden}
+  /* The second screen: full-bleed art, no app chrome. It is often a TV across the room, so the
+     band at the top is solid and quiet, and the controls it holds fold away behind one toggle
+     on a phone. Colours mirror the app tokens, written out because this page deliberately does
+     not load the app stylesheet. */
+  :root{color-scheme:dark;--ink:#e5e7eb;--muted:#9a9aa6;--dim:#6f6f7d;--line:#2a2a33;
+        --gold:#c9a227;--panel:rgba(12,12,17,.94)}
+  html,body{margin:0;height:100%;background:#08080b;color:var(--ink);
+            font-family:system-ui,-apple-system,sans-serif;overflow:hidden}
   #host{position:fixed;inset:0}
   canvas{display:block}
-  .name{position:fixed;top:.5rem;left:.6rem;font-size:.8rem;color:#8b8b96;opacity:.35;pointer-events:none}
-  .bar{position:fixed;left:.6rem;bottom:.6rem;display:flex;gap:.4rem;align-items:center;
-       background:rgba(12,12,16,.8);border:1px solid #2a2a33;border-radius:8px;padding:.35rem .5rem;
-       font-size:.75rem;opacity:.22;transition:opacity .2s}
-  .bar:hover{opacity:1}
-  .bar button{background:none;border:1px solid #2a2a33;border-radius:5px;color:#e5e7eb;
-              padding:.2rem .5rem;cursor:pointer;font-size:.75rem}
-  .bar button:hover{border-color:#c9a227}
-  #status{color:#8b8b96}
-  .nofollow{outline:1px solid #c9a227}
+
+  /* ── band: whose map this is, what it measures, and the three things a player reaches for ── */
+  .phead{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;flex-wrap:wrap;
+         align-items:center;gap:.4rem .8rem;padding:.45rem .8rem;
+         background:var(--panel);border-bottom:1px solid var(--line);
+         -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+         box-shadow:0 2px 12px rgba(0,0,0,.45)}
+  .pid{flex:1 1 16rem;min-width:0;display:flex;flex-direction:column;gap:.05rem}
+  .phead h1{margin:0;font-size:1.05rem;font-weight:650;line-height:1.25;letter-spacing:.01em;
+            white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pmeta{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:.1rem .4rem;
+         font-size:max(.72rem,11.5px);color:var(--muted);line-height:1.4}
+  .pmeta .sep{color:var(--dim)}
+  .pacts{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem}
+  #vttBar{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem}
+  #vttBar button{display:inline-flex;align-items:center;gap:.3rem;min-height:40px;padding:0 .7rem;
+                 background:none;border:1px solid var(--line);border-radius:7px;color:var(--ink);
+                 cursor:pointer;font:inherit;font-size:max(.8rem,12px)}
+  #vttBar button:hover{border-color:var(--gold);background:rgba(255,255,255,.04)}
+  #vttBar button:focus-visible,.ptoggle:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+  /* A live dot before the clock: the one thing a player glances at to know the screen is current. */
+  #status{display:inline-flex;align-items:center;gap:.35rem;font-size:max(.7rem,11px);
+          color:var(--muted);font-variant-numeric:tabular-nums;padding:0 .15rem}
+  #status::before{content:"";width:.45rem;height:.45rem;border-radius:50%;
+                  background:var(--gold);flex:0 0 auto;opacity:.85}
+  .nofollow{outline:1px solid var(--gold)}
+
+  /* One toggle, one row: nothing floats over the art on a phone until it is asked for. */
+  .ptoggle{display:none;align-items:center;gap:.35rem;min-height:40px;padding:0 .8rem;
+           border-radius:999px;cursor:pointer;background:none;border:1px solid var(--line);
+           color:var(--ink);font:inherit;font-size:max(.8rem,12px)}
+  @media (max-width:760px){
+    .phead{padding:.4rem .6rem;gap:.3rem .6rem}
+    .pid{flex:1 1 100%}
+    .phead h1{font-size:1rem}
+    .pacts{flex:1 1 100%;justify-content:flex-start}
+    #vttBar{display:none}
+    #vttBar.open{display:flex}
+    .ptoggle{display:inline-flex}
+  }
 </style>
 </head>
 <body>
   <div id="host"><canvas id="vttCanvas"></canvas></div>
-  <div class="name">{{ the_map.name }} · player view</div>
-  <div class="bar">
-    <button id="followBtn" onclick="VTT.player.toggleFollow()" title="Follow the DM's camera">🔒 Following</button>
-    <button onclick="VTT.playerFit()" title="Fit the map to this screen">⤢ Fit</button>
-    <button onclick="if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen()" title="Full screen">⛶ Full screen</button>
-    <span id="status">connecting…</span>
-  </div>
+
+  <header class="phead">
+    <div class="pid">
+      <h1>{{ the_map.name }}</h1>
+      <p class="pmeta">
+        <span>{{ the_map.grid_type|capitalize }} grid, {{ the_map.grid_size }} px</span>
+        <span class="sep">·</span><span>{{ the_map.feet_per_cell or 5 }} ft/cell</span>
+        <span class="sep">·</span><span>player view</span>
+      </p>
+    </div>
+    <div class="pacts">
+      <span id="status">connecting…</span>
+      <button type="button" class="ptoggle" id="vttPanelBtn" aria-controls="vttBar" aria-expanded="false">⚙ Controls</button>
+      <div id="vttBar">
+        <button id="followBtn" onclick="VTT.player.toggleFollow()" title="Follow the DM's camera">🔒 Following</button>
+        <button onclick="VTT.playerFit()" title="Fit the map to this screen">⤢ Fit</button>
+        <button onclick="if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen()" title="Full screen">⛶ Full screen</button>
+      </div>
+    </div>
+  </header>
 <script>
   window.MAP_ID = {{ the_map.id }};
   window.PLAYER_CFG = { id: {{ the_map.id }}, key: {{ player_key|tojson }} };
 </script>
 <script src="/static/grid.js?v={{ static_asset_version('grid.js') }}"></script>
 <script src="/static/vtt.js?v={{ static_asset_version('vtt.js') }}"></script>
-<script>VTT.playerInit(window.PLAYER_CFG);</script>
+<script>
+  (function () {
+    var bar = document.getElementById('vttBar'), btn = document.getElementById('vttPanelBtn');
+    if (!bar || !btn) return;
+    btn.addEventListener('click', function () {
+      var open = !bar.classList.contains('open');
+      bar.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', String(open));
+      if (open && window.VTT && VTT.resizeCanvas) VTT.resizeCanvas();
+    });
+  })();
+  VTT.playerInit(window.PLAYER_CFG);
+</script>
 </body>
 </html>

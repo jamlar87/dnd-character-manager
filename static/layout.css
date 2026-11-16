@@ -1,46 +1,148 @@
-/* Shared layout CSS — moved out of templates/layout.html so it is fetched once and
-   cached (browser + edge) instead of re-parsed inside every page's HTML. */
+/* Shared design system — loaded by every page (templates/layout.html).
+   Fetched once and cached instead of being re-parsed inside every page's HTML.
+
+   Layer order matters for the look of the app:
+     1. tokens            — colour, type, radius, shadow, spacing
+     2. base              — element defaults + accessibility basics
+     3. shell             — nav, container, footer
+     4. primitives        — card, button, badge, form, toolbar, page head
+   Page templates should compose these primitives instead of inventing new
+   one-off box styles; that is what makes the app read as one product. */
+
+  /* ── 1. Tokens ───────────────────────────────────────────────────────── */
   :root {
-    --bg: #1a1a2e; --card-bg: #16213e; --text: #e0e0e0; --text-muted: #888;
-    --accent: #e94560; --accent2: #0f3460; --border: #2a2a4a;
-    --success: #00c853; --danger: #ff1744; --warn: #ff9100;
-    --font: 'Segoe UI', system-ui, sans-serif;
+    /* surfaces, darkest to lightest */
+    --bg: #12121d; --bg-deep: #0b0b13;
+    --card-bg: #1a1a2b; --surface-2: #232338; --surface-3: #2d2d47;
+    /* ink */
+    --text: #eceaf2; --text-muted: #9aa1b5; --text-dim: #78819a;
+    /* brand */
+    --accent: #e94560; --accent-hi: #ff5f79; --accent-soft: rgba(233, 69, 96, 0.14);
+    --gold: #d8a657; --gold-soft: rgba(216, 166, 87, 0.14);
+    --accent2: #0f3460;
+    /* status */
+    --success: #2ecc71; --danger: #ff4757; --warn: #ffa726;
+    /* lines */
+    --border: rgba(255, 255, 255, 0.09); --border-strong: rgba(255, 255, 255, 0.17);
+    /* shape */
+    --radius-sm: 8px; --radius: 12px; --radius-lg: 16px; --radius-pill: 999px;
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-2: 0 6px 20px rgba(0, 0, 0, 0.32);
+    --shadow-3: 0 18px 44px rgba(0, 0, 0, 0.45);
+    --ring: 0 0 0 3px rgba(233, 69, 96, 0.38);
+    /* rhythm */
+    --s1: 0.35rem; --s2: 0.6rem; --s3: 0.9rem; --s4: 1.25rem; --s5: 1.75rem; --s6: 2.5rem;
+    /* type */
+    --font: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", "Liberation Serif", Georgia, serif;
+    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
   }
   /* Light theme — toggled via [data-theme="light"] on <html> */
   html[data-theme="light"] {
-    --bg: #f4f5f7; --card-bg: #ffffff; --text: #22262b; --text-muted: #6b7280;
-    --accent: #c0265a; --accent2: #dbe4f0; --border: #d4d8de;
+    --bg: #f6f6f9; --bg-deep: #eceef3;
+    --card-bg: #ffffff; --surface-2: #f1f3f8; --surface-3: #e6e9f1;
+    --text: #1d2130; --text-muted: #5b6478; --text-dim: #7c8598;
+    --accent: #c0265a; --accent-hi: #a81f4c; --accent-soft: rgba(192, 38, 90, 0.1);
+    --gold: #a5761f; --gold-soft: rgba(165, 118, 31, 0.12);
+    --accent2: #dbe4f0;
     --success: #15803d; --danger: #dc2626; --warn: #b45309;
+    --border: rgba(18, 22, 40, 0.12); --border-strong: rgba(18, 22, 40, 0.22);
+    --shadow-1: 0 1px 2px rgba(20, 25, 45, 0.08);
+    --shadow-2: 0 6px 18px rgba(20, 25, 45, 0.1);
+    --shadow-3: 0 18px 40px rgba(20, 25, 45, 0.14);
+    --ring: 0 0 0 3px rgba(192, 38, 90, 0.28);
   }
+
+  /* ── 2. Base ─────────────────────────────────────────────────────────── */
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
   img, table, video, canvas, svg { max-width: 100%; height: auto; }
-  body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; overflow-wrap: break-word; word-break: break-word; }
+  body {
+    background: var(--bg); color: var(--text); font-family: var(--font);
+    font-size: 1rem; line-height: 1.5; min-height: 100vh;
+    overflow-wrap: break-word; word-break: break-word;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* A barely-there vignette stops the large dark areas reading as flat grey. */
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(1100px 520px at 50% -180px, rgba(233, 69, 96, 0.10), transparent 70%),
+      radial-gradient(900px 600px at 110% 110%, rgba(15, 52, 96, 0.55), transparent 65%);
+  }
+  html[data-theme="light"] body::before {
+    background: radial-gradient(1100px 520px at 50% -180px, rgba(192, 38, 90, 0.07), transparent 70%);
+  }
+  body > * { position: relative; z-index: 1; }
   a { color: var(--accent); text-decoration: none; }
-  .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.5rem; background: var(--card-bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; }
-  .nav-brand { font-size: 1.2rem; font-weight: 700; color: var(--accent); overflow: hidden;
-    text-overflow: ellipsis; white-space: nowrap; max-width: 70vw; flex: 0 1 auto; min-width: 0; }
+  a:hover { color: var(--accent-hi); }
+  h1, h2, h3, h4 { line-height: 1.25; letter-spacing: -0.01em; }
+  h1 { font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2rem); font-weight: 750; }
+  h2 { font-size: clamp(1.2rem, 1.05rem + 0.6vw, 1.45rem); font-weight: 700; }
+  h3 { font-size: 1.1rem; font-weight: 700; }
+  small { font-size: 0.82rem; }
+  ::selection { background: var(--accent-soft); color: var(--text); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  /* Icon-only glyphs are buttons, not text: keep the hit box honest. */
+  button { font-family: inherit; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+
+  /* ── 3. Shell: nav, container, footer ────────────────────────────────── */
+  .nav {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--s3);
+    padding: 0.65rem 1.5rem; background: color-mix(in srgb, var(--card-bg) 88%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 1000;
+  }
+  .nav-brand {
+    font-family: var(--font-display); font-size: 1.18rem; font-weight: 700; letter-spacing: 0.01em;
+    color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    max-width: 70vw; flex: 0 1 auto; min-width: 0; display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .nav-brand:hover { color: var(--text); }
   /* Between the phone breakpoint (768) and a comfortable desktop width the nav has a lot to fit:
      let the search give way first, since it is the one thing that can be narrower. */
-  @media (max-width: 1100px) { .nav-search { max-width: 260px; } .nav-links { gap: 0.4rem; } }
-  .nav-links { display: flex; gap: 1rem; align-items: center; flex: 0 0 auto; }
-  .nav-links a, .nav-links button { background: none; border: none; color: var(--text); cursor: pointer; font-size: 0.9rem; padding: 0.4rem 0.8rem; border-radius: 4px; white-space: nowrap; touch-action: manipulation; }
-  .nav-links a:hover, .nav-links button:hover { background: var(--accent2); }
-  .nav-email { color: var(--text-muted); font-size: 0.85rem; white-space: nowrap;
-    max-width: 16ch; overflow: hidden; text-overflow: ellipsis; flex: 0 0 auto; }
+  @media (max-width: 1100px) { .nav-search { max-width: 260px; } .nav-links { gap: 0.2rem; } }
+  .nav-links { display: flex; gap: 0.2rem; align-items: center; flex: 0 0 auto; }
+  .nav-links a, .nav-links button {
+    background: none; border: none; color: var(--text-muted); cursor: pointer;
+    font-size: 0.9rem; font-weight: 600; padding: 0.5rem 0.8rem; border-radius: var(--radius-sm);
+    white-space: nowrap; touch-action: manipulation; transition: background 0.15s, color 0.15s;
+  }
+  .nav-links a:hover, .nav-links button:hover { background: var(--surface-2); color: var(--text); }
+  .nav-email { color: var(--text-dim); font-size: 0.82rem; white-space: nowrap;
+    max-width: 16ch; overflow: hidden; text-overflow: ellipsis; flex: 0 0 auto; padding: 0 0.5rem; }
   /* Hidden before it gets cramped, not after: at 1280px (a very common laptop width) it wrapped
      one character per line and made the nav 130px tall. */
   @media (max-width: 1400px) { .nav-email { display: none; } }
-  .nav-search { display: flex; align-items: center; gap: 0.3rem; flex: 1; max-width: 480px; margin: 0 1rem; position: relative; }
-  .nav-search input { flex: 1; min-width: 120px; padding: 0.35rem 0.5rem; font-size: 0.8rem; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 4px; }
-  .nav-search input::placeholder { color: var(--text-muted); font-size: 0.75rem; }
-  .nav-search .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.75rem; touch-action: manipulation; position: relative; z-index: 5; }
-  .search-results-dropdown { display: none; position: fixed; top: 56px; left: 50%; transform: translateX(-50%); width: min(92vw, 560px); z-index: 9999; max-height: 65vh; overflow-y: auto; background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+  .nav-search { display: flex; align-items: center; gap: 0.35rem; flex: 1; max-width: 480px; margin: 0 1rem; position: relative; }
+  .nav-search input {
+    flex: 1; min-width: 100px; min-height: 36px; padding: 0.35rem 0.65rem; font-size: 0.85rem;
+    background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .nav-search input::placeholder { color: var(--text-dim); }
+  .nav-search input:focus { border-color: var(--accent); box-shadow: var(--ring); outline: none; }
+  .nav-search .btn-sm { padding: 0.3rem 0.55rem; touch-action: manipulation; position: relative; z-index: 5; }
+  .search-results-dropdown {
+    display: none; position: fixed; top: 64px; left: 50%; transform: translateX(-50%);
+    width: min(92vw, 560px); z-index: 9999; max-height: 65vh; overflow-y: auto;
+    background: var(--card-bg); border: 1px solid var(--border-strong); border-radius: var(--radius);
+    box-shadow: var(--shadow-3);
+  }
   @media (max-width: 768px) {
     .nav-search { max-width: none; margin: 0 0.5rem; flex: 2; }
-    .nav-search input { font-size: 0.75rem; padding: 0.3rem 0.4rem; }
-    .nav-search .btn-sm { padding: 0.4rem 0.55rem; font-size: 0.8rem; min-width: 36px; min-height: 36px; }
+    .nav-search input { font-size: 0.9rem; padding: 0.4rem 0.55rem; }
+    .nav-search .btn-sm { padding: 0.4rem 0.55rem; font-size: 0.95rem; min-width: 40px; min-height: 40px; }
   }
-  .hamburger { display: none; background: none; border: 1px solid var(--border); color: var(--text); font-size: 1.3rem; cursor: pointer; padding: 0.35rem 0.6rem; border-radius: 4px; line-height: 1; }
+  .hamburger {
+    display: none; background: none; border: 1px solid var(--border); color: var(--text);
+    font-size: 1.15rem; cursor: pointer; padding: 0.35rem 0.6rem; border-radius: var(--radius-sm);
+    line-height: 1; min-width: 40px; min-height: 40px;
+  }
   .container { max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
   /* Dense pages (dashboard list, the map canvas) opt into the full width with this class —
      see the container_class block in layout.html. Text and form pages stay narrow on purpose. */
@@ -49,81 +151,185 @@
     /* Two rows on a phone: the brand, theme and menu on top, the search across the bottom.
        Before this the brand was squeezed to 8px — the app's own name was unreadable — because
        it shared one row with a flex:2 search field. */
-    .nav { flex-wrap: wrap; row-gap: 0.45rem; padding: 0.5rem 0.75rem; position: sticky; }
+    .nav { flex-wrap: wrap; row-gap: 0.5rem; padding: 0.5rem 0.75rem; position: sticky; }
     .nav-brand { order: 1; flex: 1 1 auto; max-width: none; font-size: 1.05rem; }
     #themeToggle { order: 2; margin-left: 0 !important; }
     .hamburger { order: 3; }
     .nav-search { order: 4; flex: 1 1 100%; max-width: none; margin: 0; }
     .hamburger { display: block; }
-    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--card-bg); flex-direction: column; gap: 0; padding: 0.5rem 0; border-bottom: 2px solid var(--border); z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
-    .nav-links.open { display: flex; }
-    .nav-links a, .nav-links button { display: block; padding: 0.7rem 1.5rem; border-radius: 0; width: 100%; text-align: left; font-size: 0.95rem; }
+    .nav-links {
+      display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--card-bg);
+      flex-direction: column; gap: 0; padding: 0.5rem 0; border-bottom: 1px solid var(--border-strong);
+      z-index: 100; box-shadow: var(--shadow-3);
+    }
+    .nav-links.open { display: flex; align-items: stretch; }
+    .nav-links a, .nav-links button { display: block; padding: 0.8rem 1.5rem; border-radius: 0; width: 100%; text-align: left; font-size: 0.98rem; min-height: 44px; }
     .nav-links span { display: block; padding: 0.5rem 1.5rem; }
-    .nav-links.open .nav-email { display: block; }
+    .nav-links.open .nav-email { display: block; text-align: left; max-width: none; }
     .container { padding: 0 0.75rem; margin: 1rem auto; }
   }
   /* Which section am I in? layout.js marks the matching nav link. */
-  .nav-links a.nav-here, .nav-links a.nav-here:hover { background: var(--accent2); color: var(--accent); font-weight: 700; }
+  .nav-links a.nav-here, .nav-links a.nav-here:hover {
+    background: var(--accent-soft); color: var(--accent-hi); font-weight: 700;
+    box-shadow: inset 0 0 0 1px rgba(233, 69, 96, 0.25);
+  }
   /* Theme-matched scrollbars: a pale default bar down the side of a dark page reads as a glitch. */
-  html { scrollbar-color: var(--border) var(--bg); }
+  html { scrollbar-color: var(--surface-3) var(--bg); }
   ::-webkit-scrollbar { width: 12px; height: 12px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; border: 2px solid var(--bg); }
-  ::-webkit-scrollbar-thumb:hover { background: var(--accent2); }
-  /* Touch: nothing worth tapping is under 34px tall (the map toolbar's buttons were 26px).
+  ::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 6px; border: 2px solid var(--bg); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+  /* Touch: nothing worth tapping is under 40px tall (the map toolbar's buttons were 26px).
      Matched on width as well as pointer type — a narrow window is the same problem, and an
      emulated or unusual device does not always report a coarse pointer. */
   @media (max-width: 768px), (pointer: coarse) {
-    .btn, .btn-sm, .nav-links a, .nav-links button, .hamburger, .dm-tab, .filter-head,
-    select, input[type="text"], input[type="number"], input[type="search"] { min-height: 34px; }
-    .nav-search .btn-sm { min-width: 34px; }
+    .btn, .nav-links a, .nav-links button, .hamburger, .dm-tab, .filter-head,
+    select, input[type="text"], input[type="number"], input[type="search"] { min-height: 40px; }
+    .btn-sm { min-height: 40px; }
+    .nav-search .btn-sm { min-width: 40px; }
+    /* Header chrome is where the 30px offenders lived: brand link, theme toggle, manual chips. */
+    #themeToggle { min-width: 40px; min-height: 40px; padding: 0.3rem; }
+    .nav-brand { display: flex; align-items: center; min-height: 40px; }
   }
   /* Legibility floor for the label/badge classes that used 0.45-0.55rem (~7-9px at a 16px root,
-     worse under the 14px mobile root). Kept proportional above the floor. */
+     worse under a shrunken mobile root). Kept proportional above the floor. */
   .badge, .badge-accent, .badge-muted, .char-portrait-chip, .src-badge,
-  .search-results-dropdown * { font-size: max(0.68rem, 10.5px); }
-  .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
-  .btn { display: inline-block; padding: 0.5rem 1.2rem; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; font-size: 0.95rem; }
-  .btn-primary { background: var(--accent); color: #fff; }
-  .btn-primary:hover { filter: brightness(1.15); }
-  .btn-outline { background: none; border: 1px solid var(--border); color: var(--text); }
+  .search-results-dropdown * { font-size: max(0.72rem, 11px); }
+
+  /* ── 4. Primitives ───────────────────────────────────────────────────── */
+  .card {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--surface-2) 55%, var(--card-bg)) 0%, var(--card-bg) 100%);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: var(--s4); margin-bottom: var(--s4); box-shadow: var(--shadow-1);
+  }
+  .card-flush { padding: 0; overflow: hidden; }
+  .card-head {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--s3);
+    padding: var(--s3) var(--s4); border-bottom: 1px solid var(--border); background: var(--surface-2);
+  }
+  .card-head h2, .card-head h3 { font-size: 1rem; font-weight: 700; }
+
+  /* Page head: one pattern for every page title block. */
+  .page-head {
+    display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s4);
+    flex-wrap: wrap; margin-bottom: var(--s4);
+  }
+  .page-title {
+    font-family: var(--font-display); font-size: clamp(1.6rem, 1.2rem + 1.3vw, 2.05rem);
+    font-weight: 700; letter-spacing: 0.005em; display: flex; align-items: center; gap: 0.5rem;
+  }
+  .page-sub { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.2rem; }
+  .page-actions { display: flex; align-items: center; gap: var(--s2); flex-wrap: wrap; }
+  .eyebrow {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  /* Section head inside a card/panel: title left, count/actions right. */
+  .sec-head {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--s3);
+    margin-bottom: var(--s3); padding-bottom: var(--s2); border-bottom: 1px solid var(--border);
+  }
+  .toolbar {
+    display: flex; align-items: center; gap: var(--s2); flex-wrap: wrap;
+    padding: var(--s2) var(--s3); background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: var(--radius); margin-bottom: var(--s4);
+  }
+  .divider { height: 1px; background: var(--border); border: 0; margin: var(--s4) 0; }
+  .empty {
+    text-align: center; padding: var(--s6) var(--s4); color: var(--text-muted);
+    border: 1px dashed var(--border-strong); border-radius: var(--radius); background: color-mix(in srgb, var(--card-bg) 60%, transparent);
+  }
+  .empty h3 { color: var(--text); margin-bottom: 0.35rem; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
+    min-height: 38px; padding: 0.5rem 1.1rem; border-radius: var(--radius-sm);
+    font-weight: 650; font-size: 0.92rem; line-height: 1.2; cursor: pointer;
+    border: 1px solid transparent; text-align: center; white-space: nowrap;
+    transition: transform 0.12s, filter 0.15s, background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary {
+    background: linear-gradient(180deg, var(--accent-hi), var(--accent)); color: #fff;
+    box-shadow: 0 2px 10px rgba(233, 69, 96, 0.28);
+  }
+  .btn-primary:hover { filter: brightness(1.07); color: #fff; }
+  .btn-outline { background: color-mix(in srgb, var(--surface-2) 70%, transparent); border-color: var(--border); color: var(--text); }
+  .btn-outline:hover { border-color: var(--border-strong); background: var(--surface-2); color: var(--text); }
+  .btn-ghost { background: none; border-color: transparent; color: var(--text-muted); }
+  .btn-ghost:hover { background: var(--surface-2); color: var(--text); }
   .btn-danger { background: var(--danger); color: #fff; }
-  .btn-sm { padding: 0.3rem 0.7rem; font-size: 0.8rem; }
+  .btn-danger:hover { filter: brightness(1.08); }
+  .btn-sm { min-height: 30px; padding: 0.28rem 0.7rem; font-size: 0.82rem; border-radius: 7px; }
+  .btn-icon { padding: 0; width: 38px; min-width: 38px; height: 38px; min-height: 38px; font-size: 1rem; }
+  .btn:disabled, .btn[disabled] { opacity: 0.5; cursor: not-allowed; }
   /* A destructive control is quiet and labelled: not a solid red block competing with the
      content for attention. It still confirms before doing anything. */
   .char-del { background: none; border: 1px solid var(--border); color: var(--text-muted); }
   .char-del:hover { border-color: var(--danger); color: var(--danger); }
-  .form-group { margin-bottom: 1rem; }
-  .form-group label { display: block; margin-bottom: 0.3rem; font-weight: 600; font-size: 0.9rem; }
-  .form-group input, .form-group select { width: 100%; padding: 0.5rem; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; color: var(--text); font-size: 0.95rem; }
-  .alert { padding: 0.75rem 1rem; border-radius: 6px; margin-bottom: 1rem; }
-  .alert-error { background: rgba(255,23,68,0.15); border: 1px solid var(--danger); color: var(--danger); }
-  .alert-success { background: rgba(0,200,83,0.15); border: 1px solid var(--success); color: var(--success); }
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; }
-  .stat-box { text-align: center; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem; }
-  .stat-num { font-size: 1.5rem; font-weight: 700; }
-  .stat-mod { font-size: 0.85rem; color: var(--text-muted); }
-  .badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.75rem; font-weight: 600; }
+
+  .form-group { margin-bottom: var(--s3); }
+  .form-group label { display: block; margin-bottom: 0.35rem; font-weight: 650; font-size: 0.86rem; color: var(--text-muted); }
+  .form-group input, .form-group select, .form-group textarea, .input, .select {
+    width: 100%; min-height: 38px; padding: 0.5rem 0.65rem; background: var(--bg); color: var(--text);
+    border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 0.95rem; font-family: inherit;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus,
+  .input:focus, .select:focus { border-color: var(--accent); box-shadow: var(--ring); outline: none; }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: var(--text-dim); }
+
+  .alert { padding: 0.75rem 1rem; border-radius: var(--radius-sm); margin-bottom: var(--s3); font-size: 0.9rem; border: 1px solid transparent; }
+  .alert-error { background: rgba(255, 71, 87, 0.12); border-color: rgba(255, 71, 87, 0.45); color: var(--danger); }
+  .alert-success { background: rgba(46, 204, 113, 0.12); border-color: rgba(46, 204, 113, 0.4); color: var(--success); }
+  .alert-info { background: var(--accent-soft); border-color: rgba(233, 69, 96, 0.3); color: var(--text); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s3); }
+
+  .stat-box {
+    text-align: center; background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 0.6rem 0.5rem;
+  }
+  .stat-num { font-size: 1.5rem; font-weight: 750; line-height: 1.15; }
+  .stat-mod { font-size: 0.82rem; color: var(--text-muted); font-weight: 600; }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.15rem 0.55rem;
+    border-radius: var(--radius-pill); font-size: 0.74rem; font-weight: 700; letter-spacing: 0.01em;
+    line-height: 1.5;
+  }
   .badge-accent { background: var(--accent); color: #fff; }
-  .badge-muted { background: var(--accent2); color: var(--text); }
-  .hp-bar { height: 12px; border-radius: 6px; background: var(--border); overflow: hidden; }
-  .hp-bar-fill { height: 100%; background: var(--success); transition: width 0.3s; }
-  .hp-bar-fill.danger { background: var(--danger); }
-  .hp-bar-fill.warn { background: var(--warn); }
-  footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.8rem; }
+  .badge-muted { background: var(--surface-3); color: var(--text-muted); }
+  .badge-gold { background: var(--gold-soft); color: var(--gold); box-shadow: inset 0 0 0 1px rgba(216, 166, 87, 0.35); }
+  .chip {
+    display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.2rem 0.6rem 0.2rem 0.2rem;
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-pill);
+    font-size: 0.8rem; font-weight: 650;
+  }
+
+  .hp-bar { height: 10px; border-radius: var(--radius-pill); background: var(--surface-3); overflow: hidden; }
+  .hp-bar-fill { height: 100%; background: linear-gradient(90deg, var(--success), #43e08a); transition: width 0.3s; }
+  .hp-bar-fill.danger { background: linear-gradient(90deg, #c62828, var(--danger)); }
+  .hp-bar-fill.warn { background: linear-gradient(90deg, #d68a00, var(--warn)); }
+
+  /* Muted meta line: the app's most common small print, kept at one size everywhere. */
+  .meta { color: var(--text-muted); font-size: 0.82rem; line-height: 1.45; }
+  .meta-dim { color: var(--text-dim); font-size: 0.8rem; }
+
+  footer { text-align: center; padding: 2rem; color: var(--text-dim); font-size: 0.8rem; }
   /* Shared character portrait tile — see templates/_char_portrait.html.
      Size comes from the --cp-size custom property so a media query can shrink
      every instance without fighting inline widths. */
   .char-portrait {
     width: var(--cp-size, 40px); height: var(--cp-size, 40px);
     flex-shrink: 0; display: block; object-fit: cover;
-    border-radius: 8px; border: 1px solid var(--border); background: var(--bg);
+    border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg);
     line-height: 1;
   }
   .char-portrait-empty {
     display: flex; align-items: center; justify-content: center;
-    border-style: dashed; color: var(--text-muted);
+    border-style: dashed; color: var(--text-dim);
     font-weight: 600; user-select: none;
   }
   /* Portraits and reference art open in the full-size viewer (openPortraitFull in char-portrait.js).
@@ -132,21 +338,25 @@
   .cp-clickable:hover { filter: brightness(1.06); }
   .char-portrait-chip {
     display: inline-flex; align-items: center; gap: 0.35rem;
-    padding: 0.15rem 0.5rem 0.15rem 0.15rem;
-    background: var(--accent2); border-radius: 10px;
-    font-size: 0.75rem; font-weight: 600; cursor: pointer;
+    padding: 0.15rem 0.55rem 0.15rem 0.15rem;
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-pill);
+    font-size: 0.78rem; font-weight: 650; cursor: pointer;
   }
   .char-portrait-chip:hover { filter: brightness(1.1); }
+
   @media (max-width: 600px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
   @media (max-width: 480px) {
-    html { font-size: 15px; }
-    .container { padding: 0 0.5rem; margin: 0.75rem auto; }
-    .card { padding: 1rem; }
-    h1 { font-size: 1.4rem !important; }
-    h2 { font-size: 1.2rem !important; }
-    h3 { font-size: 1.05rem !important; }
-    .nav { padding: 0.5rem 0.75rem; }
-    footer { padding: 1rem; font-size: 0.7rem; }
+    /* The root stays 16px: shrinking it made every rem-based label shrink with it, which is
+       how 9.75px text appeared on phones. Scale the headings instead. */
+    .container { padding: 0 0.6rem; margin: 0.85rem auto; }
+    .card { padding: var(--s3); margin-bottom: var(--s3); border-radius: var(--radius-sm); }
+    .page-head { gap: var(--s2); margin-bottom: var(--s3); }
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.22rem; }
+    h3 { font-size: 1.06rem; }
+    .page-title { font-size: 1.5rem; }
+    .nav { padding: 0.5rem 0.6rem; }
+    footer { padding: 1rem; font-size: 0.72rem; }
     /* every portrait tile shrinks a touch on phones */
     .char-portrait {
       width: var(--cp-size-mobile, var(--cp-size, 40px));

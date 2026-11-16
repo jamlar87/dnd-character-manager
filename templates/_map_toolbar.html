@@ -1,23 +1,23 @@
-{# One slim strip. The controls live in the panels beside the map (map.html) — thirty of them
-   wrapping above the canvas left a phone almost no canvas. #}
-<div class="vtt-bar">
-  <a class="btn btn-outline btn-sm" href="/dm-tools">← Tools</a>
-  <strong class="vtt-title">{{ the_map.name }}</strong>
-  <span id="vttGridInfo" class="vtt-note"></span>
-  {% if the_map.source_manual %}
-  {# Provenance: an ingested map points back at the book and page it was cut from. #}
-  <a href="/api/reference/open/{{ the_map.source_manual }}{% if the_map.source_page %}?page={{ the_map.source_page }}#page={{ the_map.source_page }}{% endif %}"
-     target="_blank" rel="noopener" class="vtt-source"
-     title="Open the source manual at this page">📖 {{ the_map.source_manual }}{% if the_map.source_page %} p.{{ the_map.source_page }}{% endif %}</a>
-  {% endif %}
-  <span class="vtt-spacer"></span>
-  <button class="btn btn-outline btn-sm" onclick="VTT.toggleGrid()" id="vttGridBtn">▦ Grid</button>
-  <button class="btn btn-outline btn-sm" onclick="VTT.fit()">⤢ Fit</button>
-  <button class="btn btn-outline btn-sm" onclick="VTT.chooseImage()">🖼 Image</button>
-  <button class="btn btn-outline btn-sm" onclick="VTT.openPlayer()">📺 Player</button>
-  <button class="btn btn-outline btn-sm" onclick="VTT.togglePanels()" id="vttPanelBtn" aria-expanded="true"
->⚙ Panels</button>
-  <span id="vttPlayerHint" class="vtt-note vtt-clip"></span>
-  <input type="file" id="vttImageInput" accept="image/*" style="display:none" onchange="VTT.uploadImage(this)">
-  <span id="vttSaved" class="vtt-note"></span>
-</div>
+{# Header band: whose map this is, what it measures, and the four DM actions. #}
+<header class="vtt-head">
+  <div class="vtt-id">
+    <h1 class="page-title vtt-title">{{ the_map.name }}</h1>
+    <p class="vtt-meta">
+      {% if the_map.image_w %}<span>{{ the_map.image_w }}×{{ the_map.image_h }} px</span> ·{% endif %}
+      <span>{{ the_map.grid_type|capitalize }} grid, {{ the_map.grid_size }} px</span> ·
+      <span>{{ the_map.feet_per_cell or 5 }} ft/cell</span> ·
+      <span class="vtt-link">🔗 {{ 'player link ready' if the_map.player_key else 'no player link yet' }}</span>
+    </p>
+  </div>
+  <div class="page-actions vtt-acts">
+    {% if the_map.source_manual %}
+    <a class="btn btn-sm vtt-source" href="/api/reference/open/{{ the_map.source_manual }}{% if the_map.source_page %}?page={{ the_map.source_page }}#page={{ the_map.source_page }}{% endif %}"
+       title="Open the manual page this map came from">📖 Manual{% if the_map.source_page %} p.{{ the_map.source_page }}{% endif %}</a>
+    {% endif %}
+    <button type="button" class="btn btn-sm" onclick="VTT.openPlayer()" title="Open the players' second screen">👥 Player view</button>
+    <button type="button" class="btn btn-sm" onclick="VTT.saveNow()" title="Save the map now">💾 Save</button>
+    <button type="button" class="btn btn-primary btn-sm" id="vttPanelBtn" onclick="VTT.togglePanels()"
+            aria-controls="vttSide" aria-expanded="true">⚙ Controls</button>
+  </div>
+  <p class="vtt-linkurl" id="vttPlayerHint"></p>
+</header>

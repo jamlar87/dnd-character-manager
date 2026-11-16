@@ -3,14 +3,32 @@
 {% block style %}
 <style>
 .container { max-width: 1400px; }
-.dm-tabs { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 2px solid var(--border); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; position: relative; }
-.dm-tabs::after { content: ''; position: sticky; right: 0; min-width: 28px; height: 100%; background: linear-gradient(to right, transparent, var(--card-bg) 70%); flex-shrink: 0; pointer-events: none; margin-left: -28px; }
+/* One scrollable strip: sticky, 40px targets, no visible scrollbar, accent pill on the
+   active tab, and a focus ring for keyboard users. Tabs stay plain buttons — the JS
+   binds .dm-tab[data-tab] and reads dataset.tab. */
+.dm-tabs { display: flex; gap: 0.3rem; margin-bottom: 1.25rem; padding: 0.35rem 0.25rem;
+  border-bottom: 1px solid var(--border); overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; scroll-snap-type: x proximity; position: sticky; z-index: 40;
+  /* Parked under the global nav: 59px on one row, 105px once it wraps to two. */
+  top: 59px;
+  background: var(--bg); }
 .dm-tabs::-webkit-scrollbar { display: none; }
-.dm-tab { padding: 0.6rem 1.4rem; cursor: pointer; font-weight: 600; font-size: 0.9rem;
-  color: var(--text-muted); border: none; background: none; border-bottom: 2px solid transparent;
-  margin-bottom: -2px; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; }
-.dm-tab:hover { color: var(--text); }
-.dm-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+/* The nav turns into two rows (brand + search bar) on a phone. */
+@media (max-width: 768px) { .dm-tabs { top: 105px; } }
+.dm-tab { min-height: 40px; display: inline-flex; align-items: center; padding: 0.35rem 0.95rem;
+  cursor: pointer; font-family: inherit; font-weight: 600; font-size: 0.88rem;
+  color: var(--text-muted); border: 1px solid transparent; background: none;
+  border-radius: var(--radius-pill); transition: color 0.15s, background 0.15s, border-color 0.15s;
+  white-space: nowrap; flex: 0 0 auto; scroll-snap-align: center; }
+.dm-tab:hover { color: var(--text); background: var(--surface-2); }
+.dm-tab.active { color: var(--accent); background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.dm-tab:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
+/* Phones: the last visible tab fades, so the strip reads as scrollable. */
+@media (max-width: 768px) {
+  .dm-tabs { -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 30px), transparent 100%);
+    mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 30px), transparent 100%); }
+}
 .dm-panel { display: none; }
 .dm-panel.active { display: block; }
 
@@ -54,21 +72,53 @@
 .participant-row .init-input { width: 50px; padding: 0.15rem 0.3rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 3px; color: var(--text); text-align: center; }
 .participant-row .hp-input { width: 60px; padding: 0.15rem 0.3rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 3px; color: var(--text); text-align: center; }
 
-/* Campaign cards */
-.campaign-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem; }
-@media (max-width: 480px) { .campaign-grid { grid-template-columns: 1fr; } }
-.campaign-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; }
-.campaign-card h3 { margin: 0 0 0.5rem 0; }
-.campaign-card .camp-stat { display: flex; gap: 0.4rem 1rem; flex-wrap: wrap; font-size: 0.85rem;
-  color: var(--text-muted); margin-bottom: 0.5rem; }
-.campaign-card .camp-stat span { white-space: nowrap; }
-.campaign-card .camp-actions { display: flex; gap: 0.3rem; margin-top: 0.5rem; align-items: center; }
-/* Delete sits apart from the two constructive actions, in the outlined style the dashboard uses. */
-.campaign-card .camp-actions .char-del { margin-left: auto; }
-.campaign-card .camp-actions button { touch-action: manipulation; }
+/* Campaign cards: equal-height grid, header row, clamped blurb, stat strip, pinned footer */
+.campaign-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--s4); align-items: stretch; }
+.campaign-card { display: flex; flex-direction: column; background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: var(--s4); box-shadow: var(--shadow-1); min-width: 0; }
+.campaign-card .cc-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s2); margin-bottom: var(--s2); }
+.campaign-card h3 { margin: 0; font-size: 1.05rem; line-height: 1.3; min-width: 0; overflow-wrap: anywhere; }
+.campaign-card .cc-head .badge { flex: 0 0 auto; white-space: nowrap; }
+.campaign-card .cc-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.45; margin: 0 0 var(--s3);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.campaign-card .camp-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s2); margin-bottom: var(--s3); }
+.campaign-card .camp-stats .stat-num { font-size: 1.1rem; }
+.campaign-card .camp-stats .stat-mod { font-size: 0.75rem; }
+.campaign-card .meta { margin: 0 0 var(--s2); }
+.campaign-card .party-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: var(--s3); }
+.campaign-card .party-chips .chip { max-width: 100%; min-width: 0; }
+.campaign-card .party-chips .chip-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.campaign-card .party-chips .chip-hp { color: var(--text-dim); font-variant-numeric: tabular-nums; flex: 0 0 auto; margin-left: 0.3rem; }
+.campaign-card textarea { width: 100%; box-sizing: border-box; margin-bottom: var(--s3); padding: 0.5rem;
+  background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  color: var(--text); font: inherit; font-size: 0.85rem; resize: vertical; }
+.campaign-card textarea:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 1px; }
+.campaign-card .camp-actions { display: flex; gap: var(--s2); margin-top: auto; padding-top: var(--s3);
+  border-top: 1px solid var(--border); align-items: center; justify-content: flex-end; flex-wrap: wrap; }
+/* Destructive action keeps a hairline gap from the constructive pair, all right-aligned. */
+.campaign-card .camp-actions .char-del { margin-left: var(--s2); border-left: 1px solid var(--border);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding-left: calc(var(--s2) + 0.4rem); }
+.campaign-card .camp-actions button, .campaign-card .camp-actions a { touch-action: manipulation; }
 @media (max-width: 480px) {
-  .campaign-card .camp-actions button { min-height: 40px; min-width: 60px; font-size: 0.85rem; }
+  .campaign-grid { grid-template-columns: 1fr; }
+  .campaign-card .camp-actions button, .campaign-card .camp-actions a { min-height: 40px; min-width: 60px; font-size: 0.85rem; }
+  .page-actions .btn, .page-actions .btn-sm { min-height: 40px; }
+  .page-head .page-actions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); }
+  .page-head .page-actions .btn-primary { grid-column: 1 / -1; }
+  /* Party chips are tap targets for the character sheet preview. */
+  .party-chips .chip { min-height: 40px; }
+  /* The chip's own preview action owns the tap; the 22px portrait inside must not steal it. */
+  .party-chips .char-portrait.cp-clickable { pointer-events: none; }
 }
+/* Wrapped action rows keep hugging the right edge. */
+.page-head .page-actions { margin-left: auto; }
+/* Core-content switch in the page actions row */
+.dm-core-toggle { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 40px;
+  padding: 0.3rem 0.7rem; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; user-select: none;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-pill); }
+.dm-core-toggle:hover { border-color: var(--border-strong); }
+#dm-core-box { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px;
+  border: 2px solid var(--border); border-radius: 3px; font-size: 11px; line-height: 1; background: var(--bg); }
 .camp-quest { padding: 0.5rem; background: var(--bg); border-radius: 4px; margin-bottom: 0.3rem; display: flex; justify-content: space-between; align-items: center; }
 
 /* Search bar */
@@ -393,18 +443,25 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 
 {% block content %}
 {% from "_char_portrait.html" import char_portrait %}
-<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem">
+<div class="page-head">
   <div>
-    <h1 style="margin-bottom:0">⚔️ DM Tools</h1>
-    <p style="color:var(--text-muted);margin-bottom:0;font-size:0.9rem">Monster library · Encounter builder · NPC manager · Campaign tracker</p>
+    <div class="eyebrow">Dungeon Master</div>
+    <h1 class="page-title">⚔️ DM Tools</h1>
+    <p class="page-sub">
+      {{ campaigns|length }} campaign{{ '' if campaigns|length == 1 else 's' }} ·
+      {{ npcs|length }} NPC{{ '' if npcs|length == 1 else 's' }} ·
+      {{ monsters|length }} monster{{ '' if monsters|length == 1 else 's' }} ·
+      encounters, maps, items and manuals
+    </p>
   </div>
-</div>
-
-<div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:0.5rem">
-  <label id="dm-core-toggle" style="display:flex;align-items:center;gap:0.3rem;font-size:0.72rem;color:var(--text-muted);cursor:pointer;user-select:none" data-action="toggleCoreDM">
-    <span id="dm-core-box" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-radius:3px;text-align:center;line-height:12px;font-size:10px;background:var(--bg)">☐</span>
-    Core content only
-  </label>
+  <div class="page-actions">
+    <label id="dm-core-toggle" class="dm-core-toggle" data-action="toggleCoreDM">
+      <span id="dm-core-box" aria-hidden="true">☐</span> Core content only
+    </label>
+    <button class="btn btn-outline" data-action="triggerFileInput" data-target="packFileTools">📥 Import pack</button>
+    <input type="file" id="packFileTools" accept="application/json,.json" hidden data-action="importCampaignPack">
+    <button class="btn btn-primary" data-action="showCreateCampaign">+ New Campaign</button>
+  </div>
 </div>
 
 <div class="dm-tabs" id="dmTabs">
@@ -605,56 +662,54 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 
 {# ───── CAMPAIGN PANEL ───── #}
 <div class="dm-panel" id="panel-campaigns">
-  <div class="toolbar">
-    <button class="btn btn-primary" data-action="showCreateCampaign">+ New Campaign</button>
-    <button class="btn btn-outline" data-action="triggerFileInput" data-target="packFileTools"
-            title="Import a campaign pack as a NEW campaign">📥 Import pack</button>
-    <input type="file" id="packFileTools" accept="application/json,.json" style="display:none"
-           data-action="importCampaignPack">
-    <span style="font-size:.75rem;color:var(--text-muted)">A pack carries a campaign's characters, NPCs, maps and encounters — export one from a campaign page.</span>
-  </div>
+  <p class="meta-dim" style="margin:0 0 var(--s3)">A pack carries a campaign's characters, NPCs, maps and encounters — export one from a campaign page.</p>
 
   <div class="campaign-grid" id="campaignList">
     {% for camp in campaigns %}
     {% set party_chars = camp.characters %}
     {% set live_size = party_chars|length %}
     {% set live_level = (party_chars|sum(attribute='level') / live_size)|round|int if live_size > 0 else camp.party_level %}
-    <div class="campaign-card">
-      <h3>{{ camp.name }}</h3>
+    <article class="campaign-card">
       {% set party_n = live_size or camp.party_size %}
       {% set quest_n = camp.quests|length %}
       {% set loc_n = camp.locations|length %}
-      <div class="camp-stat">
-        <span>👥 L{{ live_level }} · {{ party_n }} player{{ '' if party_n == 1 else 's' }}</span>
-        <span>📋 {{ quest_n }} quest{{ '' if quest_n == 1 else 's' }}</span>
-        <span>📍 {{ loc_n }} location{{ '' if loc_n == 1 else 's' }}</span>
+      <div class="cc-head">
+        <h3>{{ camp.name }}</h3>
+        <span class="badge badge-muted">{{ party_n }} player{{ '' if party_n == 1 else 's' }}</span>
       </div>
-      {% if camp.description %}<p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem">{{ camp.description }}</p>{% endif %}
-      <div style="margin-bottom:0.5rem">
-        <strong style="font-size:0.75rem;color:var(--text-muted)">Party:</strong>
-        <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.2rem">
-          {% for ch in camp.characters %}
-          <span class="char-portrait-chip" title="L{{ ch.level }} {{ ch.race }} {{ ch.class_name }} · Click to view sheet" data-action="previewCharSheet" data-id="{{ ch.id }}" data-name="{{ ch.name }}">
-            {{ char_portrait(ch.id, ch.name, ch.has_portrait, 26) }}
-            {{ ch.name }}{% if ch.hp_max %} <span style="font-weight:400;color:var(--text-muted)">({{ ch.hp_current or 0 }}/{{ ch.hp_max }})</span>{% endif %}
-          </span>
-          {% else %}
-          <span style="font-size:0.75rem;color:var(--text-muted)">No characters</span>
-          {% endfor %}
-        </div>
+      {% if camp.description %}<p class="cc-desc">{{ camp.description }}</p>{% endif %}
+      <div class="camp-stats">
+        <div class="stat-box"><div class="stat-num">L{{ live_level }}</div><div class="stat-mod">Party</div></div>
+        <div class="stat-box"><div class="stat-num">{{ quest_n }}</div><div class="stat-mod">Quests</div></div>
+        <div class="stat-box"><div class="stat-num">{{ loc_n }}</div><div class="stat-mod">Locations</div></div>
       </div>
-      <textarea id="campNotes-{{ camp.id }}" rows="3" style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);margin-top:0.5rem;font-size:0.8rem;resize:vertical" placeholder="Campaign notes…">{{ camp.notes or '' }}</textarea>
+      <p class="meta">Started {{ camp.created_at[:10] }}</p>
+      <div class="party-chips">
+        {% for ch in camp.characters %}
+        <span class="chip char-portrait-chip" title="L{{ ch.level }} {{ ch.race }} {{ ch.class_name }} · Click to view sheet" data-action="previewCharSheet" data-id="{{ ch.id }}" data-name="{{ ch.name }}">
+          {{ char_portrait(ch.id, ch.name, ch.has_portrait, 26) }}
+          <span class="chip-name">{{ ch.name }}{% if ch.hp_max %}<span class="chip-hp">({{ ch.hp_current or 0 }}/{{ ch.hp_max }})</span>{% endif %}</span>
+        </span>
+        {% else %}
+        <span class="meta-dim">No characters assigned yet</span>
+        {% endfor %}
+      </div>
+      <textarea id="campNotes-{{ camp.id }}" rows="2" placeholder="Campaign notes…">{{ camp.notes or '' }}</textarea>
       <div class="camp-actions">
         <a href="/campaign/{{ camp.id }}" class="btn btn-outline btn-sm">Open</a>
         <button class="btn btn-outline btn-sm" data-action="saveCampNotes" data-id="{{ camp.id }}">💾 Save</button>
         <button class="btn btn-outline btn-sm char-del" data-action="deleteCampaign" data-id="{{ camp.id }}"
                 title="Delete this campaign" aria-label="Delete {{ camp.name }}">🗑 Delete</button>
       </div>
-    </div>
+    </article>
     {% else %}
-    <div class="empty-state" style="grid-column:1/-1">
-      <p>No campaigns yet</p>
-      <button class="btn btn-primary" data-action="showCreateCampaign">Create Your First Campaign</button>
+    <div class="empty" style="grid-column:1/-1">
+      <h3>No campaigns yet</h3>
+      <p>Create one to track the party, quests and session notes, or import a pack from another DM.</p>
+      <div style="display:flex;gap:var(--s2);justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-primary" data-action="showCreateCampaign">+ New Campaign</button>
+        <button class="btn btn-outline" data-action="triggerFileInput" data-target="packFileTools">📥 Import pack</button>
+      </div>
     </div>
     {% endfor %}
   </div>

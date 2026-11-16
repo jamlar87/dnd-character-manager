@@ -7,7 +7,7 @@ import math
 import sqlite3
 import os
 
-from core.security import _verify, _get_user, _create_session, get_current_user
+from core.security import _verify, _get_user, _create_session, get_current_user, safe_next
 from core.http import _render
 from services import login_guard
 from services.sessions import invalidate_user_sessions
@@ -79,10 +79,10 @@ def _retry_message(wait_s: float) -> str:
     return f"Too many attempts. Try again in {minutes} minute{'s' if minutes != 1 else ''}."
 
 
-def _throttled(request: Request, template: str, wait_s: float) -> HTMLResponse:
+def _throttled(request: Request, template: str, wait_s: float, next: str = "") -> HTMLResponse:
     """The 429 page: same form, same template, explicit status and Retry-After."""
     resp = _drop_dead_session_cookie(
-        request, _render(template, request=request, error=_retry_message(wait_s))
+        request, _render(template, request=request, error=_retry_message(wait_s), next=next)
     )
     resp.status_code = 429
     resp.headers["Retry-After"] = str(max(1, math.ceil(wait_s)))
@@ -90,12 +90,18 @@ def _throttled(request: Request, template: str, wait_s: float) -> HTMLResponse:
 
 
 @router.get("/login", response_class=HTMLResponse)
-def login_page(request: Request):
-    return _drop_dead_session_cookie(request, _render("login.html", request=request))
+def login_page(request: Request, next: str = ""):
+    return _drop_dead_session_cookie(
+        request, _render("login.html", request=request, next=safe_next(next, request))
+    )
 
 
 @router.post("/login")
-def login(request: Request, email: str = Form(...), password: str = Form(...)):
+def login(request: Request, email: str = Form(...), password: str = Form(...), next: str = Form("")):
+    # The wizard hands off through ?next=, and the form posts to the same URL.
+    # Without carrying it here a player signing in mid-handoff landed on
+    # /dashboard and the hero never rejoined the campaign.
+    target = safe_next(next, request) or safe_next(request.query_params.get("next"), request)
     account = email.lower().strip()
     account_key = f"login:account:{account}"
     ip_key = f"login:ip:{_client_ip(request)}"
@@ -107,7 +113,7 @@ def login(request: Request, email: str = Form(...), password: str = Form(...)):
         login_guard.check(ip_key, LOGIN_IP_LIMIT, LOGIN_WINDOW_S),
     )
     if wait > 0:
-        return _throttled(request, "login.html", wait)
+        return _throttled(request, "login.html", wait, next=target)
 
     user = _get_user(account)
     if not user or not _verify(password, user["password_hash"]):
@@ -117,25 +123,27 @@ def login(request: Request, email: str = Form(...), password: str = Form(...)):
         login_guard.record_failure(ip_key, LOGIN_IP_LIMIT, LOGIN_WINDOW_S)
         return _drop_dead_session_cookie(
             request,
-            _render("login.html", request=request, error="Invalid email or password"),
+            _render("login.html", request=request, error="Invalid email or password", next=target),
         )
     # A real login wipes the slate for this account and this address, so a user
     # who mistyped a few times then got it right is not still on the edge.
     login_guard.clear(account_key)
     login_guard.clear(ip_key)
     token = _create_session(user["id"])
-    resp = RedirectResponse("/dashboard", 303)
+    resp = RedirectResponse(target or "/dashboard", 303)
     resp.set_cookie("dnd_token", token, httponly=True, secure=os.environ.get("APP_ENV", "development").lower() in {"production", "prod"}, max_age=60 * 60 * 24 * 30, samesite="lax", path="/")
     return resp
 
 
 @router.get("/register", response_class=HTMLResponse)
-def register_page(request: Request):
-    return _render("register.html", request=request)
+def register_page(request: Request, next: str = ""):
+    # A brand-new player arriving from a campaign handoff still needs to land
+    # back in that campaign once the account exists.
+    return _render("register.html", request=request, next=safe_next(next, request))
 
 
 @router.post("/register")
-def register(request: Request, email: str = Form(...), password: str = Form(...)):
+def register(request: Request, email: str = Form(...), password: str = Form(...), next: str = Form("")):
     # Registration is capped per client address only: every attempt counts
     # (success or rejection), because bulk account creation is the abuse mode
     # here, not password guessing. There is no per-account budget to spend.
@@ -144,19 +152,20 @@ def register(request: Request, email: str = Form(...), password: str = Form(...)
     if wait > 0:
         return _throttled(request, "register.html", wait)
     login_guard.record_failure(ip_key, REGISTER_IP_LIMIT, REGISTER_WINDOW_S)
+    target_reg = safe_next(next, request) or safe_next(request.query_params.get("next"), request)
 
     if email.lower().strip() == "admin":
         return _render("register.html", request=request, error="That email is unavailable")
     if len(password) < 6:
-        return _render("register.html", request=request, error="Password must be at least 6 characters")
+        return _render("register.html", request=request, error="Password must be at least 6 characters", next=target_reg)
     try:
         user_id = create_user(_db_path(), email.lower().strip(), password)
         token = _create_session(user_id)
-        resp = RedirectResponse("/dashboard", 303)
+        resp = RedirectResponse(target_reg or "/dashboard", 303)
         resp.set_cookie("dnd_token", token, httponly=True, secure=os.environ.get("APP_ENV", "development").lower() in {"production", "prod"}, max_age=60 * 60 * 24 * 30, samesite="lax", path="/")
         return resp
     except sqlite3.IntegrityError:
-        return _render("register.html", request=request, error="Email already registered")
+        return _render("register.html", request=request, error="Email already registered", next=target_reg)
 
 
 @router.get("/logout")

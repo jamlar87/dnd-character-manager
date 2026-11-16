@@ -7,6 +7,7 @@ all.py (avoids circulars).
 """
 
 import json
+import os
 import re
 import random
 
@@ -18,7 +19,7 @@ from services.reference_assets import (
 )
 from services.rules import ability_mod, proficiency_bonus
 
-from core.security import require_user
+from core.security import require_user, safe_next, NEXT_ALLOWED_HOSTS
 from core.http import _render
 from core.db import get_db
 from core.features import get_racial_trait_effects
@@ -35,10 +36,31 @@ from services.leveling import (
     PREPARED_CASTERS, SPELLS_KNOWN_CASTERS, SPELL_DICE, SRD_SPELLS,
     SUBCLASS_FEATURES, EXPERTISE_LEVELS,
 )
+from urllib.parse import urlsplit
+
 from routes.schemas import CreateCharacter
 from routes.characters.ai_routes import _calculate_attacks
 
 router = APIRouter()
+
+# Where the wizard may hand a finished sheet back to. The DM app builds party
+# members with this same creator, so ?next= is how the sheet returns to a
+# campaign. The allowlist lives in core.security because the login bounce uses
+# the same one — a wizard URL is not a redirector either way.
+_NEXT_ALLOWED_HOSTS = NEXT_ALLOWED_HOSTS
+
+
+def _safe_next(raw: str, request=None) -> str:
+    """Sanitize the post-create destination: a local path or an allowlisted host.
+
+    `{id}` is left in place; the client substitutes the new character's id.
+    """
+    raw = (raw or "").strip()
+    if len(raw) > 500:
+        return ""
+    return safe_next(raw, request)
+
+
 @router.get("/create", response_class=HTMLResponse)
 def create_character_page(request: Request):
     require_user(request)
@@ -83,6 +105,9 @@ def create_character_page(request: Request):
     return _render("create.html", request=request,
         create_consts_version=ensure_create_consts_asset(create_consts),
         source_slug_map_version=ensure_source_slug_map_asset(_get_source_slug_map()),
+        # Set when the DM app sent the player here to build a party member; the
+        # wizard hands the finished sheet straight back to that campaign.
+        next_url=_safe_next(request.query_params.get("next", ""), request),
         # the three ASI picker blocks are gated on these; the JS toggles their display, so
         # the page only needs to know whether the wizard can ever offer them
         has_half_elf="Half-Elf" in RACES,

@@ -862,9 +862,18 @@
   }
 
   // ── public actions ──────────────────────────────────────────────────────────────────
+  function syncGridBtn() {
+    var b = $('vttGridBtn');
+    if (!b) return;
+    b.style.opacity = '';
+    b.setAttribute('aria-pressed', state.grid.on ? 'true' : 'false');
+    b.classList.toggle('is-on', !!state.grid.on);
+    b.title = state.grid.on ? 'Grid is on — click to hide it' : 'Grid is off — click to show it';
+  }
+
   function toggleGrid() {
     state.grid.on = !state.grid.on;
-    var b = $('vttGridBtn'); if (b) b.style.opacity = state.grid.on ? '1' : '0.55';
+    syncGridBtn();
     redraw();
   }
   // One control for "reveal the whole map / hide it again": two buttons did opposite things to the
@@ -933,10 +942,9 @@
     if (sizeInput && document.activeElement !== sizeInput) sizeInput.value = state.grid.size;
     if (!el) return;
     if (!g.w) { el.textContent = 'no map image'; return; }
-    el.textContent = g.w + '\u00d7' + g.h + 'px \u00b7 ' + g.across.toFixed(2) + '\u00d7' +
-      g.down.toFixed(2) + ' cells \u00b7 ' + state.grid.size + 'px/cell \u00b7 ' +
-      scaleLabel(state.feetPerCell) + '/cell \u00b7 offset ' + Math.round(state.grid.ox) + ',' +
-      Math.round(state.grid.oy);
+    el.textContent = g.across.toFixed(2) + '\u00d7' + g.down.toFixed(2) + ' cells \u00b7 ' +
+      scaleLabel(state.feetPerCell) + '/cell \u00b7 offset ' +
+      Math.round(state.grid.ox) + ',' + Math.round(state.grid.oy);
   }
 
   function setGridSize(px) {
@@ -1674,6 +1682,7 @@
       var fogBtn = $('vttFogOn');
       if (fogBtn) fogBtn.textContent = '☁ Fog: ' + (state.fogOn ? 'on' : 'off');
       setTool('select');
+      syncGridBtn();
       loadEncounters();
       var label = $('vttGridSize'); if (label) label.textContent = state.grid.size + 'px';
       renderSelected();

@@ -4,6 +4,53 @@ from __future__ import annotations
 from fastapi import HTTPException, Request
 
 from core import config  # DB_PATH / SESSION_TTL_DAYS are read live (tests repoint them)
+from urllib.parse import quote, urlsplit
+
+import os
+
+# Where a post-login bounce may land. A login redirect that always went to
+# /dashboard dropped the ?next= a handoff carried, so a hero built for a
+# campaign never made it back to the campaign.
+NEXT_ALLOWED_HOSTS = {
+    h.strip().lower()
+    for h in os.environ.get(
+        "CREATE_REDIRECT_HOSTS",
+        "dm.jamlarnet.stream,characters.jamlarnet.stream,"
+        "localhost:8700,127.0.0.1:8700,192.168.1.54:8700",
+    ).split(",")
+    if h.strip()
+}
+
+
+def safe_next(raw: str | None, request: Request | None = None) -> str:
+    """Sanitize a post-action destination: a local path or an allowlisted host.
+
+    Same-origin URLs are always fine — that is how a bounce back to the very
+    page the visitor asked for keeps working on any hostname (LAN IP, tunnel,
+    TestClient), without widening the allowlist.
+    """
+    if not raw:
+        return ""
+    raw = raw.strip()
+    if not raw or "\n" in raw or "\r" in raw:
+        return ""
+    parsed = urlsplit(raw)
+    if not parsed.netloc and not parsed.scheme:
+        return raw if raw.startswith("/") and not raw.startswith("//") else ""
+    if parsed.scheme not in ("http", "https"):
+        return ""
+    host = (parsed.netloc or "").lower()
+    if request is not None and host == request.url.netloc.lower():
+        return raw
+    if host not in NEXT_ALLOWED_HOSTS:
+        return ""
+    return raw
+
+
+def login_url(request: Request) -> str:
+    """`/login`, carrying where the visitor was going so the bounce survives."""
+    target = safe_next(str(request.url), request)
+    return f"/login?next={quote(target, safe='')}" if target else "/login"
 
 # Compatibility wrappers; implementation lives in services.auth.
 def _hash(password: str) -> str:
@@ -36,7 +83,7 @@ def get_current_user(request: Request) -> dict | None:
 def require_user(request: Request) -> dict:
     user = get_current_user(request)
     if not user:
-        raise HTTPException(status_code=303, headers={"Location": "/login"})
+        raise HTTPException(status_code=303, headers={"Location": login_url(request)})
     return user
 
 def _is_admin(user: dict) -> bool:

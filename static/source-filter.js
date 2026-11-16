@@ -115,7 +115,7 @@
     if (document.getElementById(STYLE_ID)) return;
     var css = [
       '.sf-wrap{position:relative;display:inline-block;flex:0 0 auto}',
-      '.sf-btn{display:inline-flex;align-items:center;gap:.35rem;padding:.5rem .7rem;background:var(--card-bg,#1c1c22);',
+      '.sf-btn{display:inline-flex;align-items:center;gap:.35rem;padding:.5rem .7rem;min-height:40px;box-sizing:border-box;background:var(--card-bg,#1c1c22);',
       'border:1px solid var(--border,#333);border-radius:6px;color:var(--text,#eee);font-size:.85rem;cursor:pointer;white-space:nowrap}',
       '.sf-btn:hover{border-color:var(--accent,#c8963e)}',
       '.sf-btn.sf-active{border-color:var(--accent,#c8963e);color:var(--accent,#c8963e)}',
@@ -129,7 +129,8 @@
       // Full titles wrap instead of truncating — a clipped book name is useless
       // in a picker whose whole job is picking a book.
       '.sf-row .sf-disp{flex:1 1 auto;min-width:0;white-space:normal;overflow-wrap:anywhere;line-height:1.25}',
-      '.sf-row .sf-code{flex:0 0 auto;font-size:.68rem;color:var(--text-muted,#999);opacity:.75;margin-top:.12rem}',
+      '.sf-row .sf-code{flex:0 0 auto;font-size:.75rem;color:var(--text-muted,#999);margin-top:.1rem}',
+
       '.sf-sep{border-top:1px solid var(--border,#333);margin:.35rem 0}',
       '.sf-empty{padding:.5rem;color:var(--text-muted,#999);font-size:.8rem}',
     ].join('');

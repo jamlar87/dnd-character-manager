@@ -48,6 +48,10 @@ async function createCharacter() {
     });
     const data = await r.json();
     if (data.error) { alert(data.error); btn.textContent = '✓ Create Character'; btn.disabled = false; return; }
+    // A campaign that sent us here gets the sheet back (it becomes a party member
+    // and starts syncing); otherwise the player lands on their new sheet.
+    const back = (window.CREATE_NEXT || '').replace('{id}', encodeURIComponent(data.id));
+    if (back) { window.location.href = back; return; }
     // If target level > 1, redirect to sheet with auto-level-up
     const targetLevel = parseInt(document.getElementById('char-level').value) || 1;
     if (targetLevel > 1) {

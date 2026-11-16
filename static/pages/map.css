@@ -1,0 +1,145 @@
+/* DM map page (/dm-map/<id>).
+   Three bands: header (name + actions), readouts (the numbers a DM reads mid-fight),
+   body (canvas + grouped control cards). Everything here styles the chrome around
+   #vttHost; the canvas keeps its own sizing and drawing code. */
+
+.vtt-page{display:flex;flex-direction:column;gap:var(--s2);
+  height:clamp(26rem,calc(100dvh - 12rem),54rem);min-height:0}
+
+/* ── header band ─────────────────────────────────────────────────────────── */
+.vtt-head{display:flex;align-items:center;justify-content:space-between;gap:var(--s2) var(--s4);
+  flex-wrap:wrap;padding:var(--s2) var(--s3);background:var(--card-bg);
+  border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-1)}
+.vtt-id{flex:1 1 18rem;min-width:0;display:flex;flex-direction:column;gap:.1rem}
+.vtt-title{font-size:1.2rem;line-height:1.25;min-width:0;margin:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vtt-meta{display:flex;flex-wrap:wrap;align-items:center;gap:.1rem .45rem;margin:0;
+  color:var(--text-muted);font-size:max(.75rem,11.5px);line-height:1.4}
+.vtt-sep{color:var(--text-dim)}
+.vtt-link{color:var(--text-muted)}
+.vtt-linkurl{margin:0;flex:1 1 100%;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:max(.72rem,11px);color:var(--text-muted);word-break:break-all}
+.vtt-linkurl:empty{display:none}
+.vtt-key{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:max(.7rem,11px);
+  color:var(--accent);max-width:20rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vtt-acts{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:.4rem}
+/* One control size everywhere in the map chrome: 40px, thumb-friendly even on a tablet. */
+.vtt-acts .btn{min-height:40px}
+.vtt-saved{font-size:max(.72rem,11px);font-weight:650;color:var(--text-muted);padding-left:.15rem}
+.vtt-saved.vtt-dirty{color:var(--accent)}
+.vtt-file{display:none}
+
+/* ── readouts ────────────────────────────────────────────────────────────── */
+.vtt-reads{display:flex;flex-wrap:wrap;align-items:stretch;gap:var(--s2);padding:.25rem}
+.vtt-read{display:flex;align-items:baseline;gap:.35rem;padding:.3rem .55rem;
+  background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);min-width:0}
+.vtt-read-lab{font-size:max(.66rem,11px);letter-spacing:.09em;text-transform:uppercase;
+  font-weight:700;color:var(--text-dim)}
+.vtt-read b,.vtt-num{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.vtt-read-info{flex:1 1 14rem;font-size:max(.72rem,11px);color:var(--text-muted);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+/* ── body: canvas + control cards ────────────────────────────────────────── */
+.vtt-body{flex:1;display:flex;gap:var(--s3);min-height:0}
+.vtt-canvas-host{position:relative;flex:1;min-width:0;border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;background:var(--surface-2);box-shadow:var(--shadow-1)}
+.vtt-hint{position:absolute;left:.5rem;bottom:.45rem;font-size:max(.72rem,11px);color:var(--text);
+  pointer-events:none;background:var(--card-bg);opacity:.85;padding:.2rem .45rem;
+  border-radius:var(--radius-sm);border:1px solid var(--border)}
+
+.vtt-side{flex:0 0 19.5rem;width:19.5rem;display:flex;flex-direction:column;gap:var(--s2);
+  overflow-y:auto;overscroll-behavior:contain;padding-right:.3rem;
+  scrollbar-width:thin;scrollbar-color:var(--border-strong) transparent;scrollbar-gutter:stable}
+/* Soft cut at the bottom of the scrollport so a half-visible card reads as "more below". */
+.vtt-side::after{content:"";position:sticky;bottom:0;flex:0 0 auto;height:1.5rem;margin-top:-1.5rem;
+  background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none}
+.vtt-side[hidden]{display:none}
+.vtt-sheet-head{display:none}
+.vtt-sheet-head .btn{min-height:40px}
+.vtt-card{margin:0;flex:0 0 auto;overflow:hidden;background:var(--card-bg);
+  border:1px solid var(--border);border-radius:var(--radius)}
+.vtt-card>.card-head{display:flex;align-items:center;gap:.4rem;padding:.4rem .6rem;
+  background:var(--surface-2);border-bottom:1px solid var(--border)}
+.vtt-card>.card-head h2{margin:0;font-size:max(.8rem,12.5px);font-weight:700}
+.vtt-card>.card-head .vtt-note{margin-left:auto}
+.vtt-card-body{display:flex;flex-direction:column;gap:.45rem;padding:.5rem .6rem}
+.vtt-group{display:flex;flex-direction:column;gap:.3rem}
+.vtt-group+.vtt-group{padding-top:.45rem;border-top:1px solid var(--border)}
+.vtt-group-lab{font-size:max(.66rem,11px);letter-spacing:.09em;text-transform:uppercase;
+  font-weight:700;color:var(--text-dim)}
+.vtt-ctl{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem}
+/* Two labelled fields side by side, so "cells across" never reads as an unlabelled number. */
+.vtt-ctl-2{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
+.vtt-ctl-2 .vtt-note{display:flex;flex-direction:column;align-items:stretch;gap:.15rem;min-width:0}
+.vtt-ctl-2 .vtt-note span{white-space:nowrap;padding-left:.15rem}
+.vtt-ctl-2 input[type=number]{flex:1 1 auto;width:100%;min-width:0}
+.vtt-ctl.vtt-ctl-2 input[type=color]{width:100%;min-height:40px;padding:2px;background:var(--bg);
+  border:1px solid var(--border);border-radius:var(--radius-sm)}
+.vtt-ctl select{flex:1 1 auto;min-width:0}
+/* Card buttons are outline by default: one primary action stands out. */
+.vtt-card .btn{min-height:40px}
+/* Stepper and nudge buttons are single glyphs: give them a 40px+ square hit area. */
+.vtt-card .vtt-ctl .btn{min-width:2.6rem}
+.vtt-card .btn:not(.btn-primary):not(.btn-danger){background:transparent;border:1px solid var(--border);
+  color:var(--text);box-shadow:none}
+.vtt-card .btn:not(.btn-primary):not(.btn-danger):hover{background:var(--surface-3);border-color:var(--border-strong)}
+/* Toggle buttons (grid, fog) state: accent tint beats a dimmed "disabled" look. Placed after
+   the general outline rule so it wins on specificity ties. */
+.vtt-card .btn:not(.btn-primary):not(.btn-danger).is-on{border-color:var(--accent);
+  background:var(--accent-soft);color:var(--text)}
+.vtt-card .btn-primary{min-height:40px}
+.vtt-ctl input[type=number]{width:3.8rem;min-height:40px;padding:.15rem .3rem;text-align:center;
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);
+  color:var(--text);font-size:max(.78rem,12px);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.vtt-ctl input[type=color]{width:2.4rem;height:40px;padding:0;border:1px solid var(--border);
+  border-radius:var(--radius-sm);background:none}
+.vtt-ctl select{min-height:40px;max-width:100%;padding:.2rem .35rem;background:var(--bg);
+  border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);
+  font-size:max(.78rem,12px)}
+.vtt-note{display:inline-flex;align-items:center;gap:.25rem;font-size:max(.72rem,11px);
+  color:var(--text-muted)}
+.vtt-row{display:flex;align-items:center;gap:.3rem}
+.vtt-row input{flex:1;min-width:0;min-height:40px;padding:.3rem .45rem;background:var(--bg);
+  border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);
+  font-size:max(.8rem,12.5px)}
+.vtt-sub{border:1px solid var(--border);border-radius:var(--radius-sm);padding:.15rem .4rem}
+.vtt-sub>summary{cursor:pointer;padding:.2rem 0;font-size:max(.72rem,11px);color:var(--text-muted)}
+
+/* ── phone: canvas keeps the screen, cards become one sheet ──────────────── */
+@media(max-width:900px){
+  .vtt-page{height:auto;min-height:0}
+  .vtt-body{flex-direction:column;gap:var(--s2)}
+  .vtt-canvas-host{flex:0 0 auto;height:min(64vh,30rem)}
+  .vtt-side{position:fixed;left:0;right:0;bottom:0;width:auto;max-height:78vh;z-index:950;
+    padding:.4rem .6rem calc(.8rem + env(safe-area-inset-bottom));overflow-y:auto;
+    background:var(--bg);border-top:1px solid var(--border-strong);
+    border-radius:var(--radius) var(--radius) 0 0;box-shadow:var(--shadow-3);
+    scrollbar-gutter:auto;padding-bottom:calc(.85rem + env(safe-area-inset-bottom))}
+  .vtt-side::after{display:none}
+  /* The sheet is fixed inside .container, whose own z-index:1 stacking context sits below the
+     site footer — lift the page on a phone so the sheet paints over the footer, not under it. */
+  .container{z-index:2}
+  .vtt-sheet-head{display:flex;align-items:center;justify-content:space-between;gap:.5rem;
+    padding:.1rem .1rem .3rem}
+  .vtt-sheet-head strong{font-size:max(.8rem,12.5px)}
+  .vtt-head{padding:.5rem .6rem;gap:.4rem}
+  .vtt-title{font-size:1.05rem}
+  .vtt-acts{width:100%;justify-content:flex-start}
+  /* Four actions wrap to two rows on a phone: let the primary own the last row
+     instead of stranding a 3rem-wide button beside dead space. */
+  .vtt-acts .btn-primary{flex:1 1 8rem}
+  /* 40px targets on a touch screen, and every control reachable with a thumb. */
+  .vtt-acts .btn,.vtt-card .btn,.vtt-ctl select,.vtt-ctl input[type=number],
+  .vtt-row input,.vtt-sub>summary{min-height:40px}
+  .vtt-ctl input[type=color]{height:40px;width:2.8rem}
+  .vtt-hint{display:none}
+  .vtt-reads{gap:.35rem}
+  .vtt-read{padding:.25rem .45rem}
+  .vtt-read-info{display:none}
+}
+@media(max-width:560px){
+  .vtt-read b,.vtt-num{font-size:.95rem}
+  .vtt-read-lab{font-size:max(.62rem,11px);letter-spacing:.06em}
+}

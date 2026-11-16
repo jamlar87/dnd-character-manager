@@ -3,23 +3,98 @@
 {% block container_class %}container-wide{% endblock %}
 {% block style %}
 <style>
-/* Two columns on a wide screen: the row layout leaves a large gap between the name and the HP
-   block, so side-by-side cards use the space instead of stretching that gap. */
-.char-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(440px, 1fr)); align-items: start; }
-@media (max-width: 940px) { .char-grid { grid-template-columns: 1fr; } }
-@media (max-width: 480px) {
-  .char-card-inner { flex-direction: column; align-items: flex-start !important; }
-  .char-card-actions { width: 100%; justify-content: space-between; }
+/* ── Character cards ────────────────────────────────────────────────────
+   A card is a stacked unit — portrait + identity, then the HP block at the
+   card's content width, then a right-aligned action footer. Two per row on a
+   wide screen so a 690px card is filled rather than left with a 300px gap. */
+.char-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s4); }
+@media (max-width: 900px) { .char-grid { grid-template-columns: 1fr; } }
+.char-grid .char-card { margin-bottom: 0; height: 100%; }
+.char-grid .no-match {
+  display: none; grid-column: 1 / -1; text-align: center;
+  color: var(--text-muted); font-size: 0.9rem; padding: var(--s5) var(--s3);
 }
-/* Filters collapse on a phone (three rows of controls above the list is a lot of scrolling).
-   The flex lives here, not in the element's style attribute: an inline display:flex would beat
-   .filter-bar.collapsed .filter-body and the bar would look collapsed but stay open. */
-.filter-body { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+/* filterChars() hides non-matching cards with an inline display:none. When every
+   card is hidden the grid says so instead of turning into a blank strip. */
+.char-grid:not(:has(.char-card-inner:not([style*="display: none"]))) .no-match { display: block; }
+
+.char-card {
+  display: flex; flex-direction: column; gap: 0.7rem; padding: 1rem 1.1rem;
+  cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s;
+}
+.char-card:hover { border-color: var(--border-strong); box-shadow: var(--shadow-2); }
+
+.cc-main { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.85rem; align-items: start; }
+/* name/meta take the free space, the favourite star is pinned to the far edge */
+.cc-title { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 0.25rem 0.4rem; }
+.cc-name-line { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.45rem; min-width: 0; }
+.cc-name { font-size: 1.05rem; font-weight: 700; line-height: 1.3; overflow-wrap: anywhere; }
+.cc-meta {
+  margin-top: 0.3rem; color: var(--text-muted); font-size: 0.82rem; line-height: 1.45;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.fav-star {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 1.05rem; line-height: 1; padding: 0.15rem 0.3rem; border-radius: var(--radius-sm);
+  color: var(--text-dim); opacity: 0.5; cursor: pointer;
+  transition: color 0.15s, background 0.15s, opacity 0.15s;
+}
+.fav-star:hover { background: var(--surface-2); color: var(--text); opacity: 1; }
+.fav-star.is-fav { color: var(--gold); opacity: 1; }
+
+.cc-hp-num { display: flex; align-items: baseline; gap: 0.4rem; }
+.cc-hp-num strong { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.01em; }
+.cc-hp-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; color: var(--text-dim); }
+.cc-hp .hp-bar { height: 7px; margin-top: 0.35rem; }
+/* A low or empty bar must still read as a bar: tint the track, not just the fill. */
+.hp-track-danger { background: color-mix(in srgb, var(--danger) 24%, var(--surface-3)); }
+.hp-track-warn { background: color-mix(in srgb, var(--warn) 20%, var(--surface-3)); }
+
+.cc-actions {
+  display: flex; align-items: center; justify-content: flex-end; gap: 0.4rem;
+  margin-top: auto; padding-top: 0.6rem; border-top: 1px solid var(--border-strong);
+}
+.cc-actions .btn-sm { min-height: 32px; padding: 0.3rem 0.75rem; }
+@media (max-width: 768px) {
+  /* one-handed tapping: every control in a card gets a 40px hit box */
+  .cc-actions .btn-sm, .fav-star { min-height: 40px; min-width: 40px; }
+  .fav-star { padding: 0.15rem 0.5rem; }
+  .page-head .btn { min-height: 42px; }
+}
+/* the macro defaults the tile to 0.86x on phones; a 56px slot keeps 52px instead */
+@media (max-width: 480px) { .char-card .char-portrait { --cp-size-mobile: 52px !important; } }
+
+/* ── Filters ──────────────────────────────────────────────────────────────
+   One toolbar row on desktop: search flexes, the two selects are fixed-ish,
+   the count sits at the end. Collapsed to a single button on a phone. */
+.filter-body { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; flex: 1 1 auto; min-width: 0; }
+.filter-body .search-input { flex: 1 1 220px; min-width: 0; }
+.filter-body .select { flex: 0 1 10rem; width: auto; min-width: 8rem; }
+.count-note { margin-left: auto; white-space: nowrap; }
+.count-note #charCount::before { content: "·"; color: var(--text-dim); margin-right: 0.35rem; }
+.filter-head { display: none; width: 100%; align-items: center; }
 @media (max-width: 700px) {
-  .filter-bar.collapsed .filter-body { display: none; }
-  .filter-head { display: flex !important; }
+  .filter-head { display: flex; }
+  /* while collapsed the live count rides beside the Filters button, so the
+     mobile bar says what it is counting instead of a bare "N shown" */
+  .filter-bar.collapsed .filter-body { display: contents; }
+  .filter-bar.collapsed .filter-body > * { display: none; }
+  .filter-bar.collapsed .filter-body > .count-note {
+    display: inline-flex; align-items: center; margin: 0;
+  }
+  .filter-bar.collapsed .filter-head { flex: 1 1 auto; width: auto; }
+  .filter-bar .filter-head { min-height: 40px; }
 }
-.filter-head { display: none; width: 100%; align-items: center; justify-content: space-between; }
+
+/* ── Admin banner / empty state ───────────────────────────────────────── */
+.admin-banner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--s3); flex-wrap: wrap; margin-bottom: var(--s4);
+}
+.admin-banner .btn { min-height: 40px; }
+.empty-icon { font-size: 2rem; line-height: 1; margin-bottom: 0.35rem; }
+.empty p { margin: 0.25rem 0 1rem; font-size: 0.9rem; }
+.empty .btn { margin: 0 auto; }
 </style>
 {% endblock %}
 {% block content %}
@@ -27,20 +102,25 @@
 {# Admins can look at every user's characters, but that is a deliberate trip — not the default,
    which used to bury the owner's own characters under other people's. #}
 {% if can_see_all %}
-<div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:0.75rem;
-     flex-wrap:wrap;padding:0.6rem 0.9rem;margin-bottom:1rem;border-left:3px solid var(--accent)">
+<div class="alert alert-info admin-banner">
   {% if admin_all %}
   <span>🛡 <strong>Admin view</strong> — showing every user's characters.</span>
   <a class="btn btn-outline btn-sm" href="/dashboard">Show only mine &amp; shared</a>
   {% else %}
-  <span style="color:var(--text-muted)">🛡 Admin: you are seeing your own and shared characters.</span>
+  <span>🛡 Admin: you are seeing your own and shared characters.</span>
   <a class="btn btn-outline btn-sm" href="/dashboard?all=1">View all users' characters</a>
   {% endif %}
 </div>
 {% endif %}
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.75rem">
-  <h1>{% if admin_all %}All Characters{% else %}My Characters{% endif %}</h1>
-  <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
+
+<div class="page-head">
+  <div>
+    <h1 class="page-title">{% if admin_all %}All Characters{% else %}My Characters{% endif %}</h1>
+    <p class="page-sub">
+      {% if admin_all %}Every character on the server.{% else %}Your heroes, and the sheets other players have shared.{% endif %}
+    </p>
+  </div>
+  <div class="page-actions">
     <label class="btn btn-outline" style="cursor:pointer;margin:0" title="Import a character from an exported JSON file">
       ⬆️ Import
       <input type="file" accept=".json,application/json" style="display:none" data-action="importCharacterFromInput" data-call='{"a":[{"e":true}]}'>
@@ -49,75 +129,91 @@
   </div>
 </div>
 
-{% if characters %}
-<div class="card filter-bar collapsed" style="padding:0.75rem 1rem;margin-bottom:1rem">
-  <button type="button" class="filter-head btn btn-outline btn-sm" data-action="toggleParentCollapsed" data-call='{"a":[{"e":true}]}'
-          aria-expanded="false" title="Show or hide the filters">
-    <span>🔍 Filters</span><span id="filterCount">25 shown</span>
-  </button>
-  <div class="filter-body">
-    <input type="text" id="charSearch" placeholder="🔍 Search name, race, class..." data-action="filterChars"
-      style="flex:1;min-width:160px;padding:0.45rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem;outline:none">
-    <select id="classFilter" data-action="filterChars" style="padding:0.45rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem">
-      <option value="">All Classes</option>
-      {% for cls in all_classes %}<option value="{{ cls }}">{{ cls }}</option>{% endfor %}
-    </select>
-    <select id="levelFilter" data-action="filterChars" style="padding:0.45rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem">
-      <option value="">All Levels</option>
-      {% for lv in range(1, 21) %}<option value="{{ lv }}">Lv {{ lv }}</option>{% endfor %}
-    </select>
-    <span id="charCount" style="color:var(--text-muted);font-size:0.85rem;white-space:nowrap"></span>
-  </div>
-</div>
-{% endif %}
-
 {% if not characters %}
-<div class="card" style="text-align:center;padding:3rem">
-  <p style="font-size:1.2rem;color:var(--text-muted);margin-bottom:1rem">No characters yet</p>
+<div class="empty">
+  <div class="empty-icon" aria-hidden="true">⚔️</div>
+  <h3>No characters yet</h3>
+  <p>Roll up your first hero and their sheet will show up here.</p>
   <a href="/create" class="btn btn-primary">Create Your First Character</a>
 </div>
 {% else %}
+
+<div class="toolbar filter-bar collapsed">
+  <button type="button" class="filter-head btn btn-outline btn-sm" data-action="toggleParentCollapsed" data-call='{"a":[{"e":true}]}'
+          title="Show or hide the filters">
+    <span>🔍 Filters</span>
+  </button>
+  <div class="filter-body">
+    <input type="text" id="charSearch" class="input search-input" placeholder="🔍 Search name, race, class..."
+      data-action="filterChars">
+    <select id="classFilter" class="select" data-action="filterChars" aria-label="Filter by class">
+      <option value="">All Classes</option>
+      {% for cls in all_classes %}<option value="{{ cls }}">{{ cls }}</option>{% endfor %}
+    </select>
+    <select id="levelFilter" class="select" data-action="filterChars" aria-label="Filter by level">
+      <option value="">All Levels</option>
+      {% for lv in range(1, 21) %}<option value="{{ lv }}">Lv {{ lv }}</option>{% endfor %}
+    </select>
+    <span class="meta count-note" aria-live="polite"><span>Characters</span><span id="charCount">{{ characters|length }} shown</span></span>
+  </div>
+</div>
+
 <div class="char-grid">
 {% for c in characters %}
 {% set is_fav = c.id in favorites %}
-<div id="char-card-{{ c.id }}" class="card char-card-inner" style="cursor:pointer" data-action="openCharacter" data-call='{"a":[{"n":{{ c.id }}}]}'
+{% set hp_pct = (c.hp_current / c.hp_max * 100) if c.hp_max and c.hp_max > 0 else 0 %}
+{% set hp_pct = [hp_pct, 100]|min %}
+{% set hp_state = 'danger' if hp_pct < 25 else ('warn' if hp_pct < 50 else 'ok') %}
+{% set meta_text %}{{ c.race }}{% if c.subrace %} ({{ c.subrace }}){% endif %} · {{ c.class_name }}{% if c.subclass %} — {{ c.subclass }}{% endif %}{% if c.background %} · {{ c.background }}{% endif %}{% endset %}
+<div id="char-card-{{ c.id }}" class="card char-card char-card-inner"
+  data-action="openCharacter" data-call='{"a":[{"n":{{ c.id }}}]}'
   data-name="{{ c.name|lower }}" data-class="{{ c.class_name|lower }}" data-level="{{ c.level }}">
-  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
-    <div style="display:flex;align-items:center;gap:0.5rem;min-width:0">
-      {# portrait, or a dashed tile with the initial; see _char_portrait.html #}
-      {{ char_portrait(c.id, c.name, c.has_portrait, 56, c.portrait_url) }}
-      <span class="fav-star" data-char-id="{{ c.id }}"
-            style="cursor:pointer;font-size:1.2rem;flex-shrink:0;{% if is_fav %}color:#ffd700{% else %}color:var(--text-muted);opacity:0.3{% endif %}"
-            data-action="toggleFav" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;n&quot;:&quot;{{ c.id }}&quot;},{&quot;e&quot;:true}]}'
-            title="{{ 'Remove from favorites' if is_fav else 'Add to favorites' }}">★</span>
-      <div>
-      <strong style="font-size:1.15rem;overflow-wrap:break-word;word-break:break-word">{{ c.name }}</strong>
-      <span class="badge badge-accent" style="margin-left:0.5rem;flex-shrink:0">Lv{{ c.level }}</span>
-      {% if c.shared %}<span class="badge" style="background:var(--accent);color:#fff;font-size:0.72rem;margin-left:0.3rem">🌐 Public</span>{% endif %}
-      {% if c.owner_email and c.user_id != current_user_id %}<span class="badge badge-muted" style="font-size:0.72rem;margin-left:0.3rem">{{ c.owner_email }}</span>{% endif %}
-      <div style="color:var(--text-muted);font-size:0.85rem;margin-top:0.25rem;overflow-wrap:break-word;word-break:break-word;line-height:1.4">
-        {{ c.race }}{% if c.subrace %} ({{ c.subrace }}){% endif %} · {{ c.class_name }}{% if c.subclass %} — {{ c.subclass }}{% endif %}
-        {% if c.background %} · {{ c.background }}{% endif %}
-      </div>
-    </div>
-    </div>
-    <div class="char-card-actions" style="display:flex;align-items:center;gap:0.5rem">
-      <div style="text-align:right">
-        <span style="font-size:1.2rem;font-weight:700">{{ c.hp_current }}/{{ c.hp_max }}</span>
-        <span style="color:var(--text-muted);font-size:0.8rem"> HP</span>
-        <div style="width:100px" class="hp-bar">
-          <div class="hp-bar-fill{% if c.hp_current < c.hp_max * 0.25 %} danger{% elif c.hp_current < c.hp_max * 0.5 %} warn{% endif %}" style="width:{{ (c.hp_current / c.hp_max * 100) if c.hp_max > 0 else 0 }}%"></div>
+  <div class="cc-main">
+    {# portrait, or a dashed tile with the initial; see _char_portrait.html.
+       portrait_url is '' for stored base64 blobs (the route serves those), so a
+       non-empty value here is an external URL and is used directly. #}
+    {{ char_portrait(c.id, c.name, c.has_portrait, 56, c.portrait_url or '') }}
+    <div>
+      <div class="cc-title">
+        <div class="cc-name-line">
+          <span class="cc-name">{{ c.name }}</span>
+          <span class="badge badge-accent">Lv {{ c.level }}</span>
+          {% if c.shared %}<span class="badge badge-gold" title="Visible to everyone">🌐 Public</span>{% endif %}
+          {% if c.owner_email and c.user_id != current_user_id %}<span class="badge badge-muted" title="Owner">{{ c.owner_email }}</span>{% endif %}
         </div>
+        <span class="fav-star{% if is_fav %} is-fav{% endif %}" data-char-id="{{ c.id }}"
+              data-action="toggleFav" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;n&quot;:&quot;{{ c.id }}&quot;},{&quot;e&quot;:true}]}'
+              title="{{ 'Remove from favorites' if is_fav else 'Add to favorites' }}"
+              role="button" aria-pressed="{{ 'true' if is_fav else 'false' }}"
+              aria-label="{{ 'Remove from favorites' if is_fav else 'Add to favorites' }}">★</span>
       </div>
-      {% if c.user_id == current_user_id %}
-      <button class="btn btn-outline btn-sm" data-action="toggleShare" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;n&quot;:&quot;{{ c.id }}&quot;},{&quot;n&quot;:&quot;{{ 'true' if c.shared else 'false' }}&quot;}]}' title="{{ 'Unshare' if c.shared else 'Share publicly' }}" style="font-size:0.65rem">{{ '🔓 Public' if c.shared else '🔒 Share' }}</button>
-      <button class="btn btn-sm char-del" data-action="deleteChar" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;n&quot;:&quot;{{ c.id }}&quot;}]}'
-              title="Delete this character" aria-label="Delete {{ c.name }}">🗑 Delete</button>
-      {% endif %}
+      <div class="cc-meta" title="{{ meta_text }}">{{ meta_text }}</div>
     </div>
   </div>
+
+  <div class="cc-hp">
+    <div class="cc-hp-num">
+      <strong>{{ c.hp_current }}/{{ c.hp_max }}</strong>
+      <span class="cc-hp-label">HP</span>
+    </div>
+    <div class="hp-bar hp-track-{{ hp_state }}" role="img"
+         aria-label="Hit points {{ c.hp_current }} of {{ c.hp_max }}">
+      <div class="hp-bar-fill{% if hp_state == 'danger' %} danger{% elif hp_state == 'warn' %} warn{% endif %}"
+           style="width: {{ '%.1f'|format(hp_pct) }}%"></div>
+    </div>
+  </div>
+
+  {% if c.user_id == current_user_id %}
+  <div class="cc-actions">
+    <button class="btn btn-ghost btn-sm" data-action="toggleShare" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;n&quot;:&quot;{{ c.id }}&quot;},{&quot;n&quot;:&quot;{{ 'true' if c.shared else 'false' }}&quot;}]}'
+            title="{{ 'Unshare' if c.shared else 'Share publicly' }}">{{ '🔓 Public' if c.shared else '🔒 Share' }}</button>
+    <button class="btn btn-sm char-del" data-action="deleteChar" data-call='{&quot;stop&quot;:true,&quot;a&quot;:[{&quot;n&quot;:&quot;{{ c.id }}&quot;}]}'
+            title="Delete this character" aria-label="Delete {{ c.name }}">🗑 Delete</button>
+  </div>
+  {% endif %}
 </div>
 {% endfor %}
+<div class="no-match">No characters match these filters.</div>
 </div>
 {% endif %}
 

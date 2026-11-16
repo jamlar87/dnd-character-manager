@@ -2,54 +2,108 @@
 {% block title %}📜 {{ camp.name }}{% endblock %}
 {% block style %}
 <style>
-.camp-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
-.camp-section h3 { margin: 0 0 0.75rem 0; font-size: 1rem; }
+/* Campaign page: one header band, a stat strip, then stacked sections.
+   Rows stay single-line on desktop and stack their actions under the name on phones. */
+.camp-page { max-width: 1000px; margin: 0 auto; }
+.page-head .page-actions { margin-left: auto; }
+.camp-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s3); margin-bottom: var(--s4); }
+.camp-stats .stat-num { font-size: 1.35rem; }
+.camp-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: var(--s4); margin-bottom: var(--s4); box-shadow: var(--shadow-1); }
+.camp-section > .sec-head { margin-bottom: var(--s3); }
+.camp-section > .sec-head h3 { margin: 0; font-size: 1rem; display: flex; align-items: center; gap: 0.4rem; }
+.camp-desc { margin: 0; font-size: 0.9rem; line-height: 1.55; color: var(--text); }
 .char-row, .npc-row, .quest-row, .loc-row {
   padding: 0.5rem 0.7rem; background: var(--bg); border: 1px solid var(--border);
-  border-radius: 6px; margin-bottom: 0.3rem;
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.3rem;
+  border-radius: var(--radius-sm); margin-bottom: var(--s2);
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--s2);
 }
-.stat-tag { font-size: 0.75rem; color: var(--text-muted); }
+.char-row:last-child, .npc-row:last-child, .quest-row:last-child, .loc-row:last-child { margin-bottom: 0; }
+.char-row .chip { flex: 0 1 auto; min-width: 0; }
+.char-row .chip-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.char-row .chip-name a { display: inline-flex; align-items: center; min-height: 40px; padding: 0 .15rem; margin: -0.6rem 0; }
+.char-row .chip-name a:focus-visible { outline: 2px solid var(--accent, #c8963e); outline-offset: 2px; border-radius: 4px; }
+.char-row .row-actions, .npc-row .row-actions { display: flex; gap: var(--s2); align-items: center; flex-wrap: wrap; }
+.stat-tag { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
+.quest-row > span, .loc-row > span { display: flex; align-items: center; gap: var(--s2); flex-wrap: wrap; min-width: 0; }
+.select.camp-picker { width: auto; flex: 1 1 13rem; min-width: 0; max-width: 100%; }
+.camp-notes, .npc-notes { width: 100%; box-sizing: border-box; padding: 0.5rem 0.6rem; background: var(--bg);
+  border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);
+  font: inherit; font-size: 0.85rem; resize: vertical; }
+.camp-notes:focus-visible, .npc-notes:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 1px; }
+.npc-notes { margin-top: var(--s2); }
+.session-body { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: var(--s3); font-size: 0.88rem; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+@media (max-width: 600px) {
+  .camp-stats { grid-template-columns: repeat(2, 1fr); }
+  /* Section heads stack: heading on its own line, controls fill the next one. */
+  .camp-section > .sec-head { flex-wrap: wrap; }
+  .camp-section > .sec-head h3 { flex: 1 1 100%; margin-bottom: var(--s2); }
+  .camp-section > .sec-head .page-actions { flex: 1 1 100%; }
+  .select.camp-picker { width: 100%; flex: 1 1 100%; min-width: 0; }
+}
 @media (max-width: 480px) {
-  .camp-actions button { min-height: 40px; min-width: 60px; font-size: 0.85rem; }
-  .char-row, .npc-row { flex-direction: column; align-items: stretch; }
+  .camp-section { padding: var(--s3); margin-bottom: var(--s3); }
+  .char-row, .npc-row { flex-direction: column; align-items: stretch; min-width: 0; }
+  .char-row .row-actions, .npc-row .row-actions { justify-content: flex-end; min-width: 0; max-width: 100%; }
+  /* Stacked rows: the identity chip must wrap instead of pushing the page wide. */
+  .char-row .chip { flex-wrap: wrap; min-width: 0; max-width: 100%; white-space: normal; row-gap: 2px; }
+  .char-row .chip-name { white-space: normal; overflow-wrap: anywhere; text-overflow: clip; }
+  .camp-section .btn { min-height: 40px; min-width: 40px; }
+  .page-actions .btn, .page-actions .btn-sm { min-height: 40px; }
+  .camp-page .modal-close { min-height: 40px; min-width: 40px; }
+  /* Portrait tiles are zoom buttons; keep a 40px hit area once the nav wraps. */
+  .camp-page .char-row .char-portrait.cp-clickable,
+  .camp-page .npc-row .char-portrait.cp-clickable { min-width: 40px; min-height: 40px; }
 }
 </style>
 {% endblock %}
 {% block content %}
 {% from "_char_portrait.html" import char_portrait %}
-<div class="container" style="max-width:900px;margin:0 auto;padding:1rem">
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem">
+<div class="camp-page">
+  <div class="page-head">
     <div>
-      <h2 style="margin:0">📜 {{ camp.name }}</h2>
-      <p style="color:var(--text-muted);font-size:0.85rem">
-        {% set party_n = live_size or 0 %}{% set char_n = chars|length %}
-        Party: L{{ live_level }} · {{ party_n }} player{{ '' if party_n == 1 else 's' }} · {{ char_n }} character{{ '' if char_n == 1 else 's' }}
+      <div class="eyebrow">Campaign</div>
+      <h1 class="page-title">📜 {{ camp.name }}</h1>
+      <p class="page-sub">
+        {% set party_n = live_size or 0 %}
+        {{ party_n }} player{{ '' if party_n == 1 else 's' }} · L{{ live_level }} party ·
+        {{ npcs|length }} NPC{{ '' if npcs|length == 1 else 's' }} ·
+        {{ quests|length }} quest{{ '' if quests|length == 1 else 's' }} ·
+        {{ locations|length }} location{{ '' if locations|length == 1 else 's' }}{% if camp.created_at %} · started {{ camp.created_at[:10] }}{% endif %}
       </p>
     </div>
-    <div class="camp-actions" style="display:flex;gap:0.3rem;flex-wrap:wrap">
-      <a href="/dm-tools" class="btn btn-outline btn-sm">← Back</a>
-      <a href="/api/dm/campaign/{{ camp.id }}/export" class="btn btn-outline btn-sm" download
-         title="Download this campaign (characters, NPCs, maps, encounters and images) as one file">📦 Export pack</a>
+    <div class="page-actions">
+      <a href="/dm-tools" class="btn btn-ghost btn-sm">← All campaigns</a>
       <button class="btn btn-outline btn-sm" data-action="triggerFileInput" data-target="packFile"
               title="Import a campaign pack as a NEW campaign">📥 Import pack</button>
-      <input type="file" id="packFile" accept="application/json,.json" style="display:none"
+      <input type="file" id="packFile" accept="application/json,.json" hidden
              data-action="importCampaignPack">
-      <button class="btn btn-primary btn-sm" data-action="editCampaignMeta" data-id="{{ camp.id }}">✏️ Edit</button>
-      <button class="btn btn-danger btn-sm" data-action="deleteFromPage" data-id="{{ camp.id }}">🗑️ Delete</button>
+      <a href="/api/dm/campaign/{{ camp.id }}/export" class="btn btn-outline btn-sm" download
+         title="Download this campaign (characters, NPCs, maps, encounters and images) as one file">📦 Export pack</a>
+      <button class="btn btn-outline btn-sm char-del" data-action="deleteFromPage" data-id="{{ camp.id }}">🗑️ Delete</button>
+      <button class="btn btn-primary btn-sm" data-action="editCampaignMeta" data-id="{{ camp.id }}">✏️ Edit campaign</button>
     </div>
   </div>
 
+  <div class="camp-stats">
+    <div class="stat-box"><div class="stat-num">{{ live_level }}</div><div class="stat-mod">Party level</div></div>
+    <div class="stat-box"><div class="stat-num">{{ chars|length }}</div><div class="stat-mod">Characters</div></div>
+    <div class="stat-box"><div class="stat-num">{{ npcs|length }}</div><div class="stat-mod">NPCs</div></div>
+    <div class="stat-box"><div class="stat-num">{{ quests|length }}</div><div class="stat-mod">Quests</div></div>
+  </div>
+
   {% if camp.description %}
-  <div class="camp-section"><p style="margin:0;font-size:0.9rem">{{ camp.description }}</p></div>
+  <div class="camp-section"><p class="camp-desc">{{ camp.description }}</p></div>
   {% endif %}
 
   <!-- Party Characters -->
   <div class="camp-section">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.3rem">
-      <h3 style="margin:0">👥 Party Characters ({{ chars|length }})</h3>
-      <div style="display:flex;gap:0.3rem">
-        <select id="charPicker" style="padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem">
+    <div class="sec-head">
+      <h3>👥 Party characters <span class="badge badge-muted">{{ chars|length }}</span></h3>
+      <div class="page-actions">
+        <select id="charPicker" class="select camp-picker" aria-label="Add character to campaign">
           <option value="">— Add character —</option>
           {% for ch in all_chars %}
           {% if ch.id not in linked_char_ids %}
@@ -63,107 +117,124 @@
     {% if chars %}
     {% for ch in chars %}
     <div class="char-row">
-      <div style="display:flex;align-items:center;gap:0.5rem;min-width:0">
+      <div class="chip" title="L{{ ch.level }} {{ ch.race }} {{ ch.class_name }}">
         {{ char_portrait(ch.id, ch.name, ch.has_portrait, 36) }}
-        <div>
-        <strong><a href="/character/{{ ch.id }}" target="_blank" style="color:var(--text)">{{ ch.name }}</a></strong>
-        <span class="stat-tag">L{{ ch.level }} {{ ch.race }}{{ ' (' + ch.subrace + ')' if ch.subrace }} {{ ch.class_name }}{{ ' — ' + ch.subclass if ch.subclass }}</span>
+        <div style="min-width:0">
+          <div class="chip-name"><a href="/character/{{ ch.id }}" target="_blank" style="color:var(--text)">{{ ch.name }}</a></div>
+          <span class="stat-tag">L{{ ch.level }} {{ ch.race }}{{ ' (' + ch.subrace + ')' if ch.subrace }} {{ ch.class_name }}{{ ' — ' + ch.subclass if ch.subclass }}</span>
         </div>
       </div>
-      <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
+      <div class="row-actions">
         <span class="stat-tag">❤️ {{ ch.hp_current }}/{{ ch.hp_max }}</span>
         <span class="stat-tag">🛡️ AC {{ ch.ac }}</span>
         <span class="stat-tag">⚡ {{ ch.speed or 30 }}ft</span>
-        <button class="btn btn-outline btn-sm" data-action="previewCharSheet" data-id="{{ ch.id }}" data-name="{{ ch.name }}" title="View sheet">📋</button>
-        <button class="btn btn-danger btn-sm" data-action="removeCharFromCampaign" data-id="{{ camp.id }}" data-char-id="{{ ch.id }}">✕</button>
+        <button class="btn btn-outline btn-sm" data-action="previewCharSheet" data-id="{{ ch.id }}" data-name="{{ ch.name }}" title="View {{ ch.name }}'s sheet" aria-label="View {{ ch.name }}'s sheet">📋</button>
+        <button class="btn btn-outline btn-sm char-del" data-action="removeCharFromCampaign" data-id="{{ camp.id }}" data-char-id="{{ ch.id }}" title="Remove from campaign" aria-label="Remove {{ ch.name }} from campaign">✕</button>
       </div>
     </div>
     {% endfor %}
     {% else %}
-    <p style="color:var(--text-muted);font-size:0.85rem">No characters in this campaign yet.</p>
+    <div class="empty">
+      <h3>No adventurers yet</h3>
+      <p>Add the party to track HP, AC and open their sheets from here.</p>
+      <a href="#charPicker" class="btn btn-outline">Choose a character</a>
+    </div>
     {% endif %}
   </div>
 
   <!-- NPCs -->
   <div class="camp-section">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.3rem">
-      <h3 style="margin:0">🧑 NPCs ({{ npcs|length }})</h3>
-      <button class="btn btn-primary btn-sm" data-action="showNpcPicker" data-id="{{ camp.id }}">+ Add NPC</button>
+    <div class="sec-head">
+      <h3>🧑 NPCs <span class="badge badge-muted">{{ npcs|length }}</span></h3>
+      {% if npcs %}<button class="btn btn-primary btn-sm" data-action="showNpcPicker" data-id="{{ camp.id }}">+ Add NPC</button>{% endif %}
     </div>
     {% if npcs %}
     {% for n in npcs %}
     <div class="npc-row">
-      <div style="display:flex;align-items:center;gap:0.5rem">
+      <div class="chip">
         {{ char_portrait(n.id, n.name, n.has_portrait, 36, kind='npc') }}
-        <strong>{{ n.name }}</strong>
-        <span class="badge badge-muted" style="font-size:0.65rem">{{ 'Enemy' if n.is_enemy else 'NPC' }}</span>
-        <span class="stat-tag">{{ n.race }}{{ ' · L' + n.level|string + ' ' + n.class_name if n.class_name }}{{ ' (' + n.subclass + ')' if n.subclass }}</span>
+        <div style="min-width:0">
+          <div class="chip-name">{{ n.name }}</div>
+          <span class="stat-tag">{{ 'Enemy' if n.is_enemy else 'NPC' }} · {{ n.race }}{{ ' · L' + n.level|string + ' ' + n.class_name if n.class_name }}{{ ' (' + n.subclass + ')' if n.subclass }}</span>
+        </div>
       </div>
-      <div style="display:flex;gap:0.3rem;align-items:center;flex-wrap:wrap">
+      <div class="row-actions">
         <span class="stat-tag">❤️ {{ n.hp_current or 0 }}/{{ n.hp_max or 0 }}</span>
         <span class="stat-tag">🛡️ AC {{ n.ac or 10 }}</span>
-        <button class="btn btn-danger btn-sm" data-action="removeNpcFromCampaign" data-id="{{ camp.id }}" data-npc-id="{{ n.id }}">✕</button>
+        <button class="btn btn-outline btn-sm char-del" data-action="removeNpcFromCampaign" data-id="{{ camp.id }}" data-npc-id="{{ n.id }}" title="Remove from campaign" aria-label="Remove {{ n.name }} from campaign">✕</button>
       </div>
-      <div style="width:100%;margin-top:0.3rem">
-        <textarea id="npcNotes-{{ camp.id }}-{{ n.id }}" rows="2" style="width:100%;padding:0.3rem 0.5rem;background:var(--card-bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.75rem;resize:vertical" placeholder="DM notes…">{{ n.notes or '' }}</textarea>
-        <button class="btn btn-outline btn-sm" style="margin-top:0.2rem;font-size:0.7rem" data-action="saveNpcNotes" data-id="{{ camp.id }}" data-npc-id="{{ n.id }}" data-notes="npcNotes-{{ camp.id }}-{{ n.id }}">💾 Save</button>
+      <div style="width:100%">
+        <textarea id="npcNotes-{{ camp.id }}-{{ n.id }}" rows="2" class="npc-notes" placeholder="DM notes…">{{ n.notes or '' }}</textarea>
+        <button class="btn btn-outline btn-sm" style="margin-top:var(--s2)" data-action="saveNpcNotes" data-id="{{ camp.id }}" data-npc-id="{{ n.id }}" data-notes="npcNotes-{{ camp.id }}-{{ n.id }}">💾 Save notes</button>
       </div>
     </div>
     {% endfor %}
     {% else %}
-    <p style="color:var(--text-muted);font-size:0.85rem">No NPCs linked yet.</p>
+    <div class="empty">
+      <h3>No NPCs linked yet</h3>
+      <p>Pull in allies, villains and shopkeepers from the NPC library.</p>
+      <button class="btn btn-outline" data-action="showNpcPicker" data-id="{{ camp.id }}">+ Add NPC</button>
+    </div>
     {% endif %}
   </div>
 
   <!-- Quests & Locations -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
-    <div class="camp-section">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.3rem">
-        <h3 style="margin:0">📋 Quests ({{ quests|length }})</h3>
-        <button class="btn btn-outline btn-sm" data-action="addQuest" data-id="{{ camp.id }}">+ Add</button>
+  <div class="grid-2" style="margin-bottom:var(--s4)">
+    <div class="camp-section" style="margin-bottom:0">
+      <div class="sec-head">
+        <h3>📋 Quests <span class="badge badge-muted">{{ quests|length }}</span></h3>
+        {% if quests %}<button class="btn btn-outline btn-sm" data-action="addQuest" data-id="{{ camp.id }}">+ Add</button>{% endif %}
       </div>
       {% if quests %}
       {% for q in quests %}
       <div class="quest-row">
         <span>{{ q.name }}{% if q.status %} <span class="badge badge-{{ 'accent' if q.status == 'completed' else 'muted' }}">{{ q.status }}</span>{% endif %}</span>
-        <button class="btn btn-danger btn-sm" data-action="removeQuest" data-id="{{ camp.id }}" data-index="{{ loop.index0 }}">✕</button>
+        <button class="btn btn-outline btn-sm char-del" data-action="removeQuest" data-id="{{ camp.id }}" data-index="{{ loop.index0 }}" title="Remove quest" aria-label="Remove {{ q.name }}">✕</button>
       </div>
       {% endfor %}
       {% else %}
-      <p style="color:var(--text-muted);font-size:0.85rem">No quests yet.</p>
+      <div class="empty">
+        <h3>No quests yet</h3>
+        <p>Track what the party is chasing next.</p>
+        <button class="btn btn-outline" data-action="addQuest" data-id="{{ camp.id }}">+ Add quest</button>
+      </div>
       {% endif %}
     </div>
 
-    <div class="camp-section">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.3rem">
-        <h3 style="margin:0">📍 Locations ({{ locations|length }})</h3>
-        <button class="btn btn-outline btn-sm" data-action="addLocation" data-id="{{ camp.id }}">+ Add</button>
+    <div class="camp-section" style="margin-bottom:0">
+      <div class="sec-head">
+        <h3>📍 Locations <span class="badge badge-muted">{{ locations|length }}</span></h3>
+        {% if locations %}<button class="btn btn-outline btn-sm" data-action="addLocation" data-id="{{ camp.id }}">+ Add</button>{% endif %}
       </div>
       {% if locations %}
       {% for l in locations %}
       <div class="loc-row">
         <span>{{ l.name }}{% if l.type %} <span class="badge badge-muted">{{ l.type }}</span>{% endif %}</span>
-        <button class="btn btn-danger btn-sm" data-action="removeLocation" data-id="{{ camp.id }}" data-index="{{ loop.index0 }}">✕</button>
+        <button class="btn btn-outline btn-sm char-del" data-action="removeLocation" data-id="{{ camp.id }}" data-index="{{ loop.index0 }}" title="Remove location" aria-label="Remove {{ l.name }}">✕</button>
       </div>
       {% endfor %}
       {% else %}
-      <p style="color:var(--text-muted);font-size:0.85rem">No locations yet.</p>
+      <div class="empty">
+        <h3>No locations yet</h3>
+        <p>Keep the towns, dungeons and camps the party has found.</p>
+        <button class="btn btn-outline" data-action="addLocation" data-id="{{ camp.id }}">+ Add location</button>
+      </div>
       {% endif %}
     </div>
   </div>
 
   <!-- Notes -->
   <div class="camp-section">
-    <h3>📝 Campaign Notes</h3>
-    <textarea id="campNotes" rows="4" style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);margin-bottom:0.5rem;resize:vertical">{{ camp.notes or '' }}</textarea>
-    <button class="btn btn-outline" data-action="saveCampNotes" data-id="{{ camp.id }}">💾 Save Notes</button>
+    <div class="sec-head"><h3>📝 Campaign notes</h3></div>
+    <textarea id="campNotes" rows="4" class="camp-notes" placeholder="Loose threads, rulings, party goals…">{{ camp.notes or '' }}</textarea>
+    <button class="btn btn-outline" style="margin-top:var(--s3)" data-action="saveCampNotes" data-id="{{ camp.id }}">💾 Save notes</button>
   </div>
 
   <!-- Session Notes -->
   {% if camp.session_notes %}
   <div class="camp-section">
-    <h3>📄 Session Notes</h3>
-    <div style="background:var(--bg);border-radius:4px;padding:0.75rem;font-size:0.85rem;white-space:pre-wrap">{{ camp.session_notes }}</div>
+    <div class="sec-head"><h3>📄 Session notes</h3></div>
+    <div class="session-body">{{ camp.session_notes }}</div>
   </div>
   {% endif %}
 

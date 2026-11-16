@@ -1,87 +1,242 @@
 {% extends "layout.html" %}
-{% block title %}Character Manager{% endblock %}
-{% block container_class %}container-wide{% endblock %}
+{% block title %}D&D Character Manager — characters, campaigns and the whole table{% endblock %}
+{% block container_class %}landing{% endblock %}
 {% block style %}
 <style>
-/* The landing page used to be a title, one sentence and two buttons: about 340px of a 900px
-   window, and nothing that said what the app actually does. */
-.landing-hero { text-align: center; padding: 2.5rem 0 1.5rem; }
-.landing-hero h1 { font-size: 2.4rem; margin-bottom: 0.6rem; }
-.landing-hero p.lead { color: var(--text-muted); max-width: 620px; margin: 0 auto 1.6rem;
-  font-size: 1.05rem; line-height: 1.55; }
-.landing-cta { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
-.landing-cta .btn { font-size: 1.05rem; padding: 0.7rem 1.8rem; }
-.landing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1rem; margin: 1rem 0 2rem; }
-.landing-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px;
-  padding: 1.1rem 1.2rem; }
-.landing-card h3 { margin: 0 0 0.4rem; font-size: 1.02rem; }
-.landing-card p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.5; margin: 0; }
-.landing-icon { font-size: 1.4rem; display: block; margin-bottom: 0.35rem; }
-.landing-stats { display: flex; flex-wrap: wrap; gap: 0.6rem 2rem; justify-content: center;
-  padding: 1rem; border: 1px solid var(--border); border-radius: 10px; background: var(--card-bg); }
-.landing-stat b { display: block; font-size: 1.5rem; color: var(--accent); line-height: 1.1; }
-.landing-stat span { color: var(--text-muted); font-size: 0.8rem; }
-.landing-foot { text-align: center; margin-top: 2rem; }
-.landing-foot a { font-weight: 600; }
-@media (max-width: 600px) {
-  .landing-hero { padding: 1.25rem 0 1rem; }
-  .landing-hero h1 { font-size: 1.7rem; }
-  .landing-cta { flex-direction: column; align-items: stretch; }
-  .landing-cta .btn { width: 100%; }
-  .landing-stats { gap: 0.75rem 1.25rem; }
-}
+  /* Landing page. Every rule here is scoped to .landing or to a landing-only class so this
+     page cannot leak into the app screens. Colours are tokens only, so light theme follows. */
+  .landing { max-width: 1120px; }
+
+  /* ── Hero ──────────────────────────────────────────────────────────────
+     The glow is the existing body gradient, pulled up under the title; it is painted by an
+     inset:0 box (never a negative horizontal inset) so it can never add page scroll width. */
+  .hero {
+    position: relative; isolation: isolate; text-align: center;
+    padding: clamp(1.75rem, 5vw, 3.75rem) 0 clamp(1.5rem, 3vw, 2.25rem);
+  }
+  .hero::before {
+    content: ""; position: absolute; z-index: -1; inset: -2rem 0 auto 0; height: 26rem;
+    background: radial-gradient(600px 300px at 50% 0%, var(--accent-soft), transparent 72%);
+    pointer-events: none;
+  }
+  .hero .eyebrow { margin-bottom: var(--s3); }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.05rem, 1.15rem + 3.6vw, 3.55rem);
+    font-weight: 700; line-height: 1.06; letter-spacing: -0.02em;
+    max-width: 20ch; margin: 0 auto; text-wrap: balance;
+  }
+  .hero-title em { font-style: normal; color: var(--accent); }
+  .hero-sub {
+    max-width: 58ch; margin: var(--s4) auto 0;
+    font-size: 1rem; line-height: 1.6; color: var(--text-muted);
+  }
+  .hero-cta {
+    display: flex; flex-wrap: wrap; gap: var(--s3);
+    justify-content: center; margin-top: var(--s5);
+  }
+  .btn-lg { min-height: 46px; padding: 0.72rem 1.5rem; font-size: 1rem; border-radius: var(--radius-sm); }
+  .hero-note { margin-top: var(--s3); font-size: 0.85rem; color: var(--text-dim); }
+
+  /* ── Section furniture ─────────────────────────────────────────────────── */
+  .landing-section { margin-top: clamp(2.25rem, 5vw, 4rem); }
+  .section-head { text-align: center; margin-bottom: var(--s5); }
+  .section-title {
+    font-family: var(--font-display); font-size: clamp(1.4rem, 1.1rem + 1vw, 1.85rem);
+    font-weight: 700; letter-spacing: -0.01em;
+  }
+  .section-sub { font-size: 0.95rem; color: var(--text-muted); margin-top: 0.4rem; }
+
+  /* ── Feature grid: six real capabilities, 3-up, equal height ───────────── */
+  .feat-grid { align-items: stretch; }
+  .feat {
+    display: flex; flex-direction: column; gap: 0.55rem; height: 100%;
+    padding: var(--s4); background: var(--card-bg);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    box-shadow: var(--shadow-1);
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+  }
+  .feat:hover { border-color: var(--border-strong); box-shadow: var(--shadow-2); transform: translateY(-1px); }
+  .feat-icon {
+    width: 40px; height: 40px; flex: 0 0 40px; border-radius: 10px;
+    display: grid; place-items: center; font-size: 1.15rem; line-height: 1;
+    background: var(--accent-soft); border: 1px solid var(--border);
+  }
+  .feat h3 { font-size: 1rem; font-weight: 700; margin-top: 0.1rem; }
+  .feat p { font-size: 0.85rem; line-height: 1.55; color: var(--text-muted); }
+
+  /* ── How it works: number circles ──────────────────────────────────────── */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s4); }
+  .step { display: flex; align-items: flex-start; gap: var(--s3); }
+  .step-num {
+    flex: 0 0 36px; width: 36px; height: 36px; border-radius: 50%;
+    display: grid; place-items: center;
+    font-family: var(--font-display); font-size: 1.05rem; font-weight: 700;
+    color: var(--accent); background: var(--surface-2);
+    border: 1px solid var(--border-strong);
+  }
+  .step h3 { font-size: 0.98rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .step p { font-size: 0.85rem; line-height: 1.55; color: var(--text-muted); }
+
+  /* ── Reference library strip (real counts from the server) ─────────────── */
+  .lib {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+    gap: var(--s3) var(--s6);
+    padding: var(--s4); border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface-2);
+  }
+  .lib-item { text-align: center; min-width: 6.5rem; }
+  .lib-num {
+    font-family: var(--font-display); font-size: 1.4rem; font-weight: 700;
+    line-height: 1.15; color: var(--accent);
+  }
+  .lib-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.1rem; }
+
+  /* ── Closing CTA band ──────────────────────────────────────────────────── */
+  .cta-band {
+    margin-top: clamp(2.25rem, 5vw, 3.75rem); text-align: center;
+    padding: clamp(1.75rem, 4vw, 2.75rem) var(--s4);
+    border: 1px solid var(--border); border-radius: var(--radius-lg);
+    background:
+      radial-gradient(560px 220px at 50% 0%, var(--accent-soft), transparent 70%),
+      var(--card-bg);
+    box-shadow: var(--shadow-2);
+  }
+  .cta-band h2 {
+    font-family: var(--font-display); font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
+    font-weight: 700;
+  }
+  .cta-band .meta { margin-top: 0.45rem; }
+  .cta-actions { display: flex; flex-wrap: wrap; gap: var(--s3); justify-content: center; margin-top: var(--s4); }
+
+  @media (max-width: 860px) { .steps { grid-template-columns: 1fr; gap: var(--s3); } }
+  @media (max-width: 520px) {
+    .hero-cta, .cta-actions { flex-direction: column; align-items: stretch; }
+    .hero-cta .btn, .cta-actions .btn { width: 100%; }
+    .lib { gap: var(--s3) var(--s4); padding: var(--s3); }
+    .lib-item { min-width: 5.5rem; }
+  }
 </style>
 {% endblock %}
 {% block content %}
-<div class="landing-hero">
-  <h1>⚔️ D&amp;D Character Manager</h1>
-  <p class="lead">Create and run D&amp;D 5e characters and whole campaigns in one place — sheets that
-    track HP, spell slots and inventory during a live session, DM tools for the monsters and
-    encounters behind the screen, and a map your table can see.</p>
-  <div class="landing-cta">
-    <a href="/register" class="btn btn-primary">Get Started</a>
-    <a href="/login" class="btn btn-outline">Login</a>
-  </div>
-</div>
 
-<div class="landing-grid">
-  <div class="landing-card">
-    <span class="landing-icon">📜</span>
-    <h3>Character sheets that keep up</h3>
-    <p>All six ability scores, skills, saves, spell slots, conditions, hit dice and rests — live
-      during play, with a level-up wizard that knows the rules.</p>
+<section class="hero">
+  <p class="eyebrow">D&amp;D 5E at the table</p>
+  <h1 class="hero-title">Build the character.<br><em>Run the campaign.</em></h1>
+  <p class="hero-sub">
+    One workspace for the whole session: character sheets that track HP, spell slots and
+    conditions while you play, DM tools for encounters and NPCs behind the screen, and a
+    campaign your players can actually see.
+  </p>
+  <div class="hero-cta">
+    <a class="btn btn-primary btn-lg" href="{% if user %}/create{% else %}/register{% endif %}">Create a character</a>
+    <a class="btn btn-outline btn-lg" href="{% if user %}/dashboard{% else %}/login{% endif %}">
+      {%- if user %}Open my characters{% else %}Sign in{% endif -%}
+    </a>
   </div>
-  <div class="landing-card">
-    <span class="landing-icon">🎲</span>
-    <h3>DM tools behind the screen</h3>
-    <p>Campaigns, NPCs, encounters and an initiative tracker. Build a fight, place it on the map,
-      and run it without a second notebook.</p>
-  </div>
-  <div class="landing-card">
-    <span class="landing-icon">🗺️</span>
-    <h3>A map the table can see</h3>
-    <p>Upload a battle map, align a 5-ft grid to it, keep fog over what the party has not reached,
-      and cast it to a second screen — the player view only ever shows what they have seen.</p>
-  </div>
-  <div class="landing-card">
-    <span class="landing-icon">👥</span>
-    <h3>Bring the whole party</h3>
-    <p>Multi-user accounts. Import and export characters as JSON, and carry a whole campaign —
-      characters, NPCs, maps and encounters — as one file.</p>
-  </div>
-</div>
+  <p class="meta hero-note">Runs in the browser — built to work on a phone at the table.</p>
+</section>
 
-{# Subscript, not dots: `library.items` would resolve to dict.items — the METHOD — and Jinja
-   would happily try to format a builtin method (a 500 in production, seen while building this). #}
-{% if library and library['monsters'] %}
-<div class="landing-stats">
-  <div class="landing-stat"><b>{{ '{:,}'.format(library['monsters']) }}</b><span>monsters &amp; creatures</span></div>
-  <div class="landing-stat"><b>{{ '{:,}'.format(library['spells']) }}</b><span>spells</span></div>
-  <div class="landing-stat"><b>{{ '{:,}'.format(library['races']) }}</b><span>races &amp; lineages</span></div>
-  <div class="landing-stat"><b>{{ '{:,}'.format(library['items']) }}</b><span>items &amp; equipment</span></div>
-</div>
+<section class="landing-section" aria-labelledby="feat-title">
+  <div class="section-head">
+    <h2 class="section-title" id="feat-title">What is on the table</h2>
+    <p class="section-sub">Everything below is part of the app today — no roadmap promises.</p>
+  </div>
+  <div class="grid-3 feat-grid">
+    <div class="feat">
+      <div class="feat-icon" aria-hidden="true">📜</div>
+      <h3>Character sheets that keep up</h3>
+      <p>All six ability scores, saves, skills, spell slots, conditions, hit dice and rests — updated live during play, with a level-up wizard that knows the rules.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon" aria-hidden="true">🎲</div>
+      <h3>DM tools behind the screen</h3>
+      <p>Campaigns, encounters, an initiative tracker and NPCs. Build a fight, place it on the map and run it without a second notebook.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon" aria-hidden="true">🗺️</div>
+      <h3>A map the table can see</h3>
+      <p>Upload a battle map, align a 5-ft grid to it, keep fog over what the party has not reached, and cast it to a second screen — the player view only ever shows what they have seen.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon" aria-hidden="true">📚</div>
+      <h3>Searchable manuals</h3>
+      <p>Races, classes, subclasses, spells, monsters and magic items carry their book and page, and the manual search is one box in the navigation bar.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon" aria-hidden="true">📄</div>
+      <h3>Import and export</h3>
+      <p>Bring in a character you already have — a PDF sheet or JSON — and export your own as JSON or PDF whenever you want it outside the app.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon" aria-hidden="true">👥</div>
+      <h3>Bring the whole party</h3>
+      <p>Multi-user accounts with a shared campaign: the party's characters, NPCs, maps and encounters travel together as one file.</p>
+    </div>
+  </div>
+</section>
+
+<section class="landing-section" aria-labelledby="how-title">
+  <div class="section-head">
+    <h2 class="section-title" id="how-title">How it goes</h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num" aria-hidden="true">1</div>
+      <div>
+        <h3>Make an account</h3>
+        <p>An email and a password. Your characters are yours — nothing is shared until you share it.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num" aria-hidden="true">2</div>
+      <div>
+        <h3>Roll it up</h3>
+        <p>Six steps: race, class, abilities, skills, details, review. Randomize or take the ideal default at every one, or import a sheet you already have.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num" aria-hidden="true">3</div>
+      <div>
+        <h3>Take it to the table</h3>
+        <p>The sheet stays live while you play, and the DM's encounter tracker runs the fight from the other side of the screen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if library and library.get('monsters') %}
+<section class="landing-section" aria-label="Reference library contents">
+  <div class="lib">
+    <div class="lib-item">
+      <div class="lib-num">{{ "{:,}".format(library.get('monsters') or 0) }}</div>
+      <div class="lib-label">monsters &amp; creatures</div>
+    </div>
+    <div class="lib-item">
+      <div class="lib-num">{{ "{:,}".format(library.get('spells') or 0) }}</div>
+      <div class="lib-label">spells</div>
+    </div>
+    <div class="lib-item">
+      <div class="lib-num">{{ "{:,}".format(library.get('races') or 0) }}</div>
+      <div class="lib-label">races &amp; lineages</div>
+    </div>
+    <div class="lib-item">
+      <div class="lib-num">{{ "{:,}".format(library.get('items') or 0) }}</div>
+      <div class="lib-label">items &amp; equipment</div>
+    </div>
+  </div>
+</section>
 {% endif %}
 
-<p class="landing-foot"><a href="/register">Create an account</a> to start — your characters stay yours.</p>
+<section class="cta-band">
+  <h2>Ready to roll?</h2>
+  <p class="meta">Nothing is locked in — every choice can be changed on the sheet later.</p>
+  <div class="cta-actions">
+    <a class="btn btn-primary btn-lg" href="{% if user %}/create{% else %}/register{% endif %}">Create a character</a>
+    <a class="btn btn-outline btn-lg" href="{% if user %}/dm-tools{% else %}/login{% endif %}">
+      {%- if user %}Open DM tools{% else %}Sign in{% endif -%}
+    </a>
+  </div>
+</section>
+
 {% endblock %}

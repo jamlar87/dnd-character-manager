@@ -1,130 +1,152 @@
 {% extends "layout.html" %}
-{% block title %}{{ the_map.name }} — Map{% endblock %}
+{% block title %}{{ the_map.name }} · Map{% endblock %}
 {% block container_class %}container-wide{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="/static/pages/map.css?v={{ static_asset_version('pages/map.css') }}">
+<style>#vttHost>canvas{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair}</style>
+{% endblock %}
+
 {% block content %}
-<style>
-.vtt-wrap{display:flex;flex-direction:column;height:calc(100vh - 7.5rem);gap:.4rem}
-.vtt-bar{display:flex;align-items:center;gap:.35rem;font-size:.85rem;overflow-x:auto;padding-bottom:.15rem}
-.vtt-bar>*{flex:0 0 auto}
-.vtt-title{max-width:22rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.vtt-spacer{flex:1 1 auto}
-.vtt-note{font-size:.7rem;color:var(--text-muted)}
-.vtt-clip{max-width:16rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.vtt-source{font-size:.7rem;color:var(--text-muted);text-decoration:none;border:1px solid var(--border);
-  border-radius:4px;padding:.05rem .35rem;white-space:nowrap}
-.vtt-source:hover{color:var(--accent);border-color:var(--accent)}
-.vtt-body{flex:1;display:flex;gap:.5rem;min-height:0}
-.vtt-canvas-host{position:relative;flex:1;min-width:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#0f0f12}
-.vtt-canvas-host canvas{display:block;cursor:grab}
-.vtt-hint{position:absolute;left:.5rem;bottom:.4rem;font-size:.68rem;color:#94a3b8;pointer-events:none}
-.vtt-side{width:17rem;flex-shrink:0;overflow-y:auto;display:flex;flex-direction:column;gap:.4rem}
-.vtt-side[hidden]{display:none}
-.vtt-panel{border:1px solid var(--border);border-radius:6px;padding:.2rem .45rem;flex:0 0 auto}
-.vtt-panel>summary{cursor:pointer;font-size:.78rem;font-weight:600;color:var(--text-muted);padding:.15rem 0}
-.vtt-panel[open]>summary{color:var(--text);margin-bottom:.2rem}
-.vtt-ctl{display:flex;flex-wrap:wrap;align-items:center;gap:.25rem}
-.vtt-ctl input[type=number]{padding:.1rem .25rem;background:var(--bg);border:1px solid var(--border);
-  border-radius:4px;color:var(--text);font-size:.75rem;width:3.6rem;text-align:center}
-.vtt-ctl input[type=color]{width:2rem;height:1.6rem;padding:0;border:1px solid var(--border);background:none;border-radius:4px}
-.vtt-ctl select{padding:.25rem .4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:.8rem}
-.vtt-row{display:flex;align-items:center;gap:.25rem;margin:.2rem 0}
-.vtt-row input{padding:.2rem .4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:.8rem;flex:1;min-width:0}
-.vtt-dirty{color:var(--accent)}
-@media(max-width:900px){.vtt-body{flex-direction:column}.vtt-side{width:auto;max-height:22rem}}
-</style>
-<div class="vtt-wrap">
-{% include "_map_toolbar.html" %}
+<div class="vtt-page">
+
+  {% include "_map_toolbar.html" %}
+
+  <div class="vtt-reads" role="group" aria-label="Map readouts">
+    <span class="vtt-read"><span class="vtt-read-lab">Cursor</span><b id="vttCursorRead">—</b></span>
+    <span class="vtt-read"><span class="vtt-read-lab">Zoom</span><b id="vttZoomRead">100%</b></span>
+    <span class="vtt-read"><span class="vtt-read-lab">Grid</span><b id="vttGridKey">—</b></span>
+    <span class="vtt-read-info" id="vttGridInfo">reading map…</span>
+    <span class="vtt-saved" id="vttSaved" aria-live="polite"></span>
+  </div>
 
   <div class="vtt-body">
     <div class="vtt-canvas-host" id="vttHost">
       <canvas id="vttCanvas"></canvas>
       <div class="vtt-hint" id="vttHint">Drag to pan · wheel to zoom · drag a token to move it</div>
     </div>
-    <aside class="vtt-side" id="vttSide">
-      <details class="vtt-panel">
-        <summary>View</summary>
-        <div class="vtt-ctl">
-          <button class="btn btn-outline btn-sm" onclick="VTT.zoomBy(1/1.2)">🔍−</button>
-          <button class="btn btn-outline btn-sm" onclick="VTT.zoomBy(1.2)">🔍+</button>
-          <button class="btn btn-outline btn-sm" id="vttRotateBtn" onclick="VTT.rotateBy(90)">⟳ Turn 90°</button>
+
+    <aside class="vtt-side" id="vttSide" aria-label="Map controls">
+      <div class="vtt-sheet-head"><strong>Map controls</strong>
+        <button type="button" class="btn btn-sm" id="vttSheetClose">✕ Done</button></div>
+
+      <section class="card card-flush vtt-card">
+        <div class="card-head"><h2>View &amp; layers</h2><span class="vtt-note">what you see</span></div>
+        <div class="vtt-card-body">
+          <div class="vtt-group">
+            <span class="vtt-group-lab">Camera</span>
+            <div class="vtt-ctl">
+              <button type="button" class="btn btn-sm" onclick="VTT.zoomBy(1/1.2)" title="Zoom out" aria-label="Zoom out">🔍−</button>
+              <button type="button" class="btn btn-sm" onclick="VTT.zoomBy(1.2)" title="Zoom in" aria-label="Zoom in">🔍+</button>
+              <button type="button" class="btn btn-sm" id="vttRotateBtn" onclick="VTT.rotateBy(90)" title="Rotate map 90°">⟳ 90°</button>
+            </div>
+          </div>
+          <div class="vtt-group">
+            <span class="vtt-group-lab">Tool</span>
+            <div class="vtt-ctl">
+              <select id="vttToolPick" onchange="VTT.setTool(this.value)" aria-label="Active map tool">
+                <option value="select">🖱 Select &amp; move</option>
+                <option value="fog">🕯 Reveal fog</option>
+                <option value="draw">✏️ Draw</option>
+                <option value="measure">📏 Measure</option>
+              </select>
+            </div>
+          </div>
+          <div class="vtt-group">
+            <span class="vtt-group-lab">Grid &amp; scale</span>
+            <div class="vtt-ctl">
+              <button type="button" class="btn btn-sm" id="vttGridBtn" onclick="VTT.toggleGrid()" title="Show or hide the grid">▦ Grid</button>
+              <select id="vttGridType" onchange="VTT.setGridType(this.value)" aria-label="Grid type" title="Square or hex cells">
+                <option value="square">⬚ Square</option><option value="hex">⬡ Hex</option>
+              </select>
+            </div>
+            <div class="vtt-ctl">
+              <span class="vtt-note">px / cell</span>
+              <button type="button" class="btn btn-sm" onclick="VTT.nudgeSize(-1, event)" title="−1 px (Shift −10)">−</button>
+              <input type="number" id="vttGridSize" value="{{ the_map.grid_size }}" min="10" max="400" step="1"
+                     onchange="VTT.setGridSize(this.value)" aria-label="Pixels per cell"
+                     title="Pixels per 5-ft square">
+              <button type="button" class="btn btn-sm" onclick="VTT.nudgeSize(1, event)" title="+1 px (Shift +10)">+</button>
+            </div>
+            <div class="vtt-ctl vtt-ctl-2">
+              <label class="vtt-note"><span>cells across</span>
+                <input type="number" id="vttGridSquares" min="1" max="400" step="1" onchange="VTT.setSquaresAcross(this.value)"></label>
+              <label class="vtt-note"><span>ft / cell</span>
+                <input type="number" id="vttFeet" value="{{ the_map.feet_per_cell or 5 }}" min="1" max="1000000"
+                onchange="VTT.setFeetPerCell(this.value)"></label>
+            </div>
+            <div class="vtt-ctl">
+              <button type="button" class="btn btn-sm" onclick="VTT.fitGridToImage()" title="Fit grid to image">🧩 Fit</button>
+              <button type="button" class="btn btn-sm" id="vttAlignBtn" onclick="VTT.alignGrid()" title="Match the printed grid">🎯 Align</button>
+              <button type="button" class="btn btn-sm" id="vttSnapBtn" onclick="VTT.toggleSnap()" title="Snap to cell centres">🧲 Snap: on</button>
+              <button type="button" class="btn btn-sm" id="vttHexFlipBtn" onclick="VTT.flipHex()" title="Rotate the hex overlay">⬡ Flip</button>
+            </div>
+            <details class="vtt-sub"><summary>Align the grid by hand</summary>
+              <div class="vtt-ctl">
+                <button type="button" class="btn btn-sm" onclick="VTT.nudgeGrid(-1,0)" title="Nudge grid left">◀</button>
+                <button type="button" class="btn btn-sm" onclick="VTT.nudgeGrid(1,0)" title="Nudge grid right">▶</button>
+                <button type="button" class="btn btn-sm" onclick="VTT.nudgeGrid(0,-1)" title="Nudge grid up">▲</button>
+                <button type="button" class="btn btn-sm" onclick="VTT.nudgeGrid(0,1)" title="Nudge grid down">▼</button>
+              </div>
+            </details>
+          </div>
+          <div class="vtt-group">
+            <span class="vtt-group-lab">Draw &amp; measure</span>
+            <div class="vtt-ctl vtt-ctl-2">
+              <label class="vtt-note"><span>colour</span>
+                <input type="color" id="vttPenColor" value="#ff5555" onchange="VTT.setPen(this.value, null)"></label>
+              <label class="vtt-note"><span>width</span>
+                <input type="number" id="vttPenWidth" value="4" min="1" max="40" onchange="VTT.setPen(null, this.value)"></label>
+            </div>
+            <div class="vtt-ctl">
+              <button type="button" class="btn btn-sm" onclick="VTT.clearDraw()" title="Clear drawings">🧽 Clear</button>
+              <button type="button" class="btn btn-sm" onclick="VTT.clearMeasure()" title="Clear ruler">🧹 Ruler</button>
+            </div>
+          </div>
         </div>
-      </details>
-      <details class="vtt-panel" open>
-        <summary>Tool</summary>
-        <div class="vtt-ctl">
-          <select id="vttToolPick" onchange="VTT.setTool(this.value)">
-            <option value="select">🖱 Select &amp; move</option><option value="fog">🕯 Reveal fog</option>
-            <option value="draw">✏️ Draw</option><option value="measure">📏 Measure</option>
-          </select>
+      </section>
+
+      <section class="card card-flush vtt-card">
+        <div class="card-head"><h2>Fog &amp; combat</h2><span class="vtt-note">players see</span></div>
+        <div class="vtt-card-body">
+          <div class="vtt-group">
+            <span class="vtt-group-lab">Fog of war</span>
+            <div class="vtt-ctl">
+              <button type="button" class="btn btn-sm" id="vttToolFog" onclick="VTT.setTool('fog')" title="Paint fog">🖌 Paint fog</button>
+              <button type="button" class="btn btn-sm" id="vttFogOn" onclick="VTT.toggleFog()" title="Show/hide the fog">☁ Fog: off</button>
+              <select id="vttBrushPick" onchange="VTT.setFogBrush(this.value)" aria-label="Fog brush shape">
+                <option value="cell">⬛ By cell</option><option value="rect">▭ By rectangle</option><option value="circle">⭕ By circle</option>
+              </select>
+              <button type="button" class="btn btn-sm" onclick="VTT.toggleRevealAll()" title="Reveal or hide all">👁 Reveal / hide all</button>
+            </div>
+          </div>
+          <div class="vtt-group">
+            <span class="vtt-group-lab">Encounter</span>
+            <div class="vtt-ctl">
+              <select id="vttEncounterPick" aria-label="Encounter to spawn"></select>
+              <button type="button" class="btn btn-sm" onclick="VTT.spawnEncounter()">⚔ Spawn</button>
+            </div>
+          </div>
         </div>
-      </details>
-<details class="vtt-panel">
-        <summary>Grid &amp; scale</summary>
-        <div class="vtt-ctl">
-          <select id="vttGridType" onchange="VTT.setGridType(this.value)" title="Square 5-ft cells, or hexe">
-            <option value="square">⬚ Square</option><option value="hex">⬡ Hex</option>
-          </select>
-          <button class="btn btn-outline btn-sm" onclick="VTT.nudgeSize(-1, event)" title="−1 px per click (Shift: −10 px)">−</button>
-          <input type="number" id="vttGridSize" value="{{ the_map.grid_size }}" min="10" max="400" step="1"
-                 onchange="VTT.setGridSize(this.value)" title="Pixels per cell — one 5-ft square on the image. Type any whole number for exact fit">
-          <button class="btn btn-outline btn-sm" onclick="VTT.nudgeSize(1, event)" title="+1 px per click (Shift: +10 px)">+</button>
-          <label class="vtt-note">cells across
-            <input type="number" id="vttGridSquares" min="1" max="400" step="1" onchange="VTT.setSquaresAcross(this.value)"></label>
-          <details class="vtt-sub"><summary>Align the grid</summary><div class="vtt-ctl">
-          <button class="btn btn-outline btn-sm" onclick="VTT.nudgeGrid(-1,0)">◀</button>
-          <button class="btn btn-outline btn-sm" onclick="VTT.nudgeGrid(1,0)">▶</button>
-          <button class="btn btn-outline btn-sm" onclick="VTT.nudgeGrid(0,-1)">▲</button>
-          <button class="btn btn-outline btn-sm" onclick="VTT.nudgeGrid(0,1)">▼</button>
-          </div></details>
-          <button class="btn btn-outline btn-sm" onclick="VTT.fitGridToImage()">🧩 Fit</button>
-          <button class="btn btn-outline btn-sm" onclick="VTT.flipHex()" id="vttHexFlipBtn"
-                  title="Turn the hex overlay a quarter turn to match the map's own hexes">⬡ Flip hex</button>
-          <button class="btn btn-outline btn-sm" onclick="VTT.alignGrid()" id="vttAlignBtn"
-                  title="Measure the grid printed o">🎯 Align to art</button>
-          <button class="btn btn-outline btn-sm" onclick="VTT.toggleSnap()" id="vttSnapBtn">🧲 Snap: on</button>
-          <label class="vtt-note">
-            <input type="number" id="vttFeet" value="5" min="1" max="1000000" onchange="VTT.setFeetPerCell(this.value)">ft/cell</label>
+      </section>
+
+      <section class="card card-flush vtt-card">
+        <div class="card-head"><h2>Table</h2><span class="vtt-note">tokens &amp; setups</span></div>
+        <div class="vtt-card-body">
+          <div class="vtt-row">
+            <input id="vttSearch" placeholder="Add creature, NPC or character…" oninput="VTT.searchPalette(this.value)" aria-label="Search tokens to add">
+          </div>
+          <div id="vttPalette"></div>
+          <div id="vttTokenList"></div>
+          <div id="vttSelected"></div>
+          <div id="vttScenes"></div>
+          <div class="vtt-ctl">
+            <button type="button" class="btn btn-sm" onclick="VTT.chooseImage()" title="Change the map art">🖼 Image</button>
+            <input type="file" id="vttImageInput" class="vtt-file" accept="image/*" onchange="VTT.uploadImage(this)">
+            <button type="button" class="btn btn-sm btn-danger" onclick="if (confirm('Revoke the player link? Anyone using it loses access immediately.')) VTT.revokePlayer()" title="Revoke player link">🚫 Revoke player link</button>
+          </div>
         </div>
-      </details>
-      <details class="vtt-panel">
-        <summary>Fog of war</summary>
-        <div class="vtt-ctl">
-          <button class="btn btn-outline btn-sm" onclick="VTT.setTool('fog')" id="vttToolFog">🕯 Fog</button>
-          <button class="btn btn-outline btn-sm" onclick="VTT.toggleFog()" id="vttFogOn">☁ Fog: off</button>
-          <select id="vttBrushPick" onchange="VTT.setFogBrush(this.value)">
-            <option value="cell">⬛ By cell</option><option value="rect">▭ By rectangle</option><option value="circle">⭕ By circle</option>
-          </select>
-          <button class="btn btn-outline btn-sm" onclick="VTT.toggleFog()" id="vttFogOn" title="Show or hide the fog layer">☁ Fog: off</button>
-          <button class="btn btn-outline btn-sm" onclick="VTT.toggleRevealAll()" title="Reveal the whole map, or h">👁 Reveal / hide all</button>
-        </div>
-      </details>
-      <details class="vtt-panel">
-        <summary>Draw &amp; measure</summary>
-        <div class="vtt-ctl">
-          <input type="color" id="vttPenColor" value="#ff5555" onchange="VTT.setPen(this.value, null)">
-          <input type="number" id="vttPenWidth" value="4" min="1" max="40" onchange="VTT.setPen(null, this.value)">
-          <button class="btn btn-outline btn-sm" onclick="VTT.clearDraw()">🧽 Clear</button>
-          <button class="btn btn-outline btn-sm" onclick="VTT.clearMeasure()">✖ Ruler</button>
-        </div>
-      </details>
-      <details class="vtt-panel">
-        <summary>Encounter</summary>
-        <div class="vtt-ctl">
-          <select id="vttEncounterPick"></select>
-          <button class="btn btn-outline btn-sm" onclick="VTT.spawnEncounter()">⚔ Spawn</button>
-        </div>
-      </details>
-      <details class="vtt-panel" open>
-        <summary>Tokens &amp; scenes</summary>
-        <div class="vtt-ctl">
-          <button class="btn btn-outline btn-sm" onclick="VTT.revokePlayer()">🚫 Player link</button>
-        </div>
-        <div class="vtt-row"><input id="vttSearch" placeholder="Add creature, NPC or character…" oninput="VTT.searchPalette(this.value)"></div>
-        <div id="vttPalette"></div>
-        <div id="vttTokenList"></div>
-        <div id="vttSelected"></div>
-        <div id="vttScenes"></div>
-      </details>
+      </section>
     </aside>
   </div>
 </div>
@@ -132,4 +154,5 @@
 <script>window.MAP_ID = {{ the_map.id }}; window.MAP_DATA = {{ map_json|safe }};</script>
 <script src="/static/grid.js?v={{ static_asset_version('grid.js') }}"></script>
 <script src="/static/vtt.js?v={{ static_asset_version('vtt.js') }}"></script>
+<script src="/static/pages/map-chrome.js?v={{ static_asset_version('pages/map-chrome.js') }}"></script>
 {% endblock %}

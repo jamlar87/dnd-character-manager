@@ -1,5 +1,5 @@
 /* Override container for sheet layout */
-.container { max-width: 1400px; width: 100%; margin: 1rem auto; overflow-x: hidden; padding: 0 0.75rem; }
+.container { max-width: 1400px; width: 100%; margin: 1rem auto; overflow-x: clip; padding: 0 0.75rem; }
 @media (max-width: 768px) { .container { margin: 0.5rem auto; width: 100%; padding: 0 0.5rem; } }
 
 /* ── Top row: rest + center + HP ── */
@@ -20,14 +20,14 @@
 .ability-box { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.2rem; text-align: center; position: relative; }
 .ability-box .ab-name { font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
 .ability-box .ab-mod { font-size: 1.2rem; font-weight: 700; margin: 0.1rem 0; }
-.ability-box .ab-score { font-size: 0.65rem; color: var(--text-muted); }
+.ability-box .ab-score { font-size:0.72rem; color: var(--text-muted); }
 .ability-box.proficient { border-color: var(--accent); }
-.ability-box.proficient::after { content: '●'; position: absolute; top: 2px; right: 4px; font-size: 0.62rem; color: var(--accent); }
+.ability-box.proficient::after { content: '●'; position: absolute; top: 2px; right: 4px; font-size:0.72rem; color: var(--accent); }
 
 /* Combat quick-stats (base — must precede mobile breakpoints) */
 .combat-quick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
 .combat-quick-item { background: var(--bg); border-radius: 6px; padding: 0.35rem; text-align: center; }
-.combat-quick-item .cq-label { font-size: 0.68rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
+.combat-quick-item .cq-label { font-size:0.72rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
 .combat-quick-item .cq-value { font-size: 0.95rem; font-weight: 700; margin-top: 0.1rem; }
 
 /* ── Mobile breakpoints (widest first, narrowest overrides) ── */
@@ -46,17 +46,17 @@
   .abilities-grid { grid-template-columns: repeat(3, 1fr); gap: 0.2rem; }
   .combat-quick { grid-template-columns: repeat(3, 1fr); gap: 0.25rem; }
   .combat-quick-item { padding: 0.2rem 0.15rem; }
-  .combat-quick-item .cq-label { font-size: 0.62rem; letter-spacing: 0.02em; }
+  .combat-quick-item .cq-label { font-size:0.72rem; letter-spacing: 0.02em; }
   .combat-quick-item .cq-value { font-size: 0.8rem; }
   .ability-box { padding: 0.25rem 0.1rem; }
-  .ability-box .ab-name { font-size: 0.65rem; letter-spacing: 0.02em; }
+  .ability-box .ab-name { font-size:0.72rem; letter-spacing: 0.02em; }
   .ability-box .ab-mod { font-size: 0.95rem; }
-  .ability-box .ab-score { font-size: 0.68rem; }
+  .ability-box .ab-score { font-size:0.72rem; }
 }
 
 /* ── Senses section box ── */
 .senses-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.8rem; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
-.senses-section h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0; white-space: nowrap; }
+.senses-section h4 { font-size:0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0; white-space: nowrap; }
 .sense-row { display: flex; gap: 0.3rem; align-items: baseline; font-size: 0.8rem; white-space: nowrap; }
 .sense-label { color: var(--text-muted); }
 .sense-val { font-family: monospace; font-weight: 600; }
@@ -71,19 +71,23 @@
 
 /* Two-column layout */
 .sheet-layout { display: flex; gap: 0.75rem; min-height: calc(100vh - 140px); }
-@media (max-width: 768px) { .sheet-layout { flex-direction: column; overflow-x: hidden; } }
+/* `clip` (not hidden) keeps sticky children sticky — hidden turns this into a scroll box */
+@media (max-width: 768px) { .sheet-layout { flex-direction: column; overflow-x: clip; } }
 
 /* ── Sidebar ── */
-.sheet-sidebar { width: 210px; flex-shrink: 0; }
+.sheet-sidebar { width: 236px; flex-shrink: 0; }
+/* The vitals rail lives inside the sidebar so the left column is continuous */
+.sheet-sidebar > .top-rail { width: 100%; margin-bottom: var(--s3); }
 @media (max-width: 768px) { .sheet-sidebar { width: 100%; } }
 /* Tablet: 2-column sidebar sections */
 @media (min-width: 481px) and (max-width: 768px) {
   .sheet-sidebar { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
   .sheet-sidebar > * { min-width: 0; }
+  .sheet-sidebar > .top-rail { grid-column: 1 / -1; }
 }
 
 .sidebar-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem; margin-bottom: 0.4rem; }
-.sidebar-section h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.5rem 0; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border); }
+.sidebar-section h4 { font-size:0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.5rem 0; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border); }
 
 /* HP bar in sidebar */
 .sidebar-hp { margin-top: 0.4rem; }
@@ -94,10 +98,10 @@
 .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 0.2rem 0; font-size: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
 .stat-row .stat-name { color: var(--text-muted); flex: 1; }
 .stat-row .stat-val { font-family: monospace; font-weight: 600; min-width: 2.2rem; text-align: right; }
-.stat-row .prof-dot { color: var(--accent); margin-right: 0.2rem; font-size: 0.65rem; }
+.stat-row .prof-dot { color: var(--accent); margin-right: 0.2rem; font-size:0.72rem; }
 
 /* Defenses */
-.defense-badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.7rem; font-weight: 600; margin: 0.1rem 0.2rem 0.1rem 0; }
+.defense-badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 10px; font-size:0.72rem; font-weight: 600; margin: 0.1rem 0.2rem 0.1rem 0; }
 .defense-resist { background: rgba(0,200,83,0.15); border: 1px solid var(--success); color: var(--success); }
 .defense-immune { background: rgba(255,174,0,0.15); border: 1px solid #ffae00; color: #ffae00; }
 /* Drop zones */
@@ -142,15 +146,15 @@
 .item-card .item-card-del:hover { color: var(--danger); }
 .item-card .item-card-award { color: var(--success); }
 .item-card .item-card-award:hover { background: rgba(76,175,80,0.15); }
-.item-card .item-tag { font-size: 0.68rem; padding: 0 0.15rem; }
+.item-card .item-tag { font-size:0.72rem; padding: 0 0.15rem; }
 .item-card .item-attune-badge {
-  font-size: 0.68rem; cursor: pointer; padding: 0 0.15rem;
+  font-size:0.72rem; cursor: pointer; padding: 0 0.15rem;
   color: var(--warn);
 }
 .item-card .item-attune-badge.attuned { color: var(--success); }
 
 .item-card .enh-badge {
-  font-size: 0.68rem; padding: 0 0.15rem;
+  font-size:0.72rem; padding: 0 0.15rem;
   color: var(--accent); font-weight: 700;
   border-radius: 3px; background: var(--accent2);
   user-select: none;
@@ -162,14 +166,14 @@
 .item-card { flex-wrap: wrap; }
 .item-card .item-expand-btn {
   background: none; border: none; color: var(--text-muted);
-  cursor: pointer; font-size: 0.65rem; padding: 0.1rem;
+  cursor: pointer; font-size:0.72rem; padding: 0.1rem;
   border-radius: 3px; line-height: 1; transition: transform 0.15s;
 }
 .item-card .item-expand-btn:hover { color: var(--text); }
 .item-card.expanded .item-expand-btn { transform: rotate(90deg); }
 .item-card .item-detail {
   display: none; flex-basis: 100%; margin-top: 0.3rem; padding-top: 0.3rem;
-  border-top: 1px solid var(--border); font-size: 0.7rem; line-height: 1.45;
+  border-top: 1px solid var(--border); font-size:0.72rem; line-height: 1.45;
   color: var(--text-muted); min-width: 180px;
 }
 .item-card.expanded .item-detail { display: block; }
@@ -180,7 +184,7 @@
 .qty-stepper {
   background: rgba(255,255,255,0.06); border: 1px solid var(--border);
   color: var(--text); border-radius: 4px; cursor: pointer;
-  font-size: 0.7rem; width: 1.4rem; height: 1.4rem; padding: 0;
+  font-size:0.72rem; width: 1.4rem; height: 1.4rem; padding: 0;
   line-height: 1; display: inline-flex; align-items: center; justify-content: center;
 }
 .qty-stepper:hover { background: var(--accent); color: #000; }
@@ -189,7 +193,7 @@
 .drop-zone .empty-text { color: var(--text-muted); font-size: 0.8rem; padding: 0.5rem 0; }
 
 /* Proficiency badges */
-.prof-badge { display: inline-block; padding: 0.15rem 0.45rem; border-radius: 10px; font-size: 0.7rem; font-weight: 500; margin: 0.1rem 0.2rem 0.1rem 0; background: rgba(100,149,237,0.1); border: 1px solid rgba(100,149,237,0.25); color: #90b4f0; }
+.prof-badge { display: inline-block; padding: 0.15rem 0.45rem; border-radius: 10px; font-size:0.72rem; font-weight: 500; margin: 0.1rem 0.2rem 0.1rem 0; background: rgba(100,149,237,0.1); border: 1px solid rgba(100,149,237,0.25); color: #90b4f0; }
 
 /* ── Main panel ── */
 .sheet-main { flex: 1; min-width: 0; width: 100%; }
@@ -212,13 +216,13 @@
 .hp-btn.dmg { background: var(--danger); color: #fff; }
 
 /* Condition badges */
-.cond-badge { display: inline-flex; align-items: center; gap: 0.2rem; padding: 0.15rem 0.4rem; border-radius: 12px; font-size: 0.62rem; font-weight: 600; cursor: pointer; user-select: none; border: 1px solid; transition: all 0.15s; }
+.cond-badge { display: inline-flex; align-items: center; gap: 0.2rem; padding: 0.15rem 0.4rem; border-radius: 12px; font-size:0.72rem; font-weight: 600; cursor: pointer; user-select: none; border: 1px solid; transition: all 0.15s; }
 .cond-badge:hover { filter: brightness(1.15); }
-.cond-badge.dismiss { margin-left: 0.1rem; font-size: 0.68rem; opacity: 0.6; cursor: pointer; }
+.cond-badge.dismiss { margin-left: 0.1rem; font-size:0.72rem; opacity: 0.6; cursor: pointer; }
 .cond-badge.dismiss:hover { opacity: 1; }
-.cond-popout { position: fixed; z-index: 1001; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem; min-width: 180px; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); font-size: 0.7rem; }
+.cond-popout { position: fixed; z-index: 1001; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem; min-width: 180px; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); font-size:0.72rem; }
 .cond-popout .cond-desc { color: var(--text-muted); margin: 0.3rem 0; line-height: 1.4; }
-.cond-popout .cond-dismiss { display: block; margin-top: 0.4rem; width: 100%; padding: 0.2rem; border: 1px solid var(--danger); border-radius: 4px; background: transparent; color: var(--danger); cursor: pointer; font-size: 0.65rem; }
+.cond-popout .cond-dismiss { display: block; margin-top: 0.4rem; width: 100%; padding: 0.2rem; border: 1px solid var(--danger); border-radius: 4px; background: transparent; color: var(--danger); cursor: pointer; font-size:0.72rem; }
 .cond-popout .cond-dismiss:hover { background: var(--danger); color: #fff; }
 
 /* Death saves */
@@ -233,14 +237,14 @@
 .feat-card.depleted .feat-header { color: var(--text-muted); }
 .feat-header { padding: 0.6rem 0.8rem; display: flex; justify-content: space-between; align-items: flex-start; font-size: 0.9rem; font-weight: 600; user-select: none; transition: background 0.1s; cursor: pointer; overflow-wrap: break-word; word-break: break-word; gap: 0.5rem; }
 .feat-header:hover { background: rgba(255,255,255,0.03); }
-.feat-header .collapse-arrow { font-size: 0.7rem; color: var(--text-muted); transition: transform 0.2s; margin-left: 0.35rem; }
+.feat-header .collapse-arrow { font-size:0.72rem; color: var(--text-muted); transition: transform 0.2s; margin-left: 0.35rem; }
 .feat-header .collapse-arrow.open { transform: rotate(90deg); }
 .feat-body { padding: 0.5rem 0.8rem 0.8rem; font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; display: none; }
 .feat-body.open { display: block; }
 .passive-chip-body { padding: 0.4rem 0.6rem; font-size: 0.75rem; color: var(--text); line-height: 1.4; background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px; display: none; }
 .passive-chip-body.open { display: block; }
 .passive-chip { cursor: pointer; }
-.passive-chip .collapse-arrow { font-size: 0.65rem; color: var(--text-muted); transition: transform 0.2s; }
+.passive-chip .collapse-arrow { font-size:0.72rem; color: var(--text-muted); transition: transform 0.2s; }
 .passive-chip .collapse-arrow.open { transform: rotate(90deg); }
 .spell-body { display: none; }
 .spell-body.open { display: block; }
@@ -252,14 +256,14 @@
 .spell-level-header .sl-arrow { font-size: 0.72rem; color: var(--text-muted); transition: transform 0.15s; width: 0.8rem; text-align: center; }
 .spell-level-header.open .sl-arrow { transform: rotate(90deg); }
 .spell-level-header .sl-label { font-weight: 600; font-size: 0.8rem; flex: 1; }
-.spell-level-header .sl-count { font-size: 0.65rem; color: var(--text-muted); }
+.spell-level-header .sl-count { font-size:0.72rem; color: var(--text-muted); }
 .spell-level-body { display: none; padding: 0.2rem 0 0.2rem 0.3rem; }
 .spell-level-body.open { display: block; }
 .prepared-spell-chip.open .prep-body { display: block !important; }
 .prepared-spell-chip.open .prep-header { border-radius: 4px 4px 0 0; }
 .prepared-spell-chip.open .prep-arrow { transform: rotate(90deg); }
 .lc-arrow.rotated { transform: rotate(90deg); }
-.feat-level { font-size: 0.7rem; color: var(--accent); margin-right: 0.5rem; background: rgba(99,102,241,0.1); padding: 0.1rem 0.4rem; border-radius: 3px; }
+.feat-level { font-size:0.72rem; color: var(--accent); margin-right: 0.5rem; background: rgba(99,102,241,0.1); padding: 0.1rem 0.4rem; border-radius: 3px; }
 
 /* Feature use checkbox dots */
 .feat-use-dot { width: 14px; height: 14px; border-radius: 3px; border: 2px solid var(--border); background: var(--bg); cursor: pointer; transition: all 0.12s; display: inline-block; }
@@ -282,7 +286,7 @@
 .atk-card .atk-name { font-weight: 600; font-size: 0.9rem; }
 .atk-card .atk-detail { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem; }
 .atk-card .atk-props { display: flex; gap: 0.25rem; flex-wrap: wrap; margin-top: 0.25rem; }
-.atk-prop { font-size: 0.65rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 3px; padding: 0.1rem 0.35rem; color: var(--text-muted); }
+.atk-prop { font-size:0.72rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 3px; padding: 0.1rem 0.35rem; color: var(--text-muted); }
 
 /* Action list */
 .action-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.3rem; }
@@ -292,7 +296,7 @@
 .chip { display: inline-flex; align-items: center; padding: 0.35rem 0.7rem; background: var(--bg); border: 1px solid var(--border); border-radius: 20px; font-size: 0.82rem; cursor: pointer; transition: all 0.15s; user-select: none; }
 .chip:hover { border-color: var(--accent); background: var(--accent2); }
 .chip.selected { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
-.chip.selected::before { content: '✓ '; font-size: 0.7rem; }
+.chip.selected::before { content: '✓ '; font-size:0.72rem; }
 
 /* Spell slots */
 .slot-level { margin-bottom: 0.5rem; }
@@ -350,12 +354,12 @@
   margin-left: 2px; cursor: help;
   line-height: 1; flex-shrink: 0;
 }
-.adv-badge.smol { width: 12px; height: 12px; font-size: 0.62rem; }
+.adv-badge.smol { width: 12px; height: 12px; font-size:0.72rem; }
 .adv-chip {
   display: inline-flex; align-items: center; gap: 0.25rem;
   padding: 0.15rem 0.45rem; border-radius: 4px;
   background: var(--danger); color: #fff;
-  font-size: 0.65rem; font-weight: 700; cursor: help;
+  font-size:0.72rem; font-weight: 700; cursor: help;
   margin-top: 0.15rem;
 }
 #edit-toggle { padding: 0.3rem 0.7rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; border: 1px solid var(--border); background: none; color: var(--text); transition: all 0.15s; }
@@ -370,8 +374,8 @@
 .inv-item input.inv-qty { pointer-events: auto; border-color: var(--border) !important; }
 .edit-mode .inv-item input { pointer-events: auto; border-color: var(--border) !important; }
 /* Weapon & Armor badges */
-.wpn-badge { display: inline-block; background: rgba(233,69,96,0.12); color: var(--accent); font-size: 0.65rem; padding: 0.1rem 0.4rem; border-radius: 8px; margin-left: 0.4rem; font-weight: 600; vertical-align: middle; }
-.arm-badge { display: inline-block; background: rgba(59,130,246,0.12); color: #60a5fa; font-size: 0.65rem; padding: 0.1rem 0.4rem; border-radius: 8px; margin-left: 0.3rem; font-weight: 600; vertical-align: middle; }
+.wpn-badge { display: inline-block; background: rgba(233,69,96,0.12); color: var(--accent); font-size:0.72rem; padding: 0.1rem 0.4rem; border-radius: 8px; margin-left: 0.4rem; font-weight: 600; vertical-align: middle; }
+.arm-badge { display: inline-block; background: rgba(59,130,246,0.12); color: #60a5fa; font-size:0.72rem; padding: 0.1rem 0.4rem; border-radius: 8px; margin-left: 0.3rem; font-weight: 600; vertical-align: middle; }
 /* Clickable info badges */
 .badge-link { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 2px; }
 .badge-link:hover { filter: brightness(1.3); }
@@ -388,7 +392,7 @@
 .dm-preview #delevel-btn { display: none !important; }
 .dm-preview #sidebar-portrait { cursor: default !important; }
 .dm-preview .portrait-placeholder { cursor: default !important; }
-.src-badge { font-size: 0.68rem; color: var(--text-muted); opacity: 0.7; white-space: nowrap; cursor: pointer; }
+.src-badge { font-size:0.72rem; color: var(--text-muted); opacity: 0.7; white-space: nowrap; cursor: pointer; }
 .src-badge:hover { opacity: 1; color: var(--accent); text-decoration: underline; }
 /* Modal overlay for popouts (summon add, etc.) */
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; overflow-y: auto; }
@@ -409,3 +413,318 @@
 .row-hover { transition: background 0.12s; }
 .edit-mode .row-hover:hover { background: rgba(255, 255, 255, 0.03); }
 .item-card:focus-within { border-color: var(--accent); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   VISUAL SWEEP — hero band, flat panels, one-border rule, 11px floor.
+   Appended last so it wins over the legacy rules above at equal
+   specificity. Layout primitives (.card, .sec-head, .btn…) stay in
+   layout.css and are only re-composed here.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Hero header band ─────────────────────────────────────────────── */
+.sheet-hero {
+  display: flex; align-items: flex-start; gap: var(--s3);
+  padding-bottom: var(--s3); margin-bottom: var(--s3);
+  border-bottom: 1px solid var(--border);
+}
+.hero-portrait {
+  flex: 0 0 auto; width: 64px; height: 64px; border-radius: var(--radius);
+  overflow: hidden; background: var(--surface-2); border: 1px solid var(--border);
+}
+.hero-img { display: block; width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
+.hero-img-empty {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%; font-size: 1.5rem; color: var(--text-dim);
+}
+.hero-body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 0.35rem; }
+.hero-headline { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s3); flex-wrap: wrap; }
+.hero-id { flex: 1 1 240px; min-width: 0; }
+.hero-id .page-title {
+  font-size: clamp(1.35rem, 1.1rem + 1vw, 1.7rem); line-height: 1.15;
+  margin: 0; display: block; overflow-wrap: anywhere;
+}
+.hero-meta { margin: 0.15rem 0 0; font-size: 0.85rem; line-height: 1.45; color: var(--text-muted); }
+.hero-meta-sep { opacity: 0.45; margin: 0 0.3rem; }
+.hero-meta-item { white-space: nowrap; }
+.hero-badges { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.4rem; }
+.hero-actions { flex: 0 0 auto; justify-content: flex-end; align-items: center; }
+.hero-actions .btn { min-height: 34px; }
+.hero-xp {
+  display: flex; align-items: center; gap: var(--s2);
+  flex-wrap: wrap; margin-top: 0.2rem;
+}
+.hero-xp .eyebrow { flex: 0 0 auto; }
+.hero-xp-track {
+  flex: 1 1 120px; max-width: 420px; min-width: 80px; height: 6px; border-radius: 999px;
+  background: var(--surface-3); overflow: hidden;
+}
+.hero-xp-track > * { height: 100%; border-radius: inherit; }
+#xp-bar { background: linear-gradient(90deg, var(--accent), var(--accent-hi)); transition: width 0.3s ease; }
+.hero-xp-val { font-size: 0.82rem; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
+.hero-xp-next { font-size: 0.78rem; color: var(--text-muted); }
+.hero-xp-ready { font-size: 0.78rem; font-weight: 600; color: var(--gold); }
+.hero-quote { margin: 0; font-size: 0.82rem; font-style: italic; color: var(--text-dim); }
+
+/* ── 2. Top band: HP panel + flat stats + rest panel ─────────────────── */
+.sheet-top-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) 184px;
+  gap: var(--s3); align-items: start; margin-bottom: var(--s3);
+}
+.sheet-top-row > * { min-width: 0; }
+.top-rail { display: flex; flex-direction: column; gap: var(--s2); min-width: 0; }
+.top-vitals { display: flex; flex-direction: column; gap: var(--s2); }
+.top-vitals .vital-block {
+  background: var(--surface-2); border: 0; border-radius: var(--radius-sm);
+  padding: 0.35rem 0.6rem 0.5rem; margin: 0;
+}
+.top-vitals .vital-line { display: flex; align-items: center; justify-content: space-between; gap: 0.4rem; min-height: 26px; }
+.top-vitals .block-label {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.07em;
+  text-transform: uppercase; color: var(--text-muted);
+}
+.top-vitals .conc-input { font-size: 0.8rem; min-height: 30px; }
+@media (pointer: coarse), (max-width: 768px) { .top-vitals .conc-input { min-height: 40px; } }
+.top-vitals .conc-row { display: flex; gap: 0.3rem; margin-top: 0.25rem; flex-wrap: wrap; }
+.top-vitals .cond-chip-row { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-top: 0.2rem; }
+.top-vitals .cond-none { font-size: 0.8rem; color: var(--text-dim); }
+.top-vitals .vital-badge { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); }
+.hp-delta {
+  width: 48px; height: 32px; text-align: center; font: inherit; font-size: 0.85rem;
+  color: var(--text); background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+}
+.hp-btn { flex: 0 0 auto; }
+
+/* Proficiency reads as a quiet accent ring, not an error border */
+.ability-box.stat-box.proficient {
+  border-color: color-mix(in srgb, var(--accent) 22%, var(--border));
+  background: var(--surface-2);
+}
+.ability-box.stat-box.proficient::after { font-size: 0.6rem; top: 5px; right: 6px; }
+/* Saving-throw proficient: keep the score in body ink; the dot carries the signal */
+.ability-box.stat-box.proficient .ab-name { color: var(--text); }
+.top-abilities-grid .ability-box { min-height: 62px; }
+
+/* Attack rows: don't stretch the source line to the card floor */
+.weapon-atk-card, .atk-card { gap: 0.1rem; }
+.weapon-atk-card > div:last-child, .atk-card > div:last-child { margin-top: 0.15rem !important; }
+.weapon-atk-card .item-detail:empty, .atk-card .item-detail:empty { display: none; }
+
+
+.top-hp { width: auto; padding: var(--s3) var(--s3) var(--s3); display: flex; flex-direction: column; gap: 0.3rem; }
+.top-hp > .sec-head {
+  margin: calc(var(--s3) * -1) calc(var(--s3) * -1) var(--s1);
+  padding: var(--s2) var(--s3);
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+}
+.top-hp .hp-figure { font-size: 2rem; font-weight: 800; line-height: 1.05; font-variant-numeric: tabular-nums; }
+.top-hp .hp-figure .hp-max { font-size: 0.9rem; font-weight: 500; color: var(--text-muted); margin-left: 0.15rem; }
+.top-hp .hp-bar { height: 8px; }
+.top-hp .hp-sub { display: flex; justify-content: space-between; gap: var(--s2); font-size: 0.78rem; color: var(--text-muted); }
+
+.top-center { width: auto; flex: none; gap: var(--s2); }
+.top-combat-grid, .combat-quick { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: 0.35rem; }
+.combat-quick-item {
+  background: var(--surface-2); border: 0; border-radius: var(--radius-sm);
+  padding: 0.4rem 0.3rem; text-align: center; min-height: 52px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.combat-quick-item .cq-label { font-size: 0.72rem; letter-spacing: 0.06em; color: var(--text-dim); }
+.combat-quick-item .cq-value { font-size: 0.95rem; font-weight: 700; margin-top: 0.1rem; }
+
+.top-abilities-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.35rem; }
+.ability-box {
+  display: flex; flex-direction: column; align-items: center; gap: 0.15rem;
+  padding: 0.5rem 0.2rem 0.45rem; background: var(--surface-2);
+  border: 1px solid transparent; border-radius: var(--radius-sm); text-align: center;
+  cursor: pointer; transition: border-color 0.15s, background 0.15s;
+}
+.ability-box:hover { border-color: var(--border-strong); }
+
+.senses-section {
+  background: var(--surface-2); border: 0; border-radius: var(--radius-sm);
+  padding: 0.15rem 0.6rem 0.5rem; display: block;
+}
+.senses-section > .sec-head { margin: 0 -0.6rem var(--s1); padding: var(--s2) 0.6rem var(--s1); border-bottom: 0; cursor: pointer; }
+.sense-row { display: flex; justify-content: space-between; gap: var(--s2); padding: 0.2rem 0; font-size: 0.82rem; }
+.sense-label { color: var(--text-muted); }
+.sense-val { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* Rest panel: a real panel, not a detached rail. */
+.top-longrest.rest-panel {
+  width: auto; align-self: start; display: flex; flex-direction: column;
+  gap: 0.4rem; padding: var(--s3) var(--s3) var(--s3); margin-bottom: 0;
+}
+.top-longrest.rest-panel > .sec-head {
+  margin: calc(var(--s3) * -1) calc(var(--s3) * -1) 0.1rem;
+  padding: var(--s2) var(--s3); background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+}
+.rest-btn {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 0.5rem;
+  align-items: center; width: 100%; min-height: 46px; text-align: left;
+  padding: 0.5rem 0.65rem; background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  color: var(--text); font: inherit; cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.rest-btn:hover { border-color: var(--accent); background: var(--surface-3); }
+.rest-ico { grid-row: 1 / span 2; font-size: 1.1rem; line-height: 1; }
+.rest-txt { font-size: 0.85rem; font-weight: 600; }
+.rest-sub { font-size: 0.72rem; color: var(--text-muted); }
+
+/* ── 3. Tabs: one scrollable strip, accent underline ─────────────────── */
+.tab-bar {
+  display: flex; gap: 0.1rem; align-items: stretch;
+  margin: 0 0 var(--s3); padding: 0; border-bottom: 1px solid var(--border);
+  overflow-x: auto; overflow-y: hidden; scrollbar-width: none;
+  -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity;
+  max-width: 100%;
+}
+.tab-bar::after { content: none; }
+.tab-bar::-webkit-scrollbar { display: none; height: 0; }
+.tab-btn {
+  display: inline-flex; align-items: center; gap: 0.4rem; flex: 0 0 auto;
+  min-height: 40px; padding: 0 0.8rem; margin: 0;
+  border: 0; border-bottom: 2px solid transparent; border-radius: 0;
+  background: transparent; color: var(--text-muted); font: inherit;
+  font-size: 0.82rem; font-weight: 600; white-space: nowrap;
+  scroll-snap-align: start; cursor: pointer; touch-action: manipulation;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.tab-btn:hover { color: var(--text); background: color-mix(in srgb, var(--surface-2) 70%, transparent); }
+.tab-btn.active {
+  color: var(--text); background: transparent;
+  border-bottom-color: var(--accent); margin-bottom: 0;
+}
+.tab-btn.active .tab-ico { opacity: 1; }
+.tab-ico { font-size: 0.95rem; line-height: 1; opacity: 0.75; }
+
+/* ── 4. Sidebar panels ───────────────────────────────────────────────── */
+.sheet-sidebar { width: 232px; }
+.sheet-sidebar .sidebar-section {
+  padding: 0; margin-bottom: var(--s2); overflow: hidden;
+  box-shadow: none;
+}
+.sheet-sidebar .sidebar-section > .sec-head {
+  margin: 0; padding: var(--s2) var(--s3); cursor: pointer;
+  background: var(--surface-2); border-bottom: 1px solid var(--border);
+  min-height: 34px;
+}
+.sheet-sidebar .sidebar-section > .sec-head .eyebrow { font-size: 0.72rem; letter-spacing: 0.1em; color: var(--text-muted); }
+.sheet-sidebar .sidebar-section > .sec-head:hover .eyebrow { color: var(--text); }
+.sheet-sidebar .sidebar-section > div:not(.sec-head) { padding: 0.35rem var(--s3) 0.5rem; }
+.sheet-sidebar .sidebar-section h4 {
+  font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); margin: 0; padding: 0.4rem var(--s3);
+  background: var(--surface-2); border-bottom: 1px solid var(--border);
+}
+.sheet-sidebar .stat-row, .sheet-sidebar .save-row { font-size: 0.8rem; padding: 0.16rem 0; }
+.sheet-sidebar .stat-name, .sheet-sidebar .save-name { font-size: 0.8rem; }
+.sheet-sidebar .stat-val, .sheet-sidebar .save-val { font-size: 0.8rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.sheet-layout { min-height: 0; align-items: flex-start; }
+
+/* ── 5. Main column: flat sub-blocks instead of box-in-box ───────────── */
+.sheet-main { min-width: 0; flex: 1 1 auto; }
+.sheet-main .card { box-shadow: none; }
+.sheet-main h3 {
+  font-size: 0.78rem !important; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-muted);
+}
+.sheet-main .atk-card {
+  border: 0; border-radius: var(--radius-sm); background: var(--surface-2);
+  padding: 0.45rem 0.65rem; margin-bottom: 0.35rem;
+  display: block;
+}
+.sheet-main .atk-card > div:first-child { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s2); }
+.sheet-main .atk-name { font-size: 0.86rem; font-weight: 600; }
+.sheet-main .atk-detail { font-size: 0.78rem; }
+.sheet-main .atk-tohit, .sheet-main .tohit { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.item-qty { font-size: 0.72rem; }
+
+/* ── 6. Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .sheet-top-row { grid-template-columns: 220px minmax(0, 1fr); }
+  .top-longrest.rest-panel { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; align-items: stretch; }
+  .top-longrest.rest-panel > .sec-head { flex: 1 1 100%; margin: calc(var(--s3) * -1) calc(var(--s3) * -1) 0.1rem; }
+  .top-longrest.rest-panel .rest-btn { flex: 1 1 180px; }
+}
+@media (max-width: 900px) {
+  .sheet-hero { flex-wrap: wrap; }
+  .hero-actions { flex: 1 1 100%; justify-content: flex-start; }
+  .tab-bar {
+    position: sticky; top: 60px; z-index: 30;
+    background: var(--bg);
+    margin-left: -0.5rem; margin-right: -0.5rem; padding: 0 0.5rem;
+  }
+}
+@media (max-width: 768px) {
+  .sheet-top-row { display: flex; flex-direction: column; gap: var(--s2); }
+  .top-hp, .top-center, .top-rail { width: 100%; }
+  /* Tabs and their panels come before the long stat stack on phones, but the
+     vitals rail must stay at the top: the sidebar dissolves into the column so
+     the rail, the tab panels and then the stat stack can be ordered freely. */
+  .sheet-layout { flex-direction: column; }
+  .sheet-sidebar { display: contents; }
+  .sheet-sidebar > .top-rail { order: -1; width: 100%; margin-bottom: var(--s2); }
+  .sheet-main { order: 0; }
+  .sheet-sidebar > .sidebar-section { order: 1; width: 100%; }
+  /* Nav wraps to two rows (brand + search) at this width, so pin the tabs below it */
+  .tab-bar { top: 105px; }
+  /* Comfortable tap targets everywhere on touch */
+  .btn-sm, .btn-ghost, .btn-outline, .sf-btn, .chip, .cond-chip { min-height: 40px; display: inline-flex; align-items: center; justify-content: center; }
+  [data-action].vital-line, [data-action].collapse-head, [data-action].cond-head, .sec-head.toggle { min-height: 40px; align-items: center; }
+  .badge-link.editable, .badge.editable { min-height: 30px; display: inline-flex; align-items: center; }
+  .hp-btn, .hp-delta, .hero-actions .btn, .rest-btn, .sheet-sidebar .sec-head { min-height: 40px; }
+  .hp-btn { width: 40px; height: 40px; }
+  .top-combat-grid, .combat-quick { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }
+  .top-abilities-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 0.3rem; }
+  .sheet-sidebar .sidebar-section { margin-bottom: 0.4rem; }
+  .sheet-main h3 { font-size: 0.75rem !important; }
+}
+@media (max-width: 420px) {
+  .sheet-hero { gap: 0.6rem; }
+  .hero-portrait { width: 64px; height: 64px; }
+  .sheet-sidebar { grid-template-columns: minmax(0, 1fr); }
+  .top-combat-grid, .combat-quick { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .top-abilities-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .tab-btn { padding: 0 0.65rem; font-size: 0.8rem; }
+}
+/* Header actions: two tidy columns instead of a ragged wrap; the
+   destructive De-Level action takes its own full-width row. */
+@media (max-width: 560px) {
+  /* Five actions, one row: the header keeps its identity block visible instead of
+     spending three rows of vertical space on buttons. */
+  .hero-actions {
+    display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.3rem; width: 100%;
+  }
+  .hero-actions > .btn {
+    width: 100%; justify-content: center; min-height: 40px;
+    padding: 0 0.2rem; font-size: 0.7rem; gap: 0.15rem; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .hero-actions > .btn:last-child { grid-column: auto; }
+  .hero-badges { gap: 0.25rem; margin-top: 0.25rem; }
+}
+
+/* ── 7. Inventory rows: tappable icon buttons on touch ──────────────── */
+/* 30px box + 5px ::after halo = 40px effective target on a phone. */
+@media (max-width: 768px) {
+  .conc-input, #hp-delta, .input, select.select { min-height: 40px; }
+  .item-card .item-card-btn {
+    position: relative; min-width: 30px; min-height: 30px;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .item-card .item-card-btn::after { content: ""; position: absolute; inset: -5px; }
+  .item-card .item-card-name {
+    flex: 1 1 auto; min-width: 0; font-size: 0.82rem;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .item-card { gap: 0.3rem; align-items: center; }
+  .item-card .src-badge, .item-card .item-dice-badge { flex: 0 0 auto; }
+}
+.item-card .item-detail { flex: 1 1 100%; align-self: stretch; }

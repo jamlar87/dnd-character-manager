@@ -2,40 +2,133 @@
 {% block title %}Create Character{% endblock %}
 {% block style %}
 <style>
-.wizard-step { display: none; }
+/* ── Wizard shell ───────────────────────────────────────────────────────
+   One card per step, a numbered stepper above it, and a sticky action bar so Back/Next never
+   scroll off the bottom of a 133-option grid. Every colour is a token, so light theme follows. */
+.wizard-step { display: none; --wiz-pad: var(--s4); padding: var(--wiz-pad); }
 .wizard-step.active { display: block; }
-.step-indicator { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center;
-  position: sticky; top: 0; z-index: 40; background: var(--bg); padding: 0.5rem 0; }
-.step-name { font-weight: 700; color: var(--text); margin-left: 0.5rem; }
-.step-name small { color: var(--text-muted); font-weight: 400; }
+
+.stepper { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s1);
+  position: relative; padding: var(--s3) var(--s4); margin-bottom: var(--s3);
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow-1); }
+/* hairline rail behind the dots, first centre to last centre */
+.stepper::before { content: ""; position: absolute; left: calc(var(--s4) + 17px); right: calc(var(--s4) + 17px);
+  top: calc(var(--s3) + 17px); height: 1px; background: var(--border); pointer-events: none; }
+.step-item { position: relative; display: flex; flex-direction: column; align-items: center;
+  gap: 0.35rem; flex: 1 1 0; min-width: 0; }
+.step-dot { width: 34px; height: 34px; border-radius: 50%; flex: 0 0 34px;
+  display: grid; place-items: center; font-size: 0.82rem; font-weight: 700;
+  background: var(--surface-2); border: 1px solid var(--border-strong); color: var(--text-muted);
+  transition: background 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s; }
+.step-dot.active { background: var(--accent); border-color: var(--accent); color: #fff;
+  box-shadow: 0 0 0 3px var(--accent-soft); }
+.step-dot.done { background: var(--surface-3); border-color: var(--border-strong); color: var(--text-dim); }
+.step-dot.done .dot-num { display: none; }
+.step-dot.done::after { content: "✓"; font-size: 0.9rem; line-height: 1; }
+.step-label { font-size: 0.72rem; font-weight: 650; color: var(--text-dim); white-space: nowrap; }
+.step-dot.active + .step-label { color: var(--text); }
+.step-dot.done + .step-label { color: var(--text-muted); }
+/* Step title row: the shared .sec-head pattern, sized for a card header. */
+.wizard-step .sec-head { margin-bottom: var(--s2); }
+.wizard-step .sec-head h2 { font-family: var(--font-display); font-size: 1.22rem; font-weight: 700; line-height: 1.25; }
+.wizard-step .sec-head .hint { font-size: 0.78rem; color: var(--text-dim); white-space: nowrap; }
+.step-name { display: flex; align-items: baseline; gap: 0.3rem; flex-wrap: wrap;
+  font-size: 0.85rem; color: var(--text-muted); margin: 0 0 var(--s4); }
+/* The JS breadcrumb names step 5 "Equipment" while that card is Details; the stepper below
+   already carries position, so keep the element (JS writes to it) and drop the duplicate. */
+#stepName { display: none; }
+.step-name small { color: var(--text-dim); font-weight: 400; }
+.step-help { font-size: 0.85rem; line-height: 1.55; color: var(--text-muted); margin: 0.25rem 0 var(--s4); }
+
+/* Field rows: the input and its randomize / AI buttons share one line and wrap on narrow screens. */
+.field-row { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+.field-row > .input, .field-row > .select { flex: 1 1 200px; min-width: 0; }
+.field-row > .btn { flex: 0 0 auto; }
+.info-box { margin-top: 0.5rem; padding: 0.75rem 1rem; background: var(--surface-2);
+  font-size: 0.85rem; line-height: 1.55; color: var(--text-muted); }
+.note { font-size: 0.78rem; color: var(--text-dim); margin: 0.35rem 0 0.75rem; line-height: 1.5; }
+.portrait-row { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.25rem; }
+.portrait-field { flex: 1 1 240px; min-width: 0; }
+.portrait-field .input { width: 100%; }
+.review-card { background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: var(--s3); margin: var(--s2) 0; }
+.review-card:empty { display: none; }
+.equip-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin: 0 0 var(--s2); }
+.equip-row .note { margin: 0; }
+
 .opt-tools { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.6rem; }
-.opt-tools input[type="search"] { flex: 1; min-width: 200px; padding: 0.5rem 0.7rem; background: var(--bg);
-  border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 0.9rem; }
+.opt-tools input[type="search"] { flex: 1; min-width: 180px; padding: 0.5rem 0.7rem; background: var(--bg);
+  border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 0.9rem; }
 .opt-tools input[type="search"]:focus { outline: none; border-color: var(--accent); }
 .option-count { color: var(--text-muted); font-size: 0.8rem; white-space: nowrap; }
 .opt-empty { display: none; padding: 1rem; color: var(--text-muted); font-size: 0.9rem; }
+/* "Core content only": a real 40px row instead of a 10px glyph. */
+.core-toggle { display: flex; align-items: center; gap: 0.45rem; min-height: 40px; width: fit-content;
+  font-size: 0.8rem; color: var(--text-muted); cursor: pointer; user-select: none; margin-bottom: 0.25rem; }
+.core-create-box { display: inline-block; width: 16px; flex: 0 0 16px; text-align: center;
+  font-size: 1rem; line-height: 1; color: var(--text-muted); }
+.core-toggle:hover { color: var(--text); }
+
+.option-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); gap: 0.5rem; }
+.option-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 0.7rem 0.6rem; cursor: pointer; text-align: center; min-height: 44px;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s; }
+.option-card:hover { border-color: var(--accent); background: var(--surface-2); }
+.option-card.selected { border-color: var(--accent); background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px var(--accent); }
+.option-card.locked { opacity: 0.45; cursor: default; border-style: dashed; }
+.option-card.locked:hover { border-color: var(--border); background: var(--bg); }
 /* Keyboard: an option card is a button, so it should look like one when focused. */
 .option-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.option-card { cursor: pointer; }
-.step-dot { width: 32px; height: 32px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; }
-.step-dot.active { background: var(--accent); }
-.step-dot.done { background: var(--success); }
-.option-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.5rem; }
-.option-card { background: var(--bg); border: 2px solid var(--border); border-radius: 8px; padding: 0.75rem; cursor: pointer; text-align: center; transition: border-color 0.2s; }
-.option-card:hover { border-color: var(--accent); }
-.option-card.selected { border-color: var(--accent); background: var(--accent2); }
-.option-card.locked { opacity: 0.4; cursor: default; border-style: dashed; }
-.option-card.locked:hover { border-color: var(--border); }
-.src-badge { font-size: 0.68rem; color: var(--text-muted); opacity: 0.7; white-space: nowrap; cursor: pointer; }
-.src-badge:hover { opacity: 1; color: var(--accent); text-decoration: underline; }
-.option-card .name { font-weight: 700; font-size: 0.95rem; overflow-wrap: break-word; word-break: break-word; }
-.option-card .detail { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
+.option-card .name { font-weight: 700; font-size: 0.92rem; line-height: 1.3; overflow-wrap: anywhere; }
+.option-card .detail { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem; line-height: 1.4; }
+/* Source tag (PHB / XGE …) — a badge, not 10px grey type. Still a click target for the source card. */
+.src-badge { display: inline-flex; align-items: center; margin-top: 0.35rem;
+  padding: 0.05rem 0.45rem; border-radius: 999px; background: var(--surface-3); color: var(--text-muted);
+  font-size: max(0.72rem, 11px); font-weight: 650; letter-spacing: 0.02em; white-space: nowrap; cursor: pointer; }
+.src-badge:hover { color: var(--accent); background: var(--accent-soft); text-decoration: none; }
+
 .ability-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
-.ability-box { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem; text-align: center; }
-.ability-box .abl { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
+.ability-box { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.5rem; text-align: center; }
+.ability-box .abl { font-size: max(0.72rem, 11px); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
 .ability-box .val { font-size: 1.3rem; font-weight: 700; }
-.wizard-nav { display: flex; justify-content: space-between; margin-top: 1.5rem; gap: 0.4rem; flex-wrap: wrap; }
-@media (max-width: 480px) { .wizard-nav { flex-direction: column; } .wizard-nav .btn { width: 100%; text-align: center; } }
+
+/* Sticky action bar — pinned to the bottom of the viewport inside each step's card. */
+.wizard-nav { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+  flex-wrap: wrap; position: sticky; bottom: 0; z-index: 30;
+  margin: var(--s4) calc(var(--wiz-pad) * -1) calc(var(--wiz-pad) * -1);
+  padding: 0.6rem var(--wiz-pad);
+  background: var(--card-bg); border-top: 1px solid var(--border);
+  border-radius: 0 0 var(--radius) var(--radius); box-shadow: 0 -6px 16px -12px rgba(0,0,0,0.6); }
+.wizard-nav .nav-aux, .wizard-nav .nav-main { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+.wizard-nav .nav-aux { flex: 1 1 auto; min-width: 0; }
+.wizard-nav .nav-main { margin-left: auto; }
+.wizard-nav .btn { min-height: 44px; }
+.wizard-nav .btn-sm { min-height: 38px; }
+.nav-step { font-size: max(0.72rem, 11px); font-weight: 700; letter-spacing: 0.07em;
+  text-transform: uppercase; color: var(--text-dim); margin-right: auto; white-space: nowrap; }
+
+@media (max-width: 640px) {
+  /* Keep the step names on phones — position alone doesn't tell you where you are.
+     11px labels still fit six across 390px because the dots shrink to 28px. */
+  .step-label { display: block; font-size: max(0.7rem, 11px); letter-spacing: 0; }
+  .stepper { padding: 0.55rem var(--s2); gap: 0; }
+  .step-dot { width: 28px; height: 28px; flex: 0 0 28px; font-size: 0.78rem; }
+  .stepper::before { top: calc(0.55rem + 14px); left: calc(var(--s2) + 14px); right: calc(var(--s2) + 14px); }
+  .step-name { margin-bottom: var(--s3); }
+}
+@media (max-width: 560px) {
+  .wizard-nav .nav-main { width: 100%; margin-left: 0; }
+  .wizard-nav .nav-main .btn { flex: 1 1 auto; }
+  .wizard-step .btn-sm { min-height: 40px; }
+}
+/* Tap targets: every control inside the wizard flow is at least 40px tall. */
+.page-head .btn, .wizard-step .btn, .wizard-nav .btn { min-height: 40px; }
+@media (max-width: 480px) {
+  .wizard-step { --wiz-pad: var(--s3); }
+  .ability-grid { grid-template-columns: repeat(2, 1fr); }
+}
 /* Ability score popover editor (shared with sheet page) */
 .ability-editor-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 9999; display: flex; align-items: center; justify-content: center; }
 .ability-editor-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem 1.8rem; max-width: 340px; width: 90%; box-shadow: 0 12px 40px rgba(0,0,0,0.5); text-align: center; }
@@ -63,26 +156,38 @@
 </style>
 {% endblock %}
 {% block content %}
-<h1>Create Character</h1>
-
-<div class="step-indicator">
-  <div class="step-dot" id="dot-0">1</div><div class="step-dot" id="dot-1">2</div>
-  <div class="step-dot" id="dot-2">3</div><div class="step-dot" id="dot-3">4</div>
-  <div class="step-dot" id="dot-4">5</div><div class="step-dot" id="dot-5">6</div>
-  <span class="step-name" id="stepName"></span>
+<div class="page-head">
+  <div>
+    <h1 class="page-title">Create a character</h1>
+    <p class="page-sub">Six steps. Every one has a randomize or default button, so you can take the whole character in a few clicks.</p>
+  </div>
+  <div class="page-actions">
+    <a class="btn btn-outline" href="/dashboard">← Back to characters</a>
+  </div>
 </div>
+
+<div class="stepper" aria-label="Creation steps">
+  <div class="step-item"><span class="step-dot active" id="dot-0"><span class="dot-num">1</span></span><span class="step-label">Race</span></div>
+  <div class="step-item"><span class="step-dot" id="dot-1"><span class="dot-num">2</span></span><span class="step-label">Class</span></div>
+  <div class="step-item"><span class="step-dot" id="dot-2"><span class="dot-num">3</span></span><span class="step-label">Abilities</span></div>
+  <div class="step-item"><span class="step-dot" id="dot-3"><span class="dot-num">4</span></span><span class="step-label">Skills</span></div>
+  <div class="step-item"><span class="step-dot" id="dot-4"><span class="dot-num">5</span></span><span class="step-label">Details</span></div>
+  <div class="step-item"><span class="step-dot" id="dot-5"><span class="dot-num">6</span></span><span class="step-label">Review</span></div>
+</div>
+<p class="step-name" id="stepName"></p>
 
 <div id="wizard">
   <!-- Step 0: Race -->
-  <div class="wizard-step active" data-step="0">
-    <h3>Choose Your Race</h3>
+  <div class="wizard-step active card" data-step="0">
+    <div class="sec-head"><h2>Choose a race</h2></div>
+    <p class="step-help">Race sets your ability bonuses, speed and darkvision. Source tags (PHB, XGE …) open the book entry — they don't pick the race for you.</p>
     <div class="opt-tools">
       <input type="search" placeholder="🔍 Search races by name or source..." data-action="filterRaceOptions" data-call='{"a":[{"e":true}]}'
              aria-label="Search races">
       <span class="option-count" id="race-count"></span>
     </div>
-    <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.72rem;color:var(--text-muted);cursor:pointer;user-select:none;margin-bottom:0.5rem" data-action="toggleCoreCreate" data-call='{&quot;a&quot;:[{&quot;e&quot;:true}]}'>
-      <span class="core-create-box" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-radius:3px;text-align:center;line-height:12px;font-size:10px;background:var(--bg)">☐</span>
+    <label class="core-toggle" data-action="toggleCoreCreate" data-call='{&quot;a&quot;:[{&quot;e&quot;:true}]}'>
+      <span class="core-create-box">☐</span>
       Core content only
     </label>
     <div class="option-grid" id="race-grid"></div>
@@ -92,19 +197,23 @@
     </div>
     <div id="race-info" class="card" style="margin-top:1rem;display:none"></div>
     <div id="ancestry-section" style="display:none;margin-top:0.5rem"></div>
-    <div class="wizard-nav"><button class="btn btn-outline btn-sm" data-action="randomizeRace">🎲 Randomize</button><span></span><button class="btn btn-primary" data-action="nextStep">Next →</button></div>
+    <div class="wizard-nav">
+      <div class="nav-aux"><span class="nav-step">Step 1 of 6</span><button class="btn btn-outline btn-sm" data-action="randomizeRace">🎲 Randomize</button></div>
+      <div class="nav-main"><button class="btn btn-primary" data-action="nextStep">Next →</button></div>
+    </div>
   </div>
 
   <!-- Step 1: Class -->
-  <div class="wizard-step" data-step="1">
-    <h3>Choose Your Class</h3>
+  <div class="wizard-step card" data-step="1">
+    <div class="sec-head"><h2>Choose a class</h2></div>
+    <p class="step-help">Class decides your hit dice, proficiencies and level-1 features. Subclasses appear once the class offers one.</p>
     <div class="opt-tools">
       <input type="search" placeholder="🔍 Search classes and subclasses..." data-action="filterClassOptions" data-call='{"a":[{"e":true}]}'
              aria-label="Search classes">
       <span class="option-count" id="class-count"></span>
     </div>
-    <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.72rem;color:var(--text-muted);cursor:pointer;user-select:none;margin-bottom:0.5rem" data-action="toggleCoreCreate" data-call='{&quot;a&quot;:[{&quot;e&quot;:true}]}'>
-      <span class="core-create-box" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-radius:3px;text-align:center;line-height:12px;font-size:10px;background:var(--bg)">☐</span>
+    <label class="core-toggle" data-action="toggleCoreCreate" data-call='{&quot;a&quot;:[{&quot;e&quot;:true}]}'>
+      <span class="core-create-box">☐</span>
       Core content only
     </label>
     <div class="option-grid" id="class-grid"></div>
@@ -113,12 +222,16 @@
       <div class="option-grid" id="subclass-grid"></div>
     </div>
     <div id="class-info" class="card" style="margin-top:1rem;display:none"></div>
-    <div class="wizard-nav"><button class="btn btn-outline" data-action="prevStep">← Back</button><button class="btn btn-outline btn-sm" data-action="randomizeClass">🎲 Randomize</button><button class="btn btn-primary" data-action="nextStep">Next →</button></div>
+    <div class="wizard-nav">
+      <div class="nav-aux"><span class="nav-step">Step 2 of 6</span><button class="btn btn-outline btn-sm" data-action="randomizeClass">🎲 Randomize</button></div>
+      <div class="nav-main"><button class="btn btn-outline" data-action="prevStep">← Back</button><button class="btn btn-primary" data-action="nextStep">Next →</button></div>
+    </div>
   </div>
 
   <!-- Step 2: Abilities -->
-  <div class="wizard-step" data-step="2">
-    <h3>Ability Scores <span style="font-size:0.85rem;color:var(--text-muted)">(Standard Array: 15,14,13,12,10,8)</span></h3>
+  <div class="wizard-step card" data-step="2">
+    <div class="sec-head"><h2>Ability scores</h2></div>
+    <p class="step-help">Standard array: 15, 14, 13, 12, 10, 8. ⭐ Ideal Default puts them where your race and class want them. Tap any score to adjust it.</p>
     <div class="ability-grid" id="ability-grid"></div>
     <div id="asi-bonus" style="margin-top:0.5rem;color:var(--accent);font-size:0.85rem"></div>
     <div id="ability-info" class="card" style="margin-top:0.75rem;display:none;font-size:0.85rem;line-height:1.5;color:var(--text-muted)"></div>
@@ -149,51 +262,82 @@
       <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.25rem" id="mpmm-hint"></p>
     </div>
     {% endif %}
-    <div class="wizard-nav"><button class="btn btn-outline" data-action="prevStep">← Back</button><button class="btn btn-outline btn-sm" data-action="idealAbilities">⭐ Ideal Default</button><button class="btn btn-outline btn-sm" data-action="randomizeAbilities">🎲 Randomize</button><button class="btn btn-primary" data-action="nextStep">Next →</button></div>
+    <div class="wizard-nav">
+      <div class="nav-aux"><span class="nav-step">Step 3 of 6</span><button class="btn btn-outline btn-sm" data-action="idealAbilities">⭐ Ideal Default</button><button class="btn btn-outline btn-sm" data-action="randomizeAbilities">🎲 Randomize</button></div>
+      <div class="nav-main"><button class="btn btn-outline" data-action="prevStep">← Back</button><button class="btn btn-primary" data-action="nextStep">Next →</button></div>
+    </div>
   </div>
 
   <!-- Step 3: Skills -->
-  <div class="wizard-step" data-step="3">
-    <h3>Choose Skills <span id="skill-count-label" style="font-size:0.85rem;color:var(--text-muted)"></span> <button class="btn btn-outline btn-sm" data-action="toggleAllSkills" id="show-all-skills-btn" style="margin-left:0.5rem">👁 Show All</button></h3>
+  <div class="wizard-step card" data-step="3">
+    <div class="sec-head">
+      <h2>Choose skills <span class="hint" id="skill-count-label"></span></h2>
+      <button class="btn btn-outline btn-sm" data-action="toggleAllSkills" id="show-all-skills-btn">👁 Show All</button>
+    </div>
+    <p class="step-help">Your class grants a fixed number of proficiencies. Show All reveals every skill, including ones you can't pick.</p>
     <div class="option-grid" id="skill-grid"></div>
     <div id="skill-info" class="card" style="margin-top:0.75rem;display:none;font-size:0.85rem;line-height:1.5;color:var(--text-muted)"></div>
-    <div class="wizard-nav"><button class="btn btn-outline" data-action="prevStep">← Back</button><button class="btn btn-outline btn-sm" data-action="idealSkills">⭐ Ideal Default</button><button class="btn btn-outline btn-sm" data-action="randomizeSkills">🎲 Randomize</button><button class="btn btn-primary" data-action="nextStep">Next →</button></div>
+    <div class="wizard-nav">
+      <div class="nav-aux"><span class="nav-step">Step 4 of 6</span><button class="btn btn-outline btn-sm" data-action="idealSkills">⭐ Ideal Default</button><button class="btn btn-outline btn-sm" data-action="randomizeSkills">🎲 Randomize</button></div>
+      <div class="nav-main"><button class="btn btn-outline" data-action="prevStep">← Back</button><button class="btn btn-primary" data-action="nextStep">Next →</button></div>
+    </div>
   </div>
 
   <!-- Step 4: Details -->
-  <div class="wizard-step" data-step="4">
-    <h3>Character Details</h3>
-    <div class="form-group"><label>Name</label><div style="display:flex;gap:0.5rem"><input type="text" id="char-name" placeholder="Character name" style="flex:1" required><button class="btn btn-outline btn-sm" data-action="randomName" type="button">🎲 Random</button></div></div>
+  <div class="wizard-step card" data-step="4">
+    <div class="sec-head"><h2>Character details</h2></div>
+    <p class="step-help">Name, background and alignment. 🎲 picks a name, and the Auto-Fill / AI buttons fill the background for you.</p>
     <div class="form-group">
-      <label>Background</label>
-      <div style="display:flex;gap:0.5rem"><select id="char-bg" style="flex:1" data-action="showBgInfo" data-call='{&quot;a&quot;:[{&quot;p&quot;:&quot;value&quot;}]}'></select><button class="btn btn-outline btn-sm" data-action="autoFillDetails">🤖 Auto-Fill</button><button class="btn btn-outline btn-sm" data-action="aiGenerateBackground">🤖 AI Generate</button></div>
-      <div id="bg-info" class="card" style="margin-top:0.5rem;padding:0.75rem 1rem;display:none;font-size:0.85rem;color:var(--text-muted);line-height:1.5"></div>
-      <div id="custom-bg-row" style="margin-top:0.5rem;display:none">
-        <input type="text" id="custom-bg-name" placeholder="Enter your background name..." style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.95rem" data-action="setCustomBackground" data-call='{"a":[{"p":"value"}]}'>
+      <label for="char-name">Name</label>
+      <div class="field-row">
+        <input class="input" type="text" id="char-name" placeholder="Character name" required>
+        <button class="btn btn-outline btn-sm" data-action="randomName" type="button">🎲 Random</button>
       </div>
     </div>
-    <div class="form-group"><label>Alignment</label><select id="char-align"></select></div>
-    <div class="form-group"><label>Level</label><input type="number" id="char-level" value="1" min="1" max="20"></div>
-    <div class="wizard-nav"><button class="btn btn-outline" data-action="prevStep">← Back</button><button class="btn btn-outline btn-sm" data-action="randomizeDetails">🎲 Randomize</button><button class="btn btn-primary" data-action="nextStep">Review →</button></div>
+    <div class="form-group">
+      <label for="char-bg">Background</label>
+      <div class="field-row">
+        <select class="select" id="char-bg" data-action="showBgInfo" data-call='{&quot;a&quot;:[{&quot;p&quot;:&quot;value&quot;}]}'></select>
+        <button class="btn btn-outline btn-sm" data-action="autoFillDetails">🤖 Auto-Fill</button>
+        <button class="btn btn-outline btn-sm" data-action="aiGenerateBackground">🤖 AI Generate</button>
+      </div>
+      <div id="bg-info" class="card info-box" style="display:none"></div>
+      <div id="custom-bg-row" style="margin-top:0.5rem;display:none">
+        <input class="input" type="text" id="custom-bg-name" placeholder="Enter your background name..." data-action="setCustomBackground" data-call='{"a":[{"p":"value"}]}'>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group"><label for="char-align">Alignment</label><select class="select" id="char-align"></select></div>
+      <div class="form-group"><label for="char-level">Level</label><input class="input" type="number" id="char-level" value="1" min="1" max="20"></div>
+    </div>
+    <div class="wizard-nav">
+      <div class="nav-aux"><span class="nav-step">Step 5 of 6</span><button class="btn btn-outline btn-sm" data-action="randomizeDetails">🎲 Randomize</button></div>
+      <div class="nav-main"><button class="btn btn-outline" data-action="prevStep">← Back</button><button class="btn btn-primary" data-action="nextStep">Review →</button></div>
+    </div>
   </div>
 
   <!-- Step 5: Review -->
-  <div class="wizard-step" data-step="5">
-    <h3>Review & Create</h3>
+  <div class="wizard-step card" data-step="5">
+    <div class="sec-head"><h2>Review &amp; create</h2></div>
+    <p class="step-help">Check the sheet below, then hit Create Character. Ability scores, spells and equipment stay editable afterwards.</p>
     <div id="portrait-section" style="margin-bottom:0.75rem;text-align:center;display:none">
       <img id="portrait-img" src="" alt="Character Portrait" style="max-width:256px;max-height:384px;border-radius:8px;border:2px solid var(--border);display:none">
       <div id="portrait-loading" style="display:none;padding:2rem;color:var(--text-muted)">🎨 Generating portrait...</div>
     </div>
-    <div style="margin-bottom:0.5rem;display:flex;gap:0.5rem;align-items:flex-end;flex-wrap:wrap">
-      <div style="flex:1;min-width:200px">
-        <input type="text" id="portrait-custom" placeholder="Custom portrait details (optional) — e.g. 'scarred face, stormy sky, dual-wielding'" style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;font-family:var(--font)">
+    <div class="portrait-row">
+      <div class="portrait-field">
+        <label for="portrait-custom">Portrait prompt</label>
+        <input class="input" type="text" id="portrait-custom" placeholder="Optional details — e.g. 'scarred face, stormy sky, dual-wielding'">
       </div>
       <button class="btn btn-outline btn-sm" data-action="regeneratePortrait">🔄 Regenerate</button>
     </div>
-    <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.75rem">Can be regenerated at any time on the Character page</div>
-    <div class="card" id="review-card"></div>
-    <div style="margin:0.5rem 0"><button class="btn btn-outline btn-sm" data-action="autoEquip">🎒 Auto-Equipment</button> <span style="font-size:0.75rem;color:var(--text-muted)">*Add additional equipment on the Character page</span></div>
-    <div class="wizard-nav"><button class="btn btn-outline" data-action="prevStep">← Back</button><button class="btn btn-primary" id="create-btn" data-action="createCharacter">✓ Create Character</button></div>
+    <p class="note">Can be regenerated at any time on the Character page</p>
+    <div class="review-card" id="review-card"></div>
+    <div class="equip-row"><button class="btn btn-outline btn-sm" data-action="autoEquip">🎒 Auto-Equipment</button> <span class="note">Optional — add more equipment later on the character sheet.</span></div>
+    <div class="wizard-nav">
+      <div class="nav-aux"><span class="nav-step">Step 6 of 6</span></div>
+      <div class="nav-main"><button class="btn btn-outline" data-action="prevStep">← Back</button><button class="btn btn-primary" id="create-btn" data-action="createCharacter">✓ Create Character</button></div>
+    </div>
   </div>
 </div>
 
@@ -300,6 +444,9 @@
 </div>
 
 <script src="/static/source-slug-map.js?v={{ source_slug_map_version }}"></script>
+{# A campaign that sent the player here to build a party member gets the sheet
+   handed straight back; the token {id} is replaced with the new character's id. #}
+<script>window.CREATE_NEXT = {{ (next_url or "") | tojson }};</script>
 {# The wizard's reference tables were 39 inline `const NAME = {{ x | tojson }}` lines
    right here — races, classes, skills, backgrounds/alignments and the per-class
    option/level tables: global reference JSON re-sent on every load, uncacheable inside

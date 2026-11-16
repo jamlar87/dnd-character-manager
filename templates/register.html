@@ -1,14 +1,59 @@
 {% extends "layout.html" %}
 {% block title %}Register{% endblock %}
+{% block style %}
+<style>
+  /* Auth shell: one centred card, shared shape across login / register / password pages.
+     Scoped to .auth-* so it cannot leak; colours are tokens only, so light theme follows. */
+  .auth-wrap { max-width: 420px; margin: clamp(1.25rem, 6vw, 3.5rem) auto 0; }
+  .auth-card { padding: clamp(1.25rem, 4.5vw, 2rem); box-shadow: var(--shadow-2); }
+  .auth-brand { display: flex; align-items: center; gap: 0.6rem; margin-bottom: var(--s4); }
+  .auth-mark {
+    width: 40px; height: 40px; flex: 0 0 40px; border-radius: 11px; display: grid; place-items: center;
+    font-size: 1.15rem; line-height: 1; color: var(--accent);
+    background: var(--accent-soft); border: 1px solid var(--border-strong);
+  }
+  .auth-name {
+    font-family: var(--font-display); font-size: 0.9rem; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted);
+  }
+  .auth-title {
+    font-family: var(--font-display); font-weight: 700; line-height: 1.15;
+    font-size: clamp(1.45rem, 1.15rem + 1vw, 1.8rem);
+  }
+  .auth-wrap .page-sub { margin: 0.35rem 0 var(--s4); }
+  .auth-card .form-group input { min-height: 44px; font-size: 1rem; }
+  .auth-submit { width: 100%; min-height: 44px; margin-top: 0.35rem; font-size: 0.98rem; }
+  .auth-foot { margin-top: var(--s4); padding-top: var(--s3); border-top: 1px solid var(--border); text-align: center; }
+  .auth-foot .meta + .meta { margin-top: 0.45rem; }
+  .auth-foot a { display: inline-flex; align-items: center; min-height: 40px; padding: 0 0.3rem; color: var(--accent); font-weight: 600; }
+  .auth-foot a:hover { color: var(--accent-hi); }
+</style>
+{% endblock %}
 {% block content %}
-<div class="card" style="max-width:400px;margin:3rem auto">
-  <h2 style="margin-bottom:1rem">Create Account</h2>
-  {% if error %}<div class="alert alert-error">{{ error }}</div>{% endif %}
-  <form method="post">
-    <div class="form-group"><label>Email</label><input type="email" name="email" required></div>
-    <div class="form-group"><label>Password (min 6 chars)</label><input type="password" name="password" required minlength="6"></div>
-    <button type="submit" class="btn btn-primary" style="width:100%">Register</button>
-  </form>
-  <p style="margin-top:1rem;text-align:center;color:var(--text-muted)">Already have an account? <a href="/login">Login</a></p>
+<div class="auth-wrap">
+  <div class="card auth-card">
+    <div class="auth-brand">
+      <span class="auth-mark" aria-hidden="true">🎲</span>
+      <span class="auth-name">D&amp;D Character Manager</span>
+    </div>
+    <h1 class="auth-title">Create account</h1>
+    <p class="page-sub">Build characters, run encounters and share a campaign with your table.</p>
+    {% if error %}<div class="alert alert-error" role="alert">{{ error }}</div>{% endif %}
+    <form method="post">
+      {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+      <div class="form-group">
+        <label for="register-email">Email</label>
+        <input class="input" id="register-email" type="email" name="email" autocomplete="username" required>
+      </div>
+      <div class="form-group">
+        <label for="register-password">Password (min 6 chars)</label>
+        <input class="input" id="register-password" type="password" name="password" autocomplete="new-password" required minlength="6">
+      </div>
+      <button type="submit" class="btn btn-primary auth-submit">Register</button>
+    </form>
+    <div class="auth-foot">
+      <p class="meta">Already have an account? <a href="/login{% if next %}?next={{ next|urlencode }}{% endif %}">Login</a></p>
+    </div>
+  </div>
 </div>
 {% endblock %}
