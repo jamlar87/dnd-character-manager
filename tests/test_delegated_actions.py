@@ -154,6 +154,72 @@ console.log(JSON.stringify(calls));
     # 'missingHandler' has no window function: no throw (returncode 0), no call.
 
 
+def test_a_plain_data_action_ignores_focus_events(tmp_path):
+    """Clicking a control focuses it first; focus must not re-run the handler.
+
+    Every click on a `data-action` button fires focusin before click. When the
+    dispatcher answered focusin too, the handler ran twice — the character
+    wizard's Next advanced two steps, silently skipping abilities and skills.
+    """
+    node = shutil.which("node")
+    if not node:
+        pytest.skip("node not installed")
+
+    harness = tmp_path / "harness_focus.js"
+    harness.write_text(
+        """
+const fs = require('fs');
+const vm = require('vm');
+
+const listeners = {};
+const document = {
+  readyState: 'complete',
+  addEventListener: function (type, fn) { listeners[type] = fn; },
+};
+const window = { document: document };
+const ctx = { window: window, document: document, console: console };
+vm.createContext(ctx);
+vm.runInContext(fs.readFileSync(process.argv[2], 'utf8'), ctx);
+
+const calls = [];
+window.advance = function () { calls.push('advance'); };
+window.mapped = function () { calls.push('mapped'); };
+
+function el(attrs) {
+  return {
+    dataset: {},
+    getAttribute: function (name) { return name in attrs ? attrs[name] : null; },
+    hasAttribute: function (name) { return name in attrs; },
+  };
+}
+
+function fire(type, target) {
+  listeners[type]({ type: type, target: { closest: function () { return target; } } });
+}
+
+// A real click: the browser focuses the button, then dispatches click.
+const plain = el({'data-action': 'advance'});
+fire('focusin', plain);
+fire('click', plain);
+
+// A map-based element keeps its explicit focus wiring.
+const mappedEl = el({'data-action-map': JSON.stringify({focusin: 'mapped'})});
+fire('focusin', mappedEl);
+
+console.log(JSON.stringify(calls));
+"""
+    )
+
+    out = subprocess.run(
+        [node, str(harness), str(STATIC / "ui" / "events.js")],
+        capture_output=True, text=True, timeout=60,
+    )
+    assert out.returncode == 0, out.stderr
+    calls = json.loads(out.stdout.strip().splitlines()[-1])
+    assert calls == ["advance", "mapped"], (
+        "a plain data-action must fire once per click and never on focus; got %s" % calls)
+
+
 def test_the_action_layer_loads_once_and_in_order():
     """layout.html owns the dispatcher; pages only add their own specs.
 

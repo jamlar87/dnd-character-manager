@@ -152,6 +152,10 @@
         return null;
       }
     }
+    // A plain data-action answers activation events only. Focusing a control
+    // fires focusin/in before its click, so answering focus too ran every
+    // handler twice — a wizard Next click advanced two steps at once.
+    if (ev.type === 'focusin' || ev.type === 'focusout') return null;
     return el.getAttribute('data-action');
   }
 
