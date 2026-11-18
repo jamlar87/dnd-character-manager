@@ -193,7 +193,10 @@ class TestRoute:
         client.cookies.clear()
         try:
             r = client.get("/api/ref-image/creature/Aboleth", follow_redirects=False)
-            assert r.status_code == 303 and r.headers.get("location") == "/login"
+            assert r.status_code == 303
+            # The login redirect carries ?next= so the browser returns to the requested page after
+            # signing in; only the destination matters, not whether a `next` hint rode along.
+            assert r.headers.get("location", "").split("?", 1)[0] == "/login"
         finally:
             client.cookies.update(saved)
 

@@ -191,6 +191,32 @@ COMFY_NEGATIVE_LIVING = ("photo, photorealistic, 3d render, modern clothing, car
 
 PORTRAIT_PROVIDER = os.environ.get("PORTRAIT_PROVIDER", "horde").strip().lower()
 
+# ── Which graph the ComfyUI provider builds ──────────────────────────────────────────────────────
+#: "sdxl" was the only option and is still the default here so the graph-level tests keep meaning
+#: what they say. "qwen21" is the 2026 model: Qwen-Image-2.1 turbo at int8 against its own VAE and
+#: its own qwen3vl-8b text encoder, no single checkpoint file involved.
+#:
+#: Measured on the same prompt/seed/size (832x1216): Qwen 17.7s, Z-Image-Turbo 19.0s, SDXL 24.1s
+#: sampling time, and Qwen was the only one that drew a coherent humanoid bust with the right armour
+#: material and a clean blank background. SDXL still wins raw texture detail; it also swaps 6.5GB of
+#: checkpoint in and out when you switch back to it, which cost ~2.5min a call in that test.
+COMFY_MODEL = os.environ.get("COMFY_MODEL", "sdxl").strip().lower()
+
+#: Qwen-Image-2.1 component files (int8 quantised UNET ~15.6GB, 8.7GB text encoder).
+#: The text encoder is NOT interchangeable with the prompt-enhancer LLM shipped alongside it in the
+#: same HF repo (`qwen3.5_9b_..._pe_t2i`): loading that one as CLIPLoader succeeds with no error and
+#: returns embeddings that make every prompt come out as abstract high-frequency texture. If output
+#: stops depending on the prompt, suspect this file first.
+QWEN_UNET = os.environ.get("QWEN_UNET", "qwen_image_2.1_turbo_int8_convrot.safetensors")
+QWEN_TE = os.environ.get("QWEN_TE", "qwen3vl_8b_int8_convrot.safetensors")
+QWEN_VAE = os.environ.get("QWEN_VAE", "qwen_image_2.1_vae_bf16.safetensors")
+#: The turbo checkpoint's fixed 8-step schedule, copied from the official template's ManualSigmas.
+#: A plain KSampler at 8 steps with simple/karras on these weights returns pure noise — the distilled
+#: model is trained against this exact descending list, so it is data, not a tuning knob.
+QWEN_SIGMAS = os.environ.get(
+    "QWEN_SIGMAS",
+    "1.0, 0.978453, 0.95418, 0.926626, 0.89508, 0.845148, 0.704534, 0.414568, 0")
+
 
 def npc_prompt(name: str, notes: str = "", race: str = "", role: str = "",
                gender: str = "") -> str:
@@ -384,8 +410,9 @@ async def fetch_horde_image(prompt: str, max_wait: int = 600,
 
 def comfy_workflow(prompt: str, width: int, height: int, steps: int | None = None,
                    cfg: float | None = None, seed: int | None = None,
-                   ckpt: str | None = None, negative: str | None = None) -> dict:
-    """The API-format SDXL txt2img graph ComfyUI's /prompt endpoint expects.
+                   ckpt: str | None = None, negative: str | None = None,
+                   model_family: str = "sdxl") -> dict:
+    """The API-format txt2img graph ComfyUI's /prompt endpoint expects.
 
     Node ids are arbitrary strings; the graph is load checkpoint -> two text encodes (positive and
     negative) -> empty latent -> sampler -> VAE decode -> save. Kept as data rather than a saved
@@ -393,9 +420,16 @@ def comfy_workflow(prompt: str, width: int, height: int, steps: int | None = Non
 
     Sampling settings come from the module constants, so switching checkpoint families is a config
     change rather than an edit here: a turbo model at 28 steps/CFG 6.5 is slow AND wrong.
+
+    `model_family` picks which graph to build. It defaults to "sdxl" on purpose: the tests below
+    assert SDXL facts (node "3" is the KSampler, COMFY_CKPT is an illustration model), and those
+    assertions should keep testing the thing they name. The live provider passes COMFY_MODEL.
     """
+    if (model_family or "sdxl").strip().lower() == "qwen21":
+        return comfy_workflow_qwen(prompt, width, height, seed=seed, negative=negative)
     if seed is None:
         seed = random.randint(1, 2_000_000_000)
+
     return {
         "4": {"class_type": "CheckpointLoaderSimple",
               "inputs": {"ckpt_name": ckpt or COMFY_CKPT}},
@@ -419,6 +453,53 @@ def comfy_workflow(prompt: str, width: int, height: int, steps: int | None = Non
     }
 
 
+def comfy_workflow_qwen(prompt: str, width: int, height: int, seed: int | None = None,
+                        negative: str | None = None) -> dict:
+    """Qwen-Image-2.1 turbo txt2img graph (UNET + CLIP + VAE loaded separately, no checkpoint file).
+
+    Deliberately not the KSampler shape the SDXL graph uses. The turbo checkpoint is distilled
+    against a fixed 8-step sigma list, and the only way to feed a literal list in ComfyUI core is
+    SamplerCustomAdvanced + ManualSigmas, which in turn needs an explicit guider (CFGGuider at
+    cfg 1.0) and a noise source (RandomNoise) instead of KSampler's own arguments. Building the
+    KSampler version "for consistency" produced coloured noise for two hours; see QWEN_SIGMAS.
+
+    The negative prompt is passed to TextEncodeQwenImage21's own negative_prompt input (output 1).
+    At CFG 1.0 the negative branch is effectively unused — which is correct for a turbo model — but
+    it stays wired so raising cfg to a real guidance value does what a reader expects.
+
+    SaveImage keeps node id "9" because fetch_comfy_image reads outputs["9"]; the other ids are
+    arbitrary.
+    """
+    if seed is None:
+        seed = random.randint(1, 2_000_000_000)
+    return {
+        "1": {"class_type": "UNETLoader",
+              "inputs": {"unet_name": QWEN_UNET, "weight_dtype": "default"}},
+        "2": {"class_type": "QwenImage21Cache",
+              "inputs": {"model": ["1", 0], "device": "auto", "dtype": "default"}},
+        "3": {"class_type": "CLIPLoader",
+              "inputs": {"clip_name": QWEN_TE, "type": "qwen_image", "device": "default"}},
+        "4": {"class_type": "TextEncodeQwenImage21",
+              "inputs": {"clip": ["3", 0], "prompt": prompt[:2000],
+                         "negative_prompt": negative or "", "resolution": 1024}},
+        "5": {"class_type": "VAELoader", "inputs": {"vae_name": QWEN_VAE}},
+        "6": {"class_type": "EmptyLatentImage",
+              "inputs": {"width": int(width), "height": int(height), "batch_size": 1}},
+        "7": {"class_type": "CFGGuider",
+              "inputs": {"model": ["2", 0], "positive": ["4", 0], "negative": ["4", 1], "cfg": 1.0}},
+        "8": {"class_type": "RandomNoise", "inputs": {"noise_seed": int(seed)}},
+        "10": {"class_type": "KSamplerSelect", "inputs": {"sampler_name": "euler"}},
+        "11": {"class_type": "ManualSigmas", "inputs": {"sigmas": QWEN_SIGMAS}},
+        "12": {"class_type": "SamplerCustomAdvanced",
+               "inputs": {"noise": ["8", 0], "guider": ["7", 0], "sampler": ["10", 0],
+                          "sigmas": ["11", 0], "latent_image": ["6", 0]}},
+        "13": {"class_type": "VAEDecode",
+               "inputs": {"samples": ["12", 0], "vae": ["5", 0]}},
+        "9": {"class_type": "SaveImage",
+              "inputs": {"filename_prefix": "dnd_ref", "images": ["13", 0]}},
+    }
+
+
 async def fetch_comfy_image(prompt: str, max_wait: int = 300,
                             width: int = 832, height: int = 1216,
                             poll_every: float = 2.0, negative: str | None = None):
@@ -431,10 +512,13 @@ async def fetch_comfy_image(prompt: str, max_wait: int = 300,
     base = COMFY_URL.rstrip("/")
     client_id = f"dnd-character-manager-{os.getpid()}"
     try:
-        async with httpx.AsyncClient(timeout=60, follow_redirects=True) as client:
+        # 180s, not 60: a cold comfy-gateway start (evict ollama, boot the container) can take
+        # 30-60s before /prompt is even accepted; the poll loop below owns the real wait budget.
+        async with httpx.AsyncClient(timeout=180, follow_redirects=True) as client:
             resp = await client.post(f"{base}/prompt",
                                      json={"prompt": comfy_workflow(prompt, width, height,
-                                                                    negative=negative),
+                                                                    negative=negative,
+                                                                    model_family=COMFY_MODEL),
                                            "client_id": client_id})
             if not 200 <= resp.status_code < 300:
                 # ComfyUI reports a bad graph as 400 with the reason in the body; surface it, because
