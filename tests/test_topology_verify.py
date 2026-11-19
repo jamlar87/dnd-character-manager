@@ -11,6 +11,48 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from services.topology_verify import expected_from_clause, score, _vlm_prompt, parse_counts  # noqa: E402
+import services.topology_verify as tv  # noqa: E402
+import services.ref_portraits as rp  # noqa: E402
+
+
+def test_unreadable_counts_never_beat_a_bad_baseline(tmp_path, monkeypatch):
+    """Otyugh: three rolls the VLM could not read became `score -15` (three missing parts) and beat a
+    -85 baseline, so the batch installed a picture nothing had ever counted. Unreadable must rank
+    below every real read and must not be installable."""
+    dest = tmp_path / "creature.webp"
+    dest.write_bytes(b"OLD-ART")
+    monkeypatch.setattr(rp, "path_for", lambda kind, name: dest)
+    monkeypatch.setattr(rp, "creature_clause", lambda name: "a blob on three legs with two tentacles")
+    async def fake_generate(*a, **k):
+        return _write_roll(dest, tmp_path)
+
+    monkeypatch.setattr(rp, "generate", fake_generate)
+
+    async def unreadable(img, expect, negatives):
+        return None, "model returned prose"
+
+    monkeypatch.setattr(tv, "count_in_image", unreadable)
+    monkeypatch.setattr(tv, "score_bytes", lambda *a, **k: _async(-85))
+
+    import asyncio
+    _, report = asyncio.run(tv.generate_verified("creature", "Blob", attempts=2))
+    assert report["installed"] is None
+    assert dest.read_bytes() == b"OLD-ART"
+    assert all(a["score"] == -99 for a in report["attempts"])
+
+
+def _async(value):
+    async def run(*a, **k):
+        return value
+    return run()
+
+
+def _write_roll(dest, tmp):
+    n = len(list(tmp.glob("roll*")))
+    p = tmp / f"roll{n}.webp"
+    p.write_bytes(b"NEW-ART")
+    dest.write_bytes(b"NEW-ART")      # generate() writes straight to dest
+    return p, None
 
 
 def test_compound_hyphen_counts():

@@ -366,11 +366,14 @@ async def generate_verified(kind: str, name: str, attempts: int = 4,
         # is not paid per image.
         for i, c in enumerate(cands):
             got, note = await count_in_image(c, expect, negatives)
-            s = score(got or {}, expect)
+            # Unreadable is not a score. A model that returns nothing used to score -15 (three
+            # missing parts) and could beat a genuinely bad baseline, so Otyugh installed a roll the
+            # verifier never actually read. Unreadable now ranks below every real read.
+            s = score(got, expect) if got else -99
             report["attempts"].append({"n": i, "counts": got, "score": s, "note": note})
             if s > best[0]:
                 best = (s, c, got)
-        if best[1] and (best[0] >= 10 if baseline is None else best[0] > baseline):
+        if best[1] and best[2] and (best[0] >= 10 if baseline is None else best[0] > baseline):
             shutil.copy(best[1], dest)   # generate() already wrote the last roll; install the winner
             report["installed"] = {"score": best[0], "counts": best[2]}
         else:
