@@ -156,6 +156,21 @@
     // fires focusin/in before its click, so answering focus too ran every
     // handler twice — a wizard Next click advanced two steps at once.
     if (ev.type === 'focusin' || ev.type === 'focusout') return null;
+    // A button or link already turns Enter/Space into a click. Answering the
+    // keydown as well ran the handler twice from one keypress — pressing Enter
+    // on "Create Character" inserted the sheet twice — and a held key fired
+    // again on every repeat. Native activation owns those keys on elements that
+    // have it; keydown is for elements that do not (inputs, divs, modals).
+    if (ev.type === 'keydown') {
+      var key = ev.key;
+      if (key === 'Enter' || key === ' ' || key === 'Spacebar') {
+        var tag = el.tagName;
+        var nativeActivation = tag === 'BUTTON' ||
+          (tag === 'A' && el.hasAttribute('href')) ||
+          (tag === 'INPUT' && (el.type === 'submit' || el.type === 'button'));
+        if (nativeActivation) return null;
+      }
+    }
     return el.getAttribute('data-action');
   }
 

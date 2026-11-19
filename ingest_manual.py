@@ -245,16 +245,19 @@ def _call_gemini(prompt: str) -> str | None:
 
 
 def _call_ollama(prompt: str) -> str | None:
-    """Tier 3: Local Ollama hermes3:8b."""
+    """Tier 3: Local Ollama (gemma4 on Bazzite)."""
     try:
         body = json.dumps({
-            "model": "hermes3:8b-llama3.1-q8_0",
+            "model": os.environ.get("AI_OLLAMA_MODEL", "gemma4-26b-a4b:latest"),
             "prompt": prompt,
             "stream": False,
-            "options": {"temperature": 0.1, "num_predict": 4096}
+            "think": False,
+            # Sampler params must sit in "options"; top-level copies are ignored by /api/generate.
+            "options": {"temperature": 0.1, "num_predict": 4096,
+                        "num_ctx": int(os.environ.get("AI_OLLAMA_NUM_CTX", "32768"))}
         }).encode()
         req = urllib.request.Request(
-            "http://192.168.1.31:11434/api/generate",
+            os.environ.get("OLLAMA_URL", "http://192.168.1.31:11434/api/generate"),
             data=body,
             headers={"Content-Type": "application/json"}
         )

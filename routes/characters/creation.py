@@ -317,7 +317,7 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
         for v in subclass_profs.get(key, []):
             if v not in lst:
                 lst.append(v)
-    
+
     # Merge chosen subclass bonus picks (languages/skills from picker)
     bonus_choices = data.get("subclass_bonus", [])
     if bonus_choices:
@@ -429,7 +429,7 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
     ))
     char_id = cur.lastrowid
     db.commit()
-    
+
     # Insert starting spells if provided
     spell_choices = data.get("spells", [])
     if spell_choices:
@@ -465,7 +465,7 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
                 (char_id, name, sp_level, 0, 0, 0))
             added += 1
         db.commit()
-    
+
     # Auto-prepare domain spells (always prepared, PHB p.58/85)
     if subclass and subclass in DOMAIN_SPELLS:
         ds_lower = [s.lower() for s in DOMAIN_SPELLS[subclass]]
@@ -475,7 +475,7 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
             if sp[1].lower() in ds_lower:
                 db.execute("UPDATE character_spells SET prepared = 1 WHERE id = ?", (sp[0],))
         db.commit()
-    
+
     # Auto-insert Warlock expanded spell list spells (always known, don't count against limit)
     if class_name == "Warlock" and subclass and subclass in WARLOCK_EXPANDED_SPELLS_BY_LEVEL:
         expanded = WARLOCK_EXPANDED_SPELLS_BY_LEVEL[subclass]
@@ -497,9 +497,44 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
                             (char_id, sname, slvl, 1, 0, 0, "Expanded Spell List"))
                         existing.add(sname.lower())
         db.commit()
-    
+
     db.close()
     return (char_id, name)
+
+
+# ── Double-submit guard ───────────────────────────────────────────────────
+# One press is one sheet. A single Enter on "Create Character" reached the
+# handler twice (keydown + the click the browser synthesises, and again on
+# every key repeat), and a double-tap lands before the button disables. Both
+# requests inserted a row, so the same character appeared twice on the roster
+# with two separate HP tracks. An identical user + name + race + class inside
+# the window is the same press arriving again, not a second character.
+CREATE_DEDUPE_SECONDS = 120
+
+
+def _recent_duplicate_id(user_id: int, data: dict):
+    """Return the id of a sheet this same payload just created, else None."""
+    name = (data.get("name") or "").strip()
+    race = (data.get("race") or "").strip()
+    class_name = (data.get("class_name") or "").strip()
+    if not (name and race and class_name):
+        return None
+    try:
+        db = get_db()
+        try:
+            row = db.execute(
+                "SELECT id FROM characters WHERE user_id = ? AND name = ? "
+                "AND race = ? AND class_name = ? "
+                "AND created_at >= datetime('now', ?) "
+                "ORDER BY id DESC LIMIT 1",
+                (user_id, name, race, class_name, f"-{CREATE_DEDUPE_SECONDS} seconds"),
+            ).fetchone()
+            return row[0] if row else None
+        finally:
+            db.close()
+    except Exception:
+        # A guard that breaks creation is worse than the duplicate it prevents.
+        return None
 
 
 @router.post("/api/character/create", response_class=JSONResponse)
@@ -522,6 +557,11 @@ async def api_create_character(request: Request):
     except ValidationError as e:
         return JSONResponse({"error": str(e)}, status_code=422)
     data = {**raw, **validated.model_dump(exclude_unset=True)}
+    dup_id = _recent_duplicate_id(user["id"], data)
+    if dup_id is not None:
+        # Same press arrived twice. Answer with the sheet the first request
+        # already built instead of inserting a second copy.
+        return JSONResponse({"id": dup_id, "name": data.get("name", ""), "deduped": True})
     try:
         char_id, name = _build_character(data, user["id"])
         return JSONResponse({"id": char_id, "name": name})
@@ -614,7 +654,7 @@ def _normalize_npc_race(race_str: str) -> str:
 
 def _normalize_npc_class(class_str: str) -> tuple[str, str]:
     """Map an NPC class_name string to (canonical CLASSES key, extracted subclass).
-    
+
     Examples:
       "Wizard (Necromancer)" → ("Wizard", "Necromancer")
       "bard" → ("Bard", "")
@@ -646,7 +686,7 @@ async def build_from_npc(request: Request):
     """Convert an NPC stat block into a playable character.
     Accepts NPC data (from npcs.json or user-supplied) and attempts to
     auto-detect race, class, subclass, level, ability scores, etc.
-    
+
     Returns a dict with:
       - auto_detected: what the system could infer
       - gaps: fields the user needs to fill in
@@ -873,7 +913,7 @@ def random_equipment(class_name: str) -> list[str]:
 
 def _normalize_recharge(recharge: str) -> str:
     """Normalize racial trait recharge strings to canonical forms.
-    
+
     Handles edge cases like 'combat', 'special', 'short or long rest'.
     Canonical values: 'short', 'long', 'combat', 'special', 'dawn'.
     """

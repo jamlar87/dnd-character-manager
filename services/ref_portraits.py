@@ -1065,6 +1065,14 @@ def species_cue(text: str) -> tuple[str, str] | None:
 # shelf's failure before ITEM_CUES, one shelf over. The stat line does state the type, in a fixed shape
 # ("Medium, monstrosity, unaligned"), so the type word becomes the clause and the stat line itself is
 # dropped: words like "Medium, unaligned" describe a filing label, never a body.
+#: SDXL's text encoder truncates at 77 tokens and the SUBJECT is what gets cut, so a prompt longer
+#: than this loses the thing it is describing. 48 words at the measured 1.53 tokens/word stays under
+#: the window; tests/test_prompt_token_budget.py enforces the same number.
+PROMPT_WORD_BUDGET = 48
+
+#: Words a trimmed sentence must not end on — see _fit_creature_prompt.
+_DANGLING_WORDS = {"and", "or", "with", "a", "an", "the", "of", "to", "in", "on", "its", "their", "that"}
+
 CREATURE_TYPE_CUES = (
     (re.compile(r"\bswarm\b", re.I),
      ("a swarm: a dense mass of many small creatures filling the frame", "swarm")),
@@ -1341,6 +1349,72 @@ def creature_tail(snippet: str, tail: str) -> str:
     return " ".join(keep)
 
 
+def _fit_creature_prompt(prompt: str) -> str:
+    """Hold every creature prompt inside the CLIP window by dropping its middle, not its ends.
+
+    The lead sentence is the subject and the trailing sentences are the house style; the sentences in
+    between are the record's own prose, which is the part SDXL would have truncated anyway (it cuts the
+    END, so an over-long tail used to delete the style and leave a scene). Dropping the middle keeps the
+    subject and the blank-background instruction, which are the two things the image depends on.
+
+    A clause is free text per record, so this cannot be fixed by writing shorter clauses: 267 of the
+    2,181 drafted ones produced an over-budget prompt, and the failure is silent. Guards the whole
+    creature branch rather than each return: a rule applied in four places gets applied in three.
+    """
+    from services.portraits import FANTASY_STYLE
+    if len(prompt.split()) <= PROMPT_WORD_BUDGET:
+        return prompt
+    parts = [s.strip() for s in re.split(r"(?<=[.!?])\s+", prompt) if s.strip()]
+    if len(parts) < 3:
+        # Fewer than three sentences: the construct cues put the whole description in ONE sentence, so
+        # there is no middle to drop. Shrink that sentence by comma parts instead of clipping the last
+        # word of the closing wrapper ("…in an empty grey." reads as damage, not as brevity).
+        longest = max(range(len(parts)), key=lambda i: len(parts[i].split()))
+        bits = [b.strip() for b in parts[longest].rstrip(".").split(",") if b.strip()]
+        while len(bits) > 1:
+            trial = parts[:longest] + [", ".join(bits) + "."] + parts[longest + 1:]
+            if len(" ".join(trial).split()) <= PROMPT_WORD_BUDGET:
+                return " ".join(trial)
+            bits.pop()
+        return " ".join(prompt.split()[:PROMPT_WORD_BUDGET])
+    style = [s for s in parts if FANTASY_STYLE in s]
+    body = [s for s in parts if s not in style]
+    keep = body[:1]
+    # The closing wrapper ("Full body, single creature, in an empty grey space.") is fixed house text,
+    # and clipping its last word reads as damage rather than as shortness. When nothing else fits, the
+    # descriptive tail of the LEAD gives way instead — one comma part at a time, so the limb layout
+    # that services.limb_placement puts after an em dash inside the lead is never the thing cut.
+    lead_parts = [p.strip() for p in keep[0].rstrip(".").split(",") if p.strip()]
+    while len(lead_parts) > 1 and len(
+            " ".join([", ".join(lead_parts) + "."] + body[1:] + style).split()) > PROMPT_WORD_BUDGET:
+        lead_parts.pop()
+    if len(lead_parts) > 1 or lead_parts:
+        keep = [", ".join(lead_parts).rstrip(",;:-") + "."]
+    for s in body[1:]:
+        joined = " ".join(keep + [s] + style)
+        if len(joined.split()) <= PROMPT_WORD_BUDGET:
+            keep.append(s)
+            continue
+        # A trailing sentence that does not fit is not worthless: on some records it is the only
+        # anatomy sentence in the prompt (the froghemoth's tentacles and eye-stalk live there). Take
+        # as many of its leading words as the window allows rather than discarding it whole.
+        room = PROMPT_WORD_BUDGET - len(" ".join(keep + style).split())
+        words = s.split()
+        if room >= 4:
+            cut = words[:room]
+            # Do not end on a connector: "…a prehensile tongue, and an." reads as damage to the
+            # encoder, which is the same class of noise as an unclosed bracket.
+            while cut and cut[-1].lower().strip(".,;:-") in _DANGLING_WORDS:
+                cut.pop()
+            if len(cut) >= 4:
+                keep.append(" ".join(cut).rstrip(",;:-") + ".")
+        break
+    fitted = " ".join(keep + style)
+    if len(fitted.split()) > PROMPT_WORD_BUDGET:
+        fitted = " ".join(fitted.split()[:PROMPT_WORD_BUDGET])
+    return fitted
+
+
 def prompt_for(kind: str, name: str, subtitle: str = "", snippet: str = "") -> str:
     """Every reference prompt, forced into the house style (fantasy-coded, blank background).
 
@@ -1349,7 +1423,8 @@ def prompt_for(kind: str, name: str, subtitle: str = "", snippet: str = "") -> s
     services.portraits already imports this module's caller — see _base_prompt.
     """
     from services.portraits import house_style
-    return house_style(_base_prompt(kind, name, subtitle, snippet))
+    prompt = house_style(_base_prompt(kind, name, subtitle, snippet))
+    return _fit_creature_prompt(prompt) if kind == "creature" else prompt
 
 
 # --- who the record actually is ------------------------------------------------------------------
@@ -1445,6 +1520,60 @@ def gender_from_text(text: str) -> str:
     return ""
 
 
+def _creature_clause_prompt(clause_lead: str, short_name: str) -> str:
+    """Bestiary prompt led by the record's anatomy clause, held inside the CLIP window.
+
+    The clause is free text, drafted per record, so its length is not bounded by anything: the owlbear
+    clause alone pushed this prompt to 50 words, and SDXL truncates at 77 tokens — the SUBJECT is what
+    gets cut, so an over-long clause silently deletes the anatomy it was written to supply. Shortening
+    is done here rather than in the clause file: the file is also read by the audit, where the full
+    sentence is the evidence.
+
+    Drops trailing comma-separated details first (the lead noun phrase is the load-bearing part, the
+    "dark eyes, thick fur" tail of the list is not), then falls back to a hard word cut.
+    """
+    def build(text: str) -> str:
+        return ("Fantasy bestiary: " + text.rstrip(".") + ", " + (short_name or "a monster")
+                + ". Full body, single creature, in an empty grey space.")
+
+    from services.portraits import house_style
+    budget = PROMPT_WORD_BUDGET - len(house_style(build("")).split()) + len(build("").split())
+    if len(build(clause_lead).split()) <= budget:
+        return build(clause_lead)
+    # A layout (services/limb_placement.py) is the load-bearing half of a limb clause, so when the
+    # prompt has to shrink the descriptive words go first and the layout stays whole: cutting it would
+    # put the count back in front of an encoder that cannot count.
+    lay_at = clause_lead.find("\u2014")
+    lay_end = clause_lead.find(",", lay_at) if lay_at >= 0 else -1
+    head = clause_lead[:lay_at].strip(" ,") if lay_at >= 0 else clause_lead
+    tail = clause_lead[lay_end + 1:].strip(" ,") if lay_end >= 0 else ""
+    layout = clause_lead[lay_at + 1:lay_end].strip(" ,") if lay_at >= 0 else ""
+
+    def join(parts: list) -> str:
+        text = ", ".join(p for p in parts if p)
+        if layout:
+            text = text + " \u2014 " + layout + (", " + tail if tail else "")
+        return text
+
+    parts = [p.strip() for p in head.split(",") if p.strip()] or [head]
+    # The comma part immediately before the em dash is the one the layout describes ("four arms — two
+    # on each side…"). Popping it would leave the layout hanging off whatever noun came before it, so
+    # that part is held and the parts in front of it are the ones that shrink.
+    anchor = parts[-1:] if layout else []
+    pool = parts[:-1] if layout else parts
+    while len(pool) > 1 and len(build(join(pool + anchor)).split()) > budget:
+        pool.pop()
+    parts = pool + anchor
+    if len(build(join(parts)).split()) <= budget:
+        return build(join(parts))
+    # Still over: keep the wrapper and the layout, cut the descriptive head to what is left. build("")
+    # is the wrapper alone, so its word count is what the clause has to fit around.
+    room = budget - len(build("").split()) - (len(layout.split()) + 1 if layout else 0)
+    head_words = " ".join(parts).split()[:max(0, room)]
+    trimmed = " ".join(head_words).rstrip(",;:-")
+    return build(trimmed + (f" \u2014 {layout}" if layout else ""))
+
+
 def _base_prompt(kind: str, name: str, subtitle: str = "", snippet: str = "") -> str:
     """Prompt per kind. Same shape as the character prompts (bust/3:4 language
     comes from services.portraits) so the library looks consistent."""
@@ -1478,12 +1607,21 @@ def _base_prompt(kind: str, name: str, subtitle: str = "", snippet: str = "") ->
         clause_lead, _clause_bans = ("", [])
         if clause:
             clause_lead, _clause_bans = split_clause(clause)
+            # services.limb_placement.py (limb LAYOUT instead of limb COUNT) was wired in here on
+            # 2026-11-18 and reverted the same day: the extra words pushed the clause past the
+            # 77-token budget, so trimming deleted the very facts that were working (Xorn lost its
+            # three eyes and mouth-on-top, Sleipnir lost its name) and the rendered topology did not
+            # improve — 2 legs / 2 arms on Xorn, unchanged. The module is kept as a recorded negative
+            # result, not as live prompt logic.
             if _CLAUSE_SENTENCE.match(clause_lead or ""):
                 tail = (clause_lead + (" " + tail if tail else "")).strip()
                 clause_lead = ""
         if clause_lead:
-            return ("Fantasy bestiary: " + clause_lead.rstrip(".") + ", " + (short_name or "a monster")
-                    + ". Full body, single creature, in an empty grey space." + (f" {tail}" if tail else ""))
+            # No tail behind a clause. The tail is a bestiary record's own prose, and on this shelf
+            # that is the stat block in sentence form ("Keen Sight and Smell The owlbear has advantage
+            # on Wisdom (Perception) checks") — rules text that names no body part and, sitting behind
+            # the clause, pulls the model back toward the generic reading the clause exists to stop.
+            return _creature_clause_prompt(clause_lead, short_name)
         species = species_cue(" ".join((name or "", subtitle or "",
                                         " ".join((snippet or "").split()[:12]))))
         if species:

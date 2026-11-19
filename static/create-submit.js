@@ -1,5 +1,11 @@
 /* split from static/create.js — classic script, shares the global scope of the other create-*.js files. */
 async function createCharacter() {
+  // One sheet per press: a second dispatch (held Enter, a double click, a
+  // retried request) used to POST again and leave two identical characters on
+  // the roster. The disabled button is not enough — the delegated keydown
+  // handler still ran.
+  if (createCharacter.busy) return;
+  createCharacter.busy = true;
   try {
     buildReview();
 
@@ -7,6 +13,7 @@ async function createCharacter() {
     if ((state.race === 'Dragonborn' || state.race === 'Dragonblood') && !state.dragonborn_ancestry) {
       alert('Please select a Draconic Ancestry (Step 0 → Race). This determines your damage resistance and breath weapon.');
       showStep(0);
+      createCharacter.busy = false;
       return;
     }
 
@@ -47,7 +54,7 @@ async function createCharacter() {
       method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload)
     });
     const data = await r.json();
-    if (data.error) { alert(data.error); btn.textContent = '✓ Create Character'; btn.disabled = false; return; }
+    if (data.error) { alert(data.error); btn.textContent = '✓ Create Character'; btn.disabled = false; createCharacter.busy = false; return; }
     // A campaign that sent us here gets the sheet back (it becomes a party member
     // and starts syncing); otherwise the player lands on their new sheet.
     const back = (window.CREATE_NEXT || '').replace('{id}', encodeURIComponent(data.id));
@@ -60,6 +67,7 @@ async function createCharacter() {
       window.location.href = '/character/' + data.id;
     }
   } catch(e) {
+    createCharacter.busy = false;
     alert('Failed to create character: ' + (e.message || e));
     const btn = document.getElementById('create-btn');
     if (btn) { btn.textContent = '✓ Create Character'; btn.disabled = false; }
