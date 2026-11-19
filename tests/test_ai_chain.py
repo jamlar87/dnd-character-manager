@@ -300,11 +300,54 @@ def test_a_missing_key_skips_its_tier_without_a_call(monkeypatch):
 
 
 def test_the_chain_has_a_budget_and_the_local_tier_cannot_hold_it_open(monkeypatch):
-    """The Ollama tier allowed 120s, so a reachable-but-hung box could block ~160s across tiers."""
-    assert ai_routes.AI_CHAIN_BUDGET <= 90
-    assert ai_routes.AI_TIER_TIMEOUT <= 30
+    """The budgets are a policy, not free numbers.
+
+    History: the Ollama tier allowed 120s while the local model was llama3.1:8b, so a
+    reachable-but-hung box blocked ~160s across tiers — the caps came down to 25/70. The tier is
+    now gemma4-26b-a4b, which needs room for ~2k hidden reasoning tokens (measured 2-8s for a
+    short JSON answer, ~60s worst case at 4000 tokens), so the caps went back up. What must stay
+    true: one tier can always finish, the whole chain stays inside a bounded page wait, and the
+    local model keeps a slice of the budget the cloud tiers cannot spend.
+    """
+    assert 60 <= ai_routes.AI_TIER_TIMEOUT <= 120, "local gemma4 needs >=60s per call"
+    assert ai_routes.AI_TIER_TIMEOUT <= ai_routes.AI_CHAIN_BUDGET <= 240, "bounded page wait"
+    assert 0 < ai_routes.AI_LOCAL_RESERVE < ai_routes.AI_CHAIN_BUDGET
     assert "192.168.1.31" not in ai_routes.OLLAMA_URL or "OLLAMA_URL" in Path(
         ai_routes.__file__).read_text()
+
+
+def test_two_hung_cloud_tiers_cannot_starve_the_local_one(monkeypatch):
+    """The failure this guards: openrouter and gemini both hang to their cap, the budget drains to
+    zero, and the tier that actually answers is skipped as 'budget spent' — the user gets a
+    placeholder while a perfectly good local model sat idle."""
+    called = {"openrouter": 0, "gemini": 0, "ollama": 0}
+
+    def hung(name):
+        async def _fn(prompt):
+            called[name] += 1
+            await asyncio.sleep(3)          # outlives the tier cap
+            return None
+        return _fn
+
+    async def local(prompt):
+        called["ollama"] += 1
+        return '{"personality": "stoic"}'
+
+    monkeypatch.setattr(ai_routes, "_call_openrouter", hung("openrouter"))
+    monkeypatch.setattr(ai_routes, "_call_gemini", hung("gemini"))
+    monkeypatch.setattr(ai_routes, "_call_ollama", local)
+    # Scaled-down copy of the real policy (240/120/75): 6s chain, 1.5s per tier, 2s held back.
+    # Both cloud tiers hang to their cap and the local tier still runs. Without the reserve the
+    # second cloud tier would consume the last of the budget and never be interrupted.
+    monkeypatch.setattr(ai_routes, "AI_CHAIN_BUDGET", 6.0)
+    monkeypatch.setattr(ai_routes, "AI_TIER_TIMEOUT", 1.5)
+    monkeypatch.setattr(ai_routes, "AI_LOCAL_RESERVE", 2.0)
+
+    out = asyncio.run(ai_routes._call_ai('Return JSON: {"personality": "..."}', label="test"))
+
+    assert called["openrouter"] == 1 and called["gemini"] == 1
+    assert called["ollama"] == 1, "the local tier must still get its turn"
+    assert out and "stoic" in out
 
 
 # ── a capped model is skipped instead of costing a hop on every call ─────────────────────

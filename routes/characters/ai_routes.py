@@ -34,7 +34,8 @@ router = APIRouter()
 # Every model id and endpoint is an env override with the measured default baked in: a provider
 # retiring a model (gemini-2.0-flash was retired under us once) must be a config change, not a
 # code edit, and the two model families here are used by other modules too.
-AI_MODEL = os.environ.get("AI_OLLAMA_MODEL", "llama3.1:8b")
+AI_MODEL = os.environ.get("AI_OLLAMA_MODEL", "gemma4-26b-a4b:latest")
+AI_NUM_CTX = int(os.environ.get("AI_OLLAMA_NUM_CTX", "32768"))
 OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://192.168.1.31:11434/api/generate")
 
 # Tier 1 order. A PIN was preferred while one measured better than the lottery, but Oct 2026
@@ -64,11 +65,15 @@ GEMINI_MODELS = [
 
 # One tier's own wait, and the budget for the whole chain: the Ollama tier used to allow 120s, so a
 # reachable-but-hung box could hold a request for ~160s across the three tiers before falling back.
-AI_TIER_TIMEOUT = float(os.environ.get("AI_TIER_TIMEOUT", "25"))
-AI_CHAIN_BUDGET = float(os.environ.get("AI_CHAIN_BUDGET", "70"))
+AI_TIER_TIMEOUT = float(os.environ.get("AI_TIER_TIMEOUT", "120"))  # local gemma4 needs ~60s for a 4k budget
+AI_CHAIN_BUDGET = float(os.environ.get("AI_CHAIN_BUDGET", "240"))
+# Time held back from the cloud tiers so the local model always gets its turn. Without a reserve
+# two reachable-but-hung cloud tiers spend the whole budget (120 + 120) and the tier that actually
+# answers on this box — gemma4 on bazzite, measured 2-8s — is skipped as "budget spent".
+AI_LOCAL_RESERVE = float(os.environ.get("AI_LOCAL_RESERVE", "75"))
 # The cap must fit the biggest thing any caller asks for: the trap prompt wants 16 keys with
 # multi-sentence values, and a reasoning model's thinking is billed against this too.
-AI_MAX_TOKENS = int(os.environ.get("AI_MAX_TOKENS", "1400"))
+AI_MAX_TOKENS = int(os.environ.get("AI_MAX_TOKENS", "4000"))  # gemma4 hides ~2k reasoning tokens first
 
 # Models the provider has just refused, and the time they become worth trying again. The free
 # tiers rate-limit PER MODEL ("Quota exceeded ... limit: 20 ... retry in 23h", "Provider returned
@@ -279,8 +284,11 @@ async def _call_ollama(prompt: str) -> str | None:
     """Tier 3: the local model. No API key; dead whenever that box is off (it was, Oct 2026)."""
     status, body, raw = await _post_json(
         OLLAMA_URL,
-        {"model": AI_MODEL, "prompt": prompt, "stream": False, "temperature": 0.9,
-         "num_predict": AI_MAX_TOKENS, "seed": time.time_ns() % 1000000},
+        {"model": AI_MODEL, "prompt": prompt, "stream": False,
+         "think": False,  # gemma4 reasons anyway; the flag keeps it short
+         # Sampler params belong in "options" on /api/generate; top-level copies are ignored.
+         "options": {"num_predict": AI_MAX_TOKENS, "num_ctx": AI_NUM_CTX,
+                     "temperature": 0.9, "seed": time.time_ns() % 1000000}},
         timeout=AI_TIER_TIMEOUT,
     )
     if status != 200:
@@ -316,14 +324,19 @@ async def _call_ai(prompt: str, label: str = "gen", expect_json: bool | None = N
 
     for name, fn in tiers:
         left = AI_CHAIN_BUDGET - (time.monotonic() - started)
-        if left <= 1:
-            rejects.append(f"{name}: skipped, chain budget spent")
+        # Cloud tiers may not eat the time the local model needs to answer at all.
+        cap = left if name == "ollama" else left - AI_LOCAL_RESERVE
+        if cap <= 1:
+            rejects.append(f"{name}: skipped, "
+                           + ("chain budget spent" if name == "ollama"
+                              else "budget reserved for the local tier"))
             continue
+        cap = min(AI_TIER_TIMEOUT, cap)
         t0 = time.monotonic()
         try:
-            text = await asyncio.wait_for(fn(prompt), timeout=min(AI_TIER_TIMEOUT, left))
+            text = await asyncio.wait_for(fn(prompt), timeout=cap)
         except asyncio.TimeoutError:
-            rejects.append(f"{name}: no answer in {min(AI_TIER_TIMEOUT, left):.0f}s")
+            rejects.append(f"{name}: no answer in {cap:.0f}s")
             print(f"[AI {label}] tier={name} TIMEOUT")
             continue
         except Exception as exc:                       # a tier must never break the chain
