@@ -279,14 +279,27 @@ def score(got: dict[str, int], expect: dict[str, int]) -> int:
     """Higher is better. Exact match on a wanted part is worth 10; a miss by one costs only 1 because
     the 8B model measured above is off by one on crowded limbs and would otherwise reject its own
     best candidate. A miss by more than one costs 8 per step — categorically wrong topology is what
-    this gate exists to catch. Unrequested extras cost 6: a nine-legged drider is not a near miss."""
+    this gate exists to catch. Unrequested extras cost 6: a nine-legged drider is not a near miss.
+
+    The single-step leniency is granted ONCE per image, not once per part. A Xorn drawn with two
+    arms and two legs read as 3/3/3-with-two-limb-slip-ons and scored a pass, which is exactly the
+    prior reasserting itself — every part drifting the same way is a wrong render, not a shy
+    counter, so the second and later one-short reads are charged the full miss penalty.
+    """
     total = 0
+    slips_left = 1
     for k, want in expect.items():
         if k not in got:
             total -= 5                    # part not even reported
             continue
         d = abs(got[k] - want)
-        total += 10 if d == 0 else (-1 if d == 1 else -8 * d)
+        if d == 0:
+            total += 10
+        elif d == 1 and slips_left:
+            slips_left = 0
+            total -= 1
+        else:
+            total -= 8 * d
     for k, have in got.items():
         if k not in expect and have:
             total -= 6

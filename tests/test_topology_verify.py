@@ -54,9 +54,21 @@ def test_score_penalises_unrequested_extras():
     assert score({"legs": 9}, {"legs": 8}) < score({"legs": 8}, {"legs": 8})
 
 
+def test_score_off_by_one_is_forgiven_once_not_per_part():
+    # Two limbs short on a two-part Xorn is the prior reasserting itself, not a shy counter: the
+    # second slip-on is charged the full miss so 2/2/3 stops passing a 3/3/3 gate.
+    one_slip = score({"legs": 3, "arms": 2, "eyes": 3}, {"legs": 3, "arms": 3, "eyes": 3})
+    two_slips = score({"legs": 2, "arms": 2, "eyes": 3}, {"legs": 3, "arms": 3, "eyes": 3})
+    assert one_slip >= 8
+    assert two_slips < 8
+
+
 def test_vlm_prompt_is_line_format():
     p = _vlm_prompt({"legs": 8, "arms": 2}, ["eyes"])
-    assert "legs: N" in p and "arms: N" in p and "eyes: N" in p
+    assert "legs: <number>" in p and "arms: <number>" in p and "eyes: <number>" in p
+    # A literal placeholder letter gets copied verbatim by qwen3-vl ("legs: N"), which parses to
+    # nothing and looks like a dead backend. The instruction must define the substitution.
+    assert "replacing <number>" in p
 
 
 def test_parse_counts_lines_variants():
