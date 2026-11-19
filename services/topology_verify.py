@@ -257,6 +257,23 @@ def parse_counts(raw: str, keys: list[str]) -> dict[str, int]:
     return out
 
 
+async def score_bytes(data: bytes, expect: dict[str, int], negatives: list[str] | None = None,
+                      suffix: str = ".webp") -> int:
+    """Score an installed portrait's bytes with the same instrument as the candidates.
+
+    Separate from count_in_image because that one wants a path, and the "previous" portrait of a
+    record exists only in memory here.
+    """
+    with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as fh:
+        fh.write(data)
+        tmp = Path(fh.name)
+    try:
+        got, _note = await count_in_image(tmp, expect, negatives)
+        return score(got or {}, expect)
+    finally:
+        tmp.unlink(missing_ok=True)
+
+
 def score(got: dict[str, int], expect: dict[str, int]) -> int:
     """Higher is better. Exact match on a wanted part is worth 10; a miss by one costs only 1 because
     the 8B model measured above is off by one on crowded limbs and would otherwise reject its own
@@ -296,6 +313,14 @@ async def generate_verified(kind: str, name: str, attempts: int = 4,
     # kept in memory: a batch whose every roll scores badly must not silently downgrade the art.
     original = dest.read_bytes() if dest.exists() else None
     best = (-10**6, None, None)
+    # The bar cannot be an absolute score: the verifier undercounts crowded limbs (a correct 3-legged
+    # render is routinely read as 2), so a fixed pass mark rejects every roll of the very creatures
+    # this exists for. Score the portrait that is already installed with the same instrument and ask
+    # only that the winner beat it - the undercount then lands on both sides and cancels out.
+    baseline = None
+    if original is not None:
+        baseline = await score_bytes(original, expect, negatives, dest.suffix)
+        report["baseline"] = baseline
     try:
         cands: list[Path] = []
         for i in range(attempts):
@@ -315,7 +340,7 @@ async def generate_verified(kind: str, name: str, attempts: int = 4,
             report["attempts"].append({"n": i, "counts": got, "score": s, "note": note})
             if s > best[0]:
                 best = (s, c, got)
-        if best[1] and best[0] >= 10:
+        if best[1] and (best[0] >= 10 if baseline is None else best[0] > baseline):
             shutil.copy(best[1], dest)   # generate() already wrote the last roll; install the winner
             report["installed"] = {"score": best[0], "counts": best[2]}
         else:

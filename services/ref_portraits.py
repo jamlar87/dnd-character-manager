@@ -33,6 +33,12 @@ from pathlib import Path
 STATIC = Path(__file__).resolve().parent.parent / "static"
 ROOT = STATIC / "ref-portraits"
 
+#: ControlNet strength for creature rolls that carry a drawn skeleton. Higher than the module default
+#: because a limb *count* is the one thing text cannot hold: measured on Xorn, a 3-leg/3-arm prompt
+#: with no skeleton came back 2/2 every time, and the extra limbs only appeared once the skeleton was
+#: pushed hard (~1.25). Too high and the figure turns into a pose stick with stone texture.
+COMFY_CN_STRENGTH_FORCED = float(os.environ.get("COMFY_CN_STRENGTH", "1.25"))
+
 #: kind -> (width, height) for the HOSTED providers. The local comfy path ignores these and asks for the
 #: SDXL-native 2:3 bucket (832x1216, see services.portraits), which is what the whole shelf is: item,
 #: creature and npc tiles are all 701x1024 on disk. Item used to be the odd one out at 768x768, so a
@@ -1749,7 +1755,8 @@ async def generate(kind: str, name: str, subtitle: str = "", snippet: str = "",
             return None, "already generating"
         _INFLIGHT.add(key)
     try:
-        from services.portraits import generate_portrait_image, COMFY_NEGATIVE_LIVING
+        from services.portraits import (generate_portrait_image, COMFY_NEGATIVE_LIVING,
+                                        PORTRAIT_PROVIDER)
         width, height = KINDS[kind]
         prompt = prompt_for(kind, name, subtitle, snippet)
         # Creatures and NPCs are mostly humanoids, so the item negative prompt's "people, humans" ban
@@ -1764,12 +1771,39 @@ async def generate(kind: str, name: str, subtitle: str = "", snippet: str = "",
             negative = creature_negative(name, subtitle, snippet)
         else:
             negative = COMFY_NEGATIVE_LIVING if kind == "npc" else item_negative(name)
+        # Geometry control. The verifier proved text alone cannot hold a limb count (four Xorn rolls at
+        # "three-legged, three-armed" all came back 2/2), so for a creature whose clause states anatomy
+        # the text encoder fumbles we hand the sampler a drawn OpenPose skeleton instead of asking
+        # again in words. Only the comfy provider has a ControlNet input; the rest ignore it.
+        pose_png = None
+        if kind == "creature" and PORTRAIT_PROVIDER == "comfy":
+            try:
+                from services.pose_skeleton import pose_png_for_clause
+                # The anatomy lives in three places and only one of them always has it: the record's
+                # audit clause (data/creature_clauses.json) names the limb count verbatim, while a
+                # caller may pass neither subtitle nor snippet. Read all three so a bare
+                # generate("creature", "Xorn") still gets its skeleton.
+                pose_clause = " ".join(t for t in (creature_clause(name), subtitle, snippet) if t).strip()
+                pose_png = pose_png_for_clause(pose_clause,
+                                               width=832, height=1216)
+            except Exception:
+                pose_png = None          # authoring a skeleton must never cost the render itself
         last = "no attempt made"
         async with _SEM:
             for attempt in range(retries + 1):
                 data, err = await generate_portrait_image(prompt, max_wait=max_wait,
                                                           width=width, height=height,
-                                                          negative=negative)
+                                                          negative=negative,
+                                                          pose_png=pose_png,
+                                                          # Measured, not assumed: on SDXL the skeleton's
+                                                          # limbs are copied but overlapping arms get read
+                                                          # as 6-8 thin ones, and on qwen it only travels as
+                                                          # an init latent, which one 3/3/3 Xorn roll did not
+                                                          # reproduce (2/2/2 at sigma 0.954). Until a route
+                                                          # wins on evidence, keep the graph that at least
+                                                          # accepts the image natively.
+                                                          cn_strength=COMFY_CN_STRENGTH_FORCED if pose_png else None,
+                                                          model_family="sdxl" if pose_png else None)
                 if data:
                     size = save(kind, name, data)
                     if size:

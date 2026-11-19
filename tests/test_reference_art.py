@@ -223,7 +223,7 @@ class TestGeneration:
         import asyncio
         started = []
 
-        async def _slow(prompt, max_wait=90, width=768, height=1024, negative=None):
+        async def _slow(prompt, max_wait=90, width=768, height=1024, negative=None, **gen_kw):
             started.append(prompt)
             await asyncio.sleep(0.2)
             return png_data_url(), None
@@ -241,7 +241,7 @@ class TestGeneration:
     def test_failure_leaves_no_file(self, monkeypatch):
         import asyncio
 
-        async def _fail(prompt, max_wait=90, width=768, height=1024, negative=None):
+        async def _fail(prompt, max_wait=90, width=768, height=1024, negative=None, **gen_kw):
             return None, "image service is rate limiting — try again in a minute"
 
         monkeypatch.setattr("services.portraits.generate_portrait_image", _fail)

@@ -159,6 +159,16 @@ COMFY_STEPS = int(os.environ.get("COMFY_STEPS", "7"))
 COMFY_CFG = float(os.environ.get("COMFY_CFG", "2.0"))
 COMFY_SAMPLER = os.environ.get("COMFY_SAMPLER", "dpmpp_sde")
 COMFY_SCHEDULER = os.environ.get("COMFY_SCHEDULER", "karras")
+#: Geometry control. Text cannot make a diffusion model draw three legs — measured on the Xorn, four
+#: fresh rolls at "three-legged, three-armed" all came back bipedal, because the model reads a count as
+#: a flavour word. A ControlNet given a hand-drawn OpenPose skeleton (services/pose_skeleton.py) treats
+#: the limb positions as structure instead of suggestion, which is the only lever that actually moves
+#: the count. xinsir/controlnet-openpose-sdxl-1.0 is the SDXL openpose model; ~2.5GB in
+#: models/controlnet on the ComfyUI host.
+COMFY_CONTROLNET = os.environ.get("COMFY_CONTROLNET", "xinsir-openpose-sdxl.safetensors")
+#: 0.85 leaves the model room to paint anatomy over the skeleton without letting it forget the pose.
+#: 1.0 tends to produce a coloured stick figure wearing skin; 0.5 lets it drift back to two legs.
+COMFY_CN_STRENGTH = float(os.environ.get("COMFY_CN_STRENGTH", "0.85"))
 #: SDXL is trained near 1024px; 832x1216 is the standard 2:3 portrait bucket and far better than
 #: 768x1024 for this family.
 #: The negative prompt is where a ban actually works, so the scenery bans live here and NOT in the
@@ -216,6 +226,25 @@ QWEN_VAE = os.environ.get("QWEN_VAE", "qwen_image_2.1_vae_bf16.safetensors")
 QWEN_SIGMAS = os.environ.get(
     "QWEN_SIGMAS",
     "1.0, 0.978453, 0.95418, 0.926626, 0.89508, 0.845148, 0.704534, 0.414568, 0")
+
+# Starting sigma when the graph is seeded from a silhouette instead of noise. Repaints the skeleton
+# enough to look like stone (0.70 leaves flat vector shapes) while keeping the limb attachment the
+# skeleton encodes; at 1.0 the init is discarded and the extra limbs go with it.
+QWEN_INIT_SIGMA = float(os.environ.get("QWEN_INIT_SIGMA", "0.95418"))
+
+
+def qwen_sigmas(start: float | None = None) -> str:
+    """The sigma walk, trimmed to begin at `start`.
+
+    ManualSigmas takes the whole ladder, so seeding from an image means shortening it: a ladder that
+    still begins at 1.0 renoises the init latent back to nothing.
+    """
+    ladder = [float(s) for s in QWEN_SIGMAS.split(",") if s.strip()]
+    if start is None or start >= ladder[0]:
+        return QWEN_SIGMAS
+    rest = [s for s in ladder[1:] if s < start]
+    return ", ".join(f"{s:g}" for s in [start, *rest])
+
 
 
 def npc_prompt(name: str, notes: str = "", race: str = "", role: str = "",
@@ -411,7 +440,10 @@ async def fetch_horde_image(prompt: str, max_wait: int = 600,
 def comfy_workflow(prompt: str, width: int, height: int, steps: int | None = None,
                    cfg: float | None = None, seed: int | None = None,
                    ckpt: str | None = None, negative: str | None = None,
-                   model_family: str = "sdxl") -> dict:
+                   model_family: str = "sdxl", pose_image: str | None = None,
+                   cn_strength: float | None = None,
+                   init_image: str | None = None,
+                   init_sigma: float | None = None) -> dict:
     """The API-format txt2img graph ComfyUI's /prompt endpoint expects.
 
     Node ids are arbitrary strings; the graph is load checkpoint -> two text encodes (positive and
@@ -424,13 +456,22 @@ def comfy_workflow(prompt: str, width: int, height: int, steps: int | None = Non
     `model_family` picks which graph to build. It defaults to "sdxl" on purpose: the tests below
     assert SDXL facts (node "3" is the KSampler, COMFY_CKPT is an illustration model), and those
     assertions should keep testing the thing they name. The live provider passes COMFY_MODEL.
+
+    `pose_image` is the server-side filename of an already-uploaded OpenPose skeleton (see
+    upload_pose_image). When given, a ControlNetApplyAdvanced node is spliced between the text
+    encodes and the KSampler so the sampler follows that skeleton's limb layout; the text encodes
+    keep their ids, so nothing else about the graph moves.
     """
     if (model_family or "sdxl").strip().lower() == "qwen21":
-        return comfy_workflow_qwen(prompt, width, height, seed=seed, negative=negative)
+        # The Qwen graph has no ControlNet node: a pose skeleton handed to it used to be dropped on
+        # the floor without a word, so every "skeleton-guided" Qwen render was really prompt-only.
+        # It travels into that graph as an init latent instead, which is the form that holds limbs.
+        return comfy_workflow_qwen(prompt, width, height, seed=seed, negative=negative,
+                                   init_image=init_image or pose_image, init_sigma=init_sigma)
     if seed is None:
         seed = random.randint(1, 2_000_000_000)
 
-    return {
+    graph = {
         "4": {"class_type": "CheckpointLoaderSimple",
               "inputs": {"ckpt_name": ckpt or COMFY_CKPT}},
         "6": {"class_type": "CLIPTextEncode",
@@ -451,10 +492,28 @@ def comfy_workflow(prompt: str, width: int, height: int, steps: int | None = Non
         "9": {"class_type": "SaveImage",
               "inputs": {"filename_prefix": "dnd_ref", "images": ["8", 0]}},
     }
+    if pose_image:
+        graph["20"] = {"class_type": "ControlNetLoader",
+                       "inputs": {"control_net_name": COMFY_CONTROLNET}}
+        graph["21"] = {"class_type": "LoadImage", "inputs": {"image": pose_image}}
+        # end_percent 0.75: the last quarter of the schedule is texture and lighting, and holding the
+        # skeleton that far makes the model paint over the lines instead of dressing them.
+        graph["22"] = {"class_type": "ControlNetApplyAdvanced",
+                       "inputs": {"positive": ["6", 0], "negative": ["7", 0],
+                                  "control_net": ["20", 0], "image": ["21", 0],
+                                  "strength": float(COMFY_CN_STRENGTH if cn_strength is None
+                                                    else cn_strength),
+                                  "start_percent": 0.0, "end_percent": 0.75,
+                                  "vae": ["4", 2]}}
+        graph["3"]["inputs"]["positive"] = ["22", 0]
+        graph["3"]["inputs"]["negative"] = ["22", 1]
+    return graph
 
 
 def comfy_workflow_qwen(prompt: str, width: int, height: int, seed: int | None = None,
-                        negative: str | None = None) -> dict:
+                        negative: str | None = None,
+                        init_image: str | None = None,
+                        init_sigma: float | None = None) -> dict:
     """Qwen-Image-2.1 turbo txt2img graph (UNET + CLIP + VAE loaded separately, no checkpoint file).
 
     Deliberately not the KSampler shape the SDXL graph uses. The turbo checkpoint is distilled
@@ -472,7 +531,7 @@ def comfy_workflow_qwen(prompt: str, width: int, height: int, seed: int | None =
     """
     if seed is None:
         seed = random.randint(1, 2_000_000_000)
-    return {
+    graph = {
         "1": {"class_type": "UNETLoader",
               "inputs": {"unet_name": QWEN_UNET, "weight_dtype": "default"}},
         "2": {"class_type": "QwenImage21Cache",
@@ -498,16 +557,54 @@ def comfy_workflow_qwen(prompt: str, width: int, height: int, seed: int | None =
         "9": {"class_type": "SaveImage",
               "inputs": {"filename_prefix": "dnd_ref", "images": ["13", 0]}},
     }
+    if init_image:
+        # Seed from a picture instead of noise. This is the only lever that has actually moved the
+        # limb-count prior: text says "three-legged" and the encoder drops it, whereas a latent that
+        # already has three legs survives at a high sigmas start. The ladder has to be shortened to
+        # match, or the sampler renoises the init away.
+        graph["14"] = {"class_type": "LoadImage", "inputs": {"image": init_image}}
+        graph["6"] = {"class_type": "VAEEncode",
+                      "inputs": {"pixels": ["14", 0], "vae": ["5", 0]}}
+        graph["11"]["inputs"]["sigmas"] = qwen_sigmas(
+            QWEN_INIT_SIGMA if init_sigma is None else init_sigma)
+    return graph
+
+
+async def comfy_upload_image(client, png: bytes, filename: str = "pose.png") -> str | None:
+    """Push a local PNG into ComfyUI's input folder; returns the name to reference in LoadImage.
+
+    ComfyUI cannot read a path on our machine, so a skeleton has to travel as bytes first. The
+    response's `name` is what LoadImage resolves, and it is not always the name we sent (ComfyUI
+    de-duplicates), so use what the server reports rather than our own string.
+    """
+    files = {"image": (filename, png, "image/png")}
+    data = {"overwrite": "true", "type": "input"}
+    resp = await client.post(f"{COMFY_URL.rstrip('/')}/upload/image", files=files, data=data)
+    if not 200 <= resp.status_code < 300:
+        return None
+    payload = resp.json() or {}
+    name = payload.get("name") or filename
+    sub = payload.get("subfolder") or ""
+    return f"{sub}/{name}" if sub else name
 
 
 async def fetch_comfy_image(prompt: str, max_wait: int = 300,
                             width: int = 832, height: int = 1216,
-                            poll_every: float = 2.0, negative: str | None = None):
+                            poll_every: float = 2.0, negative: str | None = None,
+                            pose_png: bytes | None = None,
+                            cn_strength: float | None = None,
+                            model_family: str | None = None):
     """Local generation via a ComfyUI instance on the LAN. Returns (data_url, error).
 
     Submitting returns a prompt_id immediately; the work happens on the GPU, so this polls /history
     and then fetches the finished file from /view. Unlike Horde there is no queue to lose a place
     in, so the only failure modes are the machine being down or the checkpoint missing.
+
+    `pose_png` is the reference picture wired into the graph. How it is consumed depends on the
+    backend: the SDXL graph puts it through a ControlNet node, while the Qwen graph seeds the
+    sampler's initial latent with it. Either way it is the only lever that has ever held a limb
+    count the prompt cannot — measured, not assumed: ControlNet reproduces a *skeleton's* limbs and
+    happily doubles arms, so for topology the init latent is the stronger of the two.
     """
     base = COMFY_URL.rstrip("/")
     client_id = f"dnd-character-manager-{os.getpid()}"
@@ -515,10 +612,17 @@ async def fetch_comfy_image(prompt: str, max_wait: int = 300,
         # 180s, not 60: a cold comfy-gateway start (evict ollama, boot the container) can take
         # 30-60s before /prompt is even accepted; the poll loop below owns the real wait budget.
         async with httpx.AsyncClient(timeout=180, follow_redirects=True) as client:
+            pose_name = None
+            if pose_png:
+                pose_name = await comfy_upload_image(client, pose_png)
+                if not pose_name:
+                    return None, "ComfyUI rejected the pose skeleton upload"
             resp = await client.post(f"{base}/prompt",
                                      json={"prompt": comfy_workflow(prompt, width, height,
                                                                     negative=negative,
-                                                                    model_family=COMFY_MODEL),
+                                                                    model_family=model_family or COMFY_MODEL,
+                                                                    pose_image=pose_name,
+                                                                    cn_strength=cn_strength),
                                            "client_id": client_id})
             if not 200 <= resp.status_code < 300:
                 # ComfyUI reports a bad graph as 400 with the reason in the body; surface it, because
@@ -565,8 +669,17 @@ async def fetch_comfy_image(prompt: str, max_wait: int = 300,
 
 async def generate_portrait_image(prompt: str, max_wait: float = 90,
                                   width: int = 768, height: int = 1024,
-                                  negative: str | None = None):
-    """Ask the configured provider for one image; returns (data_url, error)."""
+                                  negative: str | None = None,
+                                  pose_png: bytes | None = None,
+                                  cn_strength: float | None = None,
+                                  model_family: str | None = None):
+    """Ask the configured provider for one image; returns (data_url, error).
+
+    `pose_png` is only honoured by the comfy provider — the hosted ones have no ControlNet input, so
+    a skeleton passed to them is silently dropped rather than pretending it did anything.
+    `cn_strength` overrides COMFY_CN_STRENGTH for this one render; pass it as an argument rather than
+    reassigning the module constant, because the default was bound when the function was defined.
+    """
     from services.images import normalize_portrait
     if PORTRAIT_PROVIDER == "openrouter":
         raw = await fetch_openrouter_image(prompt, max_wait=90)
@@ -578,7 +691,9 @@ async def generate_portrait_image(prompt: str, max_wait: float = 90,
         # Local GPU on the LAN. SDXL-native 2:3 portrait bucket rather than the 768x1024 the hosted
         # providers use.
         raw, error = await fetch_comfy_image(prompt, max_wait=max(int(max_wait), 300),
-                                             width=832, height=1216, negative=negative)
+                                             width=832, height=1216, negative=negative,
+                                             pose_png=pose_png, cn_strength=cn_strength,
+                                             model_family=model_family)
     else:
         # Horde is the default, so give it a real queue window rather than a per-request timeout.
         #
