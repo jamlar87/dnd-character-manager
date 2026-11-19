@@ -116,11 +116,12 @@ def expected_from_clause(clause: str) -> dict[str, int]:
 
 def _vlm_prompt(expect: dict[str, int], negatives: list[str]) -> str:
     parts = list(expect) + [k for k in negatives if k not in expect]
-    lines = "\n".join(f"{k}: N" for k in parts)
+    lines = "\n".join(f"{k}: <number>" for k in parts)
     return (
         "Look at this creature illustration and count the parts that are actually drawn. "
         "Count every limb, including limbs raised off the ground; ignore background, style and colour. "
-        "Answer with exactly these lines and nothing else:\n" + lines
+        "Answer with exactly these lines and nothing else, replacing <number> with how many you "
+        "counted:\n" + lines
     )
 
 

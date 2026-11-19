@@ -24,3 +24,6 @@ static/maps/
 data/.ingest_sweep.lock
 data/.ingest_sweep.done
 data/ingest_sweep.log
+
+# audit output (per-install evidence, not source)
+art_audit/
