@@ -80,6 +80,15 @@ NUMBER_WORDS = {
 #: which is why the first version of this parser found counts in 0 of the creatures that matter.
 _STEM_RE = re.compile(r"^(leg|arm|eye|head|wing|tentacle|eyestalk)(s|es|ed|ged|gged)?$")
 
+#: A count next to one of these is not a count of what is drawn: "one big central eye and *many*
+#: eyestalks" fixes the eye at one while the visible eye count is whatever the stalks add up to.
+#: Treating 1 as the expectation scored every correct beholder as a two-eye failure.
+_VAGUE_QTY = {"many", "several", "numerous", "countless", "dozens", "multiple", "myriad",
+              "scores", "row", "rows", "multitude", "masses"}
+
+#: Parts whose drawn count is shared: a vague quantity on either makes both uncountable.
+_SHARED_COUNT = {"eyes": {"eyes", "eyestalks"}, "eyestalks": {"eyes", "eyestalks"}}
+
 
 def _stem(word: str) -> str | None:
     m = _STEM_RE.match(word)
@@ -95,11 +104,16 @@ def expected_from_clause(clause: str) -> dict[str, int]:
     """
     words = re.findall(r"[a-z]+|\d+", clause.lower().replace("-", " ").replace("–", " "))
     out: dict[str, int] = {}
+    vague: set[str] = set()
     for i, w in enumerate(words):
         stem = _stem(w)
         if not stem:
             continue
         key = COUNT_NOUNS[stem]
+        window = words[max(0, i - 3):i]
+        if any(v in _VAGUE_QTY for v in window):
+            vague |= _SHARED_COUNT.get(key, {key})
+            continue
         for back in (1, 2, 3):
             if i - back < 0:
                 break
@@ -111,6 +125,8 @@ def expected_from_clause(clause: str) -> dict[str, int]:
             if n:
                 out[key] = n
                 break
+    for key in vague:            # a vague quantity wins over any fixed number in the same clause
+        out.pop(key, None)
     return out
 
 

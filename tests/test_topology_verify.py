@@ -63,6 +63,19 @@ def test_score_off_by_one_is_forgiven_once_not_per_part():
     assert two_slips < 8
 
 
+def test_vague_quantity_suppresses_the_count():
+    # "one central eye and many eyestalks" is one eye plus an unbounded number of drawn eyes; the
+    # fixed 1 made every correct beholder render score as an eyes failure.
+    assert expected_from_clause("a floating orb with one big central eye and many eyestalks") == {}
+    assert expected_from_clause(
+        "an orb with a single massive central eye, many smaller blinking eyes") == {}
+
+
+def test_fixed_counts_still_parse_next_to_other_anatomy():
+    assert expected_from_clause("a troll with four arms and two heads") == {"arms": 4, "heads": 2}
+    assert expected_from_clause("three clawed stone arms") == {"arms": 3}
+
+
 def test_vlm_prompt_is_line_format():
     p = _vlm_prompt({"legs": 8, "arms": 2}, ["eyes"])
     assert "legs: <number>" in p and "arms: <number>" in p and "eyes: <number>" in p
