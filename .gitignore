@@ -27,3 +27,8 @@ data/ingest_sweep.log
 
 # audit output (per-install evidence, not source)
 art_audit/
+
+# OCR text caches are generated from the PDFs in manuals/ (see scripts/cache_manual_text.py,
+# scripts/verify_text_caches.py; helpers._ensure_manual_cache regenerates on demand).
+# Untracked to keep the repo lean — local copies stay in place.
+data/manual_cache/*.txt
