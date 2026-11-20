@@ -920,43 +920,68 @@ async def ai_portrait(request: Request):
     # written here — the NPC form owns the row and saves portrait_url itself.
     npc = data.get("npc") or {}
 
-    # Build prompt — always use fast deterministic fallback (covers all 38 races)
+    # ── Painting belongs to the DM ─────────────────────────────────────────
+    # One prompt builder, one seed, one checkpoint for both apps, kept on the
+    # DM's side (services/dm_portraits). This route no longer builds a character
+    # prompt at all: the DM rebuilds the identity strings its party card uses
+    # and hands back the same bytes the table sees — or, if it has already
+    # painted that face, the cached ones, in under a second.
+    from services import dm_portraits
+
+    sheet = None
+    if character_id:
+        db = get_db()
+        row = db.execute("SELECT name, race, subrace, class_name, subclass, level "
+                         "FROM characters WHERE id=? AND user_id=?",
+                         (character_id, user["id"])).fetchone()
+        db.close()
+        sheet = dict(row) if row else None
+
     if npc:
-        # The gender argument was simply not passed, so the DM's NPC path could not produce the
-        # measured-good subject ("a female gnome, ...") that the reference path produces: the
-        # pronoun is read from the notes, which is where a DM writes it.
-        image_prompt = _portraits.npc_prompt(
-            npc.get("name", ""), npc.get("notes", ""), npc.get("race", ""), npc.get("role", ""),
-            gender=_ref_portraits.gender_from_text(npc.get("notes", "")))
-        print(f"[AI portrait] npc {str(npc.get('name'))[:40]!r}")
-    elif custom_prompt:
+        payload = {"kind": "npc", "name": npc.get("name", ""), "race": npc.get("race", ""),
+                   "role": npc.get("role", ""), "notes": npc.get("notes", "")}
+    else:
+        payload = {"kind": "pc", "source_char_id": character_id}
+        # Only a hero the DM has never imported needs these: it prefers its own
+        # sheet row, because those are the strings the face was keyed on.
+        src = sheet or data
+        for k in ("name", "race", "subrace", "class_name", "subclass", "level"):
+            v = src.get(k) if isinstance(src, dict) else None
+            if v not in (None, ""):
+                payload[k] = v
+
+    # A hand-written description has no home in the DM's builder: its cache key
+    # IS the identity, so free-text would hand the same hero a new face every
+    # time the words changed. That one case keeps the old provider.
+    if custom_prompt and not npc:
         clause = f", {gender} subject" if gender in {"male", "female"} else ""
         image_prompt = ("Bust portrait, upper body only, 3:4 aspect ratio" + clause
                         + f", close-up composition. High fantasy oil painting, dramatic lighting. {custom_prompt}")
         print(f"[AI portrait] custom_prompt race={race} class={class_name}")
+        provider = PORTRAIT_PROVIDER
     else:
-        image_prompt = _portraits.genderize(
-            _fallback_portrait_prompt(race, class_name, subclass), gender)
-        # Kick off background tasks: AI enrichment + image generation (don't block response)
-        # (The old enrichment task made one LLM call per Generate click and threw
-        # the result away — its own docstring said "updates nothing". The stored
-        # prompt is the deterministic one, so it only ever burned quota.)
-        print(f"[AI portrait] fallback race={race} class={class_name}")
+        image_prompt = ""
+        provider = "dm"
 
     # A prompt-only caller (the sheet's "Get Prompt" button) gets the text and nothing else: that
     # button previews the prompt, and running the provider for it spent one of the ~50/day keyless
     # generations and stood the reference-art backfill down — for text the server already had.
     if data.get("prompt_only"):
+        if provider == "dm":
+            _, image_prompt, _perr = await dm_portraits.paint(payload, prompt_only=True)
         return JSONResponse({"prompt": image_prompt, "image_url": "", "error": "",
-                             "provider": PORTRAIT_PROVIDER, "prompt_only": True})
+                             "provider": provider, "prompt_only": True})
 
     # Generate inline so the caller learns the real outcome. As a background
     # task a failure could only be logged, and the wizard then claimed
     # "Generation queued… Free tier ~50/day" while every request was rejected.
     # Claim interactive priority: the reference-art backfill draws on the same
-    # free quota and stands down while this is in flight (services.ref_portraits).
+    # queue and stands down while this is in flight (services.ref_portraits).
     with _ref_portraits.interactive():
-        image_url, error = await _generate_portrait_image(image_prompt)
+        if provider == "dm":
+            image_url, image_prompt, error = await dm_portraits.paint(payload)
+        else:
+            image_url, error = await _generate_portrait_image(image_prompt)
     if image_url:
         # Belt and braces: the write site normalises, not just the provider.
         from services.images import normalize_portrait
@@ -979,7 +1004,7 @@ async def ai_portrait(request: Request):
               ("image saved" if image_url else f"no image ({error})"))
 
     return JSONResponse({"prompt": image_prompt, "image_url": image_url or "",
-                         "error": error or "", "provider": PORTRAIT_PROVIDER})
+                         "error": error or "", "provider": provider})
 @router.post("/api/character/portrait", response_class=JSONResponse)
 async def save_portrait_image(request: Request):
     """Save a client-generated portrait image (base64 data URL) to the DB."""

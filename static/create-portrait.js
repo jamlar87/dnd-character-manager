@@ -244,6 +244,11 @@ async function generatePortrait() {
     const r = await fetch('/api/ai/portrait', {
       method: 'POST', headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
+        // The DM paints this now: it needs a name to key the face on, and a new
+        // hero has no id yet, so the wizard passes what it has. Same strings the
+        // party card will send once this sheet is imported.
+        name: (document.getElementById('char-name') || {}).value || state.name || '',
+        level: state.level || 1,
         race: state.race, subrace: state.subrace,
         class_name: state.class_name, subclass: state.subclass,
         abilities: state.abilities, background: state.background,

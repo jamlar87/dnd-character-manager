@@ -413,6 +413,9 @@ async function fetchPortraitPrompt() {
     const r = await fetch('/api/ai/portrait', {
       method: 'POST', headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
+        // character_id first: the DM rebuilds the prompt from its own sheet row,
+        // and that is the only way this preview shows the words it will paint.
+        character_id: SHEETCFG.charId,
         race: SHEETCFG.charRace, subrace: SHEETCFG.charSubrace,
         class_name: SHEETCFG.charClassName, subclass: SHEETCFG.charSubclass,
         background: SHEETCFG.charBackground, alignment: SHEETCFG.charAlignment,

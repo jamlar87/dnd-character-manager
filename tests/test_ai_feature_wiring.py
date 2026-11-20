@@ -86,7 +86,8 @@ def test_get_prompt_does_not_spend_a_generation():
     assert "prompt_only: true" in fn
     route = _read("routes/characters/ai_routes.py")
     assert 'if data.get("prompt_only"):' in route
-    assert "PORTRAIT_PROVIDER, \"prompt_only\": True" in route
+    assert 'dm_portraits.paint(payload, prompt_only=True)' in route, \
+        "a preview asks the DM for its words; it must never queue a render"
 
 
 # ── a second click must not cost a second AI call ─────────────────────────────────────────

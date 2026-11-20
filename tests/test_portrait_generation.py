@@ -70,6 +70,41 @@ def fake_provider(monkeypatch):
     return calls
 
 
+@pytest.fixture(autouse=True)
+def _never_paint_on_the_live_gpu(monkeypatch):
+    """Fail loudly instead of quietly reaching the running DM on 127.0.0.1:8700.
+
+    The CM's face builder *is* the DM's now, so an unpatched route would queue a
+    real GPU render — minutes per test, and a suite that silently depends on
+    another service being up. Tests that want the DM stub it with fake_dm.
+    """
+    from services import dm_portraits
+
+    async def _boom(*a, **kw):
+        raise AssertionError("the route called the live DM — request fake_dm in this test")
+
+    monkeypatch.setattr(dm_portraits, "paint", _boom)
+
+
+@pytest.fixture
+def fake_dm(monkeypatch):
+    """Stand in for the DM's renderer — the one every CM face comes from."""
+    from services import dm_portraits
+
+    calls = {"payloads": [], "prompt": "cinematic 85mm photograph. A hero."}
+
+    async def _fake(payload, prompt_only=False):
+        calls["payloads"].append(dict(payload))
+        calls["prompt_only"] = prompt_only
+        if prompt_only:
+            return None, calls["prompt"], None
+        image, error = calls.get("result", (None, "the DM did not answer"))
+        return image, calls["prompt"], error
+
+    monkeypatch.setattr(dm_portraits, "paint", _fake)
+    return calls
+
+
 class TestKeylessProvider:
     def test_the_default_provider_is_keyless_and_free(self):
         """The default must need no key, no account and no card; paid paths stay opt-in.
@@ -169,21 +204,21 @@ class TestKeylessProvider:
 
 
 class TestHonestFailure:
-    def test_failure_reports_the_reason(self, client, seeded_db, auth_headers, fake_provider):
-        fake_provider["result"] = (None, "image service unreachable (ConnectError)")
+    def test_failure_reports_the_reason(self, client, seeded_db, auth_headers, fake_dm):
+        fake_dm["result"] = (None, "image service unreachable (ConnectError)")
         r = client.post("/api/ai/portrait", headers=auth_headers,
-                        json={"race": "Dwarf", "class_name": "Cleric"})
+                        json={"name": "Dain", "race": "Dwarf", "class_name": "Cleric"})
         assert r.status_code == 200
         body = r.json()
         assert body["image_url"] == ""
         assert "unreachable" in body["error"], "the client must learn why there is no image"
-        assert body["provider"] == ai.PORTRAIT_PROVIDER
+        assert body["provider"] == "dm", "faces come from the DM's renderer, not a CM copy"
         assert body["prompt"], "the prompt is still returned so the DM can reuse it"
 
-    def test_failure_keeps_an_existing_portrait(self, client, seeded_db, auth_headers, fake_provider):
+    def test_failure_keeps_an_existing_portrait(self, client, seeded_db, auth_headers, fake_dm):
         cid = make_char(seeded_db, "Keep My Face", portrait_url=png_data_url(200, 200))
         before, _ = portrait_of(seeded_db, cid)
-        fake_provider["result"] = (None, "nope")
+        fake_dm["result"] = (None, "nope")
         r = client.post("/api/ai/portrait", headers=auth_headers,
                         json={"race": "Elf", "class_name": "Ranger", "character_id": cid})
         assert r.status_code == 200
@@ -191,9 +226,9 @@ class TestHonestFailure:
         assert after == before, "a failed generation must not wipe the stored portrait"
         assert prompt, "the new prompt is still recorded"
 
-    def test_success_stores_a_normalised_portrait(self, client, seeded_db, auth_headers, fake_provider):
+    def test_success_stores_a_normalised_portrait(self, client, seeded_db, auth_headers, fake_dm):
         cid = make_char(seeded_db, "Fresh Face")
-        fake_provider["result"] = (png_data_url(2000, 2000), None)
+        fake_dm["result"] = (png_data_url(2000, 2000), None)
         r = client.post("/api/ai/portrait", headers=auth_headers,
                         json={"race": "Human", "class_name": "Bard", "character_id": cid})
         assert r.status_code == 200 and r.json()["image_url"]
@@ -201,10 +236,10 @@ class TestHonestFailure:
         assert stored.startswith("data:image/webp"), "stored image must be shrunk like every writer"
         assert len(stored) < 800 * 1024
 
-    def test_scope_is_enforced(self, client, seeded_db, auth_headers, fake_provider):
+    def test_scope_is_enforced(self, client, seeded_db, auth_headers, fake_dm):
         """character_id must belong to the caller, or nothing is written."""
         other = make_char(seeded_db, "Not Yours", user_id=2)
-        fake_provider["result"] = (png_data_url(300, 300), None)
+        fake_dm["result"] = (png_data_url(300, 300), None)
         client.post("/api/ai/portrait", headers=auth_headers,
                     json={"race": "Human", "class_name": "Bard", "character_id": other})
         stored, _ = portrait_of(seeded_db, other)
@@ -246,13 +281,13 @@ class TestCreateWizardWriterIsUnified:
         assert stored.startswith("data:image/webp") and len(stored) < 800 * 1024
 
 
-class TestGenderAndNpcMode:
-    """Three gaps found while auditing the creation wizard.
+class TestOneGeneratorForBothApps:
+    """The CM's face comes from the DM's renderer — one prompt, one seed, one checkpoint.
 
-    gender was read by the endpoint and then never used (so a female character
-    could come back bearded); the DM's NPC editor had upload but no way to
-    generate; and the wizard's generation raced the reference-art backfill for
-    the same free quota.
+    Two builders meant one hero owned two faces: the party card's portrait and the
+    sheet's portrait disagreed. Every PC/NPC request now goes out as the identity
+    the DM keys its cache on, so a face painted at the table is the face the sheet
+    shows, and a cold render is the same face either app would have painted.
     """
 
     def test_genderize_names_the_subject_in_the_framing_clause(self):
@@ -265,44 +300,79 @@ class TestGenderAndNpcMode:
         assert portraits.genderize(base, "Halfling") == base, "never guess at gender"
         assert portraits.genderize("Frameless prompt.", "male").endswith("The subject is male.")
 
-    def test_route_puts_gender_into_the_prompt(self, client, seeded_db, auth_headers, fake_provider):
-        fake_provider["result"] = (png_data_url(), None)
+    def test_a_sheet_request_sends_identity_not_a_prompt(self, client, seeded_db, auth_headers, fake_dm):
+        """The DM rebuilds the prompt from its own row; the CM only names the hero."""
+        cid = make_char(seeded_db, "Keyed Hero", race="Dwarf", subrace="Hill", class_name="Barbarian")
+        fake_dm["result"] = (png_data_url(), None)
         r = client.post("/api/ai/portrait", headers=auth_headers,
-                        json={"race": "Dwarf", "class_name": "Barbarian", "gender": "female"})
+                        json={"race": "Elf", "class_name": "Wizard", "character_id": cid})
         assert r.status_code == 200, r.text[:200]
-        assert "female subject" in fake_provider["prompt"]
-        assert "female subject" in r.json()["prompt"]
+        payload = fake_dm["payloads"][-1]
+        assert payload["source_char_id"] == cid
+        assert payload["name"] == "Keyed Hero"
+        assert payload["class_name"] == "Barbarian", "the stored sheet wins over the caller's copy"
+        assert "prompt" not in payload, "no CM-authored prompt may travel"
+        assert r.json()["prompt"] == fake_dm["prompt"], "the sheet shows the DM's words"
 
-    def test_unknown_gender_leaves_the_prompt_alone(self, client, seeded_db, auth_headers, fake_provider):
-        fake_provider["result"] = (None, "stop")
+    def test_gender_no_longer_shapes_the_prompt(self, client, seeded_db, auth_headers, fake_dm):
+        """Parity with the party card: the DM has no gender field, so the CM must not add one.
+
+        A CM-only 'female subject' clause would change the DM's key inputs and hand
+        one hero two faces — the exact bug this unification removes.
+        """
+        fake_dm["result"] = (png_data_url(), None)
         client.post("/api/ai/portrait", headers=auth_headers,
-                    json={"race": "Dwarf", "class_name": "Barbarian", "gender": ""})
-        assert "subject." not in fake_provider["prompt"]
+                    json={"name": "Sera", "race": "Dwarf", "class_name": "Barbarian",
+                          "gender": "female"})
+        payload = fake_dm["payloads"][-1]
+        assert "gender" not in payload
+        assert "female subject" not in str(payload)
 
-    def test_npc_mode_builds_the_prompt_from_the_npc(self, client, seeded_db, auth_headers, fake_provider):
-        fake_provider["result"] = (None, "stop")
+    def test_npc_mode_forwards_the_npc_not_a_prompt(self, client, seeded_db, auth_headers, fake_dm):
+        fake_dm["result"] = (None, "stop")
         r = client.post("/api/ai/portrait", headers=auth_headers,
                         json={"npc": {"name": "Dermot Wurder", "notes": "a nervous scribe",
                                       "role": "scribe"}})
         assert r.status_code == 200
-        prompt = fake_provider["prompt"]
-        assert "Dermot Wurder" in prompt and "nervous scribe" in prompt
-        assert "upper body only, close-up composition" in prompt, "should be npc_prompt, not the class table"
+        payload = fake_dm["payloads"][-1]
+        assert payload == {"kind": "npc", "name": "Dermot Wurder", "race": "", "role": "scribe",
+                           "notes": "a nervous scribe"}
+
+    def test_prompt_only_previews_the_dm_prompt_without_rendering(self, client, seeded_db, auth_headers, fake_dm):
+        cid = make_char(seeded_db, "Preview Hero")
+        r = client.post("/api/ai/portrait", headers=auth_headers,
+                        json={"character_id": cid, "prompt_only": True})
+        assert r.status_code == 200
+        body = r.json()
+        assert body["prompt"] == fake_dm["prompt"] and body["image_url"] == ""
+        assert fake_dm["prompt_only"] is True, "a preview must never queue a render"
+
+    def test_a_hand_written_prompt_still_paints_locally(self, client, seeded_db, auth_headers,
+                                                        fake_provider, fake_dm):
+        """Free text has no home in the DM's identity-keyed builder, so that one case stays local."""
+        fake_provider["result"] = (png_data_url(), None)
+        r = client.post("/api/ai/portrait", headers=auth_headers,
+                        json={"race": "Human", "class_name": "Fighter",
+                              "custom_prompt": "a scarred duelist in a red cloak"})
+        assert r.status_code == 200
+        assert "a scarred duelist in a red cloak" in fake_provider["prompt"]
+        assert r.json()["provider"] == ai.PORTRAIT_PROVIDER
+        assert not fake_dm["payloads"], "the DM must not be asked to paint free text"
 
     def test_generation_claims_interactive_priority(self, client, seeded_db, auth_headers, monkeypatch):
         """The backfill must see a user's generation as in-flight, then released."""
-        from services import ref_portraits
+        from services import dm_portraits, ref_portraits
 
         seen = {}
 
-        async def _fake(prompt):
+        async def _fake(payload, prompt_only=False):
             seen["during"] = ref_portraits.interactive_active()
-            return (None, "stop here")
+            return (None, "the DM prompt", "stop here")
 
-        monkeypatch.setattr(ai, "_generate_portrait_image", _fake)
+        monkeypatch.setattr(dm_portraits, "paint", _fake)
         assert not ref_portraits.interactive_active()
         client.post("/api/ai/portrait", headers=auth_headers,
-                    json={"race": "Human", "class_name": "Fighter"})
+                    json={"name": "Duellist", "race": "Human", "class_name": "Fighter"})
         assert seen.get("during") is True
         assert not ref_portraits.interactive_active(), "the claim must always be released"
 
