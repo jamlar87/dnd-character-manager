@@ -10,7 +10,11 @@ Usage:
   python3 sweeper.py <name>         — deep-sweep a specific manual
   python3 sweeper.py --list         — list all manuals and last-sweep status
 """
-import json, os, sys, time, subprocess
+import json
+import os
+import subprocess
+import sys
+import time
 from pathlib import Path
 
 HERE = Path(__file__).parent
@@ -319,7 +323,7 @@ def show_stats():
     
     # Show sweep timeline
     if swept_count:
-        print(f"\nLast 5 sweeps:")
+        print("\nLast 5 sweeps:")
         for fname in sorted(state, key=lambda x: state[x].get("timestamp", 0), reverse=True)[:5]:
             s = state[fname]
             ts = time.strftime("%Y-%m-%d %H:%M", time.localtime(s.get("timestamp", 0)))
@@ -334,12 +338,12 @@ def show_stats():
         print(f"\nSRD Cache: {count} files, {total_size // 1024:,} KB")
     
     # Check for new/modified PDFs not yet swept
-    print(f"\nUnswept manuals:")
+    print("\nUnswept manuals:")
     unswept = [m for m in manuals if not m.get("swept")]
     if unswept:
         for m in unswept:
             print(f"  ⬜ {m['title'][:60]}")
-        print(f"\n  Sweep one with: python3 sweeper.py \"<manual name>\"")
+        print("\n  Sweep one with: python3 sweeper.py \"<manual name>\"")
     else:
         print("  None! All manuals have been swept.")
 

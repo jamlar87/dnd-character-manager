@@ -97,6 +97,7 @@ _jinja.globals["static_asset_version"] = static_asset_version
 # Templates used to hand-roll `{% set mod = (character[stat] - 10) // 2 %}` in a
 # dozen includes; one filter instead, sharing services/rules.ability_mod.
 from services.rules import ability_mod as _ability_mod
+
 _jinja.filters["ability_mod"] = _ability_mod
 
 def _render(template: str, request: Request | None = None, **ctx) -> HTMLResponse:

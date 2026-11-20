@@ -29,8 +29,8 @@ from services.loaders.feats import merge_manual_feats
 from services.loaders.files import (
     _load_json_cache,
     _load_manual_json,
-    _load_srd_class_data,
     _load_spell_dice,
+    _load_srd_class_data,
     cache_info,
     clear_cache,
     load_json,
@@ -65,9 +65,10 @@ def _validate_manual_sources() -> None:
     """Check all manual data files for clean source format at startup.
     Logs warnings for bad formats, out-of-range pages, or slug mismatches.
     This does not fix — it only warns so the operator can investigate."""
+    import json
+
     from core.config import DATA_DIR
     from core.data import _get_source_slug_map
-    import json
     
     data_dir = DATA_DIR / "manual_data"
     files = ["races.json", "spells.json", "magic_items.json", "equipment.json",

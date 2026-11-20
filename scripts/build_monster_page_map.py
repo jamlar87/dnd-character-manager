@@ -11,10 +11,11 @@ Output: data/monster_page_map.json  (written to DATA_DIR, which is on SlowDisk)
 Requires: pip install pymupdf
 """
 
-import fitz
 import json
 import re
 from pathlib import Path
+
+import fitz
 
 # ── Config ──────────────────────────────────────────────────────────────────
 MM_PATH = "/media/james/SlowDisk1tb/home-move/DnD-Manuals/D&D 5E - Monster Manual.pdf"
@@ -60,7 +61,7 @@ SKIP_WORDS = {
     'CHAR','ACTERS','CusTOMIZING','NPCs','WITH','FOR','HAS','BE',
     'AS','BY','FROM','THIS','THAT','ARE','WAS','NOT','BUT','SO',
     'ALL','CAN','HAD','ITS','HIM','HER','HIS','THEY','THEM','THEIR',
-    'AN','BEEN','WERE','DOES','DID','BEING','HAVE','HAS','MAY',
+    'AN','BEEN','WERE','DOES','DID','BEING','HAVE','MAY',
     'DARK','LIGHT','MAGIC','FIRE','COLD','WATER','EARTH','AIR',
     'SHADOW','DEATH','NIGHT','DAY','BLOOD','BONE','STONE','IRON',
     'GIANT','SWARM','HALF','YOUNG','ADULT','ANCIENT','WYRMLING',

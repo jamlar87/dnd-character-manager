@@ -11,7 +11,6 @@ import json
 import pathlib
 import sqlite3
 
-
 REPO = pathlib.Path(__file__).resolve().parent.parent
 VTT = REPO / "static" / "vtt.js"
 TEMPLATE = REPO / "templates" / "map.html"

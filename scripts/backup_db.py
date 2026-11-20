@@ -13,7 +13,6 @@ Backups land in data/backups/characters-YYYYMMDD-HHMMSS-ffffff.db.
 from __future__ import annotations
 
 import argparse
-import shutil
 import sqlite3
 import sys
 from pathlib import Path

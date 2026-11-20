@@ -1,7 +1,7 @@
 """Small database connection boundary shared by application code."""
 
-from pathlib import Path
 import sqlite3
+from pathlib import Path
 
 
 def connect(db_path: Path) -> sqlite3.Connection:

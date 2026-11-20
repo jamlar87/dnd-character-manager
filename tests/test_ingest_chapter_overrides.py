@@ -19,7 +19,7 @@ def test_tcsr_has_an_explicit_map():
     chapters = ingest_manual.CHAPTER_OVERRIDES["TCSR"]
     assert len(chapters) == 6, f"TCSR has six chapters, got {len(chapters)}"
     # ordered, non-overlapping, and covering the book
-    for (t1, s1, e1), (t2, s2, e2) in zip(chapters, chapters[1:]):
+    for (t1, s1, e1), (t2, s2, _e2) in zip(chapters, chapters[1:], strict=False):
         assert s1 <= e1, f"{t1} ends before it starts"
         assert s2 == e1 + 1, f"gap or overlap between {t1} and {t2}: {e1} -> {s2}"
     assert chapters[-1][2] == 283, "the last chapter must reach the end of the book"

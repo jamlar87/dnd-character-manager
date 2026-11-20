@@ -100,6 +100,7 @@ def test_the_aquatic_ban_does_not_eat_correct_land_picks():
     a Giant Frog could not appear in a forest — a false positive is worse than a miss, because it
     throws away a pick that was right."""
     import re
+
     from support_source import route_source
 
     src = route_source("routes/dm.py")

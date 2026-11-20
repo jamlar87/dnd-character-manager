@@ -1,97 +1,162 @@
 """D&D Character Manager — FastAPI webapp with multi-user character tracking."""
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
+import secrets
 import sqlite3
 import sys
-import hashlib
-import secrets
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-
-from core.config import (  # paths + .env load live in core/config.py
-    HERE, DATA_DIR, PAGE_MAP_DIR, DB_PATH, TEMPLATES, STATIC,
-    SECRET_KEY, APP_ENV, SESSION_TTL_DAYS, SRD_CACHE, MANUAL_DATA,
-)
-
-from fastapi import FastAPI, Request, HTTPException
-from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse, FileResponse
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 from jinja2 import Environment, FileSystemLoader
 
-from data import (
-    ABILITY_NAMES, SKILL_ABILITIES, ALL_SKILLS,
-    BACKGROUNDS, BACKGROUND_INFO, ALIGNMENTS, DRACONIC_ANCESTRIES,
-    STARTING_EQUIPMENT, ASI_LEVELS,
-    RACES, CLASSES, RACE_NAMES,
-    FEATS, FEAT_BY_NAME,
-    FEATURE_DESCRIPTIONS, FEATURE_ACTION_TYPES,
-    FULL_CASTERS, HALF_CASTERS, PACT_CASTERS, PREPARED_CASTERS, SPELLS_KNOWN_CASTERS,
-    SUBCLASS_LEVELS, SUBCLASS_FEATURES, SUBCLASS_FEATURE_REPLACEMENTS,
-    LIMITED_USE, METAMAGIC_OPTIONS, METAMAGIC_LEVELS, METAMAGIC_PICKS,
-    INVOCATION_LEVELS, INVOCATION_PICKS, INVOCATION_OPTIONS,
-    PACT_BOON_OPTIONS, PACT_BOON_LEVELS,
-    MANEUVER_LEVELS, MANEUVER_OPTIONS,
-    TOTEM_SPIRIT_OPTIONS, HUNTERS_PREY_OPTIONS,
-    FAVORED_ENEMY_OPTIONS, FAVORED_TERRAIN_OPTIONS,
-    INFUSION_OPTIONS,
-    MULTICLASS_PREREQS, MULTICLASS_PROFICIENCIES,
-    EXPERTISE_LEVELS, RACIAL_TRAIT_DESCS,
-    RECOMMENDED_FEATS, SCALED_EQUIPMENT,
+# ── Facade re-exports ─────────────────────────────────────────────────────
+# `main` is the app's front door and the test suite reaches a lot of the app
+# through `main.<NAME>` - some of it dynamically, via getattr, so a static scan
+# cannot see the use. These stay bound here; they cost nothing extra because
+# every name is already imported by the module it comes from.  See the F401
+# per-file ignore in ruff.toml.
+from core.config import (  # paths + .env load live in core/config.py
+    APP_ENV,
+    DATA_DIR,
+    DB_PATH,
+    HERE,
+    MANUAL_DATA,
+    PAGE_MAP_DIR,
+    SECRET_KEY,
+    SESSION_TTL_DAYS,
+    SRD_CACHE,
+    STATIC,
+    TEMPLATES,
 )
-
-# ── Item helpers (extracted to services/items.py) ─────────────────────────
-from services.items import (
-    _resolve_item_key, _split_curse_text, _build_item_description,
-    _build_item_type, _resolve_source, _extract_srd_dice,
-    _item_rarity_for_level,
-)
-
-# ── Combat / racial-trait helpers (extracted to services/combat.py) ────────
-from services.combat import (
-    get_racial_trait_effects, _build_racial_traits, _subrace_traits, _parse_enhancement,
-    _build_inventory_attacks,
-    _build_character_attacks, _build_charged_item_attacks, _normalize_equipped, _get_named_item_types, _equipped_names, get_character_armor_profs, _resolve_armor_item,
-    check_armor_proficiency_from_set,
-)
-
-
-# ── Shared helpers/constants (extracted to core/, which never imports main) ─
-# Re-exported here so `from main import X` keeps working for tests and callers.
-from core.security import (
-    _get_user, _get_user_by_token, _hash, _is_admin, _verify,
-    get_current_user, require_user,
-)
-from core.http import (
-    _render,
+from core.data import (
+    CLASSES,
+    FLEXIBLE_ASI_RACES,
+    ITEM_INDEX,
+    MANUAL_TRAPS,
+    MANUALS_BASE,
+    MPMM_ASI_RACES,
+    RACES,
+    RICH_RACE_DESCS,
+    SRD_SPELLS,
+    SUBCLASS_FEATURES,
+    _get_source_slug_map,
+    _manual_titles,
+    _scan_manual_pdfs,
 )
 from core.db import (
     get_db,
 )
-from core.data import (
-    ITEM_INDEX, MANUALS_BASE, MANUAL_TRAPS, SRD_SPELLS, _get_source_slug_map,
-    _manual_titles, _scan_manual_pdfs,
-    FLEXIBLE_ASI_RACES, MPMM_ASI_RACES, RICH_RACE_DESCS,
+from core.http import (
+    _render,
 )
-from services.schema import (
-    HAS_PORTRAIT_SQL, hydrate_json_columns,
+
+# ── Shared helpers/constants (extracted to core/, which never imports main) ─
+# Re-exported here so `from main import X` keeps working for tests and callers.
+from core.security import (
+    _get_user,
+    _get_user_by_token,
+    _hash,
+    _is_admin,
+    _verify,
+    get_current_user,
+    require_user,
+)
+from data import (
+    ABILITY_NAMES,
+    ALIGNMENTS,
+    ALL_SKILLS,
+    ASI_LEVELS,
+    BACKGROUND_INFO,
+    BACKGROUNDS,
+    DRACONIC_ANCESTRIES,
+    EXPERTISE_LEVELS,
+    FAVORED_ENEMY_OPTIONS,
+    FAVORED_TERRAIN_OPTIONS,
+    FEAT_BY_NAME,
+    FEATS,
+    FEATURE_ACTION_TYPES,
+    FEATURE_DESCRIPTIONS,
+    FULL_CASTERS,
+    HALF_CASTERS,
+    HUNTERS_PREY_OPTIONS,
+    INFUSION_OPTIONS,
+    INVOCATION_LEVELS,
+    INVOCATION_OPTIONS,
+    INVOCATION_PICKS,
+    LIMITED_USE,
+    MANEUVER_LEVELS,
+    MANEUVER_OPTIONS,
+    METAMAGIC_LEVELS,
+    METAMAGIC_OPTIONS,
+    METAMAGIC_PICKS,
+    MULTICLASS_PREREQS,
+    MULTICLASS_PROFICIENCIES,
+    PACT_BOON_LEVELS,
+    PACT_BOON_OPTIONS,
+    PACT_CASTERS,
+    PREPARED_CASTERS,
+    RACE_NAMES,
+    RACIAL_TRAIT_DESCS,
+    RECOMMENDED_FEATS,
+    SCALED_EQUIPMENT,
+    SKILL_ABILITIES,
+    SPELLS_KNOWN_CASTERS,
+    STARTING_EQUIPMENT,
+    SUBCLASS_FEATURE_REPLACEMENTS,
+    SUBCLASS_LEVELS,
+    TOTEM_SPIRIT_OPTIONS,
+)
+from services.combat import (
+    _build_character_attacks,
+    _build_charged_item_attacks,
+    _build_inventory_attacks,
+    _build_racial_traits,
+    _equipped_names,
+    _get_named_item_types,
+    _normalize_equipped,
+    _parse_enhancement,
+    _resolve_armor_item,
+    _subrace_traits,
+    check_armor_proficiency_from_set,
+    get_character_armor_profs,
+    get_racial_trait_effects,
+)
+
+# ── Combat / racial-trait helpers (extracted to services/combat.py) ────────
+# ── Data loaders + manual-data merge (extracted to services/data_loader.py) ──
+# Imported before SRD_LEVELS is built below; data_loader has no module-level
+# main import, so this is safe from circulars.
+from services.data_loader import (
+    _load_json_cache,
+    _load_manual_json,
+    _load_spell_dice,
+    _load_srd_class_data,
+    load_manual_data,
 )
 from services.db_schema import (
     init_db,
 )
 
-# ── Data loaders + manual-data merge (extracted to services/data_loader.py) ──
-# Imported before SRD_LEVELS is built below; data_loader has no module-level
-# main import, so this is safe from circulars.
-from services.data_loader import (
-    _load_srd_class_data, _load_spell_dice, _load_json_cache, _load_manual_json,
-    load_manual_data,
+# ── Item helpers (extracted to services/items.py) ─────────────────────────
+from services.items import (
+    _build_item_description,
+    _build_item_type,
+    _extract_srd_dice,
+    _item_rarity_for_level,
+    _resolve_item_key,
+    _resolve_source,
+    _split_curse_text,
 )
-
-
-
+from services.schema import (
+    HAS_PORTRAIT_SQL,
+    hydrate_json_columns,
+)
 
 # ── App ─────────────────────────────────────────────────────────────────────
 
@@ -101,13 +166,17 @@ from services.data_loader import (
 app = FastAPI(title="D&D Character Manager", docs_url=None, redoc_url=None, openapi_url=None)
 
 # ── Static files ──────────────────────────────────────────────────────────────
-from starlette.staticfiles import StaticFiles
 from starlette.datastructures import Headers
 from starlette.middleware.gzip import GZipMiddleware
+from starlette.staticfiles import StaticFiles
+
 app.mount("/static", StaticFiles(directory=str(STATIC)), name="static")
 
 # ── Logging ───────────────────────────────────────────────────────────────────
-import logging as _logging, logging.handlers as _logging_handlers, time as _time, uuid as _uuid
+import logging as _logging
+import logging.handlers as _logging_handlers
+import time as _time
+import uuid as _uuid
 
 _logging.basicConfig(
     level=_logging.INFO,
@@ -295,7 +364,7 @@ def landing(request: Request):
     # None, it does not hand back the data). A failure just means the strip is not shown.
     counts = {}
     try:
-        from routes.characters import _load_monster_cache   # local: avoids an import cycle
+        from routes.characters import _load_monster_cache  # local: avoids an import cycle
         counts = {
             "monsters": len(_load_monster_cache() or []),
             "spells": len(SRD_SPELLS or []),
@@ -592,7 +661,7 @@ def search_items(q: str = "", limit: int = 0, type: str = "", rarity: str = "",
 
     # Ranked search
     scored = []
-    for key, item in ITEM_INDEX.items():
+    for _key, item in ITEM_INDEX.items():
         name = item["name"].lower()
         item_type = item["type"].lower()
         item_rarity = (item.get("rarity") or "").lower()

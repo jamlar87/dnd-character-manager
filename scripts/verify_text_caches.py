@@ -71,7 +71,7 @@ def main() -> int:
         print(f"  {slug:8} cache {cached:9,} vs pdf {real:9,} chars  ({ratio:5.1%})")
 
     if fix:
-        for slug, _c, _r, _ra, cache in stale:
+        for _slug, _c, _r, _ra, cache in stale:
             aside = cache.with_suffix(".txt.stale")
             cache.rename(aside)
             print(f"  moved aside: {cache.name} -> {aside.name}")

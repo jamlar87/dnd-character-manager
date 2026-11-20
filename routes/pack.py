@@ -26,8 +26,8 @@ from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse, Response
 
 from core.config import STATIC
-from core.security import require_user, _require_owned
-from core.db import get_db, _json_list
+from core.db import _json_list, get_db
+from core.security import _require_owned, require_user
 
 router = APIRouter()
 
@@ -106,7 +106,7 @@ def _insert_row(db, table: str, data: dict) -> int:
 @router.get("/api/dm/campaign/{camp_id}/export", response_class=Response)
 def campaign_export(camp_id: int, request: Request, images: str = "embed"):
     """Download the campaign as a pack. `?images=skip` leaves the map images out."""
-    from routes.characters.transfer import build_character_payload   # function-local: see Pitfall 16
+    from routes.characters.transfer import build_character_payload  # function-local: see Pitfall 16
     # `SELECT *` is correct here: a pack carries the character's portrait, and build_character_payload
     # exports every column in transfer._CHAR_FIELDS (portrait_url among them) — nothing in this row is
     # unused, so the multi-MB blob is the payload, not waste. (An explicit list would also break on
@@ -226,7 +226,7 @@ async def campaign_pack_import(request: Request):
     Never merges into an existing campaign and never updates an existing row: every id in the
     pack is remapped, so importing the same pack twice gives two independent campaigns.
     """
-    from routes.characters.transfer import insert_character        # function-local: see Pitfall 16
+    from routes.characters.transfer import insert_character  # function-local: see Pitfall 16
 
     user = require_user(request)
     try:

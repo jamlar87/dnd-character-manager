@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Brute-force find exact pages for the 4 missing feats."""
-import fitz
 from pathlib import Path
+
+import fitz
 
 MANUAL_DIR = Path("/media/james/SlowDisk1tb/dnd-character-manager/manuals/DnD-Manuals")
 
@@ -19,7 +20,7 @@ PDF_MAP = {
     "PHB": "D&D 5E - Player's Handbook.pdf",
 }
 
-for key, name, book in targets:
+for _key, name, book in targets:
     print(f"\n=== {name} ({book}) ===")
     
     for book_key in [book, "SCAG", "EEPC", "PHB"]:

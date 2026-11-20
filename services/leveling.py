@@ -8,13 +8,38 @@ Only import from main / data / stdlib here — importing from
 routes.characters.* creates circulars.
 """
 
-import re
 import functools
+import re
 
-from core.data import SRD_LEVELS, SRD_SPELLS
-from core.data import CLASSES, EXPERTISE_LEVELS, FEATURE_ACTION_TYPES, FEATURE_DESCRIPTIONS, FULL_CASTERS, HALF_CASTERS, INVOCATION_LEVELS, INVOCATION_PICKS, LIMITED_USE, MANEUVER_LEVELS, METAMAGIC_LEVELS, METAMAGIC_PICKS, MULTICLASS_PREREQS, MULTICLASS_PROFICIENCIES, PACT_BOON_LEVELS, PACT_CASTERS, PREPARED_CASTERS, RACIAL_TRAIT_DESCS, RECOMMENDED_FEATS, SPELLS_KNOWN_CASTERS, SPELL_DICE, SRD_FEATURES, SUBCLASS_FEATURES, _manual_races_raw
+from core.data import (
+    CLASSES,
+    EXPERTISE_LEVELS,
+    FEATURE_ACTION_TYPES,
+    FEATURE_DESCRIPTIONS,
+    FULL_CASTERS,
+    HALF_CASTERS,
+    INVOCATION_LEVELS,
+    INVOCATION_PICKS,
+    LIMITED_USE,
+    MANEUVER_LEVELS,
+    METAMAGIC_LEVELS,
+    METAMAGIC_PICKS,
+    MULTICLASS_PREREQS,
+    MULTICLASS_PROFICIENCIES,
+    PACT_BOON_LEVELS,
+    PACT_CASTERS,
+    PREPARED_CASTERS,
+    RACIAL_TRAIT_DESCS,
+    RECOMMENDED_FEATS,
+    SPELL_DICE,
+    SPELLS_KNOWN_CASTERS,
+    SRD_FEATURES,
+    SRD_LEVELS,
+    SRD_SPELLS,
+    SUBCLASS_FEATURES,
+    _manual_races_raw,
+)
 from services.rules import PROFICIENCY_BONUS, ability_mod
-
 
 MAGIC_INITIATE_CLASSES = ["Bard", "Cleric", "Druid", "Sorcerer", "Warlock", "Wizard"]
 
@@ -327,7 +352,7 @@ def get_class_features(class_name: str, level: int, subclass: str = "") -> list[
     
     # Build list sorted by level
     gained = []
-    for key, (lvl, name, _had_suffix) in sorted(seen.items(), key=lambda x: x[1][0]):
+    for _key, (lvl, name, _had_suffix) in sorted(seen.items(), key=lambda x: x[1][0]):
         # Replace generic subclass names with real ones
         name = _replace_subclass_name(name, class_name, subclass, lvl)
         gained.append(f"L{lvl}: {name}")

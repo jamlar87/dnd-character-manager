@@ -70,6 +70,7 @@ def stored_portrait(seeded_db, table, row_id):
 def thirds(seeded_db, user_id):
     """Session headers for a different user (non-owner auth check)."""
     import secrets
+
     from core.security import _hash
     con = sqlite3.connect(str(seeded_db["db_path"]))
     con.execute("INSERT INTO users (email, password_hash, is_admin) VALUES (?, ?, 0)",
@@ -314,8 +315,8 @@ class TestDmToolsMonsterAsset:
         assert html.count('class="npc-row') == 0
 
     def test_library_asset_carries_only_global_reference_data(self, client, seeded_db, auth_headers):
-        cid = make_char(seeded_db, "Secret Owner")
-        nid = make_npc(seeded_db, "Secret Npc")
+        make_char(seeded_db, "Secret Owner")
+        make_npc(seeded_db, "Secret Npc")
         con = sqlite3.connect(str(seeded_db["db_path"]))
         con.execute("INSERT INTO dm_campaigns (user_id, name, quests, locations, characters, npcs) "
                     "VALUES (1, 'Secret Camp', '[]', '[]', '[]', '[]')")

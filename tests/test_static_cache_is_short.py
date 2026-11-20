@@ -24,6 +24,7 @@ def _max_age(header: str) -> int:
 
 def test_static_files_are_not_cached_for_hours():
     from fastapi.testclient import TestClient
+
     import main
 
     # Pick a real file that exists, so the response is a genuine static hit and not a 404.
@@ -45,6 +46,7 @@ def test_static_files_are_not_cached_for_hours():
 def test_the_ref_image_endpoint_is_not_cached_for_a_week():
     """This one literally said max-age=604800 — a week of showing the previous portrait."""
     from fastapi.testclient import TestClient
+
     import main
 
     with TestClient(main.app) as client:

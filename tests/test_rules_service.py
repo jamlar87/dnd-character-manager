@@ -11,11 +11,14 @@ import sqlite3
 
 import pytest
 
+from services.campaign_access import campaign_role
 from services.rules import PROFICIENCY_BONUS, ability_mod, proficiency_bonus
 from services.schema import (
-    HAS_PORTRAIT_SQL, HYDRATE_JSON_FIELDS, JSON_DICT_FIELDS, hydrate_json_columns,
+    HAS_PORTRAIT_SQL,
+    HYDRATE_JSON_FIELDS,
+    JSON_DICT_FIELDS,
+    hydrate_json_columns,
 )
-from services.campaign_access import campaign_role
 
 
 class TestAbilityMod:

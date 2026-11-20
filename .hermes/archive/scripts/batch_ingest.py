@@ -21,8 +21,13 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
 from ingest_manual import (
-    discover_manuals, process_manual, merge_all_extractions,
-    SKIP_EXTRACTION, CACHE_DIR, _load_json, _save_json,
+    CACHE_DIR,
+    SKIP_EXTRACTION,
+    _load_json,
+    _save_json,
+    discover_manuals,
+    merge_all_extractions,
+    process_manual,
 )
 
 TRACKER_PATH = HERE / "data" / "ingestion_tracker.json"

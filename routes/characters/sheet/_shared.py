@@ -6,6 +6,7 @@ Split out of the single-module sheet.py; behaviour and URLs are unchanged.
 """
 
 import json
+
 from core.data import RACES, _manual_races_raw
 
 _INVOCATION_NAMES: set[str] = {

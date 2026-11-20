@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Third pass — targeted searches for tricky ones."""
-import fitz
 from pathlib import Path
+
+import fitz
 
 MANUAL_DIR = Path("/media/james/SlowDisk1tb/dnd-character-manager/manuals/DnD-Manuals")
 

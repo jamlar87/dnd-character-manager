@@ -17,7 +17,6 @@ the uncompressed body, so gzipping it would return a file the range does not des
 
 from pathlib import Path
 
-
 # sheet.js is an entry script plus parts, so its on-disk size is no longer a fixed number.
 # Anchor the framing checks to the file instead of a magic constant: they are about the
 # encoding contract, not about how the code happens to be laid out today.

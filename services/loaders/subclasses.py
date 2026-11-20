@@ -7,7 +7,6 @@ existing subclass into the name already listed instead of adding a twin.
 from __future__ import annotations
 
 from data import FEATURE_DESCRIPTIONS, FEATURE_SOURCES
-
 from services.loaders.files import _load_manual_json
 from services.loaders.sources import _existing_subclass_name, _should_replace_description
 

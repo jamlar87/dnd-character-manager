@@ -12,7 +12,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import repair_page_citations as rpc  # noqa: E402
 
-
 LIST_PAGE = """SORCERER SPELLS
 Cantrips
 Dancing Lights

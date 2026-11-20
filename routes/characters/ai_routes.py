@@ -2,19 +2,26 @@
 
 """Character routes — create, sheet, level-up, spells, combat, relationships."""
 
+import asyncio
+import json
+import os
+import random
+import re
+import time
+
+import httpx
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
-import asyncio, json, random, re, os, time, httpx
 
-from core.security import require_user, _require_owned
+from core.data import ALIGNMENTS, BACKGROUNDS, CLASSES, RACES
 from core.db import get_db
-from core.data import RACES, CLASSES
-from services.schema import hydrate_json_columns
-from core.data import BACKGROUNDS, ALIGNMENTS
 from core.features import get_racial_trait_effects
+from core.security import _require_owned, require_user
 from data import (
-    ALL_SKILLS, SKILL_ABILITIES,
+    ALL_SKILLS,
+    SKILL_ABILITIES,
 )
+from services.schema import hydrate_json_columns
 
 # ── PHB grounding tables ────────────────────────────────────────────────
 # Aliases so the AI prompts can name them the way the rules text does.
@@ -24,8 +31,12 @@ PHB_ALIGNMENTS = ALIGNMENTS    # PHB p.122
 # Level / spell-slot helpers. services.leveling imports only main + data, so a
 # module-scope import here is cycle-free.
 from services.leveling import (
-    PROFICIENCY_BONUS, modifier, get_class_features, get_feats_for_level,
-    enrich_features, get_spell_slots,
+    PROFICIENCY_BONUS,
+    enrich_features,
+    get_class_features,
+    get_feats_for_level,
+    get_spell_slots,
+    modifier,
 )
 
 router = APIRouter()
@@ -912,7 +923,6 @@ async def ai_portrait(request: Request):
     data = await request.json()
     race = data.get("race", "Human")
     class_name = data.get("class_name", "Fighter")
-    subclass = data.get("subclass", "")
     gender = (data.get("gender") or "").strip().lower()
     custom_prompt = (data.get("custom_prompt") or "").strip()
     character_id = data.get("character_id")
@@ -1048,8 +1058,11 @@ async def ai_build(request: Request):
     # sheet here re-enters ai_routes mid-initialisation (partially initialized
     # module ImportError, which crash-loops the service).
     from routes.characters.sheet import (
-        allocate_ability_scores, calc_hp, get_spells_for_level,
-        get_equipment_for_level, pick_magic_items,
+        allocate_ability_scores,
+        calc_hp,
+        get_equipment_for_level,
+        get_spells_for_level,
+        pick_magic_items,
     )
     class_data = CLASSES.get(class_name, CLASSES["Fighter"])
     abilities = allocate_ability_scores(class_name, race, subrace)

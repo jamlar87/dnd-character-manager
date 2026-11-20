@@ -8,34 +8,35 @@ re-exports: SUBCLASS_FEATURE_DESCRIPTIONS and CHANNEL_DIVINITY_DESCRIPTIONS
 Importing this module also triggers load_manual_data().
 """
 
-from fastapi import APIRouter
 import json
 
-from core.data import RACE_NAMES
-from core.data import BACKGROUNDS, ALIGNMENTS
+from fastapi import APIRouter
+
 from core.config import DATA_DIR
-from core.data import load_manual_data
+from core.data import ALIGNMENTS, BACKGROUNDS, RACE_NAMES, load_manual_data
+from data import (
+    EXPERTISE_LEVELS,
+    FEATS,
+    FEATURE_DESCRIPTIONS,
+)
+
 # Leveling/spell-slot helper core (extracted to services/leveling.py — re-exported
 # here so existing callers of these names keep working).
 from services.leveling import (
-    get_spell_slots,
-    # Batch 2 (progression core)
-    get_character_spell_slots,
-    parse_class_levels,
-    total_level,
-    primary_class,
-    get_caster_type,
-    get_prepared_max,
-    get_spells_known_max,
-    get_cantrips_known_max,
     # Level-up data constants (moved from all.py 2026-07-31)
     WARLOCK_EXPANDED_SPELLS_BY_LEVEL,
     # Choice-system constants (shadow data.py versions)
     # Ability modifier
-    )
-from data import (
-    FEATS,
-    FEATURE_DESCRIPTIONS, EXPERTISE_LEVELS,
+    get_cantrips_known_max,
+    get_caster_type,
+    # Batch 2 (progression core)
+    get_character_spell_slots,
+    get_prepared_max,
+    get_spell_slots,
+    get_spells_known_max,
+    parse_class_levels,
+    primary_class,
+    total_level,
 )
 from summon_templates import SUMMON_TEMPLATES
 
@@ -63,22 +64,26 @@ router = APIRouter()
 # ── DM Tools: Monster helpers ──────────────────────────────────────────────
 
 
-from routes.characters.helpers import (
-    MANUAL_MONSTERS, MANUAL_TRAPS,
-    _load_monster_cache, _monster_cr_sort_key,
-    _xp_for_cr, _assign_encounter_counts, _search_manuals,
-    parse_source_filter, slug_for_source, source_matches,
-)
-
-
 # DM routes moved to routes/dm.py — see startup event
-
-
 # ── Campaign Team Items (extracted to campaign.py) ───────────────
 from routes.characters.campaign import router as _campaign_router
+from routes.characters.helpers import (
+    MANUAL_MONSTERS,
+    MANUAL_TRAPS,
+    _assign_encounter_counts,
+    _load_monster_cache,
+    _monster_cr_sort_key,
+    _search_manuals,
+    _xp_for_cr,
+    parse_source_filter,
+    slug_for_source,
+    source_matches,
+)
+
 router.include_router(_campaign_router)
 # ── Character Creation API (extracted to creation.py) ───────────────
 from routes.characters.creation import router as _creation_router
+
 router.include_router(_creation_router)
 
 
@@ -96,19 +101,23 @@ router.include_router(_creation_router)
 
 # ── PDF generation (extracted to pdf.py) ───────────────────────────────────
 from routes.characters.pdf import router as _pdf_router
+
 router.include_router(_pdf_router)
 
 # ── Export/Import JSON (transfer.py) ────────────────────────────────────────
 from routes.characters.transfer import router as _transfer_router
+
 router.include_router(_transfer_router)
 
 # ── Spell/combat management (extracted to spells.py) ────────────────────
 from routes.characters.spells import router as _spells_router
+
 router.include_router(_spells_router)
 
 
 # ── History & Relationships API (extracted to relationships.py) ─────────────
 from routes.characters.relationships import router as _relationships_router
+
 router.include_router(_relationships_router)
 
 
@@ -116,10 +125,12 @@ router.include_router(_relationships_router)
 
 # ── Level-Up / De-Level API (extracted to leveling.py) ──────────────────
 from routes.characters.leveling import router as _leveling_router
+
 router.include_router(_leveling_router)
 
 # ── Character Sheet / Combat API (extracted to sheet.py) ───────────────
 from routes.characters.sheet import router as _sheet_router
+
 router.include_router(_sheet_router)
 
 
@@ -2458,10 +2469,12 @@ if not MANUAL_TRAPS:
 
 
 # ── AI Generation Routes (extracted to ai_routes.py) ─────
-from routes.characters.ai_routes import router as _ai_router
 from routes.characters.ai_routes import (
+    _call_ai,
     _call_ollama,
-    _call_ai, _extract_json,
+    _extract_json,
 )
+from routes.characters.ai_routes import router as _ai_router
+
 router.include_router(_ai_router)
 

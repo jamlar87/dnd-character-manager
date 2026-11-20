@@ -4,7 +4,6 @@ from __future__ import annotations
 import sqlite3
 
 
-
 def _row(db_path, sql, params=()):
     con = sqlite3.connect(str(db_path))
     con.row_factory = sqlite3.Row

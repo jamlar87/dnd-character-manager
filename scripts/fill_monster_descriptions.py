@@ -13,10 +13,13 @@ Usage:
 """
 from __future__ import annotations
 
-import json, os, re, sys, time, hashlib
-from pathlib import Path
+import json
+import os
+import re
+import sys
+import time
 from collections import defaultdict
-from typing import Any
+from pathlib import Path
 
 HERE = Path(__file__).resolve().parent.parent
 MONSTERS_PATH = HERE / "data" / "manual_data" / "monsters.json"
@@ -46,7 +49,8 @@ def _load_deepseek_key() -> str:
 
 
 def _call_llm(prompt: str, model: str = "deepseek-chat") -> str | None:
-    import urllib.request, urllib.error
+    import urllib.error
+    import urllib.request
     key = _load_deepseek_key()
     if not key:
         return None

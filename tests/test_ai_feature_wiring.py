@@ -3,7 +3,6 @@
 Each guard here is a defect found by auditing the live app against its own client code; the
 server-side chain has its own file (tests/test_ai_chain.py).
 """
-import re
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent

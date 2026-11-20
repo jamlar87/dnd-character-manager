@@ -27,7 +27,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
-from services.sources import resolves_to_book, is_placeholder_source  # noqa: E402
+from services.sources import is_placeholder_source, resolves_to_book  # noqa: E402
 
 CLASSES_EXPORT = REPO / "data" / "exports" / "classes_export.json"
 RACES_EXPORT = REPO / "data" / "exports" / "races_export.json"

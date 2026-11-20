@@ -13,12 +13,11 @@ from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
-
-import main
-from main import app
-from core.data import _scan_manual_pdfs
-import core.data as core_data  # MANUALS_BASE lives in core/data.py now
 from js_bundle import read_js
+
+import core.data as core_data  # MANUALS_BASE lives in core/data.py now
+from core.data import _scan_manual_pdfs
+from main import app
 
 DB_PATH = Path(__file__).parent.parent / "data" / "characters.db"
 

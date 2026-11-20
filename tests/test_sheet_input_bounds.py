@@ -10,10 +10,7 @@ Bounds live in services/validation.FIELD_BOUNDS; these tests pin the behaviour o
 that use them.
 """
 
-import json
 import sqlite3
-
-import pytest
 
 
 def _conn(seeded_db):

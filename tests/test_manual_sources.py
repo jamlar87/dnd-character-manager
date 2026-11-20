@@ -1,6 +1,9 @@
 """Test: validate all manual data sources have clean (Manual, pg#) format."""
-import json, re, pytest
+import json
+import re
 from pathlib import Path
+
+import pytest
 
 DATA_DIR = Path(__file__).parent.parent / "data" / "manual_data"
 
@@ -91,7 +94,7 @@ PDF_PAGE_RANGES = {
     "W1": 9, "W3": 34, "W4": 30, "W6": 30,
     "MOM": 15, "WSC": 50, "WS": 10, "W8": 7,
     "W9": 13, "LMG": 256, "RAT": 50, "RGEO": 100,
-    "ETR": 50, "DDP": 50, "SSK": 50, "SME": 22,
+    "ETR": 50, "DDP": 50, "SSK": 50,
     "DPM": 100, "FGFD": 224,
 }
 
@@ -148,7 +151,7 @@ def test_all_sources_have_clean_format(filename):
         pytest.skip(f"{filename} not found")
     
     bad = []
-    for name, src, slug in _entries(path):
+    for name, src, _slug in _entries(path):
         if not src:
             continue  # No source is OK (homebrew, dropped garbage)
         if not CLEAN_FORMAT.match(src):

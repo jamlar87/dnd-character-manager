@@ -5,7 +5,10 @@ It rebuilds the index and triggers a re-sweep notification.
 
 Usage: python3 rescan_manuals.py
 """
-import json, os, time, sys
+import json
+import os
+import sys
+import time
 from pathlib import Path
 
 # ── Where manuals live ──

@@ -12,7 +12,7 @@ __all__ = ["merge_manual_feats"]
 def merge_manual_feats() -> None:
     """Merge feats.json into the feat registry."""
     from core.config import PAGE_MAP_DIR
-    from core.data import FEATS, FEAT_BY_NAME
+    from core.data import FEAT_BY_NAME, FEATS
 
     # ── Feats ── merge into FEATS dict
     manual_feats = _load_manual_json("feats.json")

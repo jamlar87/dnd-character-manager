@@ -18,9 +18,9 @@ import io
 import sqlite3
 
 import pytest
+from js_bundle import read_js
 
 import routes.characters.ai_routes as ai
-from js_bundle import read_js
 
 
 def png_data_url(w=1200, h=900, color=(90, 60, 30)):
@@ -159,6 +159,7 @@ class TestKeylessProvider:
     def test_request_url_carries_no_credentials(self, monkeypatch):
         """Pollinations is keyless — no api_key, no Authorization header."""
         import asyncio
+
         import httpx
 
         seen = {}
@@ -185,6 +186,7 @@ class TestKeylessProvider:
 
     def test_rate_limit_is_reported_not_swallowed(self, monkeypatch):
         import asyncio
+
         import httpx
 
         class _Resp:

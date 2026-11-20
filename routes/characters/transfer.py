@@ -6,11 +6,11 @@ account transfer, and sharing builds. Whitelist-based: only known
 characters-table columns are accepted, user_id is always the importer.
 """
 
-from fastapi import APIRouter, Request, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse, Response
 
-from core.security import require_user, _require_owned
 from core.db import get_db
+from core.security import _require_owned, require_user
 
 router = APIRouter()
 

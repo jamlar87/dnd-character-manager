@@ -10,6 +10,7 @@ stay identical, because filterSpells() matches on them.
 import json
 import re
 from pathlib import Path
+
 from js_bundle import read_js
 
 ROOT = Path(__file__).resolve().parent.parent

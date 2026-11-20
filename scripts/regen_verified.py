@@ -21,8 +21,8 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 os.chdir(ROOT)
 
-from services.topology_verify import expected_from_clause, generate_verified  # noqa: E402
 from services import ref_portraits as rp  # noqa: E402
+from services.topology_verify import generate_verified  # noqa: E402
 
 #: cli name -> ref_portraits KINDS key. generate_verified only reads a clause for kind="creature";
 #: passing anything else silently skips every name ("no countable anatomy in clause").

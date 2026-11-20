@@ -37,7 +37,7 @@ HERE = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE / "scripts"))
 
-from audit_ingest_attribution import load_pages, name_on_pages, NON_BOOK_SOURCES  # noqa: E402
+from audit_ingest_attribution import NON_BOOK_SOURCES, load_pages, name_on_pages  # noqa: E402
 from repair_page_citations import find_in_book  # noqa: E402
 
 CATEGORIES = ("races", "spells", "magic_items", "equipment", "monsters",
@@ -217,7 +217,7 @@ def main() -> int:
     # Apply: page fixes rewrite the number; re-attributions change the book and the display.
     touched = Counter()
     skipped_book: list[str] = []
-    for cat, name, slug, cited, target, it in page_fixes:
+    for cat, _name, _slug, _cited, target, it in page_fixes:
         it["source"] = re.sub(r"p\.\d+\)$", f"p.{target})", str(it["source"]))
         touched[cat] += 1
 

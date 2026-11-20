@@ -1,12 +1,12 @@
 """Password hashing, cookie sessions and per-row ownership checks."""
 from __future__ import annotations
 
+import os
+from urllib.parse import quote, urlsplit
+
 from fastapi import HTTPException, Request
 
 from core import config  # DB_PATH / SESSION_TTL_DAYS are read live (tests repoint them)
-from urllib.parse import quote, urlsplit
-
-import os
 
 # Where a post-login bounce may land. A login redirect that always went to
 # /dashboard dropped the ?next= a handoff carried, so a hero built for a

@@ -2,17 +2,17 @@
 
 """Character routes — create, sheet, level-up, spells, combat, relationships."""
 
-from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import JSONResponse
 import json
 import logging
 
-from core.security import require_user, _require_owned, _is_admin, _user_dms_character
+from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import JSONResponse
+
+from core.data import SRD_MAGIC_ITEMS
 from core.db import get_db
 from core.features import _resolve_item_key
-from core.data import SRD_MAGIC_ITEMS
+from core.security import _is_admin, _require_owned, _user_dms_character, require_user
 from services.campaign_access import is_dm_of_campaign
-
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -31,9 +31,9 @@ def _parse_roster(row_characters, where: str):
     """
     try:
         chars = json.loads(row_characters or "[]")
-    except (json.JSONDecodeError, TypeError):
+    except (json.JSONDecodeError, TypeError) as exc:
         logger.exception("Corrupt campaign roster in %s: %r", where, row_characters)
-        raise HTTPException(status_code=500, detail="Campaign roster data is corrupt")
+        raise HTTPException(status_code=500, detail="Campaign roster data is corrupt") from exc
     if not isinstance(chars, list):
         logger.error("Campaign roster in %s is %s, not a list: %r",
                      where, type(chars).__name__, row_characters)
@@ -48,8 +48,8 @@ def _int_field(data, key: str, default: int, lo: int, hi: int, *, label: str | N
         raw = default
     try:
         value = int(raw)
-    except (TypeError, ValueError):
-        raise ValueError(f"{label or key} must be an integer")
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"{label or key} must be an integer") from exc
     return max(lo, min(hi, value))
 
 
@@ -63,8 +63,8 @@ def _pos_qty(data, key: str = "qty") -> int:
     raw = data.get(key, 1)
     try:
         value = int(raw)
-    except (TypeError, ValueError):
-        raise ValueError(f"{key} must be an integer")
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"{key} must be an integer") from exc
     if value < 1:
         raise ValueError(f"{key} must be at least 1")
     return min(value, MAX_ITEM_QTY)
@@ -217,7 +217,8 @@ MAGIC_TABLE_POOLS = {
 
 def _roll_dice(expr: str) -> int:
     """Roll a dice expression like '3d6*100' or '2d4' or '1'."""
-    import random, re
+    import random
+    import re
     expr = expr.strip()
     if expr.isdigit():
         return int(expr)

@@ -15,8 +15,7 @@ The rules below are deliberately conservative. A prompt that says nothing leaves
 something plausible; a prompt that says something WRONG fights the model. So absent evidence means
 absent detail, and 293 of 799 records intentionally carry no gender.
 """
-from services import ref_portraits, portraits
-
+from services import portraits, ref_portraits
 
 # --- gender -------------------------------------------------------------------------------------
 

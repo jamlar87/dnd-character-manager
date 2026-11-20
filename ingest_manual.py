@@ -20,7 +20,13 @@ Data extracted: races, subraces, racial traits, spells, magic items,
 """
 from __future__ import annotations
 
-import json, os, re, sys, time, urllib.request, urllib.error
+import json
+import os
+import re
+import sys
+import time
+import urllib.error
+import urllib.request
 from pathlib import Path
 from typing import Any
 
@@ -607,7 +613,7 @@ def discover_manuals() -> list[dict]:
     # Pass 2: slugs + metadata (stable order by title)
     seen_slugs: dict[str, int] = {}
     manuals = []
-    for key, f in sorted(best.items()):
+    for _key, f in sorted(best.items()):
         title = f.stem.replace("_", " ").replace("-", " ").replace("  ", " ").strip()
 
         # Derive short slug/label, guarantee uniqueness
@@ -2396,7 +2402,7 @@ def _detect_from_toc(pdf_path: Path) -> list[dict] | None:
 
         # Collect top-level (L1) entries as chapters
         chapters = []
-        for i, (level, title, page) in enumerate(toc):
+        for _i, (level, title, page) in enumerate(toc):
             if level != 1:
                 continue
             # Clean title
@@ -2434,7 +2440,7 @@ def _detect_from_text(text: str) -> list[dict] | None:
         return None
 
     chapters = []
-    for i, m in enumerate(matches):
+    for _i, m in enumerate(matches):
         page = int(m.group(1))
         ch_num = m.group(2)
         title = f"Chapter {ch_num}"
@@ -3117,7 +3123,7 @@ def _normalize_merged_sources(merged: dict) -> None:
     page_re = re.compile(r'(?:p\.?\s*|page\s+)(\d+)', re.IGNORECASE)
     
     fixed = 0
-    for cat, items in merged.items():
+    for _cat, items in merged.items():
         for item in items:
             src = (item.get("source") or "").strip()
             slug = (item.get("_source_manual") or "").strip()
@@ -3161,7 +3167,6 @@ def _apply_post_merge_fixups(output_dir: Path) -> None:
     that the LLM extraction can't reliably produce from PDF text.
     Edit the fixup data below as new gaps are discovered.
     """
-    import re
     
     # ── Equipment: remove garbled entries, fill known costs ──────────
     equip_path = output_dir / "equipment.json"

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Brute-force find exact pages for missing backgrounds."""
-import fitz, re
 from pathlib import Path
+
+import fitz
 
 MANUAL_DIR = Path("/media/james/SlowDisk1tb/dnd-character-manager/manuals/DnD-Manuals")
 

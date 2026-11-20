@@ -8,21 +8,27 @@ all.py (avoids circulars).
 
 import json
 
-from fastapi import APIRouter, Request, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse
 
-from core.security import require_user, _require_owned
-from core.db import get_db, _json_list
-from core.data import _equipped_names, _normalize_equipped, PREPARED_CASTERS, SPELL_DICE, SRD_SPELLS, SUBCLASS_FEATURES
+from core.data import (
+    PREPARED_CASTERS,
+    SPELL_DICE,
+    SRD_SPELLS,
+    SUBCLASS_FEATURES,
+    _equipped_names,
+    _normalize_equipped,
+)
+from core.db import _json_list, get_db
+from core.security import _require_owned, require_user
 from data import SPELLS_KNOWN_CASTERS
-from services.rules import ability_mod
 from routes.schemas import AddSpell
 from services.leveling import (
     MAGIC_INITIATE_CLASSES,
     _scaled_dice_display,
     get_spell_slots,
-    get_srd_spells_for_class,
 )
+from services.rules import ability_mod
 
 router = APIRouter()
 @router.post("/api/character/{char_id}/add-spell", response_class=JSONResponse)
@@ -274,7 +280,6 @@ async def save_feat_config(char_id: int, request: Request):
 def available_spells(char_id: int, request: Request):
     """Return spells this character can learn — filtered by class, level, race, subclass.
     Excludes spells already known."""
-    import re
     user = require_user(request)
     db = get_db()
     row = _require_owned(db, user, "characters", char_id)

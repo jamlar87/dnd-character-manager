@@ -16,9 +16,10 @@ services.leveling must hand back the SAME object.
 
 from __future__ import annotations
 
+import pytest
+
 import data
 import main
-import pytest
 from services import leveling as leveling_service
 
 TABLES = (

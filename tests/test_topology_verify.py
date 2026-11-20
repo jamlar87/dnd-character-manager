@@ -10,9 +10,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from services.topology_verify import expected_from_clause, score, _vlm_prompt, parse_counts  # noqa: E402
-import services.topology_verify as tv  # noqa: E402
 import services.ref_portraits as rp  # noqa: E402
+import services.topology_verify as tv  # noqa: E402
+from services.topology_verify import _vlm_prompt, expected_from_clause, parse_counts, score  # noqa: E402
 
 
 def test_unreadable_counts_never_beat_a_bad_baseline(tmp_path, monkeypatch):

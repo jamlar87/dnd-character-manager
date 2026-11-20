@@ -42,6 +42,7 @@ def thumbnail_bytes(blob: bytes, size: int) -> tuple[bytes, str] | None:
         return None
     try:
         import io
+
         from PIL import Image
         img = Image.open(io.BytesIO(blob))
         img.load()
@@ -140,6 +141,7 @@ def fit_blob(blob: bytes, max_px: int, quality: int = 90) -> tuple[bytes, str, i
     """
     try:
         import io
+
         from PIL import Image
         img = Image.open(io.BytesIO(blob))
         img.load()
@@ -168,6 +170,7 @@ def _media_of(blob: bytes) -> str:
     """The media type of an image we are passing through unchanged."""
     try:
         import io
+
         from PIL import Image
         fmt = (Image.open(io.BytesIO(blob)).format or "PNG").lower()
     except Exception:

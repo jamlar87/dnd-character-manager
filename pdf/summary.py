@@ -2,13 +2,15 @@
 
 import os
 
+
 def generate_ai_summary_pdf(query: str, summary: str, sources: list[dict]) -> bytes:
     """Generate a clean printable PDF for an AI manual search summary."""
     import tempfile
-    from reportlab.lib.pagesizes import letter
-    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, HRFlowable
+
     from reportlab.lib.colors import HexColor
+    from reportlab.lib.pagesizes import letter
+    from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+    from reportlab.platypus import HRFlowable, Paragraph, SimpleDocTemplate, Spacer
 
     path = tempfile.mktemp(suffix=".pdf")
     doc = SimpleDocTemplate(path, pagesize=letter,

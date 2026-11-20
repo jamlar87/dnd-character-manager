@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Gap analysis across all source books."""
 import json
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 MANUAL = Path("/home/james/dnd-character-manager/data/manual_data")
 SRD = Path("/home/james/dnd-character-manager/data/srd_cache")
@@ -87,7 +87,7 @@ xge_set = set(xge_list)
 in_any = xge_set & (all_spell_names | srd_names)
 missing = xge_set - in_any
 
-print(f"=== XGE SPELLS DEEP CHECK ===")
+print("=== XGE SPELLS DEEP CHECK ===")
 print(f"Total XGE spells: {len(xge_set)}")
 print(f"Found anywhere: {len(in_any)}")
 print(f"TRULY MISSING: {len(missing)}")
@@ -95,7 +95,7 @@ for n in sorted(missing):
     print(f"  x {n.title()}")
 
 # Check Maximillian variant
-print(f"\n=== NAME VARIANTS TO FIX ===")
+print("\n=== NAME VARIANTS TO FIX ===")
 maxim_variants = [s for s in spells if 'maxim' in s.get('name','').lower()]
 for s in maxim_variants:
     print(f"  '{s['name']}' -> should be 'Maximillian's Earthen Grasp'")

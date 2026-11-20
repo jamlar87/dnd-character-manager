@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """Audit all source books: compare PDF contents against ingested data."""
-import fitz, json, re, sys
-from pathlib import Path
+import json
+import re
 from collections import defaultdict
+from pathlib import Path
+
+import fitz
 
 MANUAL_DATA = Path("/home/james/dnd-character-manager/data/manual_data")
 MANUALS_DIR = (Path(__file__).resolve().parent.parent / "manuals").resolve()
@@ -206,7 +209,7 @@ for book_slug in sorted(set(list(EXPECTED.keys()) + list(our_data.keys()))):
             if total < exp_count:
                 print(f"    ⚠ Might be missing ~{exp_count - total}")
             else:
-                print(f"    ✓")
+                print("    ✓")
             continue
         
         # For PHB: most data comes from SRD
@@ -220,7 +223,7 @@ for book_slug in sorted(set(list(EXPECTED.keys()) + list(our_data.keys()))):
                 if our_count < exp_count:
                     print(f"    ⚠ Missing {exp_count - our_count} feats")
                 elif our_count >= exp_count:
-                    print(f"    ✓ (includes extras from other sources)")
+                    print("    ✓ (includes extras from other sources)")
                 continue
         
         # Standard comparison

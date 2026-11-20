@@ -2,7 +2,8 @@
 bonus-action detection)."""
 
 from routes.characters.sheet import (
-    _grants_bonus_action, compute_item_effects,
+    _grants_bonus_action,
+    compute_item_effects,
 )
 
 
@@ -128,9 +129,10 @@ class TestFeatureActionTypeCoverage:
         either exact, or after stripping the trailing parenthetical suffix
         (the render lookup does the same _clean_key strip)."""
         import re
+
         from services.data_loader import load_manual_data
         load_manual_data()
-        from data import LIMITED_USE, FEATURE_ACTION_TYPES
+        from data import FEATURE_ACTION_TYPES, LIMITED_USE
         _clean = lambda k: re.sub(r'\s*\([^)]*\)\s*$', '', k).strip()
         missing = sorted(
             k for k in LIMITED_USE
@@ -171,8 +173,9 @@ class TestRiderCalloutCards:
         """A RIDER_CARDS entry must not be a feature that already renders as a
         tracked button or Bonus Action/Reaction entry — that double-surfaces it
         (Slayer's Prey bug: FAT Bonus Action + rider card)."""
-        from data import RIDER_CARDS, FEATURE_ACTION_TYPES, LIMITED_USE
         import re as _re
+
+        from data import FEATURE_ACTION_TYPES, LIMITED_USE, RIDER_CARDS
         _clean = lambda k: _re.sub(r'\s*\([^)]*\)\s*$', '', k).strip()
         for key in RIDER_CARDS:
             fat = FEATURE_ACTION_TYPES.get(key) or FEATURE_ACTION_TYPES.get(_clean(key))

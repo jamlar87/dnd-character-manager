@@ -18,9 +18,13 @@ import sqlite3
 import pytest
 
 pypdf = pytest.importorskip("pypdf")
-from pdf_generator import build_char_data, fill_official_sheet, _get_spell_cache
-from pdf_generator import _build_spell_appendix_text, _build_condensed_features
-
+from pdf_generator import (
+    _build_condensed_features,
+    _build_spell_appendix_text,
+    _get_spell_cache,
+    build_char_data,
+    fill_official_sheet,
+)
 
 # ── Helpers ────────────────────────────────────────────────────────────────
 

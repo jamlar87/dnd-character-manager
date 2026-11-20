@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Add missing TCSR monsters from Chapter 6 that weren't auto-extracted."""
-import json, sys, os
+import json
+import os
+import sys
 
 DATA_DIR = '/home/james/dnd-character-manager/data/manual_data'
 
@@ -570,7 +572,7 @@ make("Champion of Ravens",
 with open(os.path.join(DATA_DIR, 'monsters.json'), 'w') as f:
     json.dump(monsters, f, indent=2)
 
-print(f"\n=== Summary ===")
+print("\n=== Summary ===")
 print(f"Added: {len(added)} monsters")
 print(f"Total in file: {len(monsters)}")
-print(f"Source: TCSR (Tal'Dorei Campaign Setting Reborn)")
+print("Source: TCSR (Tal'Dorei Campaign Setting Reborn)")

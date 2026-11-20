@@ -155,6 +155,7 @@ class TestToggleAttuneRoute:
 
     def test_non_owner_cannot_attune(self, client, seeded_db, auth_headers):
         import secrets
+
         from core.security import _hash
 
         cid = make_char(seeded_db, "Somebody Elses Ring",

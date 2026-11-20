@@ -13,8 +13,8 @@ Run: python3 scripts/normalize_sources.py [--dry-run] [--verbose]
 import json
 import re
 import sys
-from pathlib import Path
 from collections import Counter
+from pathlib import Path
 
 HERE = Path(__file__).resolve().parent.parent
 MANUAL_DATA = HERE / "data" / "manual_data"

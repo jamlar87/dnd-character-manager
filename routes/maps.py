@@ -24,9 +24,9 @@ from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 
 from core.config import STATIC
-from core.security import require_user, get_current_user, _require_owned, _is_admin, _user_where
-from core.http import _render
 from core.db import get_db
+from core.http import _render
+from core.security import _is_admin, _require_owned, _user_where, get_current_user, require_user
 from services.images import decode_data_url, fit_blob
 from services.map_grid import hex_cell_key, snap_hex
 from services.map_grid import round_half_up as _grid_round_half_up
@@ -356,8 +356,9 @@ async def dm_map_thumb(map_id: int, request: Request, size: int = 96):
     hash, so replacing a map's art changes the URL — which is what makes a year-long immutable
     cache safe here where the reference portraits deliberately keep theirs short.
     """
-    from fastapi.responses import Response
     from pathlib import Path as _P
+
+    from fastapi.responses import Response
     from starlette.concurrency import run_in_threadpool
 
     from services.images import thumbnail_bytes
@@ -506,7 +507,7 @@ async def dm_map_update(map_id: int, request: Request):
             stored_row = db.execute("SELECT grid_size, grid_offset_x, grid_offset_y, grid_type "
                                     "FROM dm_maps WHERE id = ?", (map_id,)).fetchone()
             stored = dict(zip(("grid_size", "grid_offset_x", "grid_offset_y", "grid_type"),
-                              tuple(stored_row))) if stored_row else {}
+                              tuple(stored_row), strict=False)) if stored_row else {}
             changed = False
             for k in grid_keys:
                 if k in data and k in stored:
@@ -1149,7 +1150,7 @@ async def dm_map_spawn_encounter(map_id: int, request: Request):
             "SELECT COUNT(*) FROM dm_map_tokens WHERE map_id = ?", (map_id,)).fetchone()[0]
         placed = todo[:max(0, room)]
         spots = _spawn_layout(len(placed), map_row, viewport)
-        for p, (x, y) in zip(placed, spots):
+        for p, (x, y) in zip(placed, spots, strict=False):
             db.execute(
                 "INSERT INTO dm_map_tokens (map_id, x, y, w, h, kind, ref_name, label, hp_current, "
                 "hp_max, hidden, z, encounter_en_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -1322,6 +1323,7 @@ async def dm_map_player_stream(map_id: int, request: Request, k: str = ""):
     import asyncio
 
     from fastapi.responses import StreamingResponse
+
     from services import events
 
     db = get_db()

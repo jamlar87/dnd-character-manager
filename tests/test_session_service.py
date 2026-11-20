@@ -3,8 +3,12 @@
 import sqlite3
 
 import services.sessions as sessions_mod
-from services.sessions import (create_session, get_user_by_token, invalidate_user_sessions,
-                               sweep_expired_sessions)
+from services.sessions import (
+    create_session,
+    get_user_by_token,
+    invalidate_user_sessions,
+    sweep_expired_sessions,
+)
 
 
 def db_with_schema(tmp_path):

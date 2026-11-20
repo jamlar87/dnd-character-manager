@@ -168,6 +168,7 @@ class TestStaticAssetsAreCacheable:
 
     def test_sheet_js_url_matches_the_file_on_disk(self, client, seeded_db, auth_headers):
         import hashlib
+
         from core.http import SHEET_JS_PARTS, static_bundle_version
         cid = make_char(seeded_db, "Hash Probe")
         html = client.get(f"/character/{cid}", headers=auth_headers).text

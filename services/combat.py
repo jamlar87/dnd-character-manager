@@ -10,7 +10,10 @@ from __future__ import annotations
 import json
 
 from data import (
-    CLASSES, DRACONIC_ANCESTRIES, RACES, RACIAL_TRAIT_DESCS,
+    CLASSES,
+    DRACONIC_ANCESTRIES,
+    RACES,
+    RACIAL_TRAIT_DESCS,
     RACIAL_TRAIT_EFFECTS,
 )
 from services.items import _resolve_item_key
@@ -91,7 +94,7 @@ def get_racial_trait_effects(race_name: str, subrace: str = "", ancestry: str = 
 
 def _build_racial_traits(char: dict) -> list:
     """Build a list of {name, desc, source} for the character's race and subrace traits."""
-    from core.data import SUBRACE_TRAITS, _TRAIT_DICE, _trait_page_map
+    from core.data import _TRAIT_DICE, SUBRACE_TRAITS, _trait_page_map
     result = []
     race_name = char.get("race", "")
     subrace = char.get("subrace", "")

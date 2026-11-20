@@ -11,8 +11,8 @@ import io
 import pathlib
 
 import pytest
-from PIL import Image
 from js_bundle import read_js
+from PIL import Image
 
 APP = pathlib.Path(__file__).resolve().parent.parent
 

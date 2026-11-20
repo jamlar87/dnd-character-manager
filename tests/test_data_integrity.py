@@ -5,8 +5,16 @@ LIMITED_USE, FEAT_BY_NAME, etc.) are internally consistent and well-formed.
 These tests do NOT need a database or a running server.
 """
 
-from core.constants import RACES, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, FEATS, FEAT_BY_NAME
-from core.constants import ABILITY_NAMES, ALIGNMENTS
+from core.constants import (
+    ABILITY_NAMES,
+    ALIGNMENTS,
+    CLASSES,
+    FEAT_BY_NAME,
+    FEATS,
+    LIMITED_USE,
+    RACES,
+    SUBCLASS_FEATURES,
+)
 
 # Lowercase ability names for case-insensitive checks
 ABILITY_NAMES_LOWER = {a.lower() for a in ABILITY_NAMES}
@@ -21,7 +29,7 @@ class TestRaces:
 
     def test_each_race_has_required_keys(self):
         required = {"asi", "speed", "languages", "desc", "subrace_descs"}
-        for name, data in RACES.items():
+        for _name, data in RACES.items():
             missing = required - set(data.keys())
             if missing:
                 # Non-PHB races may omit some keys — warn but don't fail
@@ -154,7 +162,7 @@ class TestBackgrounds:
     """BACKGROUNDS must be well-formed."""
 
     def test_backgrounds_is_list(self):
-        from core.constants import BACKGROUNDS, BACKGROUND_INFO
+        from core.constants import BACKGROUND_INFO, BACKGROUNDS
         assert isinstance(BACKGROUNDS, list)
         assert len(BACKGROUNDS) >= 10
         assert isinstance(BACKGROUND_INFO, dict)

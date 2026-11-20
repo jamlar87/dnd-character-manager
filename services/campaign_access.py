@@ -34,9 +34,9 @@ def parse_campaign_roster(raw, where: str = "campaign") -> list:
     """
     try:
         chars = json.loads(raw or "[]")
-    except (json.JSONDecodeError, TypeError):
+    except (json.JSONDecodeError, TypeError) as exc:
         logger.exception("Corrupt campaign roster in %s: %r", where, raw)
-        raise HTTPException(status_code=500, detail="Campaign roster data is corrupt")
+        raise HTTPException(status_code=500, detail="Campaign roster data is corrupt") from exc
     if not isinstance(chars, list):
         logger.error("Campaign roster in %s is %s, not a list: %r",
                      where, type(chars).__name__, raw)

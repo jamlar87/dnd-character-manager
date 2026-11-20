@@ -22,7 +22,6 @@ import pytest
 from core.constants import EXPERTISE_LEVELS
 from services.leveling import get_expertise_count, get_expertise_options
 
-
 # ── helpers (mirrors tests/test_name_and_scope_regressions.py) ──────────────
 
 def _connect(seeded_db):

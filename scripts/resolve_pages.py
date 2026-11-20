@@ -11,7 +11,6 @@ import json
 import re
 import sys
 from pathlib import Path
-from collections import Counter
 
 try:
     import fitz  # pymupdf

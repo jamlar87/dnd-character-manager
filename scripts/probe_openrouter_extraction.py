@@ -83,7 +83,7 @@ def main() -> int:
     counts = {k: len(v) for k, v in (parsed or {}).items() if isinstance(v, list) and v}
     low = (raw or "").lower()
     races = [r.get("name") for r in (parsed or {}).get("races", []) if isinstance(r, dict)]
-    print(f"\ngemini-2.5-flash (free tier)")
+    print("\ngemini-2.5-flash (free tier)")
     print(f"  {time.time() - t0:.1f}s | parsed={bool(parsed)} | items={counts}")
     print(f"  Tortle={'tortle' in low} claws dice={('1d6' in low or '1d4' in low)} "
           f"Nature's Intuition={('nature' + chr(39) + 's intuition') in low}")

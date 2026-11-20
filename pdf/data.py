@@ -3,7 +3,6 @@
 import json
 
 from .text import (
-    mod_int,
     _build_condensed_features,
     _build_equipment_appendix_text,
     _build_full_feature_text,
@@ -11,7 +10,9 @@ from .text import (
     _build_short_features_text,
     _build_spell_appendix_text,
     _build_summons_appendix_text,
+    mod_int,
 )
+
 
 # ═══════════════════════════════════════════════════════════════
 #  DATA BUILDER

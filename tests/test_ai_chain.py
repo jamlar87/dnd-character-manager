@@ -5,7 +5,6 @@ the one 'AI test' monkeypatched `_call_ai` away — so every failure degraded to
 looked like a successful generation (measured 0/5 usable, Oct 2026).
 """
 import asyncio
-import json
 import sys
 from pathlib import Path
 
@@ -153,7 +152,6 @@ def test_a_hanging_tier_is_abandoned_and_the_next_one_runs(monkeypatch):
     monkeypatch.setattr(ai_routes, "_call_openrouter", hangs)
     monkeypatch.setattr(ai_routes, "_call_gemini", quick)
     monkeypatch.setattr(ai_routes, "_call_ollama", quick)
-    t0 = asyncio.get_event_loop_policy().new_event_loop().time
     out = asyncio.run(ai_routes._call_ai(JSON_PROMPT))
     assert out == '{"name": "Quick"}', "a hung tier must not hold the request open"
 

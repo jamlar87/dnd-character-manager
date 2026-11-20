@@ -13,7 +13,7 @@ Two defects this file pins down, both of which reached the wizard:
 """
 import re
 
-from data import CLASSES, SUBCLASS_FEATURES, FEATURE_ACTION_TYPES, LIMITED_USE
+from data import CLASSES, FEATURE_ACTION_TYPES, LIMITED_USE, SUBCLASS_FEATURES
 from services.data_loader import (
     _existing_subclass_name,
     _subclass_name_key,

@@ -1,5 +1,8 @@
 """Fetch and cache D&D 5e 2014 SRD class level data from dnd5eapi.co."""
-import json, sys, os
+import json
+import os
+import sys
+
 import httpx
 
 API_BASE = "https://www.dnd5eapi.co/api/2014"

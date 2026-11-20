@@ -6,11 +6,11 @@ from main and ai_routes only — never from all.py (avoids circulars).
 
 import json
 
-from fastapi import APIRouter, Request, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse
 
-from core.security import require_user
 from core.db import get_db
+from core.security import require_user
 from routes.characters.ai_routes import _call_ai, _extract_json
 
 router = APIRouter()

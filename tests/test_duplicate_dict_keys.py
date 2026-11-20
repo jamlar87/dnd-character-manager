@@ -40,7 +40,7 @@ def _duplicate_keys(text: str):
         if not isinstance(node, ast.Dict):
             continue
         seen = {}
-        for key_node, value_node in zip(node.keys, node.values):
+        for key_node, value_node in zip(node.keys, node.values, strict=False):
             if not isinstance(key_node, ast.Constant):
                 continue
             key = repr(key_node.value)
@@ -75,7 +75,7 @@ def _chapter_aliases() -> dict:
             and getattr(node.targets[0], "id", "") == "_chapter_aliases"
             and isinstance(value, ast.Dict)
         ):
-            return {k.value: ast.literal_eval(v) for k, v in zip(value.keys, value.values)}
+            return {k.value: ast.literal_eval(v) for k, v in zip(value.keys, value.values, strict=False)}
     raise AssertionError("_chapter_aliases not found in main.py")
 
 

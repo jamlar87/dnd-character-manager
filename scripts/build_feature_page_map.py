@@ -159,10 +159,11 @@ def class_and_trait_pages():
 
 
 def main_() -> int:
-    import data as app_data            # noqa: PLC0415
-    import routes.characters           # noqa: F401,PLC0415  (runs the merges)
+    from collections import Counter  # noqa: PLC0415
+
+    import data as app_data  # noqa: PLC0415
+    import routes.characters  # noqa: F401,PLC0415  (runs the merges)
     import routes.characters.all as allmod  # noqa: PLC0415
-    from collections import Counter     # noqa: PLC0415
     live = app_data.FEATURE_DESCRIPTIONS
     sub_desc = {norm(k): v for k, v in (allmod.SUBCLASS_FEATURE_DESCRIPTIONS or {}).items()}
     cd_desc = {norm(k): v for k, v in (allmod.CHANNEL_DIVINITY_DESCRIPTIONS or {}).items()}

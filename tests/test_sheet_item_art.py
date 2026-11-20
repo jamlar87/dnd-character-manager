@@ -20,7 +20,6 @@ import re
 from pathlib import Path
 
 import pytest
-
 from js_bundle import read_js  # noqa: E402
 
 SHEET_JS = read_js("sheet.js")

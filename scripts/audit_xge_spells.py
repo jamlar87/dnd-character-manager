@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Deep audit: XGE spells comparison."""
-import json, fitz
+import json
 from pathlib import Path
 
 MANUAL = Path("/home/james/dnd-character-manager/data/manual_data")

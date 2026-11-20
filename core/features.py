@@ -6,13 +6,23 @@ that does not drag in the FastAPI app.
 from __future__ import annotations
 
 from services.combat import (
-    get_racial_trait_effects, _build_racial_traits, _subrace_traits,
-    _build_inventory_attacks, _build_character_attacks,
-    _build_charged_item_attacks, get_character_armor_profs, _resolve_armor_item,
-    check_armor_proficiency_from_set, _parse_enhancement,
+    _build_character_attacks,
+    _build_charged_item_attacks,
+    _build_inventory_attacks,
+    _build_racial_traits,
+    _parse_enhancement,
+    _resolve_armor_item,
+    _subrace_traits,
+    check_armor_proficiency_from_set,
+    get_character_armor_profs,
+    get_racial_trait_effects,
 )
 from services.items import (
-    _resolve_item_key, _build_item_description, _build_item_type,
-    _resolve_source, _extract_srd_dice, _item_rarity_for_level,
+    _build_item_description,
+    _build_item_type,
+    _extract_srd_dice,
+    _item_rarity_for_level,
+    _resolve_item_key,
+    _resolve_source,
 )
 from services.leveling import enrich_features, get_caster_type, get_spell_slots

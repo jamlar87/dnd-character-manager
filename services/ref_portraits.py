@@ -20,14 +20,13 @@ tier with rate limits.
 
 from __future__ import annotations
 
-import os
-
 import asyncio
 import hashlib
+import json
+import os
 import re
 import threading
 import time
-import json
 from pathlib import Path
 
 STATIC = Path(__file__).resolve().parent.parent / "static"
@@ -1464,7 +1463,7 @@ _BEAST_EPITHET = {
     "gull", "crow", "raven", "hawk", "falcon", "eagle", "owl", "sparrow", "wren", "swan", "heron",
     "crane", "stork", "vulture", "kite", "magpie", "jackdaw", "starling", "finch", "lark", "robin",
     "wolf", "fox", "bear", "boar", "stag", "hart", "lion", "tiger", "panther", "lynx", "badger",
-    "otter", "hare", "rabbit", "rat", "mouse", "weasel", "marten", "hound", "hound", "bull", "ram",
+    "otter", "hare", "rabbit", "rat", "mouse", "weasel", "marten", "hound", "bull", "ram",
     "goat", "horse", "stallion", "mare", "snake", "serpent", "adder", "viper", "cobra", "spider",
     "scorpion", "crab", "shark", "eel", "pike", "trout", "salmon", "tuna", "ray", "whale", "seal",
     "moth", "beetle", "hornet", "wasp", "locust",
@@ -1707,8 +1706,9 @@ def save(kind: str, name: str, data_url: str) -> int:
     # so the fallback below (`out = blob`) committed whatever arrived, verbatim, as `<slug>.webp`:
     # an HTML error page sent with an image content-type became permanent, `have()` said True
     # forever, nothing retried it, and the user saw a broken tile with no error anywhere.
-    from PIL import Image
     import io as _io
+
+    from PIL import Image
     try:
         with Image.open(_io.BytesIO(blob)) as probe:
             probe.verify()
@@ -1755,8 +1755,11 @@ async def generate(kind: str, name: str, subtitle: str = "", snippet: str = "",
             return None, "already generating"
         _INFLIGHT.add(key)
     try:
-        from services.portraits import (generate_portrait_image, COMFY_NEGATIVE_LIVING,
-                                        PORTRAIT_PROVIDER)
+        from services.portraits import (
+            COMFY_NEGATIVE_LIVING,
+            PORTRAIT_PROVIDER,
+            generate_portrait_image,
+        )
         width, height = KINDS[kind]
         prompt = prompt_for(kind, name, subtitle, snippet)
         # Creatures and NPCs are mostly humanoids, so the item negative prompt's "people, humans" ban

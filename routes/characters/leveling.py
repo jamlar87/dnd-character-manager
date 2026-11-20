@@ -12,39 +12,82 @@ import re
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 
-from core.security import require_user, HTTPException
-from core.db import get_db
-from core.data import ABILITY_NAMES, ASI_LEVELS, CLASSES, EXPERTISE_LEVELS, FEATS, FEAT_BY_NAME, INVOCATION_OPTIONS, MULTICLASS_PREREQS, PREPARED_CASTERS, SRD_LEVELS, SRD_SPELLS, SUBCLASS_FEATURE_REPLACEMENTS
-from data import (
-    ALL_SKILLS, FAVORED_ENEMY_OPTIONS, FAVORED_TERRAIN_OPTIONS,
-    HUNTERS_PREY_OPTIONS, INFUSION_OPTIONS, LANGUAGES,
-    MANEUVER_OPTIONS, METAMAGIC_OPTIONS,
-    PACT_BOON_OPTIONS, SPELLS_KNOWN_CASTERS,
-    SUBCLASS_LEVELS, TOTEM_SPIRIT_OPTIONS,
+from core.data import (
+    ABILITY_NAMES,
+    ASI_LEVELS,
+    CLASSES,
+    EXPERTISE_LEVELS,
+    FEAT_BY_NAME,
+    FEATS,
+    INVOCATION_OPTIONS,
+    MULTICLASS_PREREQS,
+    PREPARED_CASTERS,
+    SRD_LEVELS,
+    SRD_SPELLS,
+    SUBCLASS_FEATURE_REPLACEMENTS,
 )
-from services.leveling import (
-    enrich_features, get_caster_type, get_spell_slots,
-    get_character_spell_slots, get_class_features, get_expertise_count,
-    get_expertise_options,
-    get_multiclass_proficiencies, get_spells_known_max, get_cantrips_known_max,
-    get_srd_spells_for_class, meets_multiclass_prereq, parse_class_levels,
-    total_level,
-    # Progression core helpers
-    ABILITY_PRIORITY, PROFICIENCY_BONUS, SUBCLASS_PROFICIENCIES,
-    _build_racial_limited_features, _deduplicate_multiclass_features,
-    # Level-up data constants (moved from all.py)
-    DOMAIN_SPELLS, FAVORED_ENEMY_LEVELS, FAVORED_TERRAIN_LEVELS,
-    FIGHTING_STYLES, FIGHTING_STYLE_LEVELS, FIGHTING_STYLE_OPTIONS,
-    HUNTERS_PREY_LEVELS, INFUSION_LEVELS, INFUSION_PICKS,
-    MAGICAL_SECRETS_LEVELS, MAGICAL_SECRETS_PICKS, MANEUVER_PICKS,
-    TOTEM_SPIRIT_LEVELS, TOTEM_SPIRIT_TIER_LABELS,
-    WARLOCK_EXPANDED_SPELLS_BY_LEVEL,
-    # Choice-system constants (shadow data.py versions)
-    METAMAGIC_LEVELS, METAMAGIC_PICKS,
-    INVOCATION_LEVELS, INVOCATION_PICKS,
-    PACT_BOON_LEVELS, MANEUVER_LEVELS,
+from core.db import get_db
+from core.security import HTTPException, require_user
+from data import (
+    ALL_SKILLS,
+    FAVORED_ENEMY_OPTIONS,
+    FAVORED_TERRAIN_OPTIONS,
+    HUNTERS_PREY_OPTIONS,
+    INFUSION_OPTIONS,
+    LANGUAGES,
+    MANEUVER_OPTIONS,
+    METAMAGIC_OPTIONS,
+    PACT_BOON_OPTIONS,
+    SPELLS_KNOWN_CASTERS,
+    SUBCLASS_LEVELS,
+    TOTEM_SPIRIT_OPTIONS,
 )
 from routes.schemas import ApplyLevelUp
+from services.leveling import (
+    # Progression core helpers
+    ABILITY_PRIORITY,
+    # Level-up data constants (moved from all.py)
+    DOMAIN_SPELLS,
+    FAVORED_ENEMY_LEVELS,
+    FAVORED_TERRAIN_LEVELS,
+    FIGHTING_STYLE_LEVELS,
+    FIGHTING_STYLE_OPTIONS,
+    FIGHTING_STYLES,
+    HUNTERS_PREY_LEVELS,
+    INFUSION_LEVELS,
+    INFUSION_PICKS,
+    INVOCATION_LEVELS,
+    INVOCATION_PICKS,
+    MAGICAL_SECRETS_LEVELS,
+    MAGICAL_SECRETS_PICKS,
+    MANEUVER_LEVELS,
+    MANEUVER_PICKS,
+    # Choice-system constants (shadow data.py versions)
+    METAMAGIC_LEVELS,
+    METAMAGIC_PICKS,
+    PACT_BOON_LEVELS,
+    PROFICIENCY_BONUS,
+    SUBCLASS_PROFICIENCIES,
+    TOTEM_SPIRIT_LEVELS,
+    TOTEM_SPIRIT_TIER_LABELS,
+    WARLOCK_EXPANDED_SPELLS_BY_LEVEL,
+    _build_racial_limited_features,
+    _deduplicate_multiclass_features,
+    enrich_features,
+    get_cantrips_known_max,
+    get_caster_type,
+    get_character_spell_slots,
+    get_class_features,
+    get_expertise_count,
+    get_expertise_options,
+    get_multiclass_proficiencies,
+    get_spell_slots,
+    get_spells_known_max,
+    get_srd_spells_for_class,
+    meets_multiclass_prereq,
+    parse_class_levels,
+    total_level,
+)
 from services.rules import ability_mod
 
 #: Every `characters` column EXCEPT the portrait blob (`portrait_url`, a multi-MB base64 data URL)

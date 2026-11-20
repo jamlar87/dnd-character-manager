@@ -4,8 +4,12 @@ main.py does heavy init at import time (loads JSON, builds indexes).
 We import it once at module scope so all tests share the initialized state.
 """
 
-import os, sqlite3, tempfile, pytest
+import os
+import sqlite3
+import tempfile
 from pathlib import Path
+
+import pytest
 
 # Point data dir to a test copy so we don't pollute the live DB
 HERE = Path(__file__).parent.parent
@@ -13,10 +17,10 @@ os.environ.setdefault("DND_DATA_DIR", str(HERE / "data"))
 
 # Import main — triggers all the SRD loading, data enrichment, etc.
 # This takes ~0.5s and runs once per test session.
+from fastapi.testclient import TestClient
+
 import main as app_module
 from main import app, init_db
-
-from fastapi.testclient import TestClient
 
 
 @pytest.fixture(autouse=True)

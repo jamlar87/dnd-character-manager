@@ -7,6 +7,7 @@ from services.rules import ability_mod
 
 from .shared import _get_item_description, _get_spell_cache
 
+
 def mod_int(score):
     return ability_mod(score)
 
@@ -305,7 +306,7 @@ def _build_spell_appendix_text(d):
     lines = []
     # Sort by level then name
     sorted_spells = sorted(spells, key=lambda s: (s[1], s[0].lower()))
-    for sp_name, sp_level, prepared in sorted_spells:
+    for sp_name, sp_level, _prepared in sorted_spells:
         sd = cache.get(sp_name.lower(), {})
         if not sd:
             lines.append(sp_name.upper())

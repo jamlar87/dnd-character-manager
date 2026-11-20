@@ -9,8 +9,8 @@ Output: data/spell_page_map.json
 import json
 import re
 import sys
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 try:
     import fitz
@@ -115,7 +115,6 @@ def resolve_source(source_str):
 def search_pdf_for_spell(pdf_path, spell_name, page_texts, is_phb=False):
     """Search page_texts for a spell name. Returns page number (1-indexed) or None."""
     name_lower = spell_name.lower().strip()
-    name_words = name_lower.split()
 
     # For PHB, also try the SRD→PHB name mapping
     search_names = [name_lower]
@@ -237,8 +236,8 @@ def main():
         print(f"\n--- Searching {pdf_filename} ({len(items)} spells) ---")
 
         if not HAS_FITZ:
-            print(f"  (no pymupdf, skipping)")
-            for key, name, display_prefix in items:
+            print("  (no pymupdf, skipping)")
+            for key, _name, display_prefix in items:
                 results[key] = {"page": None, "source_str": display_prefix}
             continue
 
@@ -266,7 +265,7 @@ def main():
     # Stats
     total_found = sum(1 for v in results.values() if v.get("page"))
     total_missing = len(results) - total_found
-    print(f"\n=== RESULTS ===")
+    print("\n=== RESULTS ===")
     print(f"Total spells: {len(results)}")
     print(f"With page numbers: {total_found}")
     print(f"Without page numbers: {total_missing}")

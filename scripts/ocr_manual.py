@@ -13,7 +13,11 @@ Uses pymupdf for rendering and pytesseract for OCR.
 Output filename matches the slug used by ingest_manual.py.
 """
 
-import os, sys, re, time
+import os
+import re
+import sys
+import time
+
 import fitz
 import pytesseract
 from PIL import Image
@@ -180,7 +184,7 @@ def check_all():
     for fname, bad, rate, size in sorted(dirty, key=lambda x: -x[1]):
         print(f"  {fname}: {bad} PUA chars ({rate:.1f}/KB), {size} bytes")
 
-    for fname, bad, rate, size in sorted(dirty, key=lambda x: -x[1]):
+    for fname, _bad, _rate, _size in sorted(dirty, key=lambda x: -x[1]):
         print(f"\n{'='*60}")
         print(f"Processing: {fname}")
         print(f"{'='*60}")

@@ -14,7 +14,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from services.pose_skeleton import main   # noqa: E402
+from services.pose_skeleton import main  # noqa: E402
 
 if __name__ == "__main__":
     raise SystemExit(main())

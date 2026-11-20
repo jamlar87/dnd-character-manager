@@ -1,24 +1,33 @@
 """The DM Tools page itself and the campaign page it links to."""
 
+import json
+from pathlib import Path
+
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import HTMLResponse
-import json
+
 import core.data as _core_data  # MANUALS_BASE is read live: tests repoint it
-from pathlib import Path
 from core.config import STATIC
-from core.security import require_user
-from core.http import DM_TOOLS_JS_PARTS, _render, static_asset_version, static_bundle_version
-from core.db import get_db
-from routes.characters import _load_monster_cache
-from services.text import alpha_key
-from services.reference_assets import ensure_source_slug_map_asset
 from core.data import (
-    _get_named_item_types, _get_source_slug_map, _load_manual_json, _scan_manual_pdfs,
-    MANUAL_TRAPS, SRD_SPELLS, ITEM_INDEX, SRD_MAGIC_ITEMS,
+    ITEM_INDEX,
+    MANUAL_TRAPS,
+    SRD_MAGIC_ITEMS,
+    SRD_SPELLS,
+    _get_named_item_types,
+    _get_source_slug_map,
+    _load_manual_json,
+    _scan_manual_pdfs,
 )
-from summon_templates import SUMMON_TEMPLATES
+from core.db import get_db
+from core.http import DM_TOOLS_JS_PARTS, _render, static_asset_version, static_bundle_version
+from core.security import require_user
+from routes.characters import _load_monster_cache
+from services.reference_assets import ensure_source_slug_map_asset
 from services.schema import HAS_PORTRAIT_SQL, hydrate_json_columns
 from services.sources import clean_source_display
+from services.text import alpha_key
+from summon_templates import SUMMON_TEMPLATES
+
 from ._shared import NPC_LIST_COLS, _manual_npc_hp
 
 router = APIRouter()

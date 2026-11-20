@@ -10,10 +10,11 @@ prompt builder and ONE provider implementation.
 """
 
 from __future__ import annotations
+
 import asyncio
+import base64
 import os
 import random
-import base64
 import re
 import urllib.parse
 from pathlib import Path

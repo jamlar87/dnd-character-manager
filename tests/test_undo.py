@@ -9,7 +9,6 @@ from __future__ import annotations
 import json
 import sqlite3
 
-import pytest
 from js_bundle import read_js
 
 
@@ -375,7 +374,6 @@ def test_a_defeated_player_goes_to_zero_hp_and_is_one_undo_away(seeded_db, clien
 def test_the_defeat_rule_lives_in_one_place_and_never_heals_on_un_tick():
     """Two client paths can bench a player (the row toggle and the bulk Save), so the rule is one
     helper both call. Un-ticking a box is not a resurrection: it must not write HP at all."""
-    import pathlib
 
     js = read_js("dm_tools.js")
     assert "async function defeatPlayerWriteThrough(" in js
@@ -391,7 +389,6 @@ def test_the_two_warts_the_live_probe_found_stay_fixed():
     """Both were visible only in the browser: the Undo button kept naming the PREVIOUS action after
     the tracker created a new one, and an undo that healed a benched player left them benched (a
     card at 51/51 wearing a skull — the same contradiction, pointing the other way)."""
-    import pathlib
 
     js = read_js("dm_tools.js")
 

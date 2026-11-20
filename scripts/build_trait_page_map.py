@@ -173,7 +173,7 @@ def traits_from_app_data() -> dict:
     REPO = Path("/home/james/dnd-character-manager")
     if str(REPO) not in sys.path:
         sys.path.insert(0, str(REPO))
-    import main            # noqa: PLC0415
+    import main  # noqa: PLC0415
     import routes.characters  # noqa: F401,PLC0415  (runs the manual merge)
     owners: dict[str, set] = {}
     for race_name, race in (getattr(main, "RACES", {}) or {}).items():

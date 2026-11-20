@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from .db import connect
 from .auth import hash_password
+from .db import connect
 
 
 def get_user(db_path: Path, email: str) -> dict | None:

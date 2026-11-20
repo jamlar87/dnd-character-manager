@@ -242,5 +242,4 @@ def test_the_action_layer_loads_once_and_in_order():
         specs = html.find("dm/actions.js")
         assert specs != -1, "%s must load its action specs" % Path(path).name
         assert re.search(r"\{%\s*block\s+scripts\s*%\}", html), (
-            "%s: a script tag outside {% block scripts %} is dropped by Jinja inheritance"
-            % Path(path).name)
+            f"{Path(path).name}: a script tag outside {{% block scripts %}} is dropped by Jinja inheritance")

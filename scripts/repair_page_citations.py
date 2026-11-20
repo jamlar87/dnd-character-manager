@@ -27,7 +27,7 @@ HERE = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE / "scripts"))
 
-from audit_ingest_attribution import load_pages, name_on_pages, NON_BOOK_SOURCES  # noqa: E402
+from audit_ingest_attribution import NON_BOOK_SOURCES, load_pages, name_on_pages  # noqa: E402
 
 CATEGORIES = ("races", "spells", "magic_items", "equipment", "monsters",
               "npcs", "feats", "backgrounds", "subclasses", "traps")

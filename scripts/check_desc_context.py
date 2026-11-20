@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Check why the LLM couldn't find descriptions for specific monsters."""
 
-import re, json, sys
+import re
 from pathlib import Path
 
 HERE = Path(__file__).parent.parent

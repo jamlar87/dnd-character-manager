@@ -11,8 +11,8 @@ from __future__ import annotations
 import pathlib
 import re
 import sqlite3
-from js_bundle import read_js
 
+from js_bundle import read_js
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 VTT = REPO / "static" / "vtt.js"

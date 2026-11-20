@@ -18,11 +18,11 @@ from fastapi.testclient import TestClient
 
 from main import app
 from routes.characters.helpers import (
-    slug_for_source,
-    parse_source_filter,
-    source_matches,
     _search_json_data,
     _search_manuals,
+    parse_source_filter,
+    slug_for_source,
+    source_matches,
 )
 
 DB_PATH = Path(__file__).parent.parent / "data" / "characters.db"

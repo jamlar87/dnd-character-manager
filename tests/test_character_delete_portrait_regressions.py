@@ -17,7 +17,6 @@ import json
 import secrets
 import sqlite3
 
-
 from core.security import _hash
 
 PORTRAIT_MARKER = "AUDITPORTRAITMARKER"

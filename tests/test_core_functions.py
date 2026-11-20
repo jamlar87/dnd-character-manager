@@ -5,10 +5,14 @@ Tests the utility/business-logic functions that don't need a running server.
 
 from core.features import get_racial_trait_effects
 from routes.characters import (
-    parse_class_levels, total_level, primary_class,
-    get_spellcasting_mod, get_caster_type, get_prepared_max,
+    get_caster_type,
+    get_prepared_max,
+    get_spellcasting_mod,
     get_spells_known_max,
+    parse_class_levels,
+    primary_class,
     random_name,
+    total_level,
 )
 
 

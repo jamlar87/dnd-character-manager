@@ -9,6 +9,7 @@ same markup, because toggleCollapse() and the group counts hang off those classe
 import json
 import re
 from pathlib import Path
+
 from js_bundle import read_js
 
 ROOT = Path(__file__).resolve().parent.parent

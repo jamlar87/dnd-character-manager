@@ -16,7 +16,6 @@ Coverage map (plan: progression regression matrix):
 import json
 import sqlite3
 
-
 # ── Helpers ────────────────────────────────────────────────────────────────
 
 def _create(client, headers, **overrides):
@@ -275,7 +274,7 @@ class TestMulticlass:
         """Fighter 1 → +Wizard 1: class_levels both; Fighter contributes 0 to
         combined caster level (PHB p.165), so caster level 1 → 2 first slots."""
         cid = _create(client, auth_headers, class_name="Fighter")
-        body = _assert_ok(_level_up(client, auth_headers, cid, 2, class_to_level="Wizard"))
+        _assert_ok(_level_up(client, auth_headers, cid, 2, class_to_level="Wizard"))
         row = _row(seeded_db["db_path"], cid)
         assert _class_levels(row) == {"Fighter": 1, "Wizard": 1}
         assert row["level"] == 2

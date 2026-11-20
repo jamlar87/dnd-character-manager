@@ -96,7 +96,7 @@ async def run_reference(kinds, args):
         rows, todo = select_rows(kind, args)
         print(f"\n{kind}: {len(todo)} to generate of {len(rows)} indexed "
               f"({len(rows) - len(todo)} already have art)")
-        for n, row in enumerate(todo, 1):
+        for _n, row in enumerate(todo, 1):
             await _yield_to_interactive()
             if budget and len(done) >= budget:
                 print(f"  --limit {budget} reached")

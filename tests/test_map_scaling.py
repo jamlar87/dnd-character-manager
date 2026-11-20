@@ -19,8 +19,15 @@ from PIL import Image
 REPO = pathlib.Path(__file__).resolve().parent.parent
 MAPS_DIR = REPO / "static" / "maps"
 
-from routes.maps import (MAP_MAX_PX, SIZE_CELLS, _cells_for_role, _cells_for_size, _cell_key_of,
-                         _clean_token, _snap_to_cell)
+from routes.maps import (
+    MAP_MAX_PX,
+    SIZE_CELLS,
+    _cell_key_of,
+    _cells_for_role,
+    _cells_for_size,
+    _clean_token,
+    _snap_to_cell,
+)
 from services.images import MAX_SIZE, fit_blob
 
 

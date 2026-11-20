@@ -23,8 +23,9 @@ HERE = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE / "scripts"))
 
-import main as app_main  # noqa: E402
 from append_extraction import fix_sources  # noqa: E402
+
+import main as app_main  # noqa: E402
 
 
 def main() -> int:

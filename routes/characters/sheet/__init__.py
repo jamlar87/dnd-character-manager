@@ -23,7 +23,6 @@ import types
 from fastapi import APIRouter
 
 from . import _shared, api, feats, inventory, progression, update, view
-
 from ._shared import (  # noqa: F401
     _BA_GRANT_RE,
     _INVOCATION_NAMES,
@@ -31,10 +30,29 @@ from ._shared import (  # noqa: F401
     _merged_races_for_popup,
     compute_advantage_map,
 )
+from .api import (  # noqa: F401
+    _portrait_thumbnail,
+    _record_conditions,
+    _sync_combat_hp_impl,
+    add_condition,
+    character_portrait_image,
+    character_toggle_share,
+    create_summon,
+    delete_character,
+    get_attacks,
+    get_conditions,
+    get_summons,
+    reload_charge,
+    remove_condition,
+    set_concentration,
+    spend_charge,
+    sync_combat_hp,
+    update_summon_hp,
+)
 from .feats import (  # noqa: F401
-    FEATURE_DEFENSES,
     FEAT_BY_NAME,
     FEAT_DETAILS,
+    FEATURE_DEFENSES,
     KNOWN_FEATS,
     _add_cd_sub_options,
     _add_dice_to_features,
@@ -63,42 +81,23 @@ from .progression import (  # noqa: F401
     get_spells_for_level,
     pick_magic_items,
 )
-from .view import (  # noqa: F401
-    _SHEET_REF_VERSION,
-    _sheet_reference_payload,
-    character_sheet,
-    ensure_sheet_reference_asset,
-    sheet_asset_version,
-)
 from .update import (  # noqa: F401
     _publish_change,
     edit_asi_choice,
     edit_expertise_choice,
     update_character,
 )
-from .api import (  # noqa: F401
-    _portrait_thumbnail,
-    _record_conditions,
-    _sync_combat_hp_impl,
-    add_condition,
-    character_portrait_image,
-    character_toggle_share,
-    create_summon,
-    delete_character,
-    get_attacks,
-    get_conditions,
-    get_summons,
-    reload_charge,
-    remove_condition,
-    set_concentration,
-    spend_charge,
-    sync_combat_hp,
-    update_summon_hp,
-)
 
 # Imported by the route modules, re-exported because callers and tests reach
 # through this package for them (tests patch `sheet.require_user`).
-from .view import require_user
+from .view import (  # noqa: F401
+    _SHEET_REF_VERSION,
+    _sheet_reference_payload,
+    character_sheet,
+    ensure_sheet_reference_asset,
+    require_user,
+    sheet_asset_version,
+)
 
 router = APIRouter()
 router.include_router(view.router)

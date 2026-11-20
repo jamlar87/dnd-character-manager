@@ -6,6 +6,10 @@ Split out of the single-module sheet.py; behaviour and URLs are unchanged.
 
 import hashlib
 import json
+
+from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import HTMLResponse
+
 from core.config import STATIC
 from core.data import (
     BACKGROUND_INFO,
@@ -34,8 +38,6 @@ from core.features import (
 from core.http import SHEET_JS_PARTS, _render, static_asset_version, static_bundle_version
 from core.security import require_user
 from data import INVOCATION_OPTIONS, MANEUVER_OPTIONS, METAMAGIC_OPTIONS, PACT_BOON_OPTIONS
-from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import HTMLResponse
 from routes.characters.helpers import load_character
 from services.leveling import (
     EXPERTISE_LEVELS,
@@ -63,11 +65,12 @@ from services.leveling import (
 from services.rules import ability_mod
 from services.schema import hydrate_json_columns
 from summon_templates import SUMMON_TEMPLATES
+
 from ._shared import _grants_bonus_action, _merged_races_for_popup, compute_advantage_map
 from .feats import (
-    FEATURE_DEFENSES,
     FEAT_BY_NAME,
     FEAT_DETAILS,
+    FEATURE_DEFENSES,
     KNOWN_FEATS,
     _add_cd_sub_options,
     _add_dice_to_features,

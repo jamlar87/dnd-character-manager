@@ -11,7 +11,9 @@ Usage:
 
 Exit code 0 = all passed, 1 = failures found.
 """
-import json, sys, os
+import json
+import os
+import sys
 from pathlib import Path
 
 HERE = Path(__file__).parent
@@ -97,8 +99,16 @@ def run_audit(mode="full"):
 
     # ── Load main module ──
     import main
-    from main import (get_uses_for_level, FEATS, SUBCLASS_FEATURES,
-                      SUBCLASS_LEVELS, CLASSES, RACES, SUBASIS, get_spell_slots)
+    from main import (
+        CLASSES,
+        FEATS,
+        RACES,
+        SUBASIS,
+        SUBCLASS_FEATURES,
+        SUBCLASS_LEVELS,
+        get_spell_slots,
+        get_uses_for_level,
+    )
 
     # ── 1. Limited-use features (12 classes × L20) ──
     if mode in ("full", "quick", "json"):
@@ -149,7 +159,7 @@ def run_audit(mode="full"):
 
         race_errors = result.failed - before_errors
         if race_errors == 0:
-            parts.append(f"Race ASIs: all passed")
+            parts.append("Race ASIs: all passed")
         else:
             parts.append(f"Race ASIs: {race_errors} FAILURES")
 
@@ -265,7 +275,7 @@ def run_audit(mode="full"):
         return summary
 
     print(f"\n{'='*60}")
-    print(f"  D&D Character Manager — Audit")
+    print("  D&D Character Manager — Audit")
     print(f"{'='*60}")
     for p in parts:
         print(f"  {p}")
@@ -276,7 +286,7 @@ def run_audit(mode="full"):
             print(f"    ✗ {e}")
 
     if result.warnings:
-        print(f"\n  WARNINGS:")
+        print("\n  WARNINGS:")
         for w in result.warnings:
             print(f"    ⚠ {w}")
 

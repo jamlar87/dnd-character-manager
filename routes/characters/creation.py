@@ -7,39 +7,84 @@ all.py (avoids circulars).
 """
 
 import json
-import os
-import re
 import random
+import re
 
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 
-from services.reference_assets import (
-    ensure_create_consts_asset, ensure_source_slug_map_asset,
+from core.data import (
+    ALIGNMENTS,
+    ALL_SKILLS,
+    BACKGROUND_SOURCES,
+    BACKGROUNDS,
+    CLASSES,
+    DRACONIC_ANCESTRIES,
+    FAVORED_ENEMY_OPTIONS,
+    FAVORED_TERRAIN_OPTIONS,
+    FLEXIBLE_ASI_RACES,
+    HUNTERS_PREY_OPTIONS,
+    INFUSION_OPTIONS,
+    INVOCATION_LEVELS,
+    INVOCATION_OPTIONS,
+    INVOCATION_PICKS,
+    MANEUVER_OPTIONS,
+    METAMAGIC_LEVELS,
+    METAMAGIC_OPTIONS,
+    METAMAGIC_PICKS,
+    MPMM_ASI_RACES,
+    PACT_BOON_LEVELS,
+    PACT_BOON_OPTIONS,
+    RACE_NAMES,
+    RACES,
+    SKILL_ABILITIES,
+    STARTING_EQUIPMENT,
+    SUBASIS,
+    SUBCLASS_FEATURE_REPLACEMENTS,
+    TOTEM_SPIRIT_OPTIONS,
+    _get_source_slug_map,
 )
-from services.rules import ability_mod, proficiency_bonus
-
-from core.security import require_user, safe_next, NEXT_ALLOWED_HOSTS
-from core.http import _render
 from core.db import get_db
 from core.features import get_racial_trait_effects
-from core.data import _get_source_slug_map, DRACONIC_ANCESTRIES, RACES, RACE_NAMES, CLASSES, BACKGROUNDS, BACKGROUND_SOURCES, ALIGNMENTS, FLEXIBLE_ASI_RACES, SUBASIS, SKILL_ABILITIES, ALL_SKILLS, MPMM_ASI_RACES, SUBCLASS_FEATURE_REPLACEMENTS, STARTING_EQUIPMENT, METAMAGIC_LEVELS, METAMAGIC_PICKS, METAMAGIC_OPTIONS, INVOCATION_LEVELS, INVOCATION_PICKS, INVOCATION_OPTIONS, PACT_BOON_LEVELS, PACT_BOON_OPTIONS, MANEUVER_OPTIONS, TOTEM_SPIRIT_OPTIONS, HUNTERS_PREY_OPTIONS, FAVORED_ENEMY_OPTIONS, FAVORED_TERRAIN_OPTIONS, INFUSION_OPTIONS
-from services.leveling import (
-    _build_racial_limited_features, _scaled_dice_display, get_class_features,
-    get_spell_slots, enrich_features, _manual_races_raw,
-    DOMAIN_SPELLS, WARLOCK_EXPANDED_SPELLS_BY_LEVEL,
-    FIGHTING_STYLES, FIGHTING_STYLE_OPTIONS,
-    FAVORED_ENEMY_LEVELS, FAVORED_TERRAIN_LEVELS, HUNTERS_PREY_LEVELS,
-    INFUSION_LEVELS, INFUSION_PICKS, MAGICAL_SECRETS_LEVELS,
-    MAGICAL_SECRETS_PICKS, MANEUVER_LEVELS, MANEUVER_PICKS,
-    SUBCLASS_PROFICIENCIES, TOTEM_SPIRIT_LEVELS, TOTEM_SPIRIT_TIER_LABELS,
-    PREPARED_CASTERS, SPELLS_KNOWN_CASTERS, SPELL_DICE, SRD_SPELLS,
-    SUBCLASS_FEATURES, EXPERTISE_LEVELS,
-)
-from urllib.parse import urlsplit
-
-from routes.schemas import CreateCharacter
+from core.http import _render
+from core.security import NEXT_ALLOWED_HOSTS, require_user, safe_next
 from routes.characters.ai_routes import _calculate_attacks
+from routes.schemas import CreateCharacter
+from services.leveling import (
+    DOMAIN_SPELLS,
+    EXPERTISE_LEVELS,
+    FAVORED_ENEMY_LEVELS,
+    FAVORED_TERRAIN_LEVELS,
+    FIGHTING_STYLE_OPTIONS,
+    FIGHTING_STYLES,
+    HUNTERS_PREY_LEVELS,
+    INFUSION_LEVELS,
+    INFUSION_PICKS,
+    MAGICAL_SECRETS_LEVELS,
+    MAGICAL_SECRETS_PICKS,
+    MANEUVER_LEVELS,
+    MANEUVER_PICKS,
+    PREPARED_CASTERS,
+    SPELL_DICE,
+    SPELLS_KNOWN_CASTERS,
+    SRD_SPELLS,
+    SUBCLASS_FEATURES,
+    SUBCLASS_PROFICIENCIES,
+    TOTEM_SPIRIT_LEVELS,
+    TOTEM_SPIRIT_TIER_LABELS,
+    WARLOCK_EXPANDED_SPELLS_BY_LEVEL,
+    _build_racial_limited_features,
+    _manual_races_raw,
+    _scaled_dice_display,
+    enrich_features,
+    get_class_features,
+    get_spell_slots,
+)
+from services.reference_assets import (
+    ensure_create_consts_asset,
+    ensure_source_slug_map_asset,
+)
+from services.rules import ability_mod, proficiency_bonus
 
 router = APIRouter()
 

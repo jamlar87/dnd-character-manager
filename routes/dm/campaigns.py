@@ -1,14 +1,17 @@
 """Campaigns: CRUD, roster membership, notes and XP."""
 
+import json
+
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
-import json
-from core.security import _require_owned, require_user
-from core.db import get_db
+
 from core.data import _load_manual_json
+from core.db import get_db
 from core.features import get_caster_type, get_spell_slots
+from core.security import _require_owned, require_user
 from services.rules import ability_mod
 from services.schema import HAS_PORTRAIT_SQL
+
 from ._shared import _manual_npc_hp, user_where
 
 router = APIRouter()

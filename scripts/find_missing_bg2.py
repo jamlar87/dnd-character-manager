@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Second pass — search for the 3 missing + fix index-hit pages."""
-import fitz
 from pathlib import Path
+
+import fitz
 
 MANUAL_DIR = Path("/media/james/SlowDisk1tb/dnd-character-manager/manuals/DnD-Manuals")
 

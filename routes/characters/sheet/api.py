@@ -4,17 +4,20 @@ charge tracking, portraits, delete and share.
 Split out of the single-module sheet.py; behaviour and URLs are unchanged.
 """
 
-import anyio
 import base64
 import json
 import time
 from datetime import datetime
+
+import anyio
+from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import JSONResponse, RedirectResponse, Response
+
 from core.db import get_db
 from core.features import _build_character_attacks, _build_charged_item_attacks, _resolve_item_key
 from core.security import _require_owned, require_user
-from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import JSONResponse, RedirectResponse, Response
 from routes.characters.helpers import load_character
+
 from .update import _publish_change
 
 router = APIRouter()
@@ -464,7 +467,7 @@ async def character_portrait_image(char_id: int, request: Request, size: int | N
             media = header[5:].split(";")[0] or "image/png"
             blob = base64.b64decode(b64)
         except Exception:
-            raise HTTPException(status_code=404, detail="No portrait stored")
+            raise HTTPException(status_code=404, detail="No portrait stored") from None
         if size is not None:
             from starlette.concurrency import run_in_threadpool
             thumb = await run_in_threadpool(_portrait_thumbnail, blob, size)

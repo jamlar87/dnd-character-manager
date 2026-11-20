@@ -96,7 +96,7 @@ def fix_feats(feats_path: Path) -> int:
         feats_path.write_text(json.dumps(feats, indent=2, ensure_ascii=False))
         print(f"  Feat fixes: {fixed} entry(s) repaired")
     else:
-        print(f"  Feats: all clean (no OCR fixes needed)")
+        print("  Feats: all clean (no OCR fixes needed)")
 
     return fixed
 

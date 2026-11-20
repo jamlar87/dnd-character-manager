@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Fix race/subrace issues in manual_data/races.json and races_export.json."""
-import json, os
+import json
+import os
 
 MANUAL = '/home/james/dnd-character-manager/data/manual_data/races.json'
 EXPORT = '/home/james/dnd-character-manager/data/races_export.json'

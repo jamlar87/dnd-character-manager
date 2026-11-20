@@ -1,11 +1,14 @@
 """Cross-cutting DM endpoints: manual search/summary and live HP changes."""
 
+import json
+
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse, Response
-import json
-from core.security import _is_admin, require_user
+
 from core.db import get_db
+from core.security import _is_admin, require_user
 from routes.characters import _search_manuals, parse_source_filter
+
 from ._shared import call_ai
 
 router = APIRouter()

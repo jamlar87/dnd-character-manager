@@ -4,12 +4,12 @@ Extracted from routes/characters/all.py (2026-07-31). Imports helpers
 from main only — never from all.py (avoids circulars).
 """
 
-from fastapi import APIRouter, Request, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import Response
 
-from core.security import require_user, _require_owned
 from core.db import get_db
-from core.features import _build_racial_traits, _build_character_attacks
+from core.features import _build_character_attacks, _build_racial_traits
+from core.security import _require_owned, require_user
 
 router = APIRouter()
 
@@ -26,7 +26,8 @@ def character_pdf(char_id: int, request: Request):
 
     char = dict(row)
     # Build structured data for PDF generator
-    import sys, os
+    import os
+    import sys
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     from pdf_generator import build_char_data, fill_official_sheet
     char_data = build_char_data(row, db, racial_traits=_build_racial_traits(char))

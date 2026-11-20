@@ -9,7 +9,6 @@ from __future__ import annotations
 import re
 
 from data import RACIAL_TRAIT_DESCS, RACIAL_TRAIT_EFFECTS
-
 from services.loaders.files import _load_manual_json
 from services.loaders.sources import _normalize_recharge
 
@@ -19,8 +18,14 @@ __all__ = ["merge_manual_races"]
 def merge_manual_races(meta: dict) -> None:
     """Merge races.json into the race registry."""
     from core.data import (
-        LIMITED_USE, RACES, RICH_RACE_DESCS, RICH_SUBRACE_DESCS, SUBASIS,
-        SUBRACE_SOURCES, SUBRACE_TRAITS, _GENERIC_TRAITS,
+        _GENERIC_TRAITS,
+        LIMITED_USE,
+        RACES,
+        RICH_RACE_DESCS,
+        RICH_SUBRACE_DESCS,
+        SUBASIS,
+        SUBRACE_SOURCES,
+        SUBRACE_TRAITS,
     )
 
     # ── Races ── merge into RACES dict

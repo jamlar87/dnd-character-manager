@@ -47,7 +47,7 @@ import sys
 try:
     from PIL import Image, ImageDraw
 except ImportError:  # pragma: no cover - PIL ships with the app's own venv
-    raise SystemExit("Pillow is required: pip install pillow")
+    raise SystemExit("Pillow is required: pip install pillow") from None
 
 #: OpenPose's own BODY_18 palette, one entry per keypoint index.
 _OPENPOSE_COLORS = [
@@ -234,7 +234,7 @@ def build_pose(legs: int = 2, arms: int = 2, *, quadruped: bool = False,
         # body structure, not a limb).
         hip_half = min(0.25, 0.075 * legs)
         xs = _spread(legs, hip_half * 2, centre=0.5)
-        for i, x in enumerate(xs):
+        for _i, x in enumerate(xs):
             dx = x - 0.5                             # e.g. -0.15, 0.0, +0.15
             # For odd leg counts (like 3), the center leg (dx=0) gets a slight knee kick
             # to break symmetry and prevent a straight vertical line down the torso

@@ -15,39 +15,87 @@ from collections import defaultdict
 from pathlib import Path
 
 from core.config import DATA_DIR, HERE, MANUAL_DATA, PAGE_MAP_DIR, SRD_CACHE
-
 from data import (
-    ABILITY_NAMES, SKILL_ABILITIES, ALL_SKILLS, BACKGROUNDS,
-    BACKGROUND_INFO, ALIGNMENTS, DRACONIC_ANCESTRIES, STARTING_EQUIPMENT,
-    ASI_LEVELS, RACES, CLASSES, RACE_NAMES,
-    FEATS, FEAT_BY_NAME, FEATURE_DESCRIPTIONS, FEATURE_ACTION_TYPES,
-    FEATURE_SOURCES, RACIAL_TRAIT_DESCS, RACIAL_TRAIT_EFFECTS, FULL_CASTERS,
-    HALF_CASTERS, PACT_CASTERS, PREPARED_CASTERS, SPELLS_KNOWN_CASTERS,
-    SUBCLASS_LEVELS, SUBCLASS_FEATURES, SUBCLASS_FEATURE_REPLACEMENTS, LIMITED_USE,
-    METAMAGIC_OPTIONS, METAMAGIC_LEVELS, METAMAGIC_PICKS, INVOCATION_LEVELS,
-    INVOCATION_PICKS, INVOCATION_OPTIONS, PACT_BOON_OPTIONS, PACT_BOON_LEVELS,
-    MANEUVER_LEVELS, MANEUVER_OPTIONS, TOTEM_SPIRIT_OPTIONS, HUNTERS_PREY_OPTIONS,
-    FAVORED_ENEMY_OPTIONS, FAVORED_TERRAIN_OPTIONS, INFUSION_OPTIONS, MULTICLASS_PREREQS,
-    MULTICLASS_PROFICIENCIES, EXPERTISE_LEVELS, RECOMMENDED_FEATS, SCALED_EQUIPMENT,
+    ABILITY_NAMES,
+    ALIGNMENTS,
+    ALL_SKILLS,
+    ASI_LEVELS,
+    BACKGROUND_INFO,
+    BACKGROUNDS,
+    CLASSES,
+    DRACONIC_ANCESTRIES,
+    EXPERTISE_LEVELS,
+    FAVORED_ENEMY_OPTIONS,
+    FAVORED_TERRAIN_OPTIONS,
+    FEAT_BY_NAME,
+    FEATS,
+    FEATURE_ACTION_TYPES,
+    FEATURE_DESCRIPTIONS,
+    FEATURE_SOURCES,
+    FULL_CASTERS,
+    HALF_CASTERS,
+    HUNTERS_PREY_OPTIONS,
+    INFUSION_OPTIONS,
+    INVOCATION_LEVELS,
+    INVOCATION_OPTIONS,
+    INVOCATION_PICKS,
+    LIMITED_USE,
+    MANEUVER_LEVELS,
+    MANEUVER_OPTIONS,
+    METAMAGIC_LEVELS,
+    METAMAGIC_OPTIONS,
+    METAMAGIC_PICKS,
+    MULTICLASS_PREREQS,
+    MULTICLASS_PROFICIENCIES,
+    PACT_BOON_LEVELS,
+    PACT_BOON_OPTIONS,
+    PACT_CASTERS,
+    PREPARED_CASTERS,
+    RACE_NAMES,
+    RACES,
+    RACIAL_TRAIT_DESCS,
+    RACIAL_TRAIT_EFFECTS,
+    RECOMMENDED_FEATS,
+    SCALED_EQUIPMENT,
+    SKILL_ABILITIES,
+    SPELLS_KNOWN_CASTERS,
+    STARTING_EQUIPMENT,
+    SUBCLASS_FEATURE_REPLACEMENTS,
+    SUBCLASS_FEATURES,
+    SUBCLASS_LEVELS,
+    TOTEM_SPIRIT_OPTIONS,
 )
-
+from services.combat import (
+    _build_character_attacks,
+    _build_charged_item_attacks,
+    _build_inventory_attacks,
+    _build_racial_traits,
+    _equipped_names,
+    _get_named_item_types,
+    _normalize_equipped,
+    _parse_enhancement,
+    _resolve_armor_item,
+    _subrace_traits,
+    check_armor_proficiency_from_set,
+    get_character_armor_profs,
+    get_racial_trait_effects,
+)
 from services.data_loader import (
-    _load_srd_class_data, _load_spell_dice, _load_json_cache, _load_manual_json,
+    _load_json_cache,
+    _load_manual_json,
+    _load_spell_dice,
+    _load_srd_class_data,
     load_manual_data,
 )
 from services.items import (
-    _resolve_item_key, _split_curse_text, _build_item_description,
-    _build_item_type, _resolve_source, _extract_srd_dice,
+    _build_item_description,
+    _build_item_type,
+    _extract_srd_dice,
     _item_rarity_for_level,
+    _resolve_item_key,
+    _resolve_source,
+    _split_curse_text,
 )
-from services.combat import (
-    get_racial_trait_effects, _build_racial_traits, _subrace_traits, _parse_enhancement,
-    _build_inventory_attacks,
-    _build_character_attacks, _build_charged_item_attacks, _normalize_equipped,
-    _get_named_item_types, _equipped_names, get_character_armor_profs,
-    _resolve_armor_item, check_armor_proficiency_from_set,
-)
-
 
 # ── SRD Class Data (from dnd5eapi.co 2014, cached locally) ──────────────────
 
@@ -278,7 +326,7 @@ for item in SRD_MAGIC_ITEMS:
         ITEM_INDEX[key] = entry
 
 # Build magic item index by rarity
-from collections import defaultdict
+
 ITEMS_BY_RARITY: dict[str, list[dict]] = defaultdict(list)
 ITEM_WEAPONS: list[dict] = []
 ITEM_ARMOR: list[dict] = []
@@ -1366,7 +1414,7 @@ WEAPONS = {
 }
 
 # ── Post-pass: resolve base_weapon for magic weapons in ITEM_INDEX ──
-for key, entry in ITEM_INDEX.items():
+for _key, entry in ITEM_INDEX.items():
     if entry.get("type") == "Magic Weapon" and not entry.get("base_weapon"):
         name = entry["name"].lower()
         for wpn_name in WEAPONS:
@@ -1797,7 +1845,7 @@ def _manual_titles() -> list[dict]:
         if not path:
             continue
         basename = path.rsplit("/", 1)[-1]
-        by_path.setdefault(path.lstrip("DnD-Manuals/").lower(), []).append(slug)
+        by_path.setdefault(path.removeprefix("DnD-Manuals/").lower(), []).append(slug)
         if _NON_MANUAL_RE.search(basename):
             continue
         title = _TITLE_OVERRIDES.get(basename.lower())
@@ -1806,7 +1854,7 @@ def _manual_titles() -> list[dict]:
             # slug actually has data behind it (that is where labels are verified).
             display = (_get_source_slug_map().get(slug) or {}).get("display")
             title = display if (display and slug in tested) else _clean_pdf_title(basename)
-        key = path.lstrip("DnD-Manuals/").lower()
+        key = path.removeprefix("DnD-Manuals/").lower()
         prev = seen_paths.get(key)
         if prev is None:
             seen_paths[key] = {"slug": slug, "title": title, "key": key}

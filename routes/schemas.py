@@ -1,8 +1,8 @@
 """Pydantic models for request validation."""
 
-from pydantic import BaseModel, Field, field_validator
 from typing import Optional
-from pydantic import ConfigDict
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class CreateCharacter(BaseModel):

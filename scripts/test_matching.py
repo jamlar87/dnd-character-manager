@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Test the improved _find_best_context function on specific monsters."""
 
-import re, sys
+import re
+import sys
+
 sys.path.insert(0, '.')
 from pathlib import Path
 
@@ -64,7 +66,7 @@ for slug, name in tests:
     if ctx:
         has_stats = any(ind in ctx[:800] for ind in ['Armor Class', 'STR', 'DEX', 'CON', 'HP '])
         print(f'  Length: {len(ctx)} chars, stat block nearby: {has_stats}')
-        print(f'  ---')
+        print('  ---')
         print(ctx[:500])
         print('  ...')
     else:

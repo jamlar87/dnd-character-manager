@@ -1,6 +1,6 @@
 """Character progression and spell-slot regression tests."""
 
-from routes.characters.all import get_spell_slots, get_character_spell_slots
+from routes.characters.all import get_character_spell_slots, get_spell_slots
 
 
 def test_fighter_has_no_spell_slots():

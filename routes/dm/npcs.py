@@ -1,26 +1,35 @@
 """NPC library: list, detail, create/update/delete, portraits, and AI NPC building."""
 
-from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import JSONResponse, RedirectResponse, Response
 import json
 import random
-from core.security import _is_admin, require_user
+
+from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import JSONResponse, RedirectResponse, Response
+
+from core.data import ALIGNMENTS, CLASSES, FLEXIBLE_ASI_RACES, RACE_NAMES, RACES, _load_manual_json
 from core.db import get_db
-from routes.characters import _build_character, _extract_json
-from core.data import CLASSES, FLEXIBLE_ASI_RACES, RACES, RACE_NAMES, _load_manual_json, ALIGNMENTS
 from core.features import (
-    enrich_features, get_caster_type, get_racial_trait_effects, get_spell_slots,
+    enrich_features,
+    get_caster_type,
+    get_racial_trait_effects,
+    get_spell_slots,
 )
+from core.security import _is_admin, require_user
 from data import SUBCLASS_LEVELS
-from routes.characters.sheet import (
-    allocate_ability_scores, calc_hp, get_equipment_for_level, get_spells_for_level,
-)
+from routes.characters import _build_character, _extract_json
 from routes.characters.ai_routes import _calculate_ac, _pick_skills
+from routes.characters.sheet import (
+    allocate_ability_scores,
+    calc_hp,
+    get_equipment_for_level,
+    get_spells_for_level,
+)
 from services.leveling import PROFICIENCY_BONUS, get_class_features
 from services.rules import ability_mod
 from services.schema import hydrate_json_columns
 from services.sources import clean_source_display
 from services.validation import clamp_fields, clamp_int
+
 from ._shared import NPC_LIST_COLS, _manual_npc_hp, call_ai, user_where
 
 router = APIRouter()
@@ -129,8 +138,6 @@ def dm_npcs_list(request: Request):
         if str(mn.get("name") or "").strip() == "__sentinel__":
             continue
         hp = _manual_npc_hp(mn)
-        # Kept for the narrative flag below: the raw corpus value, empty when the corpus has none.
-        hp_raw = mn.get("hp_current") or mn.get("hit_points", "")
         scores = mn.get("ability_scores", {})
         has_stats = scores and any(v != 0 and v is not None for v in scores.values())
         rows.append({
@@ -184,8 +191,6 @@ def dm_npc_detail(npc_id: int, request: Request):
         mn = manual_npcs[idx]
         scores = mn.get("ability_scores", {})
         hp = _manual_npc_hp(mn)
-        # Kept for the narrative flag below: the raw corpus value, empty when the corpus has none.
-        hp_raw = mn.get("hp_current") or mn.get("hit_points", "")
         has_stats = scores and any(v != 0 and v is not None for v in scores.values())
         return JSONResponse({
             "id": npc_id,

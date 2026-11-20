@@ -1,17 +1,23 @@
 """Encounters: AI building, copy, membership, initiative and combat state."""
 
-from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import JSONResponse
 import json
 import random
-from core.security import _require_owned, require_user
+
+from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import JSONResponse
+
 from core.db import get_db
-from routes.characters import (
-    _assign_encounter_counts, _extract_json, _load_monster_cache, _xp_for_cr,
-)
 from core.features import get_caster_type, get_spell_slots
+from core.security import _require_owned, require_user
+from routes.characters import (
+    _assign_encounter_counts,
+    _extract_json,
+    _load_monster_cache,
+    _xp_for_cr,
+)
 from services.rules import ability_mod
 from services.schema import hydrate_json_columns
+
 from ._shared import call_ai, user_where
 
 router = APIRouter()
@@ -1114,9 +1120,9 @@ async def dm_encounter_add_creature(enc_id: int, request: Request):
                             detail="This NPC has no hit points and cannot be added as a combatant")
     try:
         hp = int(raw_hp)
-    except (TypeError, ValueError):
+    except (TypeError, ValueError) as exc:
         db.close()
-        raise HTTPException(status_code=400, detail="Invalid hit points for this creature")
+        raise HTTPException(status_code=400, detail="Invalid hit points for this creature") from exc
     hp_max = int(data.get("hp_max", hp))
     ac = int(data.get("ac", 10))
     creature_data = json.dumps({

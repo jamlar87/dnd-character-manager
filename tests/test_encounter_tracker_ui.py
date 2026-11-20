@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import pathlib
 import re
+
 from js_bundle import read_js
 
 REPO = pathlib.Path(__file__).resolve().parent.parent

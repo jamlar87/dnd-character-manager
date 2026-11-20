@@ -2,13 +2,12 @@
 
 """Character routes — create, sheet, level-up, spells, combat, relationships."""
 
-import json, re
+import json
+import re
 from pathlib import Path
 
-from core.data import _load_json_cache
 from core.config import DATA_DIR
-from core.data import _load_manual_json
-from core.data import _get_source_slug_map
+from core.data import _get_source_slug_map, _load_json_cache, _load_manual_json
 from services.text import alpha_key
 from services.users import is_admin
 
@@ -23,7 +22,7 @@ _MONSTER_CACHE_STAMP: tuple | None = None
 
 
 def _monster_files_stamp() -> tuple:
-    from core.config import SRD_CACHE, MANUAL_DATA
+    from core.config import MANUAL_DATA, SRD_CACHE
     paths = (SRD_CACHE / "monsters.json",
              DATA_DIR / "page_maps" / "monster_page_map.json",
              MANUAL_DATA / "monsters.json")
@@ -936,7 +935,8 @@ def _search_manuals(query: str, max_results: int = 20,
     Uses a single batch rg call per word across all files instead of
     72 separate subprocess calls — ~40× faster on cold cache.
     """
-    import subprocess, re, collections
+    import re
+    import subprocess
 
     cached = _ensure_manual_cache()
     if sources:

@@ -109,6 +109,7 @@ def fill_official_sheet(char_data, output_path=None):
         PDF bytes if output_path is None, else None.
     """
     import tempfile
+
     from pypdf import PdfReader, PdfWriter
 
     template_path = _resolve_template()
@@ -380,7 +381,7 @@ def fill_official_sheet(char_data, output_path=None):
         by_level = {}
         for spell in spells:
             if isinstance(spell, (list, tuple)):
-                name, level, prepared = spell[0], spell[1], len(spell) > 2 and spell[2]
+                name, level = spell[0], spell[1]
             elif isinstance(spell, dict):
                 name = spell.get("name", "")
                 level = spell.get("level", 0)
@@ -423,7 +424,7 @@ def fill_official_sheet(char_data, output_path=None):
     field_dict = {_resolve_fn(k): v for k, v in fields.items() if v}
 
     # Calculate font size for each text field so text fits its bounding box
-    from pypdf.generic import TextStringObject, NameObject
+    from pypdf.generic import NameObject, TextStringObject
     for page in writer.pages:
         for ann_ref in page.get("/Annots") or []:
             try:
@@ -487,8 +488,8 @@ def fill_official_sheet(char_data, output_path=None):
         or d.get("allies_appendix", "").strip()
     )
     if appendices_needed:
-        from reportlab.pdfgen import canvas as rl_canvas
         from reportlab.lib.pagesizes import letter as rl_letter
+        from reportlab.pdfgen import canvas as rl_canvas
         appendices_path = tempfile.mktemp(suffix="_appendices.pdf")
         ac = rl_canvas.Canvas(appendices_path, pagesize=rl_letter)
         ac.setTitle(f"D&D Character Sheet Appendices — {d.get('name', 'Character')}")
@@ -513,7 +514,7 @@ def fill_official_sheet(char_data, output_path=None):
         ac.save()
 
         if os.path.getsize(appendices_path) > 1000:  # non-empty
-            from pypdf import PdfWriter as MergeWriter, PdfReader as MergeReader
+            from pypdf import PdfWriter as MergeWriter
             merger = MergeWriter()
             merger.append(path)
             merger.append(appendices_path)

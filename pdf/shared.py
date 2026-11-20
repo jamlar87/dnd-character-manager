@@ -140,8 +140,8 @@ def _get_item_description(item_name):
     if _ITEM_INDEX is None:
         try:
             sys.path.insert(0, "/home/james/dnd-character-manager")
-            from core.features import _resolve_item_key
             from core.data import ITEM_INDEX
+            from core.features import _resolve_item_key
             _ITEM_INDEX = ITEM_INDEX
             _GET_ITEM_RESOLVER = _resolve_item_key
         except Exception:

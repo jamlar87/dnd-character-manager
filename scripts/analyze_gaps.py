@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Analyze monster description gaps — what sources are plate, what monsters do we have PDFs for?"""
-import json, re
-from pathlib import Path
+import json
+import re
 from collections import Counter
+from pathlib import Path
 
 HERE = Path(__file__).parent.parent
 monsters = json.loads((HERE / "data" / "manual_data" / "monsters.json").read_text())
@@ -19,7 +20,7 @@ print("Cached PDF texts available:", cache_slugs)
 # Focus on the worst sources
 print("\n=== Checking sample monsters against ALL cached PDFs ===")
 sample_sources = Counter(m.get('source','') for m in no_desc)
-for src, count in sample_sources.most_common(20):
+for src, _count in sample_sources.most_common(20):
     examples = [m for m in no_desc if m.get('source','')==src][:3]
     for m in examples:
         name = m['name']

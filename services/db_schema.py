@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import sqlite3
 
+
 def init_db():
     from core.config import DATA_DIR, SESSION_TTL_DAYS
     from core.db import get_db

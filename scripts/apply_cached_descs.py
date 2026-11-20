@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Re-apply cached descriptions to monsters.json after accidental overwrite."""
-import json, re
+import json
 from pathlib import Path
 
 HERE = Path(__file__).parent.parent

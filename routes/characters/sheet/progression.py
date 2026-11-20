@@ -5,13 +5,14 @@ Split out of the single-module sheet.py; behaviour and URLs are unchanged.
 """
 
 import random
+
 from core.data import (
     CLASSES,
-    ITEMS_BY_RARITY,
     ITEM_ARMOR,
     ITEM_RODS_STAVES_WANDS,
     ITEM_WEAPONS,
     ITEM_WONDROUS,
+    ITEMS_BY_RARITY,
     RACES,
     SCALED_EQUIPMENT,
     SRD_MAGIC_ITEMS,
@@ -19,6 +20,7 @@ from core.data import (
 )
 from core.features import _item_rarity_for_level
 from services.leveling import ABILITY_PRIORITY, get_srd_spells_for_class
+
 # The standard array every table uses when nobody rolls.
 STANDARD_ARRAY = [15, 14, 13, 12, 10, 8]
 
@@ -58,7 +60,7 @@ def calc_hp(class_name: str, level: int, con_mod: int) -> int:
 def allocate_ability_scores(class_name: str, race_name: str, subrace: str = "") -> dict:
     """Allocate standard array optimally for class, then apply racial ASIs."""
     priority = ABILITY_PRIORITY.get(class_name, ABILITY_PRIORITY["Fighter"])
-    scores = {ability: val for ability, val in zip(priority, sorted(STANDARD_ARRAY, reverse=True))}
+    scores = {ability: val for ability, val in zip(priority, sorted(STANDARD_ARRAY, reverse=True), strict=False)}
     # Apply racial ASIs (PHB p.12-40)
     race_data = RACES.get(race_name, RACES["Human"])
     for ability, bonus in race_data["asi"].items():

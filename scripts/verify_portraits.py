@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 os.chdir(ROOT)
 
-from services import ref_portraits                      # noqa: E402
+from services import ref_portraits  # noqa: E402
 from services.topology_verify import expected_from_clause, generate_verified  # noqa: E402
 
 #: Creatures audited by eye on 2026-11-18 as rendering the wrong topology. Not a re-derivation of

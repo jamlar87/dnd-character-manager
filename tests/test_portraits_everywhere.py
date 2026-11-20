@@ -13,6 +13,7 @@ import io
 import json
 import re
 import sqlite3
+
 from js_bundle import read_js
 
 
@@ -83,7 +84,7 @@ class TestDmToolsCampaignCards:
         with_p = make_char(seeded_db, "Has Portrait", portrait_url=png_data_url(),
                            hp_current=7, hp_max=20)
         without_p = make_char(seeded_db, "No Portrait", hp_current=3, hp_max=9)
-        camp = make_campaign(seeded_db, "Portrait Campaign", [with_p, without_p])
+        make_campaign(seeded_db, "Portrait Campaign", [with_p, without_p])
         html = client.get("/dm-tools", headers=auth_headers).text
         assert "char-portrait-chip" in html
         assert f"/api/character/{with_p}/portrait-image?size=52" in html   # 26px tile -> 2x
@@ -100,7 +101,7 @@ class TestDmToolsCampaignCards:
     def test_deleted_character_does_not_break_the_card(self, client, seeded_db, auth_headers):
         """Roster entry whose character row is gone (shouldn't happen) still lists."""
         cid = make_char(seeded_db, "Ghost", hp_current=1, hp_max=1)
-        camp = make_campaign(seeded_db, "Ghost Campaign", [cid, 999999])
+        make_campaign(seeded_db, "Ghost Campaign", [cid, 999999])
         con = sqlite3.connect(str(seeded_db["db_path"]))
         con.execute("DELETE FROM characters WHERE id=?", (cid,))
         con.commit()
@@ -142,7 +143,6 @@ class TestCampaignApiExposesTheFlag:
 
 class TestBrowserRenderedListsUseTheSharedTile:
     def test_dm_tools_js_wires_the_tile_into_every_character_list(self):
-        from pathlib import Path
         js = read_js("dm_tools.js")
         # players panel, encounter participant rows, initiative track, picker, campaign list
         assert js.count("charPortraitTile(") >= 5
@@ -152,7 +152,6 @@ class TestBrowserRenderedListsUseTheSharedTile:
 
     def test_dm_tools_js_is_syntactically_consistent(self):
         """A stray backtick/brace in a template literal would kill the whole file."""
-        from pathlib import Path
         js = read_js("dm_tools.js")
         assert js.count("`") % 2 == 0, "unbalanced backticks in dm_tools.js"
         # every call must be used as a value — inside a template literal

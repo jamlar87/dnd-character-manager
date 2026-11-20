@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Fourth pass — search for Orzhov, Cult of Dragon, Dragon Scholar."""
-import fitz
 from pathlib import Path
+
+import fitz
 
 MANUAL_DIR = Path("/media/james/SlowDisk1tb/dnd-character-manager/manuals/DnD-Manuals")
 

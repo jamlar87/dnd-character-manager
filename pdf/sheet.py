@@ -3,6 +3,7 @@
 import os
 
 from reportlab.lib.pagesizes import letter
+from reportlab.lib.utils import simpleSplit
 from reportlab.pdfgen import canvas
 
 from .layout import (
@@ -24,7 +25,6 @@ from .layout import (
     trunc,
     yb,
 )
-from .text import mod_int
 from .shared import _get_item_description
 from .spellbook import (
     draw_equipment_appendix,
@@ -32,6 +32,8 @@ from .spellbook import (
     draw_page4_appendix,
     draw_spell_appendix,
 )
+from .text import mod_int
+
 
 # ═══════════════════════════════════════════════════════════════
 #  PAGE 1 — 3-COLUMN GRID
@@ -202,7 +204,7 @@ def _draw_col2_combat(c, d):
     y_atk = y_hd + 52  # increased from +44
     _label(c, COL2_X, y_atk - 9, "Attacks & Spellcasting (see Appendix)")
     col_w = [80, 34, 54]
-    for j, (h, cw) in enumerate(zip(["Name", "Atk", "Damage/Type"], col_w)):
+    for j, (h, cw) in enumerate(zip(["Name", "Atk", "Damage/Type"], col_w, strict=False)):
         cx = COL2_X + sum(col_w[:j])
         ry = yb(y_atk) - 12
         c.setFont(FONT_BOLD, 4.5)
@@ -215,7 +217,7 @@ def _draw_col2_combat(c, d):
         vals = [atk.get("name", ""),
                 f"{atk.get('attack_bonus', 0):+d}" if atk.get("attack_bonus") is not None else "",
                 atk.get("damage", "")]
-        for j, (v, cw) in enumerate(zip(vals, col_w)):
+        for j, (v, cw) in enumerate(zip(vals, col_w, strict=False)):
             cx = COL2_X + sum(col_w[:j])
             ry = yb(ry_tl) - 15
             c.setFont(FONT, 5.5)

@@ -1,5 +1,8 @@
 """Fetch SRD magic items + features concurrently."""
-import json, os, asyncio
+import asyncio
+import json
+import os
+
 import httpx
 
 API = "https://www.dnd5eapi.co/api/2014"

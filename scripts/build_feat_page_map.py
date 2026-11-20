@@ -8,13 +8,14 @@ Output: data/feat_page_map.json
 """
 import json
 import re
+import sys
 from pathlib import Path
 
 try:
     import fitz
 except ImportError:
     print("ERROR: pymupdf not installed.")
-    import sys; sys.exit(1)
+    sys.exit(1)
 
 DATA_DIR = Path("/home/james/dnd-character-manager/data")
 OUTPUT_PATH = DATA_DIR / "page_maps" / "feat_page_map.json"

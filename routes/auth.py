@@ -1,14 +1,15 @@
 """Auth routes — register, login, logout, password reset."""
 
-from fastapi import APIRouter, Request, Form, HTTPException
-from fastapi.responses import HTMLResponse, RedirectResponse
 import ipaddress
 import math
-import sqlite3
 import os
+import sqlite3
 
-from core.security import _verify, _get_user, _create_session, get_current_user, safe_next
+from fastapi import APIRouter, Form, HTTPException, Request
+from fastapi.responses import HTMLResponse, RedirectResponse
+
 from core.http import _render
+from core.security import _create_session, _get_user, _verify, get_current_user, safe_next
 from services import login_guard
 from services.sessions import invalidate_user_sessions
 from services.users import create_user, update_password

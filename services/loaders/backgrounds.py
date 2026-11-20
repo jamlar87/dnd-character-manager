@@ -9,7 +9,7 @@ __all__ = ["merge_manual_backgrounds"]
 
 def merge_manual_backgrounds() -> None:
     """Append backgrounds.json to the background list."""
-    from core.data import BACKGROUNDS, BACKGROUND_SOURCES, _background_page_map
+    from core.data import BACKGROUND_SOURCES, BACKGROUNDS, _background_page_map
 
     # ── Backgrounds ── append to BACKGROUNDS list
     manual_backgrounds = _load_manual_json("backgrounds.json")

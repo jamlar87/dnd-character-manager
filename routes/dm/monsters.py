@@ -2,11 +2,15 @@
 
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse
+
+from core.data import SRD_SPELLS
 from core.security import require_user
 from routes.characters import (
-    _load_monster_cache, _monster_cr_sort_key, parse_source_filter, source_matches,
+    _load_monster_cache,
+    _monster_cr_sort_key,
+    parse_source_filter,
+    source_matches,
 )
-from core.data import SRD_SPELLS
 from services.rules import ability_mod
 
 router = APIRouter()

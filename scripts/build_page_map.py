@@ -10,8 +10,8 @@ Output: data/item_page_map.json
 import json
 import re
 import sys
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 try:
     import fitz
@@ -882,7 +882,7 @@ def main():
     by_pdf = defaultdict(list)  # pdf_path -> [(key, name, src_str)]
     unknown = []
 
-    for key, name, src, ds in no_page:
+    for key, name, src, _ds in no_page:
         resolved = resolve_source(src)
         if resolved:
             pdf_filename, display_prefix = resolved
@@ -895,7 +895,7 @@ def main():
             unknown.append((key, name, src, "UNKNOWN_SOURCE"))
 
     print(f"\nUnknown/unresolvable: {len(unknown)}")
-    for key, name, src, reason in unknown[:10]:
+    for _key, name, src, reason in unknown[:10]:
         print(f"  {name!r} — source={src!r} — {reason}")
     if len(unknown) > 10:
         print(f"  ... and {len(unknown)-10} more")
@@ -993,15 +993,15 @@ def main():
 
             except Exception as e:
                 print(f"  PDF search error: {e}")
-                for key, name, src, display_prefix in remaining:
+                for key, _name, src, _display_prefix in remaining:
                     results[key] = {"page": None, "source_str": src}
         elif remaining:
             print(f"  (no pymupdf, skipping PDF search for {len(remaining)} items)")
-            for key, name, src, display_prefix in remaining:
+            for key, _name, src, _display_prefix in remaining:
                 results[key] = {"page": None, "source_str": src}
 
     # ── Also include items that already have page numbers ──
-    for key, name, src, ds in has_page:
+    for key, _name, src, _ds in has_page:
         # Parse existing page number
         m = re.search(r'\b[pP]\.?\s*(\d+)', src)
         page = int(m.group(1)) if m else None
@@ -1016,7 +1016,7 @@ def main():
     # ── Stats ──
     total_found = sum(1 for v in results.values() if v.get("page"))
     total_missing = len(results) - total_found
-    print(f"\n=== RESULTS ===")
+    print("\n=== RESULTS ===")
     print(f"Total items: {len(results)}")
     print(f"With page numbers: {total_found}")
     print(f"Without page numbers: {total_missing}")

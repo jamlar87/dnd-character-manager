@@ -37,8 +37,9 @@ HERE = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE / "scripts"))
 
-import ingest_manual as ing  # noqa: E402
 from append_extraction import append_extraction  # noqa: E402
+
+import ingest_manual as ing  # noqa: E402
 
 CACHE = HERE / "data" / "manual_cache"
 MERGED = HERE / "data" / "manual_data"
@@ -118,8 +119,9 @@ def normalize_display(app_slug: str) -> int:
     never left in the state where it renders with the wrong book name.
     """
     try:
-        import main as app_main  # noqa: PLC0415 - heavy import, only needed post-fold
         from append_extraction import fix_sources  # noqa: PLC0415
+
+        import main as app_main  # noqa: PLC0415 - heavy import, only needed post-fold
     except Exception as exc:  # noqa: BLE001
         log(f"  display normalise skipped: {type(exc).__name__}: {exc}")
         return 0

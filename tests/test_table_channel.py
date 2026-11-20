@@ -13,7 +13,6 @@ import sqlite3
 import pytest
 from js_bundle import read_js
 
-
 # ── Slice 1a: schema ────────────────────────────────────────────────────────────────
 
 def test_roll_log_schema_and_campaign_key(test_db):
@@ -37,8 +36,8 @@ def test_roll_log_schema_and_campaign_key(test_db):
 
 def test_roll_log_survives_reinit(test_db):
     """init_db() runs on every boot: a second run must not fail or duplicate."""
-    from services.db_schema import init_db
     import main as app_module
+    from services.db_schema import init_db
 
     con = sqlite3.connect(str(test_db))
     con.execute("INSERT INTO roll_log (campaign_id, who, expression, results, total) "
@@ -176,7 +175,7 @@ def test_insert_roll_rejects_results_that_do_not_match_the_expression(test_db):
 
 
 def test_insert_roll_prunes_to_the_newest_500(test_db):
-    from routes.table import insert_roll, FEED_LIMIT
+    from routes.table import FEED_LIMIT, insert_roll
 
     db = _db(test_db)
     try:
@@ -395,7 +394,6 @@ def _request(path: str, token: str = "", last_event_id=None):
 
 def test_stream_requires_ownership(seeded_db):
     """No session: refused. A bystander: 404, never a 403 that confirms the campaign exists."""
-    import asyncio
 
     from fastapi import HTTPException
 
@@ -416,7 +414,6 @@ def test_stream_requires_ownership(seeded_db):
 
 def test_stream_response_is_an_event_stream(seeded_db):
     """Headers matter: a cached or compressed stream arrives as one late burst."""
-    import asyncio
 
     from starlette.responses import StreamingResponse
 
@@ -822,7 +819,6 @@ def test_changing_hp_on_the_sheet_publishes_a_state_event(seeded_db, client, aut
 
 def test_the_sheet_poll_is_demoted_to_a_safety_net():
     """Text-level guard: with the stream open the 2s timer must not be the mechanism."""
-    import pathlib
 
     js = read_js("sheet.js")
     assert "SHEET_POLL_FAST_MS = 2000" in js and "SHEET_POLL_SAFE_MS = 30000" in js
@@ -942,7 +938,6 @@ def test_hp_still_wins_the_kind_when_a_save_moves_both(seeded_db, client, auth_h
 def test_a_sheet_event_carries_no_roll_id():
     """The frame contract again, from the other side: a state event that carried an id would
     poison Last-Event-ID and make the next reconnect replay the whole feed."""
-    import pathlib
 
     from routes.table import frame_for
 
@@ -954,7 +949,6 @@ def test_a_sheet_event_carries_no_roll_id():
 def test_the_tracker_poll_is_demoted_and_wired_to_the_stream():
     """Text guard: the DM tracker must take its updates from the campaign stream it already
     opens for the roll feed, and keep a fast poll only as the fallback."""
-    import pathlib
 
     js = read_js("dm_tools.js")
     assert "COMBAT_POLL_FAST_MS = 2000" in js and "COMBAT_POLL_SAFE_MS = 30000" in js
@@ -971,7 +965,6 @@ def test_a_player_hp_change_repaints_the_trackers_panel():
     """The players loop used to update its data without flagging a repaint, so the DM's panel
     kept the old number until something unrelated re-rendered. The initiative track holds hp
     inputs and still waits for a participant change, so the two flags stay separate."""
-    import pathlib
 
     js = read_js("dm_tools.js")
     assert "let changedPlayers = false;" in js
@@ -1407,7 +1400,6 @@ def test_the_live_sheet_route_renders_the_xp_row(seeded_db, client, auth_headers
 def test_the_sheets_own_sync_carries_xp_so_an_award_needs_no_reload(seeded_db, client, auth_headers):
     """The XP row is server-rendered, so the sheet's sync read has to carry XP too — without it an
     award could not appear until the page was reloaded, which is what the first live probe showed."""
-    import pathlib
 
     char_id = _character(seeded_db["db_path"], 1, "Rowan")
     camp_id = _campaign_with_roster(seeded_db["db_path"], 1, [{"id": char_id, "name": "Rowan"}])

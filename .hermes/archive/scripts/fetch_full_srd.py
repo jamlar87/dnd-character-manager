@@ -11,8 +11,12 @@ Endpoints fetched:
   spells, subclasses, classes, features, magic-items
   monsters  (huge — ~700+ entries, tries to be gentle)
 """
-import json, os, asyncio, sys
+import asyncio
+import json
+import os
+import sys
 from pathlib import Path
+
 import httpx
 
 API = "https://www.dnd5eapi.co/api/2014"

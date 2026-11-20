@@ -2,8 +2,10 @@
 
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
+
 from core.security import require_user
 from routes.characters import _extract_json
+
 from ._shared import call_ai
 
 router = APIRouter()

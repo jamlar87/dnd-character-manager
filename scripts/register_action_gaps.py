@@ -136,7 +136,7 @@ def main() -> int:
 
     from services.data_loader import load_manual_data
     load_manual_data()
-    from data import LIMITED_USE, FEATURE_ACTION_TYPES
+    from data import FEATURE_ACTION_TYPES, LIMITED_USE
 
     missing = sorted(
         k for k in LIMITED_USE
