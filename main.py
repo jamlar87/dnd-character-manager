@@ -376,8 +376,11 @@ def _deep_checks():
     checks["gpu_vlm"] = {"ok": ok, "detail": f"{VLM_URL} — {detail}"}
 
     # Free cloud route: the fallback when the GPU is busy or evicted.
-    from services.topology_verify import FREELLMAPI_KEY, FREELLMAPI_URL
-    headers = {"Authorization": f"Bearer {FREELLMAPI_KEY}"} if FREELLMAPI_KEY else {}
+    from services.topology_verify import FREELLMAPI_URL, _freellmapi_key
+    # The env var alone is not the key: the app falls back to the key Hermes
+    # already holds for this same aggregator. Probing without it answered 401
+    # and reported a healthy backend as broken.
+    headers = {"Authorization": f"Bearer {_freellmapi_key()}"} if _freellmapi_key() else {}
     ok, detail = _probe_http(f"{FREELLMAPI_URL}/models", headers=headers)
     checks["freellmapi"] = {"ok": ok, "detail": f"{FREELLMAPI_URL} — {detail}"}
 
