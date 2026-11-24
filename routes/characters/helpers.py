@@ -1004,7 +1004,7 @@ def _search_manuals(query: str, max_results: int = 20,
 
     for word in words:
         patterns = _fuzzy_variants(word)
-        cmd = ["rg", "-i", "-n", "--no-heading", "--color", "never"]
+        cmd = ["rg", "-i", "-n", "--no-heading", "--color", "never", "-H"]
         for p in patterns:
             cmd.extend(["-e", p])
         cmd.extend(all_txt_paths)
@@ -1028,6 +1028,17 @@ def _search_manuals(query: str, max_results: int = 20,
                     if label:
                         per_label[label].add(ln)
                         total_raw_hits += 1
+                    continue
+                # A single searched file makes rg drop the filename ("123:text"),
+                # so the path-prefixed pattern above misses every hit. One file in
+                # scope means the only possible owner is that file.
+                if len(all_txt_paths) == 1:
+                    m2 = re.match(r"^(\d+):", line)
+                    if m2:
+                        ln = int(m2.group(1))
+                        if ln > FRONT_MATTER_SKIP:
+                            per_label[next(iter(cached))].add(ln)
+                            total_raw_hits += 1
         word_line_map[word] = per_label
 
     # ── Step 2: per-book AND scoring ─────────────────────────────────────

@@ -74,3 +74,14 @@ def test_search_route_serves_campaign_hits(client, auth_headers):
     assert results, payload
     assert results[0]["book"] == "LMoP"
     assert "results" in payload or isinstance(payload, list)
+
+
+def test_search_route_honours_a_campaign_source_filter(client, auth_headers):
+    """Picking only an adventure in the source picker must scope results to it."""
+    resp = client.post("/api/dm/search-manuals",
+                       json={"query": "Wave Echo Cave", "source": ["LMoP"]},
+                       headers=auth_headers)
+    assert resp.status_code == 200, resp.text[:200]
+    results = resp.json()["results"]
+    assert results, "campaign-scoped search returned nothing"
+    assert {r["book"] for r in results} == {"LMoP"}
