@@ -79,6 +79,24 @@ def do_undo(request: Request):
 
     if result.get("ok"):
         _publish(result.get("restored") or [])
+        # The audit trail: an undo is a change too, and the trail is the only place that says
+        # "this was put back" once the undo stack has moved on.
+        try:
+            from services.eventlog import log_event
+
+            restored = result.get("restored") or []
+            for item in restored:
+                cid = item.get("character_id")
+                if not cid:
+                    continue
+                log_event("undo", campaign_id=0,
+                          actor=str(user.get("email") or user.get("id") or ""),
+                          target=f"char:{cid}",
+                          before=dict(item.get("values") or {}),
+                          after={},
+                          )
+        except Exception:  # noqa: BLE001 - auditing must never break the undo
+            pass
         return JSONResponse(result)
     reason = result.get("reason")
     status = 404 if reason == "empty" else (409 if reason == "stale" else 400)

@@ -17,6 +17,7 @@ from core.db import get_db
 from core.features import _build_character_attacks, _build_charged_item_attacks, _resolve_item_key
 from core.security import _require_owned, require_user
 from routes.characters.helpers import load_character
+from services import roster
 
 from .update import _publish_change
 
@@ -418,16 +419,17 @@ def delete_character(char_id: int, request: Request):
     # the id there too, or the roster keeps listing a character that is gone.
     for camp in db.execute("SELECT id, characters FROM dm_campaigns").fetchall():
         try:
-            roster = json.loads(camp["characters"] or "[]")
+            entries = json.loads(camp["characters"] or "[]")
         except (ValueError, TypeError):
             continue
-        if not roster:
+        if not entries:
             continue
-        kept = [c for c in roster
+        kept = [c for c in entries
                 if not ((isinstance(c, dict) and c.get("id") == char_id) or c == char_id)]
-        if len(kept) != len(roster):
+        if len(kept) != len(entries):
             db.execute("UPDATE dm_campaigns SET characters = ? WHERE id = ?",
                        (json.dumps(kept), camp["id"]))
+            roster.sync(db, camp["id"], kept)
     db.commit()
     db.close()
     return JSONResponse({"ok": True})

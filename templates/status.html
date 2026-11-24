@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+{% block title %}Status — D&D Character Manager{% endblock %}
+{% block content %}
+<section class="panel">
+  <h1>Status</h1>
+  <p class="status-badge {{ status }}">{{ status|upper }}</p>
+  {% if degraded %}
+  <p class="dm-note">Degraded: {{ degraded|join(", ") }}</p>
+  {% endif %}
+
+  <h2>Deep checks</h2>
+  <div class="table-scroll">
+    <table class="status-table">
+      <thead><tr><th>Check</th><th>OK</th><th>Detail</th></tr></thead>
+      <tbody>
+      {% for c in checks %}
+        <tr class="{{ 'ok' if c.ok else 'bad' }}">
+          <td>{{ c.name }}</td>
+          <td>{{ 'yes' if c.ok else 'no' }}</td>
+          <td>{{ c.detail }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>Recent events</h2>
+  {% if events %}
+  <div class="table-scroll">
+    <table class="status-table">
+      <thead><tr><th>When</th><th>Kind</th><th>Actor</th><th>Target</th></tr></thead>
+      <tbody>
+      {% for e in events %}
+        <tr>
+          <td class="nowrap">{{ e.ts }}</td>
+          <td>{{ e.kind }}</td>
+          <td>{{ e.actor or '—' }}</td>
+          <td>{{ e.target or '—' }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="dm-note">No events logged yet.</p>
+  {% endif %}
+</section>
+{% endblock %}
+
+{% block style %}
+<style>
+  .status-badge { display: inline-block; padding: 6px 14px; border-radius: 999px;
+                  font-weight: 700; letter-spacing: .04em; }
+  .status-badge.ok { background: #1f7a3d; color: #eaffef; }
+  .status-badge.degraded { background: #8c2f2f; color: #ffecec; }
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .status-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .status-table th, .status-table td { text-align: left; padding: 8px 10px;
+                                       border-bottom: 1px solid rgba(255,255,255,.12); }
+  .status-table tr.ok td:first-child { color: #9be7b0; }
+  .status-table tr.bad td:first-child { color: #ffb3b3; }
+  .nowrap { white-space: nowrap; }
+  @media (max-width: 600px) { .status-table { font-size: 13px; } }
+</style>
+{% endblock %}

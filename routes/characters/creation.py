@@ -544,6 +544,16 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
         db.commit()
 
     db.close()
+    # The audit trail: a new character is the first entry in its own history.
+    try:
+        from services.eventlog import log_event
+
+        log_event("character_create", campaign_id=0, actor=str(user_id),
+                  target=f"char:{char_id}", before=None,
+                  after={"name": name, "class_name": class_name, "race": race_name,
+                         "level": level})
+    except Exception:  # noqa: BLE001 - auditing must never break the creation
+        pass
     return (char_id, name)
 
 

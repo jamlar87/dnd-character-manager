@@ -9,6 +9,7 @@ from core.data import _load_manual_json
 from core.db import get_db
 from core.features import get_caster_type, get_spell_slots
 from core.security import _require_owned, require_user
+from services import roster
 from services.rules import ability_mod
 from services.schema import HAS_PORTRAIT_SQL
 
@@ -247,8 +248,23 @@ async def dm_campaign_add_character(camp_id: int, request: Request):
         "status": "active",
     })
     db.execute("UPDATE dm_campaigns SET characters=? WHERE id=?", (json.dumps(chars), camp_id))
+    # The join table is what a JOIN reads; leaving it behind is how it stayed empty while
+    # five campaigns had rosters. Mirror the write here so both agree.
+    roster.sync(db, camp_id, chars)
     db.commit()
     db.close()
+    # The audit trail: who put this character on the roster, and which campaign.
+    try:
+        from services.eventlog import log_event
+
+        log_event("roster_add", campaign_id=int(camp_id),
+                  actor=str(user.get("email") or user.get("id") or ""),
+                  target=f"char:{char_id}",
+                  before={"on_roster": False},
+                  after={"on_roster": True, "name": char_row["name"],
+                         "class_name": char_row["class_name"], "level": char_row["level"]})
+    except Exception:  # noqa: BLE001 - auditing must never break the roster write
+        pass
     return JSONResponse({"ok": True})
 
 @router.post("/api/dm/campaign/{camp_id}/remove-character", response_class=JSONResponse)
@@ -265,8 +281,18 @@ async def dm_campaign_remove_character(camp_id: int, request: Request):
     chars = json.loads(camp["characters"] or "[]")
     chars = [c for c in chars if c.get("id") != char_id]
     db.execute("UPDATE dm_campaigns SET characters=? WHERE id=?", (json.dumps(chars), camp_id))
+    roster.sync(db, camp_id, chars)
     db.commit()
     db.close()
+    try:
+        from services.eventlog import log_event
+
+        log_event("roster_remove", campaign_id=int(camp_id),
+                  actor=str(user.get("email") or user.get("id") or ""),
+                  target=f"char:{char_id}",
+                  before={"on_roster": True}, after={"on_roster": False})
+    except Exception:  # noqa: BLE001 - auditing must never break the roster write
+        pass
     return JSONResponse({"ok": True})
 
 @router.post("/api/dm/campaign/{camp_id}/add-npc", response_class=JSONResponse)
@@ -493,4 +519,17 @@ async def award_xp(camp_id: int, request: Request):
             poke_maps_for_character(cid)
         except Exception:
             pass
+    # The audit trail: the XP award, per recipient, with the totals before and after.
+    try:
+        from services.eventlog import log_event
+
+        for cid in ids:
+            was = xp_before.get(cid, 0)
+            log_event("xp_award", campaign_id=int(camp_id),
+                      actor=str(user.get("email") or user.get("id") or ""),
+                      target=f"char:{cid}",
+                      before={"xp": was}, after={"xp": max(0, was + amount)},
+                      )
+    except Exception:  # noqa: BLE001 - auditing must never break the award
+        pass
     return JSONResponse({"ok": True, "awarded": amount, "recipients": len(ids)})

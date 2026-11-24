@@ -124,6 +124,12 @@ router.include_router(_relationships_router)
 # ── Level-Up API ────────────────────────────────────────────────────────────
 
 # ── Level-Up / De-Level API (extracted to leveling.py) ──────────────────
+# ── Audit trail (extracted to audit.py) ───────────────────────────────
+from routes.characters.audit import router as _audit_router  # noqa: E402
+
+router.include_router(_audit_router)
+
+
 from routes.characters.leveling import router as _leveling_router
 
 router.include_router(_leveling_router)

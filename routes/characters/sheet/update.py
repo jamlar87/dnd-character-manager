@@ -114,6 +114,19 @@ def update_character(char_id: int, request: Request, body: UpdateCharacter):
                   "before": {k: row[k] for k in updates},
                   "after": {k: updates[k] for k in updates}}])
     db.commit()
+    # The audit trail: what this sheet save changed, and who changed it. Written after
+    # the commit, on its own connection, so a failed audit row cannot cost the save.
+    try:
+        from services.eventlog import character_campaign_id, log_event
+
+        log_event("character_update",
+                  campaign_id=character_campaign_id(db, char_id),
+                  actor=str(user.get("email") or user.get("id") or ""),
+                  target=f"char:{char_id}",
+                  before={k: row[k] for k in updates},
+                  after={k: updates[k] for k in updates})
+    except Exception:  # noqa: BLE001 - auditing must never break a save
+        pass
     db.close()
 
     # Live state: the table should not have to poll to see this sheet move. The DM's tracker

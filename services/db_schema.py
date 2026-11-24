@@ -180,6 +180,17 @@ def init_db():
             created_at TEXT NOT NULL DEFAULT (datetime('now')),
             FOREIGN KEY (campaign_id) REFERENCES dm_campaigns(id) ON DELETE CASCADE
         );
+        CREATE TABLE IF NOT EXISTS event_log (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            campaign_id INTEGER NOT NULL DEFAULT 0,
+            kind TEXT NOT NULL,
+            actor TEXT NOT NULL DEFAULT '',
+            target TEXT NOT NULL DEFAULT '',
+            before TEXT NOT NULL DEFAULT '{}',
+            after TEXT NOT NULL DEFAULT '{}',
+            ts TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_event_log_campaign ON event_log(campaign_id, id);
         CREATE TABLE IF NOT EXISTS sessions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
@@ -375,6 +386,30 @@ def init_db():
 
     # ── Migration: add source columns to dm_npcs (manual ingestion) ──
     _migrate_npc_source_columns()
+
+    # ── Migration: fill dm_campaign_characters from the roster JSON ──
+    _migrate_roster_join()
+
+
+def _migrate_roster_join():
+    """Backfill the campaign/character join table from `dm_campaigns.characters`.
+
+    The table shipped but nothing ever wrote it: five live campaigns had rosters
+    and the join table had zero rows, so every reader parsed JSON instead. The
+    backfill is idempotent — re-running it only inserts rows that are missing.
+    """
+    from core.db import get_db
+    from services import roster
+    db = get_db()
+    try:
+        added = roster.sync_all(db)
+        db.commit()
+        if added:
+            print(f"[migration] dm_campaign_characters backfilled: {added} rows")
+    except Exception as e:  # a roster blob is free-form text; never block startup on it
+        print(f"[migration] roster join backfill: {e}")
+    finally:
+        db.close()
 
 
 def _migrate_npc_source_columns():
@@ -644,4 +679,4 @@ def _migrate_npc_source_columns():
         check_db.close()
 
 
-__all__ = ["init_db", "_migrate_npc_source_columns"]
+__all__ = ["init_db", "_migrate_npc_source_columns", "_migrate_roster_join"]

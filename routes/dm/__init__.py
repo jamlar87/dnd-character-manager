@@ -69,6 +69,7 @@ from summon_templates import SUMMON_TEMPLATES
 router = APIRouter()
 
 from .api import router as _api_router  # noqa: E402
+from .audit import router as _audit_router  # noqa: E402
 from .campaigns import router as _campaigns_router  # noqa: E402
 from .encounters import router as _encounters_router  # noqa: E402
 from .monsters import router as _monsters_router  # noqa: E402
@@ -85,6 +86,7 @@ router.include_router(_campaigns_router)
 router.include_router(_traps_router)
 router.include_router(_widgets_router)
 router.include_router(_api_router)
+router.include_router(_audit_router)
 
 # Including the sub-routers cannot reproduce the original registration order on its
 # own: several sections interleaved in the old file (the AI builders sat between the
@@ -109,7 +111,14 @@ _ORIGINAL_ORDER = (
     'campaign_xp', 'award_xp'
 )
 _routes_by_name = {r.name: r for r in router.routes}
-router.routes[:] = [_routes_by_name[_n] for _n in _ORIGINAL_ORDER]
+# Re-attach the known routes in their original order, then keep anything else
+# (a route added later, in a new sub-module) rather than dropping it on the
+# floor: a new endpoint that silently never matches is worse than an order
+# that is a little off.
+_ordered = [_routes_by_name[_n] for _n in _ORIGINAL_ORDER if _n in _routes_by_name]
+_seen = {_n for _n in _ORIGINAL_ORDER if _n in _routes_by_name}
+_ordered += [r for r in router.routes if r.name not in _seen]
+router.routes[:] = _ordered
 del _routes_by_name
 
 # Re-exports: the pre-split module had every helper at `routes.dm.<name>`.

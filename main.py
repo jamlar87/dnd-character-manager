@@ -8,6 +8,7 @@ import re
 import secrets
 import sqlite3
 import sys
+import urllib.request
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -333,23 +334,175 @@ async def bad_json_body_handler(request: Request, exc: json.JSONDecodeError):
 _APP_STARTED = _time.time()
 
 
-@app.get("/api/health", response_class=JSONResponse)
-def api_health():
-    db_state, status = "ok", 200
+def _probe_http(url, timeout=2.0, headers=None):
+    """True/False for 'something answered', with the reason when it did not."""
+    req = urllib.request.Request(url, headers=headers or {})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:   # noqa: S310 - fixed URLs
+            return True, f"HTTP {resp.status}"
+    except Exception as exc:                                          # noqa: BLE001
+        return False, f"{type(exc).__name__}: {exc}"
+
+
+def _deep_checks():
+    """The things that break a session without taking the process down.
+
+    Each entry is a soft dependency: a false one is reported, not fatal. The
+    database check stays the only hard signal, because a reachable DB with no GPU
+    is a playable game and an unreachable DB is not.
+    """
+    import shutil
+
+    checks = {}
+
+    # The library itself: if the SRD never loaded, every rules lookup is dead even
+    # though the process answers.
+    try:
+        srd_spells = len(SRD_SPELLS or [])
+        checks["srd_spells"] = {"ok": srd_spells > 0, "detail": f"{srd_spells} spells"}
+    except Exception as exc:                                          # noqa: BLE001
+        checks["srd_spells"] = {"ok": False, "detail": f"{type(exc).__name__}: {exc}"}
+
+    try:
+        from routes.characters import _load_monster_cache  # local: import cycle
+        monsters = len(_load_monster_cache() or [])
+        checks["srd_monsters"] = {"ok": monsters > 0, "detail": f"{monsters} monsters"}
+    except Exception as exc:                                          # noqa: BLE001
+        checks["srd_monsters"] = {"ok": False, "detail": f"{type(exc).__name__}: {exc}"}
+
+    # GPU box: portraits, topology verification and NPC art all call it.
+    from services.topology_verify import VLM_URL
+    ok, detail = _probe_http(f"{VLM_URL}/api/tags")
+    checks["gpu_vlm"] = {"ok": ok, "detail": f"{VLM_URL} — {detail}"}
+
+    # Free cloud route: the fallback when the GPU is busy or evicted.
+    from services.topology_verify import FREELLMAPI_KEY, FREELLMAPI_URL
+    headers = {"Authorization": f"Bearer {FREELLMAPI_KEY}"} if FREELLMAPI_KEY else {}
+    ok, detail = _probe_http(f"{FREELLMAPI_URL}/models", headers=headers)
+    checks["freellmapi"] = {"ok": ok, "detail": f"{FREELLMAPI_URL} — {detail}"}
+
+    # Disk: SQLite cannot vacuum or write a WAL on a full filesystem, and the
+    # failure mode is "every save 500s" rather than anything that looks like disk.
+    try:
+        usage = shutil.disk_usage(str(DB_PATH.parent))
+        free_gb = round(usage.free / 1_073_741_824, 1)
+        checks["disk"] = {"ok": free_gb >= 2.0, "detail": f"{free_gb} GB free"}
+    except Exception as exc:                                          # noqa: BLE001
+        checks["disk"] = {"ok": False, "detail": f"{type(exc).__name__}: {exc}"}
+
+    return checks
+
+
+def _audit_checks() -> dict:
+    """The audit trail's own health: can the database be written, and is the trail growing.
+
+    Separate from `_deep_checks()` on purpose: that one is the soft-dependency
+    probe the health endpoint has always answered with, and its set of checks is
+    part of that answer's contract.
+    """
+    checks = {}
+    # The database itself: can it still be written? A read-only filesystem or a
+    # full disk shows up as "every save 500s", which is not a health answer.
     try:
         conn = get_db()
         try:
+            conn.execute("CREATE TABLE IF NOT EXISTS _health_probe (id INTEGER PRIMARY KEY)")
+            conn.execute("INSERT INTO _health_probe (id) VALUES (1)")
+            conn.execute("DELETE FROM _health_probe WHERE id=1")
+            conn.commit()
+            checks["db_readwrite"] = {"ok": True, "detail": "write and read back ok"}
+        finally:
+            conn.close()
+    except Exception as exc:                                          # noqa: BLE001
+        checks["db_readwrite"] = {"ok": False, "detail": f"{type(exc).__name__}: {exc}"}
+
+    # The audit trail: the table exists and is being written to.
+    try:
+        conn = get_db()
+        try:
+            n = conn.execute("SELECT COUNT(*) FROM event_log").fetchone()[0]
+            checks["event_log"] = {"ok": True, "detail": f"{n} events"}
+        finally:
+            conn.close()
+    except Exception as exc:                                          # noqa: BLE001
+        checks["event_log"] = {"ok": False, "detail": f"{type(exc).__name__}: {exc}"}
+    return checks
+
+
+def _deep_report() -> dict:
+    """Every deep check, each one named: the health endpoint and the status page read this."""
+    report = {}
+    for name, check in {**_deep_checks(), **_audit_checks()}.items():
+        entry = dict(check)
+        entry["name"] = name
+        report[name] = entry
+    return report
+
+
+@app.get("/api/health", response_class=JSONResponse)
+def api_health(deep: int = 0):
+    db_state, status = "ok", 200
+    body = {}
+    try:
+        conn = get_db()
+        try:
+            body["characters"] = conn.execute("SELECT COUNT(*) FROM characters").fetchone()[0]
+            body["campaigns"] = conn.execute("SELECT COUNT(*) FROM dm_campaigns").fetchone()[0]
             conn.execute("SELECT 1").fetchone()
         finally:
             conn.close()
     except Exception as exc:                       # noqa: BLE001 - any failure means degraded
         db_state, status = f"{type(exc).__name__}: {exc}", 503
-    return JSONResponse(
-        {"status": "ok" if status == 200 else "degraded",
-         "db": db_state,
-         "uptime_s": int(_time.time() - _APP_STARTED)},
-        status_code=status,
-    )
+
+    payload = {
+        "status": "ok" if status == 200 else "degraded",
+        "db": db_state,
+        "uptime_s": int(_time.time() - _APP_STARTED),
+    }
+    if deep:
+        checks = _deep_checks()
+        payload["checks"] = checks
+        # The same per-check results under their own key, each one named, so a
+        # client can read the deep report without knowing the shape of "checks".
+        payload["deep"] = _deep_report()
+        # Deep mode still answers 503 only for the database: a dead GPU degrades
+        # art and NPC prose, it does not stop the table from playing.
+        payload["degraded"] = sorted(name for name, c in checks.items() if not c["ok"])
+        if db_state == "ok":
+            payload["counts"] = {"characters": body.get("characters"),
+                                 "campaigns": body.get("campaigns")}
+    return JSONResponse(payload, status_code=status)
+
+
+@app.get("/status", response_class=HTMLResponse)
+def status_page(request: Request):
+    """The deep health report as a page, from the same helper the API uses.
+
+    One helper, two faces: the JSON endpoint and this page read the same
+    `_deep_checks()`, so they cannot disagree about what is broken.
+    """
+    checks = _deep_report()
+    degraded = sorted(name for name, c in checks.items() if not c.get("ok"))
+    status = "ok" if not degraded else "degraded"
+    events = []
+    try:
+        conn = get_db()
+        try:
+            for r in conn.execute(
+                "SELECT id, campaign_id, kind, actor, target, before, after, ts "
+                "FROM event_log ORDER BY id DESC LIMIT 20"
+            ):
+                events.append({
+                    "id": r["id"], "campaign_id": r["campaign_id"], "kind": r["kind"],
+                    "actor": r["actor"] or "", "target": r["target"] or "",
+                    "before": r["before"] or "{}", "after": r["after"] or "{}", "ts": r["ts"],
+                })
+        finally:
+            conn.close()
+    except Exception as exc:                                          # noqa: BLE001
+        events = []
+    return _render("status.html", request=request, status=status, degraded=degraded,
+                   checks=[c for c in checks.values()], events=events)
 
 
 # ── Routes: Landing ───────────────────────────────────────────────────────────

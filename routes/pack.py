@@ -28,6 +28,7 @@ from fastapi.responses import JSONResponse, Response
 from core.config import STATIC
 from core.db import _json_list, get_db
 from core.security import _require_owned, require_user
+from services import roster
 
 router = APIRouter()
 
@@ -420,6 +421,7 @@ async def campaign_pack_import(request: Request):
         db.execute("UPDATE dm_campaigns SET characters = ?, npcs = ? WHERE id = ?",
                    (json.dumps(new_char_entries, ensure_ascii=False),
                     json.dumps(new_npc_entries, ensure_ascii=False), new_camp_id))
+        roster.sync(db, new_camp_id, new_char_entries)
         db.commit()
     finally:
         db.close()
