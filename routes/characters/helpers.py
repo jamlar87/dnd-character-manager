@@ -649,9 +649,9 @@ def _ensure_manual_cache() -> dict[str, Path]:
 
     cached = {}
     for pdf_rel, label in book_labels.items():
-        pdf_path = MANUALS_DIR / pdf_rel
+        pdf_path = _resolve_manual_pdf(pdf_rel)
         txt_path = MANUAL_CACHE / f"{label}.txt"
-        if pdf_path.exists():
+        if pdf_path is not None:
             if not txt_path.exists() or pdf_path.stat().st_mtime > txt_path.stat().st_mtime:
                 print(f"  [cache] Extracting {label}...")
                 _extract_pdf(pdf_path, txt_path)
@@ -663,13 +663,32 @@ def _ensure_manual_cache() -> dict[str, Path]:
     return cached
 
 
+def _resolve_manual_pdf(rel_path: str) -> Path | None:
+    """Find the PDF behind a _meta.json pdf_map entry.
+
+    pdf_map paths are stored relative to the DnD-Manuals parent folder
+    ("DnD-Manuals/Campaigns/…"), while MANUALS_DIR already points at that
+    folder — and older entries are plain filenames.  Try every shape, then
+    fall back to the character-manager's own manuals/ symlink farm.
+    """
+    rel = Path(rel_path)
+    candidates = [MANUALS_DIR / rel, MANUALS_DIR / rel.name,
+                  MANUALS_DIR.parent / rel, MANUALS_DIR.parent / rel.name,
+                  DATA_DIR.parent / "manuals" / rel,
+                  DATA_DIR.parent / "manuals" / rel.name]
+    for cand in candidates:
+        if cand.is_file():
+            return cand
+    return None
+
+
 def _extract_pdf(pdf_path: Path, txt_path: Path):
     """Extract text from a PDF using pdftotext."""
     import subprocess
     try:
         subprocess.run(
             ["pdftotext", "-layout", str(pdf_path), str(txt_path)],
-            capture_output=True, timeout=120
+            capture_output=True, timeout=300
         )
     except (subprocess.TimeoutExpired, FileNotFoundError):
         pass
@@ -1078,11 +1097,17 @@ def _search_manuals(query: str, max_results: int = 20,
                     # Normalize apostrophes so curly quotes from PDF extraction
                     # don't prevent exact-match bonus against user's straight apostrophe
                     region_text = region_text.replace("\u2018", "'").replace("\u2019", "'")
-                    if query.lower() in region_text:
-                        exact = 0.35
+                    # Collapse PDF line-wrap whitespace so a phrase broken across
+                    # two lines ("Wave Echo\nCave") still counts as an exact hit.
+                    q_norm = re.sub(r"\s+", " ", query.lower()).strip()
+                    if q_norm and re.sub(r"\s+", " ", region_text).find(q_norm) >= 0:
+                        exact = 1.0
                 except Exception:
                     pass
-                raw = (prox * 0.35 + density * 0.25 + exact * 0.30 + source_w * 0.10)
+                # Phrase presence must outrank loose word crowding, or an
+                # adventure's own key location loses to any line holding all
+                # three words apart.
+                raw = (prox * 0.20 + density * 0.12 + exact * 0.60 + source_w * 0.08)
                 score = round(raw * 10, 2)
 
                 snippet_start = max(1, match_lines[0] - CONTEXT_MARGIN)
