@@ -199,3 +199,16 @@ class TestFillDirect:
         assert out is not None
         reader = pypdf.PdfReader(io.BytesIO(bytes(out)))
         assert len(reader.pages) >= 1
+
+
+class TestPdfPlayerName:
+    """The sheet used to print the bare account id ("1") as the player name."""
+
+    def test_player_name_is_account_derived_not_raw_id(self, client, auth_headers, seeded_db):
+        cid = _create(client, auth_headers, name="Player Name Probe")
+        resp = client.get(f"/api/character/{cid}/pdf", headers=auth_headers)
+        assert resp.status_code == 200
+        reader = pypdf.PdfReader(io.BytesIO(resp.content))
+        fields = reader.get_fields()
+        value = (fields.get("PlayerName") or {}).get("/V")
+        assert value == "Test", f"PlayerName={value!r}"

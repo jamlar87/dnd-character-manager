@@ -37,6 +37,10 @@ def backup_db(db_path: Path, backup_dir: Path, keep: int) -> Path:
     dst = sqlite3.connect(str(dest))
     try:
         src.backup(dst)
+        # Leave the snapshot as a single self-contained file: without this the
+        # WAL-mode source leaves -wal/-shm sidecars next to every backup, and
+        # rotation below (which globs characters-*.db) never cleans them up.
+        dst.execute("PRAGMA journal_mode=DELETE")
     finally:
         dst.close()
         src.close()
@@ -46,6 +50,8 @@ def backup_db(db_path: Path, backup_dir: Path, keep: int) -> Path:
     stale = backups[:-keep] if keep > 0 else backups
     for old in stale:
         old.unlink(missing_ok=True)
+        for sidecar in (old.with_name(old.name + "-wal"), old.with_name(old.name + "-shm")):
+            sidecar.unlink(missing_ok=True)
 
     return dest
 

@@ -28,9 +28,22 @@ def character_pdf(char_id: int, request: Request):
     # Build structured data for PDF generator
     import os
     import sys
-    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    # Insert the REPO ROOT, never routes/characters: this file is itself named
+    # pdf.py, so putting its own directory on sys.path makes `import pdf`
+    # (used by pdf_generator) resolve to this route module instead of the
+    # pdf/ package and blow up with ImportError: _FONTS_DIR.
+    repo_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    if repo_root not in sys.path:
+        sys.path.insert(0, repo_root)
     from pdf_generator import build_char_data, fill_official_sheet
     char_data = build_char_data(row, db, racial_traits=_build_racial_traits(char))
+
+    # Player name: characters have no player-name column, so the sheet used to
+    # show the bare account id ("4"). Derive a readable name from the account
+    # email local-part instead.
+    email = str((user or {}).get("email") or "").strip()
+    if email:
+        char_data["player_name"] = email.split("@")[0].replace(".", " ").replace("_", " ").title()
 
     # Populate Allies & Organizations from character relationships
     try:

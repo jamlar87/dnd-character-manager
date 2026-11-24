@@ -2,7 +2,6 @@
 
 import json
 import os
-import sys
 
 # ═══════════════════════════════════════════════════════════════
 #  SPELL CACHE (lightweight — only used for slot lookups)
@@ -132,27 +131,21 @@ def _get_spell_cache():
 #  EQUIPMENT DESCRIPTION CACHE — from main.py ITEM_INDEX
 # ═══════════════════════════════════════════════════════════════
 _ITEM_INDEX = None
+_GET_ITEM_RESOLVER = None
 
 
 def _get_item_description(item_name):
     """Look up an item's PHB description from the app's ITEM_INDEX."""
-    global _ITEM_INDEX
-    if _ITEM_INDEX is None:
+    global _ITEM_INDEX, _GET_ITEM_RESOLVER
+    if _GET_ITEM_RESOLVER is None:
         try:
-            sys.path.insert(0, "/home/james/dnd-character-manager")
             from core.data import ITEM_INDEX
             from core.features import _resolve_item_key
-            _ITEM_INDEX = ITEM_INDEX
-            _GET_ITEM_RESOLVER = _resolve_item_key
         except Exception:
-            _ITEM_INDEX = {}
-            _GET_ITEM_RESOLVER = lambda n: None
-    else:
-        try:
-            sys.path.insert(0, "/home/james/dnd-character-manager")
-            from core.features import _resolve_item_key
-        except Exception:
-            _GET_ITEM_RESOLVER = lambda n: None
+            ITEM_INDEX = {}
+            _resolve_item_key = lambda n: None  # noqa: E731
+        _ITEM_INDEX = ITEM_INDEX
+        _GET_ITEM_RESOLVER = _resolve_item_key
     # Use the same fuzzy resolution as the rest of the app
     entry = _GET_ITEM_RESOLVER(item_name)
     if entry:
