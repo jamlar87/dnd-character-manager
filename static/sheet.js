@@ -370,15 +370,24 @@ async function applyHP(sign) {
       bar.classList.toggle('warn', hp > 0 && pct >= 25 && pct < 50);
     }
   });
-  // Auto-expand death saves when HP hits 0
-  if (hp === 0) {
-    const dsBody = document.getElementById('ds-body');
-    if (dsBody) {
-      dsBody.style.display = 'block';
-      document.getElementById('ds-toggle').textContent = '▾';
-    }
-  }
+  // Death Saves live inside the HP block and only matter at 0 HP
+  syncDeathSaves(hp);
   await sheetApi('/update', { hp_current: hp });
+}
+
+// Show the death-save tracker only while the character is at 0 HP, and open it
+// on the way down so the player can tick successes/failures immediately.
+function syncDeathSaves(hp) {
+  const block = document.getElementById('death-saves-block');
+  if (!block) return;
+  const down = hp <= 0;
+  block.style.display = down ? '' : 'none';
+  if (down) {
+    const body = document.getElementById('ds-body');
+    if (body) body.style.display = 'block';
+    const tog = document.getElementById('ds-toggle');
+    if (tog) tog.textContent = '▾';
+  }
 }
 
 async function resetHP() {
@@ -392,6 +401,7 @@ async function resetHP() {
       bar.classList.remove('danger', 'warn');
     }
   });
+  syncDeathSaves(hp);
   await sheetApi('/update', { hp_current: hp });
 }
 

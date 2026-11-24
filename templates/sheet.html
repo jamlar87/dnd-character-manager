@@ -231,6 +231,36 @@
         <button class="hp-btn dmg" data-action="applyHP" data-call='{&quot;a&quot;:[{&quot;n&quot;:-1}]}' title="Subtract HP" aria-label="Subtract HP">−</button>
         <button class="btn btn-sm btn-outline hp-full" data-action="resetHP" title="Reset to full HP">↺ Full</button>
       </div>
+      <!-- Death Saves: part of the HP block, and only visible at 0 HP -->
+      <div id="death-saves-block" class="hp-saves"{% if (character.hp_current|int) > 0 %} style="display:none"{% endif %}>
+        <br>
+        <div class="vital-line collapse-head" data-action="toggleDeathSaves">
+          <span class="block-label"><span id="ds-toggle" class="chev">▸</span> Death Saves</span>
+        </div>
+        <div id="ds-body" class="vital-collapse" style="display:none">
+          <div class="ds-group">
+            <div>
+              <div class="ds-label ok">Successes</div>
+              <div class="ds-box">{% for i in range(3) %}
+                <div class="ds-dot{% if i < character.death_saves_success %} filled-success{% endif %}" data-action="toggleDS" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;success&quot;},{&quot;n&quot;:&quot;{{ i+1 }}&quot;}]}'></div>
+              {% endfor %}</div>
+            </div>
+            <div>
+              <div class="ds-label bad">Failures</div>
+              <div class="ds-box">{% for i in range(3) %}
+                <div class="ds-dot{% if i < character.death_saves_fail %} filled-fail{% endif %}" data-action="toggleDS" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;fail&quot;},{&quot;n&quot;:&quot;{{ i+1 }}&quot;}]}'></div>
+              {% endfor %}</div>
+            </div>
+          </div>
+          <button class="btn btn-sm btn-outline" data-action="resetDS">Reset</button>
+          <div class="ds-rules">
+            <strong>Death Saving Throws</strong> (PHB p.197) — at 0&nbsp;HP, roll d20 at start of each turn:<br>
+            •&nbsp;<strong class="ok">10+</strong> = 1 success · <strong class="bad">Nat 1</strong> = 2 failures · <strong class="ok">Nat 20</strong> = regain 1&nbsp;HP<br>
+            •&nbsp;3&nbsp;successes = stable (0&nbsp;HP, unconscious) · 3&nbsp;failures = dead<br>
+            •&nbsp;Damage at 0&nbsp;HP = auto-fail (crit = 2 fails)
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -288,36 +318,6 @@
             <button class="btn btn-sm btn-ghost" data-action="rollMax" title="Spend one HD and take max result (feat/spell)">Max</button>
           </div>
           <div id="hd-result" class="hd-result" style="display:none"></div>
-        </div>
-      </section>
-
-      <!-- Death Saves (collapsible) -->
-      <section class="vital-block">
-        <div class="vital-line collapse-head" data-action="toggleDeathSaves">
-          <span class="block-label"><span id="ds-toggle" class="chev">▸</span> Death Saves</span>
-        </div>
-        <div id="ds-body" class="vital-collapse" style="display:none">
-          <div class="ds-group">
-            <div>
-              <div class="ds-label ok">Successes</div>
-              <div class="ds-box">{% for i in range(3) %}
-                <div class="ds-dot{% if i < character.death_saves_success %} filled-success{% endif %}" data-action="toggleDS" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;success&quot;},{&quot;n&quot;:&quot;{{ i+1 }}&quot;}]}'></div>
-              {% endfor %}</div>
-            </div>
-            <div>
-              <div class="ds-label bad">Failures</div>
-              <div class="ds-box">{% for i in range(3) %}
-                <div class="ds-dot{% if i < character.death_saves_fail %} filled-fail{% endif %}" data-action="toggleDS" data-call='{&quot;a&quot;:[{&quot;s&quot;:&quot;fail&quot;},{&quot;n&quot;:&quot;{{ i+1 }}&quot;}]}'></div>
-              {% endfor %}</div>
-            </div>
-          </div>
-          <button class="btn btn-sm btn-outline" data-action="resetDS">Reset</button>
-          <div class="ds-rules">
-            <strong>Death Saving Throws</strong> (PHB p.197) — at 0&nbsp;HP, roll d20 at start of each turn:<br>
-            •&nbsp;<strong class="ok">10+</strong> = 1 success · <strong class="bad">Nat 1</strong> = 2 failures · <strong class="ok">Nat 20</strong> = regain 1&nbsp;HP<br>
-            •&nbsp;3&nbsp;successes = stable (0&nbsp;HP, unconscious) · 3&nbsp;failures = dead<br>
-            •&nbsp;Damage at 0&nbsp;HP = auto-fail (crit = 2 fails)
-          </div>
         </div>
       </section>
   </div>

@@ -245,6 +245,7 @@ async function spendHitDice() {
   const curEl = document.getElementById('hp-cur');
   const hp = Math.min(parseInt(curEl.textContent) + gain, HP_MAX);
   curEl.textContent = hp;
+  syncDeathSaves(hp);
 
   // Update HP bar
   const pct = HP_MAX > 0 ? (hp / HP_MAX * 100) : 0;
@@ -278,6 +279,7 @@ async function rollMax() {
   const curEl = document.getElementById('hp-cur');
   const hp = Math.min(parseInt(curEl.textContent) + gain, HP_MAX);
   curEl.textContent = hp;
+  syncDeathSaves(hp);
 
   const pct = HP_MAX > 0 ? (hp / HP_MAX * 100) : 0;
   const bar = document.getElementById('hp-bar-side');
@@ -343,6 +345,7 @@ async function executeLongRest() {
   const hp = HP_MAX;
   const curEl = document.getElementById('hp-cur');
   curEl.textContent = hp;
+  syncDeathSaves(hp);
   const pct = HP_MAX > 0 ? 100 : 0;
   const bar = document.getElementById('hp-bar-side');
   if (bar) {
@@ -547,6 +550,7 @@ async function doShortRest(healed, rolls) {
   // Apply HP
   const curEl = document.getElementById('hp-cur');
   curEl.textContent = newHp;
+  syncDeathSaves(newHp);
   const pct = HP_MAX > 0 ? (newHp / HP_MAX * 100) : 0;
   const bar = document.getElementById('hp-bar-side');
   if (bar) {
