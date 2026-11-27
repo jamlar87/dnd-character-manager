@@ -581,6 +581,11 @@ def ai_select_spells(char_id: int, request: Request):
         slvl = int(spell.get("level", 0) or 0)
         if slvl > 0 and slvl > max_spell_level:
             continue
+        if slvl == 0:
+            # Cantrips are at-will and player-chosen (PHB p.201) — the auto-picker
+            # fills levelled slots only, so it can never push a character past
+            # Cantrips Known.
+            continue
         candidates.append({"name": name, "level": slvl, "spell": spell, "is_new": True, "known_id": None, "name_lower": name.lower()})
 
     # Score all candidates

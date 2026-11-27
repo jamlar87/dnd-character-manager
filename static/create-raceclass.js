@@ -105,7 +105,10 @@ function buildClasses() {
 }
 
 function selectClass(name) {
+  const changed = state.class_name !== name;
   state.class_name = name; state.subclass = null; state.subclass_bonus = [];
+  if (changed) { state.spells = []; state._spellsDone = false; state._quota = null; }
+  prefetchSpellQuota();
   document.querySelectorAll('#class-grid .option-card').forEach(c => c.classList.toggle('selected', c.dataset.name === name));
   const c = CLASSES[name];
   const scgrid = document.getElementById('subclass-grid');

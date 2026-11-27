@@ -850,7 +850,10 @@ def portrait_prompt(race: str, class_name: str, subclass: str = "") -> str:
         "Bugbear": "shaggy dark fur, long goblinoid ears, heavy brow, powerful long-limbed build, bestial features",
         "Centaur": "equine lower body suggested, human torso with strong build, wild flowing hair, nature-worn features",
         "Changeling": "pale skin, colorless white hair, large colorless eyes, subtly shifting features, androgynous",
-        "Firbolg": "towering broad build, gray-blue skin, pointed ears, wide bovine nose, gentle giant features",
+        # Firbolg: 5e art and text (Volo's p.106-107, MotM p.15, EGtW p.13) — 7-8 ft
+        # giant-kin, blue-grey hide, one enormous bulbous nose, big ears sweeping
+        # sideways. "Pointed ears" alone made the model render an elf.
+        "Firbolg": "towering eight-foot giant-kin build, blue-grey hide-like skin, enormous bulbous nose, heavy jutting brow, large ears sweeping out sideways, thick shaggy rust-red hair, gentle weathered face",
         "Genasi": "elemental features — skin and hair tinted with elemental colors, faint elemental energy, striking eyes",
         "Gith": "gaunt elongated features, yellow-green skin, sharp angular face, deep-set piercing eyes, thin build",
         "Goblin": "small and wiry, green skin, large pointed ears, sharp jagged teeth, cunning wide eyes",

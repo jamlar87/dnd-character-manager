@@ -32,3 +32,4 @@ art_audit/
 # scripts/verify_text_caches.py; helpers._ensure_manual_cache regenerates on demand).
 # Untracked to keep the repo lean — local copies stay in place.
 data/manual_cache/*.txt
+*.db.bak*

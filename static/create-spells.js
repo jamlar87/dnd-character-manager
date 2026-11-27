@@ -1,30 +1,60 @@
 /* split from static/create.js — classic script, shares the global scope of the other create-*.js files. */
-const KNOWN_CASTERS = ['Bard','Sorcerer','Warlock','Ranger'];
-const L1_SPELLS_KNOWN = {Bard:4, Sorcerer:2, Warlock:2, Ranger:0};  // Ranger starts at L2
-const L1_CANTRIPS = {Bard:2, Sorcerer:4, Warlock:2, Ranger:0};
+// Cantrip/spell counts are NOT hardcoded here: /api/spells/quota reads them from
+// the SRD class tables (PHB p.52-115). Prepared casters (Cleric/Druid/Paladin/
+// Wizard) pick cantrips only — their levelled list is auto-loaded server-side.
+const _spellQuotaCache = {};
 
-function isKnownCaster() {
-  return KNOWN_CASTERS.includes(state.class_name);
+async function getSpellQuota(className, level) {
+  const key = `${className}|${level || 1}`;
+  if (_spellQuotaCache[key]) return _spellQuotaCache[key];
+  const r = await fetch(`/api/spells/quota?class_name=${encodeURIComponent(className)}&level=${level || 1}`);
+  if (!r.ok) throw new Error('quota ' + r.status);
+  _spellQuotaCache[key] = await r.json();
+  return _spellQuotaCache[key];
+}
+
+function prefetchSpellQuota() {
+  if (!state.class_name) return;
+  getSpellQuota(state.class_name, 1).catch(() => {});
+}
+
+function _spellQuota() {
+  return _spellQuotaCache[`${state.class_name}|1`] || { cantrips: 0, spells: 0, total: 0, prepared: false };
+}
+
+function _spellQuotaCached() {
+  return _spellQuotaCache[`${state.class_name}|1`] || null;
 }
 
 let _createSpellList = [];
 
 async function showSpellPicker() {
   const className = state.class_name;
-  const needSpells = L1_SPELLS_KNOWN[className] || 0;
-  const needCantrips = L1_CANTRIPS[className] || 0;
-  const total = needSpells + needCantrips;
-  
+  let q;
+  try {
+    q = await getSpellQuota(className, 1);
+  } catch (e) {
+    q = _spellQuota();
+  }
+  const needCantrips = q.cantrips || 0;
+  const needSpells = q.spells || 0;
+  state._quota = { needCantrips, needSpells, prepared: !!q.prepared };
+  const total = needCantrips + needSpells;
+
   if (total === 0) { showStep(5); return; }  // No spells to pick
-  
+
   if (!state.spells) state.spells = [];
-  
-  document.getElementById('spell-picker-info').textContent = 
-    `Your ${className} starts with ${total} spell${total>1?'s':''} (${needCantrips>0?needCantrips+' cantrip'+ (needCantrips>1?'s':'') + (needSpells>0?' + ':''):''}${needSpells>0?needSpells+' L1 spell'+ (needSpells>1?'s':''):''}).`;
-  
+
+  const parts = [];
+  if (needCantrips > 0) parts.push(`${needCantrips} cantrip${needCantrips > 1 ? 's' : ''}`);
+  if (needSpells > 0) parts.push(`${needSpells} L1 spell${needSpells > 1 ? 's' : ''}`);
+  document.getElementById('spell-picker-info').textContent =
+    `Your ${className} starts with ${total} spell${total > 1 ? 's' : ''} (${parts.join(' + ')}).` +
+    (q.prepared ? ' Your levelled spells are added automatically from the class list.' : '');
+
   document.getElementById('spell-picker-overlay').style.display = 'flex';
   document.getElementById('sp-pick-search').value = '';
-  
+
   try {
     const r = await fetch(`/api/spells/starting?class_name=${className}&level=1`);
     _createSpellList = await r.json();
@@ -55,12 +85,15 @@ function filterCreateSpells() {
   }
   
   const selected = state.spells || [];
-  const className = state.class_name;
-  const needSpells = L1_SPELLS_KNOWN[className] || 0;
-  const needCantrips = L1_CANTRIPS[className] || 0;
+  const quota = state._quota || { needCantrips: 0, needSpells: 0, prepared: false };
+  const needSpells = quota.needSpells || 0;
+  const needCantrips = quota.needCantrips || 0;
   const total = needSpells + needCantrips;
-  
-  const shown = spells;
+
+  // Prepared casters: levelled spells arrive from the class list automatically,
+  // so the picker only offers cantrips.
+  let shown = spells;
+  if (quota.prepared) shown = shown.filter(s => s.level === 0);
   div.innerHTML = shown.map((s, i) => {
     const isSel = selected.some(x => x.name === s.name);
     const uid = 'csp' + i;
@@ -124,9 +157,9 @@ function filterCreateSpells() {
 function toggleCreateSpell(name, level) {
   if (!state.spells) state.spells = [];
   const idx = state.spells.findIndex(x => x.name === name);
-  const className = state.class_name;
-  const needSpells = L1_SPELLS_KNOWN[className] || 0;
-  const needCantrips = L1_CANTRIPS[className] || 0;
+  const quota = state._quota || { needCantrips: 0, needSpells: 0, prepared: false };
+  const needSpells = quota.needSpells || 0;
+  const needCantrips = quota.needCantrips || 0;
   const total = needSpells + needCantrips;
   
   if (idx >= 0) {
@@ -177,12 +210,14 @@ function renderCreateSelected() {
 
 function skipSpellPicker() {
   if (!state.spells) state.spells = [];
+  state._spellsDone = true;
   document.getElementById('spell-picker-overlay').style.display = 'none';
   showStep(5);
 }
 
 function confirmSpellPicker() {
   if (!state.spells) state.spells = [];
+  state._spellsDone = true;
   document.getElementById('spell-picker-overlay').style.display = 'none';
   showStep(5);
 }

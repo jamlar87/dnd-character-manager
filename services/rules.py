@@ -43,3 +43,29 @@ def proficiency_bonus(level) -> int:
         return PROFICIENCY_BONUS[1]
     lvl = max(1, min(20, lvl))
     return PROFICIENCY_BONUS[lvl]
+
+
+# PHB p.78 / p.48: class -> ability added to 10 + DEX while unarmored.
+UNARMORED_DEFENSE = {"Monk": "wisdom", "Barbarian": "constitution"}
+
+
+def unarmored_defense_ac(class_levels, mods, has_shield=False):
+    """AC from Unarmored Defense, or None if no class grants it (PHB p.78, p.48).
+
+    Monk: 10 + DEX + WIS, lost while wielding a shield. Barbarian: 10 + DEX + CON,
+    a shield is allowed. Caller must have already ruled out body armor — both
+    features require wearing none. Multiclass takes the best of the classes.
+    """
+    best = None
+    for cls, lvl in (class_levels or {}).items():
+        ability = UNARMORED_DEFENSE.get(str(cls).strip().title())
+        try:
+            if not ability or int(lvl or 0) < 1:
+                continue
+        except (TypeError, ValueError):
+            continue
+        if ability == "wisdom" and has_shield:
+            continue
+        candidate = 10 + mods.get("dexterity", 0) + mods.get(ability, 0)
+        best = candidate if best is None else max(best, candidate)
+    return best

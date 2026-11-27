@@ -1002,16 +1002,22 @@ async def ai_portrait(request: Request):
     if character_id:
         db = get_db()
         if image_url:
-            db.execute("UPDATE characters SET portrait_url=?, portrait_prompt=? WHERE id=? AND user_id=?",
-                       (image_url, image_prompt, character_id, user["id"]))
+            cur = db.execute("UPDATE characters SET portrait_url=?, portrait_prompt=? WHERE id=? AND user_id=?",
+                             (image_url, image_prompt, character_id, user["id"]))
         else:
             # Keep any existing portrait — a failed generation is not a delete.
-            db.execute("UPDATE characters SET portrait_prompt=? WHERE id=? AND user_id=?",
-                       (image_prompt, character_id, user["id"]))
+            cur = db.execute("UPDATE characters SET portrait_prompt=? WHERE id=? AND user_id=?",
+                             (image_prompt, character_id, user["id"]))
         db.commit()
         db.close()
+        # A 200 that stored nothing is the failure this route hid for a while: the
+        # sheet paints its modal from the response, so the portrait looked generated
+        # and then vanished on reload. Say it in the log with the reason.
+        saved = cur.rowcount
         print(f"[AI portrait] char {character_id}: " +
-              ("image saved" if image_url else f"no image ({error})"))
+              ("image saved" if image_url and saved else
+               (f"no image ({error})" if not image_url else
+                f"NOT STORED — UPDATE matched {saved} rows (user {user['id']}, char {character_id})")))
 
     return JSONResponse({"prompt": image_prompt, "image_url": image_url or "",
                          "error": error or "", "provider": provider})

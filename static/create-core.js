@@ -294,10 +294,19 @@ function nextStep() {
     showExpertisePicker();
     return;
   }
-  // Intercept: known casters go to spell picker before review
-  if (step === 4 && isKnownCaster()) {
-    showSpellPicker();
-    return;
+  // Intercept: any class owing cantrip/spell picks goes to the picker before review.
+  // Counts come from /api/spells/quota (SRD class tables) — prepared casters pick
+  // cantrips only, their levelled list is auto-loaded by the creation API.
+  if (step === 4 && !state._spellsDone) {
+    const qc = _spellQuotaCached();
+    if (qc) {
+      if ((qc.total || 0) > 0) { showSpellPicker(); return; }
+    } else {
+      getSpellQuota(state.class_name, 1)
+        .then(q => { if ((q.total || 0) > 0) showSpellPicker(); else showStep(5); })
+        .catch(() => showStep(5));
+      return;
+    }
   }
   // Intercept: subclass with bonus proficiencies (e.g. Knowledge Domain languages)
   if (step === 4 && state.subclass && SUBCLASS_BONUS_MAP[state.subclass]) {

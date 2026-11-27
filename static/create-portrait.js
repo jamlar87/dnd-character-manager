@@ -230,7 +230,19 @@ function autoEquip() {
   }
 }
 
-async function generatePortrait() {
+// A generation still in flight when Create is pressed used to be thrown away:
+// the payload read state.portrait_url while it was still '', the row was created
+// without a face, and the render landed on a page that had already navigated —
+// the portrait showed in the wizard and nowhere else. createCharacter() awaits
+// this promise before it posts (see create-submit.js).
+let PORTRAIT_JOB = null;
+
+function generatePortrait() {
+  PORTRAIT_JOB = _generatePortraitNow().finally(() => { PORTRAIT_JOB = null; });
+  return PORTRAIT_JOB;
+}
+
+async function _generatePortraitNow() {
   const section = document.getElementById('portrait-section');
   const img = document.getElementById('portrait-img');
   const loading = document.getElementById('portrait-loading');

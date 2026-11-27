@@ -443,8 +443,43 @@ function copyPrompt() {
   setTimeout(() => { span.style.display = 'none'; }, 2000);
 }
 
+/* One generation, polled.
+
+   The DM paints in the background and answers "still painting" while a cold
+   render finishes (measured ~45 s on this box). That answer used to drop the
+   player on a Retry button for a face that was seconds away — and because the
+   sheet paints the modal from the response, the portrait looked generated but
+   was never written to the DB, so the sheet (and the DM's party card) showed
+   the old face on the next load. Ask again instead: the render is cached by
+   then and the second call stores it. */
+async function paintSheetPortrait(attempts, gapMs) {
+  const loading = document.getElementById('modal-portrait-loading');
+  let data = {};
+  for (let i = 0; i < attempts; i++) {
+    if (i > 0 && loading) {
+      loading.style.display = 'block';
+      loading.innerHTML = '<div style="font-size:0.75rem;color:var(--text-muted);text-align:center">'
+        + 'the DM is still painting… attempt ' + (i + 1) + '/' + attempts + '</div>';
+    }
+    const r = await fetch('/api/ai/portrait', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        race: SHEETCFG.charRace, subrace: SHEETCFG.charSubrace,
+        class_name: SHEETCFG.charClassName, subclass: SHEETCFG.charSubclass,
+        background: SHEETCFG.charBackground, alignment: SHEETCFG.charAlignment,
+        custom_prompt: document.getElementById('modal-portrait-custom').value.trim(),
+        character_id: SHEETCFG.charId
+      })
+    });
+    data = await r.json();
+    if (data.image_url) return data;
+    if (!/still painting/i.test(String(data.error || ''))) return data;
+    if (i < attempts - 1) await new Promise(res => setTimeout(res, gapMs));
+  }
+  return data;
+}
+
 async function regenerateSheetPortrait() {
-  const custom = document.getElementById('modal-portrait-custom').value.trim();
   const img = document.getElementById('modal-portrait-img');
   const placeholder = document.getElementById('modal-portrait-placeholder');
   const loading = document.getElementById('modal-portrait-loading');
@@ -454,16 +489,7 @@ async function regenerateSheetPortrait() {
   loading.style.display = 'block';
 
   try {
-    const r = await fetch('/api/ai/portrait', {
-      method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        race: SHEETCFG.charRace, subrace: SHEETCFG.charSubrace,
-        class_name: SHEETCFG.charClassName, subclass: SHEETCFG.charSubclass,
-        background: SHEETCFG.charBackground, alignment: SHEETCFG.charAlignment,
-        custom_prompt: custom, character_id: SHEETCFG.charId
-      })
-    });
-    const data = await r.json();
+    const data = await paintSheetPortrait(4, 10000);
     const dataUrl = data.image_url || '';
 
     if (dataUrl) {

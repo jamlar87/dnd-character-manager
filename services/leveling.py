@@ -130,6 +130,18 @@ def _scaled_dice_display(dice_info: dict, character_level: int | None) -> str:
     display = dice_info.get("display", "")
     if character_level and character_level < 5 and dice_info.get("display_at_1"):
         return dice_info["display_at_1"]
+    # Beam cantrips (Eldritch Blast, PHB p.215) never grow their dice: the caster
+    # fires another beam at 5th/11th/17th, and each beam makes its own attack
+    # roll. Showing "4d10" would imply a single roll, so label the beams instead.
+    if character_level and dice_info.get("beam_scaling"):
+        base_beams = dice_info.get("base_dice") or display
+        if character_level >= 17:
+            return f"{base_beams} ×4 beams"
+        if character_level >= 11:
+            return f"{base_beams} ×3 beams"
+        if character_level >= 5:
+            return f"{base_beams} ×2 beams"
+        return base_beams
     if not (character_level and dice_info.get("cantrip_scaling")):
         return display
     # Cantrip scaling: 1x at 1-4, 2x at 5-10, 3x at 11-16, 4x at 17+

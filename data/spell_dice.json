@@ -301,8 +301,9 @@
       "1d10"
     ],
     "level": 0,
-    "has_scaling": false,
-    "healing": false
+    "has_scaling": true,
+    "healing": false,
+    "beam_scaling": true
   },
   "faithful hound": {
     "display": "4d8",

@@ -77,8 +77,10 @@ from services.leveling import (
     _manual_races_raw,
     _scaled_dice_display,
     enrich_features,
+    get_cantrips_known_max,
     get_class_features,
     get_spell_slots,
+    get_spells_known_max,
 )
 from services.reference_assets import (
     ensure_create_consts_asset,
@@ -909,6 +911,31 @@ def starting_spells(request: Request, class_name: str = "", level: int = 1):
             s["dice_ac"] = bool(dice_info.get("ac_bonus"))
             s["dice_buff"] = bool(dice_info.get("buff"))
     return JSONResponse(results)
+
+
+@router.get("/api/spells/quota", response_class=JSONResponse)
+def spell_quota(request: Request, class_name: str = "", level: int = 1):
+    """How many cantrips / spells a class owes at this level.
+
+    Single source of truth for the creator's spell picker: the counts come from
+    the SRD class tables (PHB p.52-115), never from a table duplicated in JS.
+    Prepared casters (Cleric/Druid/Paladin/Wizard) get their whole class list
+    auto-loaded at creation, so only their cantrips are picked here.
+    """
+    level = max(1, min(level, 20))
+    is_caster = class_name in SPELLS_KNOWN_CASTERS or class_name in PREPARED_CASTERS
+    prepared = class_name in PREPARED_CASTERS
+    cantrips = get_cantrips_known_max(class_name, level) if is_caster else 0
+    spells = 0 if prepared or not is_caster else get_spells_known_max(class_name, level)
+    return JSONResponse({
+        "class_name": class_name,
+        "level": level,
+        "caster": is_caster,
+        "prepared": prepared,
+        "cantrips": cantrips,
+        "spells": spells,
+        "total": cantrips + spells,
+    })
 
 
 def random_name(race: str, gender: str = "any") -> dict:

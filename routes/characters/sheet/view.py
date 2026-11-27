@@ -62,7 +62,7 @@ from services.leveling import (
     get_uses_for_level,
     parse_class_levels,
 )
-from services.rules import ability_mod
+from services.rules import ability_mod, unarmored_defense_ac
 from services.schema import hydrate_json_columns
 from summon_templates import SUMMON_TEMPLATES
 
@@ -573,14 +573,43 @@ def character_sheet(char_id: int, request: Request):
         elif armor_cat == "Shield" or eq_lower == "shield":
             shield_bonus = 2
 
-    # Determine final AC: armor > natural armor > base 10 + DEX
+    # Determine final AC: armor > (natural armor | Unarmored Defense | 10 + DEX)
+    ud_ac = None
+    stored_ac = char.get("ac")
+    candidates = [10 + char.get("dexterity_mod", 0)]
+    if armor_ac is None:
+        # Unarmored Defense only applies with no body armor on (PHB p.78, p.48).
+        ud_ac = unarmored_defense_ac(
+            parse_class_levels(char),
+            {"dexterity": char.get("dexterity_mod", 0),
+             "wisdom": char.get("wisdom_mod", 0),
+             "constitution": char.get("constitution_mod", 0)},
+            has_shield=shield_bonus > 0,
+        )
     if armor_ac is not None:
         char["ac"] = armor_ac + shield_bonus
-    elif natural_ac is not None:
-        char["ac"] = natural_ac + shield_bonus
     else:
-        # No armor, no natural armor: 10 + DEX + shield
-        char["ac"] = 10 + char.get("dexterity_mod", 0) + shield_bonus
+        # Competing unarmored formulas do not stack — take the best one.
+        if natural_ac is not None:
+            candidates.append(natural_ac)
+        if ud_ac is not None:
+            candidates.append(ud_ac)
+        char["ac"] = max(candidates) + shield_bonus
+    if ud_ac is not None and ud_ac == max(candidates):
+        char["ac_source"] = "Unarmored Defense"
+
+    # Keep the stored column in step — the DM app syncs it straight from here.
+    try:
+        if int(stored_ac or 0) != int(char["ac"]):
+            wdb = get_db()
+            try:
+                wdb.execute("UPDATE characters SET ac=? WHERE id=?",
+                            (int(char["ac"]), char.get("id")))
+                wdb.commit()
+            finally:
+                wdb.close()
+    except Exception:
+        pass
 
     # ── Armor proficiency check (PHB p.144) ──
     char["armor_warnings"] = []

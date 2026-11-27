@@ -20,6 +20,15 @@ async function createCharacter() {
     const btn = document.getElementById('create-btn');
     btn.textContent = 'Creating...'; btn.disabled = true;
 
+    // A portrait that is still painting must finish before the row exists: it
+    // used to post state.portrait_url while that was still '', so the face was
+    // rendered into a page that then navigated away and was never stored.
+    if (typeof PORTRAIT_JOB !== 'undefined' && PORTRAIT_JOB) {
+      btn.textContent = 'Waiting for portrait…';
+      try { await PORTRAIT_JOB; } catch (e) { console.error(e); }
+      btn.textContent = 'Creating...';
+    }
+
     const payload = {
       name: state.name, race: state.race, subrace: state.subrace,
       class_name: state.class_name, subclass: state.subclass,
