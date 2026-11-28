@@ -112,6 +112,17 @@ def test_create_page_exposes_next_to_the_client(client, seeded_db):
     from services.sessions import create_session
     token = create_session(seeded_db["db_path"], 1, 30)
     r = client.get("/create", params={"next": DM_HANDOFF},
-                   cookies={"dnd_token": token})
+                   headers=_hdrs(client, {"dnd_token": token}))
     assert r.status_code == 200
     assert "CREATE_NEXT" in r.text and "dm.jamlarnet.stream" in r.text
+
+
+def _hdrs(client, cookies: dict, headers: dict | None = None) -> dict:
+    """Explicit Cookie header. TestClient's per-request `cookies=` is deprecated;
+    this sends the same cookies: client jar, overridden by `cookies`."""
+    jar = {c.name: c.value for c in client.cookies.jar}
+    jar.update(cookies)
+    out = dict(headers or {})
+    if jar:
+        out["Cookie"] = "; ".join(f"{k}={v}" for k, v in jar.items())
+    return out
