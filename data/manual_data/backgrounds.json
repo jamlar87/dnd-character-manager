@@ -201,8 +201,14 @@
   },
   {
     "name": "Charlatan",
-    "skill_proficiencies": [],
-    "tool_proficiencies": [],
+    "skill_proficiencies": [
+      "Deception",
+      "Sleight of Hand"
+    ],
+    "tool_proficiencies": [
+      "Disguise kit",
+      "Forgery kit"
+    ],
     "languages": [],
     "equipment": [],
     "feature": {
@@ -215,8 +221,14 @@
   },
   {
     "name": "Criminal",
-    "skill_proficiencies": [],
-    "tool_proficiencies": [],
+    "skill_proficiencies": [
+      "Deception",
+      "Stealth"
+    ],
+    "tool_proficiencies": [
+      "Thieves' tools",
+      "One type of gaming set"
+    ],
     "languages": [],
     "equipment": [],
     "feature": {
@@ -229,8 +241,14 @@
   },
   {
     "name": "Entertainer",
-    "skill_proficiencies": [],
-    "tool_proficiencies": [],
+    "skill_proficiencies": [
+      "Acrobatics",
+      "Performance"
+    ],
+    "tool_proficiencies": [
+      "Disguise kit",
+      "One type of musical instrument"
+    ],
     "languages": [],
     "equipment": [],
     "feature": {
@@ -243,8 +261,14 @@
   },
   {
     "name": "Folk Hero",
-    "skill_proficiencies": [],
-    "tool_proficiencies": [],
+    "skill_proficiencies": [
+      "Animal Handling",
+      "Survival"
+    ],
+    "tool_proficiencies": [
+      "One type of artisan's tools",
+      "Vehicles (land)"
+    ],
     "languages": [],
     "equipment": [],
     "feature": {
@@ -257,8 +281,13 @@
   },
   {
     "name": "Guild Artisan",
-    "skill_proficiencies": [],
-    "tool_proficiencies": [],
+    "skill_proficiencies": [
+      "Insight",
+      "Persuasion"
+    ],
+    "tool_proficiencies": [
+      "One type of artisan's tools"
+    ],
     "languages": [],
     "equipment": [],
     "feature": {
@@ -271,8 +300,13 @@
   },
   {
     "name": "Hermit",
-    "skill_proficiencies": [],
-    "tool_proficiencies": [],
+    "skill_proficiencies": [
+      "Medicine",
+      "Religion"
+    ],
+    "tool_proficiencies": [
+      "Herbalism kit"
+    ],
     "languages": [],
     "equipment": [],
     "feature": {
@@ -285,8 +319,13 @@
   },
   {
     "name": "Noble",
-    "skill_proficiencies": [],
-    "tool_proficiencies": [],
+    "skill_proficiencies": [
+      "History",
+      "Persuasion"
+    ],
+    "tool_proficiencies": [
+      "One type of gaming set"
+    ],
     "languages": [],
     "equipment": [],
     "feature": {
@@ -299,8 +338,13 @@
   },
   {
     "name": "Outlander",
-    "skill_proficiencies": [],
-    "tool_proficiencies": [],
+    "skill_proficiencies": [
+      "Athletics",
+      "Survival"
+    ],
+    "tool_proficiencies": [
+      "One type of musical instrument"
+    ],
     "languages": [],
     "equipment": [],
     "feature": {
@@ -313,7 +357,10 @@
   },
   {
     "name": "Sage",
-    "skill_proficiencies": [],
+    "skill_proficiencies": [
+      "Arcana",
+      "History"
+    ],
     "tool_proficiencies": [],
     "languages": [],
     "equipment": [],
@@ -327,8 +374,14 @@
   },
   {
     "name": "Sailor",
-    "skill_proficiencies": [],
-    "tool_proficiencies": [],
+    "skill_proficiencies": [
+      "Athletics",
+      "Perception"
+    ],
+    "tool_proficiencies": [
+      "Navigator's tools",
+      "Vehicles (water)"
+    ],
     "languages": [],
     "equipment": [],
     "feature": {
@@ -341,8 +394,14 @@
   },
   {
     "name": "Soldier",
-    "skill_proficiencies": [],
-    "tool_proficiencies": [],
+    "skill_proficiencies": [
+      "Athletics",
+      "Intimidation"
+    ],
+    "tool_proficiencies": [
+      "One type of gaming set",
+      "Vehicles (land)"
+    ],
     "languages": [],
     "equipment": [],
     "feature": {
@@ -355,8 +414,14 @@
   },
   {
     "name": "Urchin",
-    "skill_proficiencies": [],
-    "tool_proficiencies": [],
+    "skill_proficiencies": [
+      "Sleight of Hand",
+      "Stealth"
+    ],
+    "tool_proficiencies": [
+      "Disguise kit",
+      "Thieves' tools"
+    ],
     "languages": [],
     "equipment": [],
     "feature": {
