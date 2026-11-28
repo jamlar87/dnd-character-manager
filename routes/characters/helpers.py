@@ -4,6 +4,7 @@
 
 import json
 import re
+import threading
 from pathlib import Path
 
 from core.config import DATA_DIR
@@ -29,7 +30,19 @@ def _monster_files_stamp() -> tuple:
     return tuple((str(p), p.stat().st_mtime_ns if p.exists() else 0) for p in paths)
 
 
+_MONSTER_LOCK = threading.Lock()
+
+
 def _load_monster_cache() -> list[dict]:
+    # Fast path without the lock; a rebuild happens at most once under the lock.
+    stamp = _monster_files_stamp()
+    if _MONSTER_CACHE is not None and stamp == _MONSTER_CACHE_STAMP:
+        return _MONSTER_CACHE
+    with _MONSTER_LOCK:
+        return _rebuild_monster_cache()
+
+
+def _rebuild_monster_cache() -> list[dict]:
     global MANUAL_MONSTERS, _MONSTER_CACHE, _MONSTER_CACHE_STAMP
     stamp = _monster_files_stamp()
     if _MONSTER_CACHE is not None and stamp == _MONSTER_CACHE_STAMP:

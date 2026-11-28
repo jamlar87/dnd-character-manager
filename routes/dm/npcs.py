@@ -5,6 +5,7 @@ import random
 
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse, RedirectResponse, Response
+from starlette.concurrency import run_in_threadpool
 
 from core.data import ALIGNMENTS, CLASSES, FLEXIBLE_ASI_RACES, RACE_NAMES, RACES, _load_manual_json
 from core.db import get_db
@@ -57,7 +58,8 @@ async def dm_npc_create(request: Request):
     _portrait = (data.get("portrait_url") or "").strip()
     if _portrait:
         from services.images import normalize_portrait
-        _portrait, err = normalize_portrait(_portrait, max_px=1024)
+        # Image resize is CPU work; keep it off the event loop.
+        _portrait, err = await run_in_threadpool(normalize_portrait, _portrait, max_px=1024)
         if err:
             return JSONResponse({"error": err}, status_code=400)
     db = get_db()
@@ -275,7 +277,8 @@ async def dm_npc_update(npc_id: int, request: Request):
 
     if "portrait_url" in updates:
         from services.images import normalize_portrait
-        updates["portrait_url"], err = normalize_portrait(updates["portrait_url"], max_px=1024)
+        # Image resize is CPU work; keep it off the event loop.
+        updates["portrait_url"], err = await run_in_threadpool(normalize_portrait, updates["portrait_url"], max_px=1024)
         if err:
             db.close()
             return JSONResponse({"error": err}, status_code=400)
@@ -328,7 +331,6 @@ async def dm_npc_portrait_image(npc_id: int, request: Request, size: int | None 
         blob, media = decoded
         if size is not None:
             # encoding inline would block the event loop for every other request in flight
-            from starlette.concurrency import run_in_threadpool
             thumb = await run_in_threadpool(thumb_for_blob, blob, size)
             if thumb:
                 blob, media = thumb
